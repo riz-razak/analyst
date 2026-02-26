@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    // GitHub Pages SPA redirect
+    // Converts /path/to/page into /#/path/to/page so HashRouter can handle it
+    var path = window.location.pathname;
+    var query = window.location.search;
+    var hash = window.location.hash;
+
+    // If there's already a hash, just go to root
+    if (hash) {
+      window.location.replace('/' + hash);
+    } else {
+      // Convert path-based URL to hash-based URL
+      window.location.replace('/#' + path + query);
+    }
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>

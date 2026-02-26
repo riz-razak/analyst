@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Arrest of Suresh Sallay: Political Research Dossier</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #f0883e;
+    --red: #f85149;
+    --green: #3fb950;
+    --purple: #bc8cff;
+    --yellow: #d29922;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #0d1117 0%, #1a1e2e 50%, #1a0a0a 100%);
+    border-bottom: 2px solid var(--red);
+    margin-bottom: 2rem;
+  }
+  .header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+  }
+  .header .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .header .meta {
+    font-size: 0.85rem;
+    color: var(--yellow);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .breaking-badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 1rem;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Table of Contents */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .toc h2 {
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .toc ol {
+    padding-left: 1.5rem;
+  }
+  .toc li {
+    margin-bottom: 0.4rem;
+  }
+  .toc a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--accent); }
+
+  /* Sections */
+  section {
+    margin-bottom: 3rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+    color: var(--accent2);
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+  h4 {
+    font-size: 1.05rem;
+    color: var(--purple);
+    margin-top: 1.2rem;
+    margin-bottom: 0.6rem;
+  }
+  p { margin-bottom: 1rem; }
+
+  /* Callout boxes */
+  .callout {
+    background: var(--surface);
+    border-left: 4px solid var(--accent);
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout.warning {
+    border-left-color: var(--yellow);
+    background: rgba(210, 153, 34, 0.08);
+  }
+  .callout.danger {
+    border-left-color: var(--red);
+    background: rgba(248, 81, 73, 0.08);
+  }
+  .callout.info {
+    border-left-color: var(--purple);
+    background: rgba(188, 140, 255, 0.08);
+  }
+  .callout.success {
+    border-left-color: var(--green);
+    background: rgba(63, 185, 80, 0.08);
+  }
+  .callout strong { color: var(--accent2); }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 1.5rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.65rem;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+  .timeline-date {
+    font-size: 0.85rem;
+    color: var(--yellow);
+    font-weight: 600;
+  }
+
+  /* Game Theory Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+  }
+  th {
+    background: var(--surface2);
+    color: var(--accent);
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+    font-weight: 600;
+  }
+  td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  tr:hover td { background: var(--surface2); }
+
+  /* Player Cards */
+  .player-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .player-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem;
+  }
+  .player-card h4 {
+    margin-top: 0;
+    color: var(--accent);
+    font-size: 1rem;
+  }
+  .player-card .role {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 4px;
+  }
+  .tag-red { background: rgba(248,81,73,0.2); color: var(--red); }
+  .tag-yellow { background: rgba(210,153,34,0.2); color: var(--yellow); }
+  .tag-green { background: rgba(63,185,80,0.2); color: var(--green); }
+  .tag-blue { background: rgba(88,166,255,0.2); color: var(--accent); }
+  .tag-purple { background: rgba(188,140,255,0.2); color: var(--purple); }
+
+  /* Sources */
+  .sources {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin-top: 2rem;
+  }
+  .sources h2 { border-bottom-color: var(--purple); color: var(--purple); }
+  .sources a {
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .sources a:hover { text-decoration: underline; }
+  .sources li { margin-bottom: 0.5rem; font-size: 0.9rem; }
+  .sources ol { padding-left: 1.5rem; }
+
+  /* Disclaimer */
+  .disclaimer {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: rgba(210,153,34,0.08);
+    border: 1px solid var(--yellow);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  /* Print styles */
+  @media print {
+    body { background: #fff; color: #000; }
+    .breaking-badge { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="breaking-badge">Breaking &mdash; 25 February 2026</div>
+  <h1>The Sallay Arrest &amp; the Easter Sunday Conspiracy</h1>
+  <p class="subtitle">A comprehensive political research dossier on the CID questioning of former intelligence chief Suresh Sallay, the web of allegations surrounding the 2019 Easter Sunday bombings, ethno-religious fault lines, and a game-theoretic analysis of what comes next.</p>
+  <p class="meta">Research Date: 25&ndash;26 February 2026 &bull; Compiled for Riz</p>
+</div>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#breaking">The Breaking Story: Suresh Sallay Arrested</a></li>
+    <li><a href="#who">Who Is Suresh Sallay?</a></li>
+    <li><a href="#timeline">Critical Timeline: 2014&ndash;2026</a></li>
+    <li><a href="#ntj">Origins of the National Thowheed Jamath &amp; Radicalization</a></li>
+    <li><a href="#allegations">The Conspiracy Allegations Against the Rajapaksas</a></li>
+    <li><a href="#coverup">The Cover-Up: Missing Reports, Obstructed Investigators</a></li>
+    <li><a href="#cardinal">Cardinal Malcolm Ranjith: Crusader for Truth</a></li>
+    <li><a href="#racism">Racism, Disinformation &amp; Ethno-Religious Fallout</a></li>
+    <li><a href="#misinfo">Misinformation vs. Disinformation: What to Watch For</a></li>
+    <li><a href="#game-theory">Comprehensive Game Theory Analysis</a></li>
+    <li><a href="#scenarios">Scenario Modelling: Trajectories &amp; Societal Reactions</a></li>
+    <li><a href="#status">Current Status Quo &amp; What Comes Next</a></li>
+    <li><a href="#sources">Sources &amp; References</a></li>
+  </ol>
+</nav>
+
+<!-- SECTION 1: BREAKING -->
+<section id="breaking">
+  <h2>1. The Breaking Story: Suresh Sallay Arrested</h2>
+
+  <div class="callout danger">
+    <strong>25 February 2026, dawn &mdash; Peliyagoda, Colombo:</strong> Officers of Sri Lanka's Criminal Investigation Department (CID) arrested retired Major General Suresh Sallay at his residence. He is being held under the Prevention of Terrorism Act (PTA) on charges of <em>conspiracy and aiding and abetting the Easter Sunday attacks</em>. Under the PTA, he may be detained without being produced before a court for up to 90 days.
+  </div>
+
+  <p>This is the single most high-profile arrest in seven years of investigation into the 2019 Easter Sunday bombings that killed 279 people, including 45 foreigners, in coordinated suicide attacks on three churches and three luxury hotels.</p>
+
+  <p>The arrest comes just days before the seventh anniversary of the attacks (21 April 2026) and follows years of pressure from victims' families, the Catholic Church under Cardinal Malcolm Ranjith, civil society organisations, and the United Nations. It also fulfils a central campaign promise of President Anura Kumara Dissanayake, who took office in September 2024 pledging to prosecute those behind the massacre.</p>
+</section>
+
+<!-- SECTION 2: WHO IS SALLAY -->
+<section id="who">
+  <h2>2. Who Is Suresh Sallay?</h2>
+
+  <p>Major General (retired) Suresh Sallay is a career military intelligence officer. Before the 2019 attacks, he served in the Directorate of Military Intelligence (DMI). After Gotabaya Rajapaksa won the presidency in November 2019, Sallay was promoted to Director of the State Intelligence Service (SIS) &mdash; the country's premier intelligence agency. He held this position until President Dissanayake dismissed him in October 2024.</p>
+
+  <h3>The Core Allegation</h3>
+  <p>Sallay is alleged to have been employed in the military intelligence unit that originally funded the National Thowheed Jamath (NTJ) to propagate fundamentalist ideology in Sri Lanka's eastern province. A former NTJ member confirmed this in testimony to reporters in 2019, and the government of the time admitted military involvement with the radical group.</p>
+
+  <p>British broadcaster Channel 4, in a 2023 documentary, cited a whistleblower named Hanzeer Azad Maulana &mdash; described as a longtime Rajapaksa insider &mdash; who alleged that he brokered a 2018 meeting between NTJ members and Sallay. According to Maulana, Sallay told him that "creating national insecurity was the only way to return the Rajapaksa family to power." After seeing security camera footage of the bombers, Maulana said he recognised the attackers as the same individuals he had arranged to meet with Sallay.</p>
+
+  <p>Sallay has consistently and categorically denied all allegations.</p>
+</section>
+
+<!-- SECTION 3: TIMELINE -->
+<section id="timeline">
+  <h2>3. Critical Timeline: 2014&ndash;2026</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">~2014</div>
+      <p>Zahran Hashim breaks away from Sri Lanka Thowheed Jamath (SLTJ) and founds the National Thowheed Jamath (NTJ) in Kattankudy, eastern Sri Lanka.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2016</div>
+      <p>Zahran begins preaching violent extremism and calling for a "Muslim takeover" of Sri Lanka. Muslim organisations formally complain to authorities. Terrorism Investigation Division (TID) seeks to ban NTJ; the Attorney General's department reportedly does not act.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2017</div>
+      <p>Zahran leads a sword-wielding mob attacking Sufi mosques in Kattankudy. Police pursue banning the NTJ but face bureaucratic inertia.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2018 (alleged)</div>
+      <p>According to whistleblower Hanzeer Azad Maulana, a meeting is brokered between NTJ members and intelligence officer Suresh Sallay. Anti-Muslim riots in Kandy further inflame ethno-religious tensions. NTJ linked to vandalism of Buddhist statues. Vavunathivu police station attacked by NTJ; two officers killed. Military intelligence allegedly conceals reports linking NTJ to the attack.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">April 2019 (pre-attack)</div>
+      <p>Indian intelligence agencies provide warnings of an imminent attack to Sri Lankan counterparts. The warnings are not properly actioned. State Intelligence Service opens "Sonic Sonic" dossier on suspects but no preventive measures are taken.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">21 April 2019</div>
+      <p><strong>Easter Sunday:</strong> Six coordinated suicide bombings at St. Anthony's Shrine (Kochchikade), St. Sebastian's Church (Negombo), Zion Church (Batticaloa), Shangri-La Hotel, Cinnamon Grand Hotel, and Kingsbury Hotel in Colombo. 279 killed, over 500 injured.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">23 April 2019</div>
+      <p>Gotabaya Rajapaksa declares his candidacy for president &mdash; just two days after the bombings.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">26 April 2019</div>
+      <p>Zahran Hashim killed when he detonates a suicide vest during a police raid. NTJ banned as a terrorist organisation.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">May 2019</div>
+      <p>Anti-Muslim riots sweep through Kurunegala, Gampaha, and Puttalam. One Muslim man killed. Buddhist mobs attack Muslim businesses and mosques. Social media platforms blocked.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">November 2019</div>
+      <p>Gotabaya Rajapaksa wins the presidential election in a landslide, having promised to stamp out terrorism. Suresh Sallay is promoted to head the SIS. CID Director Shani Abeysekara is transferred within days of the election; his entire team of 20+ officers is reassigned.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">July 2020</div>
+      <p>Shani Abeysekara is arrested on what he calls fabricated charges. He spends 10 months in prison without bail.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2023</div>
+      <p>Channel 4 airs documentary implicating Sallay. Supreme Court fines ex-President Sirisena and four officials over $1 million for failing to prevent the attacks. Sri Lanka announces probe into intelligence complicity.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">September 2024</div>
+      <p>Anura Kumara Dissanayake elected president, promising Easter attacks prosecutions. Dismisses Sallay from SIS in October.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">April 2025</div>
+      <p>Sixth anniversary. Dissanayake announces independent investigation. Cardinal Ranjith calls for an Independent Prosecutor. Human Rights Watch criticises slow progress.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">July 2025</div>
+      <p>Shani Abeysekara reinstated as CID Director. New evidence emerges of intelligence cover-ups related to the Vavunathivu attack. Missing reports from the Channel 4 verification committee and the Alwis committee are identified.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">25 February 2026</div>
+      <p><strong>Suresh Sallay arrested by CID at dawn.</strong> Charged with conspiracy and aiding and abetting the Easter Sunday attacks under the PTA. May be detained for up to 90 days.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: NTJ -->
+<section id="ntj">
+  <h2>4. Origins of the National Thowheed Jamath &amp; Radicalization</h2>
+
+  <h3>4.1 Ideological Roots</h3>
+  <p>The NTJ emerged from the broader Thowheed (Tawheed/monotheism) movement in Sri Lanka. The parent organisation, the Sri Lanka Thowheed Jamath (SLTJ), was strongly influenced by Wahhabism &mdash; the ultraconservative Saudi Arabian school of Islam that calls for a literalist reading of the Quran and Sunnah. The SLTJ itself was not a violent organisation, but it created the ideological substrate from which more radical offshoots could grow.</p>
+
+  <h3>4.2 Zahran Hashim: From Preacher to Terrorist</h3>
+  <p>Mohammed Zahran Hashim (1985&ndash;2019) was born into a poor Muslim family in Kattankudy, a Muslim-majority town in Sri Lanka's Eastern Province. He studied at the Jamiathul Falah Arabic madrasa in Kattankudy, where he was first exposed to Tawheed literature. He dropped out in 2007 due to clashes over his increasingly radical views, then briefly attended the Ibn Mas'ood Madrasa in Kurunegala before joining the SLTJ.</p>
+
+  <p>His radicalization appears to have followed a multi-stage trajectory. By 2013 he was publishing a magazine with calls for attacks on Sufi Muslims. From 2016 he escalated to preaching violent jihad, calling for the killing of all "non-Muslims" in Sri Lanka, denouncing the national flag, and demanding its replacement with the ISIS banner. By 2017, he was leading armed mobs against Sufi mosques in Kattankudy.</p>
+
+  <h3>4.3 The Intelligence-NTJ Nexus</h3>
+  <div class="callout warning">
+    <strong>Critical allegation:</strong> A former NTJ member told reporters in 2019 that the group was "originally funded by a military intelligence unit to propagate a fundamentalist ideology in Sri Lanka's multi-ethnic eastern province." Sallay was employed in that very intelligence unit. The Sri Lankan government at the time admitted military involvement with the radical group.
+  </div>
+
+  <p>This raises profoundly troubling questions. Was the NTJ a genuine organic extremist movement that was co-opted by intelligence operatives? Or was it, at least in part, a creature of military intelligence from the outset &mdash; a proxy tool that spiralled out of control? The answer likely lies somewhere between these poles: a genuine radical movement that was identified, infiltrated, and potentially manipulated by intelligence actors with their own political agenda.</p>
+
+  <h3>4.4 Warnings Ignored</h3>
+  <p>Multiple Muslim community leaders, including the vice president of Sri Lanka's Muslim Council, Hilmy Ahamed, had warned authorities about Zahran's escalating extremism for years. The Terrorism Investigation Division sought to ban the NTJ and take down its websites as early as 2017. The Attorney General's department repeatedly failed to act on these requests. Indian intelligence agencies also provided specific warnings of an imminent attack in the weeks before Easter 2019, but these were not properly escalated.</p>
+
+  <h3>4.5 ISIS Connection</h3>
+  <p>ISIS claimed responsibility for the Easter Sunday bombings two days after they occurred. However, Sri Lankan investigators stated they found no evidence to directly establish a foreign operational link. The NTJ appears to have been ideologically aligned with and inspired by ISIS, and Zahran pledged allegiance to al-Baghdadi in pre-recorded videos, but the operational planning appears to have been largely domestic. The US Department of Justice in 2021 charged three Sri Lankans for supporting the attacks, with 25 suspects total indicted in Sri Lanka's High Court.</p>
+</section>
+
+<!-- SECTION 5: RAJAPAKSA ALLEGATIONS -->
+<section id="allegations">
+  <h2>5. The Conspiracy Allegations Against the Rajapaksas</h2>
+
+  <h3>5.1 The Central Thesis</h3>
+  <p>The most explosive allegation &mdash; articulated by the Channel 4 whistleblower, by Cardinal Ranjith, by former CID Director Shani Abeysekara, and by multiple political figures &mdash; is that elements within Sri Lanka's intelligence apparatus allowed or facilitated the Easter Sunday attacks in order to create a security crisis that would propel Gotabaya Rajapaksa to the presidency.</p>
+
+  <p>The circumstantial logic is straightforward: the Rajapaksa family, having lost power in 2015, needed to re-establish their core brand as the indispensable guarantors of national security. An Islamist atrocity on Sri Lankan soil would shatter public confidence in the incumbent government and create overwhelming demand for a "strongman" security-first leader &mdash; precisely the Rajapaksa archetype.</p>
+
+  <h3>5.2 The Evidence Chain</h3>
+
+  <h4>A. The Whistleblower Testimony (Channel 4, 2023)</h4>
+  <p>Hanzeer Azad Maulana, described as a Rajapaksa insider, claimed he arranged a 2018 meeting between NTJ members and Sallay. He alleged Sallay told him that creating "national insecurity" was the path to restoring Rajapaksa power. Maulana later recognised the Easter Sunday bombers from security footage as the same individuals from the meeting.</p>
+
+  <h4>B. The CID Investigation Findings</h4>
+  <p>Under Director Shani Abeysekara, the CID established links between state/military intelligence officers and the NTJ. Despite CID requests, the DMI withheld information on key NTJ figures. The Ministry of Defence, through the DMI Director, actively prevented the CID from detaining a key individual, claiming national security grounds.</p>
+
+  <h4>C. The Vavunathivu Cover-Up</h4>
+  <p>In November 2018, the NTJ attacked the Vavunathivu police station, killing two officers. An SIS agent who had infiltrated the NTJ sent a report within a week identifying Zahran's group as responsible. This report was concealed by the State Intelligence Service. The concealment is believed to have allowed the NTJ to continue operating freely and ultimately carry out the Easter bombings five months later.</p>
+
+  <h4>D. The Post-Election Suppression</h4>
+  <p>Within days of Gotabaya Rajapaksa taking office in November 2019, the entire CID Easter attacks investigation team was dismantled. Abeysekara was transferred. Over 20 officers were reassigned. Travel bans were imposed on all 700 CID officers. Abeysekara was later arrested on what he calls fabricated charges and spent 10 months in prison.</p>
+
+  <h4>E. The Missing Reports</h4>
+  <p>Two critical investigation reports have gone missing: one from the committee verifying Channel 4's revelations, and another from the Alwis committee investigating whether correct intelligence was provided before the attacks. Multiple SIS infiltrator reports from within the NTJ have also disappeared from CID files.</p>
+
+  <h3>5.3 The Rajapaksa Defence</h3>
+  <p>Gotabaya Rajapaksa has called the allegations "absurd," describing the Channel 4 documentary as "mostly an anti-Rajapaksa tirade." He stated he had no contact with Sallay between resigning as Defence Secretary in 2015 and becoming president in 2019. Pro-Rajapaksa legislator Mahindananda Aluthgamage argued that Rajapaksa had no motive, since SLPP local election results in 2018 already showed strong public support.</p>
+
+  <h3>5.4 Assessment</h3>
+  <div class="callout info">
+    <strong>Analytical note:</strong> The evidence currently available is heavily circumstantial but forms a coherent pattern: intelligence funding of the NTJ, intelligence infiltration of the NTJ that produced reports which were then suppressed, intelligence foreknowledge that was not acted upon, a political beneficiary with means and motive, the immediate dismantling of the investigation once that beneficiary took power, and the disappearance of key evidence. What is lacking is the definitive "smoking gun" &mdash; direct documentary or electronic evidence of a specific order to allow the attacks. The Sallay arrest and 90-day interrogation may be the mechanism through which investigators hope to obtain this.</div>
+</section>
+
+<!-- SECTION 6: COVER-UP -->
+<section id="coverup">
+  <h2>6. The Cover-Up: Missing Reports &amp; Obstructed Investigators</h2>
+
+  <h3>6.1 Shani Abeysekara: The Investigator Who Was Punished</h3>
+  <p>Shani Abeysekara is arguably the most consequential figure in the Easter attacks investigation. Appointed CID Director in 2017, he received an INTERPOL commendation for his response to the bombings. Under his leadership, the CID established connections between intelligence operatives and the NTJ, and was building a case when the investigation was abruptly shut down.</p>
+
+  <p>His trajectory after November 2019 reads like a textbook case of political retaliation: transferred within days of Rajapaksa's inauguration, suspended after leaked phone conversations, arrested on allegedly fabricated evidence charges in July 2020, imprisoned for 10 months, and subjected to an alleged assassination plot uncovered in 2023. He was reinstated as CID Director in July 2025 under the Dissanayake government and has resumed investigations.</p>
+
+  <h3>6.2 The "Sonic Sonic" Dossier</h3>
+  <p>The SIS opened a dossier codenamed "Sonic Sonic" at the outset of 2019, named after the pseudonym of the intelligence officer handling the case. This dossier confirmed that operatives had identified the NTJ threat and were tracking key figures. The existence of this dossier undermines any claim that the intelligence apparatus was simply unaware of the threat.</p>
+
+  <h3>6.3 The Two Missing Committee Reports</h3>
+  <p>Two investigation committee reports have vanished. The first was from a committee tasked with verifying the claims made in the Channel 4 documentary. The second was from a committee led by former judge Alwis, investigating whether correct intelligence information was provided before the attacks. Both reports disappeared before former President Ranil Wickremesinghe left office. Investigators are now working to identify who was responsible for their removal.</p>
+</section>
+
+<!-- SECTION 7: CARDINAL -->
+<section id="cardinal">
+  <h2>7. Cardinal Malcolm Ranjith: Crusader for Truth</h2>
+
+  <h3>7.1 Background</h3>
+  <p>Malcolm Cardinal Ranjith, the Archbishop of Colombo, emerged as the most prominent voice demanding accountability for the Easter Sunday attacks. Three of the six bombing sites were Catholic churches, and the Catholic community bore a disproportionate share of the casualties.</p>
+
+  <h3>7.2 His Allegations</h3>
+  <p>Cardinal Ranjith has made several specific claims: that the attacks were "part of a grand political plot conducted intentionally to win votes"; that a "para-state" controlled by defeated political forces continues to obstruct investigations from within government institutions; that former Attorney General Dappula de Livera dismissed evidence of a broader conspiracy; and that subsequent AG officials have shown "inertia and complacency" influenced by this para-state structure.</p>
+
+  <h3>7.3 International Advocacy</h3>
+  <p>When domestic avenues for justice were exhausted, the Cardinal took the case to the UN Human Rights Council in Geneva, a dramatic step for a religious leader who had previously been closely aligned with the Rajapaksa government and had staunchly opposed international investigations into Sri Lanka's civil war crimes.</p>
+
+  <h3>7.4 The Shift in Position</h3>
+  <div class="callout">
+    <strong>A remarkable political transformation:</strong> Cardinal Ranjith was once a staunch Rajapaksa ally who opposed any international involvement in Sri Lanka's internal affairs. The Easter Sunday attacks fundamentally changed his position. He is now one of the most vocal advocates for an international investigation &mdash; a shift that reflects both the depth of his conviction that domestic institutions have been compromised and the profound personal impact of the attacks on his community.
+  </div>
+
+  <h3>7.5 Pushback Against the Cardinal</h3>
+  <p>The Cardinal has faced significant backlash. A Sri Lankan woman was arrested for insulting him publicly. More significantly, the Catholic Church filed formal complaints about an organised campaign of insults and harassment targeting Cardinal Ranjith, suggesting coordinated efforts to discredit his advocacy. During the Rajapaksa era, the CID summoned a Catholic Church spokesperson for questioning in what was widely perceived as an intimidation tactic.</p>
+
+  <h3>7.6 His Role in Preventing Anti-Muslim Violence</h3>
+  <p>In the immediate aftermath of the bombings, Cardinal Ranjith played a critical role in preventing retaliatory violence against Sri Lanka's Muslim community. He met with Muslim leaders and publicly assured them that the Catholic community would not target Muslims. This intervention is widely credited with limiting the scale of the anti-Muslim riots that followed.</p>
+</section>
+
+<!-- SECTION 8: RACISM -->
+<section id="racism">
+  <h2>8. Racism, Disinformation &amp; Ethno-Religious Fallout</h2>
+
+  <h3>8.1 The Broader Context of Sinhala-Buddhist Nationalism</h3>
+  <p>Sri Lanka's ethno-religious landscape has long been shaped by Sinhala-Buddhist majoritarian politics. Since the rise of the Bodu Bala Sena (BBS) in 2012, anti-Muslim sentiment has been deliberately cultivated as a political tool. The BBS promoted a wide range of conspiracy theories and false allegations against Muslims, often through social media, including claims that Muslim restaurants were putting "sterilisation medicine" in food to suppress Sinhalese birth rates.</p>
+
+  <h3>8.2 Post-Attack Anti-Muslim Violence</h3>
+  <p>The Easter Sunday attacks triggered a predictable surge in anti-Muslim sentiment and violence. In May 2019, mobs led by Buddhist monks attacked mosques, Muslim businesses, and homes across multiple districts. Muslim women were harassed and told to remove headscarves. Muslim-owned shops were forced to close. One Muslim man was killed. These attacks were facilitated by closed WhatsApp groups used to coordinate mobs, and by Facebook's failure to moderate Sinhala-language hate speech (Meta had only two staff reviewing content in local languages).</p>
+
+  <h3>8.3 State-Level Islamophobia Under Rajapaksa</h3>
+  <p>The Rajapaksa presidency (2019&ndash;2022) introduced the first openly discriminatory state policies targeting Muslims. The "One Country, One Law" agenda sought to override Muslim customary law. Forced cremation policies during COVID-19 violated Muslim burial practices. Rajapaksa openly championed Sinhala-Buddhist values, framing other ethno-religious groups as threats to national identity.</p>
+
+  <h3>8.4 The Weaponisation of the Easter Attacks</h3>
+  <div class="callout warning">
+    <strong>The dual weaponisation:</strong> The Easter attacks have been simultaneously weaponised in two contradictory directions. By Sinhala-Buddhist nationalists, they were used to justify anti-Muslim discrimination, surveillance, and violence. By critics of the Rajapaksas, they have been used to argue that the Rajapaksa-aligned intelligence apparatus orchestrated or facilitated the attacks for political gain. Both narratives carry elements of truth and elements of distortion, and the Muslim community of Sri Lanka has been caught between them.</div>
+</section>
+
+<!-- SECTION 9: MISINFO -->
+<section id="misinfo">
+  <h2>9. Misinformation vs. Disinformation: A Field Guide</h2>
+
+  <h3>9.1 Confirmed Facts</h3>
+  <table>
+    <tr><th>Claim</th><th>Status</th><th>Source</th></tr>
+    <tr><td>Sallay was employed in the military intelligence unit that funded the NTJ</td><td><span class="tag tag-green">Confirmed</span></td><td>Former NTJ member testimony; government admission</td></tr>
+    <tr><td>The SIS had an infiltrator in Zahran's group who produced reports</td><td><span class="tag tag-green">Confirmed</span></td><td>CID investigation findings</td></tr>
+    <tr><td>Intelligence reports on the Vavunathivu attack were suppressed</td><td><span class="tag tag-green">Confirmed</span></td><td>CID report to Colombo Fort Magistrate</td></tr>
+    <tr><td>Indian intelligence warnings were not properly actioned</td><td><span class="tag tag-green">Confirmed</span></td><td>Supreme Court ruling; multiple investigations</td></tr>
+    <tr><td>CID investigation team was dismantled after Rajapaksa took office</td><td><span class="tag tag-green">Confirmed</span></td><td>CID Director Ravi Seneviratne; Shani Abeysekara</td></tr>
+    <tr><td>Two investigation committee reports are missing</td><td><span class="tag tag-green">Confirmed</span></td><td>Current CID investigations</td></tr>
+  </table>
+
+  <h3>9.2 Allegations Requiring Further Evidence</h3>
+  <table>
+    <tr><th>Claim</th><th>Status</th><th>Notes</th></tr>
+    <tr><td>Sallay met NTJ bombers before the attack</td><td><span class="tag tag-yellow">Alleged</span></td><td>Single whistleblower (Maulana); Channel 4 documentary. Sallay denies.</td></tr>
+    <tr><td>The attacks were deliberately permitted to benefit Rajapaksa's candidacy</td><td><span class="tag tag-yellow">Alleged</span></td><td>Coherent circumstantial case but no direct documentary proof yet.</td></tr>
+    <tr><td>Gotabaya Rajapaksa personally ordered or approved the operation</td><td><span class="tag tag-red">Unproven</span></td><td>No direct evidence linking Rajapaksa to a specific order. He denies all involvement.</td></tr>
+  </table>
+
+  <h3>9.3 Known Disinformation Narratives</h3>
+  <table>
+    <tr><th>Narrative</th><th>Reality</th><th>Source of Disinfo</th></tr>
+    <tr><td>"All Muslims bear responsibility for the attacks"</td><td>The attacks were carried out by a tiny fringe group opposed by mainstream Muslim organisations</td><td>Sinhala-Buddhist nationalist groups, BBS</td></tr>
+    <tr><td>"Muslim restaurants put sterilisation medicine in food"</td><td>Debunked conspiracy theory with no evidence</td><td>BBS leader Gnanasara Thero and social media</td></tr>
+    <tr><td>"The investigation is merely a political witch-hunt against the Rajapaksas"</td><td>Multiple independent investigations, including the Supreme Court and INTERPOL, have identified genuine intelligence failures</td><td>Pro-Rajapaksa media and politicians</td></tr>
+    <tr><td>"ISIS was the sole mastermind"</td><td>Investigators found no direct foreign operational link. The attacks were domestically planned.</td><td>Initial government narrative; some international media</td></tr>
+  </table>
+</section>
+
+<!-- SECTION 10: GAME THEORY -->
+<section id="game-theory">
+  <h2>10. Comprehensive Game Theory Analysis</h2>
+
+  <h3>10.1 The Players</h3>
+  <div class="player-grid">
+    <div class="player-card">
+      <h4>The Dissanayake Government (NPP/JVP)</h4>
+      <div class="role">Current ruling coalition</div>
+      <p><strong>Core interests:</strong> Legitimacy through justice delivery; maintaining two-thirds majority; neutralising Rajapaksa political threat; attracting international goodwill and investment.</p>
+      <p><strong>Constraints:</strong> Must balance prosecution with rule of law; risk of being seen as conducting a political witch-hunt; military and intelligence establishment pushback.</p>
+    </div>
+    <div class="player-card">
+      <h4>The Rajapaksa Network (SLPP remnants)</h4>
+      <div class="role">Opposition/former ruling family</div>
+      <p><strong>Core interests:</strong> Self-preservation; avoiding criminal prosecution; maintaining their Sinhala-Buddhist nationalist base; delegitimising the investigation as "political."</p>
+      <p><strong>Constraints:</strong> Diminished political power; international scrutiny; Sallay's potential testimony.</p>
+    </div>
+    <div class="player-card">
+      <h4>Suresh Sallay</h4>
+      <div class="role">Arrested former intelligence chief</div>
+      <p><strong>Core interests:</strong> Personal freedom; avoiding prosecution; potentially negotiating reduced charges in exchange for cooperation.</p>
+      <p><strong>Constraints:</strong> Under PTA detention; faces up to 90 days of interrogation; potential conspiracy charges carry severe penalties.</p>
+    </div>
+    <div class="player-card">
+      <h4>Cardinal Ranjith &amp; the Catholic Church</h4>
+      <div class="role">Victims' advocate</div>
+      <p><strong>Core interests:</strong> Full truth disclosure; criminal accountability; justice for victims; prevention of future attacks.</p>
+      <p><strong>Constraints:</strong> Limited formal political power; must maintain moral authority; risk of being perceived as politically aligned.</p>
+    </div>
+    <div class="player-card">
+      <h4>Sri Lanka's Muslim Community (~9.7%)</h4>
+      <div class="role">Minority community caught in crossfire</div>
+      <p><strong>Core interests:</strong> Clearing the collective stigma of the attacks; protection from retaliatory violence; ensuring the investigation focuses on the actual conspirators rather than the broader community.</p>
+      <p><strong>Constraints:</strong> Political marginalisation; ongoing Islamophobia; vulnerability to both state and mob violence.</p>
+    </div>
+    <div class="player-card">
+      <h4>Sinhala-Buddhist Nationalist Groups (BBS et al.)</h4>
+      <div class="role">Ethno-religious pressure groups</div>
+      <p><strong>Core interests:</strong> Maintaining anti-Muslim narrative; discrediting "conspiracy theory" framing; protecting Rajapaksa legacy; preserving Sinhala-Buddhist majoritarian agenda.</p>
+      <p><strong>Constraints:</strong> Reduced political influence under NPP government; potential legal exposure for inciting violence.</p>
+    </div>
+  </div>
+
+  <h3>10.2 Strategic Interaction Matrix</h3>
+
+  <h4>Game 1: The Sallay Interrogation &mdash; Cooperate vs. Resist</h4>
+  <table>
+    <tr>
+      <th></th>
+      <th>Sallay Cooperates (implicates Rajapaksas)</th>
+      <th>Sallay Resists (maintains silence)</th>
+    </tr>
+    <tr>
+      <td><strong>Government offers deal</strong></td>
+      <td><span class="tag tag-green">Best for Govt</span> Major political win. Rajapaksa network devastated. Risk: appears transactional.<br><span class="tag tag-yellow">Mixed for Sallay</span> Reduced sentence but permanent enmity from powerful actors.</td>
+      <td><span class="tag tag-red">Bad for both</span> Govt invested political capital for nothing. Sallay faces maximum charges.</td>
+    </tr>
+    <tr>
+      <td><strong>Government pursues maximum charges</strong></td>
+      <td><span class="tag tag-yellow">Good for Govt</span> Testimony plus prosecution. Risk: Sallay may recant under pressure.<br><span class="tag tag-red">Worst for Sallay</span> Cooperates but still faces severe punishment.</td>
+      <td><span class="tag tag-yellow">Neutral</span> Govt can try on existing evidence. Sallay faces full trial but protects network. Rajapaksas survive but remain under suspicion.</td>
+    </tr>
+  </table>
+
+  <div class="callout info">
+    <strong>Nash Equilibrium prediction:</strong> The most likely equilibrium is that the government will offer implicit incentives for cooperation while maintaining credible threat of maximum prosecution. Sallay's dominant strategy depends on whether he believes the Rajapaksa network can still protect him. Given their diminished power, rational self-interest points toward partial cooperation &mdash; providing enough to negotiate terms while withholding enough to maintain leverage.
+  </div>
+
+  <h4>Game 2: The Rajapaksa Network's Response</h4>
+  <table>
+    <tr>
+      <th></th>
+      <th>Rajapaksas mount aggressive legal/political defence</th>
+      <th>Rajapaksas attempt to distance/sacrifice Sallay</th>
+    </tr>
+    <tr>
+      <td><strong>Sallay cooperates</strong></td>
+      <td><span class="tag tag-red">Worst for Rajapaksas</span> Aggressive defence backfires as Sallay provides damaging testimony. Streisand effect amplifies revelations.</td>
+      <td><span class="tag tag-yellow">Damaging</span> Distancing looks like abandonment, incentivising Sallay to cooperate further. However, may limit direct legal exposure if done carefully.</td>
+    </tr>
+    <tr>
+      <td><strong>Sallay resists</strong></td>
+      <td><span class="tag tag-green">Best for Rajapaksas</span> United front narrative; "political witch-hunt" framing gains traction. Sallay martyred for the cause.</td>
+      <td><span class="tag tag-yellow">Risky</span> Sallay may feel abandoned and flip to cooperation. Weakens both parties.</td>
+    </tr>
+  </table>
+
+  <h4>Game 3: Ethno-Religious Community Responses</h4>
+  <table>
+    <tr>
+      <th>Community</th>
+      <th>If investigation reveals state conspiracy</th>
+      <th>If investigation stalls or is inconclusive</th>
+    </tr>
+    <tr>
+      <td><strong>Sinhala-Buddhist majority</strong></td>
+      <td>Deep cognitive dissonance. Some accept the truth; hardline nationalists reject it as a "Muslim-Christian conspiracy to defame the military." Potential political realignment away from SLPP.</td>
+      <td>Frustration with government. Nationalists claim vindication. "See, there was no conspiracy" narrative strengthens.</td>
+    </tr>
+    <tr>
+      <td><strong>Sri Lankan Muslims</strong></td>
+      <td>Vindication and relief. Narrative shifts from "Muslim terrorism" to "state terrorism using Muslim patsies." Improved political standing but risk of nationalist backlash.</td>
+      <td>Continued stigmatisation. Community remains associated with the attacks. Ongoing discrimination.</td>
+    </tr>
+    <tr>
+      <td><strong>Catholic/Christian community</strong></td>
+      <td>Sense of justice. Cardinal Ranjith's advocacy vindicated. Potential for reconciliation across communities.</td>
+      <td>Deepening disillusionment. Possible turn toward more radical demands for international justice mechanisms.</td>
+    </tr>
+    <tr>
+      <td><strong>Tamil community</strong></td>
+      <td>Draws parallels with their own experience of state violence. May increase pressure for accountability for civil war crimes.</td>
+      <td>Reinforces cynicism about Sri Lankan justice system's ability to hold the state accountable for anything.</td>
+    </tr>
+  </table>
+
+  <h3>10.3 Escalation Dynamics &amp; Risk Assessment</h3>
+
+  <h4>Risk 1: Military/Intelligence Establishment Pushback</h4>
+  <p>The arrest of a former intelligence chief sets a precedent that could unsettle the military establishment. If Sallay's prosecution leads to wider arrests within the intelligence apparatus, there is a risk of institutional resistance, including potential leaks, sabotage of evidence, or political pressure on the government to halt proceedings. The military has historically been a powerful autonomous actor in Sri Lankan politics.</p>
+  <p><span class="tag tag-yellow">Risk Level: MEDIUM-HIGH</span></p>
+
+  <h4>Risk 2: Sinhala-Buddhist Nationalist Mobilisation</h4>
+  <p>If the investigation is framed as an attack on Sinhala-Buddhist identity or on the military that won the civil war, nationalist groups may attempt to mobilise street protests. This risk increases if Rajapaksa-aligned media successfully frames the investigation as a "Western/Christian/Muslim conspiracy."</p>
+  <p><span class="tag tag-yellow">Risk Level: MEDIUM</span></p>
+
+  <h4>Risk 3: Anti-Muslim Violence</h4>
+  <p>Paradoxically, revelations about state complicity could trigger anti-Muslim violence if hardline nationalists reject the "state conspiracy" narrative and instead double down on the "Muslim terrorism" framing. This risk is moderated by the current government's stronger commitment to minority protection but remains present.</p>
+  <p><span class="tag tag-yellow">Risk Level: MEDIUM</span></p>
+
+  <h4>Risk 4: Institutional Collapse of Trust</h4>
+  <p>If the investigation conclusively proves that the intelligence apparatus facilitated a mass atrocity for political gain, the implications for institutional trust in Sri Lanka are severe. Public confidence in the military, intelligence services, and police &mdash; already low &mdash; could collapse entirely, with unpredictable consequences for governance.</p>
+  <p><span class="tag tag-red">Risk Level: HIGH</span></p>
+
+  <h4>Risk 5: International Ramifications</h4>
+  <p>A confirmed state conspiracy behind a mass attack on churches would have significant international implications. Western governments may face pressure to impose sanctions. The UN Human Rights Council could escalate its engagement. Sri Lanka's post-crisis economic recovery could be affected by reputational damage.</p>
+  <p><span class="tag tag-yellow">Risk Level: MEDIUM</span></p>
+</section>
+
+<!-- SECTION 11: SCENARIOS -->
+<section id="scenarios">
+  <h2>11. Scenario Modelling: Trajectories &amp; Societal Reactions</h2>
+
+  <h3>Scenario A: Full Disclosure &amp; Prosecution (Probability: ~30%)</h3>
+  <div class="callout success">
+    <strong>Outcome:</strong> Sallay cooperates fully. Documentary evidence is recovered. High-profile prosecutions of intelligence officials and potentially political figures follow. International community provides support.
+  </div>
+  <p><strong>Societal impact:</strong> Short-term turbulence as the Sinhala-Buddhist nationalist base reacts with anger and denial. Medium-term stabilisation as the truth is absorbed. Long-term potential for genuine reconciliation across ethno-religious lines, as the narrative shifts from "Muslim attack on Christians" to "state atrocity against all Sri Lankans." The Muslim community experiences significant rehabilitation. However, deep institutional reform of the intelligence services becomes necessary and challenging.</p>
+
+  <h3>Scenario B: Partial Justice (Probability: ~45%)</h3>
+  <div class="callout warning">
+    <strong>Outcome:</strong> Sallay is prosecuted. Some lower-level figures are charged. But the investigation stops short of reaching political leadership. Key evidence remains missing or inadmissible. The full truth remains contested.
+  </div>
+  <p><strong>Societal impact:</strong> This is the most likely outcome and the most unsatisfying. It provides enough justice to claim progress but not enough to achieve closure. The Rajapaksa network survives in diminished form. Conspiracy theories persist on all sides. Ethno-religious tensions remain simmering. The Catholic community is partially satisfied but continues to push for more. The government claims credit but faces criticism from both sides.</p>
+
+  <h3>Scenario C: Investigation Collapses (Probability: ~15%)</h3>
+  <div class="callout danger">
+    <strong>Outcome:</strong> Sallay maintains silence. Critical evidence is permanently lost. Military establishment pushback derails proceedings. Political calculus shifts and the government quietly deprioritises the investigation.
+  </div>
+  <p><strong>Societal impact:</strong> Devastating for public trust. The Catholic community radicalises its demands, potentially turning to more disruptive forms of protest. The Muslim community remains stigmatised. The Rajapaksa network claims vindication. The message is sent that the Sri Lankan state is incapable of holding itself accountable for anything. International engagement becomes the primary avenue for justice.</p>
+
+  <h3>Scenario D: Political Instrumentalisation (Probability: ~10%)</h3>
+  <div class="callout">
+    <strong>Outcome:</strong> The investigation is used primarily as a political weapon against the Rajapaksas rather than as a genuine pursuit of truth. Selective prosecution targets political enemies while protecting aligned figures. Due process concerns mount.
+  </div>
+  <p><strong>Societal impact:</strong> This scenario satisfies no one in the long run. It provides temporary political advantage to the government but undermines the rule of law. Future governments could use the same tactics. The actual truth of the Easter Sunday attacks remains permanently obscured by political manipulation.</p>
+</section>
+
+<!-- SECTION 12: STATUS QUO -->
+<section id="status">
+  <h2>12. Current Status Quo &amp; What Comes Next</h2>
+
+  <h3>As of 25&ndash;26 February 2026:</h3>
+
+  <p><strong>Suresh Sallay</strong> is in CID custody under the Prevention of Terrorism Act. He has not been produced before a court and can be held for up to 90 days. The CID intends to question him extensively about his role in the Easter Sunday attacks, his relationship with NTJ members, the suppression of intelligence reports, and the identities of other conspirators.</p>
+
+  <p><strong>The Dissanayake government</strong> has fulfilled its most visible campaign promise on this issue. The arrest was timed just before the seventh anniversary, maximising political impact. The question now is whether the investigation proceeds with genuine independence or becomes a tool of political convenience.</p>
+
+  <p><strong>The Catholic Church</strong> has welcomed the arrest as a sign that the investigation is continuing but maintains its demand for an independent prosecutor's office and the release of all withheld investigation reports.</p>
+
+  <p><strong>The Rajapaksa network</strong> has not yet issued a formal response to the arrest. Their strategic choice in the coming days and weeks will significantly shape the trajectory of events.</p>
+
+  <p><strong>The international community</strong> &mdash; including the UN, which has previously asked Sri Lanka to publish parts of previous inquiries &mdash; is watching closely. The US, which charged three Sri Lankans in 2021 for supporting the attacks (five US nationals were killed), has a direct stake in the outcome.</p>
+
+  <h3>Key Questions for the Coming Months:</h3>
+
+  <p>Will Sallay cooperate with investigators, and if so, will his testimony implicate political leaders? Can the missing investigation reports be recovered? Will the reinstatement of Shani Abeysekara as CID Director provide the institutional continuity needed for a thorough investigation? Will the military establishment accept or resist the prosecution of one of its own? How will the seventh anniversary commemorations on 21 April 2026 be shaped by these developments? And ultimately: will Sri Lanka, for the first time in its post-independence history, succeed in holding powerful state actors accountable for mass atrocity?</p>
+
+  <div class="callout">
+    <strong>The stakes could not be higher.</strong> The Easter Sunday attacks killed 279 people in one of the most devastating terrorist attacks in South Asian history. Seven years on, the families of the dead are still waiting for the full truth. The arrest of Suresh Sallay is either the beginning of that truth &mdash; or another chapter in a saga of political manipulation. The next 90 days will determine which.
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section id="sources" class="sources">
+  <h2>Sources &amp; References</h2>
+  <ol>
+    <li><a href="https://www.aljazeera.com/news/2026/2/25/sri-lankas-former-intelligence-chief-arrested-over-2019-easter-attacks" target="_blank">Al Jazeera &mdash; Sri Lanka's former intelligence chief arrested over 2019 Easter attacks (25 Feb 2026)</a></li>
+    <li><a href="https://www.newswire.lk/2026/02/25/easter-attacks-former-sis-chief-suresh-sallay-arrested/" target="_blank">Newswire &mdash; Easter attacks: Former SIS Chief Suresh Sallay arrested (25 Feb 2026)</a></li>
+    <li><a href="https://www.licas.news/2026/02/25/sri-lanka-arrests-former-intelligence-chief-church-presses-for-full-truth-on-easter-bombings/" target="_blank">LiCAS News &mdash; Sri Lanka arrests former intelligence chief; Church presses for full truth (25 Feb 2026)</a></li>
+    <li><a href="https://www.washingtonpost.com/world/2026/02/25/sri-lanka-suresh-salley-arrest-islamic-state/" target="_blank">Washington Post &mdash; Sri Lanka police arrest former intelligence chief (25 Feb 2026)</a></li>
+    <li><a href="https://srilankabrief.org/easter-sunday-attacks-general-suresh-saleh-to-be-charged-with-conspiracy/" target="_blank">Sri Lanka Brief &mdash; Former Int. Chief to Be Charged with Conspiracy</a></li>
+    <li><a href="https://en.newswave.lk/57998/" target="_blank">NewsWave LK &mdash; Former State Intelligence Chief May Be Detained for 90 Days</a></li>
+    <li><a href="https://www.theweek.in/news/world/2026/02/25/2019-sri-lanka-easter-bombings-why-ex-spy-chief-suresh-sallay-was-arrested-explained.html" target="_blank">The Week &mdash; Why ex-spy chief Suresh Sallay was arrested EXPLAINED</a></li>
+    <li><a href="https://www.aljazeera.com/news/2023/9/8/ex-sri-lanka-leader-denies-2019-bombings-were-staged-to-help-him-win-polls" target="_blank">Al Jazeera &mdash; Ex-Sri Lanka leader denies 2019 bombings were staged (2023)</a></li>
+    <li><a href="https://www.aljazeera.com/news/2023/9/6/sri-lanka-to-probe-allegation-of-intelligence-complicity-in-2019-bombings" target="_blank">Al Jazeera &mdash; Sri Lanka to probe allegation of intelligence complicity (2023)</a></li>
+    <li><a href="https://www.wionews.com/south-asia/explained-did-sri-lankas-rajapaksa-orchestrate-easter-bombings-of-2019-for-return-to-power-673112" target="_blank">WION News &mdash; Did Sri Lanka's Rajapaksa orchestrate Easter bombings?</a></li>
+    <li><a href="https://srilankacampaign.org/six-years-since-the-easter-sunday-bombings-is-justice-still-elusive/" target="_blank">Sri Lanka Campaign &mdash; Six Years Since the Easter Sunday Bombings</a></li>
+    <li><a href="https://srilankabrief.org/sri-lankas-intelligence-establishment-had-links-with-info-on-easter-sunday-attackers-former-director-cid-s-abeysekara/" target="_blank">Sri Lanka Brief &mdash; Former CID Director Abeysekara reveals intelligence links</a></li>
+    <li><a href="https://srilankabrief.org/cid-reports-to-the-court-that-the-military-intelegence-knew-from-the-beginning-that-saharan-had-committed-the-vavunathivu-murders-in-november-2018/" target="_blank">Sri Lanka Brief &mdash; CID Reports Military Intelligence Knew About Saharan</a></li>
+    <li><a href="https://www.lankaenews.com/news/3863/en" target="_blank">Lanka e-News &mdash; Two committee reports disappeared before Ranil left office</a></li>
+    <li><a href="https://mawratanews.lk/news/cardinal-malcolm-ranjith-accuses-state-institutions-of-obstructing-truth-about-easter-attacks/" target="_blank">Mawrata News &mdash; Cardinal Ranjith Accuses State Institutions of Obstructing Truth</a></li>
+    <li><a href="https://srilankabrief.org/easter-sunday-attacks-in-sri-lanka-is-a-part-of-a-grand-political-plot-cardinal-malcolm-ranjith/" target="_blank">Sri Lanka Brief &mdash; Cardinal Ranjith: Easter attacks part of a grand political plot</a></li>
+    <li><a href="https://sundaytimes.lk/online/news-online/Cardinal-Malcolm-Ranjith-calls-for-an-Independent-Public-Prosecutors-Office-on-Easter-Sunday-attacks/2-1148946" target="_blank">Sunday Times &mdash; Cardinal Ranjith calls for Independent Prosecutor's Office</a></li>
+    <li><a href="https://gnet-research.org/2023/09/29/unmasking-islamophobic-disinformation-in-the-aftermath-of-sri-lankas-easter-sunday-attack" target="_blank">GNET Research &mdash; Unmasking Islamophobic Disinformation After Easter Sunday</a></li>
+    <li><a href="https://www.crisisgroup.org/asia/south-asia/sri-lanka/%E2%80%9Cone-country-one-law%E2%80%9D-sri-lankan-states-hostility-toward-muslims-grows-deeper" target="_blank">International Crisis Group &mdash; "One Country, One Law": State Hostility toward Muslims</a></li>
+    <li><a href="https://www.csohate.org/2024/11/08/islamophobia-in-srilanka/" target="_blank">CSO Hate &mdash; Content Moderation Failures Fuel Islamophobia in Sri Lanka</a></li>
+    <li><a href="https://www.hrw.org/news/2025/08/18/human-rights-watch-briefing-on-the-human-rights-situation-in-sri-lanka" target="_blank">Human Rights Watch &mdash; Briefing on Human Rights Situation in Sri Lanka (Aug 2025)</a></li>
+    <li><a href="https://www.newsfirst.lk/2025/04/21/from-cover-up-to-justice-akd-promises-independent-probe-into-easter-sunday-attacks" target="_blank">NewsFirst &mdash; AKD Promises Independent Probe into Easter Sunday Attacks (Apr 2025)</a></li>
+    <li><a href="https://jamestown.org/brief/the-mastermind-of-the-sri-lankan-easter-sunday-attacks-a-brief-sketch-of-mohammed-zahran-hashim-of-national-thowheeth-jamaath/" target="_blank">Jamestown Foundation &mdash; Brief Sketch of Mohammed Zahran Hashim</a></li>
+    <li><a href="https://www.france24.com/en/asia-pacific/20260225-sri-lanka-arrests-ex-spy-chief-over-2019-easter-bombings" target="_blank">France 24 &mdash; Sri Lanka arrests ex-spy chief (25 Feb 2026)</a></li>
+    <li><a href="https://www.news24.com/world/ex-intelligence-chief-arrested-for-aiding-2019-sri-lanka-easter-sunday-bombings-20260225-0859" target="_blank">News24 &mdash; Ex-intelligence chief arrested for 'aiding' Easter bombings</a></li>
+    <li><a href="https://premierchristian.news/us/news/article/sri-lanka-arrests-ex-intelligence-chief-over-easter-church-bombings" target="_blank">Premier Christian News &mdash; Sri Lanka arrests ex-intelligence chief over Easter church bombings</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/2019_Sri_Lanka_Easter_bombings" target="_blank">Wikipedia &mdash; 2019 Sri Lanka Easter bombings</a></li>
+    <li><a href="https://en.wikipedia.org/wiki/National_Thowheeth_Jama%27ath" target="_blank">Wikipedia &mdash; National Thowheeth Jama'ath</a></li>
+  </ol>
+</section>
+
+<div class="disclaimer">
+  <strong>Disclaimer:</strong> This research dossier is compiled from publicly available open-source intelligence (OSINT) as of 25&ndash;26 February 2026. It presents allegations, confirmed facts, and analytical assessments. The distinction between confirmed facts, credible allegations, and unproven claims is maintained throughout. Allegations attributed to specific sources do not constitute established truth until proven through judicial proceedings. The game theory analysis represents probabilistic modelling and should not be taken as prediction. This document is intended for informational and analytical purposes only.
+</div>
+
+</div><!-- /container -->
+</body>
+</html>

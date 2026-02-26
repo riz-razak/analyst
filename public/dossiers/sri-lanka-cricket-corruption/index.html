@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Death of Sri Lankan Cricket: Politics, Mafia & The Road to Ruin</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@700;800;900&display=swap');
+
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-tertiary: #1a1a2e;
+    --bg-card: #16162a;
+    --text-primary: #e8e8f0;
+    --text-secondary: #a0a0b8;
+    --text-muted: #6a6a80;
+    --accent-red: #ff3a3a;
+    --accent-orange: #ff8c00;
+    --accent-gold: #ffd700;
+    --accent-blue: #4a9eff;
+    --accent-cyan: #00d4ff;
+    --accent-green: #00cc88;
+    --accent-purple: #8b5cf6;
+    --accent-pink: #ff6b9d;
+    --border-color: rgba(255,255,255,0.06);
+    --glow-red: rgba(255,58,58,0.3);
+    --glow-gold: rgba(255,215,0,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: radial-gradient(ellipse at center, rgba(139,0,0,0.15) 0%, var(--bg-primary) 70%);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 2rem; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,58,58,0.15);
+    border: 1px solid rgba(255,58,58,0.3);
+    color: var(--accent-red);
+    padding: 6px 18px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: pulse-badge 2s ease-in-out infinite;
+  }
+  @keyframes pulse-badge { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #fff 0%, #ff8c00 50%, #ff3a3a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    font-weight: 300;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 6px; }
+  .hero-score {
+    margin-top: 2.5rem;
+    background: rgba(255,58,58,0.08);
+    border: 1px solid rgba(255,58,58,0.2);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    display: inline-block;
+  }
+  .hero-score .teams {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .hero-score .result {
+    color: var(--accent-red);
+    font-size: 0.85rem;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  /* NAV */
+  .nav-container {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0 2rem;
+    overflow-x: auto;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+  }
+  .nav-link {
+    padding: 14px 18px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s;
+  }
+  .nav-link:hover, .nav-link.active {
+    color: var(--accent-gold);
+    border-bottom-color: var(--accent-gold);
+  }
+
+  /* MAIN CONTENT */
+  .main-content { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+  /* SECTIONS */
+  .section {
+    padding: 5rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .section-header {
+    margin-bottom: 3rem;
+  }
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent-gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  .section-lead {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 750px;
+    font-weight: 300;
+  }
+
+  /* ANALYSIS BLOCKS */
+  .analysis-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .analysis-block h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .analysis-block h3 .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .analysis-block p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 0.92rem;
+  }
+  .analysis-block p:last-child { margin-bottom: 0; }
+
+  /* KEY INSIGHT CALLOUTS */
+  .insight-callout {
+    background: linear-gradient(135deg, rgba(255,215,0,0.06), rgba(255,140,0,0.04));
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 0 8px 8px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .insight-callout .label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 6px;
+  }
+  .insight-callout p {
+    color: var(--text-primary);
+    font-size: 0.92rem;
+  }
+
+  /* RED ALERT CALLOUT */
+  .alert-callout {
+    background: linear-gradient(135deg, rgba(255,58,58,0.08), rgba(255,58,58,0.03));
+    border-left: 3px solid var(--accent-red);
+    border-radius: 0 8px 8px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .alert-callout .label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-red);
+    margin-bottom: 6px;
+  }
+  .alert-callout p { color: var(--text-primary); font-size: 0.92rem; }
+
+  /* STAT GRID */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .stat-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .stat-card .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .stat-card .label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* TWO COLUMN LAYOUT */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 30px;
+    margin: 2rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent-red), var(--accent-gold), var(--accent-red));
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-red);
+    border: 2px solid var(--bg-primary);
+  }
+  .timeline-item .year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent-gold);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .timeline-item h4 {
+    font-size: 0.95rem;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .timeline-item p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  /* CONSPIRACY BOARD */
+  .conspiracy-board {
+    position: relative;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 2rem 0;
+    overflow: hidden;
+    min-height: 700px;
+  }
+  .conspiracy-board::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .board-title {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-red);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,58,58,0.2);
+  }
+  .board-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .board-nodes {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .node {
+    background: rgba(22,22,42,0.95);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: default;
+    position: relative;
+  }
+  .node:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-gold);
+    box-shadow: 0 8px 30px rgba(255,215,0,0.1);
+  }
+  .node .node-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 8px;
+    font-size: 1.1rem;
+  }
+  .node .node-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .node .node-role {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .node .node-detail {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+  .node-tier-label {
+    grid-column: 1 / -1;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(255,255,255,0.08);
+    margin-top: 0.5rem;
+  }
+
+  /* NODE COLOR VARIANTS */
+  .node-red { border-color: rgba(255,58,58,0.3); }
+  .node-red .node-icon { background: rgba(255,58,58,0.15); }
+  .node-gold { border-color: rgba(255,215,0,0.3); }
+  .node-gold .node-icon { background: rgba(255,215,0,0.15); }
+  .node-blue { border-color: rgba(74,158,255,0.3); }
+  .node-blue .node-icon { background: rgba(74,158,255,0.15); }
+  .node-purple { border-color: rgba(139,92,246,0.3); }
+  .node-purple .node-icon { background: rgba(139,92,246,0.15); }
+  .node-green { border-color: rgba(0,204,136,0.3); }
+  .node-green .node-icon { background: rgba(0,204,136,0.15); }
+  .node-cyan { border-color: rgba(0,212,255,0.3); }
+  .node-cyan .node-icon { background: rgba(0,212,255,0.15); }
+
+  /* GAME THEORY TABLE */
+  .game-theory-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 2rem 0;
+    font-size: 0.85rem;
+  }
+  .game-theory-table th {
+    background: var(--bg-tertiary);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+    border-bottom: 2px solid var(--accent-gold);
+  }
+  .game-theory-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+  .game-theory-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .payoff-high { color: var(--accent-green); font-weight: 600; }
+  .payoff-med { color: var(--accent-gold); font-weight: 600; }
+  .payoff-low { color: var(--accent-red); font-weight: 600; }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    background: var(--bg-tertiary);
+    border-left: 3px solid var(--accent-cyan);
+    border-radius: 0 10px 10px 0;
+    padding: 1.5rem 2rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+  }
+  .quote-block .attribution {
+    font-style: normal;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  /* CYCLE DIAGRAM */
+  .cycle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+  }
+  .cycle-node {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    min-width: 140px;
+  }
+  .cycle-node .emoji { font-size: 1.5rem; margin-bottom: 4px; }
+  .cycle-node .cycle-label { font-size: 0.8rem; font-weight: 600; color: #fff; }
+  .cycle-node .cycle-desc { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+  .cycle-arrow {
+    font-size: 1.5rem;
+    color: var(--accent-red);
+    padding: 0 8px;
+  }
+
+  /* SKILL DEVELOPMENT CARDS */
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .skill-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .skill-card h4 {
+    font-size: 0.9rem;
+    color: #fff;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .skill-card p { font-size: 0.82rem; color: var(--text-secondary); }
+  .skill-bar {
+    height: 4px;
+    background: var(--bg-primary);
+    border-radius: 2px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease;
+  }
+
+  /* COMPARISON TABLE */
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .comparison-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .comparison-card h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .comparison-card .country-flag { font-size: 1.5rem; margin-bottom: 8px; }
+  .comparison-card .detail-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+  }
+  .comparison-card .detail-list li {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .comparison-card .detail-list li:last-child { border-bottom: none; }
+  .check { color: var(--accent-green); }
+  .cross { color: var(--accent-red); }
+
+  /* HIDDEN INSIGHTS */
+  .hidden-insights {
+    background: linear-gradient(135deg, rgba(139,92,246,0.06), rgba(255,107,157,0.04));
+    border: 1px solid rgba(139,92,246,0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  .hidden-insights h3 {
+    font-size: 1.1rem;
+    color: var(--accent-purple);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--border-color);
+  }
+  .footer a { color: var(--accent-cyan); text-decoration: none; }
+
+  /* SCROLL ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* CONNECTION LINES FOR BOARD */
+  .connection-legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    position: relative;
+    z-index: 5;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+  .legend-line {
+    width: 24px;
+    height: 2px;
+    border-radius: 1px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .board-nodes { grid-template-columns: repeat(2, 1fr); }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .board-nodes { grid-template-columns: 1fr; }
+    .cycle-container { flex-direction: column; }
+    .cycle-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Political Research Dossier</div>
+    <h1>The Death of Sri Lankan Cricket</h1>
+    <p class="hero-subtitle">
+      How political patronage, a "cricket mafia", toxic fan culture, and systemic institutional rot destroyed a once-proud cricketing nation — and why the new government appears powerless to fix it.
+    </p>
+    <div class="hero-meta">
+      <span>February 25, 2026</span>
+      <span>|</span>
+      <span>T20 World Cup 2026 — Super 8s Elimination</span>
+      <span>|</span>
+      <span>Deep Analysis</span>
+    </div>
+    <div class="hero-score">
+      <div class="teams">NZ 168/7 &nbsp; beat &nbsp; SL 107/8</div>
+      <div class="result">Sri Lanka eliminated from T20 World Cup — first team knocked out of Super 8s</div>
+    </div>
+  </div>
+</section>
+
+<!-- NAVIGATION -->
+<nav class="nav-container">
+  <div class="nav-inner">
+    <a href="#match" class="nav-link active">The Match</a>
+    <a href="#mafia" class="nav-link">The Mafia</a>
+    <a href="#board" class="nav-link">Conspiracy Board</a>
+    <a href="#elitism" class="nav-link">Elitism Paradox</a>
+    <a href="#social" class="nav-link">Fan Toxicity</a>
+    <a href="#players" class="nav-link">Player Crisis</a>
+    <a href="#npp" class="nav-link">NPP & Reform</a>
+    <a href="#restructure" class="nav-link">Restructuring</a>
+    <a href="#gametheory" class="nav-link">Game Theory</a>
+    <a href="#skills" class="nav-link">Skills Gap</a>
+    <a href="#bcci" class="nav-link">BCCI/IPL Axis</a>
+    <a href="#calendar" class="nav-link">Calendar Crisis</a>
+    <a href="#hidden" class="nav-link">Hidden Insights</a>
+  </div>
+</nav>
+
+<div class="main-content">
+
+<!-- SECTION 1: THE MATCH -->
+<section class="section fade-in" id="match">
+  <div class="section-header">
+    <div class="section-number">01 — The Catalyst</div>
+    <h2>A Familiar Collapse on Home Soil</h2>
+    <p class="section-lead">Sri Lanka's elimination from their own World Cup wasn't just a bad day — it was the logical conclusion of a decade of institutional decay.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-red);">107/8</div>
+      <div class="label">SL Score (20 ov)</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-green);">168/7</div>
+      <div class="label">NZ Score (20 ov)</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-orange);">4/27</div>
+      <div class="label">Ravindra's Figures</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-red);">0(1)</div>
+      <div class="label">Nissanka — First Ball</div>
+    </div>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(255,58,58,0.15);">&#9888;</span> What Actually Happened</h3>
+    <p>Sri Lanka won the toss and did well to reduce New Zealand to 84/6 — then inexplicably lost control. Mitchell Santner (47 off 26 balls, 4 sixes) and Cole McConchie (31* off 23) added 84 for the 7th wicket, a partnership that exposed Sri Lanka's inability to close out innings. This isn't bad luck — it's a structural inability to think under pressure, to adapt bowling plans, and to maintain intensity when the game shifts.</p>
+    <p>In reply, Pathum Nissanka was bowled off the first ball by Matt Henry. The psychological collapse that followed — 107/8 in 20 overs — was not the disease but the symptom. Rachin Ravindra, a part-time left-arm spinner, took 4/27. A side that once produced Murali, Vaas, and Malinga was dismantled by a bowler who isn't even New Zealand's primary spinner.</p>
+  </div>
+
+  <div class="quote-block">
+    "Disappointing home fans is truly shameful. T20 thrives on boldness — safe cricket doesn't win, and we lacked that fire."
+    <div class="attribution">— Dasun Shanaka, Captain, post-match</div>
+  </div>
+
+  <div class="insight-callout">
+    <div class="label">Beyond the Lonthayas Logic</div>
+    <p>The easy narrative is that these players simply aren't good enough — the "Lonthayas" accusation. But the truth is more uncomfortable: many of these players perform brilliantly in franchise leagues (IPL, LPL). The problem isn't raw talent — it's the ecosystem they return to. A corrupt administration, zero analytical support, chaotic selection, and a fan culture that destroys confidence rather than building it. The rot isn't on the pitch. It's everything around it.</p>
+  </div>
+</section>
+
+<!-- SECTION 2: THE MAFIA -->
+<section class="section fade-in" id="mafia">
+  <div class="section-header">
+    <div class="section-number">02 — The Cricket Mafia</div>
+    <h2>How SLC Became the Most Corrupt Board in World Cricket</h2>
+    <p class="section-lead">The ICC's own anti-corruption chief stated that Sri Lanka has "more corruption investigations than anywhere else." A permanent ICC Anti-Corruption Unit office was established in Colombo — the only country to receive this level of scrutiny.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-red);">4</div>
+      <div class="label">Shammi Silva's Consecutive Terms</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-red);">3</div>
+      <div class="label">Times Elected Uncontested</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-orange);">1</div>
+      <div class="label">Permanent ICC Anti-Corruption Office (Only in SL)</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-red);">0</div>
+      <div class="label">Renowned Cricketers on Current Board</div>
+    </div>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(255,58,58,0.15);">&#128373;</span> The Patronage Machine</h3>
+    <p>Sri Lanka Cricket doesn't function as a sports governing body — it functions as a political patronage network. The SLC presidency is a stepping stone to political power and a distribution mechanism for TV rights money, sponsorship deals, and touring contracts. The current president, Shammi Silva, has held office since 2019 and was re-elected uncontested for his fourth term in March 2025. He simultaneously serves as Asian Cricket Council (ACC) President.</p>
+    <p>The mechanism is straightforward: SLC affiliates (cricket clubs) have voting rights in elections. These clubs are often paper entities controlled by politicians or business interests. By controlling enough clubs, a candidate can guarantee re-election without genuine competition. This is why Silva has been elected uncontested three times — not because he's universally popular, but because the voting structure is captured.</p>
+    <p>The board is stacked with political loyalists rather than cricket experts. Public commentators have noted that "not a single renowned Sri Lankan cricketer is on the new board." Former cricketers who could reform the system "are reluctant to come forward due to corruption in this institution."</p>
+  </div>
+
+  <div class="alert-callout">
+    <div class="label">Critical Finding</div>
+    <p>The ICC Auditor General found serious irregularities in SLC's accounts between 2016 and 2022. Money from TV rights could not be traced. SLC issued statements about a $2 million transfer from its accounts, claiming "operational expenses," but no detailed accounting was provided.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(255,140,0,0.15);">&#128176;</span> The Corruption Timeline</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="year">2018</div>
+        <h4>Galle Pitch-Fixing Scandal</h4>
+        <p>Al Jazeera released hidden-camera footage of Galle stadium staff agreeing to fix pitches for Test matches involving India and England.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2019</div>
+        <h4>Sanath Jayasuriya Banned</h4>
+        <p>The cricket legend was banned by the ICC for refusing to cooperate with an anti-corruption investigation — the same person who is now the head coach.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2019-2020</div>
+        <h4>Zoysa & Lokuhettige Bans</h4>
+        <p>Nuwan Zoysa (6 years) and Dilhara Lokuhettige (8 years) banned for match-fixing in T10 League.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">Nov 2023</div>
+        <h4>Government Intervenes, ICC Suspends</h4>
+        <p>Sports Minister Ranasinghe removes entire SLC board, calls them "traitorous and corrupt." ICC immediately suspends Sri Lanka for government interference — becoming the first full member suspended for this reason.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">Jan 2024</div>
+        <h4>Court Restores Board</h4>
+        <p>Courts overturn the government's removal. ICC lifts suspension. The "mafia" survives intact.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2024</div>
+        <h4>Jayawickrama Charged</h4>
+        <p>Spinner Praveen Jayawickrama (25) charged by ICC for failing to report approaches from bookies to fix LPL games.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="year">Mar 2025</div>
+        <h4>Silva Returns — Again</h4>
+        <p>Shammi Silva re-elected uncontested for 4th term. Critics call it "Shammi and Team Mafia." Allegations surface of board members "backed by the underworld and drug dealers."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(139,92,246,0.15);">&#9878;</span> The Sumathipala-Ranatunga War</h3>
+    <p>The original power struggle that defined SLC's modern corruption era was between four-time president Thilanga Sumathipala and 1996 World Cup-winning captain Arjuna Ranatunga. Sumathipala accused Ranatunga and Aravinda de Silva of being "the first Sri Lankans to take bribes from bookies." Ranatunga countered by accusing Sumathipala of violating ICC regulations due to his family's connections to the gambling industry.</p>
+    <p>This war wasn't about cleaning up cricket — it was about who controls the patronage. Both sides used cricket governance as a vehicle for political influence and financial gain. The lesson the system learned was that cricket boards are too valuable as political instruments to be reformed — they must be captured.</p>
+  </div>
+
+  <div class="insight-callout">
+    <div class="label">The Self-Protecting System</div>
+    <p>The ICC's rules against government interference create a paradox: the one entity powerful enough to reform a corrupt board (the government) is prohibited from doing so. This means a captured board can perpetuate itself indefinitely, as long as it maintains formal compliance with ICC governance rules. The "mafia" doesn't just benefit from this rule — it weaponises it. When the 2023 government tried to intervene, Silva immediately petitioned the courts and the ICC stepped in. The corrupt board was restored within days, using the very governance rules designed to protect cricket.</p>
+  </div>
+</section>
+
+<!-- SECTION 3: CONSPIRACY BOARD -->
+<section class="section fade-in" id="board">
+  <div class="section-header">
+    <div class="section-number">03 — The Power Map</div>
+    <h2>Stakeholder Conspiracy Board</h2>
+    <p class="section-lead">A mapping of the key players, power dynamics, and interconnections that define Sri Lanka Cricket's governance crisis.</p>
+  </div>
+
+  <div class="conspiracy-board">
+    <div class="board-title">&#128205; SLC Power Dynamics & Stakeholder Map — Feb 2026</div>
+
+    <div class="board-nodes">
+
+      <!-- TIER 1: THE POWER CENTER -->
+      <div class="node-tier-label">&#9650; Tier 1 — The Power Center</div>
+
+      <div class="node node-red">
+        <div class="node-icon">&#128081;</div>
+        <div class="node-name">Shammi Silva</div>
+        <div class="node-role">SLC President (4th Term)</div>
+        <div class="node-detail">Elected uncontested 3 times. Also ACC President. Controls club voting structure. Called "godfather of cricket mafia."</div>
+      </div>
+
+      <div class="node node-red">
+        <div class="node-icon">&#127970;</div>
+        <div class="node-name">SLC Executive Committee</div>
+        <div class="node-role">Board of Directors</div>
+        <div class="node-detail">Bandula Dissanayake (Secretary), Sujeewa Godaliyadda (Treasurer). Zero renowned cricketers. Political appointees.</div>
+      </div>
+
+      <div class="node node-gold">
+        <div class="node-icon">&#127975;</div>
+        <div class="node-name">Affiliate Cricket Clubs</div>
+        <div class="node-role">Voting Bloc</div>
+        <div class="node-detail">~150 clubs with voting rights. Many are paper entities controlled by political interests. The mechanism of perpetual re-election.</div>
+      </div>
+
+      <div class="node node-purple">
+        <div class="node-icon">&#128176;</div>
+        <div class="node-name">TV & Sponsorship Money</div>
+        <div class="node-role">Revenue Stream</div>
+        <div class="node-detail">Multi-million $ TV rights deals. Auditor General found unaccounted funds 2016-2022. $2M transfer questioned.</div>
+      </div>
+
+      <!-- TIER 2: POLITICAL LAYER -->
+      <div class="node-tier-label">&#9650; Tier 2 — Political & Historical Actors</div>
+
+      <div class="node node-blue">
+        <div class="node-icon">&#127463;</div>
+        <div class="node-name">Thilanga Sumathipala</div>
+        <div class="node-role">Former SLC President (4x)</div>
+        <div class="node-detail">Family gambling industry links. Accused players of bribery. Power broker even out of office. MP and businessman.</div>
+      </div>
+
+      <div class="node node-blue">
+        <div class="node-icon">&#127941;</div>
+        <div class="node-name">Arjuna Ranatunga</div>
+        <div class="node-role">1996 WC Captain / Politician</div>
+        <div class="node-detail">Led 2023 interim committee. Counter-accused Sumathipala. Used cricket for political career. Reform attempts failed via ICC rules.</div>
+      </div>
+
+      <div class="node node-green">
+        <div class="node-icon">&#127987;</div>
+        <div class="node-name">NPP Government</div>
+        <div class="node-role">Current Ruling Party</div>
+        <div class="node-detail">159 seats. Anti-corruption mandate. Sports review initiated Aug 2025. Deputy Minister Sugath Thilakarathne. No cricket-specific reform visible.</div>
+      </div>
+
+      <div class="node node-cyan">
+        <div class="node-icon">&#127758;</div>
+        <div class="node-name">ICC</div>
+        <div class="node-role">Global Governing Body</div>
+        <div class="node-detail">Suspended SL in Nov 2023. Anti-corruption office in Colombo. Rules prohibit govt interference — inadvertently protects corrupt boards.</div>
+      </div>
+
+      <!-- TIER 3: ON-FIELD -->
+      <div class="node-tier-label">&#9650; Tier 3 — On-Field Stakeholders</div>
+
+      <div class="node node-gold">
+        <div class="node-icon">&#127942;</div>
+        <div class="node-name">Sanath Jayasuriya</div>
+        <div class="node-role">Head Coach (Oct 2024-)</div>
+        <div class="node-detail">Previously ICC-banned for non-cooperation with anti-corruption probe. Appointed coach despite this history. Legend but controversial choice.</div>
+      </div>
+
+      <div class="node node-blue">
+        <div class="node-icon">&#128587;</div>
+        <div class="node-name">Dasun Shanaka</div>
+        <div class="node-role">T20I Captain (Dec 2025-)</div>
+        <div class="node-detail">Replaced Asalanka as captain. Experienced but leading a demoralized squad. "Truly shameful" admission post NZ loss.</div>
+      </div>
+
+      <div class="node node-blue">
+        <div class="node-icon">&#127951;</div>
+        <div class="node-name">Current Playing Squad</div>
+        <div class="node-role">13/15 from 2024 WC</div>
+        <div class="node-detail">Hasaranga, Kusal Mendis, Nissanka, Theekshana, Pathirana. Talent exists but fragile confidence and inconsistency.</div>
+      </div>
+
+      <div class="node node-purple">
+        <div class="node-icon">&#128218;</div>
+        <div class="node-name">Selection Committee</div>
+        <div class="node-role">Opaque Process</div>
+        <div class="node-detail">Selection decisions often influenced by board politics rather than merit. Frequent changes. Players uncertain of their place.</div>
+      </div>
+
+      <!-- TIER 4: EXTERNAL FORCES -->
+      <div class="node-tier-label">&#9650; Tier 4 — External & Systemic Forces</div>
+
+      <div class="node node-red">
+        <div class="node-icon">&#128241;</div>
+        <div class="node-name">Social Media / Fans</div>
+        <div class="node-role">Pressure Amplifier</div>
+        <div class="node-detail">#unfollowcricketers campaigns. Cyberbullying. Death threats. Meme culture. Destroys player confidence. No institutional buffer.</div>
+      </div>
+
+      <div class="node node-gold">
+        <div class="node-icon">&#127979;</div>
+        <div class="node-name">Elite School System</div>
+        <div class="node-role">Traditional Talent Pipeline</div>
+        <div class="node-detail">Royal, Trinity, St Thomas'. Produced Sanga, Mahela, Murali. Declining influence as cricket democratises but no replacement system.</div>
+      </div>
+
+      <div class="node node-green">
+        <div class="node-icon">&#128200;</div>
+        <div class="node-name">Franchise Leagues (IPL/LPL)</div>
+        <div class="node-role">Competing Interests</div>
+        <div class="node-detail">Players perform well in IPL/LPL but not for SL. Split loyalty, workload management issues. LPL itself corruption-plagued.</div>
+      </div>
+
+      <div class="node node-cyan">
+        <div class="node-icon">&#128736;</div>
+        <div class="node-name">"Brain Centre" / Analytics</div>
+        <div class="node-role">Nascent, Underfunded</div>
+        <div class="node-detail">Recently relocated to High Performance Centre. Still far behind Australia, India, England in data analytics capability.</div>
+      </div>
+
+    </div>
+
+    <div class="connection-legend">
+      <div class="legend-item"><div class="legend-line" style="background: var(--accent-red);"></div> Controls / Direct Power</div>
+      <div class="legend-item"><div class="legend-line" style="background: var(--accent-gold);"></div> Financial Flow</div>
+      <div class="legend-item"><div class="legend-line" style="background: var(--accent-blue);"></div> Political Influence</div>
+      <div class="legend-item"><div class="legend-line" style="background: var(--accent-purple); border-top: 2px dashed var(--accent-purple); height: 0; background: none;"></div> Conflict / Tension</div>
+      <div class="legend-item"><div class="legend-line" style="background: var(--accent-green);"></div> Reform Pressure</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: ELITISM PARADOX -->
+<section class="section fade-in" id="elitism">
+  <div class="section-header">
+    <div class="section-number">04 — The Elitism Paradox</div>
+    <h2>When Democratisation Killed the "Cricketing Brain"</h2>
+    <p class="section-lead">The uncomfortable argument: Sri Lanka's golden era was produced by an elite school system that bred not just cricketers, but thinkers. The democratisation of cricket widened access but may have eroded the intellectual infrastructure that produced legends.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(255,215,0,0.15);">&#127891;</span> The Elite School Pipeline</h3>
+      <p>Almost every Sri Lankan cricket legend came through the elite school system — Royal College, Trinity College Kandy, St. Thomas' College, S. Thomas' Prep, Wesley, St. Peter's, St. Joseph's. The Royal-Thomian cricket match has been played annually since 1879 — over 147 years uninterrupted, even during World War II.</p>
+      <p>These institutions didn't just teach cricket technique — they embedded a culture of strategic thinking, pressure management, English-language fluency (critical for interacting with international cricket culture), and a gentleman's code. Kumar Sangakkara (Trinity), Mahela Jayawardene (Nalanda/elite Colombo), Arjuna Ranatunga (Ananda), Marvan Atapattu (Ananda) — these weren't just talented batsmen. They were cricket intellectuals who could read a game five overs ahead.</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(255,58,58,0.15);">&#128165;</span> What Was Lost</h3>
+      <p>As cricket expanded beyond the elite schools to rural clubs and provincial systems — an inherently positive development — the infrastructure that cultivated "cricketing intelligence" was not replicated. Rural and non-elite school systems produce athletes, but without the coaching depth, competitive school cricket culture, and intellectual framework that the elite schools provided.</p>
+      <p>The result: Sri Lanka now produces explosive talent (Pathirana's death bowling, Hasaranga's wrist spin) but lacks the strategic captains, the calm accumulators, the players who can adjust a game plan mid-innings. The "cricketing brain" deficit isn't about intelligence — it's about an institutional gap in how cricket thinking is taught and mentored.</p>
+    </div>
+  </div>
+
+  <div class="insight-callout">
+    <div class="label">The Murali Exception — And What It Teaches</div>
+    <p>Muttiah Muralitharan came from a Tamil background outside the Sinhalese elite school system, yet became the greatest match-winner in cricket history. But Murali thrived because he was absorbed into an elite system (St. Anthony's Kandy) and then into a team led by elite-school captains (Ranatunga, then Jayawardene/Sangakkara) who knew how to utilise him strategically. The lesson: raw talent needs an intellectual framework around it to flourish. Today's Sri Lanka has the raw talent but not the framework — neither from the old elite schools (whose influence has waned) nor from any new system that replaced it.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(74,158,255,0.15);">&#9878;</span> The Uncomfortable Truth</h3>
+    <p>This isn't an argument for elitism per se — it's an argument that when you dismantle an old system, you must build a new one. India managed this: the BCCI created sophisticated state-level academies (NCA in Bangalore), invested in coaching education, and used the IPL as a finishing school. Australia has the AIS and state-based cricket centres of excellence. England has the ECB pathway system.</p>
+    <p>Sri Lanka demolished the old elite pathway through democratisation (good) but built nothing comparable in its place (disastrous). The SLC was too busy enriching itself to invest in player development infrastructure. The result is a generation of cricketers with IPL-grade talent but club-level game management.</p>
+  </div>
+</section>
+
+<!-- SECTION 5: FAN TOXICITY -->
+<section class="section fade-in" id="social">
+  <div class="section-header">
+    <div class="section-number">05 — The Social Media Vortex</div>
+    <h2>The Hype-Pressure-Disappointment Death Spiral</h2>
+    <p class="section-lead">Sri Lankan cricket fans don't just watch cricket — they weaponise it. Social media has turned every match into a referendum on national pride, and every loss into a trigger for collective abuse.</p>
+  </div>
+
+  <!-- CYCLE DIAGRAM -->
+  <div class="cycle-container">
+    <div class="cycle-node">
+      <div class="emoji">&#128293;</div>
+      <div class="cycle-label">Hype</div>
+      <div class="cycle-desc">Pre-match nationalism, "Lions" rhetoric, memories of '96</div>
+    </div>
+    <div class="cycle-arrow">&#10132;</div>
+    <div class="cycle-node">
+      <div class="emoji">&#128556;</div>
+      <div class="cycle-label">Pressure</div>
+      <div class="cycle-desc">Unrealistic expectations, social media storms, "win or else"</div>
+    </div>
+    <div class="cycle-arrow">&#10132;</div>
+    <div class="cycle-node">
+      <div class="emoji">&#128148;</div>
+      <div class="cycle-label">Disappointment</div>
+      <div class="cycle-desc">Inevitable loss, collective rage, player abuse</div>
+    </div>
+    <div class="cycle-arrow">&#10132;</div>
+    <div class="cycle-node">
+      <div class="emoji">&#128562;</div>
+      <div class="cycle-label">Amnesia</div>
+      <div class="cycle-desc">Brief hope after any small win, cycle restarts</div>
+    </div>
+    <div class="cycle-arrow">&#10132;</div>
+    <div class="cycle-node">
+      <div class="emoji">&#128293;</div>
+      <div class="cycle-label">Hype</div>
+      <div class="cycle-desc">Repeat</div>
+    </div>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(255,107,157,0.15);">&#128241;</span> The #UnfollowCricketers Campaign</h3>
+    <p>After Sri Lanka's 0-3 T20 drubbing by England, fans launched a coordinated social media campaign under the hashtag #unfollowcricketers. Thousands boycotted the Facebook pages of vice-captain Kusal Mendis and opener Dhanushka Gunathilaka. The campaign wasn't just negative — it was organised, sustained, and specifically targeted at individual players rather than the administration.</p>
+    <p>Kusal Mendis later spoke publicly about the abuse: "When we're doing badly is when we need the most support." But the culture of targeted personal attacks continued. Some fan posts even threatened violence, with warnings about "fans attacking cricketers' houses and burning cricketers' dummies like in India."</p>
+  </div>
+
+  <div class="two-col">
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(255,58,58,0.15);">&#9888;</span> Why It's Uniquely Destructive</h3>
+      <p>Sri Lanka is a small country (~22M people) where cricket is the dominant national sport. Unlike India, where 1.4 billion fans distribute their intensity across many players, or Australia, where multiple sports compete for attention — in Sri Lanka, the pressure is concentrated on a tiny squad with nowhere to hide.</p>
+      <p>The player pool is small enough that fans know players personally — their families, their schools, their neighbourhoods. Social media abuse isn't anonymous abstract criticism; it's your neighbour's son calling you a "Lonthaya" (loser/worthless person) on Facebook. Former captain Marvan Atapattu called for a complete social media ban for national cricketers in November 2025.</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(0,204,136,0.15);">&#128161;</span> Practical Corrections</h3>
+      <p><strong>You can't force people to behave — but you can change the information architecture:</strong></p>
+      <p>1. <strong>Institutional Buffer:</strong> Create a dedicated SLC communications team that absorbs and redirects public anger toward governance reform rather than players. Use official channels to frame losses in analytical terms, not emotional ones.</p>
+      <p>2. <strong>Player Social Media Management:</strong> Professional social media managers for all national players (as IPL teams provide). Players should not manage their own accounts during tournaments.</p>
+      <p>3. <strong>Fan Education Campaigns:</strong> Partner with ICC's social media moderation program. Run campaigns showing how abuse affects performance — make it about winning, not morality.</p>
+      <p>4. <strong>Redirect the Narrative:</strong> Create public "accountability dashboards" for the SLC board — viewable stats on money spent, development programs, coaching hires. Give fans a productive target for their energy.</p>
+      <p>5. <strong>Legal Framework:</strong> Strengthen cyberbullying enforcement (only ~2,000 cases reported in 2024, half involving sexual harassment). Make credible threats to players actionable.</p>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    "The venomous, hate-filled disparagement conveyed targeting the cricketers via social media is testament to the toxic nature of cricket fans in this country and the decay of our society in terms of values and attitudes."
+    <div class="attribution">— Daily FT Editorial, Asia Cup Analysis</div>
+  </div>
+</section>
+
+<!-- SECTION 6: PLAYER CRISIS -->
+<section class="section fade-in" id="players">
+  <div class="section-header">
+    <div class="section-number">06 — The Player Crisis</div>
+    <h2>Form, Dedication & The Hollowing Out</h2>
+    <p class="section-lead">Looking beyond the surface: why a squad with IPL-level talent collapses in national colours.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(255,140,0,0.15);">&#128200;</span> The Captaincy Carousel</h3>
+    <p>Charith Asalanka was removed as T20I captain in December 2025 after 18 months — record: 10 wins, 11 losses, 2 ties. His batting collapsed under the weight of leadership: 156 runs in 12 innings at a strike rate of just 122 in 2025. Rather than developing captaincy skills over time, SLC's instinct was to replace him with Dasun Shanaka just before the World Cup — a decision that created uncertainty rather than stability.</p>
+    <p>This pattern repeats across eras: captains are appointed, unsupported, blamed, and replaced. No captain since Angelo Mathews has been given genuine long-term backing with institutional support. The result is a squad where no one feels ownership of the team's direction.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(255,58,58,0.15);">&#127919;</span> Deep Issues</h3>
+      <p><strong>Franchise vs. National Loyalty:</strong> Players perform brilliantly in the IPL and LPL, where they have dedicated analysts, mental conditioning coaches, and clear roles. They return to the national setup, which offers none of this, and regress. The gap isn't talent — it's support infrastructure.</p>
+      <p><strong>Fitness & Conditioning:</strong> SLC's High Performance Centre has improved, but still lags behind the NCA (India) or AIS (Australia). Workload management between franchise and international cricket is poorly coordinated. Players arrive for national duty either over-bowled or under-prepared.</p>
+      <p><strong>Mental Fragility:</strong> The 84/6 to 168/7 collapse against NZ isn't a technical failure — it's a mental one. When pressure mounts, this team doesn't have the psychological resilience to adapt. This isn't innate — it's a direct consequence of zero mental conditioning investment and a toxic external environment.</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(74,158,255,0.15);">&#128101;</span> The T20 WC 2026 Squad</h3>
+      <p>SLC retained 13 of 15 players from the 2024 T20 World Cup squad — which had also failed (group stage elimination). This raises a fundamental question: if the personnel didn't change, why would the outcome?</p>
+      <p><strong>Key players and their issues:</strong></p>
+      <p><strong>Wanindu Hasaranga:</strong> World-class leg-spinner but increasingly read by top teams. Needs analytical support to evolve variations.</p>
+      <p><strong>Pathum Nissanka:</strong> Talented opener but fragile confidence — bowled first ball in the elimination match. The pressure of opening in a home World Cup with zero institutional support.</p>
+      <p><strong>Kusal Mendis:</strong> Perhaps the most talented batter in the squad but the primary target of social media abuse. Performance peaks and troughs correlate with public pressure cycles.</p>
+      <p><strong>Matheesha Pathirana:</strong> A genuine match-winner with his unique bowling action but workload management concerns. His absence from key moments tells a scheduling story.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: NPP & REFORM -->
+<section class="section fade-in" id="npp">
+  <div class="section-header">
+    <div class="section-number">07 — The NPP Paradox</div>
+    <h2>Why the "Anti-Corruption" Government Can't Fix Cricket</h2>
+    <p class="section-lead">The NPP (Anura Kumara Dissanayake) came to power on a wave of anti-corruption sentiment. They were vocal critics of the SLC system — from opposition benches. In power, they've done nothing.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(0,204,136,0.15);">&#127463;</span> The Promise vs. Reality</h3>
+    <p>Before taking office, the NPP was perhaps the most vocal critic of institutional corruption in Sri Lanka, including SLC. JVP/NPP parliamentarians raised SLC governance issues in parliament, demanded accountability for TV rights money, and called for structural reform. This was central to their populist anti-establishment appeal.</p>
+    <p>Since winning 159 seats (a supermajority) and forming government in 2024, the NPP's concrete cricket reform actions amount to: a budget review meeting in August 2025, the appointment of a Deputy Sports Minister (Sugath Thilakarathne), and a general instruction to "prepare a sports development plan." That's it.</p>
+    <p>Meanwhile, Shammi Silva was re-elected uncontested in March 2025 — under the NPP's watch. The "anti-corruption" government stood by while the same board they called corrupt consolidated power.</p>
+  </div>
+
+  <div class="alert-callout">
+    <div class="label">Is it rhetorical capture?</div>
+    <p>The assessment that the NPP "used emotional rhetoric to attain power" is partially correct but incomplete. The NPP's inaction on cricket stems from three structural constraints: (1) the ICC suspension precedent of 2023 made any government directly aware that interference triggers international isolation, (2) the NPP's economic reform agenda consumes all political capital — cricket reform yields no immediate economic return, and (3) the SLC "mafia" has legal protections that make reform litigation-heavy and politically costly. It's less cynical manipulation and more structural powerlessness masked by rhetorical boldness.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(139,92,246,0.15);">&#128161;</span> Why They Look Powerless</h3>
+    <p><strong>The ICC Trap:</strong> The 2023 suspension taught every Sri Lankan politician the same lesson: touch SLC, get suspended by ICC, lose cricket, face public backlash. The ICC's "no government interference" rule was designed to protect boards from authoritarian governments — but in practice, it protects corrupt boards from democratic accountability.</p>
+    <p><strong>Legal Fortification:</strong> SLC operates under a specific act of parliament (Sri Lanka Cricket Act) and its elections are conducted under defined rules. Changing these rules requires legislative action, which is slow, contested, and gives SLC time to mobilise legal challenges.</p>
+    <p><strong>Political Prioritisation:</strong> The NPP inherited an economy in crisis — IMF program compliance, debt restructuring, public service reform. Cricket reform is politically symbolic but economically irrelevant. With limited political capital, it gets deprioritised.</p>
+    <p><strong>The Ironic Precedent:</strong> Former Sports Minister Mahindananda Aluthgamage was sentenced to 20 years in prison in May 2025 — but for corruption unrelated to cricket reform. The NPP's anti-corruption drive is real but hasn't been directed at SLC specifically.</p>
+  </div>
+</section>
+
+<!-- SECTION 8: RESTRUCTURING OPTIONS -->
+<section class="section fade-in" id="restructure">
+  <div class="section-header">
+    <div class="section-number">08 — Breaking the Deadlock</div>
+    <h2>Restructuring Options & How to Navigate the ICC</h2>
+    <p class="section-lead">If the NPP government had the political will, how could they "defeat" the mafia hold without triggering ICC sanctions? A strategic playbook.</p>
+  </div>
+
+  <!-- COMPARISON OF STRUCTURES -->
+  <div class="comparison-grid">
+    <div class="comparison-card">
+      <div class="country-flag">&#127462;&#127482;</div>
+      <h4>Australia Model</h4>
+      <ul class="detail-list">
+        <li><span class="check">&#10003;</span> 6 state associations with autonomy</li>
+        <li><span class="check">&#10003;</span> CA Board: 4 independent + 6 state directors</li>
+        <li><span class="check">&#10003;</span> Sheffield Shield as elite first-class competition</li>
+        <li><span class="check">&#10003;</span> Decentralised grassroots-to-national pathway</li>
+        <li><span class="check">&#10003;</span> BBL as commercial driver and finishing school</li>
+      </ul>
+    </div>
+    <div class="comparison-card">
+      <div class="country-flag">&#127470;&#127475;</div>
+      <h4>India (BCCI) Model</h4>
+      <ul class="detail-list">
+        <li><span class="check">&#10003;</span> State cricket associations elect BCCI president</li>
+        <li><span class="check">&#10003;</span> 5 geographic zones, 38 regional teams</li>
+        <li><span class="check">&#10003;</span> Ranji Trophy as elite domestic competition</li>
+        <li><span class="check">&#10003;</span> NCA in Bangalore — world-class academy</li>
+        <li><span class="check">&#10003;</span> IPL as financial engine and player development</li>
+      </ul>
+    </div>
+    <div class="comparison-card">
+      <div class="country-flag">&#127468;&#127463;</div>
+      <h4>England (ECB) Model</h4>
+      <ul class="detail-list">
+        <li><span class="check">&#10003;</span> 18 first-class counties with deep tradition</li>
+        <li><span class="check">&#10003;</span> Multi-division County Championship</li>
+        <li><span class="check">&#10003;</span> The Hundred as commercial format</li>
+        <li><span class="check">&#10003;</span> Professional women's tier system (Project Darwin)</li>
+        <li><span class="check">&#10003;</span> Strong regional club infrastructure</li>
+      </ul>
+    </div>
+    <div class="comparison-card">
+      <div class="country-flag">&#127473;&#127472;</div>
+      <h4>Sri Lanka (Current)</h4>
+      <ul class="detail-list">
+        <li><span class="cross">&#10007;</span> Centralized board with captured club voting</li>
+        <li><span class="cross">&#10007;</span> Weak provincial system, urban-centric</li>
+        <li><span class="cross">&#10007;</span> LPL plagued by corruption allegations</li>
+        <li><span class="cross">&#10007;</span> Brain Centre recently relocated (nascent analytics)</li>
+        <li><span class="cross">&#10007;</span> No genuine regional development pathway</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(0,204,136,0.15);">&#128736;</span> The Strategic Playbook: How a Savvy Politician Navigates This</h3>
+    <p>The key insight is that the ICC prohibits <em>government interference</em> in board governance — but it does <em>not</em> prohibit governments from changing the <em>legal framework</em> under which boards operate. This is the critical distinction.</p>
+
+    <p><strong>Phase 1: Legislative Reform (Months 1-6)</strong></p>
+    <p>Amend the Sri Lanka Cricket Act in parliament to mandate: (a) a provincial-based membership structure replacing the current club-based voting system, (b) mandatory inclusion of former international cricketers on the board, (c) independent financial auditing by a designated body, and (d) term limits for the presidency (max 2 terms). Frame this as "modernising the governance framework" — not removing the board. The ICC has explicitly supported governance reform in other contexts (BCCI's Lodha Committee reforms were mandated by India's Supreme Court and the ICC did not intervene).</p>
+
+    <p><strong>Phase 2: Provincial Cricket Boards (Months 6-18)</strong></p>
+    <p>Establish 9 Provincial Cricket Associations (matching Sri Lanka's 9 provinces) as the new member bodies of SLC. Each PCA runs its own domestic competitions, academies, and coaching programs. These PCAs — not captured cricket clubs — elect the SLC president and board. This structurally dismantles the club-based patronage network.</p>
+
+    <p><strong>Phase 3: ICC Engagement (Concurrent)</strong></p>
+    <p>Before any legislative action, engage the ICC proactively. Present the reforms as "anti-corruption measures aligned with ICC governance best practices." Invite ICC governance advisors to consult on the legislation. Make the ICC a partner in reform rather than an adversary. The ICC's preference is always for good governance — they suspended Sri Lanka reluctantly in 2023 and would welcome structural improvements.</p>
+
+    <p><strong>Phase 4: Financial Transparency (Months 12-24)</strong></p>
+    <p>Mandate that all SLC financial transactions above a threshold are published publicly. Create an independent Cricket Ombudsman with investigative powers. This doesn't "interfere" with cricket governance — it creates accountability infrastructure.</p>
+  </div>
+
+  <div class="insight-callout">
+    <div class="label">The BCCI Precedent — Why This Can Work</div>
+    <p>In 2016, India's Supreme Court appointed the Lodha Committee which mandated sweeping reforms to the BCCI: age limits, term limits, cooling-off periods, one-state-one-vote. The ICC did NOT suspend India, despite this being government (judicial) intervention. Why? Because the reforms were transparently aimed at better governance, not political capture. If Sri Lanka frames its reforms correctly — and engages the ICC early — the same logic applies. The ICC's real concern is governments installing puppet boards, not governments improving governance.</p>
+  </div>
+</section>
+
+<!-- SECTION 9: GAME THEORY -->
+<section class="section fade-in" id="gametheory">
+  <div class="section-header">
+    <div class="section-number">09 — Game Theory Analysis</div>
+    <h2>Strategic Scenario Modelling</h2>
+    <p class="section-lead">Analysing the reform options through a game theory lens: payoffs, risks, and Nash equilibria for key stakeholders.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(74,158,255,0.15);">&#127922;</span> The Players in the Game</h3>
+    <p><strong>Player A:</strong> NPP Government (wants anti-corruption credentials, fears ICC suspension backlash)<br>
+    <strong>Player B:</strong> SLC Board / "Mafia" (wants to retain power and financial flows)<br>
+    <strong>Player C:</strong> ICC (wants stable, autonomous governance; fears government capture)<br>
+    <strong>Player D:</strong> Fans/Public (wants winning cricket; short-term emotional, long-term disengaged)</p>
+  </div>
+
+  <table class="game-theory-table">
+    <thead>
+      <tr>
+        <th>Scenario</th>
+        <th>NPP Action</th>
+        <th>SLC Response</th>
+        <th>ICC Response</th>
+        <th>Outcome</th>
+        <th>Payoff</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Status Quo</strong></td>
+        <td>Do nothing</td>
+        <td>Continues as-is</td>
+        <td>No action</td>
+        <td>Continued decline, fan disillusionment, NPP loses reform credibility</td>
+        <td class="payoff-low">Low for all except SLC Board</td>
+      </tr>
+      <tr>
+        <td><strong>2. Direct Intervention</strong> (2023 repeat)</td>
+        <td>Remove board by executive order</td>
+        <td>Court challenge + ICC appeal</td>
+        <td>Suspension (immediate)</td>
+        <td>ICC ban, international isolation, public backlash against government</td>
+        <td class="payoff-low">Catastrophic for all</td>
+      </tr>
+      <tr>
+        <td><strong>3. Legislative Reform</strong> (recommended)</td>
+        <td>Amend SLC Act for provincial structure + term limits</td>
+        <td>Legal challenges, lobbying</td>
+        <td>Neutral to positive (if consulted early)</td>
+        <td>Structural dismantling of patronage; 12-18 month transition; SLC board fights but loses legal basis</td>
+        <td class="payoff-high">High for Govt, Public, Cricket. Low for SLC Mafia</td>
+      </tr>
+      <tr>
+        <td><strong>4. ICC-Partnered Reform</strong></td>
+        <td>Invite ICC governance review; implement recommendations</td>
+        <td>Cannot resist ICC-endorsed reforms</td>
+        <td>Actively supports</td>
+        <td>Reform with ICC legitimacy shield. Slower but politically safe.</td>
+        <td class="payoff-high">High for all except SLC incumbents</td>
+      </tr>
+      <tr>
+        <td><strong>5. Financial Transparency Only</strong></td>
+        <td>Mandate public auditing of SLC finances</td>
+        <td>Compliance (difficult to resist transparency)</td>
+        <td>Neutral (not governance interference)</td>
+        <td>Exposes financial irregularities; creates pressure for board change; board may still survive</td>
+        <td class="payoff-med">Medium — exposes but doesn't replace</td>
+      </tr>
+      <tr>
+        <td><strong>6. Hybrid: 3+4+5</strong></td>
+        <td>Legislative reform + ICC partnership + mandatory auditing</td>
+        <td>Multi-front resistance but weakened legal position</td>
+        <td>Supportive (comprehensive approach)</td>
+        <td>Most robust: legal basis for restructuring, ICC cover, financial accountability. Takes 18-24 months.</td>
+        <td class="payoff-high">Optimal Nash Equilibrium</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="insight-callout">
+    <div class="label">Nash Equilibrium</div>
+    <p><strong>Scenario 6 (Hybrid)</strong> represents the Nash Equilibrium — the point where no single player can improve their position by unilaterally changing strategy. The government gets reform credentials, the ICC gets better governance, the public gets accountability, and the SLC "mafia" loses its structural advantages without triggering international sanctions. The only loser is the corrupt status quo.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(255,140,0,0.15);">&#9888;</span> The SLC Board's Best Response</h3>
+    <p>The rational move for the SLC "mafia" under Scenario 6 is to <strong>co-opt the reform process</strong> — appear to cooperate while lobbying to water down the legislation. They would likely (a) challenge term limits in court as unconstitutional, (b) argue provincial boards are "too expensive" to establish, (c) use their ACC/ICC relationships to frame government action as interference, and (d) mobilise their club network to protest reforms as "destroying grassroots cricket."</p>
+    <p>The government's counter-strategy must be: <strong>speed and comprehensiveness</strong>. Pass the legislative package before legal challenges can crystallise. Use the NPP's 159-seat supermajority to move quickly. Have ICC consultation documented before the bill is tabled. Make the reform irreversible within one parliamentary session.</p>
+  </div>
+</section>
+
+<!-- SECTION 10: SKILLS GAP & ANALYTICS -->
+<section class="section fade-in" id="skills">
+  <div class="section-header">
+    <div class="section-number">10 — The Skills Gap & Analytics Deficit</div>
+    <h2>Fielding, Patience, Game-Reading & The Data Desert</h2>
+    <p class="section-lead">Sri Lanka recently hired India's former fielding coach R. Sridhar for a 10-day program. Australia has permanent analytics departments with real-time data. That gap tells the entire story.</p>
+  </div>
+
+  <div class="skill-grid">
+    <div class="skill-card">
+      <h4>&#127919; Fielding</h4>
+      <p>SLC hired R. Sridhar (India's former fielding coach) for a 10-day program in May 2025. India had Sridhar embedded for 7 years across 300+ international matches. The comparison: Sri Lanka gets a masterclass; India gets a system. SLC also hired Anton Roux as permanent fielding coach, but institutional depth remains lacking.</p>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width: 35%; background: var(--accent-red);"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <h4>&#128202; Analytics</h4>
+      <p>SLC's "Brain Centre" was recently relocated to the High Performance Centre in Colombo — a positive step. But compare this to Australia's dedicated data science teams, England's CricViz partnership, or India's multi-million dollar analytics infrastructure. Sri Lanka is at least 5-7 years behind in data-driven decision-making for team selection, match strategy, and player development.</p>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width: 20%; background: var(--accent-red);"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <h4>&#128340; Patience & Game Management</h4>
+      <p>The collapse from 84/6 to 168/7 against NZ, and the inability to construct a chase of 169, reveal a fundamental game management deficit. T20 cricket rewards boldness but also requires situational awareness — when to attack, when to rotate. Sri Lanka's batters either block or blast, with no intermediate gears. This is a coaching and mentoring gap, not a talent gap.</p>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width: 30%; background: var(--accent-orange);"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <h4>&#128260; Playing Spin</h4>
+      <p>Ironic for a nation that produced Muralitharan: Rachin Ravindra's part-time left-arm spin took 4/27 to destroy Sri Lanka's batting. Playing spin requires footwork, reading variations, and shot selection under pressure — skills that require specific practice against quality spinners. The domestic cricket system doesn't provide enough high-quality spin exposure because domestic pitches increasingly favour pace.</p>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width: 25%; background: var(--accent-red);"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <h4>&#129504; Mental Conditioning</h4>
+      <p>Perhaps the single biggest gap. Australia employs full-time sports psychologists embedded with every team. India's NCA has a dedicated mental conditioning program. Sri Lanka has no publicly known permanent sports psychology infrastructure for the national team. In a country where social media abuse is pervasive, this is an existential gap.</p>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width: 15%; background: var(--accent-red);"></div></div>
+    </div>
+
+    <div class="skill-card">
+      <h4>&#128200; Holistic Game Vision</h4>
+      <p>The golden-era players could "see" a game as a unified whole — batting, bowling, and fielding as interconnected strategies. Today's players are specialists in silos. This stems from T20-focused development where "one skill" is rewarded by franchise leagues. Correcting this requires deliberate multi-format exposure and coaching that teaches game scenarios, not just skills.</p>
+      <div class="skill-bar"><div class="skill-bar-fill" style="width: 30%; background: var(--accent-orange);"></div></div>
+    </div>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(0,212,255,0.15);">&#128202;</span> Are Sri Lankans Using Analytics Properly?</h3>
+    <p><strong>Short answer: No.</strong> The Brain Centre relocation is a start, but analytics in cricket is not about having a room with computers — it's about having data scientists embedded in coaching decisions, real-time match analysis fed to the captain, predictive modelling for player selection, and biomechanical analysis for injury prevention.</p>
+    <p>Australia uses Hawk-Eye data to analyse every delivery in domestic cricket. India's BCCI partners with technology companies for player tracking. England's ECB has a formal data analytics pipeline from county cricket to international selection. Sri Lanka has a recently-relocated Brain Centre and an occasional hire of foreign consultants. The gap is structural, not incidental.</p>
+  </div>
+</section>
+
+<!-- SECTION 11: BCCI/IPL AXIS -->
+<section class="section fade-in" id="bcci">
+  <div class="section-header">
+    <div class="section-number">11 — The BCCI/IPL Axis</div>
+    <h2>India's Gravitational Pull & The Small Nation Trap</h2>
+    <p class="section-lead">India is "the sun, and the remainder are merely planets in its orbit." For a small nation like Sri Lanka, the IPL is simultaneously the best development opportunity and the greatest existential threat.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-gold);">7</div>
+      <div class="label">SL Players in IPL 2025</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-red);">5</div>
+      <div class="label">Key SL Players Unsold at IPL Auction</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-orange);">6</div>
+      <div class="label">Tests Scheduled for SL in 2026</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="color: var(--accent-red);">15%</div>
+      <div class="label">Geographic Talent Pool Actually Accessed</div>
+    </div>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(255,215,0,0.15);">&#127758;</span> The BCCI-ICC Power Equation</h3>
+    <p>The BCCI's financial dominance has restructured global cricket into a heliocentric model. India generates the overwhelming majority of ICC's broadcast revenue, giving the BCCI de facto veto power over governance decisions. As a February 2026 Al Jazeera analysis noted: "India is inarguably the greatest cricketing superpower there ever has been." Even during the days of the Imperial Cricket Conference, Australia and England could check each other. No such checks exist against the BCCI.</p>
+    <p>Sri Lanka has been "among the BCCI's most loyal allies" at the ICC for over a decade — supporting India's positions on revenue distribution, governance structures, and tournament hosting. The 2026 T20 World Cup itself illustrates the dynamic: Sri Lanka proposed hosting the entire tournament, but the expansion to 20 teams meant co-hosting with India, where the BCCI controlled the schedule, the majority of venues (5 India, 3 Sri Lanka), and the broadcast arrangements.</p>
+    <p>The reward for this loyalty? A shrinking Test calendar, diminishing bilateral series, and no protection from the BCCI's franchise expansion.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(255,58,58,0.15);">&#128176;</span> The IPL Double-Edged Sword</h3>
+      <p><strong>What IPL gives:</strong> Seven Sri Lankan players earned IPL contracts in 2025, including Wanindu Hasaranga and Matheesha Pathirana. The IPL provides world-class coaching, analytics exposure, pressure-game experience, and financial security that SLC cannot match. Players who go through IPL systems return technically improved.</p>
+      <p><strong>What IPL takes:</strong> Players who earn millions in franchise cricket naturally prioritise those commitments. The scheduling is brutal — Sri Lanka's recent tour ended just ONE day before the IPL and PSL commenced. There is no recovery window, no preparation time for national duty. Players arrive at international series mentally and physically spent from franchise obligations.</p>
+      <p><strong>The unsold signal:</strong> Kusal Mendis, Pathum Nissanka, Charith Asalanka, Dunith Wellalage, and Dasun Shanaka — key national players — went unsold at the IPL 2025 auction. This creates a psychological divide within the squad: players with IPL contracts have financial security and confidence; those unsold carry rejection and financial anxiety into national duty.</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(255,140,0,0.15);">&#9888;</span> The "Injury" Withdrawal Problem</h3>
+      <p><strong>The pattern:</strong> IPL franchises have formally recommended a two-year ban on overseas players who make themselves unavailable after being bought at auction "without legitimate cause." The problem extends beyond IPL — across franchise leagues globally, players strategically withdraw from national duty citing injuries that mysteriously heal in time for lucrative franchise commitments.</p>
+      <p><strong>Current safeguards (weak):</strong> The ICC working group has recommended a maximum of 4 overseas players in T20 franchise XIs, a minimum of 4 local players, and a 10% release fee paid to national boards when their players participate in franchise leagues. These measures are insufficient — they address symptoms, not the structural incentive problem.</p>
+      <p><strong>The Trent Boult precedent:</strong> New Zealand's Trent Boult opted out of his central contract to pursue franchise cricket with better "work-life balance." For a small nation like Sri Lanka, if even one or two key players make similar choices, the national team loses irreplaceable talent. The BCCI's policy of not allowing Indian players to play in foreign leagues while encouraging IPL owners to invest globally creates an asymmetric playing field that fundamentally disadvantages smaller boards.</p>
+      <p><strong>The LPL paradox:</strong> Sri Lanka's own Lanka Premier League was meant to retain talent domestically and generate revenue. Instead, it was corruption-plagued (two franchises — Jaffna Kings and Colombo Strikers — were terminated for contractual failures), was postponed in 2025, and became yet another corruption vector rather than a development tool.</p>
+    </div>
+  </div>
+
+  <div class="alert-callout">
+    <div class="label">The Small Nation Talent Calculus</div>
+    <p>Sri Lanka draws from an effective talent pool of approximately 4-5 million (accounting for geographic, ethnic, and economic barriers to access). Australia draws from 26 million, England from 56 million, India from 1.4 billion. When you expose this tiny talent pool to the IPL's financial gravity — where even mid-tier franchise salaries exceed SLC central contracts — the incentive structure collapses. Players rationally prioritise franchise income over national duty. The solution isn't moral appeals to patriotism; it's structural reform that makes the national team financially and professionally competitive with franchise alternatives. SLC's current revenue structure, crippled by corruption, cannot achieve this.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(139,92,246,0.15);">&#127922;</span> The Franchise Expansion Map</h3>
+    <p>IPL franchise owners now control teams across multiple leagues globally: SA20 (South Africa), ILT20 (UAE), Major League Cricket (USA), and are now investing in The Hundred (England). This creates a global franchise network where the BCCI's influence extends far beyond India's borders. Pakistan players are already being informally excluded from IPL-linked leagues across multiple countries.</p>
+    <p>For Sri Lanka, this means: (a) their players who get IPL contracts become embedded in a BCCI-controlled ecosystem, (b) the LPL cannot compete with IPL-linked leagues for franchise investment or player commitment, (c) SLC has no leverage in negotiations because India's broadcast revenue underwrites the ICC, and (d) any attempt to assert independence risks the BCCI's financial displeasure. Sri Lanka is trapped in a dependency relationship where loyalty yields no protection and independence yields punishment.</p>
+  </div>
+</section>
+
+<!-- SECTION 12: CALENDAR CRISIS -->
+<section class="section fade-in" id="calendar">
+  <div class="section-header">
+    <div class="section-number">12 — The Calendar Crisis</div>
+    <h2>The Slow Death of Sri Lankan Test Cricket</h2>
+    <p class="section-lead">Sri Lanka played as few as 4 Tests in a recent year. Australia plays 12-15 annually. This isn't a scheduling quirk — it's a structural dismantling of the format that builds the skills Sri Lanka most desperately needs.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background: rgba(0,212,255,0.15);">&#128197;</span> The Calendar Squeeze</h3>
+    <p>The ICC does not control the international cricket calendar the way FIFA controls football's calendar. It has "satisfied itself with carving out a slot for its annual events" while leaving bilateral scheduling to the boards. The result: the Big Three (India, England, Australia) play packed schedules of lucrative bilateral series against each other, while smaller nations scramble for whatever is left.</p>
+    <p>Sri Lanka's Test schedule has been steadily shrinking. In 2026, only 6 Tests are scheduled. For comparison, India and England regularly play 4-5 Test series against each other alone. The World Test Championship requires all Full Members to play each other at least twice over 10 years — but "two" is the minimum, and for smaller boards, two is usually all they get.</p>
+    <p>The T20 World Cup and Champions Trophy now absorb 26% of the available calendar. Add the IPL window (April-June), other franchise leagues, and mandatory rest periods, and the space for bilateral Test cricket between smaller nations shrinks to almost nothing. South Africa — who just became World Test Champions — aren't scheduled to host a home Test until October 2026.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(255,58,58,0.15);">&#128200;</span> Why This Kills Sri Lanka Specifically</h3>
+      <p><strong>Test cricket builds the skills SL needs most.</strong> The patience, game management, spin bowling depth, batting technique, and strategic thinking that Sri Lanka's golden era was built on — these are all Test cricket skills. Sangakkara, Jayawardene, and Muralitharan were forged in 5-day cricket. T20-first development produces explosive but brittle cricketers who can't construct an innings or bowl through a long spell.</p>
+      <p><strong>Home Tests generate development.</strong> When Sri Lanka hosts Tests, it exposes domestic players to international-quality cricket through practice games, ground preparation, and media coverage. Fewer home Tests means less exposure, less interest, and less development pressure on the domestic system.</p>
+      <p><strong>The revenue spiral.</strong> Fewer Tests = less broadcast revenue = less investment in development = weaker teams = even fewer broadcasters willing to pay for Sri Lanka Tests = even fewer Tests. This is a self-reinforcing decline that cannot be reversed without external intervention.</p>
+    </div>
+
+    <div class="analysis-block">
+      <h3><span class="icon" style="background: rgba(0,204,136,0.15);">&#128161;</span> The Two-Tier Debate</h3>
+      <p>ICC chair Jay Shah is reportedly discussing a two-tier Test system: a top flight of 7 nations (England, Australia, India, South Africa, Pakistan, Sri Lanka, New Zealand) with the rest in Division 2. Sri Lanka would likely be in Tier 1 based on historical standing, but their current form puts that position at risk.</p>
+      <p><strong>The danger:</strong> If Sri Lanka falls to Tier 2, it triggers a catastrophic decline — fewer marquee opponents, less broadcast value, reduced ICC funding, and a talent exodus as players choose franchise cricket over second-tier international duty. It would be, in effect, the end of Sri Lanka as a competitive Test nation.</p>
+      <p><strong>The opportunity:</strong> If properly structured, two tiers with promotion/relegation could give Sri Lanka guaranteed fixtures against top opposition and a clear competitive framework. But this requires the Big Three to accept reduced bilateral flexibility — something they have historically resisted.</p>
+      <p><strong>Four-day Tests:</strong> The ICC is also considering four-day Tests in the WTC to make Test cricket "more attainable for lower-ranked boards." While pragmatic, this further dilutes the format's unique demands — the very demands that develop complete cricketers. It's a band-aid on a structural wound.</p>
+    </div>
+  </div>
+
+  <div class="insight-callout">
+    <div class="label">The Former ICC Chair's Admission</div>
+    <p>Former ICC chair Greg Barclay admitted in 2024 that "cricket is ungovernable." The ICC is "a members' club in the name of a governing body, and the self-interest of members will always trump the wider welfare of the game." The finances are "unhealthily dependent on viewership from one country" — giving the BCCI "enormous sway over global decision-making." For Sri Lanka, this means reform must come not from the ICC (which is structurally captured) but from internal restructuring that maximises the value of whatever international cricket Sri Lanka does get to play.</p>
+  </div>
+</section>
+
+<!-- SECTION 13: HIDDEN INSIGHTS -->
+<section class="section fade-in" id="hidden">
+  <div class="section-header">
+    <div class="section-number">13 — The Undiscussed</div>
+    <h2>Insights Nobody Talks About</h2>
+    <p class="section-lead">The conversations that don't make it into mainstream cricket analysis — the structural, cultural, and geopolitical factors that shape Sri Lanka's cricket crisis.</p>
+  </div>
+
+  <div class="hidden-insights">
+    <h3>&#128270; The Rarely Discussed Dimensions</h3>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2); margin-bottom: 1rem;">
+      <h3 style="color: var(--accent-purple);">1. The Jayasuriya Paradox</h3>
+      <p>Sri Lanka's current head coach, Sanath Jayasuriya, was <strong>banned by the ICC in 2019</strong> for refusing to cooperate with an anti-corruption investigation. He is now the head coach of the team the ICC's own anti-corruption unit monitors most closely. This isn't just ironic — it sends a signal to players about the organisation's relationship with integrity. If the coach has unresolved corruption questions, how credible is the institutional message about playing clean? No mainstream analysis connects Jayasuriya's appointment to the ongoing corruption culture.</p>
+    </div>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2); margin-bottom: 1rem;">
+      <h3 style="color: var(--accent-purple);">2. The Economic Crisis as a Cricketing Crisis</h3>
+      <p>Sri Lanka's 2022 economic collapse didn't just affect fans emotionally — it materially degraded cricket infrastructure. Ground maintenance budgets were cut. Domestic tournament funding dried up. Coaches left for better-paying positions abroad. The nutritional and fitness baselines for emerging players declined because training facility standards dropped. The economic crisis hollowed out the cricket system in ways that won't be visible for another 3-5 years as the affected generation reaches international level.</p>
+    </div>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2); margin-bottom: 1rem;">
+      <h3 style="color: var(--accent-purple);">3. The Tamil & Muslim Talent Blackout</h3>
+      <p>Sri Lanka's Northern and Eastern provinces — majority Tamil and Muslim populations — have been systematically underinvested in cricket development since the civil war ended in 2009. Despite 17 years of "peace," there is no meaningful provincial cricket infrastructure in Jaffna, Batticaloa, or Trincomalee. In a country of 22 million, excluding ~30% of the population from the talent pipeline is mathematically devastating. India draws from 1.4 billion across all regions; Sri Lanka effectively draws from 15 million in the Sinhalese south and west.</p>
+    </div>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2); margin-bottom: 1rem;">
+      <h3 style="color: var(--accent-purple);">4. The "Assistant Coach" Brain Drain</h3>
+      <p>Sri Lanka's best coaching minds — the mid-level assistant coaches and analysts who actually develop players — are being hired away by richer cricket boards and franchise leagues. Pakistan, Afghanistan, and even lower-ranked nations offer better salaries for coaching talent than SLC. This creates a paradox: Sri Lankan coaching expertise improves cricket everywhere in the world <em>except</em> Sri Lanka. The Brain Centre upgrade means nothing if you can't retain the brains.</p>
+    </div>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2); margin-bottom: 1rem;">
+      <h3 style="color: var(--accent-purple);">5. The LPL as a Corruption Multiplier</h3>
+      <p>The Lanka Premier League was meant to be SLC's IPL — a revenue generator and development tool. Instead, it has become another vector for corruption. Praveen Jayawickrama was charged for failing to report fixing approaches during the LPL. The league has been postponed (2025 LPL was delayed), franchise owners have faced allegations of financial irregularities, and the competition has become a liability rather than an asset. Rather than developing talent, it has created more corruption exposure for young players.</p>
+    </div>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2); margin-bottom: 1rem;">
+      <h3 style="color: var(--accent-purple);">6. The Geopolitics of Cricket Influence</h3>
+      <p>Shammi Silva's dual role as SLC President and ACC President gives the Sri Lankan "mafia" regional influence that makes them harder to dislodge. Any ICC action against SLC now risks destabilising the ACC power structure. The corrupt leadership has effectively created a mutual protection pact at the regional governance level — a sophisticated move that insulates them from reform pressure both domestically and internationally.</p>
+    </div>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2); margin-bottom: 1rem;">
+      <h3 style="color: var(--accent-purple);">7. Cricket as Emotional Infrastructure in a Fragile State</h3>
+      <p>During the 2022 economic crisis, Al Jazeera reported that cricket served as "mental healing" for Sri Lankans — a unifying force in a country torn by racial, religious, and political divisions. When the cricket team fails, it doesn't just disappoint sports fans — it removes one of the few remaining sources of collective positive national identity. The stakes of cricket reform in Sri Lanka are not merely sporting; they are psychosocial. A failing cricket team in a fragile post-crisis society amplifies hopelessness in ways that are difficult to quantify but real in their impact.</p>
+    </div>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2); margin-bottom: 1rem;">
+      <h3 style="color: var(--accent-purple);">8. The IPL "Caste System" Within the Squad</h3>
+      <p>The IPL auction creates an invisible hierarchy within the Sri Lankan squad that nobody discusses publicly. Players with IPL contracts (Hasaranga, Pathirana) carry financial security, international prestige, and confidence into the dressing room. Players who went unsold (Mendis, Nissanka, Asalanka, Shanaka, Wellalage) carry rejection and financial anxiety. This split isn't just psychological — it affects team dynamics. IPL-contracted players have exposure to world-class analytics, coaching, and preparation; the unsold players return to SLC's comparatively primitive setup. The squad effectively operates at two different professional standards simultaneously, and the captain must manage both groups.</p>
+    </div>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2); margin-bottom: 1rem;">
+      <h3 style="color: var(--accent-purple);">9. The BCCI's Soft Colonialism of Asian Cricket</h3>
+      <p>Shammi Silva's dual role as SLC and ACC President appears to serve BCCI interests more than Sri Lankan ones. India's influence over the ACC means that Asian cricket's governance structures — from tournament hosting to revenue distribution to Future Tour Programme scheduling — are oriented around India's priorities. Sri Lanka's "alliance" with the BCCI has yielded co-hosting rights (on India's terms) but no meaningful structural benefits. This is what political scientists call "soft hegemony" — the appearance of partnership masking an asymmetric power relationship where one party sets all the terms.</p>
+    </div>
+
+    <div class="analysis-block" style="background: transparent; border: 1px solid rgba(139,92,246,0.2);">
+      <h3 style="color: var(--accent-purple);">10. The Selection Committee as Political Instrument</h3>
+      <p>Selection committees in SLC are not independent meritocratic bodies — they are appointed by the SLC board and, by extension, aligned with the board's political interests. Player selection becomes a tool for rewarding loyalty, punishing dissent, and maintaining the patronage network. Players who speak out against SLC governance find themselves mysteriously "rested." Players aligned with the right power brokers get longer ropes. This is impossible to prove with direct evidence but is widely understood within the cricket community — and it creates a culture of silence among players who know that their careers depend on not challenging the system.</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- end main-content -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Political Research Dossier — The Death of Sri Lankan Cricket<br>
+  Analysis prepared February 2026 | Sources include ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec<br>
+  <a href="https://dgtl.lk" target="_blank">DGTL Research</a></p>
+</div>
+
+<script>
+// Scroll animation observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Active nav tracking
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 100;
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-02-26",
+  "dossiers": [
+    {
+      "id": "easter-sunday-attacks-suresh-sallay",
+      "date": "2026-02-26",
+      "title": "The Arrest of Suresh Sallay: Easter Sunday Attacks Political Dossier",
+      "description": "A deep investigation into the arrest of intelligence operative Suresh Sallay, the Easter Sunday bombings conspiracy, and the political machinations connecting Sri Lanka's intelligence apparatus to the worst terrorist attack in the nation's history.",
+      "authors": ["Riz Razak"],
+      "tags": ["Terrorism", "Sri Lanka", "Politics", "Intelligence", "Religion", "Conspiracy"],
+      "thumbnailUrl": "/images/thumbnails/easter-sunday-attacks-suresh-sallay.jpg",
+      "contentUrl": "/dossiers/easter-sunday-attacks-suresh-sallay/index.html",
+      "sections": 8,
+      "features": ["Conspiracy board", "Player connections", "Timeline analysis"],
+      "status": "published"
+    },
+    {
+      "id": "sri-lanka-cricket-corruption",
+      "date": "2026-02-25",
+      "title": "The Death of Sri Lankan Cricket: Politics, Mafia & The Road to Ruin",
+      "description": "How political patronage, a \"cricket mafia\", toxic fan culture, and systemic institutional rot destroyed a once-proud cricketing nation — and why the new government appears powerless to fix it.",
+      "authors": ["Riz Razak"],
+      "tags": ["Cricket", "Corruption", "Sports", "Politics", "Sri Lanka"],
+      "thumbnailUrl": "/images/thumbnails/sri-lanka-cricket-corruption.jpg",
+      "contentUrl": "/dossiers/sri-lanka-cricket-corruption/index.html",
+      "sections": 13,
+      "features": ["Game theory analysis", "Conspiracy board", "Stakeholder mapping"],
+      "status": "published"
+    }
+  ]
+}
