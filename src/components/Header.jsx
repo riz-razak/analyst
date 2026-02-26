@@ -96,7 +96,7 @@ export default function Header({ theme, toggleTheme }) {
         style={{ ...styles.title, cursor: isHome ? 'default' : 'pointer' }}
         onClick={() => !isHome && navigate('/')}
       >
-        Political Analysis
+        Digging Deep
       </h1>
       <p style={styles.subtitle}>Deep analysis beyond the headlines</p>
       <p style={styles.author}>Riz Razak</p>
