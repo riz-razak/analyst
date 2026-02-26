@@ -43,10 +43,27 @@
   .hero-stat .val { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 800; color: var(--accent-red); }
   .hero-stat .lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
 
-  .nav-container { position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); padding: 0 2rem; overflow-x: auto; }
-  .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 0; }
-  .nav-link { padding: 14px 18px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.3s; }
+  .nav-container { position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); padding: 0; }
+  .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 0; padding: 0 1rem; }
+  .nav-link { padding: 11px 14px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.3s; }
   .nav-link:hover, .nav-link.active { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+  .nav-back { padding: 11px 14px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--accent-cyan); text-decoration: none; white-space: nowrap; opacity: 0.75; transition: opacity 0.2s; }
+  .nav-back:hover { opacity: 1; }
+  .nav-theme-btn { background: none; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-muted); cursor: pointer; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; padding: 5px 12px; margin: auto 0 auto 8px; transition: all 0.2s; align-self: center; }
+  .nav-theme-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+  [data-theme="light"] { --bg-primary: #f8f7f4; --bg-secondary: #edece7; --bg-tertiary: #e3e2dc; --bg-card: #e8e7e2; --text-primary: #1a1a2e; --text-secondary: #3a3a52; --text-muted: #5a5a72; --border-color: rgba(0,0,0,0.1); --glow-red: rgba(200,0,0,0.1); --glow-gold: rgba(160,110,0,0.12); }
+  [data-theme="light"] .nav-container { background: rgba(248,247,244,0.96); }
+  [data-theme="light"] .hero { background: radial-gradient(ellipse at center, rgba(180,60,0,0.07) 0%, #f8f7f4 70%); }
+  [data-theme="light"] .hero h1 { background: linear-gradient(135deg, #1a1a2e 0%, #b04000 50%, #aa1a00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  [data-theme="light"] .hero-stat { background: rgba(180,50,0,0.05); border-color: rgba(180,50,0,0.15); }
+  [data-theme="light"] .section h2, [data-theme="light"] .analysis-block h3, [data-theme="light"] .node .node-name { color: #1a1a2e; }
+  [data-theme="light"] .board-title { color: var(--accent-red); }
+  .ml-banner { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; background: rgba(10,10,15,0.97); border-top: 1px solid rgba(255,215,0,0.22); padding: 0.9rem 2rem; align-items: center; gap: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; }
+  [data-theme="light"] .ml-banner { background: rgba(30,28,24,0.97); }
+  .ml-banner p { flex: 1; color: #a0a0b8; line-height: 1.5; margin: 0; }
+  .ml-banner-agree { background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.35); color: var(--accent-gold); padding: 7px 16px; border-radius: 6px; cursor: pointer; font-family: inherit; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; transition: background 0.2s; }
+  .ml-banner-agree:hover { background: rgba(255,215,0,0.2); }
+  .ml-banner-close { background: none; border: none; color: #6a6a80; cursor: pointer; font-size: 1.2rem; padding: 2px 6px; line-height: 1; }
 
   .main-content { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
   .section { padding: 5rem 0; border-bottom: 1px solid var(--border-color); }
@@ -155,7 +172,7 @@
 
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-badge">Breaking &mdash; Political Research Dossier</div>
+    <div class="hero-badge">Deep Dives &mdash; analyst.rizrazak.com</div>
     <h1>The Sallay Arrest &amp; the Easter Sunday Conspiracy</h1>
     <p class="hero-subtitle">How Sri Lanka's intelligence apparatus allegedly orchestrated the deadliest terrorist attack in the nation's history to engineer a presidential election &mdash; and why a dawn arrest on 26 February 2026 may finally crack the case open.</p>
     <div class="hero-meta">
@@ -178,6 +195,7 @@
 <!-- NAVIGATION -->
 <nav class="nav-container">
   <div class="nav-inner">
+    <a href="https://analyst.rizrazak.com" class="nav-back">← Deep Dives</a>
     <a href="#arrest" class="nav-link active">The Arrest</a>
     <a href="#sallay" class="nav-link">Who Is Sallay?</a>
     <a href="#zahran" class="nav-link">Zahran Deep Dive</a>
@@ -192,6 +210,7 @@
     <a href="#gametheory" class="nav-link">Game Theory</a>
     <a href="#scenarios" class="nav-link">Scenarios</a>
     <a href="#sources" class="nav-link">Sources</a>
+    <button id="theme-toggle" class="nav-theme-btn" onclick="toggleTheme()">☾ Dark</button>
   </div>
 </nav>
 
@@ -499,11 +518,16 @@
 </div>
 
 <div class="footer">
-  <p>Political Research Dossier &mdash; The Sallay Arrest &amp; the Easter Sunday Conspiracy<br>
-  Analysis compiled 25&ndash;26 February 2026 | <a href="https://analyst.rizrazak.com/">analyst.rizrazak.com</a></p>
-  <div class="disclaimer-box">
-    <strong>ML-Assisted Research Disclaimer:</strong> This dossier was generated with the assistance of machine learning (ML) models and large language models (LLMs) for research aggregation, analysis synthesis, and document formatting. While every effort has been made to ensure factual accuracy through cross-referencing multiple authoritative sources, ML-generated analysis may contain errors, omissions, or inadvertent biases. <strong>All interpretive risk lies with the reader, not with the analyst.</strong> This document presents allegations alongside confirmed facts; the distinction is explicitly maintained throughout using verification tags. Allegations attributed to specific sources do not constitute established truth until proven through judicial proceedings. All subjects are presumed innocent until proven guilty. The game theory analysis represents probabilistic modelling and scenario planning, not prediction. This document is published for informational and analytical purposes only and does not constitute legal advice or journalistic reporting. For the analyst's professional profile and non-research work, visit <a href="https://www.rizrazak.com/">www.rizrazak.com</a>.
+  <p>
+    <a href="https://analyst.rizrazak.com" style="color:var(--accent-cyan);text-decoration:none;font-weight:600;">Deep Dives by Riz Razak</a> &mdash; analyst.rizrazak.com
+  </p>
+  <p style="margin-top:0.4rem;">
+    <a href="https://rizrazak.com" style="color:var(--accent-cyan);text-decoration:none;">rizrazak.com</a> &middot; <a href="https://dgtl.lk" target="_blank" rel="noopener noreferrer" style="color:var(--accent-cyan);text-decoration:none;">dgtl.lk</a>
+  </p>
+  <div class="disclaimer-box" style="margin-top:1.5rem;">
+    <strong>⚠ ML-Assisted Research:</strong> This dossier uses machine learning to augment human research and analysis. While every effort has been made to ensure accuracy, errors, omissions, or inadvertent biases may exist. <strong>All interpretive risk lies with the reader.</strong> Allegations are distinguished from confirmed facts throughout. All subjects are presumed innocent until proven guilty. This document is for informational purposes only and does not constitute legal advice or journalistic reporting.
   </div>
+  <p style="margin-top:1.2rem;">© 2026 Riz Razak</p>
 </div>
 
 <script>
@@ -522,6 +546,28 @@ window.addEventListener('scroll', () => {
 document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', (e) => { e.preventDefault(); const t = document.querySelector(link.getAttribute('href')); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 });
+</script>
+
+<!-- ML Disclaimer Banner -->
+<div id="ml-banner" class="ml-banner">
+  <span style="font-size:1.4rem;flex-shrink:0;">🤖</span>
+  <p><span style="color:var(--accent-gold);font-weight:700;">ML-Assisted Research:</span> This dossier uses machine learning to augment human research and analysis. Errors may exist — please fact-check independently. Reliance is at your own risk.</p>
+  <button class="ml-banner-agree" onclick="dismissBanner()">I Understand</button>
+  <button class="ml-banner-close" onclick="dismissBanner()">✕</button>
+</div>
+
+<script>
+(function(){
+  function getCookie(n){return document.cookie.split(';').some(function(c){return c.trim().startsWith(n+'=')})}
+  function dismissBanner(){var b=document.getElementById('ml-banner');if(b)b.style.display='none';document.cookie='ml_disclaimer=1;max-age=31536000;path=/;samesite=lax'}
+  window.dismissBanner=dismissBanner;
+  if(!getCookie('ml_disclaimer')){var b=document.getElementById('ml-banner');if(b)b.style.display='flex'}
+  function initTheme(){var stored=localStorage.getItem('analyst_theme');var t=stored||'dark';document.documentElement.setAttribute('data-theme',t==='light'?'light':'');updateBtn(t)}
+  function toggleTheme(){var cur=document.documentElement.getAttribute('data-theme')==='light'?'light':'dark';var next=cur==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',next==='light'?'light':'');localStorage.setItem('analyst_theme',next);updateBtn(next)}
+  function updateBtn(t){var b=document.getElementById('theme-toggle');if(b)b.textContent=t==='light'?'☀ Light':'☾ Dark'}
+  window.toggleTheme=toggleTheme;
+  initTheme();
+})();
 </script>
 </body>
 </html>

@@ -90,7 +90,7 @@ export default function Header({ theme, toggleTheme }) {
         role="button"
         tabIndex={0}
       >
-        Political Analysis Dossiers
+        Deep Dives
       </div>
       <h1
         style={{ ...styles.title, cursor: isHome ? 'default' : 'pointer' }}
@@ -99,7 +99,7 @@ export default function Header({ theme, toggleTheme }) {
         Digging Deep
       </h1>
       <p style={styles.subtitle}>Deep analysis beyond the headlines</p>
-      <p style={styles.author}>Riz Razak</p>
+      <p style={styles.author}>with<br />Riz Razak</p>
     </header>
   )
 }

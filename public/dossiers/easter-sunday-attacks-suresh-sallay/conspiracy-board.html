@@ -229,9 +229,46 @@
     font-size: 0.8rem;
     color: var(--muted);
   }
+  /* NAV */
+  .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0; }
+  .nav-inner { max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 0 1rem; }
+  .nav-link { padding: 11px 14px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--muted); text-decoration: none; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .nav-link:hover { color: var(--yellow); border-bottom-color: var(--yellow); }
+  .nav-back { padding: 11px 14px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--cyan); text-decoration: none; white-space: nowrap; opacity: 0.75; transition: opacity 0.2s; }
+  .nav-back:hover { opacity: 1; }
+  .nav-theme-btn { background: none; border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; font-size: 0.7rem; font-family: inherit; padding: 5px 12px; margin: auto 0 auto 8px; transition: all 0.2s; }
+  .nav-theme-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+  /* Light theme */
+  [data-theme="light"] { --bg: #f8f7f4; --surface: #edece7; --border: rgba(0,0,0,0.12); --text: #1a1a2e; --muted: #5a5a72; }
+  [data-theme="light"] .nav-bar { background: rgba(248,247,244,0.96); }
+  [data-theme="light"] .board-header { background: linear-gradient(180deg, rgba(239,68,68,0.05) 0%, #f8f7f4 100%); }
+  [data-theme="light"] .card h4 { color: #1a1a2e; }
+  /* Footer */
+  .site-footer { text-align: center; padding: 2rem 1.5rem; color: var(--muted); font-size: 0.72rem; border-top: 1px solid var(--border); line-height: 2; font-family: 'Segoe UI', -apple-system, sans-serif; }
+  .site-footer a { color: var(--cyan); text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; }
+  /* ML Banner */
+  .ml-banner { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; background: rgba(10,10,15,0.97); border-top: 1px solid rgba(234,179,8,0.22); padding: 0.9rem 2rem; align-items: center; gap: 1.5rem; font-size: 0.72rem; }
+  .ml-banner p { flex: 1; color: #a0a0b8; line-height: 1.5; margin: 0; }
+  .ml-banner-agree { background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.35); color: var(--yellow); padding: 7px 16px; border-radius: 6px; cursor: pointer; font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; transition: background 0.2s; }
+  .ml-banner-agree:hover { background: rgba(234,179,8,0.2); }
+  .ml-banner-close { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.2rem; padding: 2px 6px; line-height: 1; }
 </style>
 </head>
 <body>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a href="https://analyst.rizrazak.com" class="nav-back">← Deep Dives</a>
+    <a href="./index.html" class="nav-link">← Sallay Dossier</a>
+    <a href="#board" class="nav-link">Conspiracy Board</a>
+    <a href="#players" class="nav-link">Player Profiles</a>
+    <a href="#connections" class="nav-link">Connections</a>
+    <a href="#sources" class="nav-link">Sources</a>
+    <button id="theme-toggle" class="nav-theme-btn" onclick="toggleTheme()">☾ Dark</button>
+  </div>
+</nav>
 
 <div class="board-header">
   <h1>The Easter Sunday Conspiracy Board</h1>
@@ -984,5 +1021,40 @@
 
 </div><!-- /panels -->
 
+<!-- FOOTER -->
+<div class="site-footer">
+  <p>
+    <a href="https://analyst.rizrazak.com">Deep Dives by Riz Razak</a> &mdash; analyst.rizrazak.com
+  </p>
+  <p>
+    <a href="https://rizrazak.com">rizrazak.com</a> &middot; <a href="https://dgtl.lk" target="_blank" rel="noopener noreferrer">dgtl.lk</a>
+  </p>
+  <p style="margin-top:0.8rem;max-width:700px;display:inline-block;text-align:left;">
+    <strong style="color:var(--yellow);">⚠ ML-Assisted Research:</strong> This board uses machine learning to augment human research. Errors may exist — fact-check independently. Reliance is at your own risk.
+  </p>
+  <p style="margin-top:0.8rem;">© 2026 Riz Razak</p>
+</div>
+
+<!-- ML Disclaimer Banner -->
+<div id="ml-banner" class="ml-banner">
+  <span style="font-size:1.4rem;flex-shrink:0;">🤖</span>
+  <p><span style="color:var(--yellow);font-weight:700;">ML-Assisted Research:</span> This board uses machine learning to augment human research and analysis. Errors may exist — please fact-check independently. Reliance is at your own risk.</p>
+  <button class="ml-banner-agree" onclick="dismissBanner()">I Understand</button>
+  <button class="ml-banner-close" onclick="dismissBanner()">✕</button>
+</div>
+
+<script>
+(function(){
+  function getCookie(n){return document.cookie.split(';').some(function(c){return c.trim().startsWith(n+'=')})}
+  function dismissBanner(){var b=document.getElementById('ml-banner');if(b)b.style.display='none';document.cookie='ml_disclaimer=1;max-age=31536000;path=/;samesite=lax'}
+  window.dismissBanner=dismissBanner;
+  if(!getCookie('ml_disclaimer')){var b=document.getElementById('ml-banner');if(b)b.style.display='flex'}
+  function initTheme(){var stored=localStorage.getItem('analyst_theme');var t=stored||'dark';document.documentElement.setAttribute('data-theme',t==='light'?'light':'');updateBtn(t)}
+  function toggleTheme(){var cur=document.documentElement.getAttribute('data-theme')==='light'?'light':'dark';var next=cur==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',next==='light'?'light':'');localStorage.setItem('analyst_theme',next);updateBtn(next)}
+  function updateBtn(t){var b=document.getElementById('theme-toggle');if(b)b.textContent=t==='light'?'☀ Light':'☾ Dark'}
+  window.toggleTheme=toggleTheme;
+  initTheme();
+})();
+</script>
 </body>
 </html>
