@@ -58,11 +58,19 @@ body.dragging { cursor:grabbing; }
 }
 .cp img { width:100%; height:100%; object-fit:cover; object-position:top; filter:grayscale(10%) contrast(1.05); }
 .cp .av { font-size:3rem; line-height:1; }
+.cp .av-init {
+  font-family:'Bebas Neue',sans-serif; font-weight:400; letter-spacing:3px;
+  color:rgba(255,255,255,0.85); text-shadow:0 2px 8px rgba(0,0,0,0.5);
+}
 .card-hero  .cp { height:190px; }
+.card-hero  .cp .av-init { font-size:4.5rem; }
 .card-large .cp { height:140px; }
+.card-large .cp .av-init { font-size:3.5rem; }
 .card-med   .cp { height:105px; }
+.card-med   .cp .av-init { font-size:2.8rem; }
 .card-sm    .cp { height:80px; }
 .card-sm    .cp .av { font-size:2.2rem; }
+.card-sm    .cp .av-init { font-size:2.2rem; letter-spacing:2px; }
 
 /* emoji badge over photo */
 .cp { position:relative; }
@@ -237,7 +245,7 @@ body.dragging { cursor:grabbing; }
      data-type="red,red,red,red,red,red,red,gold,purple">
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
-  <div class="cp" style="background:linear-gradient(155deg,#1a0000,#3d0000);height:140px;"><div class="av">👑</div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#1a0000,#3d0000);height:140px;"><div class="av-init">SS</div><div class="em-badge">👑</div></div>
   <div class="cbody">
     <div class="cname">Shammi Silva</div>
     <div class="crole">SLC President — 4th Term · ACC President</div>
@@ -318,7 +326,7 @@ body.dragging { cursor:grabbing; }
      data-connect="jerome-coo" data-type="gold">
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
-  <div class="cp" style="background:linear-gradient(155deg,#080820,#181840);height:140px;"><div class="av">💼</div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#080820,#181840);height:140px;"><div class="av-init">AS</div><div class="em-badge">💼</div></div>
   <div class="cbody">
     <div class="cname">Ashley de Silva</div>
     <div class="crole">CEO — Since 2013 (13+ Years)</div>
@@ -334,7 +342,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t2" id="ravin" style="top:655px;left:312px;width:182px;">
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
-  <div class="cp" style="background:#0f172a;height:80px;"><div class="av" style="font-size:2.2rem;">👤</div></div>
+  <div class="cp" style="background:#0f172a;height:80px;"><div class="av-init">RW</div></div>
   <div class="cbody">
     <div class="cname">Ravin Wickramaratne</div>
     <div class="crole">Vice President — Re-elected 2025</div>
@@ -347,7 +355,7 @@ body.dragging { cursor:grabbing; }
      data-connect="selection" data-type="purple">
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
-  <div class="cp" style="background:#0f172a;height:80px;"><div class="av" style="font-size:2.2rem;">📋</div></div>
+  <div class="cp" style="background:#0f172a;height:80px;"><div class="av-init">BD</div></div>
   <div class="cbody">
     <div class="cname">Bandula Dissanayake</div>
     <div class="crole">Secretary — New 2025</div>
@@ -360,7 +368,7 @@ body.dragging { cursor:grabbing; }
      data-connect="tvmoney" data-type="gold">
   <div class="pin pg"></div>
   <div class="cb"><div class="g"></div></div>
-  <div class="cp" style="background:#1c1500;height:80px;"><div class="av" style="font-size:2.2rem;">💵</div></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><div class="av-init">SG</div></div>
   <div class="cbody">
     <div class="cname">Sujeewa Godaliyadda</div>
     <div class="crole">Treasurer — Re-elected 2025</div>
@@ -372,7 +380,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t5" id="jerome-coo" style="top:660px;left:1080px;width:178px;">
   <div class="pin pg"></div>
   <div class="cb"><div class="g"></div></div>
-  <div class="cp" style="background:#1c1500;height:80px;"><div class="av" style="font-size:2.2rem;">⚙️</div></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><div class="av-init">JJ</div></div>
   <div class="cbody">
     <div class="cname">Jerome Jayarathne</div>
     <div class="crole">COO — Operations Chief</div>
@@ -384,7 +392,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t3" id="aruna" style="top:630px;left:1330px;width:172px;">
   <div class="pin pb"></div>
   <div class="cb"><div class="b"></div></div>
-  <div class="cp" style="background:#0a0020;height:80px;"><div class="av" style="font-size:2.2rem;">📁</div></div>
+  <div class="cp" style="background:#0a0020;height:80px;"><div class="av-init">AdS</div></div>
   <div class="cbody">
     <div class="cname">Aruna de Silva</div>
     <div class="crole">Head of Admin</div>
@@ -406,7 +414,7 @@ body.dragging { cursor:grabbing; }
      data-connect="voting" data-type="purple">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:105px;"><div class="av">🎰</div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:105px;"><div class="av-init">TS</div><div class="em-badge">🎰</div></div>
   <div class="cbody">
     <div class="cname">Thilanga Sumathipala</div>
     <div class="crole">Former President (4×) · MP</div>
@@ -551,7 +559,7 @@ body.dragging { cursor:grabbing; }
      data-connect="squad,bhanuka,chamika,vandersay,kalpage" data-type="purple,red,purple,purple,purple">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:140px;"><div class="av">✝️</div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:140px;"><div class="av-init">JF</div><div class="em-badge">✝️</div></div>
   <div class="cbody">
     <div class="cname">Prophet Jerome Fernando</div>
     <div class="crole">"Glorious Church" · Self-Proclaimed Prophet</div>
@@ -589,7 +597,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t8" id="kalpage" style="top:1708px;left:530px;width:175px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:80px;"><div class="av" style="font-size:2.2rem;">🏫</div></div>
+  <div class="cp" style="background:#180018;height:80px;"><div class="av-init">RK</div></div>
   <div class="cbody">
     <div class="cname">Ruwan Kalpage</div>
     <div class="crole">Emerging Team Coach</div>
@@ -601,7 +609,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t2" id="vandersay" style="top:1755px;left:776px;width:175px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:80px;"><div class="av" style="font-size:2.2rem;">🏏</div></div>
+  <div class="cp" style="background:#180018;height:80px;"><div class="av-init">JV</div></div>
   <div class="cbody">
     <div class="cname">Jeffrey Vandersay</div>
     <div class="crole">Spinner · Church Member</div>
@@ -613,7 +621,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-med t4" id="bhanuka" style="top:1700px;left:1020px;width:195px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:105px;"><div class="av">🏏</div></div>
+  <div class="cp" style="background:#180018;height:105px;"><div class="av-init">BR</div></div>
   <div class="cbody">
     <div class="cname">Bhanuka Rajapaksa</div>
     <div class="crole">Batsman · Born Again Convert</div>
@@ -628,7 +636,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-med t1" id="chamika" style="top:1680px;left:1280px;width:200px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:105px;"><div class="av">🪔</div></div>
+  <div class="cp" style="background:#180018;height:105px;"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Chamika.jpg" alt="Chamika Karunaratne"><div class="em-badge">🪔</div></div>
   <div class="cbody">
     <div class="cname">Chamika Karunaratne</div>
     <div class="crole">Bowler · Oil Lamp · Casino</div>
