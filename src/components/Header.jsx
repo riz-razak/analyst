@@ -84,14 +84,16 @@ export default function Header({ theme, toggleTheme }) {
           <span style={styles.themeLabel}>{theme === 'light' ? 'Dark' : 'Light'}</span>
         </button>
       )}
-      <div
-        style={styles.badge}
-        onClick={() => navigate('/')}
-        role="button"
-        tabIndex={0}
-      >
-        Deep Dives
-      </div>
+      {!isHome && (
+        <div
+          style={styles.badge}
+          onClick={() => navigate('/')}
+          role="button"
+          tabIndex={0}
+        >
+          Deep Dives
+        </div>
+      )}
       <h1
         style={{ ...styles.title, cursor: isHome ? 'default' : 'pointer' }}
         onClick={() => !isHome && navigate('/')}

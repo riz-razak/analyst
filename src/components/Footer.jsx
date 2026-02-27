@@ -34,7 +34,7 @@ export default function Footer() {
   return (
     <footer style={styles.footer}>
       <p>
-        © {new Date().getFullYear()} Riz Razak · <a href="https://rizrazak.com" style={styles.link} target="_blank" rel="noopener noreferrer">rizrazak.com</a> · <a href="https://dgtl.lk" style={styles.link} target="_blank" rel="noopener noreferrer">dgtl.lk</a>
+        © {new Date().getFullYear()} Riz Razak · <a href="https://rizrazak.com" style={styles.link} target="_blank" rel="noopener noreferrer">rizrazak.com</a>
       </p>
       <div style={styles.disclaimer}>
         <span style={styles.disclaimerLabel}>⚠ ML-Assisted Research:</span>{' '}
