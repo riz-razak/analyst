@@ -152,6 +152,8 @@
     gap: 0;
     row-gap: 0;
     position: relative;
+    padding-left: 98px;  /* space for social icons (3×28px + gaps) */
+    padding-right: 44px; /* space for theme toggle button */
   }
   .nav-socials {
     position: absolute;
@@ -1321,6 +1323,34 @@
     .cycle-container { flex-direction: column; }
     .cycle-arrow { transform: rotate(90deg); }
   }
+
+  /* ── FACEBOOK VIDEO BUTTON & MODAL ── */
+  #video-btn {
+    position:fixed; top:12px; right:14px; z-index:400;
+    background:rgba(24,119,242,0.9); color:#fff; border:none;
+    padding:7px 13px; border-radius:6px; font-family:'JetBrains Mono',monospace;
+    font-size:0.58rem; letter-spacing:1px; cursor:pointer; transition:all .2s;
+    display:flex; align-items:center; gap:6px; text-transform:uppercase;
+    box-shadow:0 2px 12px rgba(24,119,242,0.35);
+  }
+  #video-btn:hover { background:rgba(24,119,242,1); box-shadow:0 4px 20px rgba(24,119,242,0.55); }
+  #video-btn svg { width:12px; height:12px; fill:#fff; flex-shrink:0; }
+  #video-modal {
+    position:fixed; inset:0; z-index:600; background:rgba(0,0,0,0.85);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity .25s;
+  }
+  #video-modal.open { opacity:1; pointer-events:all; }
+  .vm-inner { background:#1a1a2e; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden; width:min(760px,95vw); box-shadow:0 20px 80px rgba(0,0,0,0.8); }
+  .vm-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background:rgba(24,119,242,0.15); border-bottom:1px solid rgba(24,119,242,0.2); }
+  .vm-title { font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:#fff; font-weight:600; }
+  .vm-sub { font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:rgba(255,255,255,0.4); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+  .vm-close { background:transparent; border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.6); width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:0.8rem; transition:all .2s; }
+  .vm-close:hover { border-color:rgba(255,255,255,0.3); color:#fff; }
+  .vm-body { position:relative; padding-top:56.25%; background:#000; }
+  .vm-body iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
+  .vm-placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
+  .vm-footer { padding:10px 20px; font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:rgba(255,255,255,0.25); letter-spacing:1px; text-align:center; }
 </style>
 </head>
 <body>
@@ -2316,7 +2346,7 @@
 <!-- COMMENTS FAB -->
 <button id="comments-fab" onclick="toggleComments()" title="Community Comments">
   💬
-  <span class="fab-count" id="fab-count">0</span>
+  <span class="fab-count" id="fab-count" style="display:none">0</span>
 </button>
 
 <!-- COMMENTS PANEL -->
@@ -2366,6 +2396,32 @@
   <span data-en="Analysis prepared February 2026 | Sources include ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec" data-si="විශ්ලේෂණය 2026 පෙබරවාරි මාසයේදී සකස් කරන ලදී | මූලාශ්‍ර අතර ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec ඇතුළත් වේ.">Analysis prepared February 2026 | Sources include ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec</span></p>
 </div>
 
+<!-- FACEBOOK VIDEO BUTTON -->
+<button id="video-btn" onclick="toggleVideo()">
+  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  Watch Video
+</button>
+
+<!-- FACEBOOK VIDEO MODAL -->
+<div id="video-modal" onclick="if(event.target===this)toggleVideo()">
+  <div class="vm-inner">
+    <div class="vm-header">
+      <div>
+        <div class="vm-title">The Journalistic Exposé</div>
+        <div class="vm-sub">Death of Sri Lankan Cricket · Facebook</div>
+      </div>
+      <button class="vm-close" onclick="toggleVideo()">✕</button>
+    </div>
+    <div class="vm-body" id="vm-body">
+      <div class="vm-placeholder" id="vm-placeholder">
+        <svg viewBox="0 0 24 24" fill="rgba(24,119,242,0.4)" width="48" height="48"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+    </div>
+    <div class="vm-footer">This video is an independent journalistic investigation. All claims are documented.</div>
+  </div>
+</div>
+
+
 <script>
 // ══════════════════════════════════════════
 // SCROLL ANIMATION OBSERVER
@@ -2376,9 +2432,21 @@ const observer = new IntersectionObserver((entries) => {
       entry.target.classList.add('visible');
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0, rootMargin: '0px 0px 120px 0px' });
 
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+document.querySelectorAll('.fade-in').forEach(el => {
+  // Immediately reveal if already in the viewport on load
+  const r = el.getBoundingClientRect();
+  if (r.top < window.innerHeight && r.bottom > 0) {
+    el.classList.add('visible');
+  }
+  observer.observe(el);
+});
+
+// Safety fallback: reveal all sections after 3s in case observer doesn't fire (e.g. iframe contexts)
+setTimeout(() => {
+  document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+}, 3000);
 
 // Active nav tracking
 const sections = document.querySelectorAll('.section[id]');
@@ -2634,7 +2702,9 @@ function renderComments(){
   const sortBar = document.getElementById('cp-sort-bar');
   const allReplies = loadReplies();
 
-  document.getElementById('fab-count').textContent = allComments.length;
+  const fabCountEl = document.getElementById('fab-count');
+  fabCountEl.textContent = allComments.length;
+  fabCountEl.style.display = allComments.length > 0 ? 'flex' : 'none';
   document.getElementById('comment-count-bar').textContent = allComments.length;
 
   feed.querySelectorAll('.comment-bubble,.comment-pending-notice').forEach(el=>el.remove());
@@ -2843,6 +2913,38 @@ document.addEventListener('DOMContentLoaded', function(){
   // Language — apply current language on page load
   applyLang(currentLang);
 });
+
+// ══════════════════════════════════════════
+// FACEBOOK VIDEO EMBED
+// ══════════════════════════════════════════
+const FB_VIDEO_URL = 'https://www.facebook.com/share/v/1AegWY5qoM/?mibextid=wwXIfr';
+let videoOpen = false;
+let videoLoaded = false;
+
+function toggleVideo(){
+  videoOpen = !videoOpen;
+  document.getElementById('video-modal').classList.toggle('open', videoOpen);
+  if(videoOpen && !videoLoaded && FB_VIDEO_URL){ loadFbVideo(); videoLoaded = true; }
+  if(!videoOpen){
+    videoLoaded = false;
+    document.getElementById('vm-body').innerHTML = '<div class="vm-placeholder"><svg viewBox="0 0 24 24" fill="rgba(24,119,242,0.4)" width="48" height="48"><path d="M8 5v14l11-7z"/></svg></div>';
+  }
+}
+
+function loadFbVideo(){
+  const encoded = encodeURIComponent(FB_VIDEO_URL);
+  const src = 'https://www.facebook.com/plugins/video.php?href='+encoded+'&show_text=false&width=734&mute=0';
+  const iframe = document.createElement('iframe');
+  iframe.src = src;
+  iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+  iframe.allow = 'autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share';
+  iframe.allowFullscreen = true;
+  const body = document.getElementById('vm-body');
+  body.innerHTML = '';
+  body.appendChild(iframe);
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape' && videoOpen) toggleVideo(); });
 
 // ══════════════════════════════════════════
 // DOSSIER LIGHT / DARK THEME
