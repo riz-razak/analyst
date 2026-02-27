@@ -56,7 +56,7 @@ body.dragging { cursor:grabbing; }
   width:100%; overflow:hidden; position:relative;
   display:flex; align-items:center; justify-content:center; background:#1a1a2e;
 }
-.cp img { width:100%; height:100%; object-fit:cover; object-position:top; filter:grayscale(10%) contrast(1.05); }
+.cp img { width:100%; height:100%; object-fit:cover; object-position:center 25%; filter:grayscale(10%) contrast(1.05); }
 .cp .av { font-size:3rem; line-height:1; }
 .cp .av-init {
   font-family:'Bebas Neue',sans-serif; font-weight:400; letter-spacing:5px;
@@ -64,13 +64,13 @@ body.dragging { cursor:grabbing; }
   font-size:4rem;
   -webkit-text-stroke:1px rgba(255,255,255,0.22);
 }
-.card-hero  .cp { height:190px; }
+.card-hero  .cp { height:220px; }
 .card-hero  .cp .av-init { font-size:4.5rem; }
-.card-large .cp { height:140px; }
+.card-large .cp { height:170px; }
 .card-large .cp .av-init { font-size:3.5rem; }
-.card-med   .cp { height:105px; }
+.card-med   .cp { height:130px; }
 .card-med   .cp .av-init { font-size:2.8rem; }
-.card-sm    .cp { height:80px; }
+.card-sm    .cp { height:105px; }
 .card-sm    .cp .av { font-size:2.2rem; }
 .card-sm    .cp .av-init { font-size:2.2rem; letter-spacing:2px; }
 
@@ -258,10 +258,10 @@ body.dragging { cursor:grabbing; }
 </button>
 </div>
 <div id="ctrls">
-  <button class="cb2" onclick="zoomIn()">+</button>
-  <button class="cb2" onclick="zoomOut()">&minus;</button>
-  <button class="cb2" onclick="resetView()">0</button>
-  <button class="cb2" onclick="collapseAll()">&times;</button>
+  <button class="cb2" onclick="zoomIn()" title="Zoom in">+</button>
+  <button class="cb2" onclick="zoomOut()" title="Zoom out">&minus;</button>
+  <button class="cb2" onclick="resetView()" title="Reset zoom" style="font-size:0.7rem;">⟲</button>
+  <button class="cb2" onclick="goBack()" title="Close / back to dossier">&times;</button>
 </div>
 <div id="leg">
   <h4>String Key</h4>
@@ -296,7 +296,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
   <div class="cp" style="background:linear-gradient(155deg,#2d0000,#5c0a0a,#1a0000);height:140px;">
-    <img src="shammi-silva.jpg" alt="Shammi Silva" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>SS</div>';">SS</div>';">
+    <img src="shammi-silva.jpg" alt="Shammi Silva" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>SS</div>';">SS</div>';">
     <div class="em-badge">👑</div>
   </div>
   <div class="cbody">
@@ -315,7 +315,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pdk"></div>
   <div class="cb"><div class="dk"></div></div>
   <div class="cp" style="background:#0d1a0d;height:190px;">
-    <img src="murali-mmeb2.jpg" alt="Murali MMEB" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+    <img src="murali-mmeb2.jpg" alt="Murali MMEB" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;">
     <div class="em-badge">🏏</div>
   </div>
   <div class="cbody">
@@ -400,7 +400,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t2" id="ravin" style="top:655px;left:312px;width:182px;">
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
-  <div class="cp" style="background:#0f172a;height:80px;"><img src="ravin-wickramaratne.jpg" alt="Ravin Wickramaratne" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>RA</div>';"></div>
+  <div class="cp" style="background:#0f172a;height:80px;"><img src="ravin-wickramaratne.jpg" alt="Ravin Wickramaratne" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>RA</div>';"></div>
   <div class="cbody">
     <div class="cname">Ravin Wickramaratne</div>
     <div class="crole">Vice President — Re-elected 2025</div>
@@ -413,7 +413,7 @@ body.dragging { cursor:grabbing; }
      data-connect="selection" data-type="purple">
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
-  <div class="cp" style="background:#0f172a;height:80px;"><img src="bandula-dissanayake.jpg" alt="Bandula Dissanayake" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>BA</div>';"></div>
+  <div class="cp" style="background:#0f172a;height:80px;"><img src="bandula-dissanayake.jpg" alt="Bandula Dissanayake" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>BA</div>';"></div>
   <div class="cbody">
     <div class="cname">Bandula Dissanayake</div>
     <div class="crole">Secretary — New 2025</div>
@@ -426,7 +426,7 @@ body.dragging { cursor:grabbing; }
      data-connect="tvmoney" data-type="gold">
   <div class="pin pg"></div>
   <div class="cb"><div class="g"></div></div>
-  <div class="cp" style="background:#1c1500;height:80px;"><img src="sujeewa-godaliyadda.jpg" alt="Sujeewa Godaliyadda" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>SU</div>';"></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><img src="sujeewa-godaliyadda.jpg" alt="Sujeewa Godaliyadda" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>SU</div>';"></div>
   <div class="cbody">
     <div class="cname">Sujeewa Godaliyadda</div>
     <div class="crole">Treasurer — Re-elected 2025</div>
@@ -438,7 +438,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t5" id="jerome-coo" style="top:660px;left:1080px;width:178px;">
   <div class="pin pg"></div>
   <div class="cb"><div class="g"></div></div>
-  <div class="cp" style="background:#1c1500;height:80px;"><img src="jerome-jayarathne.jpg" alt="Jerome Jayarathne" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>JE</div>';"></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><img src="jerome-jayarathne.jpg" alt="Jerome Jayarathne" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>JE</div>';"></div>
   <div class="cbody">
     <div class="cname">Jerome Jayarathne</div>
     <div class="crole">COO — Operations Chief</div>
@@ -450,7 +450,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t3" id="aruna" style="top:630px;left:1330px;width:172px;">
   <div class="pin pb"></div>
   <div class="cb"><div class="b"></div></div>
-  <div class="cp" style="background:#0a0020;height:80px;"><img src="aruna-de-silva.jpg" alt="Aruna de Silva" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>AR</div>';"></div>
+  <div class="cp" style="background:#0a0020;height:80px;"><img src="aruna-de-silva.jpg" alt="Aruna de Silva" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>AR</div>';"></div>
   <div class="cbody">
     <div class="cname">Aruna de Silva</div>
     <div class="crole">Head of Admin</div>
@@ -493,7 +493,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pgr"></div>
   <div class="cb"><div class="gr"></div></div>
   <div class="cp" style="background:#001a0a;height:105px;">
-    <img src="arjuna-ranatunga.jpg" alt="Arjuna Ranatunga" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.style.opacity='0';">
+    <img src="arjuna-ranatunga.jpg" alt="Arjuna Ranatunga" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.style.opacity='0';">
     <div class="em-badge">🏆</div>
   </div>
   <div class="cbody">
@@ -569,7 +569,7 @@ body.dragging { cursor:grabbing; }
   <div class="cb"><div class="g"></div></div>
   <div class="cp" style="background:#1c1500;height:140px;">
     <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/Sanath_jayasuriya_portrait.jpg" alt="Sanath Jayasuriya"
-         style="width:100%;height:100%;object-fit:cover;object-position:top;"
+         style="width:100%;height:100%;object-fit:cover;object-position:center 25%;"
          onerror="this.style.opacity='0';">
     <div class="em-badge">🏅</div>
   </div>
@@ -604,7 +604,7 @@ body.dragging { cursor:grabbing; }
      data-connect="fans" data-type="red">
   <div class="pin pw"></div>
   <div class="cb"><div class="dk"></div></div>
-  <div class="cp" style="background:#0d1117;height:140px;"><img src="squad.jpg" alt="Sri Lanka Squad" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av>🏏</div>';"></div>
+  <div class="cp" style="background:#0d1117;height:140px;"><img src="squad.jpg" alt="Sri Lanka Squad" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av>🏏</div>';"></div>
   <div class="cbody">
     <div class="cname">Current Playing Squad</div>
     <div class="crole">Talent · Fragile · Demoralized</div>
@@ -621,7 +621,7 @@ body.dragging { cursor:grabbing; }
      data-connect="squad,bhanuka,chamika,vandersay,kalpage" data-type="purple,red,purple,purple,purple">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:140px;"><img src="jerome-fernando.jpg" alt="Jerome Fernando" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>JE</div>';">JF</div>';"><div class="em-badge">✝️</div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:140px;"><img src="jerome-fernando.jpg" alt="Jerome Fernando" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>JE</div>';">JF</div>';"><div class="em-badge">✝️</div></div>
   <div class="cbody">
     <div class="cname">Prophet Jerome Fernando</div>
     <div class="crole">"Glorious Church" · Self-Proclaimed Prophet</div>
@@ -659,7 +659,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t8" id="kalpage" style="top:1708px;left:530px;width:175px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:80px;"><img src="ruwan-kalpage.jpg" alt="Ruwan Kalpage" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>RU</div>';"></div>
+  <div class="cp" style="background:#180018;height:80px;"><img src="ruwan-kalpage.jpg" alt="Ruwan Kalpage" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>RU</div>';"></div>
   <div class="cbody">
     <div class="cname">Ruwan Kalpage</div>
     <div class="crole">Emerging Team Coach</div>
@@ -671,7 +671,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t2" id="vandersay" style="top:1755px;left:776px;width:175px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:80px;"><img src="vandersay.jpg" alt="Jeffrey Vandersay" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>JE</div>';">JV</div>';"></div>
+  <div class="cp" style="background:#180018;height:80px;"><img src="vandersay.jpg" alt="Jeffrey Vandersay" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>JE</div>';">JV</div>';"></div>
   <div class="cbody">
     <div class="cname">Jeffrey Vandersay</div>
     <div class="crole">Spinner · Church Member</div>
@@ -683,7 +683,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-med t4" id="bhanuka" style="top:1700px;left:1020px;width:195px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:105px;"><img src="bhanuka-rajapaksa.jpg" alt="Bhanuka Rajapaksa" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>BH</div>';">BR</div>';"></div>
+  <div class="cp" style="background:#180018;height:105px;"><img src="bhanuka-rajapaksa.jpg" alt="Bhanuka Rajapaksa" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>BH</div>';">BR</div>';"></div>
   <div class="cbody">
     <div class="cname">Bhanuka Rajapaksa</div>
     <div class="crole">Batsman · Born Again Convert</div>
@@ -698,7 +698,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-med t1" id="chamika" style="top:1680px;left:1280px;width:200px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:105px;"><img src="chamika-karunaratne.jpg" alt="Chamika Karunaratne" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>CH</div>';">CK</div>';"><div class="em-badge">🪔</div></div>
+  <div class="cp" style="background:#180018;height:105px;"><img src="chamika-karunaratne.jpg" alt="Chamika Karunaratne" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>CH</div>';">CK</div>';"><div class="em-badge">🪔</div></div>
   <div class="cbody">
     <div class="cname">Chamika Karunaratne</div>
     <div class="crole">Bowler · Oil Lamp · Casino</div>
@@ -908,12 +908,12 @@ document.addEventListener('wheel',e=>{
   const bx=(e.clientX-panX)/scale, by=(e.clientY-panY)/scale;
   scale=Math.max(0.15,Math.min(1.5,scale+d));
   panX=e.clientX-bx*scale; panY=e.clientY-by*scale;
-  apply(); setTimeout(drawStrings,30);
+  apply(); requestAnimationFrame(drawStrings);
 },{passive:false});
 
-function zoomIn()  { scale=Math.min(1.5,scale+0.08); apply(); setTimeout(drawStrings,30); }
-function zoomOut() { scale=Math.max(0.15,scale-0.08); apply(); setTimeout(drawStrings,30); }
-function resetView(){ initView(); setTimeout(drawStrings,30); }
+function zoomIn()  { scale=Math.min(1.5,scale+0.08); apply(); requestAnimationFrame(drawStrings); }
+function zoomOut() { scale=Math.max(0.15,scale-0.08); apply(); requestAnimationFrame(drawStrings); }
+function resetView(){ initView(); requestAnimationFrame(drawStrings); }
 
 // ── CARD EXPAND ──
 document.querySelectorAll('.card').forEach(c=>{
@@ -922,7 +922,7 @@ document.querySelectorAll('.card').forEach(c=>{
     const was=c.classList.contains('expanded');
     collapseAll(false);
     if(!was){ c.classList.add('expanded'); c.style.zIndex=110; }
-    setTimeout(drawStrings,80);
+    requestAnimationFrame(()=>setTimeout(drawStrings,80));
   });
 });
 function collapseAll(rd=true) {
@@ -931,15 +931,53 @@ function collapseAll(rd=true) {
 }
 board.addEventListener('click',()=>collapseAll());
 
+function goBack(){
+  // If in an iframe, try to tell parent; otherwise navigate to dossier
+  if(window.parent !== window){
+    try { window.parent.history.back(); } catch(e){ window.location.href='index.html'; }
+  } else {
+    window.location.href='index.html';
+  }
+}
+
 document.addEventListener('keydown',e=>{
   if(e.key==='+'||e.key==='=') zoomIn();
   if(e.key==='-'||e.key==='_') zoomOut();
   if(e.key==='0') resetView();
-  if(e.key==='Escape') collapseAll();
+  if(e.key==='Escape'){
+    // If video modal is open, close that first (handled by other listener)
+    // If cards are expanded, collapse them
+    const expanded = document.querySelectorAll('.card.expanded');
+    if(expanded.length > 0){ collapseAll(); }
+    else { goBack(); }
+  }
 });
 
 // ── DRAW STRINGS — organic, seeded, gravity ──
-function cardCenter(el){ return {x:el.offsetLeft+el.offsetWidth/2, y:el.offsetTop+el.offsetHeight/2}; }
+// Connect to pin position (top-center of card) — accounting for CSS rotation
+function cardCenter(el){
+  const cx = el.offsetLeft + el.offsetWidth/2;
+  const cy = el.offsetTop; // pin is at top of card
+  // Get rotation from transform
+  const st = getComputedStyle(el);
+  const tr = st.transform || st.webkitTransform || '';
+  if(tr && tr !== 'none'){
+    const m = tr.match(/matrix\((.+)\)/);
+    if(m){
+      const v = m[1].split(',').map(Number);
+      const angle = Math.atan2(v[1],v[0]);
+      // Rotate pin offset around card center
+      const ocx = el.offsetLeft + el.offsetWidth/2;
+      const ocy = el.offsetTop + el.offsetHeight/2;
+      const dx = cx - ocx, dy = cy - ocy;
+      return {
+        x: ocx + dx*Math.cos(angle) - dy*Math.sin(angle),
+        y: ocy + dx*Math.sin(angle) + dy*Math.cos(angle)
+      };
+    }
+  }
+  return {x:cx, y:cy};
+}
 
 function woundPin(svg,cx,cy,col,w){
   const NS='http://www.w3.org/2000/svg';
@@ -1031,7 +1069,8 @@ function drawStrings(){
 }
 
 setTimeout(drawStrings,350);
-window.addEventListener('resize',()=>{ initView(); setTimeout(drawStrings,120); });
+setTimeout(drawStrings,800); // second pass to ensure correct positions after layout settles
+window.addEventListener('resize',()=>{ initView(); requestAnimationFrame(drawStrings); });
 </script>
 
 <!-- FACEBOOK VIDEO MODAL -->
