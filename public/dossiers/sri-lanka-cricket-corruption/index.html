@@ -958,6 +958,161 @@
   }
   .conduct-link-banner:hover .banner-arrow { transform: translateX(4px); opacity: 1; }
 
+  /* ═══ ANALYTICS BAR ═══ */
+  .stats-bar {
+    display:flex; align-items:center; justify-content:center; gap:20px;
+    padding:10px 40px; background:rgba(255,255,255,0.02); border-bottom:1px solid var(--border-color);
+    font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:0.5px;
+  }
+  .stat-item { display:flex; align-items:center; gap:6px; }
+  .stat-label { color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; font-size:0.55rem; }
+  .stat-val { color:var(--text-secondary); font-weight:600; }
+  .stat-sep { color:var(--text-muted); opacity:0.3; }
+  .stat-live { width:6px; height:6px; background:#22c55e; border-radius:50%; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+  /* ═══ LANGUAGE TOGGLE ═══ */
+  .lang-toggle-bar {
+    position:fixed; top:12px; right:12px; z-index:300; display:flex; gap:8px;
+  }
+  #lang-toggle {
+    background:rgba(10,10,15,0.85); backdrop-filter:blur(8px);
+    border:1px solid var(--border-color); color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:1px;
+    padding:6px 14px; border-radius:6px; cursor:pointer; transition:all .2s;
+  }
+  #lang-toggle:hover { background:var(--bg-tertiary); border-color:rgba(255,255,255,0.15); color:var(--text-secondary); }
+  #lang-toggle.si-active { border-color:var(--accent-gold); color:var(--accent-gold); }
+
+  /* ═══ GDPR BANNER ═══ */
+  #gdpr-banner {
+    position:fixed; bottom:0; left:0; right:0; z-index:1500;
+    background:var(--bg-primary); border-top:1px solid var(--border-color);
+    padding:14px 40px; display:flex; align-items:center; justify-content:space-between;
+    gap:20px; flex-wrap:wrap; box-shadow:0 -4px 20px rgba(0,0,0,0.5);
+  }
+  #gdpr-banner.hidden { display:none; }
+  .gdpr-text { font-size:0.75rem; color:var(--text-muted); flex:1; min-width:200px; }
+  .gdpr-text a { color:var(--accent-gold); text-decoration:none; }
+  .gdpr-text a:hover { text-decoration:underline; }
+  .gdpr-btns { display:flex; gap:8px; flex-shrink:0; }
+  .gdpr-accept {
+    background:#22c55e; color:#fff; border:none;
+    font-family:'JetBrains Mono',monospace; font-size:0.6rem; letter-spacing:1px;
+    text-transform:uppercase; padding:8px 16px; border-radius:4px; cursor:pointer; transition:all .2s;
+  }
+  .gdpr-accept:hover { background:#16a34a; }
+  .gdpr-decline {
+    background:transparent; border:1px solid var(--border-color); color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace; font-size:0.6rem; letter-spacing:1px;
+    text-transform:uppercase; padding:8px 16px; border-radius:4px; cursor:pointer; transition:all .2s;
+  }
+  .gdpr-decline:hover { border-color:rgba(255,255,255,0.15); color:var(--text-secondary); }
+
+  /* ═══ ToS MODAL ═══ */
+  #tos-modal {
+    display:none; position:fixed; inset:0; z-index:2000;
+    background:rgba(0,0,0,0.9); backdrop-filter:blur(6px);
+    align-items:center; justify-content:center;
+  }
+  #tos-modal.show { display:flex; }
+  .tos-box {
+    background:var(--bg-secondary); border:1px solid var(--border-color); border-top:3px solid var(--accent-gold);
+    border-radius:8px; padding:32px 36px; width:min(500px,90vw); max-height:80vh; overflow-y:auto;
+    box-shadow:0 25px 80px rgba(0,0,0,0.8);
+  }
+  .tos-title { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--accent-gold); margin-bottom:4px; }
+  .tos-subtitle { font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:20px; }
+  .tos-body { font-size:0.8rem; color:var(--text-secondary); line-height:1.7; margin-bottom:20px; }
+  .tos-body strong { color:var(--text-primary); }
+  .tos-body ul { padding-left:18px; margin:8px 0; }
+  .tos-body li { margin-bottom:6px; }
+  .tos-confirm {
+    width:100%; background:var(--accent-gold); color:#000; border:none;
+    font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:1px;
+    text-transform:uppercase; padding:12px; border-radius:4px; cursor:pointer; transition:all .2s; margin-bottom:8px;
+  }
+  .tos-confirm:hover { filter:brightness(0.9); }
+  .tos-decline-btn {
+    width:100%; background:transparent; border:1px solid var(--border-color); color:var(--text-muted);
+    font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:1px;
+    text-transform:uppercase; padding:8px; border-radius:4px; cursor:pointer; transition:all .2s;
+  }
+  .tos-decline-btn:hover { border-color:rgba(255,255,255,0.15); color:var(--text-secondary); }
+  .tos-seal {
+    margin-top:16px; padding:10px 14px; background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.15);
+    border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:var(--text-muted);
+    text-transform:uppercase; letter-spacing:1px; text-align:center;
+  }
+
+  /* ═══ COMMENTS FAB + PANEL ═══ */
+  #comments-fab {
+    position:fixed; bottom:24px; right:24px; z-index:400;
+    width:52px; height:52px; border-radius:50%; border:none;
+    background:var(--accent-purple); color:#fff; font-size:1.2rem;
+    cursor:pointer; box-shadow:0 4px 20px rgba(139,92,246,0.4);
+    transition:all .3s; display:flex; align-items:center; justify-content:center;
+  }
+  #comments-fab:hover { transform:scale(1.1); box-shadow:0 6px 30px rgba(139,92,246,0.6); }
+  .fab-count {
+    position:absolute; top:-4px; right:-4px; background:var(--accent-red); color:#fff;
+    font-size:0.55rem; font-weight:700; width:18px; height:18px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace;
+  }
+
+  #comments-panel {
+    position:fixed; bottom:0; right:0; z-index:500; width:min(420px,95vw); height:70vh;
+    background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:12px 12px 0 0;
+    box-shadow:0 -8px 40px rgba(0,0,0,0.6); display:flex; flex-direction:column;
+    transform:translateY(100%); transition:transform .3s ease;
+  }
+  #comments-panel.open { transform:translateY(0); }
+  .cp-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 20px; border-bottom:1px solid var(--border-color);
+  }
+  .cp-title { font-family:'Playfair Display',serif; font-size:1rem; color:var(--text-primary); }
+  .cp-subtitle { font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-top:2px; }
+  .cp-close {
+    background:transparent; border:1px solid var(--border-color); color:var(--text-muted);
+    width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:0.8rem; transition:all .2s;
+  }
+  .cp-close:hover { color:var(--text-primary); border-color:rgba(255,255,255,0.2); }
+  .cp-notice {
+    padding:10px 20px; background:rgba(255,215,0,0.04); border-bottom:1px solid var(--border-color);
+    font-size:0.65rem; color:var(--accent-gold); line-height:1.5;
+  }
+  .cp-feed { flex:1; overflow-y:auto; padding:12px 20px; }
+  .cp-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; }
+  .cp-empty-icon { font-size:2rem; margin-bottom:8px; opacity:0.3; }
+  .cp-empty-text { font-size:0.75rem; color:var(--text-muted); text-align:center; line-height:1.6; }
+  .comment-bubble { padding:12px 0; border-bottom:1px solid var(--border-color); }
+  .comment-bubble-meta { display:flex; justify-content:space-between; margin-bottom:4px; }
+  .bubble-anon { font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:var(--accent-purple); text-transform:uppercase; letter-spacing:1px; }
+  .bubble-time { font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:var(--text-muted); }
+  .bubble-text { font-size:0.8rem; color:var(--text-secondary); line-height:1.6; }
+  .bubble-flag { font-size:0.55rem; color:var(--text-muted); margin-top:4px; }
+  .cp-form { padding:12px 20px; border-top:1px solid var(--border-color); }
+  .cp-textarea {
+    width:100%; min-height:60px; padding:10px; background:var(--bg-primary); color:var(--text-primary);
+    border:1px solid var(--border-color); border-radius:6px; font-family:'Inter',sans-serif; font-size:0.78rem;
+    resize:vertical; line-height:1.5;
+  }
+  .cp-textarea:focus { outline:none; border-color:var(--accent-purple); }
+  .hp-field { position:absolute; left:-9999px; }
+  .cp-actions { display:flex; justify-content:space-between; align-items:center; margin-top:8px; }
+  .cp-anon-note { font-size:0.55rem; color:var(--text-muted); }
+  .cp-submit {
+    background:var(--accent-purple); color:#fff; border:none; padding:8px 18px;
+    border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:0.65rem;
+    letter-spacing:1px; cursor:pointer; transition:all .2s;
+  }
+  .cp-submit:hover { filter:brightness(1.15); }
+  .cp-submit:disabled { opacity:0.5; cursor:not-allowed; }
+  .cp-status { font-size:0.6rem; color:var(--text-muted); margin-top:6px; font-family:'JetBrains Mono',monospace; }
+  .cp-status.err { color:var(--accent-red); }
+  .cp-terms { font-size:0.5rem; color:var(--text-muted); margin-top:8px; line-height:1.5; opacity:0.6; }
+
   /* Inline dossier link style */
   .dossier-inline-link {
     color: var(--accent-cyan);
@@ -1007,6 +1162,22 @@
     </div>
   </div>
 </section>
+
+<!-- ANALYTICS BAR -->
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-live"></span><span class="stat-label"><span data-en="Visitors today" data-si="අද අමුත්තන්">Visitors today</span></span><span class="stat-val" id="visit-count">—</span></div>
+  <span class="stat-sep">·</span>
+  <div class="stat-item"><span class="stat-label"><span data-en="Total visits" data-si="මුළු පැමිණීම්">Total visits</span></span><span class="stat-val" id="visit-total">—</span></div>
+  <span class="stat-sep">·</span>
+  <div class="stat-item"><span class="stat-label"><span data-en="Comments" data-si="අදහස්">Comments</span></span><span class="stat-val" id="comment-count-bar">0</span></div>
+  <span class="stat-sep">·</span>
+  <div class="stat-item"><span class="stat-label"><span data-en="Status" data-si="තත්ත්වය">Status</span></span><span class="stat-val" style="color:#22c55e;font-size:0.7rem;">LIVE</span></div>
+</div>
+
+<!-- LANGUAGE TOGGLE -->
+<div class="lang-toggle-bar">
+  <button id="lang-toggle" onclick="toggleLang()"><span id="lang-label">EN | සිං</span></button>
+</div>
 
 <!-- NAVIGATION -->
 <nav class="nav-container">
@@ -1923,6 +2094,77 @@
 
 </div><!-- end main-content -->
 
+<!-- ToS LIABILITY MODAL -->
+<div id="tos-modal">
+  <div class="tos-box">
+    <div class="tos-title">Before You Comment</div>
+    <div class="tos-subtitle">analyst.rizrazak.com · Comment Terms of Use</div>
+    <div class="tos-body">
+      <p>By posting a comment on this page, you agree to the following:</p>
+      <ul>
+        <li><strong>You are solely responsible</strong> for the content of your comment. This platform and its operators accept no liability for user-submitted content.</li>
+        <li><strong>Your IP address, user agent, and submission timestamp are logged</strong> and may be disclosed to law enforcement or legal counsel if required to defend against or pursue legal proceedings.</li>
+        <li><strong>Knowingly false statements</strong> about named individuals may constitute defamation under applicable law. You post at your own legal risk.</li>
+        <li><strong>All comments are held in a moderation queue</strong> and will not appear publicly until reviewed and approved by the site administrator.</li>
+        <li>This site is hosted in the United States and governed by US law, including First Amendment protections for commentary on matters of public interest.</li>
+        <li>By accepting, you confirm you are 18 years of age or older.</li>
+      </ul>
+      <p>Your acceptance of these terms is logged with your IP, timestamp, and session ID for our legal records.</p>
+    </div>
+    <button class="tos-confirm" onclick="acceptTos()">I Accept — Post My Comment</button>
+    <button class="tos-decline-btn" onclick="closeTos()">Cancel</button>
+    <div class="tos-seal">Acceptance logged · IP recorded · Jurisdiction: United States</div>
+  </div>
+</div>
+
+<!-- GDPR BANNER -->
+<div id="gdpr-banner" class="hidden">
+  <div class="gdpr-text">
+    <strong>Privacy notice:</strong> This site logs visitor IPs and metadata strictly for legal compliance and protection against defamation claims. No data is sold or shared with third parties. IP addresses are hashed after 90 days. By continuing to use this site you acknowledge this use.
+    <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a>
+  </div>
+  <div class="gdpr-btns">
+    <button class="gdpr-accept" onclick="gdprAccept()">Understood</button>
+    <button class="gdpr-decline" onclick="gdprDecline()">Decline Analytics</button>
+  </div>
+</div>
+
+<!-- COMMENTS FAB -->
+<button id="comments-fab" onclick="toggleComments()" title="Community Comments">
+  💬
+  <span class="fab-count" id="fab-count">0</span>
+</button>
+
+<!-- COMMENTS PANEL -->
+<div id="comments-panel">
+  <div class="cp-header">
+    <div>
+      <div class="cp-title">Community Comments</div>
+      <div class="cp-subtitle">Anonymous · IP Logged · Bot Protected</div>
+    </div>
+    <button class="cp-close" onclick="toggleComments()">✕</button>
+  </div>
+  <div class="cp-notice">
+    All comments are anonymous. IP addresses and metadata are recorded for legal compliance. Defamatory content will be removed. By commenting you accept these terms.
+  </div>
+  <div class="cp-feed" id="cp-feed">
+    <div class="cp-empty" id="cp-empty">
+      <div class="cp-empty-icon">💬</div>
+      <div class="cp-empty-text"><span data-en="No comments yet. Be the first." data-si="තවම අදහස් නැත. පළමු වන්න.">No comments yet. Be the first.</span></div>
+    </div>
+  </div>
+  <div class="cp-form">
+    <textarea class="cp-textarea" id="cp-text" placeholder="Share what you know. This is a protected space — your identity is never revealed." maxlength="800"></textarea>
+    <input type="text" class="hp-field" id="hp-name" name="website" tabindex="-1" autocomplete="off">
+    <div class="cp-actions">
+      <div class="cp-anon-note"><span data-en="Anonymous · Your IP is logged for legal protection only." data-si="නිර්නාමික · ඔබගේ IP ලිපිනය නීතිමය ආරක්ෂාව සඳහා පමණක් ලොග් කර ඇත.">Anonymous · Your IP is logged for legal protection only.</span></div>
+      <button class="cp-submit" id="cp-btn" onclick="requestPost()"><span data-en="Post" data-si="ඉදිරිපත් කරන්න">Post</span></button>
+    </div>
+    <div class="cp-status" id="cp-status"></div>
+    <div class="cp-terms">Comments are moderated. This site records IP, user agent, and timestamp for every submission. Knowingly false statements about named individuals may constitute defamation under Sri Lanka civil law. Posts are reviewed before display.</div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <div class="footer">
   <p>Political Research Dossier — The Death of Sri Lankan Cricket<br>
@@ -1930,7 +2172,9 @@
 </div>
 
 <script>
-// Scroll animation observer
+// ══════════════════════════════════════════
+// SCROLL ANIMATION OBSERVER
+// ══════════════════════════════════════════
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1970,6 +2214,325 @@ document.querySelectorAll('.nav-link').forEach(link => {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
+});
+
+// ══════════════════════════════════════════
+// VISITOR COUNTER (hits.seeyoufarm.com)
+// ══════════════════════════════════════════
+(function(){
+  const url = encodeURIComponent('https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/index.html');
+  fetch('https://hits.seeyoufarm.com/api/count/incr/badge.svg?url='+url+'&count_bg=%23ff3a3a&title_bg=%230a0a0f')
+    .then(r=>r.text()).then(svg=>{
+      const nums = svg.match(/>(\d+)</g);
+      if(nums && nums.length>=2){
+        const today = nums[nums.length-2].replace(/[><]/g,'');
+        const total = nums[nums.length-1].replace(/[><]/g,'');
+        document.getElementById('visit-count').textContent = today;
+        document.getElementById('visit-total').textContent = total;
+      }
+    }).catch(()=>{
+      document.getElementById('visit-count').textContent = '—';
+      document.getElementById('visit-total').textContent = '—';
+    });
+})();
+
+// ══════════════════════════════════════════
+// GDPR CONSENT SYSTEM
+// ══════════════════════════════════════════
+const GDPR_KEY = 'gdpr_consent_v1';
+
+function checkGdpr(){
+  const consent = localStorage.getItem(GDPR_KEY);
+  if(!consent){
+    document.getElementById('gdpr-banner').classList.remove('hidden');
+    return false;
+  }
+  return JSON.parse(consent).accepted;
+}
+
+function gdprAccept(){
+  localStorage.setItem(GDPR_KEY, JSON.stringify({
+    accepted: true, ts: Date.now(), version: '1.0'
+  }));
+  document.getElementById('gdpr-banner').classList.add('hidden');
+  fetchUserIP();
+}
+
+function gdprDecline(){
+  localStorage.setItem(GDPR_KEY, JSON.stringify({
+    accepted: false, ts: Date.now(), version: '1.0'
+  }));
+  document.getElementById('gdpr-banner').classList.add('hidden');
+  userIP = 'DECLINED';
+  userGeo = 'DECLINED';
+}
+
+// Simple hash for IP anonymisation
+function hashStr(str){
+  let h = 0x811c9dc5;
+  for(let i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = (h*0x01000193)>>>0;
+  }
+  return h.toString(16).padStart(8,'0');
+}
+
+// ══════════════════════════════════════════
+// ToS LIABILITY TRANSFER SYSTEM
+// ══════════════════════════════════════════
+const TOS_KEY = 'tos_accepted_v1';
+let pendingPostAfterTos = false;
+
+function requestPost(){
+  const existing = localStorage.getItem(TOS_KEY);
+  if(existing){
+    submitComment();
+    return;
+  }
+  pendingPostAfterTos = true;
+  document.getElementById('tos-modal').classList.add('show');
+}
+
+function acceptTos(){
+  const acceptance = {
+    ts: Date.now(),
+    ip: userIP,
+    ua: navigator.userAgent.slice(0,80),
+    version: '1.0',
+    page: window.location.href
+  };
+  localStorage.setItem(TOS_KEY, JSON.stringify(acceptance));
+  document.getElementById('tos-modal').classList.remove('show');
+  if(pendingPostAfterTos){
+    pendingPostAfterTos = false;
+    submitComment();
+  }
+}
+
+function closeTos(){
+  document.getElementById('tos-modal').classList.remove('show');
+  pendingPostAfterTos = false;
+}
+
+// ══════════════════════════════════════════
+// COMMENTS SYSTEM
+// localStorage + Formspree notifications
+// Admin approves via analytics.html dashboard
+// ══════════════════════════════════════════
+const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
+const PAGE_KEY = 'slc_main_comments_v1';
+let panelOpen = false;
+let userIP = 'unknown';
+let userGeo = '';
+
+function fetchUserIP(){
+  fetch('https://api.ipify.org?format=json')
+    .then(r=>r.json())
+    .then(d=>{
+      userIP = d.ip;
+      return fetch('https://ipapi.co/json/');
+    })
+    .then(r=>r.json())
+    .then(d=>{ userGeo = (d.city||'')+(d.country_name?', '+d.country_name:''); })
+    .catch(()=>{ userGeo=''; });
+}
+
+// Load IP on start (only if GDPR consent given)
+(function(){
+  const consent = localStorage.getItem(GDPR_KEY);
+  if(consent && JSON.parse(consent).accepted){
+    fetchUserIP();
+  }
+})();
+
+function loadComments(){
+  try{ return JSON.parse(localStorage.getItem(PAGE_KEY)||'[]'); }
+  catch(e){ return []; }
+}
+
+function saveComment(c){
+  const arr = loadComments();
+  arr.unshift(c);
+  localStorage.setItem(PAGE_KEY, JSON.stringify(arr.slice(0,200)));
+}
+
+function renderComments(){
+  const allComments = loadComments();
+  const approved = allComments.filter(c => c.status === 'approved');
+  const pending = allComments.filter(c => c.status === 'pending');
+  const feed = document.getElementById('cp-feed');
+  const empty = document.getElementById('cp-empty');
+
+  document.getElementById('fab-count').textContent = allComments.length;
+  document.getElementById('comment-count-bar').textContent = allComments.length;
+
+  feed.querySelectorAll('.comment-bubble,.comment-pending-notice').forEach(el=>el.remove());
+
+  if(approved.length === 0){
+    empty.style.display='flex';
+    if(pending.length > 0){
+      const notice = document.createElement('div');
+      notice.className='comment-pending-notice';
+      notice.style.cssText='text-align:center;padding:16px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:'+getComputedStyle(document.documentElement).getPropertyValue('--text-muted')+';text-transform:uppercase;letter-spacing:1px;';
+      notice.textContent = pending.length+' comment'+(pending.length>1?'s':'')+' awaiting moderation.';
+      feed.appendChild(notice);
+    }
+    return;
+  }
+
+  empty.style.display='none';
+
+  approved.forEach(c=>{
+    const div = document.createElement('div');
+    div.className='comment-bubble';
+    const d = new Date(c.ts);
+    const timeStr = d.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    div.innerHTML='<div class="comment-bubble-meta"><span class="bubble-anon">Anonymous</span><span class="bubble-time">'+timeStr+'</span></div><div class="bubble-text">'+escHtml(c.text)+'</div><div class="bubble-flag">'+escHtml(c.geo||'Unknown location')+'</div>';
+    feed.appendChild(div);
+  });
+
+  if(pending.length > 0){
+    const notice = document.createElement('div');
+    notice.className='comment-pending-notice';
+    notice.style.cssText='text-align:center;padding:12px;font-family:JetBrains Mono,monospace;font-size:0.55rem;color:var(--text-muted);border-top:1px solid var(--border-color);margin-top:8px;';
+    notice.textContent = '+ '+pending.length+' comment'+(pending.length>1?'s':'')+' pending moderation';
+    feed.appendChild(notice);
+  }
+}
+
+function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function toggleComments(){
+  panelOpen = !panelOpen;
+  document.getElementById('comments-panel').classList.toggle('open', panelOpen);
+  if(panelOpen) renderComments();
+}
+
+function checkRateLimit(){
+  const key='slc_rl_main';
+  const now = Date.now();
+  const hist = JSON.parse(sessionStorage.getItem(key)||'[]').filter(t=>now-t<900000);
+  if(hist.length>=3) return false;
+  hist.push(now);
+  sessionStorage.setItem(key,JSON.stringify(hist));
+  return true;
+}
+
+async function submitComment(){
+  const text = document.getElementById('cp-text').value.trim();
+  const honeypot = document.getElementById('hp-name').value;
+  const status = document.getElementById('cp-status');
+  const btn = document.getElementById('cp-btn');
+
+  if(honeypot){ return; }
+
+  if(!text || text.length < 10){
+    status.textContent = 'Comment too short (min 10 chars).';
+    status.className='cp-status err'; return;
+  }
+  if(!checkRateLimit()){
+    status.textContent = 'Too many comments. Please wait 15 minutes.';
+    status.className='cp-status err'; return;
+  }
+
+  btn.disabled = true;
+  status.textContent = 'Submitting...';
+  status.className = 'cp-status';
+
+  const id = Math.random().toString(36).slice(2,8).toUpperCase();
+  const ipHash = hashStr(userIP + 'salt_slc_2026');
+
+  const comment = {
+    id,
+    text,
+    ts: Date.now(),
+    ip: userIP,
+    ip_hash: ipHash,
+    ua: navigator.userAgent.slice(0,120),
+    geo: userGeo,
+    page: window.location.href,
+    status: 'pending',
+    flagged: false,
+    tos_accepted: true,
+    tos_ts: JSON.parse(localStorage.getItem(TOS_KEY)||'{}').ts || Date.now()
+  };
+
+  saveComment(comment);
+
+  if(FORMSPREE_ID !== 'YOUR_FORMSPREE_ID'){
+    try{
+      await fetch('https://formspree.io/f/'+FORMSPREE_ID, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({
+          _subject: '[SLC Cricket Dossier] New comment pending — ID:'+id,
+          comment_id: id,
+          comment_text: text,
+          visitor_ip: userIP,
+          ip_hash: ipHash,
+          visitor_geo: userGeo,
+          user_agent: navigator.userAgent,
+          page: window.location.href,
+          timestamp: new Date().toISOString(),
+          approve_url: 'analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/analytics.html'
+        })
+      });
+    } catch(e){}
+  }
+
+  document.getElementById('cp-text').value='';
+  renderComments();
+  status.textContent = 'Submitted. Your comment is awaiting moderation.';
+  status.className='cp-status';
+  btn.disabled = false;
+}
+
+// Init comments
+renderComments();
+
+// ══════════════════════════════════════════
+// SINHALA / ENGLISH LANGUAGE TOGGLE (i18n)
+// ══════════════════════════════════════════
+let currentLang = localStorage.getItem('slc-lang') || 'en';
+
+function applyLang(lang){
+  currentLang = lang;
+  localStorage.setItem('slc-lang', lang);
+  const toggle = document.getElementById('lang-toggle');
+  const label = document.getElementById('lang-label');
+  if(lang === 'si'){
+    toggle.classList.add('si-active');
+    label.textContent = 'සිං | EN';
+    document.documentElement.lang = 'si';
+  } else {
+    toggle.classList.remove('si-active');
+    label.textContent = 'EN | සිං';
+    document.documentElement.lang = 'en';
+  }
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = lang === 'si' ? (el.dataset.si || el.dataset.en) : el.dataset.en;
+  });
+  document.querySelectorAll('[data-si]:not([data-en])').forEach(el => {
+    if(lang === 'si') el.style.display = '';
+    else el.style.display = 'none';
+  });
+}
+
+function toggleLang(){
+  applyLang(currentLang === 'en' ? 'si' : 'en');
+}
+
+// ═══ INIT ON DOM READY ═══
+document.addEventListener('DOMContentLoaded', function(){
+  // GDPR banner
+  const consent = localStorage.getItem(GDPR_KEY);
+  if(!consent){
+    document.getElementById('gdpr-banner').classList.remove('hidden');
+  } else {
+    document.getElementById('gdpr-banner').classList.add('hidden');
+  }
+  // Language
+  if(currentLang === 'si') applyLang('si');
 });
 </script>
 
