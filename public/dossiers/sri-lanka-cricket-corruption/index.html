@@ -2424,26 +2424,24 @@
 
 <script>
 // ══════════════════════════════════════════
-// SCROLL ANIMATION OBSERVER
+// SCROLL-BASED REVEAL (replaces IntersectionObserver which fails in iframes/hidden tabs)
 // ══════════════════════════════════════════
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
+function revealOnScroll() {
+  const els = document.querySelectorAll('.fade-in:not(.visible)');
+  if (!els.length) return;
+  const vh = window.innerHeight;
+  els.forEach(el => {
+    if (el.getBoundingClientRect().top < vh * 1.15) {
+      el.classList.add('visible');
     }
   });
-}, { threshold: 0, rootMargin: '0px 0px 120px 0px' });
-
-document.querySelectorAll('.fade-in').forEach(el => {
-  // Immediately reveal if already in the viewport on load
-  const r = el.getBoundingClientRect();
-  if (r.top < window.innerHeight && r.bottom > 0) {
-    el.classList.add('visible');
-  }
-  observer.observe(el);
-});
-
-// Safety fallback: reveal all sections after 3s in case observer doesn't fire (e.g. iframe contexts)
+}
+window.addEventListener('scroll', revealOnScroll, { passive: true });
+window.addEventListener('resize', revealOnScroll);
+revealOnScroll(); // immediate check on script load
+setTimeout(revealOnScroll, 500);
+setTimeout(revealOnScroll, 1500);
+// Ultimate fallback: force everything visible after 3s
 setTimeout(() => {
   document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
 }, 3000);
