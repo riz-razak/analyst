@@ -2743,7 +2743,7 @@ function renderComments(){
           '<span class="bubble-time">'+timeStr+'</span>'+
         '</div>'+
         '<div class="bubble-text'+(isLong?' collapsed':'')+'" id="bt-'+c.id+'">'+escHtml(c.text)+'</div>'+
-        (isLong ? '<button class="bubble-expand-btn" onclick="toggleExpand(this,document.getElementById(\'bt-'+c.id+'\'))">▼ Show more</button>' : '')+
+        (isLong ? `<button class="bubble-expand-btn" onclick="toggleExpand(this,document.getElementById('bt-${c.id}'))">▼ Show more</button>` : '')+
         '<div class="bubble-actions">'+
           '<span class="bubble-flag">'+escHtml(c.geo||'Unknown')+'</span>'+
           (rCount>0 ? '<button class="reply-count-btn" id="reply-count-btn-'+c.id+'" onclick="toggleReplies(\''+c.id+'\')">▼ '+rCount+' repl'+(rCount===1?'y':'ies')+'</button>' : '')+
