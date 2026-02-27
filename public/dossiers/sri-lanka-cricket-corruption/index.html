@@ -27,8 +27,38 @@
     --accent-purple: #8b5cf6;
     --accent-pink: #ff6b9d;
     --border-color: rgba(255,255,255,0.06);
+    --nav-bg: rgba(10,10,15,0.95);
+    --input-overlay: rgba(10,10,15,0.85);
+    --node-bg: rgba(22,22,42,0.95);
+    --hero-gradient: linear-gradient(135deg, #fff 0%, #ff8c00 50%, #ff3a3a 100%);
     --glow-red: rgba(255,58,58,0.3);
     --glow-gold: rgba(255,215,0,0.2);
+  }
+
+  /* ═══ LIGHT MODE OVERRIDES ═══ */
+  html[data-theme="light"] {
+    --bg-primary: #f4f4fa;
+    --bg-secondary: #eaeaf2;
+    --bg-tertiary: #e0e0ec;
+    --bg-card: #ffffff;
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a4a6a;
+    --text-muted: #8a8aa8;
+    --accent-red: #cc2020;
+    --accent-orange: #c96f00;
+    --accent-gold: #a88700;
+    --accent-blue: #2a7ae8;
+    --accent-cyan: #0085a0;
+    --accent-green: #008855;
+    --accent-purple: #7030d0;
+    --accent-pink: #c04070;
+    --border-color: rgba(0,0,0,0.1);
+    --glow-red: rgba(204,32,32,0.12);
+    --glow-gold: rgba(168,135,0,0.12);
+    --nav-bg: rgba(244,244,250,0.97);
+    --input-overlay: rgba(244,244,250,0.92);
+    --node-bg: rgba(255,255,255,0.98);
+    --hero-gradient: linear-gradient(135deg, #1a1a2e 0%, #c96f00 50%, #cc2020 100%);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -82,7 +112,7 @@
     font-weight: 900;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    background: linear-gradient(135deg, #fff 0%, #ff8c00 50%, #ff3a3a 100%);
+    background: var(--hero-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -108,7 +138,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(10,10,15,0.95);
+    background: var(--nav-bg);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-color);
     padding: 6px 2rem;
@@ -121,7 +151,48 @@
     justify-content: center;
     gap: 0;
     row-gap: 0;
+    position: relative;
   }
+  .nav-socials {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .nav-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: var(--text-muted);
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+  .nav-social-link:hover { color: var(--accent-cyan); background: rgba(255,255,255,0.06); }
+  .nav-theme-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    width: 30px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .nav-theme-btn:hover { color: var(--accent-gold); border-color: var(--accent-gold); }
   .nav-link {
     padding: 6px 12px;
     font-size: 0.68rem;
@@ -377,7 +448,7 @@
     gap: 1rem;
   }
   .node {
-    background: rgba(22,22,42,0.95);
+    background: var(--node-bg);
     border: 1px solid var(--border-color);
     border-radius: 10px;
     padding: 1rem;
@@ -619,6 +690,25 @@
     border-top: 1px solid var(--border-color);
   }
   .footer a { color: var(--accent-cyan); text-decoration: none; }
+  .footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+  }
+  .footer-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: color 0.2s, border-color 0.2s;
+    text-decoration: none;
+  }
+  .footer-social:hover { color: var(--accent-cyan); border-color: var(--accent-cyan); }
 
   /* SCROLL ANIMATIONS */
   .fade-in {
@@ -981,7 +1071,7 @@
     position:fixed; top:12px; right:12px; z-index:300; display:flex; gap:8px;
   }
   #lang-toggle {
-    background:rgba(10,10,15,0.85); backdrop-filter:blur(8px);
+    background:var(--input-overlay); backdrop-filter:blur(8px);
     border:1px solid var(--border-color); color:var(--text-muted);
     font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:1px;
     padding:6px 14px; border-radius:6px; cursor:pointer; transition:all .2s;
@@ -1270,6 +1360,11 @@
 <!-- NAVIGATION -->
 <nav class="nav-container">
   <div class="nav-inner">
+    <div class="nav-socials">
+      <a href="https://www.facebook.com/riz.life.crisis/" class="nav-social-link" target="_blank" rel="noopener" title="Facebook"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      <a href="https://www.instagram.com/riz_razak_" class="nav-social-link" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://www.tiktok.com/@riz.razak" class="nav-social-link" target="_blank" rel="noopener" title="TikTok"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.77 0 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 12.67 0l-.01-8.83a8.18 8.18 0 0 0 4.78 1.52V6.17a4.85 4.85 0 0 1-1-.48z"/></svg></a>
+    </div>
     <a href="#match" class="nav-link active"><span data-en="The Match" data-si="තරගය">The Match</span></a>
     <a href="#mafia" class="nav-link"><span data-en="The Mafia" data-si="මාෆියාව">The Mafia</span></a>
     <a href="#board" class="nav-link"><span data-en="Conspiracy Board" data-si="කුමන්ත්‍රණ මණ්ඩලය">Conspiracy Board</span></a>
@@ -1284,6 +1379,7 @@
     <a href="#bcci" class="nav-link"><span data-en="BCCI/IPL Axis" data-si="BCCI/IPL අක්ෂය">BCCI/IPL Axis</span></a>
     <a href="#calendar" class="nav-link"><span data-en="Calendar Crisis" data-si="දින දර්ශන අර්බුදය">Calendar Crisis</span></a>
     <a href="#hidden" class="nav-link"><span data-en="Hidden Insights" data-si="සැඟවුණු තීක්ෂ්ණ බුද්ධිය">Hidden Insights</span></a>
+    <button class="nav-theme-btn" id="dossier-theme-btn" onclick="toggleDossierTheme()" title="Toggle light/dark mode">🌙</button>
   </div>
 </nav>
 
@@ -2228,12 +2324,12 @@
   <div class="cp-header">
     <div>
       <div class="cp-title"><span data-en="Community Comments" data-si="ප්‍රජා අදහස්">Community Comments</span></div>
-      <div class="cp-subtitle"><span data-en="Anonymous · IP Logged · Bot Protected" data-si="නිර්නාමික · IP ලොග් කර ඇත · බොට් ආරක්ෂිතයි">Anonymous · IP Logged · Bot Protected</span></div>
+      <div class="cp-subtitle"><span data-en="Moderated · Reviewed before display" data-si="නිෂ්පාදිත · ප්‍රදර්ශනයට පෙර සමාලෝචනය කෙරේ">Moderated · Reviewed before display</span></div>
     </div>
     <button class="cp-close" onclick="toggleComments()">✕</button>
   </div>
   <div class="cp-notice">
-    All comments are anonymous. IP addresses and metadata are recorded for legal compliance. Defamatory content will be removed. By commenting you accept these terms.
+    Comments are reviewed before publication. We welcome substantive contributions and respectful engagement.
   </div>
   <div class="cp-sort-bar" id="cp-sort-bar" style="display:none;">
     <span class="cp-sort-label">Sort:</span>
@@ -2250,17 +2346,23 @@
     <textarea class="cp-textarea" id="cp-text" placeholder="Leave a comment or share your perspective. All submissions are reviewed before publication." maxlength="800"></textarea>
     <input type="text" class="hp-field" id="hp-name" name="website" tabindex="-1" autocomplete="off">
     <div class="cp-actions">
-      <div class="cp-anon-note"><span data-en="Anonymous · Your IP is logged for legal protection only." data-si="නිර්නාමික · ඔබගේ IP ලිපිනය නීතිමය ආරක්ෂාව සඳහා පමණක් ලොග් කර ඇත.">Anonymous · Your IP is logged for legal protection only.</span></div>
+      <div class="cp-anon-note"><span data-en="Comments are moderated before display." data-si="අදහස් ප්‍රදර්ශනයට පෙර නිෂ්පාදනය කෙරේ.">Comments are moderated before display.</span></div>
       <button class="cp-submit" id="cp-btn" onclick="requestPost()"><span data-en="Post" data-si="තැපැල්">Post</span></button>
     </div>
     <div class="cp-status" id="cp-status"></div>
-    <div class="cp-terms">Comments are moderated. This site records IP, user agent, and timestamp for every submission. Knowingly false statements about named individuals may constitute defamation under Sri Lanka civil law. Posts are reviewed before display.</div>
+    <div class="cp-terms">All submissions are reviewed before display. This is a moderated space for substantive public discussion.</div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
-  <p><span data-en="Political Research Dossier — The Death of Sri Lankan Cricket" data-si="දේශපාලන පර්යේෂණ ලේඛනය - ශ්‍රී ලංකා ක්‍රිකට් ක්‍රීඩාවේ මරණය">Political Research Dossier — The Death of Sri Lankan Cricket</span><br>
+  <div class="footer-socials">
+    <a href="https://www.facebook.com/riz.life.crisis/" class="footer-social" target="_blank" rel="noopener" title="Facebook"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+    <a href="https://www.instagram.com/riz_razak_" class="footer-social" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+    <a href="https://www.tiktok.com/@riz.razak" class="footer-social" target="_blank" rel="noopener" title="TikTok"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.77 0 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 12.67 0l-.01-8.83a8.18 8.18 0 0 0 4.78 1.52V6.17a4.85 4.85 0 0 1-1-.48z"/></svg></a>
+  </div>
+  <p><a href="https://rizrazak.com" target="_blank" rel="noopener" style="color:var(--accent-cyan);text-decoration:none;">rizrazak.com</a></p>
+  <p style="margin-top:0.5rem;"><span data-en="Political Research Dossier — The Death of Sri Lankan Cricket" data-si="දේශපාලන පර්යේෂණ ලේඛනය - ශ්‍රී ලංකා ක්‍රිකට් ක්‍රීඩාවේ මරණය">Political Research Dossier — The Death of Sri Lankan Cricket</span><br>
   <span data-en="Analysis prepared February 2026 | Sources include ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec" data-si="විශ්ලේෂණය 2026 පෙබරවාරි මාසයේදී සකස් කරන ලදී | මූලාශ්‍ර අතර ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec ඇතුළත් වේ.">Analysis prepared February 2026 | Sources include ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec</span></p>
 </div>
 
@@ -2741,6 +2843,26 @@ document.addEventListener('DOMContentLoaded', function(){
   // Language — apply current language on page load
   applyLang(currentLang);
 });
+
+// ══════════════════════════════════════════
+// DOSSIER LIGHT / DARK THEME
+// ══════════════════════════════════════════
+function initDossierTheme() {
+  const saved = localStorage.getItem('dossier-theme') ||
+    (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  applyDossierTheme(saved);
+}
+function applyDossierTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.getElementById('dossier-theme-btn');
+  if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
+  localStorage.setItem('dossier-theme', theme);
+}
+function toggleDossierTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  applyDossierTheme(current === 'dark' ? 'light' : 'dark');
+}
+initDossierTheme();
 </script>
 
 </body>
