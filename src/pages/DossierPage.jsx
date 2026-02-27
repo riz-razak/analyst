@@ -179,7 +179,7 @@ export default function DossierPage({ dossiers, theme, toggleTheme }) {
       </div>
 
       <iframe
-        src={dossier.contentUrl}
+        src={`${dossier.contentUrl}?v=${Date.now()}`}
         title={dossier.title}
         style={styles.iframe}
       />
