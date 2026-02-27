@@ -2743,11 +2743,11 @@ function renderComments(){
           '<span class="bubble-time">'+timeStr+'</span>'+
         '</div>'+
         '<div class="bubble-text'+(isLong?' collapsed':'')+'" id="bt-'+c.id+'">'+escHtml(c.text)+'</div>'+
-        (isLong ? '<button class="bubble-expand-btn" onclick="toggleExpand(this,document.getElementById('bt-'+c.id+''))">▼ Show more</button>' : '')+
+        (isLong ? '<button class="bubble-expand-btn" onclick="toggleExpand(this,document.getElementById(\'bt-'+c.id+'\'))">▼ Show more</button>' : '')+
         '<div class="bubble-actions">'+
           '<span class="bubble-flag">'+escHtml(c.geo||'Unknown')+'</span>'+
-          (rCount>0 ? '<button class="reply-count-btn" id="reply-count-btn-'+c.id+'" onclick="toggleReplies(''+c.id+'')">▼ '+rCount+' repl'+(rCount===1?'y':'ies')+'</button>' : '')+
-          '<button class="bubble-reply-btn" onclick="toggleReplyForm(''+c.id+'')">↩ Reply</button>'+
+          (rCount>0 ? '<button class="reply-count-btn" id="reply-count-btn-'+c.id+'" onclick="toggleReplies(\''+c.id+'\')">▼ '+rCount+' repl'+(rCount===1?'y':'ies')+'</button>' : '')+
+          '<button class="bubble-reply-btn" onclick="toggleReplyForm(\''+c.id+'\')">↩ Reply</button>'+
         '</div>'+
         (rCount>0 ?
           '<div class="reply-thread" id="reply-thread-'+c.id+'" style="display:none;">'+
@@ -2760,8 +2760,8 @@ function renderComments(){
         '<div class="reply-form" id="reply-form-'+c.id+'">'+
           '<textarea class="reply-textarea" id="reply-ta-'+c.id+'" placeholder="Write a reply..." maxlength="500"></textarea>'+
           '<div class="reply-actions">'+
-            '<button class="reply-submit" onclick="submitReply(''+c.id+'')">Post Reply</button>'+
-            '<button class="reply-cancel" onclick="toggleReplyForm(''+c.id+'')">Cancel</button>'+
+            '<button class="reply-submit" onclick="submitReply(\''+c.id+'\')">Post Reply</button>'+
+            '<button class="reply-cancel" onclick="toggleReplyForm(\''+c.id+'\')">Cancel</button>'+
           '</div>'+
         '</div>'+
       '</div>';
