@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Source Log — Private</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --paper:#f5f0e6;--paper-dark:#e8e0cc;--ink:#0d1117;--ink-m:#4a5568;--ink-l:#718096;
+  --red:#dc2626;--redk:#991b1b;--red-bg:#fef2f2;
+  --gold:#d97706;--gold-bg:#fffbeb;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;
+  --blue:#1d4ed8;--blue-bg:#eff6ff;
+  --green:#059669;--green-bg:#ecfdf5;
+  --accent:#b45309;--border:#d4c9a8;
+  --shadow:3px 5px 18px rgba(0,0,0,0.15),0 2px 6px rgba(0,0,0,0.08);
+  --shadow-h:6px 12px 35px rgba(0,0,0,0.25),0 3px 10px rgba(0,0,0,0.12);
+}
+html{scroll-behavior:smooth;}
+body{background:#0a0e14;font-family:'Inter',sans-serif;color:#f9fafb;min-height:100vh;}
+body.private-unlocked .lock-screen{display:none;}
+body.private-unlocked #content{display:block;}
+#content{display:none;}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:#0d1117;border-bottom:3px solid var(--red);
+  padding:12px 40px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.back-btn{
+  color:#9ca3af;font-size:0.75rem;font-family:'JetBrains Mono',monospace;
+  text-decoration:none;letter-spacing:1px;text-transform:uppercase;
+  border:1px solid #374151;padding:5px 12px;border-radius:3px;transition:all .2s;
+}
+.back-btn:hover{color:#fff;border-color:#6b7280;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#fff;letter-spacing:2px;}
+#lock-btn{
+  background:transparent;border:1px solid #4b5563;color:#9ca3af;
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;
+  text-transform:uppercase;padding:6px 14px;border-radius:3px;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:6px;
+}
+#lock-btn:hover{background:#1f2937;border-color:#6b7280;color:#fff;}
+
+/* ── LOCK SCREEN ── */
+.lock-screen{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,0.95);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+}
+.lock-box{
+  background:#0d1117;border:1px solid #374151;border-top:3px solid var(--red);
+  border-radius:6px;padding:40px;width:min(420px,90vw);
+  box-shadow:0 25px 80px rgba(0,0,0,0.8);
+  text-align:center;
+}
+.lock-icon{
+  font-size:3rem;margin-bottom:16px;
+}
+.lock-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#fff;
+  letter-spacing:2px;margin-bottom:8px;
+}
+.lock-subtitle{
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#6b7280;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;
+}
+.lock-warning{
+  background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.3);
+  border-radius:3px;padding:12px;margin-bottom:24px;
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#fca5a5;
+  line-height:1.6;text-transform:uppercase;letter-spacing:0.5px;
+}
+.lock-input{
+  width:100%;background:#1f2937;border:1px solid #374151;color:#f9fafb;
+  font-family:'JetBrains Mono',monospace;font-size:0.9rem;
+  padding:12px 14px;border-radius:3px;outline:none;margin-bottom:8px;
+  transition:border-color .2s;
+}
+.lock-input:focus{border-color:var(--red);}
+.lock-input::placeholder{color:#4b5563;}
+.lock-error{
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--red);
+  margin-bottom:12px;min-height:18px;text-align:left;
+}
+.lock-btns{
+  display:flex;gap:10px;
+}
+.lock-submit{
+  flex:1;background:var(--red);color:#fff;border:none;
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:1px;
+  text-transform:uppercase;padding:12px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.lock-submit:hover{background:var(--redk);}
+
+/* ── MAIN CONTENT ── */
+.wrapper{
+  max-width:1100px;margin:0 auto;padding:48px 40px 80px;
+}
+.page-header{
+  margin-bottom:40px;
+}
+.header-warning{
+  background:rgba(220,38,38,0.08);border-left:4px solid var(--red);
+  padding:16px 20px;border-radius:3px;margin-bottom:24px;
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:#fca5a5;
+  text-transform:uppercase;letter-spacing:1px;line-height:1.7;
+}
+.page-title{
+  font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#fff;
+  letter-spacing:2px;margin-bottom:8px;
+}
+.page-meta{
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#6b7280;
+  text-transform:uppercase;letter-spacing:1px;
+}
+
+/* ── CONTROLS ── */
+.controls{
+  display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap;
+}
+.btn{
+  background:transparent;border:1px solid #374151;color:#9ca3af;
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;
+  text-transform:uppercase;padding:10px 16px;border-radius:3px;cursor:pointer;
+  transition:all .2s;display:inline-flex;align-items:center;gap:6px;
+}
+.btn:hover{background:#1f2937;border-color:#6b7280;color:#fff;}
+.btn-primary{
+  background:var(--gold);color:#000;border-color:var(--gold);font-weight:600;
+}
+.btn-primary:hover{background:#b45309;border-color:#b45309;}
+
+/* ── TABLE ── */
+.table-wrapper{
+  background:#0d1117;border:1px solid #1f2937;border-radius:6px;
+  overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,0.4);
+}
+table{
+  width:100%;border-collapse:collapse;font-size:0.85rem;
+}
+thead{
+  background:#1f2937;border-bottom:2px solid #374151;
+}
+th{
+  padding:14px 16px;text-align:left;font-weight:600;color:#fbbf24;
+  font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.5px;
+  font-size:0.7rem;
+}
+td{
+  padding:14px 16px;color:#d1d5db;border-bottom:1px solid #1f2937;
+}
+tbody tr:hover{background:rgba(251,191,36,0.05);}
+tbody tr:last-child td{border-bottom:none;}
+.stars{
+  color:#fbbf24;letter-spacing:2px;font-size:1.1rem;
+}
+.tag{
+  display:inline-block;background:rgba(217,119,6,0.15);border:1px solid rgba(217,119,6,0.3);
+  color:#fcd34d;padding:4px 8px;border-radius:2px;font-size:0.75rem;
+  font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.5px;
+}
+.empty-state{
+  text-align:center;padding:60px 40px;color:#4b5563;
+}
+.empty-icon{font-size:3rem;margin-bottom:16px;}
+
+/* ── MODAL ── */
+#form-modal{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;
+}
+#form-modal.show{display:flex;}
+.modal-overlay{
+  width:100%;height:100%;position:absolute;top:0;left:0;
+}
+.form-box{
+  background:#0d1117;border:1px solid #374151;border-top:3px solid var(--gold);
+  border-radius:6px;padding:32px;width:min(500px,90vw);max-height:85vh;overflow-y:auto;
+  box-shadow:0 25px 60px rgba(0,0,0,0.8);position:relative;z-index:10;
+}
+.form-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#fff;
+  letter-spacing:2px;margin-bottom:20px;
+}
+.form-group{
+  margin-bottom:20px;
+}
+.form-label{
+  display:block;font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+  color:#fbbf24;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;
+}
+.form-input,.form-textarea{
+  width:100%;background:#1f2937;border:1px solid #374151;color:#f9fafb;
+  font-family:'Inter',sans-serif;font-size:0.9rem;padding:10px 12px;
+  border-radius:3px;outline:none;transition:border-color .2s;
+}
+.form-input:focus,.form-textarea:focus{border-color:var(--gold);}
+.form-textarea{
+  resize:vertical;min-height:100px;font-family:'JetBrains Mono',monospace;
+}
+.form-input::placeholder,.form-textarea::placeholder{color:#4b5563;}
+.form-btns{
+  display:flex;gap:10px;margin-top:24px;
+}
+.form-submit{
+  flex:1;background:var(--gold);color:#000;border:none;
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:1px;
+  text-transform:uppercase;padding:12px;border-radius:3px;cursor:pointer;transition:all .2s;font-weight:600;
+}
+.form-submit:hover{background:#b45309;}
+.form-cancel{
+  background:transparent;border:1px solid #374151;color:#6b7280;
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:1px;
+  text-transform:uppercase;padding:12px 16px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.form-cancel:hover{border-color:#6b7280;color:#9ca3af;}
+</style>
+</head>
+<body>
+
+<div class="lock-screen">
+  <div class="lock-box">
+    <div class="lock-icon">🔐</div>
+    <div class="lock-title">Private View</div>
+    <div class="lock-subtitle">Source Log Access Required</div>
+    <div class="lock-warning">AUTHORISED PERSONNEL ONLY. UNAUTHORISED ACCESS IS PROHIBITED.</div>
+    <input type="password" class="lock-input" id="pw-input" placeholder="Access key..." autocomplete="off">
+    <div class="lock-error" id="pw-error"></div>
+    <div class="lock-btns">
+      <button class="lock-submit" onclick="checkPassword()">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<div id="content">
+  <div class="topbar">
+    <div class="topbar-left">
+      <a href="kalathma-scandal.html" class="back-btn">← Back</a>
+      <div class="topbar-title">Source Log</div>
+    </div>
+    <button id="lock-btn" onclick="lockView()" style="display:none;">🔒 Lock</button>
+  </div>
+
+  <div class="wrapper">
+    <div class="page-header">
+      <div class="header-warning">⚠ PRIVATE — FOR LEGAL PURPOSES ONLY. DO NOT SHARE THIS URL.</div>
+      <div class="page-title">Source Log</div>
+      <div class="page-meta">Confidential | SLC Dossier | Updated 2026-02-27</div>
+    </div>
+
+    <div class="controls">
+      <button class="btn btn-primary" onclick="openForm()">+ Add New Entry</button>
+      <button class="btn" onclick="exportJSON()">Export JSON</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table id="sources-table">
+        <thead>
+          <tr>
+            <th>Claim</th>
+            <th>Source Type</th>
+            <th>Source Name / URL</th>
+            <th>Date Accessed</th>
+            <th>Reliability</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+      <div id="empty-state" class="empty-state">
+        <div class="empty-icon">📋</div>
+        <p>No sources logged yet. Add a new entry to begin.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM MODAL -->
+<div id="form-modal">
+  <div class="modal-overlay" onclick="closeForm()"></div>
+  <div class="form-box">
+    <div class="form-title">New Source Entry</div>
+    
+    <div class="form-group">
+      <label class="form-label">Claim or Allegation</label>
+      <input type="text" class="form-input" id="form-claim" placeholder="e.g., 'Match fixing in 2019 World Cup'">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Source Type</label>
+      <select class="form-input" id="form-type" style="background:#1f2937;color:#f9fafb;">
+        <option value="">Select type...</option>
+        <option value="Document">Document</option>
+        <option value="Interview">Interview</option>
+        <option value="Public Record">Public Record</option>
+        <option value="Media Report">Media Report</option>
+        <option value="Whistleblower">Whistleblower</option>
+        <option value="Official Statement">Official Statement</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Source Name / URL</label>
+      <input type="text" class="form-input" id="form-source" placeholder="e.g., 'cricket.gov.lk/doc/2019' or 'Interview with X'">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Date Accessed</label>
+      <input type="date" class="form-input" id="form-date">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Reliability (1-5 stars)</label>
+      <div style="display:flex;gap:8px;">
+        <button type="button" class="btn" style="flex:1;background:#1f2937;border-color:#374151;" onclick="setRating(1)">★☆☆☆☆</button>
+        <button type="button" class="btn" style="flex:1;background:#1f2937;border-color:#374151;" onclick="setRating(2)">★★☆☆☆</button>
+        <button type="button" class="btn" style="flex:1;background:#1f2937;border-color:#374151;" onclick="setRating(3)">★★★☆☆</button>
+        <button type="button" class="btn" style="flex:1;background:#1f2937;border-color:#374151;" onclick="setRating(4)">★★★★☆</button>
+        <button type="button" class="btn" style="flex:1;background:#1f2937;border-color:#374151;" onclick="setRating(5)">★★★★★</button>
+      </div>
+      <input type="hidden" id="form-rating" value="3">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Notes</label>
+      <textarea class="form-textarea" id="form-notes" placeholder="Additional context, quotes, or analysis..."></textarea>
+    </div>
+
+    <div class="form-btns">
+      <button class="form-submit" onclick="saveEntry()">Save Entry</button>
+      <button class="form-cancel" onclick="closeForm()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CORRECT_PW = 'analyst2026$aoeuidhtns';
+let unlocked = false;
+let currentRating = 3;
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  if(sessionStorage.getItem('slc_sources_unlocked') === '1'){
+    unlockView();
+  }
+  loadSources();
+  document.getElementById('pw-input').addEventListener('keydown', e => {
+    if(e.key === 'Enter') checkPassword();
+    if(e.key === 'Escape') closeModal();
+  });
+  // Set today's date as default in form
+  document.getElementById('form-date').valueAsDate = new Date();
+});
+
+function checkPassword(){
+  const val = document.getElementById('pw-input').value;
+  if(val === CORRECT_PW){
+    unlockView();
+  } else {
+    document.getElementById('pw-error').textContent = 'Incorrect access key.';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+function unlockView(){
+  unlocked = true;
+  document.body.classList.add('private-unlocked');
+  document.getElementById('lock-btn').style.display = 'flex';
+  sessionStorage.setItem('slc_sources_unlocked', '1');
+}
+
+function lockView(){
+  unlocked = false;
+  document.body.classList.remove('private-unlocked');
+  document.getElementById('lock-btn').style.display = 'none';
+  sessionStorage.removeItem('slc_sources_unlocked');
+  location.reload();
+}
+
+function loadSources(){
+  const stored = localStorage.getItem('slc_sources_v1');
+  let sources = [];
+  if(stored){
+    try { sources = JSON.parse(stored); }
+    catch(e){ console.error('Failed to parse sources:', e); }
+  }
+  
+  // If empty, add template rows
+  if(sources.length === 0){
+    sources = [
+      {
+        claim: "Match-fixing allegations in 2019 World Cup",
+        type: "Document",
+        source: "cricket.gov.lk/audit/2019",
+        date: "2026-01-15",
+        rating: 5,
+        notes: "Official audit report from Sri Lanka Cricket Board. Confirmed through primary source."
+      },
+      {
+        claim: "Bribery claims involving selection committee",
+        type: "Interview",
+        source: "Anonymous former cricket board official",
+        date: "2026-02-03",
+        rating: 3,
+        notes: "Conducted via encrypted email. Single-source claim, requires corroboration."
+      },
+      {
+        claim: "International match ratings suspicion",
+        type: "Media Report",
+        source: "ESPN Cricket Analysis | Jan 2026",
+        date: "2026-01-20",
+        rating: 4,
+        notes: "Published analysis of betting patterns. Corroborated by multiple independent observers."
+      }
+    ];
+  }
+  
+  renderTable(sources);
+}
+
+function renderTable(sources){
+  const tbody = document.getElementById('table-body');
+  const empty = document.getElementById('empty-state');
+  
+  if(sources.length === 0){
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  
+  empty.style.display = 'none';
+  tbody.innerHTML = sources.map((s, i) => `
+    <tr>
+      <td>${escapeHtml(s.claim)}</td>
+      <td><span class="tag">${escapeHtml(s.type)}</span></td>
+      <td><code style="color:#9ca3af;font-size:0.8rem;">${escapeHtml(s.source)}</code></td>
+      <td><code style="color:#6b7280;">${s.date}</code></td>
+      <td class="stars">${'★'.repeat(s.rating)}${'☆'.repeat(5-s.rating)}</td>
+      <td style="font-size:0.8rem;">${escapeHtml(s.notes.substring(0, 50))}${s.notes.length > 50 ? '...' : ''}</td>
+    </tr>
+  `).join('');
+}
+
+function openForm(){
+  document.getElementById('form-modal').classList.add('show');
+  document.getElementById('form-claim').focus();
+}
+
+function closeForm(){
+  document.getElementById('form-modal').classList.remove('show');
+  resetForm();
+}
+
+function resetForm(){
+  document.getElementById('form-claim').value = '';
+  document.getElementById('form-type').value = '';
+  document.getElementById('form-source').value = '';
+  document.getElementById('form-date').valueAsDate = new Date();
+  document.getElementById('form-rating').value = '3';
+  document.getElementById('form-notes').value = '';
+  currentRating = 3;
+}
+
+function setRating(n){
+  document.getElementById('form-rating').value = n;
+  currentRating = n;
+}
+
+function saveEntry(){
+  const claim = document.getElementById('form-claim').value.trim();
+  const type = document.getElementById('form-type').value.trim();
+  const source = document.getElementById('form-source').value.trim();
+  const date = document.getElementById('form-date').value;
+  const rating = parseInt(document.getElementById('form-rating').value);
+  const notes = document.getElementById('form-notes').value.trim();
+  
+  if(!claim || !type || !source || !date){
+    alert('Please fill in all required fields.');
+    return;
+  }
+  
+  const stored = localStorage.getItem('slc_sources_v1') || '[]';
+  let sources = JSON.parse(stored);
+  
+  sources.push({
+    claim, type, source, date, rating, notes
+  });
+  
+  localStorage.setItem('slc_sources_v1', JSON.stringify(sources));
+  renderTable(sources);
+  closeForm();
+}
+
+function exportJSON(){
+  const stored = localStorage.getItem('slc_sources_v1') || '[]';
+  const sources = JSON.parse(stored);
+  
+  const data = {
+    exported: new Date().toISOString(),
+    platform: 'analyst.rizrazak.com',
+    dossier: 'sri-lanka-cricket-corruption',
+    page: 'sources',
+    confidential: true,
+    sources: sources
+  };
+  
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `slc-sources-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function escapeHtml(text){
+  const map = {
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
+</script>
+
+</body>
+</html>

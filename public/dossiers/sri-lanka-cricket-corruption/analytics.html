@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — analyst.rizrazak.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#070b10;--card:#0d1117;--card2:#111827;--border:#1f2937;--border2:#374151;
+  --red:#dc2626;--redk:#991b1b;--gold:#d97706;--green:#059669;--blue:#1d4ed8;
+  --purple:#7c3aed;--orange:#ea580c;
+  --text:#f9fafb;--muted:#6b7280;--muted2:#9ca3af;
+}
+body{background:var(--bg);font-family:'JetBrains Mono',monospace;color:var(--text);min-height:100vh;}
+
+/* ── TOPBAR ── */
+.topbar{
+  background:var(--card);border-bottom:2px solid var(--red);
+  padding:14px 32px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;}
+.topbar-badge{font-size:0.55rem;letter-spacing:1.5px;text-transform:uppercase;background:var(--red);color:#fff;padding:3px 10px;border-radius:2px;}
+.back-btn{color:var(--muted);font-size:0.6rem;text-decoration:none;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--border);padding:5px 12px;border-radius:3px;transition:all .2s;}
+.back-btn:hover{color:var(--text);border-color:var(--border2);}
+.topbar-right{font-size:0.55rem;color:var(--muted);letter-spacing:1px;}
+
+/* ── MAIN ── */
+.main{max-width:1400px;margin:0 auto;padding:32px 32px 80px;}
+
+/* ── TABS ── */
+.tab-bar{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:32px;overflow-x:auto;}
+.tab{
+  font-size:0.6rem;letter-spacing:1.5px;text-transform:uppercase;
+  padding:10px 20px;cursor:pointer;border-bottom:2px solid transparent;
+  margin-bottom:-2px;color:var(--muted);transition:all .2s;white-space:nowrap;
+}
+.tab:hover{color:var(--muted2);}
+.tab.active{color:var(--text);border-bottom-color:var(--red);}
+.tab-badge{
+  display:inline-block;background:var(--red);color:#fff;
+  font-size:0.5rem;padding:1px 5px;border-radius:8px;margin-left:6px;vertical-align:middle;
+}
+.tab-badge.gold{background:var(--gold);}
+.tab-badge.green{background:var(--green);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ── STAT CARDS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-bottom:28px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--red);border-radius:4px;padding:18px 20px;}
+.stat-card.green{border-top-color:var(--green);}
+.stat-card.gold{border-top-color:var(--gold);}
+.stat-card.blue{border-top-color:var(--blue);}
+.stat-card.purple{border-top-color:var(--purple);}
+.sc-label{font-size:0.5rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px;}
+.sc-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;line-height:1;}
+.sc-sub{font-size:0.5rem;color:var(--muted);margin-top:4px;}
+
+/* ── SECTION TITLES ── */
+.sect-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;
+  margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.sect-badge{font-size:0.5rem;background:var(--border2);padding:3px 8px;border-radius:2px;color:var(--muted2);letter-spacing:1px;font-family:'JetBrains Mono',monospace;}
+
+/* ── COMMENT CARDS ── */
+.comment-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.cc{
+  background:var(--card);border:1px solid var(--border);border-radius:4px;
+  padding:16px 18px;
+}
+.cc.pending{border-left:3px solid var(--gold);}
+.cc.approved{border-left:3px solid var(--green);}
+.cc.flagged{border-left:3px solid var(--red);}
+.cc.rejected{border-left:3px solid var(--muted);opacity:0.5;}
+.cc-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:12px;}
+.cc-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.cc-id{font-size:0.55rem;background:var(--border);padding:2px 7px;border-radius:2px;color:var(--muted2);}
+.cc-status{font-size:0.5rem;text-transform:uppercase;letter-spacing:1px;padding:2px 8px;border-radius:2px;}
+.cc-status.pending{background:rgba(217,119,6,0.2);color:#fbbf24;}
+.cc-status.approved{background:rgba(5,150,105,0.2);color:#34d399;}
+.cc-status.flagged{background:rgba(220,38,38,0.2);color:#f87171;}
+.cc-status.rejected{background:rgba(107,114,128,0.2);color:#9ca3af;}
+.cc-time{font-size:0.5rem;color:var(--muted);}
+.cc-actions{display:flex;gap:6px;flex-shrink:0;}
+.cc-btn{
+  font-size:0.55rem;letter-spacing:1px;text-transform:uppercase;
+  border:none;padding:5px 10px;border-radius:2px;cursor:pointer;transition:all .2s;
+  font-family:'JetBrains Mono',monospace;
+}
+.cc-btn.approve{background:var(--green);color:#fff;}
+.cc-btn.approve:hover{background:#047857;}
+.cc-btn.flag{background:rgba(220,38,38,0.2);color:#f87171;border:1px solid rgba(220,38,38,0.3);}
+.cc-btn.flag:hover{background:rgba(220,38,38,0.35);}
+.cc-btn.reject{background:rgba(107,114,128,0.15);color:var(--muted2);border:1px solid var(--border);}
+.cc-btn.reject:hover{background:rgba(107,114,128,0.25);}
+.cc-btn.unapprove{background:rgba(217,119,6,0.2);color:#fbbf24;border:1px solid rgba(217,119,6,0.3);}
+.cc-text{font-family:'Space Grotesk',sans-serif;font-size:0.82rem;line-height:1.6;color:var(--muted2);margin-bottom:10px;}
+.cc-detail{font-size:0.52rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px;}
+.cc-detail span{display:flex;align-items:center;gap:4px;}
+.cc-ip{font-size:0.55rem;background:rgba(30,64,175,0.15);color:#93c5fd;border:1px solid rgba(30,64,175,0.25);padding:2px 7px;border-radius:2px;}
+.cc-geo{font-size:0.55rem;color:#fbbf24;}
+.cc-tos{font-size:0.5rem;background:rgba(5,150,105,0.1);color:#34d399;border:1px solid rgba(5,150,105,0.2);padding:2px 7px;border-radius:2px;}
+
+/* ── ALLEGED CHECKER ── */
+.checker-box{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:24px;}
+.checker-input-row{display:flex;gap:10px;margin-bottom:16px;}
+.checker-url{
+  flex:1;background:var(--card2);border:1px solid var(--border2);color:var(--text);
+  font-family:'JetBrains Mono',monospace;font-size:0.75rem;
+  padding:10px 14px;border-radius:3px;outline:none;
+}
+.checker-url:focus{border-color:var(--gold);}
+.checker-btn{
+  background:var(--gold);color:#fff;border:none;
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;
+  text-transform:uppercase;padding:10px 18px;border-radius:3px;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+}
+.checker-btn:hover{background:#b45309;}
+.checker-results{margin-top:16px;}
+.checker-claim{
+  background:var(--card2);border-radius:3px;padding:12px 16px;margin-bottom:8px;
+  border-left:3px solid var(--red);font-size:0.75rem;
+}
+.checker-claim.ok{border-left-color:var(--green);}
+.checker-claim.warn{border-left-color:var(--gold);}
+.claim-label{font-size:0.5rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.claim-label.ok{color:var(--green);}
+.claim-label.warn{color:#fbbf24;}
+.claim-label.err{color:#f87171;}
+.claim-text{color:var(--muted2);line-height:1.5;}
+.checker-summary{
+  background:rgba(5,150,105,0.1);border:1px solid rgba(5,150,105,0.25);
+  border-radius:3px;padding:12px 16px;margin-bottom:16px;font-size:0.7rem;color:var(--muted2);
+}
+.checker-summary.issues{background:rgba(220,38,38,0.08);border-color:rgba(220,38,38,0.25);}
+
+/* ── SETUP GUIDE ── */
+.setup-step{
+  background:var(--card);border:1px solid var(--border);border-radius:4px;
+  padding:18px 20px;margin-bottom:10px;display:flex;gap:16px;align-items:flex-start;
+}
+.step-num{
+  font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--muted);
+  line-height:1;flex-shrink:0;width:32px;text-align:center;
+}
+.step-title{font-size:0.7rem;color:var(--text);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;}
+.step-body{font-size:0.65rem;color:var(--muted2);line-height:1.6;}
+.step-body code{background:var(--border);padding:1px 5px;border-radius:2px;font-size:0.6rem;color:#fbbf24;}
+.step-body a{color:#60a5fa;text-decoration:none;}
+.step-body a:hover{text-decoration:underline;}
+.step-status{
+  font-size:0.5rem;text-transform:uppercase;letter-spacing:1px;
+  padding:2px 7px;border-radius:2px;margin-top:6px;display:inline-block;
+}
+.step-status.done{background:rgba(5,150,105,0.2);color:#34d399;}
+.step-status.todo{background:rgba(217,119,6,0.2);color:#fbbf24;}
+.step-status.required{background:rgba(220,38,38,0.2);color:#f87171;}
+
+/* ── LEGAL BRIEF ── */
+.legal-item{
+  background:var(--card);border:1px solid var(--border);border-left:3px solid var(--blue);
+  border-radius:4px;padding:16px 20px;margin-bottom:10px;
+}
+.legal-item.green{border-left-color:var(--green);}
+.legal-item.gold{border-left-color:var(--gold);}
+.legal-item.red{border-left-color:var(--red);}
+.legal-title{font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--text);margin-bottom:6px;}
+.legal-body{font-size:0.68rem;color:var(--muted2);line-height:1.65;}
+.legal-body strong{color:var(--muted2);}
+.risk-pill{
+  display:inline-block;font-size:0.5rem;text-transform:uppercase;letter-spacing:1px;
+  padding:2px 8px;border-radius:2px;margin-left:8px;
+}
+.risk-low{background:rgba(5,150,105,0.2);color:#34d399;}
+.risk-med{background:rgba(217,119,6,0.2);color:#fbbf24;}
+.risk-high{background:rgba(220,38,38,0.2);color:#f87171;}
+
+/* ── GDPR PANEL ── */
+.gdpr-panel{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:24px;margin-bottom:16px;}
+.gdpr-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.gdpr-row:last-child{border-bottom:none;}
+.gdpr-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted2);}
+.gdpr-val{font-size:0.65rem;color:var(--text);}
+.gdpr-val.ok{color:#34d399;}
+.gdpr-val.warn{color:#fbbf24;}
+.gdpr-val.err{color:#f87171;}
+
+/* ── EMPTY STATE ── */
+.empty-state{
+  text-align:center;padding:40px;color:var(--muted);
+  font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;
+}
+.empty-state .icon{font-size:2rem;margin-bottom:12px;display:block;}
+
+/* ── PASTE AREA ── */
+.paste-area{
+  width:100%;background:var(--card2);border:1px solid var(--border2);color:var(--text);
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;
+  padding:12px 14px;border-radius:3px;outline:none;resize:vertical;min-height:120px;
+}
+.paste-area:focus{border-color:var(--gold);}
+
+/* ── INFO BOX ── */
+.info-box{
+  background:rgba(30,64,175,0.08);border:1px solid rgba(30,64,175,0.25);
+  border-radius:3px;padding:12px 16px;margin-bottom:16px;font-size:0.65rem;color:var(--muted2);line-height:1.6;
+}
+.info-box.gold{background:rgba(217,119,6,0.08);border-color:rgba(217,119,6,0.25);}
+.info-box.green{background:rgba(5,150,105,0.08);border-color:rgba(5,150,105,0.25);}
+.info-box strong{color:var(--muted2);}
+
+.refresh-btn{
+  background:transparent;border:1px solid var(--border2);color:var(--muted2);
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;
+  text-transform:uppercase;padding:6px 12px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.refresh-btn:hover{background:var(--border);color:var(--text);}
+
+.filter-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+.filter-label{font-size:0.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.filter-btn{
+  font-size:0.55rem;letter-spacing:1px;text-transform:uppercase;
+  border:1px solid var(--border);color:var(--muted2);padding:4px 10px;border-radius:2px;
+  cursor:pointer;background:transparent;transition:all .2s;font-family:'JetBrains Mono',monospace;
+}
+.filter-btn.active{background:var(--border2);color:var(--text);}
+.approve-all-btn{
+  background:rgba(5,150,105,0.2);color:#34d399;border:1px solid rgba(5,150,105,0.3);
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;
+  text-transform:uppercase;padding:6px 14px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.approve-all-btn:hover{background:rgba(5,150,105,0.3);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <a class="back-btn" href="kalathma-scandal.html">← Case File</a>
+    <span class="topbar-title">Admin Dashboard</span>
+    <span class="topbar-badge">Private · Riz Only</span>
+  </div>
+  <div class="topbar-right" id="clock">—</div>
+</div>
+
+<div class="main">
+
+  <!-- STAT OVERVIEW -->
+  <div class="stat-grid" id="stat-grid">
+    <div class="stat-card"><div class="sc-label">Total Comments</div><div class="sc-val" id="sc-total">0</div><div class="sc-sub">all time</div></div>
+    <div class="stat-card gold"><div class="sc-label">Pending Review</div><div class="sc-val" id="sc-pending">0</div><div class="sc-sub">awaiting approval</div></div>
+    <div class="stat-card green"><div class="sc-label">Approved</div><div class="sc-val" id="sc-approved">0</div><div class="sc-sub">publicly visible</div></div>
+    <div class="stat-card"><div class="sc-label">Flagged</div><div class="sc-val" id="sc-flagged">0</div><div class="sc-sub">high legal risk</div></div>
+    <div class="stat-card blue"><div class="sc-label">ToS Accepted</div><div class="sc-val" id="sc-tos">—</div><div class="sc-sub">this browser</div></div>
+    <div class="stat-card purple"><div class="sc-label">GDPR Consent</div><div class="sc-val" id="sc-gdpr">—</div><div class="sc-sub">this browser</div></div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <div class="tab active" data-tab="comments" onclick="switchTab('comments')">
+      💬 Comments <span class="tab-badge gold" id="tab-pending-count">0</span>
+    </div>
+    <div class="tab" data-tab="checker" onclick="switchTab('checker')">
+      🔍 Alleged Checker
+    </div>
+    <div class="tab" data-tab="gdpr" onclick="switchTab('gdpr')">
+      🔒 GDPR &amp; Privacy
+    </div>
+    <div class="tab" data-tab="legal" onclick="switchTab('legal')">
+      ⚖️ Legal Brief
+    </div>
+    <div class="tab" data-tab="setup" onclick="switchTab('setup')">
+      ⚙️ Backend Setup
+    </div>
+  </div>
+
+  <!-- ════ TAB 1: COMMENTS APPROVAL QUEUE ════ -->
+  <div class="tab-panel active" id="tab-comments">
+    <div class="info-box gold">
+      <strong>Approval Workflow:</strong> All comments are saved as <code>pending</code> on the public page. Use Approve / Reject / Flag below. Only approved comments appear publicly.
+      Approved IDs are stored in <code>slc_approved_ids_v1</code> localStorage key — sync'd back to the case file automatically on next visit.
+      <br><br>
+      <strong>Note:</strong> This dashboard reads from the same browser's localStorage. For cross-device moderation, set up Supabase (see Backend Setup tab).
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div class="filter-row" style="margin-bottom:0;">
+        <span class="filter-label">Show:</span>
+        <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="setFilter('pending',this)">Pending</button>
+        <button class="filter-btn" onclick="setFilter('approved',this)">Approved</button>
+        <button class="filter-btn" onclick="setFilter('flagged',this)">Flagged</button>
+        <button class="filter-btn" onclick="setFilter('rejected',this)">Rejected</button>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="approve-all-btn" onclick="approveAllPending()">✓ Approve All Pending</button>
+        <button class="refresh-btn" onclick="loadDashboard()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <div class="comment-list" id="comment-list">
+      <div class="empty-state"><span class="icon">💬</span>No comments yet. They'll appear here as visitors submit them.</div>
+    </div>
+  </div>
+
+  <!-- ════ TAB 2: TWO-PASS ALLEGED CHECKER ════ -->
+  <div class="tab-panel" id="tab-checker">
+    <div class="info-box">
+      <strong>Two-Pass Alleged Checker:</strong> Paste the text of any section below to scan for factual claims about named individuals that lack a compliance label (ALLEGED, CONFIRMED, UNVERIFIED, REPORTED). Defamation risk is highest on bare assertions of fact presented as established truth.
+    </div>
+
+    <div class="checker-box">
+      <div class="sect-title" style="font-size:1.1rem;border:none;margin-bottom:14px;">
+        Paste Content for Compliance Scan
+        <span class="sect-badge">Pass 1: Name Detection · Pass 2: Label Check</span>
+      </div>
+
+      <textarea class="paste-area" id="checker-input" placeholder="Paste section text here — e.g. copy a paragraph from the case file that names specific players or individuals...
+
+Example: 'Danushka Gunathilaka was involved in a serious incident in January 2021 at a Galle hotel during a team gathering.'
+
+The scanner will flag named-person claims missing ALLEGED/CONFIRMED/UNVERIFIED labels."></textarea>
+
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;align-items:center;">
+        <button class="checker-btn" onclick="runChecker()">🔍 Run Compliance Scan</button>
+        <button class="checker-btn" style="background:var(--blue);" onclick="scanFullPage()">📄 Scan Full Case File</button>
+        <button class="checker-btn" style="background:var(--border2);color:var(--muted2);" onclick="clearChecker()">✕ Clear</button>
+      </div>
+
+      <div id="checker-output" style="margin-top:20px;"></div>
+    </div>
+
+    <!-- COMPLIANCE RULES -->
+    <div style="margin-top:24px;">
+      <div class="sect-title" style="font-size:1rem;">Compliance Label Reference</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;">
+        <div class="setup-step">
+          <div class="step-num" style="color:#34d399;">✓</div>
+          <div>
+            <div class="step-title" style="color:#34d399;">CONFIRMED</div>
+            <div class="step-body">Court records, official SLC statements, journalist investigations with named sources. Use when you have documentary evidence or adjudicated fact.</div>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-num" style="color:#fbbf24;">~</div>
+          <div>
+            <div class="step-title" style="color:#fbbf24;">ALLEGED / REPORTED</div>
+            <div class="step-body">Social media claims, single-source reports, unverified testimony. Use liberally for anything not confirmed by primary sources.</div>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-num" style="color:#f87171;">?</div>
+          <div>
+            <div class="step-title" style="color:#f87171;">UNVERIFIED</div>
+            <div class="step-body">Rumour, tip, KalathmaGate-derived. Speculation presented in analysis context. Must be explicit about uncertainty. Never present as fact.</div>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="step-num" style="color:#93c5fd;">§</div>
+          <div>
+            <div class="step-title" style="color:#93c5fd;">Two-Source Rule</div>
+            <div class="step-body">Before publishing any named allegation: minimum 2 independent sources, or one documentary source. Template: <code>[NAME] allegedly [ACTION], per [SOURCE] and [SOURCE].</code></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ TAB 3: GDPR & PRIVACY ════ -->
+  <div class="tab-panel" id="tab-gdpr">
+    <div class="gdpr-panel">
+      <div class="sect-title" style="font-size:1.1rem;border:none;margin-bottom:20px;">Data Processing Status — This Browser</div>
+      <div class="gdpr-row">
+        <span class="gdpr-label">GDPR Consent Recorded</span>
+        <span class="gdpr-val" id="gd-consent">—</span>
+      </div>
+      <div class="gdpr-row">
+        <span class="gdpr-label">Consent Timestamp</span>
+        <span class="gdpr-val" id="gd-consent-ts">—</span>
+      </div>
+      <div class="gdpr-row">
+        <span class="gdpr-label">ToS Acceptance Recorded</span>
+        <span class="gdpr-val" id="gd-tos">—</span>
+      </div>
+      <div class="gdpr-row">
+        <span class="gdpr-label">ToS Acceptance Timestamp</span>
+        <span class="gdpr-val" id="gd-tos-ts">—</span>
+      </div>
+      <div class="gdpr-row">
+        <span class="gdpr-label">IP in Comments (raw)</span>
+        <span class="gdpr-val" id="gd-ip-raw">—</span>
+      </div>
+      <div class="gdpr-row">
+        <span class="gdpr-label">90-Day Purge Due</span>
+        <span class="gdpr-val" id="gd-purge">—</span>
+      </div>
+      <div class="gdpr-row">
+        <span class="gdpr-label">Total Comments in localStorage</span>
+        <span class="gdpr-val" id="gd-total">—</span>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;">
+      <button class="checker-btn" onclick="purgeRawIPs()">🔒 Hash All Raw IPs Now</button>
+      <button class="checker-btn" style="background:var(--red);" onclick="purgeOldComments()">🗑 Purge Comments &gt;90 Days</button>
+      <button class="checker-btn" style="background:var(--border2);color:var(--muted2);" onclick="exportComments()">📥 Export JSON Backup</button>
+    </div>
+
+    <div class="sect-title" style="font-size:1.1rem;">Privacy Policy Requirements — Implementation Checklist</div>
+    <div class="legal-item green">
+      <div class="legal-title">✅ IP Logging — Lawful Basis</div>
+      <div class="legal-body">IP addresses are collected under <strong>legitimate interest</strong> — specifically, to defend against defamation claims and identify harassment. This is standard practice for publications accepting user comments. The basis is documented in the privacy policy (privacy.html). GDPR Art. 6(1)(f) applies. <strong>Action: Create privacy.html</strong> (see button below).</div>
+    </div>
+    <div class="legal-item gold">
+      <div class="legal-title">⚠️ Data Minimisation — 90-Day Rule</div>
+      <div class="legal-body">Raw IP addresses should be replaced with an irreversible hash after 90 days. The hash is sufficient for linking future submissions from the same device, while reducing personal data exposure. Use the "Hash All Raw IPs" button above, or set up a cron job. <strong>Current policy: manual purge required.</strong></div>
+    </div>
+    <div class="legal-item green">
+      <div class="legal-title">✅ Consent Banner</div>
+      <div class="legal-body">GDPR consent banner is implemented on kalathma-scandal.html. Consent is recorded in localStorage with timestamp and version. Users who decline analytics still receive service but IP is not captured for comments. Banner uses a "Understood / Decline Analytics" two-option design — no pre-ticked boxes.</div>
+    </div>
+    <div class="legal-item green">
+      <div class="legal-title">✅ ToS Liability Transfer</div>
+      <div class="legal-body">Terms of Service modal implemented. Users must accept before posting. Acceptance is logged with IP, timestamp, session ID, and ToS version. This creates a clear record that <strong>commenters accepted sole liability for their submissions</strong> — strengthening the platform's editorial immunity defence.</div>
+    </div>
+    <div class="legal-item">
+      <div class="legal-title">⬜ Privacy Policy Page (privacy.html)</div>
+      <div class="legal-body">A machine-readable privacy policy is required for GDPR compliance and strengthens the liability framework. It should cover: data collected, legal basis, retention periods, user rights (access, erasure, correction), and contact details. Hosted at the same domain.</div>
+    </div>
+
+    <button class="checker-btn" style="margin-top:16px;" onclick="generatePrivacyPage()">📄 Generate privacy.html</button>
+    <button class="checker-btn" style="margin-top:16px;margin-left:10px;background:var(--blue);" onclick="generateTermsPage()">📄 Generate terms.html</button>
+  </div>
+
+  <!-- ════ TAB 4: LEGAL BRIEF ════ -->
+  <div class="tab-panel" id="tab-legal">
+    <div class="info-box green">
+      <strong>Status as of Feb 2026:</strong> Platform is hosted on GitHub Pages (US servers). Domain registered via Cloudflare (US company). Analysis is framed as investigative commentary on matters of public interest. These structural choices provide significant legal protection.
+    </div>
+
+    <div class="legal-item green">
+      <div class="legal-title">US Hosting — First Amendment Protection <span class="risk-pill risk-low">Low Risk</span></div>
+      <div class="legal-body">GitHub Pages (Microsoft Azure, US datacenters). All content is served from US infrastructure. Under <em>New York Times v. Sullivan</em> (1964) and its progeny, statements about public figures require proof of <strong>actual malice</strong> — knowledge of falsity or reckless disregard for truth. Sri Lankan cricketers playing at international level are public figures by any standard. The bar for a successful US defamation claim against this platform is extremely high. <strong>US courts have jurisdiction over the domain; Sri Lankan courts do not.</strong></div>
+    </div>
+
+    <div class="legal-item green">
+      <div class="legal-title">Cloudflare Proxy — Sri Lankan IP Obscuration <span class="risk-pill risk-low">Low Risk</span></div>
+      <div class="legal-body">When the domain is proxied through Cloudflare (US company), the actual server IP is hidden. Sri Lankan ISPs cannot directly block the origin server. Cloudflare also provides DDoS protection and can absorb legal pressure for a period. <strong>Action required:</strong> Ensure DNS is proxied (orange cloud in Cloudflare dashboard) rather than DNS-only.</div>
+    </div>
+
+    <div class="legal-item gold">
+      <div class="legal-title">KalathmaGate — Age Correction Applied <span class="risk-pill risk-low">Updated</span></div>
+      <div class="legal-body">Kalathma Hitihamige was 17 years old at the time of the TikTok video in early 2023. She has since turned 18 (November 2025). The case file has been updated to read <strong>"then just 17 years old — a teenager"</strong> and notes she has since reached majority. This framing preserves the moral argument (elite using legal threats against a teenager) while removing any suggestion she is currently a minor, which reduces legal surface area. The legal complaint stands on its own merits regardless of her current age.</div>
+    </div>
+
+    <div class="legal-item gold">
+      <div class="legal-title">Comments Section — Liability Transfer <span class="risk-pill risk-med">Medium Risk</span></div>
+      <div class="legal-body">ToS modal is now in place. Every commenter must explicitly accept that they are <strong>solely responsible</strong> for their submission, that their IP is logged, and that the platform operator bears no liability for user content. This mirrors the framework used by newspapers and major platforms. Combined with pre-moderation (pending queue), the platform's exposure from user comments is significantly reduced. <strong>47 U.S.C. § 230</strong> (Communications Decency Act) further immunises the platform from liability for third-party content, provided it is not the "information content provider." Do not materially edit submitted comments — pass through or reject only.</div>
+    </div>
+
+    <div class="legal-item">
+      <div class="legal-title">Anonymous Domain Registration <span class="risk-pill risk-med">Recommended</span></div>
+      <div class="legal-body">Current WHOIS data for rizrazak.com should be reviewed. If personal details are visible, consider domain privacy (most registrars offer this free, including Cloudflare Registrar). This prevents trivial identification via WHOIS lookup. Note: a determined adversary with legal standing can compel registrar disclosure, but this raises the bar considerably for informal pressure.</div>
+    </div>
+
+    <div class="legal-item red">
+      <div class="legal-title">Sri Lanka Computer Crimes Act 2007 — Watch List <span class="risk-pill risk-high">Monitor</span></div>
+      <div class="legal-body">Section 3(1) of the CCCA criminalises "unauthorised access" broadly, and has been used against journalists. However, the Act targets <em>unauthorised computer access</em>, not publication of information. Section 32 (relating to data) has been attempted against social media users. Practical protection: US hosting means Sri Lankan authorities cannot compel content removal without US legal proceedings, which require meeting US legal standards. Maintain the editorial distinction between confirmed facts and clearly-labelled allegations.</div>
+    </div>
+
+    <div class="legal-item green">
+      <div class="legal-title">Two-Source Rule — Editorial Standard <span class="risk-pill risk-low">Implemented</span></div>
+      <div class="legal-body">Mandatory before publishing named allegations: minimum two independent sources OR one documentary source (court record, official statement, journalist investigation). All unsourced allegations must be labelled ALLEGED/UNVERIFIED. Run the Alleged Checker tool (see tab above) before every publish. This is both an ethical and legal safeguard — it demonstrates editorial diligence if the platform is ever challenged.</div>
+    </div>
+
+    <div class="legal-item">
+      <div class="legal-title">Private Sources Log (sources.html) <span class="risk-pill risk-med">Pending</span></div>
+      <div class="legal-body">Maintain a separate, password-protected log of your sources for each published claim. This is never published — it exists purely to demonstrate to a court or legal adviser that your reporting is grounded in real sources. Journalist shield law protections (weak in Sri Lanka, stronger under US law if publication is based in US) may protect source identities. The sources log page is pending creation (see Backend Setup tab).</div>
+    </div>
+  </div>
+
+  <!-- ════ TAB 5: BACKEND SETUP ════ -->
+  <div class="tab-panel" id="tab-setup">
+    <div class="info-box">
+      <strong>Current State:</strong> Comments are stored in <code>localStorage</code> (browser-local). This works for single-browser testing but doesn't persist across visitors. The setup steps below move you to a production-ready stack with cross-device moderation.
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Formspree — Email Notification</div>
+        <div class="step-body">
+          Create free account at <a href="https://formspree.io" target="_blank">formspree.io</a> → New form → copy Form ID (e.g. <code>xrgjabc</code>).<br>
+          Open <code>kalathma-scandal.html</code> → find <code>const FORMSPREE_ID = 'YOUR_FORMSPREE_ID'</code> → replace with your ID.<br>
+          You'll receive an email for every submitted comment with the full text, IP, geo, and ID.
+          <div><span class="step-status todo">Setup Required</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Supabase — Cross-Device Comment Storage + Approval</div>
+        <div class="step-body">
+          Create free account at <a href="https://supabase.com" target="_blank">supabase.com</a> → New project → SQL Editor → run:
+          <br><br>
+          <code>CREATE TABLE comments (id TEXT PRIMARY KEY, text TEXT, ts BIGINT, ip TEXT, ip_hash TEXT, ua TEXT, geo TEXT, page TEXT, status TEXT DEFAULT 'pending', flagged BOOLEAN DEFAULT false, tos_accepted BOOLEAN, tos_ts BIGINT);</code>
+          <br><br>
+          Enable Row Level Security. Allow anonymous INSERT. Require authenticated SELECT/UPDATE (for admin approval). Once set up, replace <code>saveComment()</code>/<code>loadComments()</code> in kalathma-scandal.html with Supabase client calls.
+          <div><span class="step-status todo">Setup Required</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">Plausible Analytics — Privacy-Safe Traffic Tracking</div>
+        <div class="step-body">
+          <a href="https://plausible.io" target="_blank">plausible.io</a> — GDPR-compliant, no cookies, no personal data. $9/month or self-hostable. Add one script tag to each HTML page. Provides real-time visitor counts, geographic data, referral sources. Replace hits.seeyoufarm.com badge.
+          <div><span class="step-status todo">Optional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">Cloudflare — Proxy + DDoS + Geographic Blocking</div>
+        <div class="step-body">
+          If not already: move domain DNS to Cloudflare (free plan). Enable proxy (orange cloud) on the A/CNAME record for analyst.rizrazak.com. This hides origin IP and provides DDoS protection.
+          Optional: in Cloudflare Firewall → create rule to rate-limit requests from Sri Lanka if under legal pressure (aggressive but available as nuclear option).
+          <div><span class="step-status todo">Recommended</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-step">
+      <div class="step-num">5</div>
+      <div>
+        <div class="step-title">Sources Log — Private Password-Protected Page</div>
+        <div class="step-body">
+          A private <code>sources.html</code> page for logging your source evidence for each published claim. Password-protected, never indexed, never linked publicly. Use the same password system as the private view. Each entry: claim → source type → date accessed → reliability rating → storage location.
+          <div><span class="step-status required">Pending Creation — Use Button Below</span></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="checker-btn" style="margin-top:16px;" onclick="alert('Sources log generation coming — will create sources.html in this directory.')">📋 Create sources.html</button>
+  </div>
+
+</div>
+
+<script>
+// ── CLOCK ──
+setInterval(()=>{
+  document.getElementById('clock').textContent = new Date().toLocaleString('en-GB',{
+    day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'
+  });
+}, 1000);
+
+// ── TABS ──
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.tab===name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.classList.toggle('active', p.id==='tab-'+name);
+  });
+  if(name==='comments') loadDashboard();
+  if(name==='gdpr') loadGdprPanel();
+}
+
+// ── STORAGE KEYS ──
+const PAGE_KEY = 'slc_comments_v1';
+const APPROVED_KEY = 'slc_approved_ids_v1';
+const GDPR_KEY = 'gdpr_consent_v1';
+const TOS_KEY = 'tos_accepted_v1';
+
+// ── HASH ──
+function hashStr(str){
+  let h = 0x811c9dc5;
+  for(let i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = (h*0x01000193)>>>0;
+  }
+  return 'sha:' + h.toString(16).padStart(8,'0');
+}
+
+// ── LOAD COMMENTS FROM BOTH KEYS ──
+function getAllComments(){
+  try{
+    const arr = JSON.parse(localStorage.getItem(PAGE_KEY)||'[]');
+    const approvedIds = JSON.parse(localStorage.getItem(APPROVED_KEY)||'[]');
+    // Sync approved IDs back to comment objects
+    return arr.map(c => ({
+      ...c,
+      status: approvedIds.includes(c.id) ? 'approved' :
+              (c.status === 'rejected' ? 'rejected' :
+               (c.status === 'flagged' ? 'flagged' : 'pending'))
+    }));
+  } catch(e){ return []; }
+}
+
+function saveComments(arr){
+  localStorage.setItem(PAGE_KEY, JSON.stringify(arr.slice(0,200)));
+}
+
+function getApprovedIds(){
+  try{ return JSON.parse(localStorage.getItem(APPROVED_KEY)||'[]'); }
+  catch(e){ return []; }
+}
+
+function saveApprovedIds(ids){
+  localStorage.setItem(APPROVED_KEY, JSON.stringify(ids));
+}
+
+// ── ACTIONS ──
+function approveComment(id){
+  const arr = getAllComments();
+  const ids = getApprovedIds();
+  if(!ids.includes(id)) ids.push(id);
+  saveApprovedIds(ids);
+  // Update status in main array
+  const updated = arr.map(c => c.id === id ? {...c, status:'approved'} : c);
+  saveComments(updated);
+  loadDashboard();
+}
+
+function rejectComment(id){
+  const arr = getAllComments();
+  const ids = getApprovedIds().filter(i=>i!==id);
+  saveApprovedIds(ids);
+  const updated = arr.map(c => c.id === id ? {...c, status:'rejected'} : c);
+  saveComments(updated);
+  loadDashboard();
+}
+
+function flagComment(id){
+  const arr = getAllComments();
+  const ids = getApprovedIds().filter(i=>i!==id);
+  saveApprovedIds(ids);
+  const updated = arr.map(c => c.id === id ? {...c, status:'flagged', flagged:true} : c);
+  saveComments(updated);
+  loadDashboard();
+}
+
+function unapproveComment(id){
+  const arr = getAllComments();
+  const ids = getApprovedIds().filter(i=>i!==id);
+  saveApprovedIds(ids);
+  const updated = arr.map(c => c.id === id ? {...c, status:'pending'} : c);
+  saveComments(updated);
+  loadDashboard();
+}
+
+function approveAllPending(){
+  const arr = getAllComments();
+  const pending = arr.filter(c=>c.status==='pending');
+  if(pending.length===0){ alert('No pending comments.'); return; }
+  if(!confirm(`Approve all ${pending.length} pending comments?`)) return;
+  const ids = getApprovedIds();
+  pending.forEach(c=>{ if(!ids.includes(c.id)) ids.push(c.id); });
+  saveApprovedIds(ids);
+  const updated = arr.map(c => ids.includes(c.id) ? {...c, status:'approved'} : c);
+  saveComments(updated);
+  loadDashboard();
+}
+
+// ── FILTER STATE ──
+let currentFilter = 'all';
+function setFilter(f, btn){
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCommentList();
+}
+
+// ── RENDER COMMENTS ──
+function renderCommentList(){
+  const all = getAllComments();
+  const filtered = currentFilter==='all' ? all : all.filter(c=>c.status===currentFilter);
+  const list = document.getElementById('comment-list');
+
+  if(filtered.length===0){
+    list.innerHTML=`<div class="empty-state"><span class="icon">💬</span>${currentFilter==='all'?'No comments yet.':'No '+currentFilter+' comments.'}</div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(c=>{
+    const d = new Date(c.ts);
+    const ts = d.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const tos = c.tos_accepted ? '<span class="cc-tos">ToS Accepted</span>' : '';
+    const actionBtns = c.status === 'pending'
+      ? `<button class="cc-btn approve" onclick="approveComment('${c.id}')">✓ Approve</button>
+         <button class="cc-btn flag" onclick="flagComment('${c.id}')">🚩 Flag</button>
+         <button class="cc-btn reject" onclick="rejectComment('${c.id}')">✕ Reject</button>`
+      : c.status === 'approved'
+      ? `<button class="cc-btn unapprove" onclick="unapproveComment('${c.id}')">↩ Unapprove</button>
+         <button class="cc-btn flag" onclick="flagComment('${c.id}')">🚩 Flag</button>`
+      : c.status === 'flagged'
+      ? `<button class="cc-btn approve" onclick="approveComment('${c.id}')">✓ Approve</button>
+         <button class="cc-btn reject" onclick="rejectComment('${c.id}')">✕ Reject</button>`
+      : `<button class="cc-btn approve" onclick="approveComment('${c.id}')">↩ Restore</button>`;
+
+    return `<div class="cc ${c.status||'pending'}">
+      <div class="cc-header">
+        <div class="cc-meta">
+          <span class="cc-id">#${c.id}</span>
+          <span class="cc-status ${c.status||'pending'}">${(c.status||'pending').toUpperCase()}</span>
+          <span class="cc-time">${ts}</span>
+          ${tos}
+        </div>
+        <div class="cc-actions">${actionBtns}</div>
+      </div>
+      <div class="cc-text">${escHtml(c.text||'')}</div>
+      <div class="cc-detail">
+        <span><span class="cc-ip">${escHtml(c.ip||'unknown')}</span></span>
+        <span class="cc-geo">📍 ${escHtml(c.geo||'Unknown')}</span>
+        <span>🔑 Hash: ${c.ip_hash||hashStr(c.ip||'')}</span>
+        <span>🌐 ${escHtml((c.ua||'').slice(0,60))}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+// ── LOAD DASHBOARD ──
+function loadDashboard(){
+  const all = getAllComments();
+  const pending = all.filter(c=>c.status==='pending').length;
+  const approved = all.filter(c=>c.status==='approved').length;
+  const flagged = all.filter(c=>c.status==='flagged').length;
+
+  document.getElementById('sc-total').textContent = all.length;
+  document.getElementById('sc-pending').textContent = pending;
+  document.getElementById('sc-approved').textContent = approved;
+  document.getElementById('sc-flagged').textContent = flagged;
+  document.getElementById('tab-pending-count').textContent = pending;
+  document.getElementById('tab-pending-count').className = 'tab-badge' + (pending > 0 ? ' gold' : ' green');
+
+  // ToS
+  const tos = localStorage.getItem(TOS_KEY);
+  document.getElementById('sc-tos').textContent = tos ? '✓ YES' : '✗ NO';
+  document.getElementById('sc-tos').style.color = tos ? '#34d399' : '#f87171';
+
+  // GDPR
+  const gdpr = localStorage.getItem(GDPR_KEY);
+  if(gdpr){
+    const g = JSON.parse(gdpr);
+    document.getElementById('sc-gdpr').textContent = g.accepted ? '✓ Accepted' : '✗ Declined';
+    document.getElementById('sc-gdpr').style.color = g.accepted ? '#34d399' : '#fbbf24';
+  } else {
+    document.getElementById('sc-gdpr').textContent = 'NOT SET';
+    document.getElementById('sc-gdpr').style.color = '#f87171';
+  }
+
+  renderCommentList();
+}
+
+// ── GDPR PANEL ──
+function loadGdprPanel(){
+  const all = getAllComments();
+  const gdpr = localStorage.getItem(GDPR_KEY);
+  const tos = localStorage.getItem(TOS_KEY);
+
+  // GDPR consent
+  if(gdpr){
+    const g = JSON.parse(gdpr);
+    document.getElementById('gd-consent').textContent = g.accepted ? '✓ ACCEPTED' : '✗ DECLINED';
+    document.getElementById('gd-consent').className = 'gdpr-val ' + (g.accepted ? 'ok' : 'warn');
+    document.getElementById('gd-consent-ts').textContent = new Date(g.ts).toLocaleString('en-GB');
+  } else {
+    document.getElementById('gd-consent').textContent = 'NOT RECORDED';
+    document.getElementById('gd-consent').className = 'gdpr-val err';
+    document.getElementById('gd-consent-ts').textContent = '—';
+  }
+
+  // ToS
+  if(tos){
+    const t = JSON.parse(tos);
+    document.getElementById('gd-tos').textContent = '✓ ACCEPTED v' + (t.version||'1.0');
+    document.getElementById('gd-tos').className = 'gdpr-val ok';
+    document.getElementById('gd-tos-ts').textContent = new Date(t.ts).toLocaleString('en-GB');
+  } else {
+    document.getElementById('gd-tos').textContent = 'NOT RECORDED';
+    document.getElementById('gd-tos').className = 'gdpr-val warn';
+    document.getElementById('gd-tos-ts').textContent = '—';
+  }
+
+  // Raw IPs
+  const rawIps = all.filter(c=>c.ip && !c.ip.startsWith('sha:') && c.ip!=='DECLINED' && c.ip!=='unknown').length;
+  document.getElementById('gd-ip-raw').textContent = rawIps + ' comment(s) with raw IP';
+  document.getElementById('gd-ip-raw').className = 'gdpr-val ' + (rawIps > 0 ? 'warn' : 'ok');
+
+  // 90-day purge
+  const oldest = all.reduce((min,c)=>Math.min(min,c.ts||Date.now()), Date.now());
+  const ninetyDays = 90*24*60*60*1000;
+  const purgeDue = new Date(oldest + ninetyDays);
+  document.getElementById('gd-purge').textContent = all.length > 0 ? purgeDue.toLocaleDateString('en-GB') : 'No data';
+
+  document.getElementById('gd-total').textContent = all.length;
+}
+
+// ── GDPR ACTIONS ──
+function purgeRawIPs(){
+  const arr = getAllComments();
+  const updated = arr.map(c=>{
+    if(c.ip && !c.ip.startsWith('sha:') && c.ip !== 'DECLINED' && c.ip !== 'unknown'){
+      return {...c, ip: hashStr(c.ip + 'salt_slc_2026'), ip_hashed_at: Date.now()};
+    }
+    return c;
+  });
+  saveComments(updated);
+  alert('✓ All raw IPs replaced with hashes. This is irreversible.');
+  loadGdprPanel();
+}
+
+function purgeOldComments(){
+  const arr = getAllComments();
+  const cutoff = Date.now() - 90*24*60*60*1000;
+  const kept = arr.filter(c=>(c.ts||0) > cutoff);
+  if(kept.length === arr.length){ alert('No comments older than 90 days.'); return; }
+  if(!confirm(`Delete ${arr.length - kept.length} comment(s) older than 90 days?`)) return;
+  saveComments(kept);
+  alert(`✓ Deleted ${arr.length - kept.length} old comment(s).`);
+  loadGdprPanel();
+}
+
+function exportComments(){
+  const arr = getAllComments();
+  const blob = new Blob([JSON.stringify(arr, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `slc-comments-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── ALLEGED CHECKER ──
+const NAMED_PEOPLE = [
+  'Gunathilaka','Danushka','Dickwella','Kusal','Hasaranga','Shanaka','Chandimal',
+  'Thirimanne','Mendis','de Silva','Mathews','Perera','Fernando','Rajapaksa',
+  'Jayasuriya','Murali','Muralitharan','Ranatunga','Hathurusingha','Pothas',
+  'Kalathma','Hitihamige','Angelo','Dimuth','Suranga','Lahiru','Niroshan',
+  'Thisara','Asela','Dhananjaya','Binura','Kasun','Praveen'
+];
+
+const COMPLIANCE_LABELS = [
+  'alleged','allegedly','allegation','reportedly','reported','unverified',
+  'confirmed','according to','sources say','claimed','claims','understood',
+  'believed','accused','appears to','said to','suspected'
+];
+
+function runChecker(){
+  const input = document.getElementById('checker-input').value.trim();
+  if(!input){ alert('Paste some text first.'); return; }
+  analyseText(input);
+}
+
+function scanFullPage(){
+  // Try to fetch the case file
+  const out = document.getElementById('checker-output');
+  out.innerHTML = '<div style="color:var(--muted);font-size:0.65rem;padding:12px;">Loading case file for scan...</div>';
+  fetch('kalathma-scandal.html')
+    .then(r=>r.text())
+    .then(html=>{
+      // Strip HTML tags
+      const tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      const text = tmp.innerText || tmp.textContent;
+      document.getElementById('checker-input').value = text.slice(0,5000); // first 5k chars
+      analyseText(text);
+    })
+    .catch(()=>{
+      out.innerHTML = '<div style="color:#f87171;font-size:0.65rem;padding:12px;">Could not fetch page. Use the paste method instead.</div>';
+    });
+}
+
+function clearChecker(){
+  document.getElementById('checker-input').value = '';
+  document.getElementById('checker-output').innerHTML = '';
+}
+
+function analyseText(text){
+  const out = document.getElementById('checker-output');
+
+  // Split into sentences
+  const sentences = text.match(/[^.!?\n]+[.!?\n]?/g) || [text];
+  const results = [];
+  let issues = 0;
+
+  sentences.forEach(sent=>{
+    const s = sent.trim();
+    if(s.length < 20) return;
+
+    // Pass 1: Does this sentence name a person?
+    const namedPerson = NAMED_PEOPLE.find(n=>s.includes(n));
+    if(!namedPerson) return;
+
+    // Pass 2: Does it have a compliance label?
+    const hasLabel = COMPLIANCE_LABELS.some(l=>s.toLowerCase().includes(l));
+
+    // Is it a factual assertion (not a question or block quote)?
+    const isAssertion = !s.includes('"') && !s.includes(''') && !s.startsWith('–') && !s.startsWith('—');
+
+    if(!hasLabel && isAssertion){
+      issues++;
+      results.push({type:'err', text: s, person: namedPerson, note:'Missing compliance label — could be read as established fact'});
+    } else if(hasLabel){
+      results.push({type:'ok', text: s, person: namedPerson, note:'✓ Compliance label present'});
+    }
+  });
+
+  if(results.length === 0){
+    out.innerHTML = `<div class="checker-summary">✓ No named-person assertions found in this text, or no compliance issues detected.</div>`;
+    return;
+  }
+
+  const summaryClass = issues > 0 ? 'issues' : '';
+  const summary = issues > 0
+    ? `⚠️ Found <strong>${issues} assertion${issues>1?'s':''}</strong> about named individuals without compliance labels. Review before publishing.`
+    : `✓ All <strong>${results.length}</strong> named-person assertions have compliance labels. Good to publish.`;
+
+  out.innerHTML = `<div class="checker-summary ${summaryClass}">${summary}</div>` +
+    results.map(r=>`
+      <div class="checker-claim ${r.type}">
+        <div class="claim-label ${r.type}">${r.type==='ok' ? '✓ LABELLED' : '⚠️ NEEDS LABEL'} — mentions: ${r.person}</div>
+        <div class="claim-text">"${escHtml(r.text.slice(0,200))}"</div>
+        <div style="font-size:0.5rem;color:var(--muted);margin-top:4px;">${r.note}</div>
+        ${r.type==='err' ? `<div style="font-size:0.5rem;color:#fbbf24;margin-top:4px;">💡 Fix: add "allegedly", "reportedly", or "according to [source]" before the claim</div>` : ''}
+      </div>
+    `).join('');
+}
+
+// ── GENERATE PAGES ──
+function generatePrivacyPage(){
+  alert('privacy.html generation: coming in next build. For now, copy the content from the legal brief above into privacy.html manually.\n\nKey content:\n- Data collected: IP, user agent, timestamp, comment text\n- Legal basis: Legitimate interest (GDPR Art. 6(1)(f))\n- Retention: 90 days raw IP, then hashed\n- Rights: email riz@dgtl.lk\n- Jurisdiction: United States');
+}
+
+function generateTermsPage(){
+  alert('terms.html generation: coming in next build. Key clauses:\n- US jurisdiction\n- User responsibility for comments\n- No guarantee of accuracy for ALLEGED content\n- Right to remove content\n- DMCA contact');
+}
+
+// ── INIT ──
+loadDashboard();
+</script>
+</body>
+</html>

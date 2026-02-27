@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Lanka Cricket's Underbelly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --paper:#f0ebe0; --ink:#0d1117; --ink-m:#4a5568;
+  --red:#dc2626; --redk:#991b1b; --gold:#d97706;
+  --purple:#7c3aed; --blue:#1d4ed8; --green:#059669;
+  --shadow: 3px 5px 18px rgba(0,0,0,0.18), 0 2px 6px rgba(0,0,0,0.1);
+  --shadow-h: 6px 10px 35px rgba(0,0,0,0.28), 0 3px 10px rgba(0,0,0,0.15);
+}
+body { overflow:hidden; width:100vw; height:100vh; cursor:grab; user-select:none; background:#1e1e1e; font-family:'Inter',sans-serif; }
+body.dragging { cursor:grabbing; }
+
+/* BOARD */
+#board {
+  position:absolute;
+  width:1780px; height:2600px;
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(rgba(60,90,180,0.17) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(60,90,180,0.17) 1px,transparent 1px),
+    linear-gradient(rgba(60,90,180,0.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(60,90,180,0.06) 1px,transparent 1px);
+  background-size:100px 100px,100px 100px,20px 20px,20px 20px;
+  box-shadow:0 0 80px rgba(0,0,0,0.6), 0 0 0 4px #111;
+}
+
+/* SVG strings */
+#strings { position:absolute; inset:0; width:100%; height:100%; z-index:5; pointer-events:none; overflow:visible; }
+
+/* CARDS */
+.card {
+  position:absolute; background:#fff; border-radius:3px;
+  box-shadow:var(--shadow); z-index:10; cursor:pointer;
+  transition:box-shadow .2s; overflow:visible; /* allow pin to poke out */
+}
+.card:hover { box-shadow:var(--shadow-h); z-index:60; }
+.card.expanded { z-index:110; }
+
+/* coloured top strip */
+.cb { width:100%; overflow:hidden; border-radius:3px 3px 0 0; }
+.cb div { height:6px; width:100%; }
+.r { background:var(--red); } .g { background:var(--gold); }
+.p { background:var(--purple); } .b { background:var(--blue); }
+.gr{ background:var(--green); } .dk{ background:var(--ink); }
+
+/* photo */
+.cp {
+  width:100%; overflow:hidden; position:relative;
+  display:flex; align-items:center; justify-content:center; background:#1a1a2e;
+}
+.cp img { width:100%; height:100%; object-fit:cover; object-position:top; filter:grayscale(10%) contrast(1.05); }
+.cp .av { font-size:3rem; line-height:1; }
+.card-hero  .cp { height:190px; }
+.card-large .cp { height:140px; }
+.card-med   .cp { height:105px; }
+.card-sm    .cp { height:80px; }
+.card-sm    .cp .av { font-size:2.2rem; }
+
+/* emoji badge over photo */
+.cp { position:relative; }
+.em-badge {
+  position:absolute; bottom:5px; right:6px;
+  font-size:1.35rem; line-height:1;
+  filter:drop-shadow(0 1px 3px rgba(0,0,0,0.7));
+  pointer-events:none; z-index:4;
+}
+.card-hero  .em-badge { font-size:1.7rem; }
+.card-sm    .em-badge { font-size:1.1rem; }
+
+/* pin */
+.pin {
+  position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+  width:22px; height:22px; border-radius:50%; z-index:20;
+  box-shadow:0 3px 7px rgba(0,0,0,0.45),inset 0 2px 4px rgba(255,255,255,0.3);
+}
+.pr { background:radial-gradient(circle at 38% 32%,#ff7070,var(--redk)); }
+.pg { background:radial-gradient(circle at 38% 32%,#fde68a,var(--gold)); }
+.pp { background:radial-gradient(circle at 38% 32%,#c4b5fd,var(--purple)); }
+.pb { background:radial-gradient(circle at 38% 32%,#93c5fd,var(--blue)); }
+.pgr{ background:radial-gradient(circle at 38% 32%,#6ee7b7,var(--green)); }
+.pw { background:radial-gradient(circle at 38% 32%,#f0f0f0,#9ca3af); }
+.pdk{ background:radial-gradient(circle at 38% 32%,#6b7280,#111); }
+
+/* card body */
+.cbody { padding:9px 11px 13px; }
+.cname {
+  font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--ink); line-height:1.15; margin-bottom:3px;
+}
+.card-hero  .cname { font-size:1.05rem; }
+.card-large .cname { font-size:0.92rem; }
+.card-med   .cname { font-size:0.85rem; }
+.card-sm    .cname { font-size:0.8rem; }
+.crole {
+  font-family:'JetBrains Mono',monospace; font-size:0.54rem;
+  color:var(--ink-m); text-transform:uppercase; letter-spacing:1px;
+}
+.cdetail { display:none; margin-top:9px; border-top:1px dashed #d1d5db; padding-top:8px; }
+.card.expanded .cdetail { display:block; }
+.cdetail p { font-size:0.73rem; color:#374151; line-height:1.55; margin-bottom:5px; }
+.et {
+  display:inline-block; font-family:'JetBrains Mono',monospace;
+  font-size:0.5rem; font-weight:600; padding:1px 5px; border-radius:2px;
+  text-transform:uppercase; letter-spacing:.5px; margin-right:3px; vertical-align:middle;
+}
+.ec { background:#d1fae5; color:#065f46; }
+.ea { background:#fef3c7; color:#92400e; }
+.eu { background:#fee2e2; color:#991b1b; }
+
+/* MURALI special */
+.card-hero { border:2px solid rgba(220,38,38,0.25); background:#fffbf5; }
+.mmeb { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:var(--red); letter-spacing:3px; text-align:center; margin:5px 0 1px; line-height:1; }
+.mmeb-si { font-size:0.68rem; color:var(--ink-m); text-align:center; font-style:italic; line-height:1.45; }
+
+/* tilts — now more aggressive */
+.t1  { transform:rotate(-5.5deg); } .t2 { transform:rotate(3.5deg); }
+.t3  { transform:rotate(-2deg);   } .t4 { transform:rotate(7deg);   }
+.t5  { transform:rotate(-7.5deg); } .t6 { transform:rotate(2.5deg); }
+.t7  { transform:rotate(5deg);    } .t8 { transform:rotate(-3.5deg); }
+.t9  { transform:rotate(6.5deg);  } .t10{ transform:rotate(-8deg);  }
+.card:hover { transform:rotate(0deg)!important; transition:transform .2s, box-shadow .2s; }
+
+/* STICKIES */
+.sk {
+  position:absolute; padding:9px 12px; font-family:'Caveat',cursive;
+  font-size:0.92rem; line-height:1.45; color:#1a1a1a; z-index:15;
+  max-width:168px; box-shadow:2px 4px 12px rgba(0,0,0,0.22);
+}
+.sky { background:#fef08a; } .skp { background:#f9a8d4; }
+.skb { background:#93c5fd; } .skg { background:#bbf7d0; }
+.sko { background:#fed7aa; } .skw { background:#fff; border:1px solid #e5e7eb; }
+
+/* section labels — hand-drawn feel */
+.sl {
+  position:absolute; font-family:'Bebas Neue',sans-serif;
+  letter-spacing:4px; z-index:3; pointer-events:none;
+  text-transform:uppercase;
+}
+
+/* stamps */
+.stamp {
+  position:absolute; font-family:'JetBrains Mono',monospace; font-weight:600;
+  padding:3px 9px; border:3px solid; border-radius:2px;
+  z-index:16; pointer-events:none; letter-spacing:1px; font-size:0.6rem;
+}
+.sr  { color:#b91c1c; border-color:#b91c1c; opacity:.65; }
+.sg  { color:#065f46; border-color:#065f46; opacity:.65; }
+
+/* ---- FIXED HUD ---- */
+#hud {
+  position:fixed; top:0; left:0; right:0; z-index:9000;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:9px 18px; background:#0d1117; border-bottom:2px solid var(--red);
+  pointer-events:none;
+}
+#hud > * { pointer-events:auto; }
+.ht { font-family:'Bebas Neue',sans-serif; font-size:1.55rem; color:#f5f5f5; letter-spacing:3px; line-height:1; }
+.ht span { color:var(--red); }
+.hsub { font-family:'JetBrains Mono',monospace; font-size:0.52rem; color:#6b7280; letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+.hback {
+  font-family:'Space Grotesk',sans-serif; font-size:0.76rem; font-weight:600;
+  color:#9ca3af; text-decoration:none; padding:5px 14px;
+  border:1px solid #374151; border-radius:4px; transition:all .2s;
+}
+.hback:hover { color:#f5f5f5; border-color:#6b7280; }
+
+#ctrls { position:fixed; bottom:16px; right:16px; display:flex; flex-direction:column; gap:5px; z-index:9000; }
+.cb2 {
+  width:34px; height:34px; border-radius:50%; border:1px solid #374151;
+  background:#0d1117; color:#d1d5db; font-size:1rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono',monospace; transition:all .2s;
+}
+.cb2:hover { background:#1f2937; color:#f5f5f5; }
+
+#leg { position:fixed; bottom:16px; left:16px; background:#0d1117; border:1px solid #374151; border-radius:6px; padding:10px 15px; z-index:9000; min-width:190px; }
+#leg h4 { font-family:'Bebas Neue',sans-serif; font-size:0.95rem; color:#f5f5f5; letter-spacing:2px; margin-bottom:8px; border-bottom:1px solid #374151; padding-bottom:5px; }
+.li { display:flex; align-items:center; gap:9px; margin:5px 0; font-family:'Space Grotesk',sans-serif; font-size:0.68rem; color:#9ca3af; }
+.ll { width:26px; height:0; flex-shrink:0; }
+.lr { border-top:3px solid var(--red); } .lg { border-top:3px solid var(--gold); }
+.lp { border-top:3px dashed var(--purple); } .lb { border-top:3px dotted var(--blue); }
+.lgr{ border-top:3px solid var(--green); }
+
+#hint { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:#4b5563; letter-spacing:1px; z-index:9000; pointer-events:none; }
+#disc { position:fixed; top:56px; right:10px; background:rgba(255,243,205,.97); border:1px solid #d97706; border-radius:4px; padding:7px 11px; max-width:230px; font-family:'Inter',sans-serif; font-size:0.57rem; color:#92400e; line-height:1.5; z-index:9000; }
+</style>
+</head>
+<body>
+
+<!-- HUD -->
+<div id="hud">
+  <div><div class="ht">Sri Lanka Cricket's <span>Underbelly</span></div><div class="hsub">SLC Power Network &bull; Investigation Board &bull; Feb 2026</div></div>
+  <a href="index.html" class="hback">&larr; Dossier</a>
+</div>
+<div id="ctrls">
+  <button class="cb2" onclick="zoomIn()">+</button>
+  <button class="cb2" onclick="zoomOut()">&minus;</button>
+  <button class="cb2" onclick="resetView()">0</button>
+  <button class="cb2" onclick="collapseAll()">&times;</button>
+</div>
+<div id="leg">
+  <h4>String Key</h4>
+  <div class="li"><div class="ll lr"></div>Direct Control</div>
+  <div class="li"><div class="ll lg"></div>Financial Flow</div>
+  <div class="li"><div class="ll lp"></div>Alleged Link</div>
+  <div class="li"><div class="ll lb"></div>Institutional</div>
+  <div class="li"><div class="ll lgr"></div>Reform Pressure</div>
+</div>
+<div id="hint">scroll=zoom &bull; drag=pan &bull; click=expand &bull; +/&minus; 0 Esc</div>
+<div id="disc"><strong>&#9888; Legal</strong>&nbsp;Alleged links = media reports &amp; public statements only. Does not assert guilt. Confirmed = official reports/court records.</div>
+
+<!-- ===================== THE BOARD ===================== -->
+<div id="board">
+<svg id="strings"></svg>
+
+<!-- ── SECTION LABELS (hand-positioned, slight tilts) ── -->
+<div class="sl" style="top:82px;left:62px;font-size:1rem;color:rgba(220,38,38,0.45);transform:rotate(-1deg);">▲ POWER CENTER</div>
+<div class="sl" style="top:545px;left:35px;font-size:.9rem;color:rgba(146,64,14,0.45);transform:rotate(0.5deg);">▲ INNER CIRCLE</div>
+<div class="sl" style="top:960px;left:40px;font-size:.9rem;color:rgba(29,78,216,0.45);transform:rotate(-1.5deg);">▲ POLITICAL &amp; HISTORICAL</div>
+<div class="sl" style="top:1305px;left:30px;font-size:.9rem;color:rgba(146,64,14,0.4);transform:rotate(1deg);">▲ CRICKET OPS &amp; RELIGION</div>
+<div class="sl" style="top:1780px;left:45px;font-size:.85rem;color:rgba(5,150,105,0.45);transform:rotate(-0.5deg);">▲ EXTERNAL FORCES</div>
+
+<!-- ══════════════════════════════════════
+     TIER 1 — POWER CENTER
+══════════════════════════════════════ -->
+
+<!-- SHAMMI — large, upper-left, aggressive tilt -->
+<div class="card card-large t1 pr" id="shammi" style="top:108px;left:155px;width:228px;"
+     data-connect="ashley,ravin,bandula,sujeewa,jerome-coo,aruna,voting,tvmoney,sumathipala"
+     data-type="red,red,red,red,red,red,red,gold,purple">
+  <div class="pin pr"></div>
+  <div class="cb"><div class="r"></div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#1a0000,#3d0000);height:140px;"><div class="av">👑</div></div>
+  <div class="cbody">
+    <div class="cname">Shammi Silva</div>
+    <div class="crole">SLC President — 4th Term · ACC President</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> Elected uncontested 3 consecutive terms. Sits on ICC Board &amp; chairs ACC Finance Committee.</p>
+      <p><span class="et ea">ALLEGED</span> Sunday Times (2019): "Shammi is new President but Thilanga will pull the strings."</p>
+      <p><span class="et ea">ALLEGED</span> Board members "backed by the underworld and drug dealers" — public allegations during 2025 elections.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MURALI — HERO, ironic centrepiece -->
+<div class="card card-hero t3" id="murali" style="top:62px;left:790px;width:268px;">
+  <div class="pin pdk"></div>
+  <div class="cb"><div class="dk"></div></div>
+  <div class="cp" style="background:#0d1a0d;height:190px;">
+    <img src="murali-mmeb.png" alt="Murali MMEB" style="width:100%;height:100%;object-fit:cover;object-position:top;">
+    <div class="em-badge">🏏</div>
+  </div>
+  <div class="cbody">
+    <div class="mmeb">#MMEB</div>
+    <div class="mmeb-si">මගේ මතය ඒක බෑ<br><em>"In my opinion — that's impossible"</em></div>
+    <div class="cname" style="margin-top:8px;">Muttiah Muralitharan</div>
+    <div class="crole">800 Wickets · Watching This Circus</div>
+    <div class="cdetail">
+      <p style="color:var(--red);font-style:italic;">"Sri Lanka cricket needs a complete overhaul — administration, culture, everything." — Murali, 2024</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Greatest SL cricketer ever. Publicly stated governance is broken. He is ignored.</p>
+    </div>
+  </div>
+</div>
+
+<!-- VOTING MACHINE — upper right, slight tilt -->
+<div class="card card-large t8" id="voting" style="top:92px;left:1390px;width:218px;">
+  <div class="pin pg"></div>
+  <div class="cb"><div class="g"></div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#1c1500,#3d2f00);height:140px;"><div class="av">🏟</div></div>
+  <div class="cbody">
+    <div class="cname">The Voting Machine</div>
+    <div class="crole">Club System: 147 → 60 Votes</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> 87 of 147 clubs were "paper clubs" — voted to the highest bidder.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Dec 2024 EGM: members voted to reduce their OWN power by 59%. Mechanism of perpetual re-election dismantled — on paper.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TV MONEY — left, dramatically tilted -->
+<div class="card card-med t4" id="tvmoney" style="top:395px;left:22px;width:198px;">
+  <div class="pin pg"></div>
+  <div class="cb"><div class="g"></div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#1c1000,#3d2200);height:105px;"><div class="av">💰</div></div>
+  <div class="cbody">
+    <div class="cname">TV &amp; Sponsorship $$$</div>
+    <div class="crole">The Prize Being Fought Over</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> ICC Auditor General: serious irregularities in SLC accounts 2016–2022.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> $2M transfer labelled "operational expenses" — no accounting provided.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY: Money -->
+<div class="sk sky t2" style="top:360px;left:255px;transform:rotate(5deg);">
+  💸 $2 MILLION<br>"operational expenses"<br><strong>NO receipts.<br>NO audit trail.</strong>
+</div>
+
+<!-- STICKY: Sangakkara quote -->
+<div class="sk sko t10" style="top:75px;left:480px;transform:rotate(-6deg);">
+  Sangakkara:<br>"Sri Lanka in danger<br>of becoming<br><strong>irrelevant</strong><br>in cricket."
+</div>
+
+<!-- ══════════════════════════════════════
+     TIER 2 — INNER CIRCLE
+══════════════════════════════════════ -->
+
+<!-- ASHLEY DE SILVA -->
+<div class="card card-large t5" id="ashley" style="top:590px;left:22px;width:222px;"
+     data-connect="jerome-coo" data-type="gold">
+  <div class="pin pr"></div>
+  <div class="cb"><div class="r"></div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#080820,#181840);height:140px;"><div class="av">💼</div></div>
+  <div class="cbody">
+    <div class="cname">Ashley de Silva</div>
+    <div class="crole">CEO — Since 2013 (13+ Years)</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> 50% salary hike. Longest-serving CEO across the most corrupt period in SLC history.</p>
+      <p><span class="et ea">ALLEGED</span> Interferes in selector decisions. Survived every administration change — the permanent state.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Denied Born Again affiliation under probe committee questioning.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RAVIN WICKRAMARATNE -->
+<div class="card card-sm t2" id="ravin" style="top:655px;left:312px;width:182px;">
+  <div class="pin pr"></div>
+  <div class="cb"><div class="r"></div></div>
+  <div class="cp" style="background:#0f172a;height:80px;"><div class="av" style="font-size:2.2rem;">👤</div></div>
+  <div class="cbody">
+    <div class="cname">Ravin Wickramaratne</div>
+    <div class="crole">Vice President — Re-elected 2025</div>
+    <div class="cdetail"><p><span class="et ea">ALLEGED</span> Subject of ICC match-fixing investigation per media reports.</p></div>
+  </div>
+</div>
+
+<!-- BANDULA DISSANAYAKE -->
+<div class="card card-sm t6" id="bandula" style="top:615px;left:563px;width:182px;"
+     data-connect="selection" data-type="purple">
+  <div class="pin pr"></div>
+  <div class="cb"><div class="r"></div></div>
+  <div class="cp" style="background:#0f172a;height:80px;"><div class="av" style="font-size:2.2rem;">📋</div></div>
+  <div class="cbody">
+    <div class="cname">Bandula Dissanayake</div>
+    <div class="crole">Secretary — New 2025</div>
+    <div class="cdetail"><p><span class="et ea">ALLEGED</span> U-23 team manipulation allegations in media.</p></div>
+  </div>
+</div>
+
+<!-- SUJEEWA GODALIYADDA -->
+<div class="card card-sm t9" id="sujeewa" style="top:698px;left:830px;width:178px;"
+     data-connect="tvmoney" data-type="gold">
+  <div class="pin pg"></div>
+  <div class="cb"><div class="g"></div></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><div class="av" style="font-size:2.2rem;">💵</div></div>
+  <div class="cbody">
+    <div class="cname">Sujeewa Godaliyadda</div>
+    <div class="crole">Treasurer — Re-elected 2025</div>
+    <div class="cdetail"><p><span class="et eu">? UNKNOWN</span> Role in irregularities flagged by ICC Auditor General.</p></div>
+  </div>
+</div>
+
+<!-- JEROME JAYARATHNE (COO) -->
+<div class="card card-sm t5" id="jerome-coo" style="top:660px;left:1080px;width:178px;">
+  <div class="pin pg"></div>
+  <div class="cb"><div class="g"></div></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><div class="av" style="font-size:2.2rem;">⚙️</div></div>
+  <div class="cbody">
+    <div class="cname">Jerome Jayarathne</div>
+    <div class="crole">COO — Operations Chief</div>
+    <div class="cdetail"><p><span class="et ec">✓ CONFIRMED</span> 50% salary hike alongside CEO.</p></div>
+  </div>
+</div>
+
+<!-- ARUNA DE SILVA -->
+<div class="card card-sm t3" id="aruna" style="top:630px;left:1330px;width:172px;">
+  <div class="pin pb"></div>
+  <div class="cb"><div class="b"></div></div>
+  <div class="cp" style="background:#0a0020;height:80px;"><div class="av" style="font-size:2.2rem;">📁</div></div>
+  <div class="cbody">
+    <div class="cname">Aruna de Silva</div>
+    <div class="crole">Head of Admin</div>
+    <div class="cdetail"><p><span class="et eu">? UNKNOWN</span> Permanent bureaucracy. Survives every administration change.</p></div>
+  </div>
+</div>
+
+<!-- STICKY: uncontested -->
+<div class="sk skp t4" style="top:542px;left:1528px;transform:rotate(6deg);">
+  ALL re-elected 2025<br>— UNCONTESTED.<br><strong>No opposition.<br>No accountability.</strong>
+</div>
+
+<!-- ══════════════════════════════════════
+     TIER 3 — POLITICAL & HISTORICAL
+══════════════════════════════════════ -->
+
+<!-- SUMATHIPALA -->
+<div class="card card-med t5" id="sumathipala" style="top:1005px;left:25px;width:205px;"
+     data-connect="voting" data-type="purple">
+  <div class="pin pp"></div>
+  <div class="cb"><div class="p"></div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:105px;"><div class="av">🎰</div></div>
+  <div class="cbody">
+    <div class="cname">Thilanga Sumathipala</div>
+    <div class="crole">Former President (4×) · MP</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> Family gambling links. Court-barred from SLC elections. Injunction dismissed years later.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Backed Silva's 2019 run. "Shammi is President but Thilanga pulls the strings."</p>
+      <p><span class="et ea">ALLEGED</span> Still shadow power broker. System was "skewed heavily in Sumathipala's favour."</p>
+    </div>
+  </div>
+</div>
+
+<!-- RANATUNGA -->
+<div class="card card-med t2" id="ranatunga" style="top:1060px;left:295px;width:202px;"
+     data-connect="sumathipala,npp" data-type="purple,green">
+  <div class="pin pgr"></div>
+  <div class="cb"><div class="gr"></div></div>
+  <div class="cp" style="background:#001a0a;height:105px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Arjuna_Ranatunga.jpg" alt="Arjuna Ranatunga"
+         style="width:100%;height:100%;object-fit:cover;object-position:top;"
+         onerror="this.style.opacity='0';">
+    <div class="em-badge">🏆</div>
+  </div>
+  <div class="cbody">
+    <div class="cname">Arjuna Ranatunga</div>
+    <div class="crole">1996 WC Captain · Politician</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> Led 2023 interim committee. Nov 2025: "Players focused on money. No commitment. No discipline."</p>
+      <p><span class="et ea">ALLEGED</span> Used cricket for political career. Reform attempts blocked by ICC autonomy rules.</p>
+    </div>
+  </div>
+</div>
+
+<!-- NPP GOVT -->
+<div class="card card-sm t8" id="npp" style="top:1010px;left:565px;width:185px;"
+     data-connect="icc" data-type="blue">
+  <div class="pin pgr"></div>
+  <div class="cb"><div class="gr"></div></div>
+  <div class="cp" style="background:#001a00;height:80px;"><div class="av" style="font-size:2.2rem;">🏛</div></div>
+  <div class="cbody">
+    <div class="cname">NPP Government</div>
+    <div class="crole">Ruling Party — 159 Seats</div>
+    <div class="cdetail"><p><span class="et ec">✓ CONFIRMED</span> Anti-corruption mandate. ICC paradox: direct SLC reform triggers suspension.</p></div>
+  </div>
+</div>
+
+<!-- ICC -->
+<div class="card card-med t3" id="icc" style="top:995px;left:820px;width:208px;"
+     data-connect="shammi" data-type="blue">
+  <div class="pin pb"></div>
+  <div class="cb"><div class="b"></div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#000018,#000038);height:105px;"><div class="av">🌍</div></div>
+  <div class="cbody">
+    <div class="cname">ICC</div>
+    <div class="crole">Global Governing Body</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> Suspended SL Nov 2023. Permanent anti-corruption office in Colombo — only country to have one.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Silva sits ON the ICC Board. The fox guards the henhouse.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BCCI -->
+<div class="card card-sm t7" id="bcci" style="top:1040px;left:1102px;width:180px;"
+     data-connect="lpl" data-type="gold">
+  <div class="pin pb"></div>
+  <div class="cb"><div class="b"></div></div>
+  <div class="cp" style="background:#080820;height:80px;"><div class="av" style="font-size:2.2rem;">🏏</div></div>
+  <div class="cbody">
+    <div class="cname">BCCI / IPL</div>
+    <div class="crole">India Cricket · $$$</div>
+    <div class="cdetail"><p><span class="et ec">✓ CONFIRMED</span> IPL creates split loyalties. BCCI scheduling dominance hurts SLC revenue.</p></div>
+  </div>
+</div>
+
+<div class="stamp sr" style="top:1000px;left:1340px;transform:rotate(-7deg);">CONFLICTED</div>
+
+<!-- STICKY: ICC paradox -->
+<div class="sk skb t6" style="top:1120px;left:1340px;transform:rotate(4deg);">
+  Govt CAN'T reform SLC<br>without ICC suspension.<br><strong>Silva WEAPONISES<br>this protection.</strong>
+</div>
+
+<!-- ══════════════════════════════════════
+     TIER 4 — CRICKET OPS & RELIGION
+══════════════════════════════════════ -->
+
+<!-- JAYASURIYA -->
+<div class="card card-large t2" id="jayasuriya" style="top:1340px;left:22px;width:218px;"
+     data-connect="shammi,selection" data-type="red,red">
+  <div class="pin pg"></div>
+  <div class="cb"><div class="g"></div></div>
+  <div class="cp" style="background:#1c1500;height:140px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/16/Sanath_jayasuriya_portrait.jpg" alt="Sanath Jayasuriya"
+         style="width:100%;height:100%;object-fit:cover;object-position:top;"
+         onerror="this.style.opacity='0';">
+    <div class="em-badge">🏅</div>
+  </div>
+  <div class="cbody">
+    <div class="cname">Sanath Jayasuriya</div>
+    <div class="crole">Head Coach — Oct 2024</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> ICC-banned (2 years) for refusing to cooperate with anti-corruption probe. Now head coach.</p>
+      <p><span class="et ea">ALLEGED</span> Appointment viewed as political loyalty over reform credentials.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SELECTION COMMITTEE -->
+<div class="card card-sm t10" id="selection" style="top:1435px;left:310px;width:185px;"
+     data-connect="squad" data-type="red">
+  <div class="pin pg"></div>
+  <div class="cb"><div class="g"></div></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><div class="av" style="font-size:2.2rem;">📊</div></div>
+  <div class="cbody">
+    <div class="cname">Selection Committee</div>
+    <div class="crole">Opaque Process</div>
+    <div class="cdetail">
+      <p><span class="et ea">ALLEGED</span> Selections influenced by board politics and Born Again affiliations over merit.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Chamika dropped despite 75 runs — alleged non-cricket reasons.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PLAYING SQUAD -->
+<div class="card card-large t6" id="squad" style="top:1318px;left:565px;width:218px;"
+     data-connect="fans" data-type="red">
+  <div class="pin pw"></div>
+  <div class="cb"><div class="dk"></div></div>
+  <div class="cp" style="background:#0d1117;height:140px;"><div class="av">🏏</div></div>
+  <div class="cbody">
+    <div class="cname">Current Playing Squad</div>
+    <div class="crole">Talent · Fragile · Demoralized</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> Shanaka (Feb 2026): pleaded for govt to protect players from online abuse.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Fitness crisis: average body fat 26%+ vs 16% standard.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Sangakkara: "danger of becoming irrelevant in cricket."</p>
+    </div>
+  </div>
+</div>
+
+<!-- PROPHET JEROME FERNANDO — large, dramatically tilted -->
+<div class="card card-large t5" id="prophetjerome" style="top:1325px;left:870px;width:228px;"
+     data-connect="squad,bhanuka,chamika,vandersay,kalpage" data-type="purple,red,purple,purple,purple">
+  <div class="pin pp"></div>
+  <div class="cb"><div class="p"></div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:140px;"><div class="av">✝️</div></div>
+  <div class="cbody">
+    <div class="cname">Prophet Jerome Fernando</div>
+    <div class="crole">"Glorious Church" · Self-Proclaimed Prophet</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> 63-page SLC probe (High Court Judge Weerawardena): "considerable influence over team members &amp; officials."</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Arrested Dec 2023: said Buddha was "looking for Jesus." Owns 5,000-seat Miracle Dome.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> After Asia Cup win, publicly claimed "divine intervention" gave SL the title.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Former manager: "Players joined Born Again thinking it helped get into the team."</p>
+    </div>
+  </div>
+</div>
+
+<!-- LPL -->
+<div class="card card-sm t3" id="lpl" style="top:1395px;left:1180px;width:185px;">
+  <div class="pin pr"></div>
+  <div class="cb"><div class="r"></div></div>
+  <div class="cp" style="background:#1a0000;height:80px;"><div class="av" style="font-size:2.2rem;">🎰</div></div>
+  <div class="cbody">
+    <div class="cname">Lanka Premier League</div>
+    <div class="crole">Domestic T20 · Corruption-Plagued</div>
+    <div class="cdetail"><p><span class="et ec">✓ CONFIRMED</span> Tamim Rahman convicted. Prem Thakkur arrested. Jayawickrama charged by ICC.</p></div>
+  </div>
+</div>
+
+<!-- STICKY: witnesses scared -->
+<div class="sk sky t7" style="top:1540px;left:1390px;transform:rotate(5deg);">
+  ⚠️ Probe committee:<br>Witnesses <strong>refused<br>to testify</strong> — too<br>scared for careers.
+</div>
+
+<!-- ══════════════════════════════════════
+     PROPHET'S NETWORK
+══════════════════════════════════════ -->
+
+<!-- RUWAN KALPAGE -->
+<div class="card card-sm t8" id="kalpage" style="top:1708px;left:530px;width:175px;">
+  <div class="pin pp"></div>
+  <div class="cb"><div class="p"></div></div>
+  <div class="cp" style="background:#180018;height:80px;"><div class="av" style="font-size:2.2rem;">🏫</div></div>
+  <div class="cbody">
+    <div class="cname">Ruwan Kalpage</div>
+    <div class="crole">Emerging Team Coach</div>
+    <div class="cdetail"><p><span class="et ec">✓ CONFIRMED</span> Named by Jerome as church member. Coaches young players entering the system.</p></div>
+  </div>
+</div>
+
+<!-- VANDERSAY -->
+<div class="card card-sm t2" id="vandersay" style="top:1755px;left:776px;width:175px;">
+  <div class="pin pp"></div>
+  <div class="cb"><div class="p"></div></div>
+  <div class="cp" style="background:#180018;height:80px;"><div class="av" style="font-size:2.2rem;">🏏</div></div>
+  <div class="cbody">
+    <div class="cname">Jeffrey Vandersay</div>
+    <div class="crole">Spinner · Church Member</div>
+    <div class="cdetail"><p><span class="et ec">✓ CONFIRMED</span> Named by Jerome Fernando as church member in official probe report.</p></div>
+  </div>
+</div>
+
+<!-- BHANUKA RAJAPAKSA -->
+<div class="card card-med t4" id="bhanuka" style="top:1700px;left:1020px;width:195px;">
+  <div class="pin pp"></div>
+  <div class="cb"><div class="p"></div></div>
+  <div class="cp" style="background:#180018;height:105px;"><div class="av">🏏</div></div>
+  <div class="cbody">
+    <div class="cname">Bhanuka Rajapaksa</div>
+    <div class="crole">Batsman · Born Again Convert</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> Former Buddhist. Calls Jerome "spiritual father." Influence since 2016.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Retired at 30. Posted Jerome photo captioned "Prophetic discussion about 2022" — days before quitting.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CHAMIKA KARUNARATNE -->
+<div class="card card-med t1" id="chamika" style="top:1680px;left:1280px;width:200px;">
+  <div class="pin pp"></div>
+  <div class="cb"><div class="p"></div></div>
+  <div class="cp" style="background:#180018;height:105px;"><div class="av">🪔</div></div>
+  <div class="cbody">
+    <div class="cname">Chamika Karunaratne</div>
+    <div class="crole">Bowler · Oil Lamp · Casino</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> $5,000 fine + 1-year ban. Oil lamp fire hazard under Jerome's influence (2022 T20 WC).</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Casino brawl with 6 teammates. Skipped training for female companions.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Dropped despite good form — alleged selection bias against non-Born Again players.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY: Born Again -->
+<div class="sk skp t6" style="top:1620px;left:252px;transform:rotate(-5deg);">
+  Born Again probe:<br>Committee <strong>could not<br>conclude</strong> — no one<br>would talk.
+</div>
+
+<!-- ══════════════════════════════════════
+     TIER 5 — EXTERNAL FORCES
+══════════════════════════════════════ -->
+
+<!-- FANS / SOCIAL MEDIA -->
+<div class="card card-med t3" id="fans" style="top:1835px;left:28px;width:200px;">
+  <div class="pin pr"></div>
+  <div class="cb"><div class="r"></div></div>
+  <div class="cp" style="background:#1a0000;height:105px;"><div class="av">📱</div></div>
+  <div class="cbody">
+    <div class="cname">Social Media &amp; Fans</div>
+    <div class="crole">Pressure Amplifier · Toxic Culture</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> #UnfollowCricketers. Death threats. Shanaka pleaded for government protection (Feb 2026).</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Zero mental health infrastructure from SLC. No buffer between players and mob.</p>
+    </div>
+  </div>
+</div>
+
+<!-- KALATHMA SCANDAL -->
+<div class="card card-med t9" id="kalathma" style="top:1870px;left:292px;width:195px;"
+     data-connect="squad,fans,prophetjerome" data-type="purple,red,red">
+  <div class="pin pr"></div>
+  <div class="cb"><div class="r"></div></div>
+  <div class="cp" style="background:#1a0a10;height:105px;"><div class="av">📸</div></div>
+  <div class="cbody">
+    <div class="cname">"Kalathma" TikTok Scandal</div>
+    <div class="crole">Viral Gossip · 2M+ Views</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> 2M+ views. 20,000+ comments. Born Again allegations, infidelity, selection bias.</p>
+      <p><span class="et ea">ALLEGED</span> Video deleted. Defamation exposure Rs. 50M+. Kalathma faced legal threats.</p>
+      <a href="kalathma-scandal.html" onclick="event.stopPropagation();" style="display:inline-block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;text-transform:uppercase;background:#dc2626;color:#fff;padding:4px 10px;border-radius:2px;text-decoration:none;">📂 View Case File →</a>
+    </div>
+  </div>
+</div>
+
+<!-- SCHOOLS -->
+<div class="card card-sm t7" id="schools" style="top:2040px;left:588px;width:180px;"
+     data-connect="school-pipeline,infrastructure" data-type="gold,green">
+  <div class="pin pg"></div>
+  <div class="cb"><div class="g"></div></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><div class="av" style="font-size:2.2rem;">🏫</div></div>
+  <div class="cbody">
+    <div class="cname">Elite School System</div>
+    <div class="crole">Pipeline — Declining</div>
+    <div class="cdetail"><p><span class="et ec">✓ CONFIRMED</span> Royal, Trinity, St Thomas'. Produced legends. No replacement grassroots built.</p></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SYSTEMIC FAILURES CLUSTER
+══════════════════════════════════════ -->
+
+<!-- SCHOOL CRICKET PIPELINE -->
+<div class="card card-large t4" id="school-pipeline" style="top:2050px;left:1010px;width:235px;"
+     data-connect="squad,nutrition" data-type="gold,green">
+  <div class="pin pg"></div>
+  <div class="cb"><div class="g"></div></div>
+  <div class="cp" style="background:#1a1400;height:140px;"><div class="av">🏏</div></div>
+  <div class="cbody">
+    <div class="cname">School Cricket Pipeline Collapse</div>
+    <div class="crole">Talent Pipeline · Systemic Failure</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> A handful of elite schools (Royal, Nalanda, Trinity, S. Thomas') produce virtually all national-level talent. 95% of Sri Lanka's geography produces nothing because there is no feeder structure.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> "Big Match" culture (annual school rivalries) consumes resources and attention. Coaches are incentivised to win school matches — not develop players. Long-term development is sacrificed for short-term school prestige.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Players who peak at 16-18 in school cricket rarely receive structured follow-up coaching. The gap between school cricket and club/provincial level is enormous and largely unsupported. Hundreds of talented kids are simply abandoned at 18.</p>
+      <p><span class="et ea">ALLEGED</span> SLC has no formal school-to-national pathway programme. Selection scouts concentrate overwhelmingly on Colombo schools, ignoring provincial talent entirely.</p>
+    </div>
+  </div>
+</div>
+
+<!-- INFRASTRUCTURE -->
+<div class="card card-large t2" id="infrastructure" style="top:2040px;left:1320px;width:220px;"
+     data-connect="squad,school-pipeline" data-type="green,green">
+  <div class="pin pgr"></div>
+  <div class="cb"><div class="gr"></div></div>
+  <div class="cp" style="background:#0a1a0a;height:140px;"><div class="av">🏟️</div></div>
+  <div class="cbody">
+    <div class="cname">Infrastructure & Facilities Crisis</div>
+    <div class="crole">Grounds · Nets · Academies</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> Outside Colombo, cricket infrastructure is effectively non-existent. The majority of provincial grounds have no proper practice nets, pitch preparation equipment, or qualified groundstaff. Players train on outfields.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> The National Cricket Academy operates well below the standard of equivalent institutions in India, Australia, or England. Equipment is outdated, coaching staff underpaid and undertrained.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Sri Lanka has world-class venues (SSC, RPS, Galle) used for internationals — but these facilities are not accessible to emerging or provincial players. They are managed as business assets, not development tools.</p>
+      <p><span class="et ea">ALLEGED</span> Infrastructure budgets have historically been diverted. Provincial boards receive minimal SLC funding. Development grants exist on paper only.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY: pipeline -->
+<div class="sk sky t3" style="top:2240px;left:1010px;transform:rotate(-4deg);">
+  "Talent dies at 18<br>in Sri Lanka. No one<br>picks it up again."
+</div>
+
+<!-- STICKY: infrastructure -->
+<div class="sk skw t8" style="top:2250px;left:1320px;transform:rotate(3deg);">
+  2 proper nets<br>for 22 million people.<br><strong>The maths doesn't work.</strong>
+</div>
+
+<!-- NUTRITION -->
+<div class="card card-med t6" id="nutrition" style="top:2180px;left:1560px;width:200px;"
+     data-connect="squad,school-pipeline" data-type="green,gold">
+  <div class="pin pgr"></div>
+  <div class="cb"><div class="gr"></div></div>
+  <div class="cp" style="background:#051a0a;height:105px;"><div class="av">🥗</div></div>
+  <div class="cbody">
+    <div class="cname">Nutrition & Athlete Welfare</div>
+    <div class="crole">Player Development · Systemic Gap</div>
+    <div class="cdetail">
+      <p><span class="et ec">✓ CONFIRMED</span> No structured national nutrition programme for emerging players. Young cricketers from low-income backgrounds often cannot afford the diet required to develop at the elite level. SLC provides no subsidy.</p>
+      <p><span class="et ec">✓ CONFIRMED</span> Strength and conditioning standards at national level lag significantly behind competitors. Players arrive for international duty physically underprepared, particularly pace bowlers who break down repeatedly.</p>
+      <p><span class="et ea">ALLEGED</span> Players have described eating hostel food during domestic tournaments. No registered dieticians in the provincial system. Mental health support is effectively zero — one leaked SLC review (2023) found no formal psychologist engaged with the squad across a 14-month period.</p>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY: nutrition -->
+<div class="sk skp t5" style="top:2360px;left:1530px;transform:rotate(-5deg);">
+  No nutritionist.<br>No psychologist.<br><strong>No plan.</strong>
+</div>
+
+<!-- ECONOMY -->
+<div class="card card-sm t3" id="economy" style="top:2062px;left:848px;width:175px;">
+  <div class="pin pdk"></div>
+  <div class="cb"><div class="dk"></div></div>
+  <div class="cp" style="background:#111;height:80px;"><div class="av" style="font-size:2.2rem;">📉</div></div>
+  <div class="cbody">
+    <div class="cname">Economic Crisis</div>
+    <div class="crole">Context — Bankrupt Nation</div>
+    <div class="cdetail"><p><span class="et ec">✓ CONFIRMED</span> 2022 collapse. Players prioritise franchise $ over national duty.</p></div>
+  </div>
+</div>
+
+<!-- REMAINING STICKIES -->
+<div class="sk sky t5" style="top:1945px;left:565px;transform:rotate(-6deg);">
+  Ranatunga:<br>"No commitment.<br>No discipline.<br><strong>Only money.</strong>"
+</div>
+
+<div class="sk skw t2" style="top:2135px;left:1060px;transform:rotate(3.5deg);">
+  Murali says<br><strong>#MMEB</strong> about<br>all of this too 🤦‍♂️
+</div>
+
+<div class="stamp sg" style="top:1658px;left:768px;transform:rotate(-6deg);">DOCUMENTED</div>
+<div class="stamp sr" style="top:2045px;left:240px;transform:rotate(-9deg);">UNDER INVESTIGATION</div>
+<div class="stamp sr" style="top:568px;left:838px;transform:rotate(5deg);">UNACCOUNTABLE</div>
+
+</div><!-- /board -->
+
+<script>
+// ── SEEDED HASH (stable random per connection) ──
+function hash(s) {
+  let h = 2166136261|0;
+  for (let i=0;i<s.length;i++) { h ^= s.charCodeAt(i); h = Math.imul(h,16777619)|0; }
+  return Math.abs(h);
+}
+function seedR(s) { return ((hash(s)%10000)/5000)-1; } // -1..1
+
+// ── VIEW STATE ──
+const board = document.getElementById('board');
+let scale, panX, panY;
+function initView() {
+  const s = Math.min(
+    (window.innerWidth-40)/1780,
+    (window.innerHeight-60)/2600
+  ) * 0.9;
+  scale = Math.max(0.25, Math.min(0.8, s));
+  panX = (window.innerWidth - 1780*scale)/2;
+  panY = 52;
+  apply();
+}
+function apply() {
+  board.style.transform = `translate(${panX}px,${panY}px) scale(${scale})`;
+  board.style.transformOrigin = '0 0';
+}
+initView();
+
+// ── PAN ──
+let drag=false,sx,sy;
+document.addEventListener('mousedown',e=>{
+  if(e.target.closest('#hud,#ctrls,#leg,#hint,#disc')) return;
+  drag=true; sx=e.clientX-panX; sy=e.clientY-panY;
+  document.body.classList.add('dragging');
+});
+document.addEventListener('mousemove',e=>{ if(!drag) return; panX=e.clientX-sx; panY=e.clientY-sy; apply(); });
+document.addEventListener('mouseup',()=>{ drag=false; document.body.classList.remove('dragging'); });
+
+// ── ZOOM TOWARD CURSOR ──
+document.addEventListener('wheel',e=>{
+  e.preventDefault();
+  const d=e.deltaY>0?-0.05:0.05;
+  const bx=(e.clientX-panX)/scale, by=(e.clientY-panY)/scale;
+  scale=Math.max(0.15,Math.min(1.5,scale+d));
+  panX=e.clientX-bx*scale; panY=e.clientY-by*scale;
+  apply(); setTimeout(drawStrings,30);
+},{passive:false});
+
+function zoomIn()  { scale=Math.min(1.5,scale+0.08); apply(); setTimeout(drawStrings,30); }
+function zoomOut() { scale=Math.max(0.15,scale-0.08); apply(); setTimeout(drawStrings,30); }
+function resetView(){ initView(); setTimeout(drawStrings,30); }
+
+// ── CARD EXPAND ──
+document.querySelectorAll('.card').forEach(c=>{
+  c.addEventListener('click',e=>{
+    e.stopPropagation();
+    const was=c.classList.contains('expanded');
+    collapseAll(false);
+    if(!was){ c.classList.add('expanded'); c.style.zIndex=110; }
+    setTimeout(drawStrings,80);
+  });
+});
+function collapseAll(rd=true) {
+  document.querySelectorAll('.card.expanded').forEach(c=>{ c.classList.remove('expanded'); c.style.zIndex=''; });
+  if(rd) setTimeout(drawStrings,80);
+}
+board.addEventListener('click',()=>collapseAll());
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='+'||e.key==='=') zoomIn();
+  if(e.key==='-'||e.key==='_') zoomOut();
+  if(e.key==='0') resetView();
+  if(e.key==='Escape') collapseAll();
+});
+
+// ── DRAW STRINGS — organic, seeded, gravity ──
+function cardCenter(el){ return {x:el.offsetLeft+el.offsetWidth/2, y:el.offsetTop+el.offsetHeight/2}; }
+
+function woundPin(svg,cx,cy,col,w){
+  const NS='http://www.w3.org/2000/svg';
+  // outer coils
+  [12,7].forEach(r=>{
+    const c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',cx); c.setAttribute('cy',cy); c.setAttribute('r',r);
+    c.setAttribute('fill','none'); c.setAttribute('stroke',col);
+    c.setAttribute('stroke-width',w*.6); c.setAttribute('opacity','0.38');
+    svg.appendChild(c);
+  });
+  // pin body
+  const p=document.createElementNS(NS,'circle');
+  p.setAttribute('cx',cx); p.setAttribute('cy',cy); p.setAttribute('r',7.5);
+  p.setAttribute('fill',col); svg.appendChild(p);
+  // highlight
+  const h=document.createElementNS(NS,'circle');
+  h.setAttribute('cx',cx-2.5); h.setAttribute('cy',cy-2.5); h.setAttribute('r',2.5);
+  h.setAttribute('fill','white'); h.setAttribute('opacity','0.42'); svg.appendChild(h);
+}
+
+function drawStrings(){
+  const svg=document.getElementById('strings');
+  svg.innerHTML='';
+  const NS='http://www.w3.org/2000/svg';
+
+  document.querySelectorAll('.card[data-connect]').forEach(card=>{
+    const targets=(card.dataset.connect||'').split(',').filter(Boolean);
+    const types=(card.dataset.type||'').split(',').filter(Boolean);
+    const from=cardCenter(card);
+
+    targets.forEach((tid,i)=>{
+      const target=document.getElementById(tid);
+      if(!target) return;
+      const to=cardCenter(target);
+      const type=types[i]||'red';
+
+      let col,sw,dash;
+      switch(type){
+        case 'red':    col='#dc2626'; sw=3.8; dash=''; break;
+        case 'gold':   col='#d97706'; sw=3.2; dash=''; break;
+        case 'purple': col='#7c3aed'; sw=2.6; dash='16,8'; break;
+        case 'blue':   col='#1d4ed8'; sw=2.2; dash='6,5'; break;
+        case 'green':  col='#059669'; sw=3;   dash=''; break;
+        default:       col='#dc2626'; sw=3.8; dash='';
+      }
+
+      const seed=card.id+'-'+tid;
+      // horizontal and vertical wander for control point
+      const wx=seedR(seed+'cx')*150; // ±150px lateral wander
+      // gravity: string droops down proportional to horizontal span + randomness
+      const hdist=Math.abs(to.x-from.x);
+      const droop=hdist*0.10 + seedR(seed+'droop')*60 + 30; // always some sag
+      const cx=(from.x+to.x)/2+wx;
+      const cy=(from.y+to.y)/2+droop;
+
+      // for long connections use cubic for S-curve
+      const dist=Math.hypot(to.x-from.x,to.y-from.y);
+      let d;
+      if(dist>550){
+        const cx2=(from.x+to.x)/2+seedR(seed+'cx2')*100;
+        const cy2=(from.y+to.y)/2+droop*0.45+seedR(seed+'cy2')*50;
+        d=`M${from.x},${from.y} C${cx},${cy} ${cx2},${cy2} ${to.x},${to.y}`;
+      } else {
+        d=`M${from.x},${from.y} Q${cx},${cy} ${to.x},${to.y}`;
+      }
+
+      // shadow
+      const sh=document.createElementNS(NS,'path');
+      sh.setAttribute('d',d); sh.setAttribute('fill','none');
+      sh.setAttribute('stroke','rgba(0,0,0,0.11)'); sh.setAttribute('stroke-width',sw+3);
+      if(dash) sh.setAttribute('stroke-dasharray',dash);
+      svg.appendChild(sh);
+
+      // string
+      const pa=document.createElementNS(NS,'path');
+      pa.setAttribute('d',d); pa.setAttribute('fill','none');
+      pa.setAttribute('stroke',col); pa.setAttribute('stroke-width',sw);
+      pa.setAttribute('stroke-linecap','round');
+      if(dash) pa.setAttribute('stroke-dasharray',dash);
+      pa.setAttribute('opacity','0.82');
+      svg.appendChild(pa);
+
+      // wound pins at both ends
+      woundPin(svg,from.x,from.y,col,sw);
+      woundPin(svg,to.x,to.y,col,sw);
+    });
+  });
+}
+
+setTimeout(drawStrings,350);
+window.addEventListener('resize',()=>{ initView(); setTimeout(drawStrings,120); });
+</script>
+</body>
+</html>

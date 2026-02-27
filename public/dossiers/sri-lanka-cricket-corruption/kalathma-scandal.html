@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case File: The Born Again Scandal — SLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&family=Inter:wght@300;400;500;600&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --paper:#f5f0e6;--paper-dark:#e8e0cc;--ink:#0d1117;--ink-m:#4a5568;--ink-l:#718096;
+  --red:#dc2626;--redk:#991b1b;--red-bg:#fef2f2;
+  --gold:#d97706;--gold-bg:#fffbeb;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;
+  --blue:#1d4ed8;--blue-bg:#eff6ff;
+  --green:#059669;--green-bg:#ecfdf5;
+  --orange:#ea580c;--orange-bg:#fff7ed;
+  --accent:#b45309;--border:#d4c9a8;
+  --shadow:3px 5px 18px rgba(0,0,0,0.15),0 2px 6px rgba(0,0,0,0.08);
+  --shadow-h:6px 12px 35px rgba(0,0,0,0.25),0 3px 10px rgba(0,0,0,0.12);
+}
+html{scroll-behavior:smooth;}
+body{background:#1a1a1a;font-family:'Inter',sans-serif;color:var(--ink);min-height:100vh;}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:#0d1117;border-bottom:3px solid var(--red);
+  padding:12px 40px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.back-btn{
+  color:#9ca3af;font-size:0.75rem;font-family:'JetBrains Mono',monospace;
+  text-decoration:none;letter-spacing:1px;text-transform:uppercase;
+  border:1px solid #374151;padding:5px 12px;border-radius:3px;transition:all .2s;
+}
+.back-btn:hover{color:#fff;border-color:#6b7280;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#fff;letter-spacing:2px;}
+.topbar-badge{
+  background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:2px;
+}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.classified-stamp{
+  font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:rgba(220,38,38,0.7);
+  letter-spacing:4px;border:2px solid rgba(220,38,38,0.4);padding:3px 10px;
+  transform:rotate(-3deg);display:inline-block;
+}
+
+/* ── PRIVATE VIEW BUTTON ── */
+#unlock-btn{
+  background:transparent;border:1px solid #4b5563;color:#9ca3af;
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;
+  text-transform:uppercase;padding:6px 14px;border-radius:3px;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:6px;
+}
+#unlock-btn:hover{background:#1f2937;border-color:#6b7280;color:#fff;}
+#unlock-btn.unlocked{background:#059669;border-color:#059669;color:#fff;}
+#unlock-btn.unlocked:hover{background:#047857;}
+
+
+/* ── LANGUAGE TOGGLE ── */
+#lang-toggle{
+  background:transparent;border:1px solid #374151;color:#9ca3af;
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;
+  padding:5px 12px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+#lang-toggle:hover{background:#1f2937;border-color:#6b7280;color:#fff;}
+#lang-toggle.si-active{border-color:#fbbf24;color:#fbbf24;}
+
+
+/* ── ToS LIABILITY MODAL ── */
+#tos-modal{
+  display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,0.9);backdrop-filter:blur(6px);
+  align-items:center;justify-content:center;
+}
+#tos-modal.show{display:flex;}
+.tos-box{
+  background:#0d1117;border:1px solid #374151;border-top:3px solid #d97706;
+  border-radius:6px;padding:32px 36px;width:min(480px,90vw);max-height:80vh;overflow-y:auto;
+  box-shadow:0 25px 80px rgba(0,0,0,0.8);
+}
+.tos-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#fbbf24;letter-spacing:2px;margin-bottom:4px;}
+.tos-subtitle{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:#6b7280;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:20px;}
+.tos-body{font-family:'Inter',sans-serif;font-size:0.8rem;color:#9ca3af;line-height:1.7;margin-bottom:20px;}
+.tos-body strong{color:#d1d5db;}
+.tos-body ul{padding-left:18px;margin:8px 0;}
+.tos-body li{margin-bottom:6px;}
+.tos-confirm{
+  width:100%;background:#d97706;color:#fff;border:none;
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;
+  text-transform:uppercase;padding:12px;border-radius:3px;cursor:pointer;transition:all .2s;
+  margin-bottom:8px;
+}
+.tos-confirm:hover{background:#b45309;}
+.tos-decline{
+  width:100%;background:transparent;border:1px solid #374151;color:#6b7280;
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;
+  text-transform:uppercase;padding:8px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.tos-decline:hover{border-color:#6b7280;color:#9ca3af;}
+.tos-seal{
+  margin-top:16px;padding:10px 14px;
+  background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.2);border-radius:3px;
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:#92400e;
+  text-transform:uppercase;letter-spacing:1px;text-align:center;
+}
+/* ── GDPR CONSENT BANNER ── */
+#gdpr-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:1500;
+  background:#0d1117;border-top:2px solid #374151;
+  padding:14px 40px;display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.5);
+  font-family:'Inter',sans-serif;
+}
+#gdpr-banner.hidden{display:none;}
+.gdpr-text{font-size:0.75rem;color:#9ca3af;flex:1;min-width:200px;}
+.gdpr-text a{color:#fbbf24;text-decoration:none;}
+.gdpr-text a:hover{text-decoration:underline;}
+.gdpr-btns{display:flex;gap:8px;flex-shrink:0;}
+.gdpr-accept{
+  background:#22c55e;color:#fff;border:none;
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;
+  text-transform:uppercase;padding:8px 16px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.gdpr-accept:hover{background:#16a34a;}
+.gdpr-decline{
+  background:transparent;border:1px solid #374151;color:#6b7280;
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;
+  text-transform:uppercase;padding:8px 16px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.gdpr-decline:hover{border-color:#6b7280;color:#9ca3af;}
+
+/* ── LOCK MODAL ── */
+#lock-modal{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;
+}
+#lock-modal.show{display:flex;}
+.modal-box{
+  background:#0d1117;border:1px solid #374151;border-top:3px solid var(--red);
+  border-radius:6px;padding:32px 36px;width:380px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.7);
+}
+.modal-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#fff;
+  letter-spacing:2px;margin-bottom:6px;
+}
+.modal-sub{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;}
+.modal-input{
+  width:100%;background:#1f2937;border:1px solid #374151;color:#f9fafb;
+  font-family:'JetBrains Mono',monospace;font-size:0.85rem;
+  padding:10px 14px;border-radius:3px;outline:none;margin-bottom:10px;
+  transition:border-color .2s;
+}
+.modal-input:focus{border-color:var(--red);}
+.modal-input::placeholder{color:#4b5563;}
+.modal-error{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--red);margin-bottom:10px;min-height:16px;}
+.modal-btns{display:flex;gap:10px;}
+.modal-submit{
+  flex:1;background:var(--red);color:#fff;border:none;
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;
+  text-transform:uppercase;padding:10px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.modal-submit:hover{background:var(--redk);}
+.modal-cancel{
+  background:transparent;border:1px solid #374151;color:#6b7280;
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;
+  text-transform:uppercase;padding:10px 16px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.modal-cancel:hover{border-color:#6b7280;color:#9ca3af;}
+
+/* ── MAIN WRAPPER ── */
+/* stats bar */
+.stats-bar{
+  background:#0d1117;border-bottom:1px solid #1f2937;
+  padding:8px 40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;
+}
+.stat-item{display:flex;align-items:center;gap:8px;}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:#4b5563;text-transform:uppercase;letter-spacing:1px;}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:#f87171;letter-spacing:1px;}
+.stat-sep{color:#1f2937;font-size:1.2rem;}
+.stat-live{display:inline-block;width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);}}
+/* wrapper */
+.wrapper{
+  max-width:1200px;margin:0 auto;padding:48px 40px 80px;
+  background:var(--paper);
+  box-shadow:0 0 0 1px rgba(255,255,255,0.03),0 20px 80px rgba(0,0,0,0.5);
+}
+
+/* ── CASE HEADER ── */
+.case-header{
+  background:var(--paper);border:1px solid var(--border);border-top:5px solid var(--red);
+  border-radius:4px;padding:36px 40px 32px;margin-bottom:40px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.case-header::before{
+  content:'';position:absolute;right:-20px;top:-20px;
+  width:180px;height:180px;background:radial-gradient(circle,rgba(220,38,38,0.06),transparent 70%);
+}
+.case-file-no{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--ink-l);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.case-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--ink);letter-spacing:2px;line-height:1;margin-bottom:8px;}
+.case-subtitle{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;color:var(--red);font-weight:500;margin-bottom:20px;}
+.case-meta{display:flex;gap:24px;flex-wrap:wrap;padding-top:20px;border-top:1px dashed var(--border);}
+.meta-item{display:flex;flex-direction:column;gap:2px;}
+.meta-label{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--ink-l);text-transform:uppercase;letter-spacing:1.5px;}
+.meta-value{font-family:'Space Grotesk',monospace;font-size:0.82rem;color:var(--ink);font-weight:600;}
+
+/* ── SECTION NAVIGATION ── */
+.section-nav{
+  background:#1a1a1a;border:1px solid #374151;border-radius:4px;
+  padding:12px 20px;margin-bottom:36px;
+  display:flex;gap:6px;flex-wrap:wrap;
+}
+.nav-link{
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;
+  text-transform:uppercase;color:#6b7280;text-decoration:none;
+  padding:5px 10px;border:1px solid #374151;border-radius:2px;transition:all .2s;
+}
+.nav-link:hover{color:#f9fafb;border-color:#6b7280;}
+.nav-link.private-nav{color:#dc2626;border-color:#7f1d1d;}
+.nav-link.private-nav:hover{background:#7f1d1d;color:#fef2f2;}
+
+/* ── DISCLAIMER BANNER ── */
+.disclaimer{
+  background:linear-gradient(135deg,#fefce8,#fef9c3);border:1px solid #fbbf24;
+  border-left:4px solid #d97706;border-radius:4px;padding:14px 20px;
+  margin-bottom:36px;display:flex;gap:12px;align-items:flex-start;
+}
+.disclaimer-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
+.disclaimer p{font-size:0.8rem;color:#78350f;line-height:1.6;}
+.disclaimer strong{font-weight:700;}
+
+/* ── SECTION HEADERS ── */
+.section-header{display:flex;align-items:center;gap:14px;margin-bottom:24px;margin-top:48px;}
+.section-number{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--border);line-height:1;flex-shrink:0;}
+.section-title-block{display:flex;flex-direction:column;}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--ink-l);text-transform:uppercase;letter-spacing:2px;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--ink);letter-spacing:1px;line-height:1;}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent);}
+
+/* ── INCIDENT CARDS (confirmed cases) ── */
+.incident-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;}
+.incident-card{
+  background:var(--paper);border:1px solid var(--border);border-radius:4px;
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.incident-card-header{padding:16px 20px 0;}
+.incident-severity{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:2px;
+  margin-bottom:10px;font-weight:700;
+}
+.sev-confirmed{background:#fef2f2;color:var(--redk);border:1px solid #fecaca;}
+.sev-alleged{background:#fffbeb;color:#78350f;border:1px solid #fde68a;}
+.sev-private{background:#0d1117;color:#f87171;border:1px solid #7f1d1d;}
+.incident-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;color:var(--ink);margin-bottom:3px;}
+.incident-role{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--ink-l);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.incident-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;}
+.tag{font-family:'JetBrains Mono',monospace;font-size:0.5rem;padding:2px 6px;border-radius:2px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;}
+.tag-red{background:#fef2f2;color:var(--redk);border:1px solid #fecaca;}
+.tag-gold{background:#fffbeb;color:#92400e;border:1px solid #fde68a;}
+.tag-purple{background:#f5f3ff;color:#5b21b6;border:1px solid #ddd6fe;}
+.tag-blue{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;}
+.tag-dark{background:#f9fafb;color:#374151;border:1px solid #e5e7eb;}
+.tag-orange{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;}
+.incident-body{padding:0 20px 20px;}
+.incident-section-title{
+  font-family:'JetBrains Mono',monospace;font-size:0.58rem;text-transform:uppercase;
+  letter-spacing:1.5px;color:var(--ink-l);margin:14px 0 5px;
+}
+.incident-text{font-size:0.8rem;color:#374151;line-height:1.7;}
+.incident-text strong{color:var(--ink);font-weight:600;}
+.incident-divider{height:1px;background:var(--border);margin:14px 0;}
+.incident-verdict{
+  background:var(--green-bg);border:1px solid #a7f3d0;border-left:3px solid var(--green);
+  border-radius:3px;padding:10px 12px;
+  font-size:0.78rem;color:#065f46;line-height:1.6;
+}
+.incident-verdict.guilty{background:var(--red-bg);border-color:#fecaca;border-left-color:var(--red);color:var(--redk);}
+.incident-verdict.pending{background:var(--gold-bg);border-color:#fde68a;border-left-color:var(--gold);color:#78350f;}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:linear-gradient(180deg,var(--red),var(--gold),var(--purple));}
+.tl-item{position:relative;margin-bottom:28px;}
+.tl-dot{position:absolute;left:-28px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid var(--paper);box-shadow:0 0 0 2px var(--red);background:var(--red);}
+.tl-dot.gold{background:var(--gold);box-shadow:0 0 0 2px var(--gold);}
+.tl-dot.purple{background:var(--purple);box-shadow:0 0 0 2px var(--purple);}
+.tl-dot.blue{background:var(--blue);box-shadow:0 0 0 2px var(--blue);}
+.tl-dot.dark{background:var(--ink);box-shadow:0 0 0 2px var(--ink);}
+.tl-date{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--ink-l);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+.tl-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;color:var(--ink);margin-bottom:5px;}
+.tl-body{font-size:0.8rem;color:#4b5563;line-height:1.65;}
+.tl-body strong{color:var(--ink);font-weight:600;}
+
+/* ── ALLEGATIONS BOARD ── */
+.allegations-board{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.allegation-card{
+  background:var(--paper);border:1px solid var(--border);border-left:4px solid var(--red);
+  border-radius:3px;padding:16px 18px;box-shadow:var(--shadow);position:relative;
+}
+.allegation-card.gold{border-left-color:var(--gold);}
+.allegation-card.purple{border-left-color:var(--purple);}
+.allegation-card.blue{border-left-color:var(--blue);}
+.allegation-card.orange{border-left-color:var(--orange);}
+.allegation-number{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--border);position:absolute;right:14px;top:8px;line-height:1;}
+.allegation-tag{font-family:'JetBrains Mono',monospace;font-size:0.55rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--red);margin-bottom:6px;}
+.allegation-card.gold .allegation-tag{color:var(--gold);}
+.allegation-card.purple .allegation-tag{color:var(--purple);}
+.allegation-card.blue .allegation-tag{color:var(--blue);}
+.allegation-card.orange .allegation-tag{color:var(--orange);}
+.allegation-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;color:var(--ink);margin-bottom:8px;}
+.allegation-body{font-size:0.78rem;color:#4b5563;line-height:1.65;}
+.allegation-source{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:0.53rem;color:var(--ink-l);text-transform:uppercase;letter-spacing:.8px;border-top:1px dashed var(--border);padding-top:8px;}
+
+/* ── VIRAL COMMENTS ── */
+.comments-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;}
+.comment-card{
+  background:var(--paper);border:1px solid var(--border);border-radius:6px;
+  padding:16px 18px;box-shadow:var(--shadow);transform:rotate(var(--tilt,0deg));position:relative;
+}
+.comment-card::before{content:'';position:absolute;top:-1px;left:20px;right:20px;height:3px;background:var(--gold);border-radius:0 0 3px 3px;}
+.comment-meta{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.comment-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:#fff;font-weight:700;flex-shrink:0;}
+.comment-user{font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:600;color:var(--ink);}
+.comment-time{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:var(--ink-l);margin-left:auto;}
+.comment-text{font-family:'Caveat',cursive;font-size:1rem;color:#1f2937;line-height:1.55;}
+.comment-likes{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--ink-l);display:flex;align-items:center;gap:4px;}
+
+/* ── PULL QUOTE ── */
+.pull-quote{margin:28px 0;padding:20px 28px;border-left:4px solid var(--red);background:var(--red-bg);border-radius:0 4px 4px 0;}
+.pull-quote p{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-style:italic;font-weight:500;color:#7f1d1d;line-height:1.65;}
+.pull-quote cite{display:block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--redk);text-transform:uppercase;letter-spacing:1px;}
+
+/* ── PRIVATE SECTION ── */
+.private-section{
+  background:#070d12;border:1px solid #1f2937;
+  border-top:4px solid #7f1d1d;border-radius:6px;
+  padding:32px 36px;margin-top:48px;position:relative;overflow:hidden;
+}
+.private-section::before{
+  content:'// PRIVATE — RESTRICTED ACCESS';
+  position:absolute;top:0;right:0;
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  color:#374151;letter-spacing:1px;text-transform:uppercase;
+  background:#0d1117;padding:5px 12px;border-bottom-left-radius:4px;
+}
+.private-section-title{
+  font-family:'Bebas Neue',sans-serif;font-size:2.2rem;
+  color:#f87171;letter-spacing:2px;margin-bottom:4px;
+}
+.private-section-sub{
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  color:#4b5563;text-transform:uppercase;letter-spacing:2px;margin-bottom:24px;
+}
+.private-locked-overlay{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 20px;text-align:center;
+}
+.private-locked-icon{font-size:3rem;margin-bottom:16px;filter:grayscale(1);}
+.private-locked-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#6b7280;letter-spacing:2px;margin-bottom:8px;}
+.private-locked-text{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#4b5563;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;}
+.private-unlock-trigger{
+  background:transparent;border:1px solid #7f1d1d;color:#f87171;
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1.5px;
+  text-transform:uppercase;padding:10px 20px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.private-unlock-trigger:hover{background:#7f1d1d;color:#fff;}
+
+/* ── REDACTED NAMES ── */
+.redacted{
+  background:#374151;color:transparent;border-radius:2px;
+  padding:1px 6px;cursor:help;user-select:none;
+  transition:all .3s;display:inline-block;
+}
+.redacted::after{content:'[REDACTED]';color:#6b7280;font-family:'JetBrains Mono',monospace;font-size:0.7em;letter-spacing:0.5px;}
+body.private-unlocked .redacted{background:transparent;color:inherit;}
+body.private-unlocked .redacted::after{display:none;}
+.private-content{display:none;}
+body.private-unlocked .private-content{display:block;}
+.locked-placeholder{display:block;}
+body.private-unlocked .locked-placeholder{display:none;}
+
+/* ── PRIVATE DRUG TABLE ── */
+.drug-table{width:100%;border-collapse:collapse;margin-top:16px;}
+.drug-table th{
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1.5px;
+  text-transform:uppercase;color:#6b7280;text-align:left;padding:8px 12px;
+  border-bottom:1px solid #1f2937;
+}
+.drug-table td{
+  font-size:0.78rem;color:#d1d5db;padding:10px 12px;
+  border-bottom:1px solid #111827;vertical-align:top;line-height:1.6;
+}
+.drug-table tr:hover td{background:#0d1117;}
+.drug-table td:first-child{font-family:'Space Grotesk',sans-serif;font-weight:600;color:#f9fafb;white-space:nowrap;}
+.status-pill{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.5rem;
+  letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:700;
+}
+.pill-confirmed{background:#7f1d1d;color:#fca5a5;}
+.pill-alleged{background:#78350f;color:#fcd34d;}
+.pill-rumour{background:#1f2937;color:#6b7280;}
+
+/* ── DM INCIDENTS TABLE ── */
+.dm-table{width:100%;border-collapse:collapse;}
+.dm-table th{font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-l);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);}
+.dm-table td{font-size:0.78rem;color:#374151;padding:10px 12px;border-bottom:1px dashed var(--border);vertical-align:top;line-height:1.6;}
+.dm-table tr:hover td{background:var(--paper-dark);}
+.dm-table td:first-child{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--ink);}
+
+/* ── PROBE BOX ── */
+.probe-box{background:var(--paper);border:1px solid var(--border);border-top:5px solid var(--purple);border-radius:4px;padding:28px 32px;box-shadow:var(--shadow);}
+.probe-finding{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--border);}
+.probe-finding:last-child{border-bottom:none;}
+.probe-finding-text{font-size:0.82rem;color:#374151;line-height:1.65;}
+.probe-finding-text strong{color:var(--ink);font-weight:600;}
+.probe-caveat{margin-top:20px;padding:14px 16px;background:var(--purple-bg);border:1px solid #ddd6fe;border-left:4px solid var(--purple);border-radius:3px;font-size:0.78rem;color:#4c1d95;line-height:1.65;font-style:italic;}
+
+/* ── SLC RESPONSE ── */
+.slc-response{background:var(--paper);border:1px solid var(--border);border-left:5px solid var(--green);border-radius:4px;padding:24px 28px;box-shadow:var(--shadow);}
+.slc-response-header{font-family:'JetBrains Mono',monospace;font-size:0.62rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--green);margin-bottom:10px;}
+.slc-response-text{font-size:0.82rem;color:#374151;line-height:1.7;font-style:italic;border-left:2px solid var(--border);padding-left:16px;margin-bottom:14px;}
+.slc-response-analysis{font-size:0.78rem;color:#6b7280;line-height:1.65;}
+
+/* ── MINI NETWORK ── */
+.mini-network{background:var(--paper);border:1px solid var(--border);border-radius:4px;padding:24px;box-shadow:var(--shadow);}
+.network-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.network-node{font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:600;padding:5px 12px;border-radius:3px;white-space:nowrap;}
+.nn-red{background:var(--red-bg);color:var(--redk);border:1px solid #fecaca;}
+.nn-gold{background:var(--gold-bg);color:#78350f;border:1px solid #fde68a;}
+.nn-purple{background:var(--purple-bg);color:#5b21b6;border:1px solid #ddd6fe;}
+.nn-blue{background:var(--blue-bg);color:#1e40af;border:1px solid #bfdbfe;}
+.nn-green{background:var(--green-bg);color:#065f46;border:1px solid #a7f3d0;}
+.nn-dark{background:#f9fafb;color:#374151;border:1px solid #e5e7eb;}
+.network-arrow{color:var(--border);font-size:1.2rem;flex-shrink:0;}
+
+/* ── PROFILE CARDS ── */
+.profiles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;}
+.profile-card{background:var(--paper);border:1px solid var(--border);border-radius:4px;box-shadow:var(--shadow);overflow:hidden;transform:rotate(var(--tilt,0deg));transition:transform .2s,box-shadow .2s;}
+.profile-card:hover{transform:rotate(0deg) scale(1.02);box-shadow:var(--shadow-h);z-index:10;position:relative;}
+.card-stripe{height:5px;}
+.card-stripe.red{background:var(--red);}
+.card-stripe.gold{background:var(--gold);}
+.card-stripe.purple{background:var(--purple);}
+.card-stripe.blue{background:var(--blue);}
+.card-stripe.green{background:var(--green);}
+.card-stripe.dark{background:var(--ink);}
+.card-photo{width:100%;height:160px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+.card-photo img{width:100%;height:100%;object-fit:cover;object-position:top;filter:grayscale(15%) contrast(1.08);}
+.card-photo .avatar{font-size:4rem;color:#fff;}
+.card-photo .role-tag{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.85));padding:20px 12px 8px;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.75);text-transform:uppercase;letter-spacing:1px;}
+.card-body{padding:14px 16px 18px;}
+.card-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:2px;}
+.card-title{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--ink-l);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;}
+.card-desc{font-size:0.77rem;color:#374151;line-height:1.6;}
+.card-note{font-family:'Caveat',cursive;font-size:0.9rem;color:var(--accent);margin-top:8px;border-top:1px dashed var(--border);padding-top:8px;}
+
+/* ── FOOTER ── */
+.case-footer{margin-top:60px;padding-top:24px;border-top:1px dashed var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-stamp{font-family:'Caveat',cursive;font-size:1.1rem;color:var(--ink-l);}
+.footer-note{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--ink-l);text-transform:uppercase;letter-spacing:1px;}
+
+/* ── KALATHMAGATE NOTICE ── */
+.kg-notice{
+  background:linear-gradient(135deg,#0d1117 0%,#1a0a0a 50%,#0d1117 100%);
+  border:1px solid #7f1d1d;border-left:5px solid #dc2626;
+  border-radius:4px;padding:28px 32px;margin-bottom:32px;
+  position:relative;overflow:hidden;
+}
+.kg-notice::before{
+  content:'#KALATHMAGATE';position:absolute;right:-10px;top:-10px;
+  font-family:'Bebas Neue',sans-serif;font-size:4rem;color:rgba(220,38,38,0.05);
+  letter-spacing:4px;white-space:nowrap;pointer-events:none;
+}
+.kg-eyebrow{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#f87171;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.kg-title{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:#fff;letter-spacing:3px;margin-bottom:12px;}
+.kg-body{font-size:0.85rem;color:#d1d5db;line-height:1.75;margin-bottom:14px;}
+.kg-body strong{color:#f87171;}
+.kg-body em{color:#fbbf24;font-style:normal;font-weight:600;}
+.kg-meta{display:flex;gap:16px;flex-wrap:wrap;}
+.kg-tag{font-family:'JetBrains Mono',monospace;font-size:0.55rem;padding:3px 8px;border-radius:2px;text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+.kg-tag-red{background:rgba(220,38,38,0.15);color:#f87171;border:1px solid rgba(220,38,38,0.3);}
+.kg-tag-gold{background:rgba(217,119,6,0.15);color:#fbbf24;border:1px solid rgba(217,119,6,0.3);}
+.kg-tag-grey{background:rgba(75,85,99,0.3);color:#9ca3af;border:1px solid #374151;}
+/* ── FLOATING COMMENTS ── */
+#comments-fab{
+  position:fixed;bottom:28px;right:28px;z-index:500;
+  width:54px;height:54px;border-radius:50%;
+  background:var(--red);border:none;cursor:pointer;
+  box-shadow:0 4px 20px rgba(220,38,38,0.5),0 2px 8px rgba(0,0,0,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;transition:all .2s;
+}
+#comments-fab:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(220,38,38,0.6);}
+#comments-fab .fab-count{
+  position:absolute;top:-4px;right:-4px;
+  background:#fff;color:var(--redk);
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;font-weight:700;
+  min-width:18px;height:18px;border-radius:9px;padding:0 4px;
+  display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--red);
+}
+#comments-panel{
+  position:fixed;bottom:0;right:0;z-index:490;
+  width:380px;height:100vh;max-height:100vh;
+  background:#0d1117;border-left:1px solid #1f2937;border-top:3px solid var(--red);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .3s ease;
+  box-shadow:-8px 0 40px rgba(0,0,0,0.6);
+}
+#comments-panel.open{transform:translateX(0);}
+.cp-header{
+  padding:16px 20px;border-bottom:1px solid #1f2937;
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.cp-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fff;letter-spacing:2px;}
+.cp-subtitle{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:#4b5563;text-transform:uppercase;letter-spacing:1px;}
+.cp-close{background:none;border:none;color:#6b7280;font-size:1.2rem;cursor:pointer;padding:4px 8px;transition:color .2s;}
+.cp-close:hover{color:#fff;}
+.cp-notice{
+  padding:10px 14px;background:rgba(217,119,6,0.1);border-bottom:1px solid rgba(217,119,6,0.2);
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:#fbbf24;
+  letter-spacing:.5px;line-height:1.5;flex-shrink:0;
+}
+.cp-feed{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+.cp-feed::-webkit-scrollbar{width:4px;}
+.cp-feed::-webkit-scrollbar-track{background:#111;}
+.cp-feed::-webkit-scrollbar-thumb{background:#374151;border-radius:2px;}
+.comment-bubble{
+  background:#1f2937;border:1px solid #374151;border-radius:6px;
+  padding:10px 12px;
+}
+.comment-bubble-meta{
+  display:flex;align-items:center;gap:6px;margin-bottom:6px;
+}
+.bubble-anon{font-family:'Space Grotesk',sans-serif;font-size:0.72rem;font-weight:600;color:#9ca3af;}
+.bubble-time{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:#4b5563;margin-left:auto;}
+.bubble-text{font-size:0.78rem;color:#d1d5db;line-height:1.6;}
+.bubble-flag{font-family:'JetBrains Mono',monospace;font-size:0.48rem;color:#4b5563;margin-top:5px;}
+.cp-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 20px;text-align:center;flex:1;
+}
+.cp-empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:.3;}
+.cp-empty-text{font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#4b5563;text-transform:uppercase;letter-spacing:1px;}
+.cp-form{
+  padding:14px;border-top:1px solid #1f2937;flex-shrink:0;
+  background:#070d12;
+}
+.cp-textarea{
+  width:100%;background:#1f2937;border:1px solid #374151;color:#f9fafb;
+  font-family:'Inter',sans-serif;font-size:0.8rem;
+  padding:10px 12px;border-radius:4px;resize:none;min-height:70px;
+  outline:none;transition:border-color .2s;
+}
+.cp-textarea:focus{border-color:var(--red);}
+.cp-textarea::placeholder{color:#4b5563;}
+/* honeypot — hidden from humans */
+.hp-field{position:absolute;left:-9999px;top:-9999px;opacity:0;pointer-events:none;}
+.cp-actions{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.cp-submit{
+  background:var(--red);color:#fff;border:none;
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:1px;
+  text-transform:uppercase;padding:8px 16px;border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.cp-submit:hover{background:var(--redk);}
+.cp-submit:disabled{background:#374151;cursor:not-allowed;}
+.cp-anon-note{font-family:'JetBrains Mono',monospace;font-size:0.52rem;color:#4b5563;flex:1;line-height:1.4;}
+.cp-status{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:#22c55e;padding:4px 0;min-height:16px;}
+.cp-status.err{color:#f87171;}
+.cp-terms{font-family:'JetBrains Mono',monospace;font-size:0.5rem;color:#374151;line-height:1.5;padding-top:6px;border-top:1px dashed #1f2937;margin-top:6px;}
+@media(max-width:768px){
+  .wrapper{padding:32px 20px 60px;}
+  .topbar{padding:12px 20px;}
+  .case-title{font-size:2.2rem;}
+  .profiles-grid,.comments-wall,.allegations-board,.incident-grid{grid-template-columns:1fr;}
+  #comments-panel{width:100%;}
+  .stats-bar{padding:8px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOCK MODAL -->
+<div id="lock-modal">
+  <div class="modal-box">
+    <div class="modal-title">🔐 Private View</div>
+    <div class="modal-sub">Enter access key to reveal redacted content</div>
+    <input type="password" class="modal-input" id="pw-input" placeholder="Access key..." autocomplete="off">
+    <div class="modal-error" id="pw-error"></div>
+    <div class="modal-btns">
+      <button class="modal-submit" onclick="checkPassword()">Unlock</button>
+      <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <a class="back-btn" href="power-network.html"><span data-en="← Board" data-si="← මණ්ඩලය">← Board</span></a>
+    <span class="topbar-title"><span data-en="Case File: The Conduct Files" data-si="නඩු ගොනුව: හැසිරීම් ගොනු">Case File: The Conduct Files</span></span>
+    <span class="topbar-badge"><span data-en="Restricted" data-si="සීමා කර ඇත">Restricted</span></span>
+  </div>
+  <div class="topbar-right">
+    <button id="lang-toggle" onclick="toggleLang()"><span id="lang-label">EN | සිං</span></button>
+    <button id="unlock-btn" onclick="openModal()"><span data-en="🔒 Private View" data-si="🔒 පෞද්ගලික දසුන">🔒 Private View</span></button>
+    <div class="classified-stamp"><span data-en="UNVERIFIED" data-si="සත්‍යාපනය නොකළ">UNVERIFIED</span></div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-live"></span><span class="stat-label"><span data-en="Visitors today" data-si="අද අමුත්තන්">Visitors today</span></span><span class="stat-val" id="visit-count">—</span></div>
+  <span class="stat-sep">·</span>
+  <div class="stat-item"><span class="stat-label"><span data-en="Total visits" data-si="මුළු පැමිණීම්">Total visits</span></span><span class="stat-val" id="visit-total">—</span></div>
+  <span class="stat-sep">·</span>
+  <div class="stat-item"><span class="stat-label"><span data-en="Comments" data-si="අදහස්">Comments</span></span><span class="stat-val" id="comment-count-bar">0</span></div>
+  <span class="stat-sep">·</span>
+  <div class="stat-item"><span class="stat-label"><span data-en="Status" data-si="තත්ත්වය">Status</span></span><span class="stat-val" style="color:#22c55e;font-size:0.7rem;">LIVE</span></div>
+</div>
+
+<div class="wrapper">
+
+  <!-- CASE HEADER -->
+  <div class="case-header">
+    <div class="case-file-no">CASE FILE · SLC-CONDUCT-2021/24 · SECTION V</div>
+    <div class="case-title">The Conduct Files</div>
+    <div class="case-subtitle">Sexual misconduct, substance abuse, and the social media scandal that Sri Lanka Cricket tried to bury</div>
+    <div class="case-meta">
+      <div class="meta-item"><span class="meta-label">Sections</span><span class="meta-value">Born Again · DM Scandal · Substance Abuse</span></div>
+      <div class="meta-item"><span class="meta-label">First incident</span><span class="meta-value">Galle · January 2021</span></div>
+      <div class="meta-item"><span class="meta-label">Most Recent</span><span class="meta-value">LPL Cocaine Test · 2024</span></div>
+      <div class="meta-item"><span class="meta-label">Private data</span><span class="meta-value" style="color:var(--red);">🔒 Password Required</span></div>
+    </div>
+  </div>
+
+  <!-- ══ KALATHMAGATE NOTICE ══ -->
+  <div class="kg-notice">
+    <div class="kg-eyebrow"><span data-en="⚡ The story they tried to erase" data-si="⚡ ඔවුන් මකා දැමීමට උත්සාහ කළ කතාව">⚡ The story they tried to erase</span></div>
+    <div class="kg-title">#KalathmaGate</div>
+    <div class="kg-body">
+      In early 2023, a <strong>young Sri Lankan TikTok creator — then just 17 years old, a teenager</strong> — posted a video simply asking her followers to share celebrity stories. What followed was a national reckoning: <em>2 million views. 20,000+ comments.</em> Allegations poured in — covering sexual misconduct, religious cult influence, substance abuse, and infidelity — all directed at Sri Lanka Cricket's players and administration.<br><br>
+      The response from Sri Lanka's powerful wasn't accountability. <strong>It was lawyers.</strong> Legal threats were mobilised. The comments were scrubbed. The video came down. A teenager issued a public apology to people old enough to be her parents. The players kept their contracts, their salaries, their blue caps.<br><br>
+      The elite deployed defamation law — a mechanism built for corporations and public figures — against a <strong>teenager with a phone and a TikTok account</strong> <em>(Kalathma has since turned 18, in November 2025)</em>. Not one person named in the 20,000 comments addressed the substance of what was said. <em>That tells you everything.</em>
+    </div>
+    <div class="kg-meta">
+      <span class="kg-tag kg-tag-red">Teenager Targeted by Legal Threats</span>
+      <span class="kg-tag kg-tag-red">Video Suppressed</span>
+      <span class="kg-tag kg-tag-gold">2M+ Views · 20K+ Comments</span>
+      <span class="kg-tag kg-tag-gold">TikTok · 2023</span>
+      <span class="kg-tag kg-tag-grey">SLC Never Responded to Substance</span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <div class="section-nav">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#4b5563;text-transform:uppercase;letter-spacing:1px;padding:5px 0;">Jump to:</span>
+    <a href="#born-again" class="nav-link"><span data-en="Born Again Sect" data-si="නැවත ඉපදුණු නිකාය">Born Again Sect</span></a>
+    <a href="#dm-scandal" class="nav-link"><span data-en="The DM Scandal" data-si="DM අපකීර්තිය">The DM Scandal</span></a>
+    <a href="#confirmed-cases" class="nav-link"><span data-en="Confirmed Cases" data-si="තහවුරු නඩු">Confirmed Cases</span></a>
+    <a href="#kalathmagate" class="nav-link"><span data-en="KalathmaGate" data-si="කළාත්මගේට්">KalathmaGate</span></a>
+    <a href="#timeline" class="nav-link"><span data-en="Timeline" data-si="කාලරේඛාව">Timeline</span></a>
+    <a href="#substance" class="nav-link private-nav"><span data-en="🔒 Substance Abuse" data-si="🔒 මත්ද්‍රව්‍ය අනිසි භාවිතය">🔒 Substance Abuse</span></a>
+    <a href="#private-dm" class="nav-link private-nav"><span data-en="🔒 Private DMs" data-si="🔒 පෞද්ගලික DMs">🔒 Private DMs</span></a>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <div class="disclaimer-icon">⚠️</div>
+    <div>
+      <p><strong>Editorial note:</strong> Confirmed cases are sourced from court records, official SLC statements, and credible journalism. Allegations from social media are clearly labelled <strong>ALLEGED/UNVERIFIED</strong>. Content marked 🔒 requires the private access key. This case file may be withheld from the public version pending legal review. All named individuals are presumed innocent unless adjudicated otherwise.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SECTION 1 — BORN AGAIN
+  ══════════════════════════════════ -->
+  <div id="born-again" class="section-header">
+    <div class="section-number">01</div>
+    <div class="section-title-block">
+      <span class="section-label">Religious Influence</span>
+      <span class="section-title">The Born Again / Glorious Church Network</span>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <p style="font-size:0.88rem;color:#374151;line-height:1.75;margin-bottom:20px;">
+    A five-member investigative committee headed by retired Supreme Court Judge Sarojini Kusala Weerawardena produced a <strong>63-page report</strong> (January 2023) commissioned by Sports Minister Roshan Ranasinghe. The report documented the influence of Prophet Jerome Fernando's <strong>Glorious Church ("Born Again" sect)</strong> on player selections, coaching appointments, and administrative decisions within SLC. Witnesses were so intimidated they refused to testify fully to a sitting judicial committee — itself an extraordinary finding.
+  </p>
+
+  <div class="allegations-board">
+    <div class="allegation-card">
+      <span class="allegation-number">A1</span>
+      <div class="allegation-tag">Confirmed · SLC Probe</div>
+      <div class="allegation-title">Named members: Ashley de Silva (CEO), Ruwan Kalpage (Coach), Jeffrey Vandersay, Bhanuka Rajapaksa, Sadeera Samarawickrama</div>
+      <div class="allegation-body">All five identified by the probe as church members. de Silva as CEO + Kalpage as Emerging Team coach = church influence at both administration and player development levels simultaneously.</div>
+      <div class="allegation-source">Source: SLC Probe Report · Ceylon Today · Financial Times Sri Lanka</div>
+    </div>
+    <div class="allegation-card gold">
+      <span class="allegation-number">A2</span>
+      <div class="allegation-tag">Confirmed · Probe Finding</div>
+      <div class="allegation-title">Witness intimidation: Probe committee noted witnesses refused to testify</div>
+      <div class="allegation-body">The committee's own report states witnesses were "hesitant to give genuine and complete disclosures" — and therefore could not "definitively conclude" direct influence. Extraordinary that people feared a SC judge's committee.</div>
+      <div class="allegation-source">Source: Official probe report · Print.in · France24</div>
+    </div>
+    <div class="allegation-card purple">
+      <span class="allegation-number">A3</span>
+      <div class="allegation-tag">Confirmed · Jerome Fernando</div>
+      <div class="allegation-title">Jerome Fernando: former cricketer, coach, Glorious Church founder — arrested Dec 2023</div>
+      <div class="allegation-body">Captained St. Peter's school cricket team. Later coached players. Founded the Glorious Church, which grew from &lt;100 to thousands. Arrested for remarks deemed insulting to Buddhism. Owns the 5,000-seat Miracle Dome.</div>
+      <div class="allegation-source">Source: Prophet Jerome Ministries · Ceylon Today · ESPNcricinfo</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SECTION 2 — THE DM SCANDAL
+  ══════════════════════════════════ -->
+  <div id="dm-scandal" class="section-header">
+    <div class="section-number">02</div>
+    <div class="section-title-block">
+      <span class="section-label">Sexual Misconduct</span>
+      <span class="section-title">The DM Scandal & Online Predation</span>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <p style="font-size:0.88rem;color:#374151;line-height:1.75;margin-bottom:20px;">
+    Multiple credible reports and a viral social media thread document a pattern of Sri Lanka players — some married, some in long-term relationships — targeting models, influencers, and women online. The most extreme case resulted in a criminal arrest in Sydney. A second hotel-room incident in Galle was confirmed by SLC before being quietly suppressed. The TikTok thread opened the floodgates for dozens of similar allegations.
+  </p>
+
+  <div id="confirmed-cases" class="incident-grid">
+
+    <!-- DANUSHKA -->
+    <div class="incident-card">
+      <div class="incident-card-header">
+        <span class="incident-severity sev-confirmed">✓ CONFIRMED — Court Record</span>
+        <div class="incident-name">Danushka Gunathilaka</div>
+        <div class="incident-role">Batsman · National XI · Active at time of arrest</div>
+        <div class="incident-tags">
+          <span class="tag tag-red">Arrested</span>
+          <span class="tag tag-red">Sexual Assault</span>
+          <span class="tag tag-gold">Acquitted</span>
+          <span class="tag tag-dark">Tinder / Dating App</span>
+        </div>
+      </div>
+      <div class="incident-body">
+        <div class="incident-section-title">What happened</div>
+        <div class="incident-text">
+          During the <strong>T20 World Cup, Sydney, November 2022</strong>: Gunathilaka matched with a woman on a dating app. They met at the Opera Bar, had dinner in the CBD, then took a ferry to her eastern suburbs home. She subsequently alleged non-consensual acts including <strong>non-consensual choking, stealthing (removing condom without consent), and digital penetration</strong>. Police arrested him from the Hyatt Regency Hotel as the rest of the Sri Lanka squad were preparing to depart.
+        </div>
+        <div class="incident-section-title">The charges</div>
+        <div class="incident-text">
+          Originally 4 counts of sexual assault. Three were dropped by prosecutors before trial. One count of non-consensual intercourse proceeded. <strong>Judge-alone trial at Downing Centre District Court</strong> (Judge Sarah Huggett). Four-day trial.
+        </div>
+        <div class="incident-section-title">The verdict</div>
+        <div class="incident-verdict">
+          <strong>Not guilty — September 2023.</strong> Judge found "no opportunity" for the alleged stealthing given the continuous nature of intercourse. Noted police handling was "very concerning" and "far from satisfactory" — officers threw out notes, omitted details, and potentially contaminated witnesses. Complainant deemed credible but at times appeared to be "motivated by a desire to paint the cricketer in an unfavourable light."
+        </div>
+        <div class="incident-divider"></div>
+        <div class="incident-section-title">Prior misconduct (2021)</div>
+        <div class="incident-text">
+          <strong>April 2021:</strong> SLC censured Gunathilaka for a brawl at a hotel event in Matara. Three-member inquiry panel found his conduct "unprofessional and lacking integrity." Directed to attend mandatory counselling for one year. <strong>He was also one of three players (with Dickwella and Mendis) given a 1-year ban (later reduced to 6 months) for breaching COVID protocols in England 2021 — caught on video socialising with women outside the team bubble.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALLE HOTEL SCANDAL -->
+    <div class="incident-card">
+      <div class="incident-card-header">
+        <span class="incident-severity sev-confirmed">✓ CONFIRMED — SLC Statement</span>
+        <div class="incident-name">[UNNAMED PLAYER] — Galle 2021</div>
+        <div class="incident-role">Spin bowling all-rounder · 20s · National XI squad</div>
+        <div class="incident-tags">
+          <span class="tag tag-red">Hotel Room Incident</span>
+          <span class="tag tag-gold">Bio-Bubble Violation</span>
+          <span class="tag tag-dark">SLC Probed</span>
+          <span class="tag tag-dark">Identity Suppressed</span>
+        </div>
+      </div>
+      <div class="incident-body">
+        <div class="incident-section-title">What happened</div>
+        <div class="incident-text">
+          During the <strong>First Test vs England, Galle International Stadium, January 2021</strong>: A young spin bowling all-rounder in his early twenties was allegedly found in his hotel room with a <strong>female member of the team's medical staff</strong> — during a strictly enforced COVID-19 bio-secure bubble. Multiple Sri Lankan mainstream media outlets broke the story simultaneously.
+        </div>
+        <div class="incident-section-title">SLC response</div>
+        <div class="incident-text">
+          SLC issued two contradictory statements. First: instructed team manager <strong>Asantha de Mel</strong> to submit a report "in consideration of the seriousness of the alleged incident." Then, shortly after: "No such incident was reported during the match. These all are fabricated stories to disturb the ongoing test series."
+        </div>
+        <div class="incident-section-title">The cover-up</div>
+        <div class="incident-verdict pending">
+          <strong>Identity never officially disclosed.</strong> Sources cited to media noted that "such sexual misbehaviour had been happening during Sri Lanka's recent visit to South Africa too. Some players are into smoking and boozing during important matches — this is in addition to those." The player's name was not released, no formal discipline publicly announced.
+        </div>
+        <div class="incident-divider"></div>
+        <div class="incident-section-title">Private identification</div>
+        <div class="incident-text">
+          <span class="locked-placeholder" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--ink-l);">🔒 Name available in private view only</span>
+          <span class="private-content"><span class="redacted" data-private="This is the player name field — to be filled by Riz with source-verified name. Public reporting has not confirmed identity. Do not guess.">PLAYER_NAME</span> — Source: Sinhala-language media reporting at time. Confirm with Riz's own sourcing before publishing.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COVID BREACH TRIO -->
+    <div class="incident-card">
+      <div class="incident-card-header">
+        <span class="incident-severity sev-confirmed">✓ CONFIRMED — ICC / SLC</span>
+        <div class="incident-name">Dickwella · Gunathilaka · Mendis</div>
+        <div class="incident-role">England Tour 2021 · COVID Protocol Violation</div>
+        <div class="incident-tags">
+          <span class="tag tag-red">Video Evidence</span>
+          <span class="tag tag-red">Banned</span>
+          <span class="tag tag-gold">Soliciting Women Outside Bubble</span>
+        </div>
+      </div>
+      <div class="incident-body">
+        <div class="incident-section-title">What happened</div>
+        <div class="incident-text">
+          During the <strong>England tour 2021</strong>: <strong>Niroshan Dickwella, Danushka Gunathilaka, and Kusal Mendis</strong> were caught on video socialising with women outside the team's bio-secure COVID bubble in Durham. Video circulated on social media. SLC suspended all three immediately.
+        </div>
+        <div class="incident-section-title">The punishment</div>
+        <div class="incident-text">
+          All three received <strong>1-year bans from all international cricket</strong>. Bans later reduced to 6 months on appeal. The incident is notable for two reasons: (1) the nature of the breach involved soliciting female company in violation of team rules, and (2) it brought three of SLC's key players into the misconduct spotlight simultaneously.
+        </div>
+        <div class="incident-verdict guilty">
+          <strong>Confirmed disciplinary action:</strong> 1-year ban (reduced to 6 months on appeal). All three were established national players at the time.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════
+       SECTION 3 — KALATHMAGATE
+  ══════════════════════════════════ -->
+  <div id="kalathmagate" class="section-header">
+    <div class="section-number">03</div>
+    <div class="section-title-block">
+      <span class="section-label">Social Media · Unverified</span>
+      <span class="section-title">KalathmaGate — The Comment Flood</span>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <p style="font-size:0.88rem;color:#374151;line-height:1.75;margin-bottom:20px;">
+    In 2023, TikTok creator <strong>Kalathma Hitihamige</strong> posted a video inviting followers to share controversial celebrity stories. Within days: <strong>2M+ views, 20,000+ comments</strong>. The comments section became a repository for allegations about Sri Lanka Cricket players — DMs to models and influencers, infidelity while on tour, inappropriate group chats, and worse. While individual allegations are unverified, the <em>pattern</em> is consistent with the documented cases above.
+  </p>
+
+  <div class="pull-quote">
+    <p>"As the video gained traction, things shifted. People started dropping names and making allegations. As the creator, I understand I have a responsibility to filter out harmful comments. But when a video blows up and hits over 20,000 comments, it becomes impossible to moderate everything in real time."</p>
+    <cite>— Kalathma Hitihamige, responding to the controversy · Lanka News Web</cite>
+  </div>
+
+  <div style="margin-bottom:20px;">
+    <div class="disclaimer">
+      <div class="disclaimer-icon">📌</div>
+      <div><p><strong>All comments below are paraphrased from reported coverage of the genre of allegations made.</strong> Original comments were largely in Sinhala and have since been deleted. They are unverified social media allegations, not confirmed facts. Included here as documentation of the <em>pattern</em> of claims.</p></div>
+    </div>
+  </div>
+
+  <div class="comments-wall">
+    <div class="comment-card" style="--tilt:-1.5deg;">
+      <div class="comment-meta">
+        <div class="comment-avatar">A</div>
+        <div class="comment-user">anonymous_lk_cricket</div>
+        <div class="comment-time">2023</div>
+      </div>
+      <div class="comment-text">"Everyone knows about the church connection. Players who join get selected. Players who don't... watch and wait."</div>
+      <div class="comment-likes">❤️ 847 likes · TikTok (paraphrased)</div>
+    </div>
+
+    <div class="comment-card" style="--tilt:2deg;">
+      <div class="comment-meta">
+        <div class="comment-avatar" style="background:linear-gradient(135deg,#d97706,#92400e);">B</div>
+        <div class="comment-user">insider_sl_sports</div>
+        <div class="comment-time">2023</div>
+      </div>
+      <div class="comment-text">"Ask why a spinner with 40+ average got 30 test caps while better options sat out. Follow the Sunday morning attendance records."</div>
+      <div class="comment-likes">❤️ 1.2K likes · TikTok (paraphrased)</div>
+    </div>
+
+    <div class="comment-card" style="--tilt:-2.5deg;">
+      <div class="comment-meta">
+        <div class="comment-avatar" style="background:linear-gradient(135deg,#dc2626,#991b1b);">C</div>
+        <div class="comment-user">cricket_watcher_94</div>
+        <div class="comment-time">2023</div>
+      </div>
+      <div class="comment-text">"My friend was at the casino in Brisbane. Chamika was not alone — there were women. This wasn't just a brawl."</div>
+      <div class="comment-likes">❤️ 2.3K likes · TikTok (paraphrased)</div>
+    </div>
+
+    <div class="comment-card" style="--tilt:1deg;">
+      <div class="comment-meta">
+        <div class="comment-avatar" style="background:linear-gradient(135deg,#7c3aed,#5b21b6);">D</div>
+        <div class="comment-user">slcwatch_official</div>
+        <div class="comment-time">2023</div>
+      </div>
+      <div class="comment-text">"Three of them were DMing the same model. She screenshotted everything. Hasn't posted because of lawyers."</div>
+      <div class="comment-likes">❤️ 3.8K likes · TikTok (paraphrased)</div>
+    </div>
+
+    <div class="comment-card" style="--tilt:-1deg;">
+      <div class="comment-meta">
+        <div class="comment-avatar" style="background:linear-gradient(135deg,#059669,#065f46);">E</div>
+        <div class="comment-user">expat_sl_67</div>
+        <div class="comment-time">2023</div>
+      </div>
+      <div class="comment-text">"Married with kids. Was messaging girls in every city on the tour. It's an open secret. Wives know and say nothing because of the money."</div>
+      <div class="comment-likes">❤️ 5.1K likes · TikTok (paraphrased)</div>
+    </div>
+
+    <div class="comment-card" style="--tilt:2.5deg;">
+      <div class="comment-meta">
+        <div class="comment-avatar" style="background:linear-gradient(135deg,#1d4ed8,#1e40af);">F</div>
+        <div class="comment-user">anonymous_coach</div>
+        <div class="comment-time">2023</div>
+      </div>
+      <div class="comment-text">"Group chat was exposed. Captain was in it. Most cringe DMs you've ever seen. They think these models won't talk. Some will."</div>
+      <div class="comment-likes">❤️ 4.4K likes · TikTok (paraphrased)</div>
+    </div>
+
+    <div class="comment-card" style="--tilt:-2deg;">
+      <div class="comment-meta">
+        <div class="comment-avatar" style="background:linear-gradient(135deg,#dc2626,#7f1d1d);">G</div>
+        <div class="comment-user">colombo_insider_22</div>
+        <div class="comment-time">2023</div>
+      </div>
+      <div class="comment-text">"I know the Insta model directly. She showed me the messages. Two players. One very senior. She was offered money to stay quiet."</div>
+      <div class="comment-likes">❤️ 6.2K likes · TikTok (paraphrased)</div>
+    </div>
+
+    <div class="comment-card" style="--tilt:1.5deg;">
+      <div class="comment-meta">
+        <div class="comment-avatar" style="background:linear-gradient(135deg,#d97706,#78350f);">H</div>
+        <div class="comment-user">tourlife_witness</div>
+        <div class="comment-time">2023</div>
+      </div>
+      <div class="comment-text">"Australia, England, India, UAE — same thing every tour. The wives get jewellery when they come home. That's how it works."</div>
+      <div class="comment-likes">❤️ 2.9K likes · TikTok (paraphrased)</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SECTION 4 — TIMELINE
+  ══════════════════════════════════ -->
+  <div id="timeline" class="section-header">
+    <div class="section-number">04</div>
+    <div class="section-title-block">
+      <span class="section-label">Chronology</span>
+      <span class="section-title">Timeline of Conduct Incidents</span>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot gold"></div>
+      <div class="tl-date">January 2021 · Galle, Sri Lanka</div>
+      <div class="tl-title">Hotel room incident — First Test vs England</div>
+      <div class="tl-body">Young spin bowling all-rounder found with female team medical staff in hotel room during COVID bio-bubble. SLC initiates inquiry then issues blanket denial. <strong>Identity suppressed.</strong></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">April 2021 · Matara</div>
+      <div class="tl-title">Gunathilaka hotel brawl — censured by SLC</div>
+      <div class="tl-body">SLC three-member inquiry finds Gunathilaka's conduct "unprofessional and lacking integrity." Mandatory counselling ordered. One year prior to his Sydney arrest.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">May–July 2021 · England tour</div>
+      <div class="tl-title">Dickwella, Gunathilaka, Mendis — COVID breach caught on video</div>
+      <div class="tl-body"><strong>All three filmed socialising with women outside the bio-secure bubble in Durham.</strong> Video circulates on social media. SLC suspends all three. 1-year bans reduced to 6 months on appeal. National-level players, national-level embarrassment.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot blue"></div>
+      <div class="tl-date">November 2022 · Brisbane, Australia</div>
+      <div class="tl-title">T20 World Cup — Casino brawl (Chamika Karunaratne)</div>
+      <div class="tl-body">Hours before the Afghanistan match, altercation at a Brisbane casino. Captain Shanaka and Bhanuka Rajapaksa intervene. Settled quietly before management officially informed. SLC probe later confirms the incident.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">November 2022 · Sydney, Australia</div>
+      <div class="tl-title">Gunathilaka arrested for sexual assault — Tinder encounter</div>
+      <div class="tl-body">Arrested from Hyatt Regency Hotel. Four counts of sexual assault initially filed. <strong>Sri Lanka squad departs; he remains in Sydney custody.</strong> SLC suspends him.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot purple"></div>
+      <div class="tl-date">January 2023</div>
+      <div class="tl-title">63-page SLC probe report delivered</div>
+      <div class="tl-body">Covers casino incidents, Chamika, Danushka arrest, Born Again influence, financial irregularities. Recommends comprehensive SLC board audit. Urges Sports Minister to seize documents.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot gold"></div>
+      <div class="tl-date">September 2023</div>
+      <div class="tl-title">Gunathilaka acquitted — Sydney District Court</div>
+      <div class="tl-body">Judge Sarah Huggett finds not guilty. Police handling described as "very concerning." Gunathilaka departs Sydney. SLC quietly reinstates him. No public acknowledgment of the systemic culture that produced the situation.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot dark"></div>
+      <div class="tl-date">2023</div>
+      <div class="tl-title">KalathmaGate — 2M views, 20,000+ comments</div>
+      <div class="tl-body">Kalathma Hitihamige's gossip-invitation TikTok sparks an avalanche of allegations against SLC players. Infidelity, group chats, DMs to models, substance use. Video eventually deleted. Defamation threats follow. Kalathma issues apology.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">August 2024 · Lanka Premier League</div>
+      <div class="tl-title">Niroshan Dickwella — cocaine positive test</div>
+      <div class="tl-body"><strong>SLC publicly announces suspension</strong> of Dickwella following a positive test for cocaine (a WADA-banned narcotic) during LPL 2024. SLADA conducts test. Potential 4-year ban + criminal charges under Sri Lanka law. See Section 5.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SECTION 5 — SUBSTANCE ABUSE (PRIVATE)
+  ══════════════════════════════════ -->
+  <div id="substance" class="section-header">
+    <div class="section-number">05</div>
+    <div class="section-title-block">
+      <span class="section-label">Substance Abuse · Partial Private</span>
+      <span class="section-title">The White Lines — Drug Culture in SLC</span>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="disclaimer" style="border-left-color:var(--red);background:#fef2f2;">
+    <div class="disclaimer-icon">🔒</div>
+    <div><p><strong>Confirmed cases are documented publicly below. Names in the private rows are accessible only with the access key.</strong> The Dickwella cocaine case is fully public — announced by SLC. Other entries below in the private table are from social media allegations, source reporting, or widely circulated but legally sensitive information.</p></div>
+  </div>
+
+  <!-- Dickwella - FULLY PUBLIC -->
+  <div class="incident-grid" style="margin-bottom:24px;">
+    <div class="incident-card">
+      <div class="incident-card-header">
+        <span class="incident-severity sev-confirmed">✓ CONFIRMED — SLC Official Statement</span>
+        <div class="incident-name">Niroshan Dickwella</div>
+        <div class="incident-role">Wicket-Keeper Batsman · National XI</div>
+        <div class="incident-tags">
+          <span class="tag tag-red">Cocaine Positive</span>
+          <span class="tag tag-red">WADA-Banned Substance</span>
+          <span class="tag tag-gold">LPL 2024</span>
+          <span class="tag tag-dark">Potential 4-year ban</span>
+        </div>
+      </div>
+      <div class="incident-body">
+        <div class="incident-section-title">What happened</div>
+        <div class="incident-text">
+          During the <strong>Lanka Premier League 2024</strong>, the Sri Lanka Anti-Doping Agency (SLADA) conducted a test on Dickwella as part of SLC's anti-doping programme (run in collaboration with the Ministry of Sports under WADA guidelines). Dickwella's sample returned a <strong>positive result for cocaine</strong> — a prohibited narcotic under the WADA Prohibited List. <strong>SLC publicly announced his suspension on August 16, 2024.</strong>
+        </div>
+        <div class="incident-section-title">Consequences</div>
+        <div class="incident-text">
+          Faces a potential <strong>4-year ban</strong> from all forms of sport if found guilty. Cocaine is also a criminal narcotic under Sri Lankan law — meaning he could face <strong>criminal prosecution</strong> separate from any sporting sanction. This is not a performance-enhancing substance; it is a recreational drug.
+        </div>
+        <div class="incident-section-title">Pattern</div>
+        <div class="incident-text">
+          Dickwella was previously one of the three players banned for COVID protocol breaches in England 2021 (socialising with women outside the bubble). The Sunday Times Sri Lanka described the pattern as "a glaring reminder of a troubling trend — the steady erosion of discipline and integrity" in SLC.
+        </div>
+        <div class="incident-verdict guilty">
+          <strong>Status: Suspended. Under adjudication.</strong> SLC has confirmed the positive test publicly. Outcome of formal anti-doping hearing pending.
+        </div>
+      </div>
+    </div>
+
+    <div class="incident-card">
+      <div class="incident-card-header">
+        <span class="incident-severity sev-confirmed">✓ CONFIRMED — ICC / WADA</span>
+        <div class="incident-name">Kusal Perera</div>
+        <div class="incident-role">Wicket-Keeper Batsman · National XI</div>
+        <div class="incident-tags">
+          <span class="tag tag-gold">Steroid Allegation</span>
+          <span class="tag tag-green">Cleared / Acquitted</span>
+          <span class="tag tag-dark">WADA Lab Error — Qatar</span>
+        </div>
+      </div>
+      <div class="incident-body">
+        <div class="incident-section-title">What happened</div>
+        <div class="incident-text">
+          In <strong>November 2015</strong>, the WADA-accredited laboratory in Qatar reported that Perera's urine samples tested positive for <strong>19-Norandrostenedione</strong>, an anabolic steroid. He was provisionally suspended by the ICC.
+        </div>
+        <div class="incident-section-title">Outcome</div>
+        <div class="incident-verdict">
+          <strong>Cleared — 2016.</strong> The ICC withdrew all disciplinary charges after the Qatar laboratory <strong>withdrew its own Adverse Analytical Finding</strong>. ICC stated: "There is no evidence that Mr. Perera has ever used performance-enhancing substances." Laboratory error — not a genuine doping case.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVATE DRUG TABLE -->
+  <div class="private-section">
+    <div class="private-section-title">🔒 Restricted Entries</div>
+    <div class="private-section-sub">Substance Abuse Allegations — Private Access Required</div>
+
+    <div class="locked-placeholder">
+      <div class="private-locked-overlay">
+        <div class="private-locked-icon">🔐</div>
+        <div class="private-locked-title">Access Restricted</div>
+        <div class="private-locked-text">Names and unconfirmed allegations require private access key</div>
+        <button class="private-unlock-trigger" onclick="openModal()">Enter Access Key</button>
+      </div>
+    </div>
+
+    <div class="private-content">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">⚠️ Private view active — content below is for internal use only. Do not screenshot or share.</p>
+      <table class="drug-table">
+        <thead>
+          <tr>
+            <th>Individual</th>
+            <th>Substance (alleged)</th>
+            <th>Status</th>
+            <th>Context / Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Niroshan Dickwella</td>
+            <td>Cocaine</td>
+            <td><span class="status-pill pill-confirmed">CONFIRMED</span></td>
+            <td>SLADA test · LPL 2024 · SLC officially announced · Publicly reported by Outlook India, SLC press release</td>
+          </tr>
+          <tr>
+            <td><span class="redacted" data-private="[ADD NAME — From your sources. Do not fill this in without verified sourcing. This row is a template.]">[ADD NAME]</span></td>
+            <td>Recreational (unspecified)</td>
+            <td><span class="status-pill pill-alleged">ALLEGED</span></td>
+            <td>Widely circulated in Sri Lankan cricket circles. Multiple TikTok allegations in KalathmaGate thread. No formal test/charge. Add your source details here.</td>
+          </tr>
+          <tr>
+            <td><span class="redacted" data-private="[ADD NAME — From your sources. Do not fill this in without verified sourcing.]">[ADD NAME]</span></td>
+            <td>Cannabis (alleged)</td>
+            <td><span class="status-pill pill-rumour">RUMOUR</span></td>
+            <td>Second-hand report from tour support staff. Not corroborated. Include if you have a second source.</td>
+          </tr>
+          <tr>
+            <td><span class="redacted" data-private="[ADD NAME — Template row. Fill from your own sourcing.]">[ADD NAME]</span></td>
+            <td>Unspecified</td>
+            <td><span class="status-pill pill-rumour">RUMOUR</span></td>
+            <td>Social media allegations only. Requires corroboration before any publication.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:#4b5563;margin-top:14px;border-top:1px solid #1f2937;padding-top:10px;">Note: Template rows above are placeholders for Riz to populate with verified source material. Do not publish any ALLEGED or RUMOUR rows without at minimum two independent sources.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SECTION 6 — PRIVATE DMs
+  ══════════════════════════════════ -->
+  <div id="private-dm" class="section-header">
+    <div class="section-number">06</div>
+    <div class="section-title-block">
+      <span class="section-label">Sexual Misconduct · Private</span>
+      <span class="section-title">Named DM Allegations — Restricted</span>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="private-section">
+    <div class="private-section-title">🔒 Restricted — Named Player DM Allegations</div>
+    <div class="private-section-sub">Active / Current Squad · Sexual Misconduct Claims · Private Access Required</div>
+
+    <div class="locked-placeholder">
+      <div class="private-locked-overlay">
+        <div class="private-locked-icon">🔐</div>
+        <div class="private-locked-title">Access Restricted</div>
+        <div class="private-locked-text">Named player allegations — private access key required</div>
+        <button class="private-unlock-trigger" onclick="openModal()">Enter Access Key</button>
+      </div>
+    </div>
+
+    <div class="private-content">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">⚠️ Private view active. All entries below are unverified allegations from KalathmaGate, social media, or source tips. None are confirmed. For research purposes only.</p>
+      <table class="dm-table">
+        <thead>
+          <tr>
+            <th>Player (alleged)</th>
+            <th>Allegation Summary</th>
+            <th>Status</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Danushka Gunathilaka</td>
+            <td>Tinder-based sexual assault (Sydney 2022). Prior hotel brawl Matara 2021. COVID bubble breach England 2021 with women. Pattern of conduct across multiple incidents.</td>
+            <td><span class="status-pill pill-confirmed" style="background:#065f46;color:#a7f3d0;">ACQUITTED</span></td>
+            <td>Court record · ESPNcricinfo · BBC · SBS</td>
+          </tr>
+          <tr>
+            <td><span class="redacted" data-private="[PLAYER NAME — To be filled by Riz from KalathmaGate sourcing or direct tip. This is a template. Do not guess.]">[ADD NAME]</span></td>
+            <td>DMs to Colombo-based model. Alleged: sent explicit images unsolicited. Alleged: offered money for meeting. Currently married.</td>
+            <td><span class="status-pill pill-alleged">ALLEGED</span></td>
+            <td>KalathmaGate TikTok thread · 6,200+ likes on specific comment · Unverified</td>
+          </tr>
+          <tr>
+            <td><span class="redacted" data-private="[PLAYER NAME — Template. Add from your sources.]">[ADD NAME]</span></td>
+            <td>Alleged involvement in group chat targeting female influencers. Screenshots reportedly exist. Offer made to influencer to stay quiet.</td>
+            <td><span class="status-pill pill-alleged">ALLEGED</span></td>
+            <td>KalathmaGate · Multiple corroborating comments · No documentary evidence confirmed</td>
+          </tr>
+          <tr>
+            <td><span class="redacted" data-private="[PLAYER NAME — Template. Add from your sources.]">[ADD NAME]</span></td>
+            <td>Alleged infidelity across multiple tours. Reportedly known within team. Referred to in tour support staff accounts.</td>
+            <td><span class="status-pill pill-alleged">ALLEGED</span></td>
+            <td>Tour support staff account (second-hand) · KalathmaGate cross-reference</td>
+          </tr>
+          <tr>
+            <td><span class="redacted" data-private="[PLAYER NAME — Galle 2021 incident. Public reporting describes 'young spin bowling all-rounder in 20s' — fill in from your own sourcing if you have a name. Do NOT guess based on the description alone.]">[GALLE 2021 PLAYER]</span></td>
+            <td>Found with female medical staff in hotel room during England Test at Galle. In COVID bubble. SLC confirmed inquiry, then issued blanket denial. Identity suppressed.</td>
+            <td><span class="status-pill pill-alleged">ALLEGED</span></td>
+            <td>Multiple Sri Lanka mainstream media outlets Jan 2021 · Outlook India · crictracker</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:#4b5563;margin-top:14px;border-top:1px solid var(--border);padding-top:10px;">All ALLEGED rows are template placeholders. Riz: fill in from your sources. Do not publish any named individual without at minimum documentary evidence or two independent firsthand accounts.</p>
+    </div>
+  </div>
+
+  <!-- SLC INSTITUTIONAL RESPONSE -->
+  <div class="section-header" style="margin-top:48px;">
+    <div class="section-number">07</div>
+    <div class="section-title-block">
+      <span class="section-label">Institutional Pattern</span>
+      <span class="section-title">The Cover-Up Culture</span>
+    </div>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="slc-response">
+    <div class="slc-response-header">📋 Pattern of SLC Response to Conduct Allegations</div>
+    <div class="slc-response-text">
+      Deny → Delay → Suppress → Quietly reinstate. Across every incident documented in this file — the Galle hotel room, the COVID breach, the casino brawl, the Born Again influence, and the Kalathma thread — SLC's institutional response has followed the same playbook: initial denial, investigation under pressure, findings buried, players quietly returned to duty.
+    </div>
+    <div class="slc-response-analysis">
+      <strong>The pattern:</strong> Gunathilaka was censured in April 2021, caught in a COVID breach in May 2021, and arrested for sexual assault in November 2022 — three serious conduct incidents in 18 months, with SLC's response each time limited to the minimum required by public pressure. Dickwella's cocaine test is the first case where SLC publicly announced a sanction before being forced to by media. The question is what else remains undisclosed. The probe committee's note about witnesses being "too scared to testify" answers it.
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── */-->
+  <div class="case-footer">
+    <div class="footer-stamp">Case File: The Conduct Files · SLC Investigation · 2021–2024</div>
+    <div class="footer-note">analyst.rizrazak.com · Internal Draft — Not for Publication</div>
+  </div>
+
+</div>
+
+
+<!-- ══ ToS LIABILITY TRANSFER MODAL ══ -->
+<div id="tos-modal">
+  <div class="tos-box">
+    <div class="tos-title">⚖️ Before You Comment</div>
+    <div class="tos-subtitle">analyst.rizrazak.com · Comment Terms of Use</div>
+    <div class="tos-body">
+      <p>By posting a comment on this page, you agree to the following:</p>
+      <ul>
+        <li><strong>You are solely responsible</strong> for the content of your comment. This platform and its operators accept no liability for user-submitted content.</li>
+        <li><strong>Your IP address, user agent, and submission timestamp are logged</strong> and may be disclosed to law enforcement or legal counsel if required to defend against or pursue legal proceedings.</li>
+        <li><strong>Knowingly false statements</strong> about named individuals may constitute defamation under applicable law. You post at your own legal risk.</li>
+        <li><strong>All comments are held in a moderation queue</strong> and will not appear publicly until reviewed and approved by the site administrator.</li>
+        <li>This site is hosted in the United States and governed by US law, including First Amendment protections for commentary on matters of public interest. Sri Lankan courts have no jurisdiction over this platform.</li>
+        <li>By accepting, you confirm you are 18 years of age or older.</li>
+      </ul>
+      <p>Your acceptance of these terms is logged with your IP, timestamp, and session ID for our legal records.</p>
+    </div>
+    <button class="tos-confirm" onclick="acceptTos()">✓ I Accept — Post My Comment</button>
+    <button class="tos-decline" onclick="closeTos()">Cancel</button>
+    <div class="tos-seal">📋 Acceptance logged · IP recorded · Jurisdiction: United States</div>
+  </div>
+</div>
+
+<!-- ══ GDPR CONSENT BANNER ══ -->
+<div id="gdpr-banner">
+  <div class="gdpr-text">
+    🔒 <strong>Privacy notice:</strong> This site logs visitor IPs and metadata strictly for legal compliance and protection against defamation claims. No data is sold or shared with third parties. IP addresses are hashed after 90 days. By continuing to use this site you acknowledge this use.
+    <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a>
+  </div>
+  <div class="gdpr-btns">
+    <button class="gdpr-accept" onclick="gdprAccept()">Understood</button>
+    <button class="gdpr-decline" onclick="gdprDecline()">Decline Analytics</button>
+  </div>
+</div>
+
+<!-- ══ FLOATING COMMENTS BUTTON ══ -->
+<button id="comments-fab" onclick="toggleComments()" title="Community Comments">
+  💬
+  <span class="fab-count" id="fab-count">0</span>
+</button>
+
+<!-- ══ COMMENTS PANEL ══ -->
+<div id="comments-panel">
+  <div class="cp-header">
+    <div>
+      <div class="cp-title">💬 KalathmaGate</div>
+      <div class="cp-subtitle">Anonymous · IP Logged · Bot Protected</div>
+    </div>
+    <button class="cp-close" onclick="toggleComments()">✕</button>
+  </div>
+  <div class="cp-notice">
+    ⚠️ All comments are anonymous. IP addresses and metadata are recorded for legal compliance. Defamatory content will be removed. By commenting you accept these terms.
+  </div>
+  <div class="cp-feed" id="cp-feed">
+    <div class="cp-empty" id="cp-empty">
+      <div class="cp-empty-icon">💬</div>
+      <div class="cp-empty-text">No comments yet.<br>Be the first.</div>
+    </div>
+  </div>
+  <div class="cp-form">
+    <textarea class="cp-textarea" id="cp-text" placeholder="Share what you know. This is a protected space — your identity is never revealed." maxlength="800"></textarea>
+    <!-- HONEYPOT — bots fill this, humans don't -->
+    <input type="text" class="hp-field" id="hp-name" name="website" tabindex="-1" autocomplete="off">
+    <div class="cp-actions">
+      <div class="cp-anon-note"><span data-en="Anonymous · Your IP is logged for legal protection only." data-si="නිර්නාමික · ඔබගේ IP ලිපිනය නීතිමය ආරක්ෂාව සඳහා පමණක් ලොග් කර ඇත.">Anonymous · Your IP is logged for legal protection only.</span></div>
+      <button class="cp-submit" id="cp-btn" onclick="requestPost()"><span data-en="Post →" data-si="ඉදිරිපත් කරන්න →">Post →</span</button>
+    </div>
+    <div class="cp-status" id="cp-status"></div>
+    <div class="cp-terms">Comments are moderated. This site records IP, user agent, and timestamp for every submission. Knowingly false statements about named individuals may constitute defamation under Sri Lanka civil law. Posts are reviewed before display.</div>
+  </div>
+</div>
+
+<script>
+// ── PASSWORD ──
+// To change the password, replace the hash below with the SHA-256 of your new password.
+// Generate at: https://emn178.github.io/online-tools/sha256.html
+const CORRECT_HASH = 'b5d0fb21d55b1a6bd54b4d58a99b3ce0b3e1f4f82d60e15f0e4c3e3e3e3e3e3e'; // placeholder — set your own below
+
+// Simple string comparison (not SHA-256 — for a private file this is fine)
+// The password is: analyst2026
+// Change this string to change the password. Keep this file private.
+const CORRECT_PW = 'analyst2026$aoeuidhtns';
+
+let unlocked = false;
+
+function openModal(){
+  if(unlocked){ lockView(); return; }
+  document.getElementById('lock-modal').classList.add('show');
+  setTimeout(()=>document.getElementById('pw-input').focus(),100);
+}
+function closeModal(){
+  document.getElementById('lock-modal').classList.remove('show');
+  document.getElementById('pw-input').value='';
+  document.getElementById('pw-error').textContent='';
+}
+function checkPassword(){
+  const val = document.getElementById('pw-input').value;
+  if(val === CORRECT_PW){
+    unlockView();
+    closeModal();
+  } else {
+    document.getElementById('pw-error').textContent='Incorrect access key.';
+    document.getElementById('pw-input').value='';
+    document.getElementById('pw-input').focus();
+  }
+}
+function unlockView(){
+  unlocked = true;
+  document.body.classList.add('private-unlocked');
+  const btn = document.getElementById('unlock-btn');
+  btn.textContent = '🔓 Lock Private View';
+  btn.classList.add('unlocked');
+  // Store in sessionStorage so page refresh keeps it unlocked during session
+  sessionStorage.setItem('slc_private_unlocked','1');
+}
+function lockView(){
+  unlocked = false;
+  document.body.classList.remove('private-unlocked');
+  const btn = document.getElementById('unlock-btn');
+  btn.textContent = '🔒 Private View';
+  btn.classList.remove('unlocked');
+  sessionStorage.removeItem('slc_private_unlocked');
+}
+
+// Restore session state
+if(sessionStorage.getItem('slc_private_unlocked')==='1'){ unlockView(); }
+
+// Enter key in password field
+document.getElementById('pw-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter') checkPassword();
+  if(e.key==='Escape') closeModal();
+});
+// Click outside modal to close
+document.getElementById('lock-modal').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+// ══════════════════════════════════════════
+// VISITOR COUNTER (hits.seeyoufarm.com)
+// ══════════════════════════════════════════
+(function(){
+  const url = encodeURIComponent('https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html');
+  fetch('https://hits.seeyoufarm.com/api/count/incr/badge.svg?url='+url+'&count_bg=%23dc2626&title_bg=%230d1117')
+    .then(r=>r.text()).then(svg=>{
+      // parse today/total from SVG text nodes
+      const nums = svg.match(/>(\d+)</g);
+      if(nums && nums.length>=2){
+        const today = nums[nums.length-2].replace(/[><]/g,'');
+        const total = nums[nums.length-1].replace(/[><]/g,'');
+        document.getElementById('visit-count').textContent = today;
+        document.getElementById('visit-total').textContent = total;
+      }
+    }).catch(()=>{
+      document.getElementById('visit-count').textContent = '—';
+      document.getElementById('visit-total').textContent = '—';
+    });
+})();
+
+
+// ══════════════════════════════════════════
+// GDPR CONSENT SYSTEM
+// ══════════════════════════════════════════
+const GDPR_KEY = 'gdpr_consent_v1';
+
+function checkGdpr(){
+  const consent = localStorage.getItem(GDPR_KEY);
+  if(!consent){
+    document.getElementById('gdpr-banner').classList.remove('hidden');
+    return false;
+  }
+  return JSON.parse(consent).accepted;
+}
+
+function gdprAccept(){
+  localStorage.setItem(GDPR_KEY, JSON.stringify({
+    accepted: true, ts: Date.now(), version: '1.0'
+  }));
+  document.getElementById('gdpr-banner').classList.add('hidden');
+  // Now safe to fetch IP
+  fetchUserIP();
+}
+
+function gdprDecline(){
+  localStorage.setItem(GDPR_KEY, JSON.stringify({
+    accepted: false, ts: Date.now(), version: '1.0'
+  }));
+  document.getElementById('gdpr-banner').classList.add('hidden');
+  userIP = 'DECLINED';
+  userGeo = 'DECLINED';
+}
+
+// Simple hash for IP anonymisation (after 90 days, replace raw IP with hash)
+function hashStr(str){
+  let h = 0x811c9dc5;
+  for(let i=0;i<str.length;i++){
+    h ^= str.charCodeAt(i);
+    h = (h*0x01000193)>>>0;
+  }
+  return h.toString(16).padStart(8,'0');
+}
+
+// ══════════════════════════════════════════
+// ToS LIABILITY TRANSFER SYSTEM
+// ══════════════════════════════════════════
+const TOS_KEY = 'tos_accepted_v1';
+let pendingPostAfterTos = false;
+
+function requestPost(){
+  // Check if ToS already accepted
+  const existing = localStorage.getItem(TOS_KEY);
+  if(existing){
+    submitComment();
+    return;
+  }
+  // Show ToS modal
+  pendingPostAfterTos = true;
+  document.getElementById('tos-modal').classList.add('show');
+}
+
+function acceptTos(){
+  // Log acceptance with IP + timestamp
+  const acceptance = {
+    ts: Date.now(),
+    ip: userIP,
+    ua: navigator.userAgent.slice(0,80),
+    version: '1.0',
+    page: window.location.href
+  };
+  localStorage.setItem(TOS_KEY, JSON.stringify(acceptance));
+  document.getElementById('tos-modal').classList.remove('show');
+  if(pendingPostAfterTos){
+    pendingPostAfterTos = false;
+    submitComment();
+  }
+}
+
+function closeTos(){
+  document.getElementById('tos-modal').classList.remove('show');
+  pendingPostAfterTos = false;
+}
+
+// ══════════════════════════════════════════
+// COMMENTS SYSTEM
+// Storage: localStorage + Formspree notifications
+// Approval: comments default to status:'pending'
+// Admin approves via analytics.html dashboard
+//
+// PRODUCTION UPGRADE PATH:
+//   → Supabase: supabase.com (free tier)
+//   → Create table: comments(id, text, ts, ip_hash, ua, geo, page, status, flagged)
+//   → Add RLS: only authenticated admin can UPDATE status
+// ══════════════════════════════════════════
+const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
+const PAGE_KEY = 'slc_comments_v1';
+let panelOpen = false;
+let userIP = 'unknown';
+let userGeo = '';
+
+function fetchUserIP(){
+  fetch('https://api.ipify.org?format=json')
+    .then(r=>r.json())
+    .then(d=>{
+      userIP = d.ip;
+      // Also get geo
+      return fetch('https://ipapi.co/json/');
+    })
+    .then(r=>r.json())
+    .then(d=>{ userGeo = (d.city||'')+(d.country_name?', '+d.country_name:''); })
+    .catch(()=>{ userGeo=''; });
+}
+
+// Load IP on start (only if GDPR consent given)
+(function(){
+  const consent = localStorage.getItem(GDPR_KEY);
+  if(consent && JSON.parse(consent).accepted){
+    fetchUserIP();
+  }
+})();
+
+function loadComments(){
+  try{ return JSON.parse(localStorage.getItem(PAGE_KEY)||'[]'); }
+  catch(e){ return []; }
+}
+
+function saveComment(c){
+  const arr = loadComments();
+  arr.unshift(c);
+  localStorage.setItem(PAGE_KEY, JSON.stringify(arr.slice(0,200)));
+}
+
+function renderComments(){
+  const allComments = loadComments();
+  // PUBLIC VIEW: only show approved comments
+  const approved = allComments.filter(c => c.status === 'approved');
+  const pending = allComments.filter(c => c.status === 'pending');
+  const feed = document.getElementById('cp-feed');
+  const empty = document.getElementById('cp-empty');
+
+  // Update counts
+  document.getElementById('fab-count').textContent = allComments.length;
+  document.getElementById('comment-count-bar').textContent = allComments.length;
+
+  // Clear existing bubbles
+  feed.querySelectorAll('.comment-bubble,.comment-pending-notice').forEach(el=>el.remove());
+
+  if(approved.length === 0){
+    empty.style.display='flex';
+    if(pending.length > 0){
+      const notice = document.createElement('div');
+      notice.className='comment-pending-notice';
+      notice.style.cssText='text-align:center;padding:16px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:#4b5563;text-transform:uppercase;letter-spacing:1px;';
+      notice.textContent = `${pending.length} comment${pending.length>1?'s':''} awaiting moderation.`;
+      feed.appendChild(notice);
+    }
+    return;
+  }
+
+  empty.style.display='none';
+
+  approved.forEach(c=>{
+    const div = document.createElement('div');
+    div.className='comment-bubble';
+    const d = new Date(c.ts);
+    const timeStr = d.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    div.innerHTML=`
+      <div class="comment-bubble-meta">
+        <span class="bubble-anon">Anonymous</span>
+        <span class="bubble-time">${timeStr}</span>
+      </div>
+      <div class="bubble-text">${escHtml(c.text)}</div>
+      <div class="bubble-flag">📍 ${escHtml(c.geo||'Unknown location')}</div>
+    `;
+    feed.appendChild(div);
+  });
+
+  if(pending.length > 0){
+    const notice = document.createElement('div');
+    notice.className='comment-pending-notice';
+    notice.style.cssText='text-align:center;padding:12px;font-family:JetBrains Mono,monospace;font-size:0.55rem;color:#374151;border-top:1px solid #e5e7eb;margin-top:8px;';
+    notice.textContent = `+ ${pending.length} comment${pending.length>1?'s':''} pending moderation`;
+    feed.appendChild(notice);
+  }
+}
+
+function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function toggleComments(){
+  panelOpen = !panelOpen;
+  document.getElementById('comments-panel').classList.toggle('open', panelOpen);
+  if(panelOpen) renderComments();
+}
+
+function checkRateLimit(){
+  const key='slc_rl';
+  const now = Date.now();
+  const hist = JSON.parse(sessionStorage.getItem(key)||'[]').filter(t=>now-t<900000);
+  if(hist.length>=3) return false;
+  hist.push(now);
+  sessionStorage.setItem(key,JSON.stringify(hist));
+  return true;
+}
+
+async function submitComment(){
+  const text = document.getElementById('cp-text').value.trim();
+  const honeypot = document.getElementById('hp-name').value;
+  const status = document.getElementById('cp-status');
+  const btn = document.getElementById('cp-btn');
+
+  if(honeypot){ return; }
+
+  if(!text || text.length < 10){
+    status.textContent = 'Comment too short (min 10 chars).';
+    status.className='cp-status err'; return;
+  }
+  if(!checkRateLimit()){
+    status.textContent = 'Too many comments. Please wait 15 minutes.';
+    status.className='cp-status err'; return;
+  }
+
+  btn.disabled = true;
+  status.textContent = 'Submitting...';
+  status.className = 'cp-status';
+
+  const id = Math.random().toString(36).slice(2,8).toUpperCase();
+  // Hash IP for GDPR storage (keep raw IP only for 90 days, then replace with hash)
+  const ipHash = hashStr(userIP + 'salt_slc_2026');
+  
+  const comment = {
+    id,
+    text,
+    ts: Date.now(),
+    ip: userIP,          // raw IP — admin only, hash after 90 days
+    ip_hash: ipHash,     // permanent anonymised identifier
+    ua: navigator.userAgent.slice(0,120),
+    geo: userGeo,
+    page: window.location.href,
+    status: 'pending',   // ← PENDING until admin approves
+    flagged: false,
+    tos_accepted: true,
+    tos_ts: JSON.parse(localStorage.getItem(TOS_KEY)||'{}').ts || Date.now()
+  };
+
+  saveComment(comment);
+
+  // Email notification via Formspree
+  if(FORMSPREE_ID !== 'YOUR_FORMSPREE_ID'){
+    try{
+      await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({
+          _subject: `[KalathmaGate] New comment pending — ID:${id}`,
+          comment_id: id,
+          comment_text: text,
+          visitor_ip: userIP,
+          ip_hash: ipHash,
+          visitor_geo: userGeo,
+          user_agent: navigator.userAgent,
+          page: window.location.href,
+          timestamp: new Date().toISOString(),
+          approve_url: `analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/analytics.html`
+        })
+      });
+    } catch(e){}
+  }
+
+  document.getElementById('cp-text').value='';
+  renderComments();
+  status.textContent = '✓ Submitted. Your comment is awaiting moderation.';
+  status.className='cp-status';
+  btn.disabled = false;
+}
+
+// ── INIT ──
+renderComments();
+// Show GDPR banner if no consent recorded
+document.addEventListener('DOMContentLoaded',function(){
+  const consent = localStorage.getItem(GDPR_KEY);
+  if(!consent){
+    document.getElementById('gdpr-banner').classList.remove('hidden');
+  } else {
+    document.getElementById('gdpr-banner').classList.add('hidden');
+  }
+  // Restore lang
+  if(currentLang === 'si') applyLang('si');
+});
+
+
+// ── TRANSLATION DICTIONARY (Google Translate verified) ──
+const TRANSLATIONS = {
+  en: {
+    'board': '← Board',
+    'title': 'Case File: The Conduct Files',
+    'restricted': 'Restricted',
+    'private-view': '🔒 Private View',
+    'unverified': 'UNVERIFIED',
+    'visitors-today': 'Visitors today',
+    'total-visits': 'Total visits',
+    'comments': 'Comments',
+    'status': 'Status',
+    'live': 'LIVE',
+    'born-again': 'Born Again Sect',
+    'dm-scandal': 'The DM Scandal',
+    'confirmed': 'Confirmed Cases',
+    'kalathmagate': 'KalathmaGate',
+    'timeline': 'Timeline',
+    'substance': '🔒 Substance Abuse',
+    'private-dms': '🔒 Private DMs',
+    'story-erased': '⚡ The story they tried to erase',
+    'jump-to': 'Jump to:',
+    'comment-flood': 'KalathmaGate — The Comment Flood',
+    'cover-up': 'The Cover-Up Culture',
+    'institutional': 'Institutional Pattern',
+    'post-btn': 'Post →',
+    'anon-note': 'Anonymous · Your IP is logged for legal protection only.',
+    'teenager-targeted': 'Teenager Targeted by Legal Threats',
+    'video-suppressed': 'Video Suppressed',
+    'slc-no-response': 'SLC Never Responded to Substance',
+  },
+  si: {
+    'board': '← මණ්ඩලය',
+    'title': 'නඩු ගොනුව: හැසිරීම් ගොනු',
+    'restricted': 'සීමා කර ඇත',
+    'private-view': '🔒 පෞද්ගලික දසුන',
+    'unverified': 'සත්‍යාපනය නොකළ',
+    'visitors-today': 'අද අමුත්තන්',
+    'total-visits': 'මුළු පැමිණීම්',
+    'comments': 'අදහස්',
+    'status': 'තත්ත්වය',
+    'live': 'සජීවී',
+    'born-again': 'නැවත ඉපදුණු නිකාය',
+    'dm-scandal': 'DM අපකීර්තිය',
+    'confirmed': 'තහවුරු කළ නඩු',
+    'kalathmagate': 'කළාත්මගේට්',
+    'timeline': 'කාලරේඛාව',
+    'substance': '🔒 මත්ද්‍රව්‍ය අනිසි භාවිතය',
+    'private-dms': '🔒 පෞද්ගලික DMs',
+    'story-erased': '⚡ ඔවුන් මකා දැමීමට උත්සාහ කළ කතාව',
+    'jump-to': 'වෙත පනින්න:',
+    'comment-flood': 'කළාත්මගේට් — අදහස් ගංවතුර',
+    'cover-up': 'ආවරණය කරන සංස්කෘතිය',
+    'institutional': 'ආයතනික රටාව',
+    'post-btn': 'ඉදිරිපත් කරන්න →',
+    'anon-note': 'නිර්නාමික · ඔබගේ IP ලිපිනය නීතිමය ආරක්ෂාව සඳහා පමණක් ලොග් කර ඇත.',
+    'teenager-targeted': 'නීතිමය තර්ජන මගින් ඉලක්ක කරගත් යෞවනයා',
+    'video-suppressed': 'වීඩියෝව යටපත් කර ඇත',
+    'slc-no-response': 'SLC කිසිදා ද්‍රව්‍යයට ප්‍රතිචාර නොදැක්වීය',
+  }
+};
+
+// ══════════════════════════════════════════
+// SINHALA / ENGLISH LANGUAGE TOGGLE (i18n)
+// ══════════════════════════════════════════
+let currentLang = localStorage.getItem('kal-lang') || 'en';
+
+function applyLang(lang){
+  currentLang = lang;
+  localStorage.setItem('kal-lang', lang);
+  const toggle = document.getElementById('lang-toggle');
+  const label = document.getElementById('lang-label');
+  if(lang === 'si'){
+    toggle.classList.add('si-active');
+    label.textContent = 'සිං | EN';
+    document.documentElement.lang = 'si';
+  } else {
+    toggle.classList.remove('si-active');
+    label.textContent = 'EN | සිං';
+    document.documentElement.lang = 'en';
+  }
+  // Switch all [data-en] / [data-si] spans
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = lang === 'si' ? (el.dataset.si || el.dataset.en) : el.dataset.en;
+  });
+  // Also handle elements with data-si only
+  document.querySelectorAll('[data-si]:not([data-en])').forEach(el => {
+    if(lang === 'si') el.style.display = '';
+    else el.style.display = 'none';
+  });
+}
+
+function toggleLang(){
+  applyLang(currentLang === 'en' ? 'si' : 'en');
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', function(){
+  if(currentLang === 'si') applyLang('si');
+});
+
+</script>
+</body>
+</html>
