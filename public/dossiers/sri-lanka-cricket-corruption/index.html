@@ -1099,7 +1099,7 @@
   .bubble-flag { font-size:0.55rem; color:var(--text-muted); margin-top:4px; }
   .cp-form { padding:12px 20px; border-top:1px solid var(--border-color); }
   .cp-textarea {
-    width:100%; min-height:60px; padding:10px; background:var(--bg-primary); color:var(--text-primary);
+    width:100%; min-height:130px; padding:10px; background:var(--bg-primary); color:var(--text-primary);
     border:1px solid var(--border-color); border-radius:6px; font-family:'Inter',sans-serif; font-size:0.78rem;
     resize:vertical; line-height:1.5;
   }
@@ -1117,6 +1117,91 @@
   .cp-status { font-size:0.6rem; color:var(--text-muted); margin-top:6px; font-family:'JetBrains Mono',monospace; }
   .cp-status.err { color:var(--accent-red); }
   .cp-terms { font-size:0.5rem; color:var(--text-muted); margin-top:8px; line-height:1.5; opacity:0.6; }
+
+  /* ── COMMENTS UPGRADES ── */
+  .cp-sort-bar {
+    display:flex; align-items:center; gap:6px; padding:8px 20px 6px;
+    border-bottom:1px solid var(--border-color); background:rgba(0,0,0,0.15);
+    flex-shrink:0;
+  }
+  .cp-sort-label { font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-right:4px; }
+  .cp-sort-btn {
+    font-family:'JetBrains Mono',monospace; font-size:0.5rem; letter-spacing:1px;
+    text-transform:uppercase; padding:3px 9px; border-radius:3px;
+    cursor:pointer; border:1px solid var(--border-color); background:transparent;
+    color:var(--text-muted); transition:all .15s;
+  }
+  .cp-sort-btn.active { background:var(--accent-purple); color:#fff; border-color:var(--accent-purple); }
+  .cp-sort-btn:hover:not(.active) { color:var(--text-primary); border-color:rgba(255,255,255,0.2); }
+
+  /* Comment avatar */
+  .comment-bubble { display:flex; gap:10px; padding:12px 0; border-bottom:1px solid var(--border-color); }
+  .comment-avatar {
+    width:32px; height:32px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:700; color:#fff;
+    margin-top:2px;
+  }
+  .comment-content { flex:1; min-width:0; }
+  .comment-bubble-meta { display:flex; justify-content:space-between; margin-bottom:4px; align-items:baseline; }
+  .bubble-anon { font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:var(--accent-purple); text-transform:uppercase; letter-spacing:1px; }
+  .bubble-time { font-family:'JetBrains Mono',monospace; font-size:0.48rem; color:var(--text-muted); }
+
+  /* Expand/collapse */
+  .bubble-text { font-size:0.8rem; color:var(--text-secondary); line-height:1.6; word-break:break-word; }
+  .bubble-text.collapsed { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  .bubble-expand-btn {
+    font-size:0.52rem; color:var(--accent-purple); cursor:pointer; margin-top:3px;
+    background:none; border:none; padding:0; font-family:'JetBrains Mono',monospace;
+    letter-spacing:1px; text-transform:uppercase; display:inline-block;
+  }
+  .bubble-expand-btn:hover { text-decoration:underline; }
+
+  /* Actions row */
+  .bubble-actions { display:flex; align-items:center; gap:14px; margin-top:5px; }
+  .bubble-flag { font-size:0.52rem; color:var(--text-muted); }
+  .bubble-reply-btn {
+    font-size:0.52rem; color:var(--text-muted); cursor:pointer; background:none; border:none;
+    padding:0; font-family:'JetBrains Mono',monospace; letter-spacing:1px; text-transform:uppercase;
+    transition:color .15s;
+  }
+  .bubble-reply-btn:hover { color:var(--accent-purple); }
+
+  /* Reply thread */
+  .reply-thread { margin-top:8px; padding-left:12px; border-left:2px solid rgba(139,92,246,0.25); }
+  .reply-bubble { display:flex; gap:8px; padding:6px 0; }
+  .reply-avatar { width:24px; height:24px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:0.5rem; font-weight:700; color:#fff; }
+  .reply-content { flex:1; min-width:0; }
+  .reply-text { font-size:0.75rem; color:var(--text-secondary); line-height:1.55; }
+  .reply-meta { font-family:'JetBrains Mono',monospace; font-size:0.48rem; color:var(--text-muted); margin-bottom:2px; }
+  .reply-form { margin-top:8px; display:none; }
+  .reply-form.open { display:block; }
+  .reply-textarea {
+    width:100%; min-height:64px; padding:8px; background:var(--bg-primary); color:var(--text-primary);
+    border:1px solid var(--border-color); border-radius:4px; font-family:'Inter',sans-serif;
+    font-size:0.75rem; resize:vertical; line-height:1.5; box-sizing:border-box;
+  }
+  .reply-textarea:focus { outline:none; border-color:var(--accent-purple); }
+  .reply-actions { display:flex; gap:8px; margin-top:5px; }
+  .reply-submit {
+    background:transparent; border:1px solid var(--accent-purple); color:var(--accent-purple);
+    padding:4px 14px; border-radius:3px; font-size:0.52rem; font-family:'JetBrains Mono',monospace;
+    letter-spacing:1px; cursor:pointer; text-transform:uppercase; transition:all .15s;
+  }
+  .reply-submit:hover { background:var(--accent-purple); color:#fff; }
+  .reply-cancel {
+    background:transparent; border:1px solid var(--border-color); color:var(--text-muted);
+    padding:4px 12px; border-radius:3px; font-size:0.52rem; font-family:'JetBrains Mono',monospace;
+    letter-spacing:1px; cursor:pointer; text-transform:uppercase; transition:all .15s;
+  }
+  .reply-cancel:hover { border-color:rgba(255,255,255,0.2); color:var(--text-primary); }
+  .reply-count-btn {
+    font-size:0.52rem; color:var(--text-muted); cursor:pointer; background:none; border:none;
+    padding:0; font-family:'JetBrains Mono',monospace; letter-spacing:1px; text-transform:uppercase;
+    transition:color .15s;
+  }
+  .reply-count-btn:hover { color:var(--accent-purple); }
+
 
   /* Inline dossier link style */
   .dossier-inline-link {
@@ -1244,7 +1329,7 @@
 
   <div class="insight-callout">
     <div class="label"><span data-en="Beyond the Lonthayas Logic" data-si="ලොන්තයාස් තර්කයෙන් ඔබ්බට">Beyond the Lonthayas Logic</span></div>
-    <p><span data-en="The easy narrative is that these players simply aren't good enough — the \"Lonthayas\" accusation. But the truth is more uncomfortable: many of these players perform brilliantly in franchise leagues (IPL, LPL). The problem isn't raw talent — it's the ecosystem they return to. A corrupt administration, zero analytical support, chaotic selection, and a fan culture that destroys confidence rather than building it. The rot isn't on the pitch. It's everything around it." data-si="පහසු කතාව නම් මෙම ක්‍රීඩකයින් ප්‍රමාණවත් තරම් දක්ෂ නොවන බවයි - &quot;ලොන්තයාස්&quot; චෝදනාව. නමුත් සත්‍යය වඩාත් අපහසුයි: මෙම ක්‍රීඩකයින්ගෙන් බොහෝ දෙනෙක් ෆ්‍රැන්චයිස් ලීගවල (IPL, LPL) විශිෂ්ට ලෙස දස්කම් දක්වයි. ගැටලුව අමු දක්ෂතා නොවේ - එය ඔවුන් නැවත පැමිණෙන පරිසර පද්ධතියයි. දූෂිත පරිපාලනයක්, ශුන්‍ය විශ්ලේෂණාත්මක සහාය, අවුල් සහගත තේරීමක් සහ විශ්වාසය ගොඩනැගීමට වඩා එය විනාශ කරන රසික සංස්කෘතියක්. කුණුවීම තණතීරුවේ නොවේ. එය වටා ඇති සියල්ලයි.">The easy narrative is that these players simply aren't good enough — the "Lonthayas" accusation. But the truth is more uncomfortable: many of these players perform brilliantly in franchise leagues (IPL, LPL). The problem isn't raw talent — it's the ecosystem they return to. A corrupt administration, zero analytical support, chaotic selection, and a fan culture that destroys confidence rather than building it. The rot isn't on the pitch. It's everything around it.</span></p>
+    <p><span data-en="The easy narrative is that these players simply aren't good enough — the &quot;Lonthayas&quot; accusation. But the truth is more uncomfortable: many of these players perform brilliantly in franchise leagues (IPL, LPL). The problem isn't raw talent — it's the ecosystem they return to. A corrupt administration, zero analytical support, chaotic selection, and a fan culture that destroys confidence rather than building it. The rot isn't on the pitch. It's everything around it." data-si="පහසු කතාව නම් මෙම ක්‍රීඩකයින් ප්‍රමාණවත් තරම් දක්ෂ නොවන බවයි - &quot;ලොන්තයාස්&quot; චෝදනාව. නමුත් සත්‍යය වඩාත් අපහසුයි: මෙම ක්‍රීඩකයින්ගෙන් බොහෝ දෙනෙක් ෆ්‍රැන්චයිස් ලීගවල (IPL, LPL) විශිෂ්ට ලෙස දස්කම් දක්වයි. ගැටලුව අමු දක්ෂතා නොවේ - එය ඔවුන් නැවත පැමිණෙන පරිසර පද්ධතියයි. දූෂිත පරිපාලනයක්, ශුන්‍ය විශ්ලේෂණාත්මක සහාය, අවුල් සහගත තේරීමක් සහ විශ්වාසය ගොඩනැගීමට වඩා එය විනාශ කරන රසික සංස්කෘතියක්. කුණුවීම තණතීරුවේ නොවේ. එය වටා ඇති සියල්ලයි.">The easy narrative is that these players simply aren't good enough — the "Lonthayas" accusation. But the truth is more uncomfortable: many of these players perform brilliantly in franchise leagues (IPL, LPL). The problem isn't raw talent — it's the ecosystem they return to. A corrupt administration, zero analytical support, chaotic selection, and a fan culture that destroys confidence rather than building it. The rot isn't on the pitch. It's everything around it.</span></p>
   </div>
 </section>
 
@@ -2150,6 +2235,11 @@
   <div class="cp-notice">
     All comments are anonymous. IP addresses and metadata are recorded for legal compliance. Defamatory content will be removed. By commenting you accept these terms.
   </div>
+  <div class="cp-sort-bar" id="cp-sort-bar" style="display:none;">
+    <span class="cp-sort-label">Sort:</span>
+    <button class="cp-sort-btn active" onclick="setSort('newest',this)">Newest</button>
+    <button class="cp-sort-btn" onclick="setSort('oldest',this)">Oldest</button>
+  </div>
   <div class="cp-feed" id="cp-feed">
     <div class="cp-empty" id="cp-empty">
       <div class="cp-empty-icon">💬</div>
@@ -2157,7 +2247,7 @@
     </div>
   </div>
   <div class="cp-form">
-    <textarea class="cp-textarea" id="cp-text" placeholder="Share what you know. This is a protected space — your identity is never revealed." maxlength="800"></textarea>
+    <textarea class="cp-textarea" id="cp-text" placeholder="Leave a comment or share your perspective. All submissions are reviewed before publication." maxlength="800"></textarea>
     <input type="text" class="hp-field" id="hp-name" name="website" tabindex="-1" autocomplete="off">
     <div class="cp-actions">
       <div class="cp-anon-note"><span data-en="Anonymous · Your IP is logged for legal protection only." data-si="නිර්නාමික · ඔබගේ IP ලිපිනය නීතිමය ආරක්ෂාව සඳහා පමණක් ලොග් කර ඇත.">Anonymous · Your IP is logged for legal protection only.</span></div>
@@ -2324,9 +2414,29 @@ function closeTos(){
 // ══════════════════════════════════════════
 const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
 const PAGE_KEY = 'slc_main_comments_v1';
+const REPLIES_KEY = 'slc_replies_v1';
 let panelOpen = false;
 let userIP = 'unknown';
 let userGeo = '';
+let currentSort = 'newest';
+
+// ── AVATAR GENERATOR ──
+// Deterministic palette from comment ID
+const AVATAR_COLORS = [
+  '#7c3aed','#2563eb','#059669','#d97706','#dc2626',
+  '#0891b2','#7c3aed','#4f46e5','#0d9488','#b45309',
+  '#6d28d9','#1d4ed8','#047857','#b45309','#991b1b',
+  '#0e7490','#5b21b6','#1e40af','#065f46','#92400e'
+];
+const AVATAR_SHAPES = ['◆','▲','●','■','★','▶','⬟','⬡'];
+
+function getAvatar(id, size=32) {
+  const h = id.split('').reduce((acc,c)=>((acc<<5)-acc+c.charCodeAt(0))|0, 0);
+  const col = AVATAR_COLORS[Math.abs(h) % AVATAR_COLORS.length];
+  const shape = AVATAR_SHAPES[Math.abs(h >> 4) % AVATAR_SHAPES.length];
+  const fs = size <= 24 ? '0.5rem' : '0.62rem';
+  return '<div class="comment-avatar" style="width:'+size+'px;height:'+size+'px;background:'+col+';font-size:'+fs+';">'+shape+'</div>';
+}
 
 function fetchUserIP(){
   fetch('https://api.ipify.org?format=json')
@@ -2359,12 +2469,68 @@ function saveComment(c){
   localStorage.setItem(PAGE_KEY, JSON.stringify(arr.slice(0,200)));
 }
 
+function loadReplies(){ try{ return JSON.parse(localStorage.getItem(REPLIES_KEY)||'{}'); }catch(e){ return {}; } }
+function saveReply(parentId, reply){
+  const all = loadReplies();
+  if(!all[parentId]) all[parentId]=[];
+  all[parentId].push(reply);
+  localStorage.setItem(REPLIES_KEY, JSON.stringify(all));
+}
+
+function setSort(order, btn){
+  currentSort = order;
+  document.querySelectorAll('.cp-sort-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderComments();
+}
+
+function toggleExpand(btn, textEl){
+  const collapsed = textEl.classList.toggle('collapsed');
+  btn.textContent = collapsed ? '▼ Show more' : '▲ Show less';
+}
+
+function toggleReplyForm(id){
+  const form = document.getElementById('reply-form-'+id);
+  if(!form) return;
+  form.classList.toggle('open');
+  if(form.classList.contains('open')) form.querySelector('textarea').focus();
+}
+
+function toggleReplies(id){
+  const thread = document.getElementById('reply-thread-'+id);
+  const btn = document.getElementById('reply-count-btn-'+id);
+  if(!thread || !btn) return;
+  const hidden = thread.style.display === 'none' || !thread.style.display;
+  thread.style.display = hidden ? 'block' : 'none';
+  const replies = (loadReplies()[id]||[]);
+  btn.textContent = hidden ? '▲ Hide replies ('+replies.length+')' : '▼ '+replies.length+' repl'+(replies.length===1?'y':'ies');
+}
+
+function submitReply(parentId){
+  const ta = document.getElementById('reply-ta-'+parentId);
+  if(!ta) return;
+  const text = ta.value.trim();
+  if(!text || text.length < 5){ ta.style.borderColor='var(--accent-red)'; return; }
+  ta.style.borderColor='';
+  const reply = {
+    id: Math.random().toString(36).slice(2,7).toUpperCase(),
+    text, ts: Date.now(),
+    ip: userIP, geo: userGeo
+  };
+  saveReply(parentId, reply);
+  ta.value='';
+  document.getElementById('reply-form-'+parentId).classList.remove('open');
+  renderComments();
+}
+
 function renderComments(){
   const allComments = loadComments();
   const approved = allComments.filter(c => c.status === 'approved');
   const pending = allComments.filter(c => c.status === 'pending');
   const feed = document.getElementById('cp-feed');
   const empty = document.getElementById('cp-empty');
+  const sortBar = document.getElementById('cp-sort-bar');
+  const allReplies = loadReplies();
 
   document.getElementById('fab-count').textContent = allComments.length;
   document.getElementById('comment-count-bar').textContent = allComments.length;
@@ -2373,10 +2539,11 @@ function renderComments(){
 
   if(approved.length === 0){
     empty.style.display='flex';
+    if(sortBar) sortBar.style.display='none';
     if(pending.length > 0){
       const notice = document.createElement('div');
       notice.className='comment-pending-notice';
-      notice.style.cssText='text-align:center;padding:16px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:'+getComputedStyle(document.documentElement).getPropertyValue('--text-muted')+';text-transform:uppercase;letter-spacing:1px;';
+      notice.style.cssText='text-align:center;padding:16px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;';
       notice.textContent = pending.length+' comment'+(pending.length>1?'s':'')+' awaiting moderation.';
       feed.appendChild(notice);
     }
@@ -2384,13 +2551,50 @@ function renderComments(){
   }
 
   empty.style.display='none';
+  if(sortBar) sortBar.style.display='flex';
 
-  approved.forEach(c=>{
+  // Sort
+  const sorted = [...approved].sort((a,b)=> currentSort==='oldest' ? a.ts-b.ts : b.ts-a.ts);
+
+  sorted.forEach(c=>{
     const div = document.createElement('div');
     div.className='comment-bubble';
     const d = new Date(c.ts);
     const timeStr = d.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-    div.innerHTML='<div class="comment-bubble-meta"><span class="bubble-anon">Anonymous</span><span class="bubble-time">'+timeStr+'</span></div><div class="bubble-text">'+escHtml(c.text)+'</div><div class="bubble-flag">'+escHtml(c.geo||'Unknown location')+'</div>';
+    const isLong = c.text.length > 220;
+    const replies = allReplies[c.id] || [];
+    const rCount = replies.length;
+
+    div.innerHTML =
+      getAvatar(c.id) +
+      '<div class="comment-content">'+
+        '<div class="comment-bubble-meta">'+
+          '<span class="bubble-anon">Anonymous</span>'+
+          '<span class="bubble-time">'+timeStr+'</span>'+
+        '</div>'+
+        '<div class="bubble-text'+(isLong?' collapsed':'')+'" id="bt-'+c.id+'">'+escHtml(c.text)+'</div>'+
+        (isLong ? '<button class="bubble-expand-btn" onclick="toggleExpand(this,document.getElementById('bt-'+c.id+''))">▼ Show more</button>' : '')+
+        '<div class="bubble-actions">'+
+          '<span class="bubble-flag">'+escHtml(c.geo||'Unknown')+'</span>'+
+          (rCount>0 ? '<button class="reply-count-btn" id="reply-count-btn-'+c.id+'" onclick="toggleReplies(''+c.id+'')">▼ '+rCount+' repl'+(rCount===1?'y':'ies')+'</button>' : '')+
+          '<button class="bubble-reply-btn" onclick="toggleReplyForm(''+c.id+'')">↩ Reply</button>'+
+        '</div>'+
+        (rCount>0 ?
+          '<div class="reply-thread" id="reply-thread-'+c.id+'" style="display:none;">'+
+            replies.map(r=>{
+              const rd = new Date(r.ts);
+              const rs = rd.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+              return '<div class="reply-bubble">'+getAvatar(r.id,24)+'<div class="reply-content"><div class="reply-meta">Anonymous · '+rs+'</div><div class="reply-text">'+escHtml(r.text)+'</div></div></div>';
+            }).join('')+
+          '</div>' : '')+
+        '<div class="reply-form" id="reply-form-'+c.id+'">'+
+          '<textarea class="reply-textarea" id="reply-ta-'+c.id+'" placeholder="Write a reply..." maxlength="500"></textarea>'+
+          '<div class="reply-actions">'+
+            '<button class="reply-submit" onclick="submitReply(''+c.id+'')">Post Reply</button>'+
+            '<button class="reply-cancel" onclick="toggleReplyForm(''+c.id+'')">Cancel</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>';
     feed.appendChild(div);
   });
 

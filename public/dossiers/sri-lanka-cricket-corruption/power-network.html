@@ -200,6 +200,50 @@ body.dragging { cursor:grabbing; }
 
 #hint { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:#4b5563; letter-spacing:1px; z-index:9000; pointer-events:none; }
 #disc { position:fixed; top:56px; right:10px; background:rgba(255,243,205,.97); border:1px solid #d97706; border-radius:4px; padding:7px 11px; max-width:230px; font-family:'Inter',sans-serif; font-size:0.57rem; color:#92400e; line-height:1.5; z-index:9000; }
+
+  /* ── FACEBOOK VIDEO MODAL ── */
+  #video-btn {
+    position:fixed; top:14px; right:210px; z-index:450;
+    background:rgba(24,119,242,0.92); color:#fff; border:none;
+    padding:7px 14px; border-radius:6px; font-family:'JetBrains Mono',monospace;
+    font-size:0.6rem; letter-spacing:1px; cursor:pointer; transition:all .2s;
+    display:flex; align-items:center; gap:6px; text-transform:uppercase;
+    box-shadow:0 2px 12px rgba(24,119,242,0.4);
+  }
+  #video-btn:hover { background:rgba(24,119,242,1); box-shadow:0 4px 20px rgba(24,119,242,0.6); }
+  #video-btn svg { width:14px; height:14px; fill:#fff; flex-shrink:0; }
+  #video-modal {
+    position:fixed; inset:0; z-index:600; background:rgba(0,0,0,0.85);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity .25s;
+  }
+  #video-modal.open { opacity:1; pointer-events:all; }
+  .vm-inner {
+    background:#1a1a2e; border:1px solid rgba(255,255,255,0.1);
+    border-radius:12px; overflow:hidden; width:min(760px,95vw);
+    box-shadow:0 20px 80px rgba(0,0,0,0.8);
+  }
+  .vm-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px; background:rgba(24,119,242,0.15); border-bottom:1px solid rgba(24,119,242,0.2);
+  }
+  .vm-title { font-family:'Space Grotesk',sans-serif; font-size:0.9rem; color:#fff; font-weight:600; }
+  .vm-sub { font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:rgba(255,255,255,0.4); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+  .vm-close {
+    background:transparent; border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.6);
+    width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:0.8rem; transition:all .2s;
+  }
+  .vm-close:hover { border-color:rgba(255,255,255,0.3); color:#fff; }
+  .vm-body { position:relative; padding-top:56.25%; background:#000; }
+  .vm-body iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
+  .vm-placeholder {
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:10px; color:rgba(255,255,255,0.3);
+    font-family:'JetBrains Mono',monospace; font-size:0.65rem; text-align:center; letter-spacing:1px;
+    text-transform:uppercase;
+  }
+  .vm-placeholder svg { width:48px; height:48px; fill:rgba(24,119,242,0.4); }
+  .vm-footer { padding:10px 20px; font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:rgba(255,255,255,0.25); letter-spacing:1px; text-align:center; }
 </style>
 </head>
 <body>
@@ -208,6 +252,10 @@ body.dragging { cursor:grabbing; }
 <div id="hud">
   <div><div class="ht">Sri Lanka Cricket's <span>Underbelly</span></div><div class="hsub">SLC Power Network &bull; Investigation Board &bull; Feb 2026</div></div>
   <a href="index.html" class="hback">&larr; Dossier</a>
+<button id="video-btn" onclick="toggleVideo()">
+  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  Watch Video
+</button>
 </div>
 <div id="ctrls">
   <button class="cb2" onclick="zoomIn()">+</button>
@@ -248,9 +296,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
   <div class="cp" style="background:linear-gradient(155deg,#2d0000,#5c0a0a,#1a0000);height:140px;">
-    <img src="https://srilankacricket.lk/storage/2024/12/President.jpg" alt="Shammi Silva"
-         style="width:100%;height:100%;object-fit:cover;object-position:center 20%;"
-         onerror="this.outerHTML='<div class=av-init>SS</div>';">
+    <img src="shammi-silva.jpg" alt="Shammi Silva" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>SS</div>';">SS</div>';">
     <div class="em-badge">👑</div>
   </div>
   <div class="cbody">
@@ -354,7 +400,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t2" id="ravin" style="top:655px;left:312px;width:182px;">
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
-  <div class="cp" style="background:#0f172a;height:80px;"><div class="av-init">RW</div></div>
+  <div class="cp" style="background:#0f172a;height:80px;"><img src="ravin-wickramaratne.jpg" alt="Ravin Wickramaratne" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>RA</div>';"></div>
   <div class="cbody">
     <div class="cname">Ravin Wickramaratne</div>
     <div class="crole">Vice President — Re-elected 2025</div>
@@ -367,7 +413,7 @@ body.dragging { cursor:grabbing; }
      data-connect="selection" data-type="purple">
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
-  <div class="cp" style="background:#0f172a;height:80px;"><div class="av-init">BD</div></div>
+  <div class="cp" style="background:#0f172a;height:80px;"><img src="bandula-dissanayake.jpg" alt="Bandula Dissanayake" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>BA</div>';"></div>
   <div class="cbody">
     <div class="cname">Bandula Dissanayake</div>
     <div class="crole">Secretary — New 2025</div>
@@ -380,7 +426,7 @@ body.dragging { cursor:grabbing; }
      data-connect="tvmoney" data-type="gold">
   <div class="pin pg"></div>
   <div class="cb"><div class="g"></div></div>
-  <div class="cp" style="background:#1c1500;height:80px;"><div class="av-init">SG</div></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><img src="sujeewa-godaliyadda.jpg" alt="Sujeewa Godaliyadda" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>SU</div>';"></div>
   <div class="cbody">
     <div class="cname">Sujeewa Godaliyadda</div>
     <div class="crole">Treasurer — Re-elected 2025</div>
@@ -392,7 +438,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t5" id="jerome-coo" style="top:660px;left:1080px;width:178px;">
   <div class="pin pg"></div>
   <div class="cb"><div class="g"></div></div>
-  <div class="cp" style="background:#1c1500;height:80px;"><div class="av-init">JJ</div></div>
+  <div class="cp" style="background:#1c1500;height:80px;"><img src="jerome-jayarathne.jpg" alt="Jerome Jayarathne" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>JE</div>';"></div>
   <div class="cbody">
     <div class="cname">Jerome Jayarathne</div>
     <div class="crole">COO — Operations Chief</div>
@@ -404,7 +450,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t3" id="aruna" style="top:630px;left:1330px;width:172px;">
   <div class="pin pb"></div>
   <div class="cb"><div class="b"></div></div>
-  <div class="cp" style="background:#0a0020;height:80px;"><div class="av-init">AdS</div></div>
+  <div class="cp" style="background:#0a0020;height:80px;"><img src="aruna-de-silva.jpg" alt="Aruna de Silva" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>AR</div>';"></div>
   <div class="cbody">
     <div class="cname">Aruna de Silva</div>
     <div class="crole">Head of Admin</div>
@@ -427,9 +473,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
   <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:105px;">
-    <img src="https://bmkltsly13vb.compat.objectstorage.ap-mumbai-1.oraclecloud.com/cdn.ft.lk/ftadmin/wp-content/uploads/2016/01/Outside-lead-1-Thilanga-Sumathipala-Picture-250x278.jpg" alt="Thilanga Sumathipala"
-         style="width:100%;height:100%;object-fit:cover;object-position:center 15%;"
-         onerror="this.outerHTML='<div class=av-init>TS</div>';">
+    <img src="thilanga-sumathipala.jpg" alt="Thilanga Sumathipala" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;" onerror="this.outerHTML='<div class=av-init>TS</div>';">TS</div>';">
     <div class="em-badge">🎰</div>
   </div>
   <div class="cbody">
@@ -449,9 +493,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pgr"></div>
   <div class="cb"><div class="gr"></div></div>
   <div class="cp" style="background:#001a0a;height:105px;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Arjuna_Ranatunga.jpg" alt="Arjuna Ranatunga"
-         style="width:100%;height:100%;object-fit:cover;object-position:center top;"
-         onerror="this.style.opacity='0';">
+    <img src="arjuna-ranatunga.jpg" alt="Arjuna Ranatunga" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.style.opacity='0';">
     <div class="em-badge">🏆</div>
   </div>
   <div class="cbody">
@@ -470,9 +512,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pgr"></div>
   <div class="cb"><div class="gr"></div></div>
   <div class="cp" style="background:#001a00;height:80px;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Anura_Kumara_Dissanayake_in_2025.jpg/400px-Anura_Kumara_Dissanayake_in_2025.jpg" alt="Anura Kumara Dissanayake"
-         style="width:100%;height:100%;object-fit:cover;object-position:center 15%;"
-         onerror="this.outerHTML='<div class=av style=font-size:2.2rem>🏛</div>';">
+    <img src="akd.jpg" alt="Anura Kumara Dissanayake" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;" onerror="this.outerHTML='<div class=av style=font-size:2.2rem>&#x1F3DB;</div>';">🏛</div>';">
     <div class="em-badge">🏛</div>
   </div>
   <div class="cbody">
@@ -487,7 +527,7 @@ body.dragging { cursor:grabbing; }
      data-connect="shammi" data-type="blue">
   <div class="pin pb"></div>
   <div class="cb"><div class="b"></div></div>
-  <div class="cp" style="background:linear-gradient(155deg,#000018,#000038);height:105px;"><div class="av">🌍</div></div>
+  <div class="cp" style="background:#fff;height:105px;"><img src="icc-logo.jpg" alt="ICC" style="width:100%;height:100%;object-fit:contain;padding:8px;"></div>
   <div class="cbody">
     <div class="cname">ICC</div>
     <div class="crole">Global Governing Body</div>
@@ -503,7 +543,7 @@ body.dragging { cursor:grabbing; }
      data-connect="lpl" data-type="gold">
   <div class="pin pb"></div>
   <div class="cb"><div class="b"></div></div>
-  <div class="cp" style="background:#080820;height:80px;"><div class="av" style="font-size:2.2rem;">🏏</div></div>
+  <div class="cp" style="background:#00238c;height:80px;"><img src="ipl-logo.jpg" alt="IPL" style="width:100%;height:100%;object-fit:contain;padding:8px;"></div>
   <div class="cbody">
     <div class="cname">BCCI / IPL</div>
     <div class="crole">India Cricket · $$$</div>
@@ -548,7 +588,7 @@ body.dragging { cursor:grabbing; }
      data-connect="squad" data-type="red">
   <div class="pin pg"></div>
   <div class="cb"><div class="g"></div></div>
-  <div class="cp" style="background:#1c1500;height:80px;"><div class="av" style="font-size:2.2rem;">📊</div></div>
+  <div class="cp" style="background:#0a1a2a;height:80px;"><img src="selection-committee.jpg" alt="Selection Committee" style="width:100%;height:100%;object-fit:contain;padding:8px;"></div>
   <div class="cbody">
     <div class="cname">Selection Committee</div>
     <div class="crole">Opaque Process</div>
@@ -564,7 +604,7 @@ body.dragging { cursor:grabbing; }
      data-connect="fans" data-type="red">
   <div class="pin pw"></div>
   <div class="cb"><div class="dk"></div></div>
-  <div class="cp" style="background:#0d1117;height:140px;"><div class="av">🏏</div></div>
+  <div class="cp" style="background:#0d1117;height:140px;"><img src="squad.jpg" alt="Sri Lanka Squad" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av>🏏</div>';"></div>
   <div class="cbody">
     <div class="cname">Current Playing Squad</div>
     <div class="crole">Talent · Fragile · Demoralized</div>
@@ -581,7 +621,7 @@ body.dragging { cursor:grabbing; }
      data-connect="squad,bhanuka,chamika,vandersay,kalpage" data-type="purple,red,purple,purple,purple">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:140px;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Pastor_Jerome_Fernando_.jpg/960px-Pastor_Jerome_Fernando_.jpg" alt="Jerome Fernando" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>JF</div>';"><div class="em-badge">✝️</div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:140px;"><img src="jerome-fernando.jpg" alt="Jerome Fernando" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>JE</div>';">JF</div>';"><div class="em-badge">✝️</div></div>
   <div class="cbody">
     <div class="cname">Prophet Jerome Fernando</div>
     <div class="crole">"Glorious Church" · Self-Proclaimed Prophet</div>
@@ -598,7 +638,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t3" id="lpl" style="top:1395px;left:1180px;width:185px;">
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
-  <div class="cp" style="background:#1a0000;height:80px;"><div class="av" style="font-size:2.2rem;">🎰</div></div>
+  <div class="cp" style="background:#001a5c;height:80px;"><img src="lpl-logo.jpg" alt="LPL T20" style="width:100%;height:100%;object-fit:contain;padding:8px;"></div>
   <div class="cbody">
     <div class="cname">Lanka Premier League</div>
     <div class="crole">Domestic T20 · Corruption-Plagued</div>
@@ -619,7 +659,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t8" id="kalpage" style="top:1708px;left:530px;width:175px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:80px;"><div class="av-init">RK</div></div>
+  <div class="cp" style="background:#180018;height:80px;"><img src="ruwan-kalpage.jpg" alt="Ruwan Kalpage" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>RU</div>';"></div>
   <div class="cbody">
     <div class="cname">Ruwan Kalpage</div>
     <div class="crole">Emerging Team Coach</div>
@@ -631,7 +671,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t2" id="vandersay" style="top:1755px;left:776px;width:175px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:80px;"><img src="https://srilankacricket.lk/storage/2024/08/Jeffrey-Vandersay-during-his-5-wickets-VK9_7244-1080x675.jpg" alt="Jeffrey Vandersay" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;" onerror="this.outerHTML='<div class=av-init>JV</div>';"></div>
+  <div class="cp" style="background:#180018;height:80px;"><img src="vandersay.jpg" alt="Jeffrey Vandersay" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>JE</div>';">JV</div>';"></div>
   <div class="cbody">
     <div class="cname">Jeffrey Vandersay</div>
     <div class="crole">Spinner · Church Member</div>
@@ -643,7 +683,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-med t4" id="bhanuka" style="top:1700px;left:1020px;width:195px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:105px;"><img src="https://srilankacricket.lk/storage/2019/10/B-Rajapaksa-1.jpg" alt="Bhanuka Rajapaksa" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;" onerror="this.outerHTML='<div class=av-init>BR</div>';"></div>
+  <div class="cp" style="background:#180018;height:105px;"><img src="bhanuka-rajapaksa.jpg" alt="Bhanuka Rajapaksa" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>BH</div>';">BR</div>';"></div>
   <div class="cbody">
     <div class="cname">Bhanuka Rajapaksa</div>
     <div class="crole">Batsman · Born Again Convert</div>
@@ -658,7 +698,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-med t1" id="chamika" style="top:1680px;left:1280px;width:200px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:105px;"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Chamika_Karunaratne.jpg" alt="Chamika Karunaratne" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>CK</div>';"><div class="em-badge">🪔</div></div>
+  <div class="cp" style="background:#180018;height:105px;"><img src="chamika-karunaratne.jpg" alt="Chamika Karunaratne" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.outerHTML='<div class=av-init>CH</div>';">CK</div>';"><div class="em-badge">🪔</div></div>
   <div class="cbody">
     <div class="cname">Chamika Karunaratne</div>
     <div class="crole">Bowler · Oil Lamp · Casino</div>
@@ -993,5 +1033,64 @@ function drawStrings(){
 setTimeout(drawStrings,350);
 window.addEventListener('resize',()=>{ initView(); setTimeout(drawStrings,120); });
 </script>
+
+<!-- FACEBOOK VIDEO MODAL -->
+<div id="video-modal" onclick="if(event.target===this)toggleVideo()">
+  <div class="vm-inner">
+    <div class="vm-header">
+      <div>
+        <div class="vm-title">The Journalistic Exposé</div>
+        <div class="vm-sub">Sri Lanka Cricket's Underbelly · Facebook</div>
+      </div>
+      <button class="vm-close" onclick="toggleVideo()">✕</button>
+    </div>
+    <div class="vm-body" id="vm-body">
+      <!-- PLACEHOLDER: Replace FB_VIDEO_URL below with the actual Facebook video URL -->
+      <!-- e.g. https://www.facebook.com/youraccount/videos/1234567890 -->
+      <div class="vm-placeholder" id="vm-placeholder">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <div>Video coming soon</div>
+        <div style="opacity:0.5;font-size:0.5rem;">Facebook · Share this expose</div>
+      </div>
+    </div>
+    <div class="vm-footer">This video is an independent journalistic investigation. All claims are documented. IP addresses of viewers are not collected.</div>
+  </div>
+</div>
+
+<script>
+// ── FACEBOOK VIDEO EMBED ──
+// To activate: replace the empty string below with the full Facebook video URL
+// e.g. 'https://www.facebook.com/youraccount/videos/1234567890'
+const FB_VIDEO_URL = '';
+
+let videoOpen = false;
+let videoLoaded = false;
+
+function toggleVideo(){
+  videoOpen = !videoOpen;
+  document.getElementById('video-modal').classList.toggle('open', videoOpen);
+  if(videoOpen && !videoLoaded && FB_VIDEO_URL){
+    loadFbVideo();
+    videoLoaded = true;
+  }
+  if(!videoOpen){ videoLoaded = false; document.getElementById('vm-body').innerHTML = videoOpen ? '' : '<div class="vm-placeholder" id="vm-placeholder"><svg viewBox="0 0 24 24" fill="rgba(24,119,242,0.4)" width="48" height="48"><path d="M8 5v14l11-7z"/></svg><div style="color:rgba(255,255,255,0.3);font-family:JetBrains Mono,monospace;font-size:0.65rem;letter-spacing:1px;text-transform:uppercase;">Video coming soon</div></div>'; }
+}
+
+function loadFbVideo(){
+  const encoded = encodeURIComponent(FB_VIDEO_URL);
+  const src = 'https://www.facebook.com/plugins/video.php?href='+encoded+'&show_text=false&width=734&mute=0';
+  const iframe = document.createElement('iframe');
+  iframe.src = src;
+  iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+  iframe.allow = 'autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share';
+  iframe.allowFullscreen = true;
+  const body = document.getElementById('vm-body');
+  body.innerHTML = '';
+  body.appendChild(iframe);
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape' && videoOpen) toggleVideo(); });
+</script>
+
 </body>
 </html>
