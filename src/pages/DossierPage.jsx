@@ -36,17 +36,6 @@ const styles = {
     fontFamily: 'var(--font-sans)',
     transition: 'all 150ms ease',
   },
-  themeBtn: {
-    background: 'var(--overlay-light)',
-    border: '1px solid var(--border-color)',
-    borderRadius: 'var(--radius-sm)',
-    padding: '8px 12px',
-    cursor: 'pointer',
-    fontSize: '1rem',
-    lineHeight: 1,
-    transition: 'all 150ms ease',
-    color: 'var(--text-muted)',
-  },
   meta: {
     display: 'flex',
     alignItems: 'center',
@@ -155,15 +144,6 @@ export default function DossierPage({ dossiers, theme, toggleTheme }) {
           >
             ← All Dossiers
           </button>
-          {toggleTheme && (
-            <button
-              style={styles.themeBtn}
-              onClick={toggleTheme}
-              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-            >
-              {theme === 'light' ? '🌙' : '☀️'}
-            </button>
-          )}
         </div>
 
         <div style={styles.meta}>

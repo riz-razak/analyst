@@ -1,6 +1,6 @@
 {
-  "version": "1.0",
-  "lastUpdated": "2026-02-26",
+  "version": "1.1",
+  "lastUpdated": "2026-02-27",
   "dossiers": [
     {
       "id": "easter-sunday-attacks-suresh-sallay",
@@ -17,7 +17,7 @@
     },
     {
       "id": "sri-lanka-cricket-corruption",
-      "date": "2026-02-25",
+      "date": "2026-02-27",
       "title": "The Death of Sri Lankan Cricket: Politics, Mafia & The Road to Ruin",
       "description": "How political patronage, a \"cricket mafia\", toxic fan culture, and systemic institutional rot destroyed a once-proud cricketing nation — and why the new government appears powerless to fix it.",
       "authors": ["Riz Razak"],
@@ -25,8 +25,37 @@
       "thumbnailUrl": "/images/thumbnails/sri-lanka-cricket-corruption.jpg",
       "contentUrl": "/dossiers/sri-lanka-cricket-corruption/index.html",
       "sections": 13,
-      "features": ["Game theory analysis", "Conspiracy board", "Stakeholder mapping"],
+      "features": ["Game theory analysis", "Conspiracy board", "Stakeholder mapping", "Power network", "Sinhala translation"],
       "status": "published"
+    },
+    {
+      "id": "sri-lanka-cricket-corruption/kalathma-scandal",
+      "date": "2026-02-27",
+      "title": "Case File: The Conduct Files — KalathmaGate & Player Misconduct",
+      "description": "Documented allegations of player misconduct, the KalathmaGate incident involving Dhanushka Gunathilaka, and Sri Lanka Cricket's pattern of institutional silence and cover-up. Restricted access — verified sources only.",
+      "authors": ["Riz Razak"],
+      "tags": ["Cricket", "Misconduct", "Sri Lanka", "Restricted", "Conduct"],
+      "thumbnailUrl": "/images/thumbnails/sri-lanka-cricket-corruption.jpg",
+      "contentUrl": "/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html",
+      "sections": 6,
+      "features": ["Conduct timeline", "MMEB analysis", "Sinhala translation", "Comments moderation", "GDPR compliant"],
+      "status": "published",
+      "parentId": "sri-lanka-cricket-corruption",
+      "restricted": true
+    },
+    {
+      "id": "sri-lanka-cricket-corruption/power-network",
+      "date": "2026-02-27",
+      "title": "SLC Power Network Board — Interactive Political Map",
+      "description": "Full interactive diagram of SLC's patronage flows, political family trees, financial linkages, and the cross-institutional capture that has kept the same network in power since the 1990s.",
+      "authors": ["Riz Razak"],
+      "tags": ["Cricket", "Corruption", "Power", "Sri Lanka", "Network analysis"],
+      "thumbnailUrl": "/images/thumbnails/sri-lanka-cricket-corruption.jpg",
+      "contentUrl": "/dossiers/sri-lanka-cricket-corruption/power-network.html",
+      "sections": 1,
+      "features": ["Interactive network diagram", "Patronage flow mapping", "Political timeline"],
+      "status": "published",
+      "parentId": "sri-lanka-cricket-corruption"
     }
   ]
 }

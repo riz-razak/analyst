@@ -494,6 +494,7 @@
     align-items: center;
     justify-content: center;
     gap: 0;
+    row-gap: 1rem;
     margin: 2rem 0;
     flex-wrap: wrap;
   }
@@ -881,12 +882,12 @@
   .network-link-banner {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 12px;
     background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(255,58,58,0.08));
     border: 1px solid rgba(139,92,246,0.25);
     border-radius: 12px;
-    padding: 1.5rem 2rem;
+    padding: 1.25rem 1.75rem;
     margin: 2rem 0;
     text-decoration: none;
     transition: all 0.3s;
@@ -897,16 +898,75 @@
     box-shadow: 0 4px 25px rgba(139,92,246,0.15);
     transform: translateY(-2px);
   }
-  .network-link-banner .banner-icon { font-size: 1.5rem; }
+  .network-link-banner .banner-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .network-link-banner .banner-body { flex: 1; }
   .network-link-banner .banner-text {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 600;
     color: var(--accent-purple);
   }
   .network-link-banner .banner-desc {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--text-muted);
+    margin-top: 2px;
   }
+  .network-link-banner .banner-arrow {
+    font-size: 1.1rem;
+    color: var(--accent-purple);
+    opacity: 0.6;
+    transition: transform 0.2s;
+  }
+  .network-link-banner:hover .banner-arrow { transform: translateX(4px); opacity: 1; }
+
+  /* CONDUCT FILES LINK (amber variant) */
+  .conduct-link-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(135deg, rgba(251,191,36,0.08), rgba(255,107,0,0.06));
+    border: 1px solid rgba(251,191,36,0.25);
+    border-radius: 12px;
+    padding: 1.25rem 1.75rem;
+    margin: 2rem 0;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .conduct-link-banner:hover {
+    border-color: rgba(251,191,36,0.5);
+    box-shadow: 0 4px 25px rgba(251,191,36,0.12);
+    transform: translateY(-2px);
+  }
+  .conduct-link-banner .banner-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .conduct-link-banner .banner-body { flex: 1; }
+  .conduct-link-banner .banner-text {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--accent-gold);
+  }
+  .conduct-link-banner .banner-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .conduct-link-banner .banner-arrow {
+    font-size: 1.1rem;
+    color: var(--accent-gold);
+    opacity: 0.6;
+    transition: transform 0.2s;
+  }
+  .conduct-link-banner:hover .banner-arrow { transform: translateX(4px); opacity: 1; }
+
+  /* Inline dossier link style */
+  .dossier-inline-link {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(0,212,255,0.4);
+    font-weight: 500;
+    transition: border-color 0.2s;
+  }
+  .dossier-inline-link:hover { border-bottom-color: var(--accent-cyan); }
 
   @media (max-width: 768px) {
     .vote-comparison { grid-template-columns: 1fr; }
@@ -939,7 +999,7 @@
       How political patronage, a "cricket mafia", toxic fan culture, and systemic institutional rot destroyed a once-proud cricketing nation — and why the new government appears powerless to fix it.
     </p>
     <div class="hero-meta">
-      <span>February 25, 2026</span>
+      <span>February 27, 2026</span>
       <span>|</span>
       <span>T20 World Cup 2026 — Super 8s Elimination</span>
       <span>|</span>
@@ -954,6 +1014,7 @@
     <a href="#match" class="nav-link active">The Match</a>
     <a href="#mafia" class="nav-link">The Mafia</a>
     <a href="#board" class="nav-link">Conspiracy Board</a>
+    <a href="#powernetwork" class="nav-link">Power Network</a>
     <a href="#elitism" class="nav-link">Elitism Paradox</a>
     <a href="#social" class="nav-link">Fan Toxicity</a>
     <a href="#players" class="nav-link">Player Crisis</a>
@@ -1110,8 +1171,17 @@
   <div class="section-header">
     <div class="section-number">03 — The Power Map</div>
     <h2>Stakeholder Conspiracy Board</h2>
-    <p class="section-lead">A mapping of the key players, power dynamics, and interconnections that define Sri Lanka Cricket's governance crisis.</p>
+    <p class="section-lead">A mapping of the key players, power dynamics, and interconnections that define Sri Lanka Cricket's governance crisis. The board below summarises the primary stakeholders — for the full <a href="power-network.html" class="dossier-inline-link">interactive power network diagram</a> including financial flows and cross-institutional links, see the standalone analysis.</p>
   </div>
+
+  <a href="#powernetwork" class="network-link-banner">
+    <span class="banner-icon">🕸️</span>
+    <span class="banner-body">
+      <span class="banner-text">Full Power Network — Section 04 ↓</span>
+      <span class="banner-desc">Interactive diagram — SLC patronage flows, political entanglements, financial linkages, and cross-institutional capture</span>
+    </span>
+    <span class="banner-arrow">›</span>
+  </a>
 
   <div class="conspiracy-board">
     <div class="board-title">&#128205; SLC Power Dynamics & Stakeholder Map — Feb 2026</div>
@@ -1252,12 +1322,45 @@
       <div class="legend-item"><div class="legend-line" style="background: var(--accent-green);"></div> Reform Pressure</div>
     </div>
   </div>
+
+  <a href="#powernetwork" class="network-link-banner">
+    <span class="banner-icon">🕸️</span>
+    <span class="banner-body">
+      <span class="banner-text">↓ Continue to Section 04 — Full Power Network</span>
+      <span class="banner-desc">Interactive diagram: financial flows, cross-institutional capture, political family trees, and the SLC voting mechanism</span>
+    </span>
+    <span class="banner-arrow">›</span>
+  </a>
 </section>
 
-<!-- SECTION 4: ELITISM PARADOX -->
+<!-- SECTION 4: POWER NETWORK -->
+<section class="section fade-in" id="powernetwork">
+  <div class="section-header">
+    <div class="section-number">04 — The Power Network</div>
+    <h2>SLC Political & Financial Network Map</h2>
+    <p class="section-lead">An interactive diagram of the patronage flows, political family trees, financial linkages, and cross-institutional capture that has kept the same network in control of Sri Lankan cricket since the 1990s. Use the full-page view for maximum detail.</p>
+  </div>
+
+  <div style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); margin: 1.5rem 0; box-shadow: 0 4px 24px rgba(0,0,0,0.3);">
+    <iframe
+      src="power-network.html"
+      title="SLC Power Network Diagram"
+      style="width: 100%; height: 720px; border: none; display: block; background: #0d1117;"
+      loading="lazy"
+    ></iframe>
+  </div>
+
+  <div style="display: flex; justify-content: flex-end; margin-top: -0.5rem; margin-bottom: 1rem;">
+    <a href="power-network.html" target="_blank" class="dossier-inline-link" style="font-size: 0.78rem; color: var(--text-muted); border-bottom-color: rgba(156,163,175,0.3);">
+      ↗ Open full-page view
+    </a>
+  </div>
+</section>
+
+<!-- SECTION 5: ELITISM PARADOX -->
 <section class="section fade-in" id="elitism">
   <div class="section-header">
-    <div class="section-number">04 — The Elitism Paradox</div>
+    <div class="section-number">05 — The Elitism Paradox</div>
     <h2>When Democratisation Killed the "Cricketing Brain"</h2>
     <p class="section-lead">The uncomfortable argument: Sri Lanka's golden era was produced by an elite school system that bred not just cricketers, but thinkers. The democratisation of cricket widened access but may have eroded the intellectual infrastructure that produced legends.</p>
   </div>
@@ -1291,7 +1394,7 @@
 <!-- SECTION 5: FAN TOXICITY -->
 <section class="section fade-in" id="social">
   <div class="section-header">
-    <div class="section-number">05 — The Social Media Vortex</div>
+    <div class="section-number">06 — The Social Media Vortex</div>
     <h2>The Hype-Pressure-Disappointment Death Spiral</h2>
     <p class="section-lead">Sri Lankan cricket fans don't just watch cricket — they weaponise it. Social media has turned every match into a referendum on national pride, and every loss into a trigger for collective abuse.</p>
   </div>
@@ -1331,7 +1434,7 @@
 
   <div class="analysis-block">
     <h3><span class="icon" style="background: rgba(255,107,157,0.15);">&#128241;</span> The #UnfollowCricketers Campaign</h3>
-    <p>After Sri Lanka's 0-3 T20 drubbing by England, fans launched a coordinated social media campaign under the hashtag #unfollowcricketers. Thousands boycotted the Facebook pages of vice-captain Kusal Mendis and opener Dhanushka Gunathilaka. The campaign wasn't just negative — it was organised, sustained, and specifically targeted at individual players rather than the administration.</p>
+    <p>After Sri Lanka's 0-3 T20 drubbing by England, fans launched a coordinated social media campaign under the hashtag #unfollowcricketers. Thousands boycotted the Facebook pages of vice-captain Kusal Mendis and opener <a href="kalathma-scandal.html" class="dossier-inline-link">Dhanushka Gunathilaka</a> — himself the subject of a separate conduct investigation. The campaign wasn't just negative — it was organised, sustained, and specifically targeted at individual players rather than the administration.</p>
     <p>Kusal Mendis later spoke publicly about the abuse: "When we're doing badly is when we need the most support." But the culture of targeted personal attacks continued. Some fan posts even threatened violence, with warnings about "fans attacking cricketers' houses and burning cricketers' dummies like in India."</p>
   </div>
 
@@ -1357,14 +1460,23 @@
     "The venomous, hate-filled disparagement conveyed targeting the cricketers via social media is testament to the toxic nature of cricket fans in this country and the decay of our society in terms of values and attitudes."
     <div class="attribution">— Daily FT Editorial, Asia Cup Analysis</div>
   </div>
+
+  <a href="kalathma-scandal.html" class="conduct-link-banner">
+    <span class="banner-icon">📁</span>
+    <span class="banner-body">
+      <span class="banner-text">Case File: The Conduct Files →</span>
+      <span class="banner-desc">Documented allegations of player misconduct, the KalathmaGate incident, and the SLC's pattern of institutional silence — restricted access</span>
+    </span>
+    <span class="banner-arrow">›</span>
+  </a>
 </section>
 
 <!-- SECTION 6: PLAYER CRISIS -->
 <section class="section fade-in" id="players">
   <div class="section-header">
-    <div class="section-number">06 — The Player Crisis</div>
+    <div class="section-number">07 — The Player Crisis</div>
     <h2>Form, Dedication & The Hollowing Out</h2>
-    <p class="section-lead">Looking beyond the surface: why a squad with IPL-level talent collapses in national colours.</p>
+    <p class="section-lead">Looking beyond the surface: why a squad with IPL-level talent collapses in national colours. Off-field conduct and institutional cover-up add another dimension — documented in the <a href="kalathma-scandal.html" class="dossier-inline-link">Conduct Files case dossier</a>.</p>
   </div>
 
   <div class="analysis-block">
@@ -1396,7 +1508,7 @@
 <!-- SECTION 7: NPP & REFORM -->
 <section class="section fade-in" id="npp">
   <div class="section-header">
-    <div class="section-number">07 — The NPP Paradox</div>
+    <div class="section-number">08 — The NPP Paradox</div>
     <h2>Why the "Anti-Corruption" Government Can't Fix Cricket</h2>
     <p class="section-lead">The NPP (Anura Kumara Dissanayake) came to power on a wave of anti-corruption sentiment. They were vocal critics of the SLC system — from opposition benches. In power, they've done nothing.</p>
   </div>
@@ -1425,7 +1537,7 @@
 <!-- SECTION 8: RESTRUCTURING OPTIONS -->
 <section class="section fade-in" id="restructure">
   <div class="section-header">
-    <div class="section-number">08 — Breaking the Deadlock</div>
+    <div class="section-number">09 — Breaking the Deadlock</div>
     <h2>Restructuring Options & How to Navigate the ICC</h2>
     <p class="section-lead">If the NPP government had the political will, how could they "defeat" the mafia hold without triggering ICC sanctions? A strategic playbook.</p>
   </div>
@@ -1504,7 +1616,7 @@
 <!-- SECTION 9: GAME THEORY -->
 <section class="section fade-in" id="gametheory">
   <div class="section-header">
-    <div class="section-number">09 — Game Theory Analysis</div>
+    <div class="section-number">10 — Game Theory Analysis</div>
     <h2>Strategic Scenario Modelling</h2>
     <p class="section-lead">Analysing the reform options through a game theory lens: payoffs, risks, and Nash equilibria for key stakeholders.</p>
   </div>
@@ -1595,7 +1707,7 @@
 <!-- SECTION 10: SKILLS GAP & ANALYTICS -->
 <section class="section fade-in" id="skills">
   <div class="section-header">
-    <div class="section-number">10 — The Skills Gap & Analytics Deficit</div>
+    <div class="section-number">11 — The Skills Gap & Analytics Deficit</div>
     <h2>Fielding, Patience, Game-Reading & The Data Desert</h2>
     <p class="section-lead">Sri Lanka recently hired India's former fielding coach R. Sridhar for a 10-day program. Australia has permanent analytics departments with real-time data. That gap tells the entire story.</p>
   </div>
@@ -1648,7 +1760,7 @@
 <!-- SECTION 11: BCCI/IPL AXIS -->
 <section class="section fade-in" id="bcci">
   <div class="section-header">
-    <div class="section-number">11 — The BCCI/IPL Axis</div>
+    <div class="section-number">12 — The BCCI/IPL Axis</div>
     <h2>India's Gravitational Pull & The Small Nation Trap</h2>
     <p class="section-lead">India is "the sun, and the remainder are merely planets in its orbit." For a small nation like Sri Lanka, the IPL is simultaneously the best development opportunity and the greatest existential threat.</p>
   </div>
@@ -1711,7 +1823,7 @@
 <!-- SECTION 12: CALENDAR CRISIS -->
 <section class="section fade-in" id="calendar">
   <div class="section-header">
-    <div class="section-number">12 — The Calendar Crisis</div>
+    <div class="section-number">13 — The Calendar Crisis</div>
     <h2>The Slow Death of Sri Lankan Test Cricket</h2>
     <p class="section-lead">Sri Lanka played as few as 4 Tests in a recent year. Australia plays 12-15 annually. This isn't a scheduling quirk — it's a structural dismantling of the format that builds the skills Sri Lanka most desperately needs.</p>
   </div>
@@ -1749,7 +1861,7 @@
 <!-- SECTION 13: HIDDEN INSIGHTS -->
 <section class="section fade-in" id="hidden">
   <div class="section-header">
-    <div class="section-number">13 — The Undiscussed</div>
+    <div class="section-number">14 — The Undiscussed</div>
     <h2>Insights Nobody Talks About</h2>
     <p class="section-lead">The conversations that don't make it into mainstream cricket analysis — the structural, cultural, and geopolitical factors that shape Sri Lanka's cricket crisis.</p>
   </div>
@@ -1814,8 +1926,7 @@
 <!-- FOOTER -->
 <div class="footer">
   <p>Political Research Dossier — The Death of Sri Lankan Cricket<br>
-  Analysis prepared February 2026 | Sources include ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec<br>
-  <a href="https://dgtl.lk" target="_blank">DGTL Research</a></p>
+  Analysis prepared February 2026 | Sources include ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec</p>
 </div>
 
 <script>
