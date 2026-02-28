@@ -728,6 +728,22 @@
           g.appendChild(t);
         }
 
+        // Node label (below circle)
+        const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const display = node.label.length > 22 ? node.label.slice(0, 20) + '…' : node.label;
+        labelText.textContent = display;
+        labelText.setAttribute("text-anchor", "middle");
+        labelText.setAttribute("dominant-baseline", "hanging");
+        labelText.setAttribute("font-size", "9.5");
+        labelText.setAttribute("font-family", "Inter, system-ui, sans-serif");
+        labelText.setAttribute("fill", "#e0e0e0");
+        labelText.setAttribute("stroke", "#0a0a0f");
+        labelText.setAttribute("stroke-width", "3");
+        labelText.setAttribute("paint-order", "stroke fill");
+        labelText.style.pointerEvents = "none";
+        node._label = labelText;
+        g.appendChild(labelText);
+
         // Events
         circle.addEventListener('mousedown', (e) => startNodeDrag(e, node));
         circle.addEventListener('click', (e) => {
@@ -778,6 +794,12 @@
         if (node._badge1t) { node._badge1t.setAttribute("x", String(bx));  node._badge1t.setAttribute("y",  String(by)); }
         if (node._badge2)  { node._badge2.setAttribute("cx",  String(bx + node._badge2offsetX)); node._badge2.setAttribute("cy",  String(by)); }
         if (node._badge2t) { node._badge2t.setAttribute("x",  String(bx + node._badge2offsetX)); node._badge2t.setAttribute("y",  String(by)); }
+
+        // Label sits just below the circle
+        if (node._label) {
+          node._label.setAttribute("x", String(x));
+          node._label.setAttribute("y", String(y + node.size + 5));
+        }
       });
 
       canvas.setAttribute("transform", `translate(${panX},${panY}) scale(${scale})`);
