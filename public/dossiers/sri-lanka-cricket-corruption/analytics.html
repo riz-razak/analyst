@@ -616,205 +616,169 @@ The scanner will flag named-person claims missing ALLEGED/CONFIRMED/UNVERIFIED l
 
   <!-- ════ TAB 6: ANALYTICS ════ -->
   <div class="tab-panel" id="tab-analytics">
-    <div class="info-box">
-      <strong>Analytics Setup:</strong> Enter your GA4 Measurement ID and Clarity Project ID below. These IDs are saved to your browser for reference — to permanently embed them, update <code>inject_analytics.py</code> with the real values and re-run it, then commit.
-      <br><br>
-      Currently all 8 dossier + SPA pages have the tracking snippet installed. Swap in real IDs to start collecting data.
+
+    <!-- ── GA4 API AUTH STRIP ── -->
+    <div id="ga4-auth-bar" style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:4px;">
+      <span style="font-size:0.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;">GA4 Live Data</span>
+      <span id="ga4-auth-status" style="font-size:0.6rem;color:#f87171;">● Offline — sign in for live metrics</span>
+      <div style="flex:1;"></div>
+      <input class="anl-input" id="inp-property-id" placeholder="GA4 Property ID (numeric)" style="width:180px;margin:0;font-size:0.6rem;padding:5px 10px;" />
+      <button id="ga4-signin-btn" class="anl-save-btn" style="margin:0;" onclick="ga4SignIn()">Sign in with Google</button>
+      <button id="ga4-refresh-btn" class="refresh-btn" style="display:none;" onclick="ga4Refresh()">↻ Refresh</button>
     </div>
 
-    <div class="anl-grid">
-      <!-- CONFIG PANEL -->
-      <div class="anl-card">
-        <div class="anl-card-title"><span>⚙️</span> Tracking Configuration</div>
-        <div class="anl-id-row">
-          <span class="anl-id-label">GA4 Measurement ID</span>
-          <span class="anl-id-val" id="anl-ga4-display">—</span>
-        </div>
-        <div class="anl-id-row">
-          <span class="anl-id-label">Clarity Project ID</span>
-          <span class="anl-id-val" id="anl-clarity-display">—</span>
-        </div>
-        <div class="anl-id-row">
-          <span class="anl-id-label">GDPR-Aware</span>
-          <span class="anl-id-val live">✓ Yes — skips on declined consent</span>
-        </div>
-        <div class="anl-id-row">
-          <span class="anl-id-label">IP Anonymisation</span>
-          <span class="anl-id-val live">✓ anonymize_ip: true</span>
-        </div>
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 1: REACH & AWARENESS
+         "Are people finding the content?"
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="sect-title" style="font-size:1.1rem;">
+      1 — Reach &amp; Awareness
+      <span class="sect-badge">Are people finding the content?</span>
+    </div>
 
-        <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px;">
-          <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;">Update Tracking IDs (reference)</div>
-          <input class="anl-input" id="inp-ga4" placeholder="G-XXXXXXXXXX — from analytics.google.com" />
-          <input class="anl-input" id="inp-clarity" placeholder="Project ID — from clarity.microsoft.com" style="margin-top:6px;" />
-          <button class="anl-save-btn" onclick="saveAnalyticsIds()">💾 Save IDs</button>
-          <div style="font-size:0.5rem;color:var(--muted);margin-top:8px;">
-            To permanently embed IDs: update <code>GA4_ID</code> and <code>CLARITY_ID</code> in <code>inject_analytics.py</code> and re-run, or find/replace <code>G-XXXXXXXXXX</code> / <code>XXXXXXXXXXXX</code> in all HTML files.
-          </div>
-        </div>
+    <div class="stat-grid" style="margin-bottom:20px;">
+      <div class="stat-card"><div class="sc-label">Total Users</div><div class="sc-val" id="m-users">—</div><div class="sc-sub" id="m-users-sub">last 28 days</div></div>
+      <div class="stat-card green"><div class="sc-label">New Users</div><div class="sc-val" id="m-new-users">—</div><div class="sc-sub">first-time visitors</div></div>
+      <div class="stat-card gold"><div class="sc-label">Returning Users</div><div class="sc-val" id="m-returning">—</div><div class="sc-sub">came back for more</div></div>
+      <div class="stat-card blue"><div class="sc-label">Sessions</div><div class="sc-val" id="m-sessions">—</div><div class="sc-sub">total visits</div></div>
+      <div class="stat-card purple"><div class="sc-label">Sri Lanka</div><div class="sc-val" id="m-sl-pct">—</div><div class="sc-sub">% of traffic from SL</div></div>
+      <div class="stat-card"><div class="sc-label">Page Views</div><div class="sc-val" id="m-pageviews">—</div><div class="sc-sub">all pages combined</div></div>
+    </div>
+
+    <!-- Top Pages -->
+    <div class="anl-grid" style="margin-bottom:24px;">
+      <div class="anl-card">
+        <div class="anl-card-title"><span>📄</span> Top Pages (by users)</div>
+        <div id="m-top-pages" style="font-size:0.62rem;color:var(--muted2);">Sign in for live data</div>
       </div>
-
-      <!-- QUICK LINKS -->
       <div class="anl-card">
-        <div class="anl-card-title"><span>🔗</span> Dashboard Links</div>
+        <div class="anl-card-title"><span>🌍</span> Top Countries</div>
+        <div id="m-top-countries" style="font-size:0.62rem;color:var(--muted2);">Sign in for live data</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 2: ENGAGEMENT & DEPTH
+         "Are they actually reading?"
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="sect-title" style="font-size:1.1rem;">
+      2 — Engagement &amp; Depth
+      <span class="sect-badge">Are they actually reading?</span>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:20px;">
+      <div class="stat-card gold"><div class="sc-label">Avg Engaged Time</div><div class="sc-val" id="m-avg-time">—</div><div class="sc-sub">per session</div></div>
+      <div class="stat-card green"><div class="sc-label">Deep Readers</div><div class="sc-val" id="m-deep-readers">—</div><div class="sc-sub">scrolled ≥75% of page</div></div>
+      <div class="stat-card"><div class="sc-label">Pages / Session</div><div class="sc-val" id="m-pps">—</div><div class="sc-sub">avg pages viewed</div></div>
+      <div class="stat-card blue"><div class="sc-label">5-Min Readers</div><div class="sc-val" id="m-5min">—</div><div class="sc-sub">stayed 5+ minutes</div></div>
+    </div>
+
+    <div class="anl-grid" style="margin-bottom:24px;">
+      <div class="anl-card">
+        <div class="anl-card-title"><span>📊</span> Scroll Depth Distribution</div>
+        <div id="m-scroll-dist" style="font-size:0.62rem;color:var(--muted2);">Sign in for live data</div>
+      </div>
+      <div class="anl-card">
+        <div class="anl-card-title"><span>🕒</span> Read Time Distribution</div>
+        <div id="m-read-dist" style="font-size:0.62rem;color:var(--muted2);">Sign in for live data</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 3: RESONANCE & IMPACT
+         "Is it making people think?"
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="sect-title" style="font-size:1.1rem;">
+      3 — Resonance &amp; Impact
+      <span class="sect-badge">Is it making people think?</span>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:20px;">
+      <div class="stat-card green"><div class="sc-label">Return Rate</div><div class="sc-val" id="m-return-rate">—</div><div class="sc-sub">% returning visitors</div></div>
+      <div class="stat-card gold"><div class="sc-label">Share Clicks</div><div class="sc-val" id="m-shares">—</div><div class="sc-sub">social share actions</div></div>
+      <div class="stat-card"><div class="sc-label">Comments</div><div class="sc-val" id="m-comments">—</div><div class="sc-sub">submitted</div></div>
+      <div class="stat-card purple"><div class="sc-label">Sinhala Usage</div><div class="sc-val" id="m-sinhala">—</div><div class="sc-sub">language toggles to SI</div></div>
+      <div class="stat-card blue"><div class="sc-label">Mindmap Clicks</div><div class="sc-val" id="m-mindmap">—</div><div class="sc-sub">network explored</div></div>
+      <div class="stat-card"><div class="sc-label">Cross-Dossier Nav</div><div class="sc-val" id="m-crossnav">—</div><div class="sc-sub">explored other dossiers</div></div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 4: AUDIENCE PROFILE
+         "Who is engaging?"
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="sect-title" style="font-size:1.1rem;">
+      4 — Audience Profile
+      <span class="sect-badge">Who is engaging?</span>
+    </div>
+
+    <div class="anl-grid" style="margin-bottom:24px;">
+      <div class="anl-card">
+        <div class="anl-card-title"><span>📱</span> Device Split</div>
+        <div id="m-devices" style="font-size:0.62rem;color:var(--muted2);">Sign in for live data</div>
+      </div>
+      <div class="anl-card">
+        <div class="anl-card-title"><span>🔗</span> Traffic Sources</div>
+        <div id="m-sources" style="font-size:0.62rem;color:var(--muted2);">Sign in for live data</div>
+      </div>
+    </div>
+
+    <!-- ── CONFIGURATION & LINKS ── -->
+    <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:8px;">
+      <div class="sect-title" style="font-size:0.9rem;">Configuration &amp; Dashboards</div>
+    </div>
+
+    <div class="anl-grid" style="margin-bottom:16px;">
+      <div class="anl-card">
+        <div class="anl-card-title"><span>⚙️</span> Active Tracking IDs</div>
+        <div class="anl-id-row"><span class="anl-id-label">GA4 Measurement ID</span><span class="anl-id-val live" id="anl-ga4-display">G-SCKES76007</span></div>
+        <div class="anl-id-row"><span class="anl-id-label">Clarity Project ID</span><span class="anl-id-val live" id="anl-clarity-display">vomuhyeriq</span></div>
+        <div class="anl-id-row"><span class="anl-id-label">GDPR-Aware</span><span class="anl-id-val live">✓ Yes — skips on declined consent</span></div>
+        <div class="anl-id-row"><span class="anl-id-label">Custom Events</span><span class="anl-id-val live">✓ 10 event types across 8 pages</span></div>
+        <div class="anl-id-row"><span class="anl-id-label">IP Anonymisation</span><span class="anl-id-val live">✓ anonymize_ip: true</span></div>
+      </div>
+      <div class="anl-card">
+        <div class="anl-card-title"><span>🔗</span> External Dashboards</div>
         <div class="dash-links">
           <a class="dash-link" href="https://analytics.google.com" target="_blank" rel="noopener">
             <span class="dash-link-icon">📈</span>
-            <div class="dash-link-info">
-              <div class="dash-link-title">GA4 Dashboard</div>
-              <div class="dash-link-desc">Page views, sessions, geo, referrals, real-time</div>
-            </div>
+            <div class="dash-link-info"><div class="dash-link-title">GA4 Dashboard</div><div class="dash-link-desc">Full reports, segments, custom explorations</div></div>
           </a>
           <a class="dash-link" href="https://clarity.microsoft.com" target="_blank" rel="noopener">
             <span class="dash-link-icon">🖥️</span>
-            <div class="dash-link-info">
-              <div class="dash-link-title">Clarity Dashboard</div>
-              <div class="dash-link-desc">Heatmaps, session recordings, scroll depth</div>
-            </div>
+            <div class="dash-link-info"><div class="dash-link-title">Clarity Dashboard</div><div class="dash-link-desc">Heatmaps, session recordings, scroll maps</div></div>
           </a>
           <a class="dash-link" href="https://analytics.google.com/analytics/web/#/realtime" target="_blank" rel="noopener">
             <span class="dash-link-icon">⚡</span>
-            <div class="dash-link-info">
-              <div class="dash-link-title">GA4 Real-time</div>
-              <div class="dash-link-desc">Live visitors right now</div>
-            </div>
+            <div class="dash-link-info"><div class="dash-link-title">GA4 Real-time</div><div class="dash-link-desc">Who's on the site right now</div></div>
           </a>
           <a class="dash-link" href="https://search.google.com/search-console" target="_blank" rel="noopener">
             <span class="dash-link-icon">🔍</span>
-            <div class="dash-link-info">
-              <div class="dash-link-title">Search Console</div>
-              <div class="dash-link-desc">Impressions, clicks, ranking keywords</div>
-            </div>
+            <div class="dash-link-info"><div class="dash-link-title">Search Console</div><div class="dash-link-desc">Impressions, clicks, ranking keywords</div></div>
           </a>
         </div>
       </div>
     </div>
 
-    <!-- COVERAGE TABLE -->
-    <div class="anl-coverage-wrap" style="margin-bottom:16px;">
-      <div class="sect-title" style="font-size:1rem;margin-bottom:16px;">Page Coverage</div>
+    <!-- CUSTOM EVENTS REFERENCE -->
+    <div class="anl-coverage-wrap">
+      <div class="sect-title" style="font-size:0.9rem;margin-bottom:14px;">Custom Events Being Tracked</div>
       <table class="coverage-table">
-        <thead>
-          <tr>
-            <th>Page</th>
-            <th>URL</th>
-            <th>GA4</th>
-            <th>Clarity</th>
-            <th>GDPR-aware</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Event</th><th>What It Measures</th><th>Why It Matters</th></tr></thead>
         <tbody>
-          <tr>
-            <td>SPA Homepage</td>
-            <td>analyst.rizrazak.com/</td>
-            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
-          </tr>
-          <tr>
-            <td>Cricket Dossier — Main</td>
-            <td>.../sri-lanka-cricket-corruption/</td>
-            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
-          </tr>
-          <tr>
-            <td>Cricket Dossier — Betting Web</td>
-            <td>.../betting-web.html</td>
-            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
-          </tr>
-          <tr>
-            <td>Cricket Dossier — Kalathma</td>
-            <td>.../kalathma-scandal.html</td>
-            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
-          </tr>
-          <tr>
-            <td>Cricket Dossier — Mindmap</td>
-            <td>.../mindmap.html</td>
-            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
-          </tr>
-          <tr>
-            <td>Cricket Dossier — Power Network</td>
-            <td>.../power-network.html</td>
-            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
-          </tr>
-          <tr>
-            <td>Easter Sunday — Main</td>
-            <td>.../easter-sunday-attacks-suresh-sallay/</td>
-            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
-          </tr>
-          <tr>
-            <td>Easter Sunday — Conspiracy Board</td>
-            <td>.../conspiracy-board.html</td>
-            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
-          </tr>
-          <tr>
-            <td>Admin Dashboard (this page)</td>
-            <td>.../analytics.html</td>
-            <td class="cov-err">— admin</td><td class="cov-err">— admin</td><td>N/A</td>
-          </tr>
+          <tr><td><code>scroll_depth</code></td><td>25%, 50%, 75%, 90%, 100% scroll milestones</td><td>Are readers finishing dossiers or dropping off?</td></tr>
+          <tr><td><code>engaged_read_time</code></td><td>30s, 1min, 2min, 5min, 10min time-on-page</td><td>Separates deep readers from skimmers</td></tr>
+          <tr><td><code>section_view</code></td><td>Which chapter/section was scrolled to</td><td>Most compelling chapters vs. ignored sections</td></tr>
+          <tr><td><code>share_click</code></td><td>Facebook, Twitter, WhatsApp, Telegram shares</td><td>Organic amplification of investigations</td></tr>
+          <tr><td><code>language_toggle</code></td><td>EN→SI / SI→EN switches</td><td>Sinhala audience reach, content accessibility</td></tr>
+          <tr><td><code>mindmap_interact</code></td><td>Node clicks, link clicks, embed copies</td><td>Network map engagement, viral embeddability</td></tr>
+          <tr><td><code>comment_submit</code></td><td>Comment form submissions</td><td>Community participation, public discourse</td></tr>
+          <tr><td><code>outbound_click</code></td><td>Clicks to external source links</td><td>Readers verifying claims — critical thinking signal</td></tr>
+          <tr><td><code>cross_dossier_nav</code></td><td>Navigating between dossiers</td><td>Broader curiosity, system-level awareness</td></tr>
+          <tr><td><code>page_exit</code></td><td>Final scroll% + read time on leave</td><td>True completion metrics per visit</td></tr>
         </tbody>
       </table>
     </div>
 
-    <!-- HOW TO SETUP -->
-    <div class="sect-title" style="font-size:1rem;">Setup Steps</div>
-    <div class="setup-step">
-      <div class="step-num">1</div>
-      <div>
-        <div class="step-title">Create Google Analytics 4 Property</div>
-        <div class="step-body">
-          Go to <a href="https://analytics.google.com" target="_blank">analytics.google.com</a> → Admin → Create Property → Web → enter <code>analyst.rizrazak.com</code>.
-          Copy your <strong>Measurement ID</strong> (format: <code>G-XXXXXXXXXX</code>).
-          Then in <code>inject_analytics.py</code> replace <code>G-XXXXXXXXXX</code> with your real ID and re-run.
-          <div><span class="step-status todo">Pending ID</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="setup-step">
-      <div class="step-num">2</div>
-      <div>
-        <div class="step-title">Create Microsoft Clarity Project</div>
-        <div class="step-body">
-          Go to <a href="https://clarity.microsoft.com" target="_blank">clarity.microsoft.com</a> → New Project → Web → enter URL.
-          Copy your <strong>Project ID</strong> (10-12 character string).
-          Replace <code>XXXXXXXXXXXX</code> in <code>inject_analytics.py</code> and re-run.
-          Clarity provides free session recordings and heatmaps — no data limit.
-          <div><span class="step-status todo">Pending ID</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="setup-step">
-      <div class="step-num">3</div>
-      <div>
-        <div class="step-title">Link GA4 to Google Search Console</div>
-        <div class="step-body">
-          In GA4: Admin → Property Settings → Search Console Links → Add.
-          This pulls keyword impressions and click data directly into GA4 reports.
-          Also verify the domain in Search Console for sitemap submission.
-          <div><span class="step-status todo">After Step 1</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="setup-step">
-      <div class="step-num">4</div>
-      <div>
-        <div class="step-title">Submit Sitemap to Google</div>
-        <div class="step-body">
-          Create <code>sitemap.xml</code> listing all dossier URLs. Submit at <a href="https://search.google.com/search-console" target="_blank">search.google.com/search-console</a>.
-          This tells Google about all pages and accelerates indexing. Future new dossiers should be added to the sitemap on creation.
-          <div><span class="step-status todo">Pending</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="setup-step">
-      <div class="step-num">5</div>
-      <div>
-        <div class="step-title">GA4 Custom Events (Optional)</div>
-        <div class="step-body">
-          Track meaningful interactions beyond page views: mindmap node clicks, language toggles, comment submissions, section scroll depth.
-          In each page, call <code>gtag('event', 'mindmap_click', &#123; node_id: id &#125;)</code> etc.
-          These appear in GA4 under Engagement → Events.
-          <div><span class="step-status todo">Optional enhancement</span></div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <!-- ════ TAB 7: SEO / AEO ════ -->
@@ -1259,38 +1223,311 @@ function generateTermsPage(){
 }
 
 // ── ANALYTICS IDS ──
-const ANL_GA4_KEY     = 'anl_ga4_id';
-const ANL_CLARITY_KEY = 'anl_clarity_id';
-
 function loadAnalyticsIds(){
-  const ga4     = localStorage.getItem(ANL_GA4_KEY)     || 'G-XXXXXXXXXX';
-  const clarity = localStorage.getItem(ANL_CLARITY_KEY) || 'XXXXXXXXXXXX';
-  const isPlaceholderGA4     = ga4     === 'G-XXXXXXXXXX' || !ga4;
-  const isPlaceholderClarity = clarity === 'XXXXXXXXXXXX' || !clarity;
-
-  const ga4El     = document.getElementById('anl-ga4-display');
+  // IDs are now hardcoded — display them
+  const ga4El = document.getElementById('anl-ga4-display');
   const clarityEl = document.getElementById('anl-clarity-display');
-  if(ga4El){
-    ga4El.textContent = ga4;
-    ga4El.className   = 'anl-id-val ' + (isPlaceholderGA4 ? 'placeholder' : 'live');
-  }
-  if(clarityEl){
-    clarityEl.textContent = clarity;
-    clarityEl.className   = 'anl-id-val ' + (isPlaceholderClarity ? 'placeholder' : 'live');
-  }
-  const ga4Inp     = document.getElementById('inp-ga4');
-  const clarityInp = document.getElementById('inp-clarity');
-  if(ga4Inp)     ga4Inp.placeholder     = ga4;
-  if(clarityInp) clarityInp.placeholder = clarity;
+  if(ga4El){ ga4El.textContent = 'G-SCKES76007'; ga4El.className = 'anl-id-val live'; }
+  if(clarityEl){ clarityEl.textContent = 'vomuhyeriq'; clarityEl.className = 'anl-id-val live'; }
+
+  // Load saved property ID
+  const propId = localStorage.getItem('ga4_property_id') || '';
+  const inp = document.getElementById('inp-property-id');
+  if(inp && propId) inp.value = propId;
 }
 
-function saveAnalyticsIds(){
-  const ga4     = document.getElementById('inp-ga4').value.trim();
-  const clarity = document.getElementById('inp-clarity').value.trim();
-  if(ga4)     localStorage.setItem(ANL_GA4_KEY,     ga4);
-  if(clarity) localStorage.setItem(ANL_CLARITY_KEY, clarity);
-  loadAnalyticsIds();
-  alert('✓ IDs saved to browser reference.\n\nTo embed permanently: edit inject_analytics.py with these IDs and re-run it, then commit.');
+// ═══════════════════════════════════════════════════════════════════════════
+// GA4 DATA API — Live metrics via Google Identity Services + Analytics Data API
+// ═══════════════════════════════════════════════════════════════════════════
+// To use: Create OAuth2 Web Client ID at console.cloud.google.com
+// Enable "Google Analytics Data API" in the same project.
+// Then enter your GA4 Property ID (numeric, from GA4 Admin → Property Settings).
+//
+// The OAuth Client ID for analyst.rizrazak.com:
+const GA4_OAUTH_CLIENT_ID = localStorage.getItem('ga4_oauth_client_id') || '';
+let ga4AccessToken = null;
+let ga4PropertyId  = null;
+
+// Load Google Identity Services library
+(function(){
+  const s = document.createElement('script');
+  s.src = 'https://accounts.google.com/gsi/client';
+  s.async = true;
+  document.head.appendChild(s);
+})();
+
+function ga4SignIn(){
+  ga4PropertyId = document.getElementById('inp-property-id').value.trim();
+  if(!ga4PropertyId){
+    alert('Enter your GA4 Property ID first.\n\nFind it at: analytics.google.com → Admin → Property Settings → Property ID (numeric).');
+    return;
+  }
+  localStorage.setItem('ga4_property_id', ga4PropertyId);
+
+  // Use Google Identity Services tokenClient
+  if(typeof google === 'undefined' || !google.accounts){
+    alert('Google Identity Services not loaded. Check your internet connection.');
+    return;
+  }
+
+  const tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: GA4_OAUTH_CLIENT_ID || prompt('Enter your Google OAuth2 Client ID:\n\n(Create one at console.cloud.google.com → APIs & Services → Credentials → OAuth 2.0 Client ID → Web application)\n\nAuthorized JS origins: https://analyst.rizrazak.com'),
+    scope: 'https://www.googleapis.com/auth/analytics.readonly',
+    callback: (response) => {
+      if(response.error){
+        document.getElementById('ga4-auth-status').innerHTML = '<span style="color:#f87171;">● Auth failed: ' + response.error + '</span>';
+        return;
+      }
+      ga4AccessToken = response.access_token;
+      if(!GA4_OAUTH_CLIENT_ID) localStorage.setItem('ga4_oauth_client_id', tokenClient.s.client_id || '');
+      document.getElementById('ga4-auth-status').innerHTML = '<span style="color:#34d399;">● Connected — pulling live data…</span>';
+      document.getElementById('ga4-refresh-btn').style.display = '';
+      ga4Refresh();
+    }
+  });
+  tokenClient.requestAccessToken();
+}
+
+async function ga4Refresh(){
+  if(!ga4AccessToken || !ga4PropertyId) return;
+  document.getElementById('ga4-auth-status').innerHTML = '<span style="color:#fbbf24;">● Fetching…</span>';
+  try {
+    await Promise.all([
+      fetchReachMetrics(),
+      fetchEngagementMetrics(),
+      fetchResonanceMetrics(),
+      fetchAudienceMetrics()
+    ]);
+    document.getElementById('ga4-auth-status').innerHTML = '<span style="color:#34d399;">● Live — updated ' + new Date().toLocaleTimeString() + '</span>';
+  } catch(e) {
+    document.getElementById('ga4-auth-status').innerHTML = '<span style="color:#f87171;">● Error: ' + e.message + '</span>';
+    console.error(e);
+  }
+}
+
+async function ga4Query(body){
+  const url = 'https://analyticsdata.googleapis.com/v1beta/properties/' + ga4PropertyId + ':runReport';
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + ga4AccessToken, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  if(!res.ok) throw new Error('GA4 API ' + res.status + ': ' + (await res.text()).slice(0,200));
+  return res.json();
+}
+
+function gVal(data, rowIdx, metricIdx){
+  try { return data.rows[rowIdx || 0].metricValues[metricIdx || 0].value; } catch(e){ return '0'; }
+}
+function gDim(data, rowIdx, dimIdx){
+  try { return data.rows[rowIdx || 0].dimensionValues[dimIdx || 0].value; } catch(e){ return '—'; }
+}
+function fmt(n){ n = parseInt(n||0); return n >= 1000 ? (n/1000).toFixed(1) + 'k' : n.toString(); }
+function pct(n,d){ return d > 0 ? Math.round(n/d*100) + '%' : '—'; }
+function secs(s){ s = Math.round(parseFloat(s)||0); return s >= 60 ? Math.floor(s/60) + 'm ' + (s%60) + 's' : s + 's'; }
+
+// ── SECTION 1: REACH ──
+async function fetchReachMetrics(){
+  // Main metrics
+  const main = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    metrics: [
+      { name: 'totalUsers' },
+      { name: 'newUsers' },
+      { name: 'sessions' },
+      { name: 'screenPageViews' }
+    ]
+  });
+  const users = parseInt(gVal(main,0,0));
+  const newU  = parseInt(gVal(main,0,1));
+  const sess  = parseInt(gVal(main,0,2));
+  const pvs   = parseInt(gVal(main,0,3));
+  const retU  = Math.max(0, users - newU);
+
+  document.getElementById('m-users').textContent      = fmt(users);
+  document.getElementById('m-new-users').textContent   = fmt(newU);
+  document.getElementById('m-returning').textContent   = fmt(retU);
+  document.getElementById('m-sessions').textContent    = fmt(sess);
+  document.getElementById('m-pageviews').textContent   = fmt(pvs);
+
+  // Country breakdown
+  const geo = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'country' }],
+    metrics: [{ name: 'totalUsers' }],
+    orderBys: [{ metric: { metricName: 'totalUsers' }, desc: true }],
+    limit: 10
+  });
+  let slUsers = 0;
+  let countryHtml = '';
+  (geo.rows || []).forEach((r,i) => {
+    const country = r.dimensionValues[0].value;
+    const count   = parseInt(r.metricValues[0].value);
+    if(country === 'Sri Lanka') slUsers = count;
+    const bar = Math.round(count / users * 100);
+    countryHtml += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:100px;flex-shrink:0;">' + country + '</span><div style="flex:1;background:var(--border);height:8px;border-radius:4px;"><div style="width:' + bar + '%;background:' + (country==='Sri Lanka'?'var(--gold)':'var(--blue)') + ';height:100%;border-radius:4px;"></div></div><span style="width:40px;text-align:right;">' + fmt(count) + '</span></div>';
+  });
+  document.getElementById('m-sl-pct').textContent = pct(slUsers, users);
+  document.getElementById('m-top-countries').innerHTML = countryHtml || 'No data yet';
+
+  // Top pages
+  const pages = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'pageTitle' }],
+    metrics: [{ name: 'totalUsers' }, { name: 'averageSessionDuration' }],
+    orderBys: [{ metric: { metricName: 'totalUsers' }, desc: true }],
+    limit: 8
+  });
+  let pagesHtml = '';
+  (pages.rows || []).forEach(r => {
+    const title = r.dimensionValues[0].value;
+    const count = parseInt(r.metricValues[0].value);
+    const avgT  = secs(r.metricValues[1].value);
+    const bar   = Math.round(count / users * 100);
+    pagesHtml += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="' + escHtml(title) + '">' + escHtml(title.slice(0,50)) + '</span><div style="width:80px;background:var(--border);height:8px;border-radius:4px;"><div style="width:' + bar + '%;background:var(--green);height:100%;border-radius:4px;"></div></div><span style="width:35px;text-align:right;">' + fmt(count) + '</span><span style="width:45px;text-align:right;color:var(--muted);">' + avgT + '</span></div>';
+  });
+  document.getElementById('m-top-pages').innerHTML = pagesHtml || 'No data yet';
+}
+
+// ── SECTION 2: ENGAGEMENT ──
+async function fetchEngagementMetrics(){
+  const main = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    metrics: [
+      { name: 'averageSessionDuration' },
+      { name: 'screenPageViewsPerSession' }
+    ]
+  });
+  document.getElementById('m-avg-time').textContent = secs(gVal(main,0,0));
+  document.getElementById('m-pps').textContent = parseFloat(gVal(main,0,1)).toFixed(1);
+
+  // Scroll depth events
+  const scroll = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'customEvent:percent' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: { filter: { fieldName: 'eventName', stringFilter: { value: 'scroll_depth' } } }
+  });
+  let scrollHtml = '';
+  let deep = 0, total = 0;
+  const scrollData = {};
+  (scroll.rows || []).forEach(r => {
+    const p = r.dimensionValues[0].value;
+    const c = parseInt(r.metricValues[0].value);
+    scrollData[p] = c;
+    if(parseInt(p) >= 75) deep += c;
+    total += c;
+  });
+  [25, 50, 75, 90, 100].forEach(mark => {
+    const c = scrollData[mark] || 0;
+    const bar = total > 0 ? Math.round(c/total*100) : 0;
+    const color = mark >= 75 ? 'var(--green)' : mark >= 50 ? 'var(--gold)' : 'var(--muted)';
+    scrollHtml += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;"><span style="width:35px;">' + mark + '%</span><div style="flex:1;background:var(--border);height:10px;border-radius:4px;"><div style="width:' + bar + '%;background:' + color + ';height:100%;border-radius:4px;"></div></div><span style="width:35px;text-align:right;">' + fmt(c) + '</span></div>';
+  });
+  document.getElementById('m-scroll-dist').innerHTML = scrollHtml || 'Awaiting scroll_depth events';
+  document.getElementById('m-deep-readers').textContent = fmt(deep);
+
+  // Read time events
+  const readTime = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'customEvent:seconds' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: { filter: { fieldName: 'eventName', stringFilter: { value: 'engaged_read_time' } } }
+  });
+  let readHtml = '';
+  let fiveMin = 0;
+  const readData = {};
+  (readTime.rows || []).forEach(r => {
+    const s = r.dimensionValues[0].value;
+    const c = parseInt(r.metricValues[0].value);
+    readData[s] = c;
+    if(parseInt(s) >= 300) fiveMin += c;
+  });
+  const readTotal = Object.values(readData).reduce((a,b) => a+b, 0) || 1;
+  [30, 60, 120, 300, 600].forEach(mark => {
+    const c = readData[mark] || 0;
+    const bar = Math.round(c/readTotal*100);
+    const label = mark < 60 ? mark + 's' : (mark/60) + 'min';
+    const color = mark >= 300 ? 'var(--green)' : mark >= 120 ? 'var(--gold)' : 'var(--muted)';
+    readHtml += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;"><span style="width:40px;">' + label + '</span><div style="flex:1;background:var(--border);height:10px;border-radius:4px;"><div style="width:' + bar + '%;background:' + color + ';height:100%;border-radius:4px;"></div></div><span style="width:35px;text-align:right;">' + fmt(c) + '</span></div>';
+  });
+  document.getElementById('m-read-dist').innerHTML = readHtml || 'Awaiting engaged_read_time events';
+  document.getElementById('m-5min').textContent = fmt(fiveMin);
+}
+
+// ── SECTION 3: RESONANCE ──
+async function fetchResonanceMetrics(){
+  // Return rate
+  const main = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    metrics: [{ name: 'totalUsers' }, { name: 'newUsers' }]
+  });
+  const users = parseInt(gVal(main,0,0));
+  const newU  = parseInt(gVal(main,0,1));
+  document.getElementById('m-return-rate').textContent = pct(users - newU, users);
+
+  // Custom events batch
+  const events = ['share_click','comment_submit','language_toggle','mindmap_interact','cross_dossier_nav'];
+  const evData = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'eventName' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: {
+      orGroup: {
+        expressions: events.map(e => ({ filter: { fieldName: 'eventName', stringFilter: { value: e } } }))
+      }
+    }
+  });
+  const evMap = {};
+  (evData.rows || []).forEach(r => { evMap[r.dimensionValues[0].value] = parseInt(r.metricValues[0].value); });
+
+  document.getElementById('m-shares').textContent   = fmt(evMap['share_click'] || 0);
+  document.getElementById('m-comments').textContent  = fmt(evMap['comment_submit'] || 0);
+  document.getElementById('m-sinhala').textContent   = fmt(evMap['language_toggle'] || 0);
+  document.getElementById('m-mindmap').textContent   = fmt(evMap['mindmap_interact'] || 0);
+  document.getElementById('m-crossnav').textContent  = fmt(evMap['cross_dossier_nav'] || 0);
+}
+
+// ── SECTION 4: AUDIENCE ──
+async function fetchAudienceMetrics(){
+  // Devices
+  const dev = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'deviceCategory' }],
+    metrics: [{ name: 'totalUsers' }],
+    orderBys: [{ metric: { metricName: 'totalUsers' }, desc: true }]
+  });
+  let devTotal = 0;
+  (dev.rows || []).forEach(r => { devTotal += parseInt(r.metricValues[0].value); });
+  let devHtml = '';
+  const devIcons = { desktop: '🖥️', mobile: '📱', tablet: '📋' };
+  (dev.rows || []).forEach(r => {
+    const cat = r.dimensionValues[0].value;
+    const c   = parseInt(r.metricValues[0].value);
+    const bar = Math.round(c/devTotal*100);
+    devHtml += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span style="width:80px;">' + (devIcons[cat]||'') + ' ' + cat + '</span><div style="flex:1;background:var(--border);height:12px;border-radius:4px;"><div style="width:' + bar + '%;background:var(--gold);height:100%;border-radius:4px;"></div></div><span style="width:50px;text-align:right;">' + bar + '% (' + fmt(c) + ')</span></div>';
+  });
+  document.getElementById('m-devices').innerHTML = devHtml || 'No data yet';
+
+  // Traffic sources
+  const src = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'sessionDefaultChannelGroup' }],
+    metrics: [{ name: 'sessions' }],
+    orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
+    limit: 8
+  });
+  let srcTotal = 0;
+  (src.rows || []).forEach(r => { srcTotal += parseInt(r.metricValues[0].value); });
+  let srcHtml = '';
+  const srcColors = { 'Organic Search':'var(--green)', 'Direct':'var(--blue)', 'Organic Social':'var(--gold)', 'Referral':'var(--purple)', 'Paid Search':'var(--orange)' };
+  (src.rows || []).forEach(r => {
+    const ch  = r.dimensionValues[0].value;
+    const c   = parseInt(r.metricValues[0].value);
+    const bar = Math.round(c/srcTotal*100);
+    srcHtml += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:110px;white-space:nowrap;">' + ch + '</span><div style="flex:1;background:var(--border);height:8px;border-radius:4px;"><div style="width:' + bar + '%;background:' + (srcColors[ch]||'var(--muted)') + ';height:100%;border-radius:4px;"></div></div><span style="width:50px;text-align:right;">' + bar + '%</span></div>';
+  });
+  document.getElementById('m-sources').innerHTML = srcHtml || 'No data yet';
 }
 
 // ── SITEMAP / ROBOTS ──
