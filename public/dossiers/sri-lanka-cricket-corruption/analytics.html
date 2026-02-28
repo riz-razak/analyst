@@ -258,6 +258,50 @@ body{background:var(--bg);font-family:'JetBrains Mono',monospace;color:var(--tex
 }
 .paste-area:focus{border-color:var(--gold);}
 
+/* ── WEEKLY BRIEFING ── */
+.briefing-panel{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:4px;padding:20px 24px;margin-bottom:24px;}
+.briefing-q{font-family:'Space Grotesk',sans-serif;font-size:0.72rem;color:var(--text);margin-bottom:4px;font-weight:500;}
+.briefing-a{font-size:0.62rem;color:var(--muted2);line-height:1.6;margin-bottom:14px;padding-left:12px;border-left:2px solid var(--border);}
+.briefing-a:last-child{margin-bottom:0;}
+.briefing-a .val{color:var(--text);font-weight:600;}
+.briefing-a .up{color:#34d399;}
+.briefing-a .down{color:#f87171;}
+.briefing-a .flat{color:#fbbf24;}
+.briefing-header{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.briefing-date{font-size:0.55rem;color:var(--muted);letter-spacing:1px;font-family:'JetBrains Mono',monospace;}
+
+/* ── CREDIBILITY CARDS ── */
+.cred-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px;}
+.cred-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:16px 18px;position:relative;overflow:hidden;}
+.cred-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.cred-card.trust::before{background:var(--green);}
+.cred-card.growth::before{background:var(--gold);}
+.cred-card.risk::before{background:var(--red);}
+.cred-label{font-size:0.48rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px;}
+.cred-val{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:1px;line-height:1;}
+.cred-sub{font-size:0.48rem;color:var(--muted);margin-top:3px;}
+.cred-trend{font-size:0.5rem;margin-top:6px;padding:2px 7px;border-radius:2px;display:inline-block;}
+.cred-trend.up{background:rgba(5,150,105,0.15);color:#34d399;}
+.cred-trend.down{background:rgba(220,38,38,0.15);color:#f87171;}
+.cred-trend.flat{background:rgba(217,119,6,0.15);color:#fbbf24;}
+
+/* ── RISK SIGNAL ── */
+.risk-signal{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:4px;padding:14px 18px;margin-bottom:8px;display:flex;align-items:flex-start;gap:14px;}
+.risk-signal.warn{border-left-color:var(--gold);}
+.risk-signal.alert{border-left-color:var(--red);}
+.risk-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+.risk-info{flex:1;}
+.risk-name{font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;color:var(--text);margin-bottom:3px;}
+.risk-desc{font-size:0.58rem;color:var(--muted2);line-height:1.5;}
+.risk-val{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text);flex-shrink:0;}
+
+/* ── PHASE INDICATOR ── */
+.phase-bar{display:flex;gap:0;margin-bottom:24px;border-radius:4px;overflow:hidden;height:32px;}
+.phase-seg{display:flex;align-items:center;justify-content:center;font-size:0.5rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.9);transition:flex .5s;}
+.phase-seg.p1{background:var(--red);}
+.phase-seg.p2{background:var(--gold);}
+.phase-seg.p3{background:var(--green);}
+
 /* ── INFO BOX ── */
 .info-box{
   background:rgba(30,64,175,0.08);border:1px solid rgba(30,64,175,0.25);
@@ -617,6 +661,42 @@ The scanner will flag named-person claims missing ALLEGED/CONFIRMED/UNVERIFIED l
   <!-- ════ TAB 6: ANALYTICS ════ -->
   <div class="tab-panel" id="tab-analytics">
 
+    <!-- ── MISSION PHASE INDICATOR ── -->
+    <div style="margin-bottom:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:0.5rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);">Theory of Change — Current Phase</span>
+        <span id="phase-label" style="font-size:0.5rem;color:var(--gold);letter-spacing:1px;text-transform:uppercase;">Phase 1: Awareness</span>
+      </div>
+      <div class="phase-bar">
+        <div class="phase-seg p1" id="phase-1-bar" style="flex:3;">Awareness</div>
+        <div class="phase-seg p2" id="phase-2-bar" style="flex:1;">Material Alt.</div>
+        <div class="phase-seg p3" id="phase-3-bar" style="flex:0.5;">Cultural Shift</div>
+      </div>
+    </div>
+
+    <!-- ── WEEKLY BRIEFING ── -->
+    <div class="briefing-panel" id="weekly-briefing">
+      <div class="briefing-header">
+        Weekly Briefing
+        <span class="briefing-date" id="briefing-date">—</span>
+      </div>
+
+      <div class="briefing-q">1. Are we growing in the right places?</div>
+      <div class="briefing-a" id="brief-1">Sign in with GA4 for live weekly briefing</div>
+
+      <div class="briefing-q">2. Is anyone actually reading?</div>
+      <div class="briefing-a" id="brief-2">—</div>
+
+      <div class="briefing-q">3. What's resonating?</div>
+      <div class="briefing-a" id="brief-3">—</div>
+
+      <div class="briefing-q">4. Are we building trust?</div>
+      <div class="briefing-a" id="brief-4">—</div>
+
+      <div class="briefing-q">5. What should we do next?</div>
+      <div class="briefing-a" id="brief-5">—</div>
+    </div>
+
     <!-- ── GA4 API AUTH STRIP ── -->
     <div id="ga4-auth-bar" style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:4px;">
       <span style="font-size:0.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;">GA4 Live Data</span>
@@ -720,6 +800,122 @@ The scanner will flag named-person claims missing ALLEGED/CONFIRMED/UNVERIFIED l
         <div class="anl-card-title"><span>🔗</span> Traffic Sources</div>
         <div id="m-sources" style="font-size:0.62rem;color:var(--muted2);">Sign in for live data</div>
       </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 4B: AUDIENCE INTELLIGENCE
+         "Strategic demographic signals"
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="sect-title" style="font-size:1.1rem;">
+      4b — Audience Intelligence
+      <span class="sect-badge">Strategic demographic signals</span>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:20px;">
+      <div class="stat-card gold"><div class="sc-label">Android %</div><div class="sc-val" id="m-android">—</div><div class="sc-sub">income proxy — Android dominant = beyond elite</div></div>
+      <div class="stat-card blue"><div class="sc-label">iOS %</div><div class="sc-val" id="m-ios">—</div><div class="sc-sub">higher income bracket</div></div>
+      <div class="stat-card green"><div class="sc-label">Diaspora %</div><div class="sc-val" id="m-diaspora-pct">—</div><div class="sc-sub">UAE, UK, AU, CA, SG, KR, JP, IT</div></div>
+      <div class="stat-card purple"><div class="sc-label">Colombo vs Rest</div><div class="sc-val" id="m-colombo-ratio">—</div><div class="sc-sub">geographic concentration</div></div>
+    </div>
+
+    <div class="anl-grid" style="margin-bottom:24px;">
+      <div class="anl-card">
+        <div class="anl-card-title"><span>🌏</span> Diaspora Breakdown</div>
+        <div id="m-diaspora-detail" style="font-size:0.62rem;color:var(--muted2);">Sign in for live data</div>
+      </div>
+      <div class="anl-card">
+        <div class="anl-card-title"><span>🕐</span> Access Time Patterns</div>
+        <div id="m-access-hours" style="font-size:0.62rem;color:var(--muted2);">Sign in for live data</div>
+        <div style="font-size:0.48rem;color:var(--muted);margin-top:8px;">Evening (6pm-11pm) = working people · Daytime = professionals/diaspora</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 5: CREDIBILITY & TRUST
+         "Are we building long-term legitimacy?"
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="sect-title" style="font-size:1.1rem;">
+      5 — Credibility &amp; Trust
+      <span class="sect-badge">Building long-term legitimacy</span>
+    </div>
+
+    <div class="cred-grid">
+      <div class="cred-card trust">
+        <div class="cred-label">Direct Traffic Ratio</div>
+        <div class="cred-val" id="m-direct-ratio">—</div>
+        <div class="cred-sub">people type your URL — brand recognition</div>
+        <div class="cred-trend flat" id="m-direct-trend">—</div>
+      </div>
+      <div class="cred-card trust">
+        <div class="cred-label">Return Visit Frequency</div>
+        <div class="cred-val" id="m-return-freq">—</div>
+        <div class="cred-sub">avg sessions per returning user</div>
+        <div class="cred-trend flat" id="m-return-trend">—</div>
+      </div>
+      <div class="cred-card growth">
+        <div class="cred-label">Source Verification Rate</div>
+        <div class="cred-val" id="m-source-verify">—</div>
+        <div class="cred-sub">% who click external source links</div>
+        <div class="cred-trend flat" id="m-verify-trend">—</div>
+      </div>
+      <div class="cred-card growth">
+        <div class="cred-label">Organic Search %</div>
+        <div class="cred-val" id="m-organic-pct">—</div>
+        <div class="cred-sub">Google trusts you enough to rank you</div>
+        <div class="cred-trend flat" id="m-organic-trend">—</div>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-bottom:24px;">
+      <strong>Credibility compound effect:</strong> Direct traffic + return visits + source clicks = people trust your work enough to come back, verify independently, and share with their own name attached. This is the foundation for Phase 2 (material alternatives). Track these monthly — they should trend upward consistently.
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+         SECTION 6: RISK SIGNALS
+         "Chess-player board awareness"
+    ══════════════════════════════════════════════════════════════════ -->
+    <div class="sect-title" style="font-size:1.1rem;">
+      6 — Risk Signals
+      <span class="sect-badge">Chess-player board awareness</span>
+    </div>
+
+    <div id="risk-signals-container">
+      <div class="risk-signal" id="risk-traffic-spike">
+        <span class="risk-icon">📈</span>
+        <div class="risk-info">
+          <div class="risk-name">Traffic Spike Detection</div>
+          <div class="risk-desc">Sudden traffic surge from unusual sources — could indicate state monitoring, viral share, or coordinated campaign</div>
+        </div>
+        <span class="risk-val" id="risk-spike-val">—</span>
+      </div>
+      <div class="risk-signal" id="risk-sl-drop">
+        <span class="risk-icon">🔻</span>
+        <div class="risk-info">
+          <div class="risk-name">Sri Lanka Traffic Drop</div>
+          <div class="risk-desc">Sudden decline in SL traffic could indicate ISP blocking or domain interference — verify via VPN</div>
+        </div>
+        <span class="risk-val" id="risk-sl-drop-val">—</span>
+      </div>
+      <div class="risk-signal" id="risk-bounce">
+        <span class="risk-icon">🚪</span>
+        <div class="risk-info">
+          <div class="risk-name">Admin Page Probing</div>
+          <div class="risk-desc">Unusual access attempts on analytics.html, sources.html, or non-public paths</div>
+        </div>
+        <span class="risk-val" id="risk-probe-val">—</span>
+      </div>
+      <div class="risk-signal" id="risk-referrer">
+        <span class="risk-icon">🔗</span>
+        <div class="risk-info">
+          <div class="risk-name">Hostile Referral Sources</div>
+          <div class="risk-desc">Traffic from sites known for harassment campaigns or doxxing</div>
+        </div>
+        <span class="risk-val" id="risk-referrer-val">—</span>
+      </div>
+    </div>
+
+    <div class="info-box gold" style="margin-top:16px;margin-bottom:24px;">
+      <strong>The cardinal rule:</strong> Never publish anything you cannot defend in the worst-case scenario. These signals exist so you see the board clearly. Green = normal. Gold = watch. Red = act. Review risk signals before every publish.
     </div>
 
     <!-- ── CONFIGURATION & LINKS ── -->
@@ -1298,6 +1494,13 @@ async function ga4Refresh(){
       fetchResonanceMetrics(),
       fetchAudienceMetrics()
     ]);
+    // Second wave — depends on first wave for some base data
+    await Promise.all([
+      fetchAudienceIntelligence(),
+      fetchCredibilityMetrics(),
+      fetchRiskSignals(),
+      generateWeeklyBriefing()
+    ]);
     document.getElementById('ga4-auth-status').innerHTML = '<span style="color:#34d399;">● Live — updated ' + new Date().toLocaleTimeString() + '</span>';
   } catch(e) {
     document.getElementById('ga4-auth-status').innerHTML = '<span style="color:#f87171;">● Error: ' + e.message + '</span>';
@@ -1528,6 +1731,381 @@ async function fetchAudienceMetrics(){
     srcHtml += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:110px;white-space:nowrap;">' + ch + '</span><div style="flex:1;background:var(--border);height:8px;border-radius:4px;"><div style="width:' + bar + '%;background:' + (srcColors[ch]||'var(--muted)') + ';height:100%;border-radius:4px;"></div></div><span style="width:50px;text-align:right;">' + bar + '%</span></div>';
   });
   document.getElementById('m-sources').innerHTML = srcHtml || 'No data yet';
+}
+
+// ── SECTION 4B: AUDIENCE INTELLIGENCE ──
+async function fetchAudienceIntelligence(){
+  // Android vs iOS breakdown
+  const os = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'operatingSystem' }],
+    metrics: [{ name: 'totalUsers' }],
+    orderBys: [{ metric: { metricName: 'totalUsers' }, desc: true }]
+  });
+  let osTotal = 0, android = 0, ios = 0;
+  (os.rows || []).forEach(r => {
+    const name = r.dimensionValues[0].value;
+    const c = parseInt(r.metricValues[0].value);
+    osTotal += c;
+    if(name === 'Android') android = c;
+    if(name === 'iOS') ios = c;
+  });
+  document.getElementById('m-android').textContent = osTotal > 0 ? Math.round(android/osTotal*100) + '%' : '—';
+  document.getElementById('m-ios').textContent = osTotal > 0 ? Math.round(ios/osTotal*100) + '%' : '—';
+
+  // Diaspora countries
+  const DIASPORA = ['United Arab Emirates','United Kingdom','Australia','Canada','Singapore','South Korea','Japan','Italy','United States','Germany','Qatar','Saudi Arabia','Kuwait','New Zealand','France'];
+  const geo = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'country' }],
+    metrics: [{ name: 'totalUsers' }],
+    orderBys: [{ metric: { metricName: 'totalUsers' }, desc: true }],
+    limit: 30
+  });
+  let geoTotal = 0, diasporaTotal = 0, slUsers = 0;
+  const diasporaBreakdown = [];
+  (geo.rows || []).forEach(r => {
+    const country = r.dimensionValues[0].value;
+    const c = parseInt(r.metricValues[0].value);
+    geoTotal += c;
+    if(country === 'Sri Lanka') slUsers = c;
+    if(DIASPORA.includes(country)){
+      diasporaTotal += c;
+      diasporaBreakdown.push({ country, users: c });
+    }
+  });
+
+  document.getElementById('m-diaspora-pct').textContent = geoTotal > 0 ? Math.round(diasporaTotal/geoTotal*100) + '%' : '—';
+  const nonSL = geoTotal - slUsers;
+  document.getElementById('m-colombo-ratio').textContent = geoTotal > 0 ? Math.round(slUsers/geoTotal*100) + '% SL' : '—';
+
+  // Diaspora detail bars
+  let diasHtml = '';
+  diasporaBreakdown.sort((a,b) => b.users - a.users).slice(0,8).forEach(d => {
+    const bar = diasporaTotal > 0 ? Math.round(d.users/diasporaTotal*100) : 0;
+    const flag = {'United Arab Emirates':'🇦🇪','United Kingdom':'🇬🇧','Australia':'🇦🇺','Canada':'🇨🇦','Singapore':'🇸🇬','South Korea':'🇰🇷','Japan':'🇯🇵','Italy':'🇮🇹','United States':'🇺🇸','Germany':'🇩🇪','Qatar':'🇶🇦','Saudi Arabia':'🇸🇦','Kuwait':'🇰🇼','New Zealand':'🇳🇿','France':'🇫🇷'}[d.country] || '🌐';
+    diasHtml += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;"><span style="width:120px;white-space:nowrap;">' + flag + ' ' + d.country + '</span><div style="flex:1;background:var(--border);height:8px;border-radius:4px;"><div style="width:' + bar + '%;background:var(--gold);height:100%;border-radius:4px;"></div></div><span style="width:35px;text-align:right;">' + fmt(d.users) + '</span></div>';
+  });
+  document.getElementById('m-diaspora-detail').innerHTML = diasHtml || 'No diaspora traffic detected';
+
+  // Access time patterns (hour of day)
+  const hours = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'hour' }],
+    metrics: [{ name: 'sessions' }],
+    orderBys: [{ dimension: { dimensionName: 'hour' } }]
+  });
+  const hourData = {};
+  let hourMax = 0;
+  (hours.rows || []).forEach(r => {
+    const h = parseInt(r.dimensionValues[0].value);
+    const c = parseInt(r.metricValues[0].value);
+    hourData[h] = c;
+    if(c > hourMax) hourMax = c;
+  });
+  let hourHtml = '<div style="display:flex;align-items:flex-end;gap:2px;height:60px;margin-bottom:6px;">';
+  for(let h = 0; h < 24; h++){
+    const c = hourData[h] || 0;
+    const pct = hourMax > 0 ? Math.round(c/hourMax*100) : 0;
+    const color = (h >= 18 && h <= 23) ? 'var(--gold)' : (h >= 9 && h <= 17) ? 'var(--blue)' : 'var(--muted)';
+    hourHtml += '<div style="flex:1;background:' + color + ';height:' + Math.max(pct, 2) + '%;border-radius:2px 2px 0 0;transition:height .3s;" title="' + h + ':00 — ' + c + ' sessions"></div>';
+  }
+  hourHtml += '</div>';
+  hourHtml += '<div style="display:flex;justify-content:space-between;font-size:0.42rem;color:var(--muted);"><span>12am</span><span>6am</span><span>12pm</span><span>6pm</span><span>11pm</span></div>';
+  // Interpretation
+  const eveningSessions = [18,19,20,21,22,23].reduce((s,h) => s + (hourData[h]||0), 0);
+  const daySessions = [9,10,11,12,13,14,15,16,17].reduce((s,h) => s + (hourData[h]||0), 0);
+  const totalSessions = Object.values(hourData).reduce((s,v) => s+v, 0) || 1;
+  const eveningPct = Math.round(eveningSessions/totalSessions*100);
+  const dayPct = Math.round(daySessions/totalSessions*100);
+  hourHtml += '<div style="margin-top:8px;font-size:0.52rem;color:var(--muted2);">Evening (6-11pm): <span style="color:var(--gold);">' + eveningPct + '%</span> · Daytime (9am-5pm): <span style="color:var(--blue);">' + dayPct + '%</span></div>';
+  document.getElementById('m-access-hours').innerHTML = hourHtml;
+}
+
+// ── SECTION 5: CREDIBILITY & TRUST ──
+async function fetchCredibilityMetrics(){
+  // Direct traffic ratio
+  const src = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'sessionDefaultChannelGroup' }],
+    metrics: [{ name: 'sessions' }]
+  });
+  let srcTotal = 0, directSessions = 0, organicSessions = 0;
+  (src.rows || []).forEach(r => {
+    const ch = r.dimensionValues[0].value;
+    const c = parseInt(r.metricValues[0].value);
+    srcTotal += c;
+    if(ch === 'Direct') directSessions = c;
+    if(ch === 'Organic Search') organicSessions = c;
+  });
+  document.getElementById('m-direct-ratio').textContent = srcTotal > 0 ? Math.round(directSessions/srcTotal*100) + '%' : '—';
+  document.getElementById('m-organic-pct').textContent = srcTotal > 0 ? Math.round(organicSessions/srcTotal*100) + '%' : '—';
+
+  // Return visit frequency (sessions per returning user)
+  const main = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    metrics: [{ name: 'totalUsers' }, { name: 'newUsers' }, { name: 'sessions' }]
+  });
+  const totalU = parseInt(gVal(main,0,0));
+  const newU = parseInt(gVal(main,0,1));
+  const totalS = parseInt(gVal(main,0,2));
+  const retU = Math.max(1, totalU - newU);
+  const retSessions = Math.max(0, totalS - newU); // approximate: each new user ~ 1 session
+  const freq = retU > 0 ? (retSessions / retU).toFixed(1) : '—';
+  document.getElementById('m-return-freq').textContent = freq + 'x';
+
+  // Source verification rate (outbound_click / totalUsers)
+  const outbound = await ga4Query({
+    dateRanges: [{ startDate: '28daysAgo', endDate: 'today' }],
+    metrics: [{ name: 'eventCount' }],
+    dimensionFilter: { filter: { fieldName: 'eventName', stringFilter: { value: 'outbound_click' } } }
+  });
+  const outClicks = parseInt(gVal(outbound,0,0));
+  document.getElementById('m-source-verify').textContent = totalU > 0 ? Math.round(outClicks/totalU*100) + '%' : '—';
+
+  // Compare with previous period for trends
+  const prevSrc = await ga4Query({
+    dateRanges: [
+      { startDate: '28daysAgo', endDate: 'today' },
+      { startDate: '56daysAgo', endDate: '29daysAgo' }
+    ],
+    dimensions: [{ name: 'sessionDefaultChannelGroup' }],
+    metrics: [{ name: 'sessions' }]
+  });
+  // Trend indicators
+  let prevDirect = 0, prevTotal = 0;
+  if(prevSrc.rows){
+    prevSrc.rows.forEach(r => {
+      const ch = r.dimensionValues[0].value;
+      const curr = parseInt(r.metricValues[0].value);
+      const prev = r.metricValues[1] ? parseInt(r.metricValues[1].value) : 0;
+      if(ch === 'Direct'){
+        prevDirect = prev;
+      }
+      prevTotal += prev;
+    });
+  }
+  setTrend('m-direct-trend', directSessions, prevDirect);
+  setTrend('m-organic-trend', organicSessions, prevTotal > 0 ? Math.round(organicSessions/srcTotal * prevTotal) : 0);
+}
+
+function setTrend(id, current, previous){
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(previous === 0){ el.textContent = 'New'; el.className = 'cred-trend flat'; return; }
+  const change = Math.round((current - previous) / previous * 100);
+  if(change > 5){
+    el.textContent = '↑ ' + change + '% vs prev 28d';
+    el.className = 'cred-trend up';
+  } else if(change < -5){
+    el.textContent = '↓ ' + Math.abs(change) + '% vs prev 28d';
+    el.className = 'cred-trend down';
+  } else {
+    el.textContent = '→ Stable vs prev 28d';
+    el.className = 'cred-trend flat';
+  }
+}
+
+// ── SECTION 6: RISK SIGNALS ──
+async function fetchRiskSignals(){
+  // Compare this week vs last week for spike detection
+  const thisWeek = await ga4Query({
+    dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+    metrics: [{ name: 'sessions' }]
+  });
+  const lastWeek = await ga4Query({
+    dateRanges: [{ startDate: '14daysAgo', endDate: '8daysAgo' }],
+    metrics: [{ name: 'sessions' }]
+  });
+  const tw = parseInt(gVal(thisWeek,0,0));
+  const lw = parseInt(gVal(lastWeek,0,0));
+  const spikeRatio = lw > 0 ? (tw / lw) : 1;
+  const spikeEl = document.getElementById('risk-traffic-spike');
+  const spikeVal = document.getElementById('risk-spike-val');
+
+  if(spikeRatio > 3){
+    spikeEl.className = 'risk-signal alert';
+    spikeVal.textContent = '⚠ ' + Math.round(spikeRatio*100) + '% of last week';
+  } else if(spikeRatio > 1.5){
+    spikeEl.className = 'risk-signal warn';
+    spikeVal.textContent = '⚡ ' + Math.round(spikeRatio*100) + '% of last week';
+  } else {
+    spikeEl.className = 'risk-signal';
+    spikeVal.textContent = '✓ Normal (' + fmt(tw) + ' sessions)';
+  }
+
+  // SL traffic drop detection
+  const slThisWeek = await ga4Query({
+    dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'country' }],
+    metrics: [{ name: 'sessions' }],
+    dimensionFilter: { filter: { fieldName: 'country', stringFilter: { value: 'Sri Lanka' } } }
+  });
+  const slLastWeek = await ga4Query({
+    dateRanges: [{ startDate: '14daysAgo', endDate: '8daysAgo' }],
+    dimensions: [{ name: 'country' }],
+    metrics: [{ name: 'sessions' }],
+    dimensionFilter: { filter: { fieldName: 'country', stringFilter: { value: 'Sri Lanka' } } }
+  });
+  const slTw = parseInt(gVal(slThisWeek,0,0));
+  const slLw = parseInt(gVal(slLastWeek,0,0));
+  const slDropEl = document.getElementById('risk-sl-drop');
+  const slDropVal = document.getElementById('risk-sl-drop-val');
+
+  if(slLw > 10 && slTw < slLw * 0.3){
+    slDropEl.className = 'risk-signal alert';
+    slDropVal.textContent = '⚠ -' + Math.round((1 - slTw/slLw)*100) + '% — check for blocking';
+  } else if(slLw > 5 && slTw < slLw * 0.5){
+    slDropEl.className = 'risk-signal warn';
+    slDropVal.textContent = '⚡ -' + Math.round((1 - slTw/slLw)*100) + '% from SL';
+  } else {
+    slDropEl.className = 'risk-signal';
+    slDropVal.textContent = '✓ Normal (' + fmt(slTw) + ' SL sessions)';
+  }
+
+  // Admin page probing — check for hits on analytics.html, sources.html
+  const probePages = await ga4Query({
+    dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'pagePath' }],
+    metrics: [{ name: 'screenPageViews' }],
+    dimensionFilter: {
+      orGroup: {
+        expressions: [
+          { filter: { fieldName: 'pagePath', stringFilter: { value: 'analytics.html', matchType: 'CONTAINS' } } },
+          { filter: { fieldName: 'pagePath', stringFilter: { value: 'sources.html', matchType: 'CONTAINS' } } }
+        ]
+      }
+    }
+  });
+  let probeHits = 0;
+  (probePages.rows || []).forEach(r => { probeHits += parseInt(r.metricValues[0].value); });
+  const probeEl = document.getElementById('risk-bounce');
+  const probeVal = document.getElementById('risk-probe-val');
+  if(probeHits > 20){
+    probeEl.className = 'risk-signal alert';
+    probeVal.textContent = '⚠ ' + probeHits + ' hits this week';
+  } else if(probeHits > 5){
+    probeEl.className = 'risk-signal warn';
+    probeVal.textContent = '⚡ ' + probeHits + ' hits this week';
+  } else {
+    probeEl.className = 'risk-signal';
+    probeVal.textContent = '✓ ' + probeHits + ' hits (normal)';
+  }
+
+  // Hostile referrers — flag unusual referral sources
+  const refs = await ga4Query({
+    dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+    dimensions: [{ name: 'sessionSource' }],
+    metrics: [{ name: 'sessions' }],
+    orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
+    limit: 15
+  });
+  const refEl = document.getElementById('risk-referrer');
+  const refVal = document.getElementById('risk-referrer-val');
+  const knownSafe = ['google','direct','(direct)','(none)','facebook','twitter','whatsapp','t.co','linkedin','bing','yahoo','baidu','duckduckgo','t.me','reddit','youtube','instagram'];
+  let unknownRefs = [];
+  (refs.rows || []).forEach(r => {
+    const src = (r.dimensionValues[0].value || '').toLowerCase();
+    const c = parseInt(r.metricValues[0].value);
+    if(c >= 3 && !knownSafe.some(s => src.includes(s))){
+      unknownRefs.push(src + ' (' + c + ')');
+    }
+  });
+  if(unknownRefs.length > 3){
+    refEl.className = 'risk-signal warn';
+    refVal.textContent = '⚡ ' + unknownRefs.length + ' unusual sources';
+  } else {
+    refEl.className = 'risk-signal';
+    refVal.textContent = '✓ All referrals normal';
+  }
+}
+
+// ── WEEKLY BRIEFING GENERATOR ──
+async function generateWeeklyBriefing(){
+  const now = new Date();
+  const weekAgo = new Date(now - 7*24*60*60*1000);
+  document.getElementById('briefing-date').textContent = weekAgo.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) + ' — ' + now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+
+  try {
+    // Q1: Growing in the right places?
+    const reach = await ga4Query({
+      dateRanges: [
+        { startDate: '7daysAgo', endDate: 'today' },
+        { startDate: '14daysAgo', endDate: '8daysAgo' }
+      ],
+      metrics: [{ name: 'newUsers' }]
+    });
+    const newThis = parseInt(gVal(reach,0,0));
+    const newPrev = reach.rows && reach.rows[0] && reach.rows[0].metricValues[1] ? parseInt(reach.rows[0].metricValues[1].value) : 0;
+    const newChange = newPrev > 0 ? Math.round((newThis-newPrev)/newPrev*100) : 0;
+    const newDir = newChange > 0 ? 'up' : newChange < 0 ? 'down' : 'flat';
+    document.getElementById('brief-1').innerHTML = '<span class="val">' + newThis + '</span> new users this week <span class="' + newDir + '">(' + (newChange >= 0 ? '+' : '') + newChange + '% vs last week)</span>. Check diaspora countries and Sinhala toggle rates below.';
+
+    // Q2: Actually reading?
+    const engage = await ga4Query({
+      dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+      metrics: [{ name: 'averageSessionDuration' }, { name: 'totalUsers' }]
+    });
+    const avgTime = Math.round(parseFloat(gVal(engage,0,0)));
+    const weekUsers = parseInt(gVal(engage,0,1));
+
+    // Deep readers (scroll ≥75%)
+    const deepScroll = await ga4Query({
+      dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+      metrics: [{ name: 'eventCount' }],
+      dimensionFilter: {
+        andGroup: {
+          expressions: [
+            { filter: { fieldName: 'eventName', stringFilter: { value: 'scroll_depth' } } },
+            { filter: { fieldName: 'customEvent:percent', numericFilter: { operation: 'GREATER_THAN_OR_EQUAL', value: { int64Value: '75' } } } }
+          ]
+        }
+      }
+    });
+    const deepCount = parseInt(gVal(deepScroll,0,0));
+    const deepPct = weekUsers > 0 ? Math.round(deepCount/weekUsers*100) : 0;
+
+    let readAssess = '';
+    if(avgTime > 180) readAssess = 'Strong engagement — people are reading deeply.';
+    else if(avgTime > 60) readAssess = 'Moderate engagement. Consider shorter summaries at top.';
+    else readAssess = 'Low engagement — content may be too long or academic. Try digestible summaries.';
+
+    document.getElementById('brief-2').innerHTML = 'Avg time: <span class="val">' + secs(avgTime) + '</span> · Deep readers (75%+ scroll): <span class="val">' + fmt(deepCount) + '</span> (' + deepPct + '% of users). ' + readAssess;
+
+    // Q3: Resonating?
+    const topPage = await ga4Query({
+      dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+      dimensions: [{ name: 'pageTitle' }],
+      metrics: [{ name: 'averageSessionDuration' }],
+      orderBys: [{ metric: { metricName: 'averageSessionDuration' }, desc: true }],
+      limit: 3
+    });
+    let topTitles = [];
+    (topPage.rows || []).slice(0,3).forEach(r => {
+      topTitles.push('"' + r.dimensionValues[0].value.slice(0,40) + '" (' + secs(r.metricValues[0].value) + ' avg)');
+    });
+    document.getElementById('brief-3').innerHTML = 'Top by engagement: ' + (topTitles.join(', ') || 'Not enough data') + '. This tells you what <em>style</em> and topics connect.';
+
+    // Q4: Building trust?
+    const retRate = weekUsers > 0 ? Math.round((weekUsers - newThis)/weekUsers*100) : 0;
+    let trustAssess = '';
+    if(retRate > 40) trustAssess = 'Healthy community forming — people come back.';
+    else if(retRate > 20) trustAssess = 'Growing recognition. Keep publishing consistently.';
+    else trustAssess = 'Mostly new visitors. Focus on getting first return visit.';
+    document.getElementById('brief-4').innerHTML = 'Return rate: <span class="val">' + retRate + '%</span>. ' + trustAssess;
+
+    // Q5: What next?
+    let nextItems = [];
+    if(deepPct < 30) nextItems.push('Low completion rate — add executive summaries');
+    if(retRate < 25) nextItems.push('Low returns — add email signup or push notifications');
+    if(newThis < 10) nextItems.push('Low reach — share on social, optimise SEO');
+    if(avgTime < 60) nextItems.push('Very short sessions — make content more scannable');
+    if(nextItems.length === 0) nextItems.push('Metrics look healthy. Keep the current cadence.');
+    document.getElementById('brief-5').innerHTML = nextItems.map(n => '→ ' + n).join('<br>');
+
+  } catch(e) {
+    document.getElementById('brief-1').innerHTML = 'Error generating briefing: ' + e.message;
+  }
 }
 
 // ── SITEMAP / ROBOTS ──
