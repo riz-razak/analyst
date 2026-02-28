@@ -63,6 +63,8 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html { overflow-x: hidden; }
+
   body {
     font-family: 'Inter', sans-serif;
     background: var(--bg-primary);
@@ -333,7 +335,7 @@
     font-size: 1.15rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: #fff;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -469,7 +471,7 @@
   }
   .timeline-item h4 {
     font-size: 0.95rem;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 4px;
   }
   .timeline-item p {
@@ -553,7 +555,7 @@
   .node .node-name {
     font-size: 0.8rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 2px;
   }
   .node .node-role {
@@ -661,7 +663,7 @@
     min-width: 140px;
   }
   .cycle-node .emoji { font-size: 1.5rem; margin-bottom: 4px; }
-  .cycle-node .cycle-label { font-size: 0.8rem; font-weight: 600; color: #fff; }
+  .cycle-node .cycle-label { font-size: 0.8rem; font-weight: 600; color: var(--text-primary); }
   .cycle-node .cycle-desc { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
   .cycle-arrow {
     font-size: 1.5rem;
@@ -684,7 +686,7 @@
   }
   .skill-card h4 {
     font-size: 0.9rem;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -720,7 +722,7 @@
   .comparison-card h4 {
     font-size: 0.9rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 4px;
   }
   .comparison-card .country-flag { font-size: 1.5rem; margin-bottom: 8px; }
@@ -862,7 +864,7 @@
   .profile-card .profile-name {
     font-size: 0.95rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
   }
   .profile-card .profile-title {
     font-size: 0.7rem;
@@ -960,7 +962,7 @@
   .vote-flow-step .step-title {
     font-size: 0.82rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 4px;
   }
   .vote-flow-step .step-desc {
@@ -990,7 +992,7 @@
   .vote-system-card h4 {
     font-size: 0.9rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
   }
   .vote-system-card .system-stat {
@@ -1380,6 +1382,104 @@
     transition: border-color 0.2s;
   }
   .dossier-inline-link:hover { border-bottom-color: var(--accent-cyan); }
+
+  /* TABLE SCROLL WRAPPER */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 2rem 0;
+    border-radius: 8px;
+  }
+  .table-scroll .game-theory-table { margin: 0; }
+
+  /* ── COMPREHENSIVE MOBILE LAYOUT ── */
+  @media (max-width: 768px) {
+    /* 1. Root containers */
+    .main-content { padding: 0 1rem; }
+    .section { padding: 2.5rem 0; }
+    .section-header { margin-bottom: 1.5rem; }
+
+    /* 2. Card + block padding reduction */
+    .analysis-block { padding: 1.25rem; }
+    .insight-callout, .alert-callout { padding: 0.9rem 1.1rem; }
+    .hidden-insights { padding: 1.25rem; }
+    .quote-block { padding: 1rem 1.25rem; }
+    .footer { padding: 2rem 1rem; }
+    .conspiracy-board { padding: 1.25rem; min-height: unset; }
+
+    /* 3. Nav padding (belt-and-suspenders with mobile nav block) */
+    .nav-container { padding: 6px 12px; }
+
+    /* 4. Hero spacing on phones */
+    .hero-content { padding: 1rem; }
+    .hero-meta { gap: 0.75rem; }
+
+    /* 5. Grids: use safe minmax so they don't overflow */
+    .stat-grid { grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); }
+    .skill-grid { grid-template-columns: 1fr; }
+    .comparison-grid { grid-template-columns: 1fr; }
+    .profile-grid { grid-template-columns: 1fr; }
+
+    /* 6. Cycle nodes: allow narrower min-width and wrap nicely */
+    .cycle-node { min-width: unset; flex: 1 1 calc(50% - 0.5rem); }
+
+    /* 7. Vote flow steps: same */
+    .vote-flow-step { min-width: unset; flex: 1 1 calc(50% - 0.5rem); }
+
+    /* 8. Voting tabs: scrollable if many entries */
+    .voting-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; flex-wrap: nowrap; }
+    .voting-tab { white-space: nowrap; padding: 10px 14px; font-size: 0.68rem; }
+
+    /* 9. Network/conduct banners: stack on narrow screens */
+    .network-link-banner,
+    .conduct-link-banner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 1rem;
+    }
+
+    /* 10. Stat cards */
+    .stat-card { padding: 1rem; }
+    .stat-card .value { font-size: 1.4rem; }
+
+    /* 11. Board section */
+    .board-nodes { gap: 0.6rem; }
+    .node { padding: 0.75rem; }
+
+    /* 12. Fixed button positioning — hide FB video text label on very small screens */
+    #video-btn span:not(svg) { display: none; }
+    #video-btn { padding: 7px 10px; }
+
+    /* 13. Prevent long words or links from overflowing */
+    .analysis-block p,
+    .section-lead,
+    .insight-callout p,
+    .alert-callout p,
+    .quote-block { word-break: break-word; overflow-wrap: break-word; }
+
+    /* 14. Game theory table hint */
+    .table-scroll::before {
+      content: '← scroll →';
+      display: block;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      padding: 4px 0 6px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* Extra tightening for very small phones (375px iPhones etc) */
+    .main-content { padding: 0 0.75rem; }
+    .section { padding: 2rem 0; }
+    .analysis-block { padding: 1rem; }
+    .cycle-node { flex: 1 1 100%; }
+    .vote-flow-step { flex: 1 1 100%; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
 
   @media (max-width: 768px) {
     .vote-comparison { grid-template-columns: 1fr; }
@@ -2153,6 +2253,7 @@
     <span data-en="Player D: Fans/Public (wants winning cricket; short-term emotional, long-term disengaged)" data-si="ක්‍රීඩකයා D: රසිකයන්/මහජනතාව (ක්‍රිකට් ජයග්‍රහණය කිරීමට අවශ්‍යයි; කෙටි කාලීන චිත්තවේගීය, දිගු කාලීනව විසන්ධි වී ඇත)"><strong>Player D:</strong> Fans/Public (wants winning cricket; short-term emotional, long-term disengaged)</span></p>
   </div>
 
+  <div class="table-scroll">
   <table class="game-theory-table">
     <thead>
       <tr>
@@ -2215,6 +2316,7 @@
       </tr>
     </tbody>
   </table>
+  </div><!-- /.table-scroll -->
 
   <div class="insight-callout">
     <div class="label"><span data-en="Nash Equilibrium" data-si="නැෂ් සමතුලිතතාවය">Nash Equilibrium</span></div>
