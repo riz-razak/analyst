@@ -98,6 +98,42 @@ body {
 }
 .theme-btn:hover { border-color:var(--accent-orange); color:var(--accent-orange); }
 
+/* ── HAMBURGER (mobile only) ── */
+.ham-btn {
+  display:none; background:none; border:1px solid var(--border-color);
+  color:var(--text-primary); width:32px; height:28px; border-radius:6px;
+  cursor:pointer; align-items:center; justify-content:center;
+  font-size:1rem; line-height:1; transition:all 0.2s; flex-shrink:0; padding:0;
+}
+.ham-btn:hover { border-color:var(--accent-orange); color:var(--accent-orange); }
+.nav-mobile-title {
+  display:none; font-family:'JetBrains Mono',monospace; font-size:0.58rem;
+  letter-spacing:0.5px; text-transform:uppercase; color:var(--accent-orange);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; text-align:center;
+}
+.mob-nav-dropdown {
+  display:none; position:absolute; top:100%; left:0; right:0;
+  background:var(--nav-bg); backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border-color);
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding:10px 12px 14px; z-index:99;
+  grid-template-columns:1fr 1fr; gap:2px;
+}
+.mob-nav-dropdown.open { display:grid; }
+.mob-nav-dropdown a {
+  display:flex; align-items:center; gap:6px; padding:8px 10px;
+  font-size:0.72rem; font-weight:500; color:var(--text-muted);
+  text-decoration:none; border-radius:6px; transition:all 0.15s;
+}
+.mob-nav-dropdown a:hover { background:rgba(255,140,0,0.08); color:var(--accent-orange); }
+.mob-nav-num { font-family:'JetBrains Mono',monospace; font-size:0.65rem; opacity:0.5; flex-shrink:0; }
+@media(max-width:680px) {
+  .top-nav { position:relative; }
+  .nav-breadcrumb { display:none; }
+  .ham-btn { display:flex; }
+  .nav-mobile-title { display:block; }
+}
+
 /* ── LANGUAGE TOGGLE ── */
 .lang-toggle-bar {
   position: fixed; top: 56px; right: 12px; z-index: 200;
@@ -438,7 +474,11 @@ a { color:var(--accent-blue); }
 
 <nav class="top-nav">
   <div class="nav-left">
-    <a href="index.html" class="back-btn"><span data-en="← Back to Dossier" data-si="← ලේඛනාගාරය වෙත">← Back to Dossier</span></a>
+    <!-- Mobile: hamburger -->
+    <button class="ham-btn" id="ham-btn" onclick="toggleMobNav()" aria-label="Menu" aria-expanded="false" aria-controls="mob-nav-dropdown">☰</button>
+    <span class="nav-mobile-title">The Betting Web</span>
+    <!-- Desktop: back + breadcrumb -->
+    <a href="index.html" class="back-btn"><span data-en="← Back" data-si="← ආපසු">← Back</span></a>
     <span class="nav-breadcrumb"><span data-en="Sri Lanka Cricket" data-si="ශ්‍රී ලංකා ක්‍රිකට්">Sri Lanka Cricket</span> / <span><span data-en="The Betting Web" data-si="ඔට්ටු ජාලය">The Betting Web</span></span></span>
   </div>
   <div class="nav-right">
@@ -455,6 +495,21 @@ a { color:var(--accent-blue); }
       <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
     </a>
     <button class="theme-btn" id="dossier-theme-btn" onclick="toggleDossierTheme()" title="Toggle theme">☀️</button>
+  </div>
+  <!-- Mobile dropdown menu -->
+  <div class="mob-nav-dropdown" id="mob-nav-dropdown" role="menu">
+    <a href="#anatomy"      role="menuitem"><span class="mob-nav-num">01</span> Corporate Anatomy</a>
+    <a href="#melbet-dialog" role="menuitem"><span class="mob-nav-num">02</span> Melbet–Dialog</a>
+    <a href="#kheloyar"     role="menuitem"><span class="mob-nav-num">03</span> Kheloyar</a>
+    <a href="#wolf777"      role="menuitem"><span class="mob-nav-num">04</span> Wolf777</a>
+    <a href="#celebrities"  role="menuitem"><span class="mob-nav-num">05</span> Celebrities</a>
+    <a href="#enablers"     role="menuitem"><span class="mob-nav-num">06</span> Enablers</a>
+    <a href="#loop"         role="menuitem"><span class="mob-nav-num">07</span> The Loop</a>
+    <a href="#convictions"  role="menuitem"><span class="mob-nav-num">08</span> Convictions</a>
+    <a href="#stbet"        role="menuitem"><span class="mob-nav-num">09</span> Sporting Star</a>
+    <a href="#humancost"    role="menuitem"><span class="mob-nav-num">10</span> Human Cost</a>
+    <a href="#accountability" role="menuitem"><span class="mob-nav-num">11</span> Accountability</a>
+    <a href="#networkmap"   role="menuitem"><span class="mob-nav-num">12</span> Network Map</a>
   </div>
 </nav>
 
@@ -1674,6 +1729,25 @@ function applyLang(lang) {
 function toggleLang() {
   applyLang(currentLang === 'en' ? 'si' : 'en');
 }
+
+// ── MOBILE NAV ──
+function toggleMobNav() {
+  const dropdown = document.getElementById('mob-nav-dropdown');
+  const btn = document.getElementById('ham-btn');
+  const open = dropdown.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open);
+  btn.textContent = open ? '✕' : '☰';
+}
+// Close dropdown when a chapter link is tapped
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.mob-nav-dropdown a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('mob-nav-dropdown').classList.remove('open');
+      document.getElementById('ham-btn').textContent = '☰';
+      document.getElementById('ham-btn').setAttribute('aria-expanded', false);
+    });
+  });
+});
 
 function applyDossierTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
