@@ -201,7 +201,7 @@ body.dragging { cursor:grabbing; }
 #hint { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:#4b5563; letter-spacing:1px; z-index:9000; pointer-events:none; }
 #disc { position:fixed; top:56px; right:10px; background:rgba(255,243,205,.97); border:1px solid #d97706; border-radius:4px; padding:7px 11px; max-width:230px; font-family:'Inter',sans-serif; font-size:0.57rem; color:#92400e; line-height:1.5; z-index:9000; }
 
-  /* ── FACEBOOK VIDEO MODAL ── */
+  /* ── FACEBOOK VIDEO BUTTON (direct link) ── */
   #video-btn {
     position:fixed; top:14px; right:210px; z-index:450;
     background:rgba(24,119,242,0.92); color:#fff; border:none;
@@ -212,38 +212,20 @@ body.dragging { cursor:grabbing; }
   }
   #video-btn:hover { background:rgba(24,119,242,1); box-shadow:0 4px 20px rgba(24,119,242,0.6); }
   #video-btn svg { width:14px; height:14px; fill:#fff; flex-shrink:0; }
-  #video-modal {
-    position:fixed; inset:0; z-index:600; background:rgba(0,0,0,0.85);
-    display:flex; align-items:center; justify-content:center;
-    opacity:0; pointer-events:none; transition:opacity .25s;
+
+  /* ── MOBILE LAYOUT ── */
+  @media (max-width: 768px) {
+    #hud { padding:6px 10px; }
+    .ht { font-size:1rem; letter-spacing:1px; }
+    .hsub { font-size:0.42rem; letter-spacing:1px; }
+    .hback { font-size:0.65rem; padding:4px 10px; }
+    #video-btn { top:auto; bottom:60px; right:10px; padding:6px 10px; font-size:0.5rem; }
+    #leg { display:none; } /* legend takes too much space on mobile; user can zoom in */
+    #hint { display:none; }
+    #disc { top:48px; right:6px; left:6px; max-width:none; font-size:0.5rem; padding:5px 8px; }
+    #ctrls { bottom:10px; right:10px; }
+    .cb2 { width:38px; height:38px; font-size:1.1rem; } /* bigger touch targets */
   }
-  #video-modal.open { opacity:1; pointer-events:all; }
-  .vm-inner {
-    background:#1a1a2e; border:1px solid rgba(255,255,255,0.1);
-    border-radius:12px; overflow:hidden; width:min(760px,95vw);
-    box-shadow:0 20px 80px rgba(0,0,0,0.8);
-  }
-  .vm-header {
-    display:flex; align-items:center; justify-content:space-between;
-    padding:14px 20px; background:rgba(24,119,242,0.15); border-bottom:1px solid rgba(24,119,242,0.2);
-  }
-  .vm-title { font-family:'Space Grotesk',sans-serif; font-size:0.9rem; color:#fff; font-weight:600; }
-  .vm-sub { font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:rgba(255,255,255,0.4); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
-  .vm-close {
-    background:transparent; border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.6);
-    width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:0.8rem; transition:all .2s;
-  }
-  .vm-close:hover { border-color:rgba(255,255,255,0.3); color:#fff; }
-  .vm-body { position:relative; padding-top:56.25%; background:#000; }
-  .vm-body iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
-  .vm-placeholder {
-    position:absolute; inset:0; display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:10px; color:rgba(255,255,255,0.3);
-    font-family:'JetBrains Mono',monospace; font-size:0.65rem; text-align:center; letter-spacing:1px;
-    text-transform:uppercase;
-  }
-  .vm-placeholder svg { width:48px; height:48px; fill:rgba(24,119,242,0.4); }
-  .vm-footer { padding:10px 20px; font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:rgba(255,255,255,0.25); letter-spacing:1px; text-align:center; }
 </style>
 </head>
 <body>
@@ -252,10 +234,10 @@ body.dragging { cursor:grabbing; }
 <div id="hud">
   <div><div class="ht">Sri Lanka Cricket's <span>Underbelly</span></div><div class="hsub">SLC Power Network &bull; Investigation Board &bull; Feb 2026</div></div>
   <a href="index.html" class="hback">&larr; Dossier</a>
-<button id="video-btn" onclick="toggleVideo()">
+<a id="video-btn" href="https://www.facebook.com/share/v/1AegWY5qoM/?mibextid=wwXIfr" target="_blank" rel="noopener" style="text-decoration:none;">
   <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
   Watch Video
-</button>
+</a>
 </div>
 <div id="ctrls">
   <button class="cb2" onclick="zoomIn()" title="Zoom in">+</button>
@@ -296,7 +278,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pr"></div>
   <div class="cb"><div class="r"></div></div>
   <div class="cp" style="background:linear-gradient(155deg,#2d0000,#5c0a0a,#1a0000);height:140px;">
-    <img src="shammi-silva.jpg" alt="Shammi Silva" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>SS</div>';">SS</div>';">
+    <img src="shammi-silva.jpg" alt="Shammi Silva" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>SS</div>';">
     <div class="em-badge">👑</div>
   </div>
   <div class="cbody">
@@ -473,7 +455,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
   <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:105px;">
-    <img src="thilanga-sumathipala.jpg" alt="Thilanga Sumathipala" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;" onerror="this.outerHTML='<div class=av-init>TS</div>';">TS</div>';">
+    <img src="thilanga-sumathipala.jpg" alt="Thilanga Sumathipala" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;" onerror="this.outerHTML='<div class=av-init>TS</div>';">
     <div class="em-badge">🎰</div>
   </div>
   <div class="cbody">
@@ -512,7 +494,7 @@ body.dragging { cursor:grabbing; }
   <div class="pin pgr"></div>
   <div class="cb"><div class="gr"></div></div>
   <div class="cp" style="background:#001a00;height:80px;">
-    <img src="akd.jpg" alt="Anura Kumara Dissanayake" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;" onerror="this.outerHTML='<div class=av style=font-size:2.2rem>&#x1F3DB;</div>';">🏛</div>';">
+    <img src="akd.jpg" alt="Anura Kumara Dissanayake" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;" onerror="this.outerHTML='<div class=av style=font-size:2.2rem>&#x1F3DB;</div>';">
     <div class="em-badge">🏛</div>
   </div>
   <div class="cbody">
@@ -621,7 +603,7 @@ body.dragging { cursor:grabbing; }
      data-connect="squad,bhanuka,chamika,vandersay,kalpage" data-type="purple,red,purple,purple,purple">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:140px;"><img src="jerome-fernando.jpg" alt="Jerome Fernando" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>JE</div>';">JF</div>';"><div class="em-badge">✝️</div></div>
+  <div class="cp" style="background:linear-gradient(155deg,#180018,#300030);height:140px;"><img src="jerome-fernando.jpg" alt="Jerome Fernando" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>JF</div>';"><div class="em-badge">✝️</div></div>
   <div class="cbody">
     <div class="cname">Prophet Jerome Fernando</div>
     <div class="crole">"Glorious Church" · Self-Proclaimed Prophet</div>
@@ -671,7 +653,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-sm t2" id="vandersay" style="top:1755px;left:776px;width:175px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:80px;"><img src="vandersay.jpg" alt="Jeffrey Vandersay" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>JE</div>';">JV</div>';"></div>
+  <div class="cp" style="background:#180018;height:80px;"><img src="vandersay.jpg" alt="Jeffrey Vandersay" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>JV</div>';"></div>
   <div class="cbody">
     <div class="cname">Jeffrey Vandersay</div>
     <div class="crole">Spinner · Church Member</div>
@@ -683,7 +665,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-med t4" id="bhanuka" style="top:1700px;left:1020px;width:195px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:105px;"><img src="bhanuka-rajapaksa.jpg" alt="Bhanuka Rajapaksa" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>BH</div>';">BR</div>';"></div>
+  <div class="cp" style="background:#180018;height:105px;"><img src="bhanuka-rajapaksa.jpg" alt="Bhanuka Rajapaksa" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>BR</div>';"></div>
   <div class="cbody">
     <div class="cname">Bhanuka Rajapaksa</div>
     <div class="crole">Batsman · Born Again Convert</div>
@@ -698,7 +680,7 @@ body.dragging { cursor:grabbing; }
 <div class="card card-med t1" id="chamika" style="top:1680px;left:1280px;width:200px;">
   <div class="pin pp"></div>
   <div class="cb"><div class="p"></div></div>
-  <div class="cp" style="background:#180018;height:105px;"><img src="chamika-karunaratne.jpg" alt="Chamika Karunaratne" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>CH</div>';">CK</div>';"><div class="em-badge">🪔</div></div>
+  <div class="cp" style="background:#180018;height:105px;"><img src="chamika-karunaratne.jpg" alt="Chamika Karunaratne" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;" onerror="this.outerHTML='<div class=av-init>CK</div>';"><div class="em-badge">🪔</div></div>
   <div class="cbody">
     <div class="cname">Chamika Karunaratne</div>
     <div class="crole">Bowler · Oil Lamp · Casino</div>
@@ -901,6 +883,44 @@ document.addEventListener('mousedown',e=>{
 document.addEventListener('mousemove',e=>{ if(!drag) return; panX=e.clientX-sx; panY=e.clientY-sy; apply(); });
 document.addEventListener('mouseup',()=>{ drag=false; document.body.classList.remove('dragging'); });
 
+// ── TOUCH PAN + PINCH-ZOOM (mobile) ──
+let touchDrag=false, touchSX, touchSY, lastPinchDist=0;
+function getTouchDist(t){ return Math.hypot(t[0].clientX-t[1].clientX, t[0].clientY-t[1].clientY); }
+function getTouchCenter(t){ return { x:(t[0].clientX+t[1].clientX)/2, y:(t[0].clientY+t[1].clientY)/2 }; }
+
+document.addEventListener('touchstart',e=>{
+  if(e.target.closest('#hud,#ctrls,#leg,#hint,#disc')) return;
+  if(e.touches.length===1){
+    touchDrag=true; touchSX=e.touches[0].clientX-panX; touchSY=e.touches[0].clientY-panY;
+  } else if(e.touches.length===2){
+    touchDrag=false; lastPinchDist=getTouchDist(e.touches);
+  }
+},{passive:true});
+
+document.addEventListener('touchmove',e=>{
+  if(e.target.closest('#hud,#ctrls,#leg,#hint,#disc')) return;
+  e.preventDefault();
+  if(e.touches.length===1 && touchDrag){
+    panX=e.touches[0].clientX-touchSX; panY=e.touches[0].clientY-touchSY; apply();
+  } else if(e.touches.length===2){
+    const dist=getTouchDist(e.touches);
+    const center=getTouchCenter(e.touches);
+    if(lastPinchDist>0){
+      const delta=(dist-lastPinchDist)*0.003;
+      const bx=(center.x-panX)/scale, by=(center.y-panY)/scale;
+      scale=Math.max(0.15,Math.min(1.5,scale+delta));
+      panX=center.x-bx*scale; panY=center.y-by*scale;
+      apply(); requestAnimationFrame(drawStrings);
+    }
+    lastPinchDist=dist;
+  }
+},{passive:false});
+
+document.addEventListener('touchend',e=>{
+  if(e.touches.length<2) lastPinchDist=0;
+  if(e.touches.length===0) touchDrag=false;
+},{passive:true});
+
 // ── ZOOM TOWARD CURSOR ──
 document.addEventListener('wheel',e=>{
   e.preventDefault();
@@ -1073,63 +1093,7 @@ setTimeout(drawStrings,800); // second pass to ensure correct positions after la
 window.addEventListener('resize',()=>{ initView(); requestAnimationFrame(drawStrings); });
 </script>
 
-<!-- FACEBOOK VIDEO MODAL -->
-<div id="video-modal" onclick="if(event.target===this)toggleVideo()">
-  <div class="vm-inner">
-    <div class="vm-header">
-      <div>
-        <div class="vm-title">The Journalistic Exposé</div>
-        <div class="vm-sub">Sri Lanka Cricket's Underbelly · Facebook</div>
-      </div>
-      <button class="vm-close" onclick="toggleVideo()">✕</button>
-    </div>
-    <div class="vm-body" id="vm-body">
-      <!-- PLACEHOLDER: Replace FB_VIDEO_URL below with the actual Facebook video URL -->
-      <!-- e.g. https://www.facebook.com/youraccount/videos/1234567890 -->
-      <div class="vm-placeholder" id="vm-placeholder">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        <div>Video coming soon</div>
-        <div style="opacity:0.5;font-size:0.5rem;">Facebook · Share this expose</div>
-      </div>
-    </div>
-    <div class="vm-footer">This video is an independent journalistic investigation. All claims are documented. IP addresses of viewers are not collected.</div>
-  </div>
-</div>
-
-<script>
-// ── FACEBOOK VIDEO EMBED ──
-// To activate: replace the empty string below with the full Facebook video URL
-// e.g. 'https://www.facebook.com/youraccount/videos/1234567890'
-const FB_VIDEO_URL = 'https://www.facebook.com/share/v/1AegWY5qoM/?mibextid=wwXIfr';
-
-let videoOpen = false;
-let videoLoaded = false;
-
-function toggleVideo(){
-  videoOpen = !videoOpen;
-  document.getElementById('video-modal').classList.toggle('open', videoOpen);
-  if(videoOpen && !videoLoaded && FB_VIDEO_URL){
-    loadFbVideo();
-    videoLoaded = true;
-  }
-  if(!videoOpen){ videoLoaded = false; document.getElementById('vm-body').innerHTML = videoOpen ? '' : '<div class="vm-placeholder" id="vm-placeholder"><svg viewBox="0 0 24 24" fill="rgba(24,119,242,0.4)" width="48" height="48"><path d="M8 5v14l11-7z"/></svg><div style="color:rgba(255,255,255,0.3);font-family:JetBrains Mono,monospace;font-size:0.65rem;letter-spacing:1px;text-transform:uppercase;">Video coming soon</div></div>'; }
-}
-
-function loadFbVideo(){
-  const encoded = encodeURIComponent(FB_VIDEO_URL);
-  const src = 'https://www.facebook.com/plugins/video.php?href='+encoded+'&show_text=false&width=734&mute=0';
-  const iframe = document.createElement('iframe');
-  iframe.src = src;
-  iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
-  iframe.allow = 'autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share';
-  iframe.allowFullscreen = true;
-  const body = document.getElementById('vm-body');
-  body.innerHTML = '';
-  body.appendChild(iframe);
-}
-
-document.addEventListener('keydown', e => { if(e.key==='Escape' && videoOpen) toggleVideo(); });
-</script>
+<!-- Video button is now a direct link — no modal needed -->
 
 </body>
 </html>

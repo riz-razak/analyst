@@ -63,14 +63,13 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { overflow-x: hidden; }
-
   body {
     font-family: 'Inter', sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.7;
     overflow-x: hidden;
+    max-width: 100vw;
   }
 
   /* HERO */
@@ -1447,9 +1446,8 @@
     .board-nodes { gap: 0.6rem; }
     .node { padding: 0.75rem; }
 
-    /* 12. Fixed button positioning — hide FB video text label on very small screens */
-    #video-btn span:not(svg) { display: none; }
-    #video-btn { padding: 7px 10px; }
+    /* 12. Fixed button — smaller on mobile */
+    #video-btn { padding: 6px 10px; font-size: 0.5rem; }
 
     /* 13. Prevent long words or links from overflowing */
     .analysis-block p,
@@ -1530,39 +1528,17 @@
     }
   }
 
-  /* ── FACEBOOK VIDEO BUTTON & MODAL ── */
+  /* ── FACEBOOK VIDEO BUTTON (direct link) ── */
   #video-btn {
     position:fixed; top:12px; right:14px; z-index:400;
     background:rgba(24,119,242,0.9); color:#fff; border:none;
     padding:7px 13px; border-radius:6px; font-family:'JetBrains Mono',monospace;
     font-size:0.58rem; letter-spacing:1px; cursor:pointer; transition:all .2s;
     display:flex; align-items:center; gap:6px; text-transform:uppercase;
-    box-shadow:0 2px 12px rgba(24,119,242,0.35);
+    box-shadow:0 2px 12px rgba(24,119,242,0.35); text-decoration:none;
   }
   #video-btn:hover { background:rgba(24,119,242,1); box-shadow:0 4px 20px rgba(24,119,242,0.55); }
   #video-btn svg { width:12px; height:12px; fill:#fff; flex-shrink:0; }
-  #video-modal {
-    position:fixed; inset:0; z-index:600; background:rgba(0,0,0,0.85);
-    display:flex; align-items:center; justify-content:center;
-    opacity:0; pointer-events:none; transition:opacity .25s;
-  }
-  #video-modal.open { opacity:1; pointer-events:all; }
-  .vm-inner { background:#1a1a2e; border:1px solid rgba(255,255,255,0.1); border-radius:12px; overflow:hidden; width:min(760px,95vw); box-shadow:0 20px 80px rgba(0,0,0,0.8); }
-  .vm-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background:rgba(24,119,242,0.15); border-bottom:1px solid rgba(24,119,242,0.2); }
-  .vm-title { font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:#fff; font-weight:600; }
-  .vm-sub { font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:rgba(255,255,255,0.4); letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
-  .vm-close { background:transparent; border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.6); width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:0.8rem; transition:all .2s; }
-  .vm-close:hover { border-color:rgba(255,255,255,0.3); color:#fff; }
-  .vm-body { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; padding:36px 28px; background:linear-gradient(135deg,rgba(24,119,242,0.08),rgba(0,0,0,0)); min-height:220px; }
-  .vm-fb-icon { width:56px; height:56px; background:rgba(24,119,242,0.15); border-radius:14px; display:flex; align-items:center; justify-content:center; }
-  .vm-fb-icon svg { width:28px; height:28px; fill:#4a9eff; }
-  .vm-cta-text { text-align:center; }
-  .vm-cta-title { font-family:'Playfair Display',serif; font-size:1.1rem; color:#fff; margin-bottom:6px; }
-  .vm-cta-desc { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:rgba(255,255,255,0.4); letter-spacing:0.5px; line-height:1.6; }
-  .vm-watch-btn { display:inline-flex; align-items:center; gap:8px; background:rgba(24,119,242,0.9); color:#fff; text-decoration:none; padding:11px 24px; border-radius:8px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:1px; text-transform:uppercase; transition:all .2s; border:none; cursor:pointer; }
-  .vm-watch-btn:hover { background:rgba(24,119,242,1); transform:translateY(-1px); box-shadow:0 6px 24px rgba(24,119,242,0.45); }
-  .vm-watch-btn svg { width:13px; height:13px; fill:#fff; flex-shrink:0; }
-  .vm-footer { padding:10px 20px; font-family:'JetBrains Mono',monospace; font-size:0.5rem; color:rgba(255,255,255,0.25); letter-spacing:1px; text-align:center; }
 
   /* ── COMMENTS: hidden until moderation ready ── */
   #comments-fab, #comments-panel { display:none !important; }
@@ -2637,38 +2613,11 @@
   <span data-en="Analysis prepared February 2026 | Sources include ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec" data-si="විශ්ලේෂණය 2026 පෙබරවාරි මාසයේදී සකස් කරන ලදී | මූලාශ්‍ර අතර ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec ඇතුළත් වේ.">Analysis prepared February 2026 | Sources include ESPNcricinfo, Al Jazeera, Daily Mirror LK, Daily FT, DSK Decode, ICC, Island Cricket, The Morning, CricExec</span></p>
 </div>
 
-<!-- FACEBOOK VIDEO BUTTON -->
-<button id="video-btn" onclick="toggleVideo()">
+<!-- FACEBOOK VIDEO BUTTON (direct link — no modal) -->
+<a id="video-btn" href="https://www.facebook.com/share/v/1AegWY5qoM/?mibextid=wwXIfr" target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
   Watch Video
-</button>
-
-<!-- FACEBOOK VIDEO MODAL -->
-<div id="video-modal" onclick="if(event.target===this)toggleVideo()">
-  <div class="vm-inner">
-    <div class="vm-header">
-      <div>
-        <div class="vm-title">The Journalistic Exposé</div>
-        <div class="vm-sub">Death of Sri Lankan Cricket · Facebook</div>
-      </div>
-      <button class="vm-close" onclick="toggleVideo()">✕</button>
-    </div>
-    <div class="vm-body" id="vm-body">
-      <div class="vm-fb-icon">
-        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-      </div>
-      <div class="vm-cta-text">
-        <div class="vm-cta-title">Watch The Journalistic Exposé</div>
-        <div class="vm-cta-desc">The video that started this investigation.<br>Available on Facebook — opens in a new tab.</div>
-      </div>
-      <a class="vm-watch-btn" href="https://www.facebook.com/share/v/1AegWY5qoM/?mibextid=wwXIfr" target="_blank" rel="noopener" onclick="toggleVideo()">
-        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-        Watch on Facebook
-      </a>
-    </div>
-    <div class="vm-footer">Independent journalistic investigation · All claims are documented</div>
-  </div>
-</div>
+</a>
 
 
 <script>
@@ -3189,18 +3138,6 @@ document.addEventListener('DOMContentLoaded', function(){
   // Language — apply current language on page load
   applyLang(currentLang);
 });
-
-// ══════════════════════════════════════════
-// VIDEO MODAL (opens Facebook link)
-// ══════════════════════════════════════════
-let videoOpen = false;
-
-function toggleVideo(){
-  videoOpen = !videoOpen;
-  document.getElementById('video-modal').classList.toggle('open', videoOpen);
-}
-
-document.addEventListener('keydown', e => { if(e.key==='Escape' && videoOpen) toggleVideo(); });
 
 // ══════════════════════════════════════════
 // DOSSIER LIGHT / DARK THEME
