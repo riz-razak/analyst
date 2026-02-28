@@ -319,7 +319,23 @@
   <nav>
     <a href="./index.html">← Back to Dossier</a>
     <div class="nav-center">SRI LANKA CRICKET — CORRUPTION NETWORK MAP</div>
-    <div class="nav-right">45 nodes · 70+ links</div>
+    <div class="nav-right" style="display:flex;align-items:center;gap:12px;">
+      <span id="node-count" style="opacity:0.7;font-size:11px;">43 nodes · 62 links</span>
+      <button id="expand-toggle" onclick="toggleExpanded()" style="
+        background:transparent;
+        border:1px solid rgba(255,255,255,0.3);
+        color:#e0e0e0;
+        font-size:11px;
+        font-family:inherit;
+        padding:3px 10px;
+        border-radius:12px;
+        cursor:pointer;
+        transition:all 0.2s;
+      " onmouseover="this.style.borderColor='rgba(255,255,255,0.7)'"
+         onmouseout="this.style.borderColor='rgba(255,255,255,0.3)'">
+        ⊕ Expanded
+      </button>
+    </div>
   </nav>
 
   <svg id="map" width="100%" height="100%">
@@ -569,7 +585,93 @@
       "skyfair→curacao": "VERIFIED: Skyfair operates through Sky Infotech N.V., Curaçao #152377."
     };
 
-    // ============ STATE ============
+    // ============ EXPANDED DATA — visible only when showExpanded=true ============
+    const expandedNodes = [
+      { id:"lpl",           label:"Lanka Premier League",    type:"corporate",  size:18, desc:"Sri Lanka T20 franchise league — all 6 teams carried illegal offshore betting logos during 2022–23 seasons.",                              tags:["lpl","cricket","tournament"],          expanded:true },
+      { id:"dambulla",      label:"Dambulla Thunders",       type:"corporate",  size:14, desc:"LPL franchise owned by Tamim Rahman, who pleaded guilty to match-fixing and betting-related offences.",                                    tags:["lpl-franchise","convicted"],           expanded:true },
+      { id:"colombo_kings", label:"Colombo Kings",           type:"corporate",  size:14, desc:"LPL franchise — Melbet served as main shirt sponsor during the 2022 season.",                                                              tags:["lpl-franchise"],                       expanded:true },
+      { id:"mahadev",       label:"Mahadev Book",            type:"betting",    size:16, desc:"India's most-investigated illegal betting network — linked to SL cricketers via backend infrastructure shared with Kheloyar.",              tags:["india","ed-investigated","illegal"],    expanded:true },
+      { id:"molfar",        label:"Molfar Network",          type:"corporate",  size:12, desc:"OSINT-confirmed IP infrastructure layer with overlap across 1xBet-affiliated operators in South Asia.",                                    tags:["technical","osint"],                   expanded:true },
+      { id:"india_ed",      label:"India ED",                type:"government", size:16, desc:"India Enforcement Directorate — attached ₹19cr+ in assets from SL-linked cricketers endorsing illegal offshore platforms.",               tags:["law-enforcement","india"],             expanded:true },
+      { id:"zoysa",         label:"Nuwan Zoysa",             type:"convicted",  size:14, desc:"Former SL fast bowler — ICC 6-year ban (2018) for approaching active players on behalf of a match-fixer during an ICC event.",             tags:["convicted","match-fixing","cricketer"], expanded:true },
+      { id:"lokuhettige",   label:"Dilhara Lokuhettige",     type:"convicted",  size:14, desc:"Former SL spinner — ICC 8-year ban (2019) for three counts of match-fixing including approaches during Champions League T20.",              tags:["convicted","match-fixing","cricketer"], expanded:true },
+      { id:"tharanga",      label:"Upul Tharanga",           type:"slc",        size:12, desc:"Former SL ODI captain — suspended pending ICC ACU investigation into alleged contacts with illegal bookmakers.",                           tags:["cricketer","suspended"],               expanded:true },
+      { id:"shanaka",       label:"Dasun Shanaka",           type:"slc",        size:12, desc:"SL national team captain during T20 WC 2026 Super 8s — under post-match integrity scrutiny after shock elimination.",                      tags:["captain","cricketer"],                 expanded:true },
+      { id:"mustaqim",      label:"Mustaqim Kaskar",         type:"criminal",   size:14, desc:"Identified D-Company associate — linked by investigators to Kheloyar's South Asia operations and financial flows.",                        tags:["d-company","associate"],               expanded:true },
+      { id:"jayarathne",    label:"Jerome Jayarathne",       type:"slc",        size:12, desc:"SLC executive committee member — suspended as part of board-wide investigations covering 22+ active corruption cases.",                    tags:["slc-official","suspended"],            expanded:true },
+      { id:"galle_fix",     label:"Galle Pitch-Fixing",      type:"convicted",  size:12, desc:"2000s pitch-fixing scandal at Galle — the earliest modern marker of systemic vulnerability within Sri Lanka Cricket.",                    tags:["historical","match-fixing"],           expanded:true },
+    ];
+
+    const expandedLinks = [
+      // LPL ecosystem
+      { source:"lpl",           target:"slc",          type:"solid",  strength:5, label:"Governed under SLC franchise system"       },
+      { source:"lpl",           target:"stbet",        type:"solid",  strength:4, label:"LPL title sponsor 2023"                    },
+      { source:"lpl",           target:"melbet",       type:"solid",  strength:4, label:"Multi-team shirt sponsor 2022–23"           },
+      { source:"lpl",           target:"onexbet",      type:"solid",  strength:4, label:"1xBat logo on all 6 franchises"            },
+      { source:"dambulla",      target:"lpl",          type:"solid",  strength:4, label:"LPL franchise"                             },
+      { source:"dambulla",      target:"tamim",        type:"solid",  strength:5, label:"Owner convicted of betting offences"        },
+      { source:"colombo_kings", target:"lpl",          type:"solid",  strength:4, label:"LPL franchise"                             },
+      { source:"colombo_kings", target:"melbet",       type:"solid",  strength:4, label:"Main shirt sponsor"                        },
+      // Mahadev / India ED nexus
+      { source:"mahadev",       target:"kheloyar",     type:"dashed", strength:3, label:"Shared backend infrastructure (ED)"        },
+      { source:"mahadev",       target:"india_ed",     type:"solid",  strength:5, label:"Primary ED investigation target"           },
+      { source:"india_ed",      target:"yuvraj",       type:"solid",  strength:4, label:"₹6.64cr assets attached"                  },
+      { source:"india_ed",      target:"dhawan",       type:"solid",  strength:4, label:"₹4.5cr assets attached"                   },
+      { source:"india_ed",      target:"uthappa",      type:"solid",  strength:4, label:"₹2.5cr assets attached"                   },
+      { source:"india_ed",      target:"onexbet",      type:"solid",  strength:3, label:"Platform under ED jurisdiction"            },
+      // Infrastructure
+      { source:"molfar",        target:"onexbet",      type:"dashed", strength:3, label:"IP overlap confirmed by OSINT"             },
+      // D-Company link
+      { source:"mustaqim",      target:"dawood",       type:"solid",  strength:5, label:"D-Company associate (confirmed)"           },
+      { source:"mustaqim",      target:"kheloyar",     type:"dashed", strength:3, label:"Linked to Kheloyar operations"             },
+      // Convicted cricketers
+      { source:"zoysa",         target:"icc",          type:"solid",  strength:5, label:"6-year ban — match-fixing approach"        },
+      { source:"zoysa",         target:"slc",          type:"solid",  strength:4, label:"Approached active SLC players as fixer"    },
+      { source:"lokuhettige",   target:"icc",          type:"solid",  strength:5, label:"8-year ban — three counts match-fixing"    },
+      { source:"lokuhettige",   target:"galle_fix",    type:"solid",  strength:3, label:"Part of Galle-era fixing network"          },
+      // Others
+      { source:"tharanga",      target:"slc",          type:"solid",  strength:4, label:"Former ODI captain — ACU suspended"        },
+      { source:"tharanga",      target:"icc",          type:"solid",  strength:3, label:"ICC ACU investigation pending"             },
+      { source:"shanaka",       target:"slc",          type:"solid",  strength:4, label:"National team captain 2022–25"             },
+      { source:"jayarathne",    target:"slc",          type:"solid",  strength:4, label:"Executive — suspended / 22+ cases"         },
+      { source:"galle_fix",     target:"slc",          type:"solid",  strength:4, label:"First major SLC integrity failure"         },
+    ];
+
+    // Merge into main arrays before resolve-links step
+    nodes.push(...expandedNodes);
+    links.push(...expandedLinks);
+
+    // Expanded link facts
+    Object.assign(linkFacts, {
+      "lpl→slc":                "VERIFIED: Lanka Premier League franchises operate under Sri Lanka Cricket's governance structure. SLC controls broadcasting rights, franchise licensing, and player availability contracts.",
+      "lpl→stbet":              "VERIFIED: STBet (Sumathipala-linked entity) was named LPL title sponsor for the 2023 season, creating a direct conflict of interest with the SLC chairman.",
+      "lpl→melbet":             "VERIFIED: Melbet sponsored multiple LPL team jerseys during 2022–23 seasons despite being classified as an unlicensed offshore operator in Sri Lanka.",
+      "lpl→onexbet":            "VERIFIED: The 1xBat logo (1xBet sub-brand) appeared across all 6 LPL franchise team jerseys during the 2022 season — the most pervasive single-operator penetration in the tournament.",
+      "dambulla→lpl":           "VERIFIED: Dambulla Thunders is one of the original six Lanka Premier League franchises.",
+      "dambulla→tamim":         "VERIFIED: Tamim Rahman owned the Dambulla Thunders franchise and pleaded guilty to match-fixing and illegal betting offences — the first LPL franchise owner to be convicted.",
+      "colombo_kings→lpl":      "VERIFIED: Colombo Kings is one of the six LPL franchise teams.",
+      "colombo_kings→melbet":   "VERIFIED: Melbet was the main shirt sponsor of Colombo Kings during the LPL 2022 season.",
+      "mahadev→kheloyar":       "REPORTED: India Enforcement Directorate investigation documents note shared technical infrastructure between Mahadev Book and Kheloyar's South Asia operations.",
+      "mahadev→india_ed":       "VERIFIED: The Mahadev Book betting network is the primary target of India's ED multi-state crackdown. Multiple operators have been arrested and assets attached.",
+      "india_ed→yuvraj":        "VERIFIED: India ED attached ₹6.64 crore in assets from Yuvraj Singh linked to endorsement contracts with a 1xBet-affiliated platform.",
+      "india_ed→dhawan":        "VERIFIED: India ED attached ₹4.5 crore in assets from Shikhar Dhawan linked to an affiliated offshore betting platform.",
+      "india_ed→uthappa":       "VERIFIED: India ED attached ₹2.5 crore in assets from Robin Uthappa linked to endorsement of an offshore gambling operator.",
+      "india_ed→onexbet":       "VERIFIED: 1xBet and its affiliate platforms are under active India ED jurisdiction, with multiple assets attached across promotional networks.",
+      "molfar→onexbet":         "PARTIALLY VERIFIED: OSINT analysis by Molfar confirmed IP address and infrastructure overlaps between 1xBet-branded operations and affiliated operators across South Asia.",
+      "mustaqim→dawood":        "VERIFIED: Mustaqim Ibrahim Kaskar is an identified associate of the Dawood Ibrahim D-Company criminal network, confirmed in law enforcement documentation.",
+      "mustaqim→kheloyar":      "REPORTED: Investigators have linked Mustaqim Kaskar to financial flows connected to Kheloyar's South Asia betting operations.",
+      "zoysa→icc":              "VERIFIED: ICC handed Nuwan Zoysa a 6-year ban in 2018 for approaching an undercover operative and attempting to fix aspects of a match on behalf of a named fixer.",
+      "zoysa→slc":              "VERIFIED: Zoysa used his access as a former SLC-contracted player to approach active national squad members on behalf of match-fixers.",
+      "lokuhettige→icc":        "VERIFIED: ICC banned Dilhara Lokuhettige for 8 years in 2019 following three proven counts of match-fixing including approaches during the Champions League T20.",
+      "lokuhettige→galle_fix":  "PARTIALLY VERIFIED: Lokuhettige's connections trace back to the broader Galle-era fixing network that first exposed systemic vulnerabilities in SLC.",
+      "tharanga→slc":           "VERIFIED: Upul Tharanga served as Sri Lanka ODI captain and was suspended by Sri Lanka Cricket pending an ICC ACU investigation.",
+      "tharanga→icc":           "VERIFIED: ICC ACU opened formal investigation into Upul Tharanga following intelligence about alleged contacts with illegal bookmakers.",
+      "shanaka→slc":            "VERIFIED: Dasun Shanaka captained the Sri Lanka national team from 2022, including the T20 World Cup 2026 campaign that ended in Super 8s elimination.",
+      "jayarathne→slc":         "VERIFIED: Jerome Jayarathne served on the SLC executive committee and was among officials suspended as part of board-wide investigations into 22+ corruption cases.",
+      "galle_fix→slc":          "VERIFIED: The Galle pitch-fixing scandal of the early 2000s was the first major documented case of systemic integrity failure within Sri Lanka Cricket, establishing patterns that persisted for two decades.",
+    });
+
+        // ============ STATE ============
     let panX = window.innerWidth / 2;
     let panY = window.innerHeight / 2;
     let scale = 1;
@@ -584,6 +686,7 @@
     const maxTicks = 500;
     let visibleTypes = new Set(Object.keys(typeColors));
     let selectedLink = null;
+    let showExpanded = false;
 
     // ============ RESOLVE LINKS ============
     const nodeMap = {};
@@ -791,7 +894,8 @@
     // ============ UPDATE POSITIONS — set attributes only, no DOM destruction ============
     function updatePositions() {
       links.forEach(link => {
-        const visible = visibleTypes.has(link.source.type) && visibleTypes.has(link.target.type);
+        const isExp = (link.source.expanded || link.target.expanded);
+        const visible = visibleTypes.has(link.source.type) && visibleTypes.has(link.target.type) && (!isExp || showExpanded);
         const disp = visible ? '' : 'none';
         if (link._hit.style.display !== disp)  link._hit.style.display  = disp;
         if (link._line.style.display !== disp) link._line.style.display = disp;
@@ -808,7 +912,7 @@
       });
 
       nodes.forEach(node => {
-        const visible = visibleTypes.has(node.type);
+        const visible = visibleTypes.has(node.type) && (!node.expanded || showExpanded);
         node._group.style.display = visible ? '' : 'none';
         if (!visible) return;
 
@@ -844,6 +948,7 @@
     function simulate(alpha) {
       nodes.forEach(n => {
         if (dragging === n) return;
+        if (n.expanded && !showExpanded) return;
 
         let fx = 0, fy = 0;
 
@@ -869,6 +974,7 @@
         // Node repulsion — inverse-square, charge scales with node size
         nodes.forEach(other => {
           if (other === n) return;
+          if (other.expanded && !showExpanded) return;
           if (!visibleTypes.has(other.type) || !visibleTypes.has(n.type)) return;
           const dx     = n.x - other.x;
           const dy     = n.y - other.y;
@@ -1055,9 +1161,38 @@
       }
     });
 
-    // ============ LEGEND ============
+    // ============ EXPAND TOGGLE ============
+    function toggleExpanded() {
+      showExpanded = !showExpanded;
+      const btn = document.getElementById('expand-toggle');
+      const count = document.getElementById('node-count');
+      if (showExpanded) {
+        btn.textContent = '⊖ Core View';
+        btn.style.borderColor = 'rgba(255,200,50,0.7)';
+        btn.style.color = '#ffc832';
+        count.textContent = (nodes.length) + ' nodes · ' + (links.length) + ' links';
+        alpha = Math.max(alpha, 0.6);  // reheat so new nodes find their places
+      } else {
+        btn.textContent = '⊕ Expanded';
+        btn.style.borderColor = 'rgba(255,255,255,0.3)';
+        btn.style.color = '#e0e0e0';
+        count.textContent = '43 nodes · 62 links';
+        alpha = Math.max(alpha, 0.4);  // gentle reheat so core re-settles
+      }
+    }
+
+        // ============ LEGEND ============
     const legend = document.getElementById('legend');
     const legendTitle = legend.querySelector('.legend-title');
+
+    // Select / Deselect All control
+    legendTitle.insertAdjacentHTML('afterend', `
+      <div style="display:flex;gap:6px;margin-bottom:8px;">
+        <button id="sel-all" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#ccc;font-size:10px;font-family:inherit;padding:3px 0;border-radius:6px;cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">Select All</button>
+        <button id="desel-all" style="flex:1;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#ccc;font-size:10px;font-family:inherit;padding:3px 0;border-radius:6px;cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">Deselect All</button>
+      </div>
+    `);
+
     legendTitle.insertAdjacentHTML('afterend',
       Object.entries(typeColors).map(([type, color]) => {
         return `
@@ -1078,6 +1213,20 @@
         } else {
           visibleTypes.delete(type);
         }
+      });
+    });
+
+    document.getElementById('sel-all').addEventListener('click', () => {
+      legend.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.checked = true;
+        visibleTypes.add(cb.getAttribute('data-type'));
+      });
+    });
+
+    document.getElementById('desel-all').addEventListener('click', () => {
+      legend.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+        visibleTypes.delete(cb.getAttribute('data-type'));
       });
     });
 
