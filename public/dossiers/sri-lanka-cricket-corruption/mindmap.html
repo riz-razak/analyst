@@ -313,6 +313,72 @@
     .convicted-pulse {
       animation: pulse-ring 2s infinite;
     }
+
+    /* Product tour tooltips */
+    .tour-label {
+      position: absolute;
+      background: rgba(255,153,0,0.12);
+      border: 1px solid rgba(255,153,0,0.35);
+      color: #ffb347;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 10px;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 95;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      letter-spacing: 0.03em;
+    }
+    .tour-label.visible { opacity: 1; }
+
+    /* Language toggle */
+    #lang-toggle {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #e0e0e0;
+      font-size: 11px;
+      font-family: inherit;
+      padding: 3px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #lang-toggle:hover { border-color: rgba(255,255,255,0.7); }
+    #lang-toggle.si-active { border-color: rgba(255,200,50,0.7); color: #ffc832; }
+
+    /* Embed pill — replaces obstructive panel */
+    #embed-pill {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #embed-pill button {
+      background: rgba(15,15,25,0.88);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #777;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s;
+    }
+    #embed-pill button:hover { border-color: rgba(255,153,0,0.5); color: #ffb347; }
+    #embed-pill .copied { color: #44c888 !important; border-color: rgba(68,200,136,0.5) !important; }
+
+    /* CORRECTION fact label */
+    .fact-label.correction {
+      background: rgba(255, 68, 68, 0.2);
+      color: #ff4444;
+      border: 1px solid rgba(255, 68, 68, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -320,6 +386,7 @@
     <a href="./index.html">← Back to Dossier</a>
     <div class="nav-center">SRI LANKA CRICKET — CORRUPTION NETWORK MAP</div>
     <div class="nav-right" style="display:flex;align-items:center;gap:12px;">
+      <button id="lang-toggle" onclick="toggleLang()">සිං</button>
       <span id="node-count" style="opacity:0.7;font-size:11px;">43 nodes · 62 links</span>
       <button id="expand-toggle" onclick="toggleExpanded()" style="
         background:transparent;
@@ -388,6 +455,12 @@
     <div class="popup-fact-text" id="popup-fact-text"></div>
   </div>
 
+  <!-- Product tour labels -->
+  <div class="tour-label" id="tour-legend" style="top:62px;right:252px;" data-en="Filter by entity type" data-si="ආයතන වර්ගය අනුව පෙරන්න">Filter by entity type</div>
+  <div class="tour-label" id="tour-expand" style="top:48px;right:60px;" data-en="Show more entities" data-si="තවත් ආයතන පෙන්වන්න">Show more entities</div>
+  <div class="tour-label" id="tour-lang" style="top:48px;right:130px;" data-en="Switch language" data-si="භාෂාව මාරු කරන්න">Switch language</div>
+  <div class="tour-label" id="tour-embed" style="bottom:48px;right:20px;" data-en="Copy embed code" data-si="කේතය පිටපත් කරන්න">Copy embed code</div>
+
   <!-- Interaction hint overlay -->
   <div id="interact-hint" style="
     position:absolute;
@@ -409,7 +482,7 @@
     box-shadow:0 4px 20px rgba(0,0,0,0.5);
   ">
     <span style="font-size:18px;animation:bounce-hand 1.8s infinite;">👆</span>
-    <span style="font-size:12px;color:#ccc;font-weight:500;letter-spacing:0.02em;">Click a connection line for evidence · Drag nodes to explore · Scroll to zoom</span>
+    <span style="font-size:12px;color:#ccc;font-weight:500;letter-spacing:0.02em;" data-en="Click a connection line for evidence · Drag nodes to explore · Scroll to zoom" data-si="සාක්ෂි සඳහා සම්බන්ධ රේඛාවක් ක්ලික් කරන්න · ගවේෂණයට ඇද දමන්න · සූම් කිරීමට scroll කරන්න">Click a connection line for evidence · Drag nodes to explore · Scroll to zoom</span>
   </div>
   <style>
     @keyframes bounce-hand {
@@ -418,12 +491,8 @@
     }
   </style>
 
-  <div id="embed-panel">
-    <button id="embed-toggle">&lt; &gt; Get embed code</button>
-    <div id="embed-code">
-      <pre><code>&lt;iframe src="https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/mindmap.html" width="100%" height="720" frameborder="0" style="border-radius:12px;border:1px solid rgba(255,255,255,0.1);" allowfullscreen title="Sri Lanka Cricket Corruption Network Map"&gt;&lt;/iframe&gt;</code></pre>
-      <button id="copy-embed">Copy</button>
-    </div>
+  <div id="embed-pill">
+    <button id="copy-embed-btn" title="Copy embed iframe code to clipboard">⟨/⟩ Embed</button>
   </div>
 
   <script>
@@ -1114,7 +1183,8 @@
     function showNodePopup(e, node) {
       const popup = document.getElementById('node-popup');
       document.getElementById('popup-label').textContent = node.label;
-      document.getElementById('popup-desc').textContent = node.desc;
+      const desc = (currentLang === 'si' && nodeDescSi[node.id]) ? nodeDescSi[node.id] : node.desc;
+      document.getElementById('popup-desc').textContent = desc;
       const tagsDiv = document.getElementById('popup-tags');
       tagsDiv.innerHTML = '';
       node.tags.forEach(tag => {
@@ -1144,25 +1214,35 @@
       let label = '';
       let factText = fact;
       if (fact.startsWith('VERIFIED:')) {
-        label = 'VERIFIED';
+        label = currentLang === 'si' ? 'සත්‍යාපිත' : 'VERIFIED';
         factText = fact.substring('VERIFIED:'.length).trim();
       } else if (fact.startsWith('REPORTED:')) {
-        label = 'REPORTED';
+        label = currentLang === 'si' ? 'වාර්තා වූ' : 'REPORTED';
         factText = fact.substring('REPORTED:'.length).trim();
       } else if (fact.startsWith('PARTIALLY VERIFIED:')) {
-        label = 'PARTIALLY VERIFIED';
+        label = currentLang === 'si' ? 'අර්ධ සත්‍යාපිත' : 'PARTIALLY VERIFIED';
         factText = fact.substring('PARTIALLY VERIFIED:'.length).trim();
+      } else if (fact.startsWith('CORRECTION:')) {
+        label = currentLang === 'si' ? 'නිවැරදි කිරීම' : 'CORRECTION';
+        factText = fact.substring('CORRECTION:'.length).trim();
       }
 
       const popup = document.getElementById('link-popup');
       const header = document.getElementById('popup-fact-header');
       header.innerHTML = `${link.source.label} → ${link.target.label}<br>`;
       const labelEl = document.createElement('span');
-      labelEl.className = 'fact-label ' + (label === 'VERIFIED' ? 'verified' : label === 'REPORTED' ? 'reported' : 'partially');
+      labelEl.className = 'fact-label ' + (['VERIFIED','සත්‍යාපිත'].includes(label) ? 'verified' : ['REPORTED','වාර්තා වූ'].includes(label) ? 'reported' : ['CORRECTION','නිවැරදි කිරීම'].includes(label) ? 'correction' : 'partially');
       labelEl.textContent = label;
       header.appendChild(labelEl);
 
-      document.getElementById('popup-fact-text').textContent = factText;
+      // Use Sinhala link fact if available
+      const linkKey = link.source.id + '→' + link.target.id;
+      const siFact = linkFactsSi[linkKey];
+      if (currentLang === 'si' && siFact) {
+        document.getElementById('popup-fact-text').textContent = siFact;
+      } else {
+        document.getElementById('popup-fact-text').textContent = factText;
+      }
 
       let x = e.clientX + 20;
       let y = e.clientY - 10;
@@ -1264,21 +1344,16 @@
       });
     });
 
-    // ============ EMBED CODE ============
-    const embedToggle = document.getElementById('embed-toggle');
-    const embedCode = document.getElementById('embed-code');
-    const copyBtn = document.getElementById('copy-embed');
-
-    embedToggle.addEventListener('click', () => {
-      embedCode.style.display = embedCode.style.display === 'none' ? 'block' : 'none';
-    });
-
-    copyBtn.addEventListener('click', () => {
-      const code = embedCode.querySelector('code').textContent;
-      navigator.clipboard.writeText(code);
-      copyBtn.textContent = 'Copied!';
+    // ============ EMBED — single copy button ============
+    const embedIframeCode = '<iframe src="https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/mindmap.html" width="100%" height="720" frameborder="0" style="border-radius:12px;border:1px solid rgba(255,255,255,0.1);" allowfullscreen title="Sri Lanka Cricket Corruption Network Map"></iframe>';
+    const copyEmbedBtn = document.getElementById('copy-embed-btn');
+    copyEmbedBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(embedIframeCode);
+      copyEmbedBtn.classList.add('copied');
+      copyEmbedBtn.textContent = '✓ Copied';
       setTimeout(() => {
-        copyBtn.textContent = 'Copy';
+        copyEmbedBtn.classList.remove('copied');
+        copyEmbedBtn.textContent = '⟨/⟩ Embed';
       }, 2000);
     });
 
@@ -1296,6 +1371,56 @@
     svg.addEventListener('touchstart', dismissHint, { once: true });
     // Also auto-fade after 8 seconds if user hasn't interacted
     setTimeout(() => { if (!hintDismissed) dismissHint(); }, 8000);
+
+    // ============ i18n — LANGUAGE TOGGLE ============
+    let currentLang = localStorage.getItem('slc-lang') || 'en';
+    // nodeDescSi and linkFactsSi will be populated by Google Translate script
+    const nodeDescSi = {};
+    const linkFactsSi = {};
+
+    function toggleLang() {
+      currentLang = currentLang === 'en' ? 'si' : 'en';
+      localStorage.setItem('slc-lang', currentLang);
+      applyLang();
+    }
+
+    function applyLang() {
+      const btn = document.getElementById('lang-toggle');
+      if (currentLang === 'si') {
+        btn.textContent = 'EN';
+        btn.classList.add('si-active');
+      } else {
+        btn.textContent = 'සිං';
+        btn.classList.remove('si-active');
+      }
+      // data-en/data-si spans (tour labels, hint, etc.)
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.textContent = currentLang === 'si' ? (el.dataset.si || el.dataset.en) : el.dataset.en;
+      });
+    }
+
+    // Apply on load
+    applyLang();
+
+    // ============ PRODUCT TOUR ============
+    let tourDismissed = false;
+    function showTour() {
+      document.querySelectorAll('.tour-label').forEach(el => el.classList.add('visible'));
+      setTimeout(() => { if (!tourDismissed) dismissTour(); }, 6000);
+    }
+    function dismissTour() {
+      if (tourDismissed) return;
+      tourDismissed = true;
+      document.querySelectorAll('.tour-label').forEach(el => {
+        el.style.opacity = '0';
+        setTimeout(() => el.style.display = 'none', 500);
+      });
+    }
+    setTimeout(showTour, 1500);
+    svg.addEventListener('mousedown', dismissTour, { once: true });
+    svg.addEventListener('wheel', dismissTour, { once: true });
+    svg.addEventListener('touchstart', dismissTour, { once: true });
+
   </script>
 </body>
 </html>
