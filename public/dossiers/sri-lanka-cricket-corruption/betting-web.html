@@ -130,8 +130,12 @@ body {
 @media(max-width:680px) {
   /* Keep position:sticky — do NOT override it */
   .nav-breadcrumb { display:none; }
-  .ham-btn { display:flex; }
+  .back-btn { display:none; }
+  .nav-social-link { display:none; }
+  .theme-btn { display:none; }
+  .ham-btn { display:flex; order:99; }
   .nav-mobile-title { display:block; }
+  .nav-left { flex:1; }
 }
 
 /* ── LANGUAGE TOGGLE ── */
