@@ -128,7 +128,7 @@ body {
 .mob-nav-dropdown a:hover { background:rgba(255,140,0,0.08); color:var(--accent-orange); }
 .mob-nav-num { font-family:'JetBrains Mono',monospace; font-size:0.65rem; opacity:0.5; flex-shrink:0; }
 @media(max-width:680px) {
-  .top-nav { position:relative; }
+  /* Keep position:sticky — do NOT override it */
   .nav-breadcrumb { display:none; }
   .ham-btn { display:flex; }
   .nav-mobile-title { display:block; }
@@ -451,6 +451,43 @@ a { color:var(--accent-blue); }
 .section-divider { border:none; border-top:1px solid var(--border-color); margin:2.5rem 0; }
 
 </style>
+
+  <!-- ═══ Analytics: GA4 + Microsoft Clarity ═══
+       GDPR-aware: skips tracking if user explicitly declined consent.
+       To update IDs: replace values in analytics.html → Analytics tab,
+       or edit GA4_ID / CLARITY_ID directly in inject_analytics.py and re-run.
+       GA4 Measurement ID : G-XXXXXXXXXX
+       Clarity Project ID  : XXXXXXXXXXXX
+  -->
+  <script>
+    (function(){
+      try {
+        var c = JSON.parse(localStorage.getItem('gdpr_consent_v1') || 'null');
+        if (c && c.accepted === false) return; // user declined — skip analytics
+      } catch(e) {}
+      // ── Google Analytics 4 ───────────────────────────────────────────────
+      var _ga = document.createElement('script');
+      _ga.async = true;
+      _ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+      document.head.appendChild(_ga);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        'anonymize_ip': true,      // GDPR best-practice
+        'send_page_view': true
+      });
+      // ── Microsoft Clarity ────────────────────────────────────────────────
+      (function(c,l,a,r,i,t,y){
+        c[a] = c[a] || function(){ (c[a].q = c[a].q || []).push(arguments) };
+        t = l.createElement(r); t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t,y);
+      })(window, document, 'clarity', 'script', 'XXXXXXXXXXXX');
+    })();
+  </script>
+  <!-- ═══ End Analytics ═══ -->
 </head>
 <body>
 
@@ -474,8 +511,7 @@ a { color:var(--accent-blue); }
 
 <nav class="top-nav">
   <div class="nav-left">
-    <!-- Mobile: hamburger -->
-    <button class="ham-btn" id="ham-btn" onclick="toggleMobNav()" aria-label="Menu" aria-expanded="false" aria-controls="mob-nav-dropdown">☰</button>
+    <!-- Mobile: page title — shows when breadcrumb is hidden -->
     <span class="nav-mobile-title">The Betting Web</span>
     <!-- Desktop: back + breadcrumb -->
     <a href="index.html" class="back-btn"><span data-en="← Back" data-si="← ආපසු">← Back</span></a>
@@ -495,6 +531,8 @@ a { color:var(--accent-blue); }
       <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
     </a>
     <button class="theme-btn" id="dossier-theme-btn" onclick="toggleDossierTheme()" title="Toggle theme">☀️</button>
+    <!-- Mobile: hamburger — top-right, always sticky -->
+    <button class="ham-btn" id="ham-btn" onclick="toggleMobNav()" aria-label="Menu" aria-expanded="false" aria-controls="mob-nav-dropdown">☰</button>
   </div>
   <!-- Mobile dropdown menu -->
   <div class="mob-nav-dropdown" id="mob-nav-dropdown" role="menu">

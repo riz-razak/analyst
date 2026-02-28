@@ -19,6 +19,43 @@
     <meta name="twitter:image" content="https://analyst.rizrazak.com/images/og-card.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- ═══ Analytics: GA4 + Microsoft Clarity ═══
+       GDPR-aware: skips tracking if user explicitly declined consent.
+       To update IDs: edit GA4_ID / CLARITY_ID in inject_analytics.py and re-run,
+       or replace the values below directly.
+       GA4 Measurement ID : G-XXXXXXXXXX
+       Clarity Project ID  : XXXXXXXXXXXX
+  -->
+  <script>
+    (function(){
+      try {
+        var c = JSON.parse(localStorage.getItem('gdpr_consent_v1') || 'null');
+        if (c && c.accepted === false) return;
+      } catch(e) {}
+      // ── Google Analytics 4 ───────────────────────────────────────────────
+      var _ga = document.createElement('script');
+      _ga.async = true;
+      _ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+      document.head.appendChild(_ga);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        'anonymize_ip': true,
+        'send_page_view': true
+      });
+      // ── Microsoft Clarity ────────────────────────────────────────────────
+      (function(c,l,a,r,i,t,y){
+        c[a] = c[a] || function(){ (c[a].q = c[a].q || []).push(arguments) };
+        t = l.createElement(r); t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t,y);
+      })(window, document, 'clarity', 'script', 'XXXXXXXXXXXX');
+    })();
+  </script>
+  <!-- ═══ End Analytics ═══ -->
   </head>
   <body>
     <div id="root"></div>

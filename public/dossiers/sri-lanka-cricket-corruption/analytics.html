@@ -200,6 +200,56 @@ body{background:var(--bg);font-family:'JetBrains Mono',monospace;color:var(--tex
 }
 .empty-state .icon{font-size:2rem;margin-bottom:12px;display:block;}
 
+/* ── ANALYTICS TAB ── */
+.anl-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+@media(max-width:768px){.anl-grid{grid-template-columns:1fr;}}
+.anl-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:20px;}
+.anl-card-title{font-size:0.55rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.anl-card-title span{font-size:1rem;}
+.anl-id-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);}
+.anl-id-row:last-child{border-bottom:none;}
+.anl-id-label{font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+.anl-id-val{font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text);}
+.anl-id-val.placeholder{color:#f87171;}
+.anl-id-val.live{color:#34d399;}
+.anl-input{
+  width:100%;background:var(--card2);border:1px solid var(--border2);color:var(--text);
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+  padding:8px 12px;border-radius:3px;outline:none;margin-top:6px;
+}
+.anl-input:focus{border-color:var(--gold);}
+.anl-save-btn{
+  background:var(--green);color:#fff;border:none;
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;
+  text-transform:uppercase;padding:7px 14px;border-radius:3px;cursor:pointer;margin-top:8px;transition:all .2s;
+}
+.anl-save-btn:hover{background:#047857;}
+.coverage-table{width:100%;border-collapse:collapse;}
+.coverage-table th{font-size:0.5rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);padding:6px 10px;text-align:left;border-bottom:1px solid var(--border);}
+.coverage-table td{font-size:0.62rem;padding:8px 10px;border-bottom:1px solid var(--border);color:var(--muted2);}
+.coverage-table tr:last-child td{border-bottom:none;}
+.cov-ok{color:#34d399;}
+.cov-err{color:#f87171;}
+.dash-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:0;}
+@media(max-width:768px){.dash-links{grid-template-columns:1fr;}}
+.dash-link{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card2);border:1px solid var(--border);border-radius:4px;
+  padding:14px 16px;text-decoration:none;color:var(--text);transition:all .2s;
+}
+.dash-link:hover{border-color:var(--border2);background:var(--border);}
+.dash-link-icon{font-size:1.4rem;}
+.dash-link-info{}
+.dash-link-title{font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+.dash-link-desc{font-size:0.52rem;color:var(--muted);}
+.anl-coverage-wrap{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:20px;}
+.seo-item{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--border2);border-radius:4px;padding:14px 18px;margin-bottom:10px;}
+.seo-item.done{border-left-color:var(--green);}
+.seo-item.wip{border-left-color:var(--gold);}
+.seo-item.todo{border-left-color:var(--blue);}
+.seo-title{font-size:0.62rem;text-transform:uppercase;letter-spacing:1px;color:var(--text);margin-bottom:4px;}
+.seo-body{font-size:0.62rem;color:var(--muted2);line-height:1.6;}
+
 /* ── PASTE AREA ── */
 .paste-area{
   width:100%;background:var(--card2);border:1px solid var(--border2);color:var(--text);
@@ -279,6 +329,12 @@ body{background:var(--bg);font-family:'JetBrains Mono',monospace;color:var(--tex
     </div>
     <div class="tab" data-tab="setup" onclick="switchTab('setup')">
       ⚙️ Backend Setup
+    </div>
+    <div class="tab" data-tab="analytics" onclick="switchTab('analytics')">
+      📊 Analytics
+    </div>
+    <div class="tab" data-tab="seo" onclick="switchTab('seo')">
+      🔎 SEO / AEO
     </div>
   </div>
 
@@ -558,6 +614,254 @@ The scanner will flag named-person claims missing ALLEGED/CONFIRMED/UNVERIFIED l
     <button class="checker-btn" style="margin-top:16px;" onclick="alert('Sources log generation coming — will create sources.html in this directory.')">📋 Create sources.html</button>
   </div>
 
+  <!-- ════ TAB 6: ANALYTICS ════ -->
+  <div class="tab-panel" id="tab-analytics">
+    <div class="info-box">
+      <strong>Analytics Setup:</strong> Enter your GA4 Measurement ID and Clarity Project ID below. These IDs are saved to your browser for reference — to permanently embed them, update <code>inject_analytics.py</code> with the real values and re-run it, then commit.
+      <br><br>
+      Currently all 8 dossier + SPA pages have the tracking snippet installed. Swap in real IDs to start collecting data.
+    </div>
+
+    <div class="anl-grid">
+      <!-- CONFIG PANEL -->
+      <div class="anl-card">
+        <div class="anl-card-title"><span>⚙️</span> Tracking Configuration</div>
+        <div class="anl-id-row">
+          <span class="anl-id-label">GA4 Measurement ID</span>
+          <span class="anl-id-val" id="anl-ga4-display">—</span>
+        </div>
+        <div class="anl-id-row">
+          <span class="anl-id-label">Clarity Project ID</span>
+          <span class="anl-id-val" id="anl-clarity-display">—</span>
+        </div>
+        <div class="anl-id-row">
+          <span class="anl-id-label">GDPR-Aware</span>
+          <span class="anl-id-val live">✓ Yes — skips on declined consent</span>
+        </div>
+        <div class="anl-id-row">
+          <span class="anl-id-label">IP Anonymisation</span>
+          <span class="anl-id-val live">✓ anonymize_ip: true</span>
+        </div>
+
+        <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px;">
+          <div style="font-size:0.55rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;">Update Tracking IDs (reference)</div>
+          <input class="anl-input" id="inp-ga4" placeholder="G-XXXXXXXXXX — from analytics.google.com" />
+          <input class="anl-input" id="inp-clarity" placeholder="Project ID — from clarity.microsoft.com" style="margin-top:6px;" />
+          <button class="anl-save-btn" onclick="saveAnalyticsIds()">💾 Save IDs</button>
+          <div style="font-size:0.5rem;color:var(--muted);margin-top:8px;">
+            To permanently embed IDs: update <code>GA4_ID</code> and <code>CLARITY_ID</code> in <code>inject_analytics.py</code> and re-run, or find/replace <code>G-XXXXXXXXXX</code> / <code>XXXXXXXXXXXX</code> in all HTML files.
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="anl-card">
+        <div class="anl-card-title"><span>🔗</span> Dashboard Links</div>
+        <div class="dash-links">
+          <a class="dash-link" href="https://analytics.google.com" target="_blank" rel="noopener">
+            <span class="dash-link-icon">📈</span>
+            <div class="dash-link-info">
+              <div class="dash-link-title">GA4 Dashboard</div>
+              <div class="dash-link-desc">Page views, sessions, geo, referrals, real-time</div>
+            </div>
+          </a>
+          <a class="dash-link" href="https://clarity.microsoft.com" target="_blank" rel="noopener">
+            <span class="dash-link-icon">🖥️</span>
+            <div class="dash-link-info">
+              <div class="dash-link-title">Clarity Dashboard</div>
+              <div class="dash-link-desc">Heatmaps, session recordings, scroll depth</div>
+            </div>
+          </a>
+          <a class="dash-link" href="https://analytics.google.com/analytics/web/#/realtime" target="_blank" rel="noopener">
+            <span class="dash-link-icon">⚡</span>
+            <div class="dash-link-info">
+              <div class="dash-link-title">GA4 Real-time</div>
+              <div class="dash-link-desc">Live visitors right now</div>
+            </div>
+          </a>
+          <a class="dash-link" href="https://search.google.com/search-console" target="_blank" rel="noopener">
+            <span class="dash-link-icon">🔍</span>
+            <div class="dash-link-info">
+              <div class="dash-link-title">Search Console</div>
+              <div class="dash-link-desc">Impressions, clicks, ranking keywords</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- COVERAGE TABLE -->
+    <div class="anl-coverage-wrap" style="margin-bottom:16px;">
+      <div class="sect-title" style="font-size:1rem;margin-bottom:16px;">Page Coverage</div>
+      <table class="coverage-table">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>URL</th>
+            <th>GA4</th>
+            <th>Clarity</th>
+            <th>GDPR-aware</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SPA Homepage</td>
+            <td>analyst.rizrazak.com/</td>
+            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
+          </tr>
+          <tr>
+            <td>Cricket Dossier — Main</td>
+            <td>.../sri-lanka-cricket-corruption/</td>
+            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
+          </tr>
+          <tr>
+            <td>Cricket Dossier — Betting Web</td>
+            <td>.../betting-web.html</td>
+            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
+          </tr>
+          <tr>
+            <td>Cricket Dossier — Kalathma</td>
+            <td>.../kalathma-scandal.html</td>
+            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
+          </tr>
+          <tr>
+            <td>Cricket Dossier — Mindmap</td>
+            <td>.../mindmap.html</td>
+            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
+          </tr>
+          <tr>
+            <td>Cricket Dossier — Power Network</td>
+            <td>.../power-network.html</td>
+            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
+          </tr>
+          <tr>
+            <td>Easter Sunday — Main</td>
+            <td>.../easter-sunday-attacks-suresh-sallay/</td>
+            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
+          </tr>
+          <tr>
+            <td>Easter Sunday — Conspiracy Board</td>
+            <td>.../conspiracy-board.html</td>
+            <td class="cov-ok">✓</td><td class="cov-ok">✓</td><td class="cov-ok">✓</td>
+          </tr>
+          <tr>
+            <td>Admin Dashboard (this page)</td>
+            <td>.../analytics.html</td>
+            <td class="cov-err">— admin</td><td class="cov-err">— admin</td><td>N/A</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- HOW TO SETUP -->
+    <div class="sect-title" style="font-size:1rem;">Setup Steps</div>
+    <div class="setup-step">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Create Google Analytics 4 Property</div>
+        <div class="step-body">
+          Go to <a href="https://analytics.google.com" target="_blank">analytics.google.com</a> → Admin → Create Property → Web → enter <code>analyst.rizrazak.com</code>.
+          Copy your <strong>Measurement ID</strong> (format: <code>G-XXXXXXXXXX</code>).
+          Then in <code>inject_analytics.py</code> replace <code>G-XXXXXXXXXX</code> with your real ID and re-run.
+          <div><span class="step-status todo">Pending ID</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Create Microsoft Clarity Project</div>
+        <div class="step-body">
+          Go to <a href="https://clarity.microsoft.com" target="_blank">clarity.microsoft.com</a> → New Project → Web → enter URL.
+          Copy your <strong>Project ID</strong> (10-12 character string).
+          Replace <code>XXXXXXXXXXXX</code> in <code>inject_analytics.py</code> and re-run.
+          Clarity provides free session recordings and heatmaps — no data limit.
+          <div><span class="step-status todo">Pending ID</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">Link GA4 to Google Search Console</div>
+        <div class="step-body">
+          In GA4: Admin → Property Settings → Search Console Links → Add.
+          This pulls keyword impressions and click data directly into GA4 reports.
+          Also verify the domain in Search Console for sitemap submission.
+          <div><span class="step-status todo">After Step 1</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">Submit Sitemap to Google</div>
+        <div class="step-body">
+          Create <code>sitemap.xml</code> listing all dossier URLs. Submit at <a href="https://search.google.com/search-console" target="_blank">search.google.com/search-console</a>.
+          This tells Google about all pages and accelerates indexing. Future new dossiers should be added to the sitemap on creation.
+          <div><span class="step-status todo">Pending</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">5</div>
+      <div>
+        <div class="step-title">GA4 Custom Events (Optional)</div>
+        <div class="step-body">
+          Track meaningful interactions beyond page views: mindmap node clicks, language toggles, comment submissions, section scroll depth.
+          In each page, call <code>gtag('event', 'mindmap_click', &#123; node_id: id &#125;)</code> etc.
+          These appear in GA4 under Engagement → Events.
+          <div><span class="step-status todo">Optional enhancement</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ TAB 7: SEO / AEO ════ -->
+  <div class="tab-panel" id="tab-seo">
+    <div class="info-box gold">
+      <strong>SEO + AEO Strategy:</strong> analyst.rizrazak.com targets investigative journalism keywords and Sri Lanka-specific political/sports searches. AEO (Answer Engine Optimisation) targets AI assistants (ChatGPT, Perplexity, Claude) that increasingly surface investigative content as cited sources.
+    </div>
+
+    <div class="sect-title" style="font-size:1rem;margin-bottom:16px;">Technical SEO</div>
+
+    <div class="seo-item done">
+      <div class="seo-title">✅ Open Graph + Twitter Cards</div>
+      <div class="seo-body">All dossier pages have <code>og:title</code>, <code>og:description</code>, <code>og:image</code>, <code>twitter:card</code>. Social sharing previews are configured. Update <code>og:image</code> per dossier for best click-through.</div>
+    </div>
+    <div class="seo-item done">
+      <div class="seo-title">✅ Meta Descriptions</div>
+      <div class="seo-body">Each page has a unique <code>meta description</code>. Keep these under 155 characters and include primary keywords.</div>
+    </div>
+    <div class="seo-item wip">
+      <div class="seo-title">⚠️ Sitemap — Pending</div>
+      <div class="seo-body">No <code>sitemap.xml</code> exists yet. Create one listing all public dossier URLs and submit to Google Search Console. Also create <code>robots.txt</code> pointing to the sitemap and blocking <code>/analytics.html</code> and <code>/sources.html</code>.</div>
+    </div>
+    <div class="seo-item wip">
+      <div class="seo-title">⚠️ Canonical URLs</div>
+      <div class="seo-body">Add <code>&lt;link rel="canonical" href="[full URL]"&gt;</code> to each page to prevent duplicate content penalties if the page is ever mirrored or crawled via multiple paths.</div>
+    </div>
+    <div class="seo-item todo">
+      <div class="seo-title">⬜ Structured Data (JSON-LD)</div>
+      <div class="seo-body">Add <code>NewsArticle</code> or <code>Article</code> schema markup to each dossier. This tells Google and AI assistants that the content is structured journalism. Increases chances of appearing as a cited source in AI answers. Example: author, publisher, datePublished, headline, description, articleBody summary.</div>
+    </div>
+    <div class="seo-item todo">
+      <div class="seo-title">⬜ AEO: AI Citation Optimisation</div>
+      <div class="seo-body">To be cited by Perplexity, ChatGPT, and Claude: (1) Ensure pages are crawlable — no JS-only rendering for key content. (2) Add factual, cited claim summaries at the top of each dossier. (3) Use precise entity names (Shammi Silva, Sri Lanka Cricket, 1xbet) in headings — AI models match entity names. (4) Create a <code>citations.html</code> page listing all primary sources with full URLs — AI models use source density as a quality signal.</div>
+    </div>
+    <div class="seo-item todo">
+      <div class="seo-title">⬜ Internal Linking</div>
+      <div class="seo-body">Ensure every dossier page links back to the homepage and to related dossiers. The mindmap embed already provides cross-linking. Consider a global "Related Investigations" footer section across all dossier pages.</div>
+    </div>
+    <div class="seo-item todo">
+      <div class="seo-title">⬜ Page Speed</div>
+      <div class="seo-body">Run <a href="https://pagespeed.web.dev" target="_blank">PageSpeed Insights</a> on each dossier. Key targets: LCP &lt; 2.5s, CLS &lt; 0.1, FID &lt; 100ms. Dossier pages use heavy CSS/JS — consider deferring non-critical scripts. GA4 and Clarity load async and won't block render.</div>
+    </div>
+
+    <button class="checker-btn" style="margin-top:16px;" onclick="generateSitemap()">🗺 Generate sitemap.xml</button>
+    <button class="checker-btn" style="margin-top:16px;margin-left:10px;background:var(--blue);" onclick="generateRobotsTxt()">🤖 Generate robots.txt</button>
+  </div>
+
 </div>
 
 <script>
@@ -576,8 +880,9 @@ function switchTab(name){
   document.querySelectorAll('.tab-panel').forEach(p=>{
     p.classList.toggle('active', p.id==='tab-'+name);
   });
-  if(name==='comments') loadDashboard();
-  if(name==='gdpr') loadGdprPanel();
+  if(name==='comments')  loadDashboard();
+  if(name==='gdpr')      loadGdprPanel();
+  if(name==='analytics') loadAnalyticsIds();
 }
 
 // ── STORAGE KEYS ──
@@ -953,8 +1258,96 @@ function generateTermsPage(){
   alert('terms.html generation: coming in next build. Key clauses:\n- US jurisdiction\n- User responsibility for comments\n- No guarantee of accuracy for ALLEGED content\n- Right to remove content\n- DMCA contact');
 }
 
+// ── ANALYTICS IDS ──
+const ANL_GA4_KEY     = 'anl_ga4_id';
+const ANL_CLARITY_KEY = 'anl_clarity_id';
+
+function loadAnalyticsIds(){
+  const ga4     = localStorage.getItem(ANL_GA4_KEY)     || 'G-XXXXXXXXXX';
+  const clarity = localStorage.getItem(ANL_CLARITY_KEY) || 'XXXXXXXXXXXX';
+  const isPlaceholderGA4     = ga4     === 'G-XXXXXXXXXX' || !ga4;
+  const isPlaceholderClarity = clarity === 'XXXXXXXXXXXX' || !clarity;
+
+  const ga4El     = document.getElementById('anl-ga4-display');
+  const clarityEl = document.getElementById('anl-clarity-display');
+  if(ga4El){
+    ga4El.textContent = ga4;
+    ga4El.className   = 'anl-id-val ' + (isPlaceholderGA4 ? 'placeholder' : 'live');
+  }
+  if(clarityEl){
+    clarityEl.textContent = clarity;
+    clarityEl.className   = 'anl-id-val ' + (isPlaceholderClarity ? 'placeholder' : 'live');
+  }
+  const ga4Inp     = document.getElementById('inp-ga4');
+  const clarityInp = document.getElementById('inp-clarity');
+  if(ga4Inp)     ga4Inp.placeholder     = ga4;
+  if(clarityInp) clarityInp.placeholder = clarity;
+}
+
+function saveAnalyticsIds(){
+  const ga4     = document.getElementById('inp-ga4').value.trim();
+  const clarity = document.getElementById('inp-clarity').value.trim();
+  if(ga4)     localStorage.setItem(ANL_GA4_KEY,     ga4);
+  if(clarity) localStorage.setItem(ANL_CLARITY_KEY, clarity);
+  loadAnalyticsIds();
+  alert('✓ IDs saved to browser reference.\n\nTo embed permanently: edit inject_analytics.py with these IDs and re-run it, then commit.');
+}
+
+// ── SITEMAP / ROBOTS ──
+const DOSSIER_URLS = [
+  'https://analyst.rizrazak.com/',
+  'https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/',
+  'https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/betting-web.html',
+  'https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html',
+  'https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/mindmap.html',
+  'https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/power-network.html',
+  'https://analyst.rizrazak.com/dossiers/easter-sunday-attacks-suresh-sallay/',
+  'https://analyst.rizrazak.com/dossiers/easter-sunday-attacks-suresh-sallay/conspiracy-board.html',
+];
+
+function generateSitemap(){
+  const today = new Date().toISOString().slice(0,10);
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${DOSSIER_URLS.map(u=>`  <url>
+    <loc>${u}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>${u === 'https://analyst.rizrazak.com/' ? '1.0' : '0.8'}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+  const blob = new Blob([xml], {type:'application/xml'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sitemap.xml';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  alert('✓ sitemap.xml downloaded.\n\n1. Place it at the root of your GitHub Pages site (alongside index.html)\n2. Submit the URL https://analyst.rizrazak.com/sitemap.xml in Google Search Console.');
+}
+
+function generateRobotsTxt(){
+  const txt = `User-agent: *
+Allow: /
+
+# Block admin and private pages
+Disallow: /dossiers/sri-lanka-cricket-corruption/analytics.html
+Disallow: /dossiers/sri-lanka-cricket-corruption/sources.html
+
+# Sitemap
+Sitemap: https://analyst.rizrazak.com/sitemap.xml
+`;
+  const blob = new Blob([txt], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'robots.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  alert('✓ robots.txt downloaded.\n\nPlace it at the root of your GitHub Pages site.');
+}
+
 // ── INIT ──
 loadDashboard();
+loadAnalyticsIds();
 </script>
 </body>
 </html>

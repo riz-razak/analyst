@@ -1544,6 +1544,43 @@
   /* ── COMMENTS: hidden until moderation ready ── */
   #comments-fab, #comments-panel { display:none !important; }
 </style>
+
+  <!-- ═══ Analytics: GA4 + Microsoft Clarity ═══
+       GDPR-aware: skips tracking if user explicitly declined consent.
+       To update IDs: replace values in analytics.html → Analytics tab,
+       or edit GA4_ID / CLARITY_ID directly in inject_analytics.py and re-run.
+       GA4 Measurement ID : G-XXXXXXXXXX
+       Clarity Project ID  : XXXXXXXXXXXX
+  -->
+  <script>
+    (function(){
+      try {
+        var c = JSON.parse(localStorage.getItem('gdpr_consent_v1') || 'null');
+        if (c && c.accepted === false) return; // user declined — skip analytics
+      } catch(e) {}
+      // ── Google Analytics 4 ───────────────────────────────────────────────
+      var _ga = document.createElement('script');
+      _ga.async = true;
+      _ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+      document.head.appendChild(_ga);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        'anonymize_ip': true,      // GDPR best-practice
+        'send_page_view': true
+      });
+      // ── Microsoft Clarity ────────────────────────────────────────────────
+      (function(c,l,a,r,i,t,y){
+        c[a] = c[a] || function(){ (c[a].q = c[a].q || []).push(arguments) };
+        t = l.createElement(r); t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t,y);
+      })(window, document, 'clarity', 'script', 'XXXXXXXXXXXX');
+    })();
+  </script>
+  <!-- ═══ End Analytics ═══ -->
 </head>
 <body>
 
