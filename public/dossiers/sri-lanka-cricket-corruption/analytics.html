@@ -1378,7 +1378,7 @@ function analyseText(text){
     const hasLabel = COMPLIANCE_LABELS.some(l=>s.toLowerCase().includes(l));
 
     // Is it a factual assertion (not a question or block quote)?
-    const isAssertion = !s.includes('"') && !s.includes(''') && !s.startsWith('–') && !s.startsWith('—');
+    const isAssertion = !s.includes('\u201C') && !s.includes('\u2018') && !s.startsWith('\u2013') && !s.startsWith('\u2014');
 
     if(!hasLabel && isAssertion){
       issues++;
