@@ -577,260 +577,279 @@
       l.target = nodeMap[l.target];
     });
 
-    // ============ INITIALIZE NODES ============
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2 + 22;
-    const radius = 280;
-
-    nodes.forEach((n, i) => {
-      const angle = (i / nodes.length) * Math.PI * 2;
-      n.x = centerX + Math.cos(angle) * radius;
-      n.y = centerY + Math.sin(angle) * radius;
-      n.vx = 0;
-      n.vy = 0;
-    });
-
     // ============ SVG SETUP ============
     const svg = document.getElementById('map');
     const canvas = document.getElementById('canvas');
     const linksLayer = document.getElementById('links-layer');
     const nodesLayer = document.getElementById('nodes-layer');
 
-    // ============ RENDER FUNCTION ============
-    function render() {
-      // Clear previous
-      linksLayer.innerHTML = '';
-      nodesLayer.innerHTML = '';
+    // ============ INITIALIZE NODES — type-clustered positions ============
+    // Nodes live in SVG space: (0,0) = screen centre (canvas group translates by panX/panY)
+    const clusterAngles = {
+      slc:         0,
+      betting:     Math.PI * 0.25,
+      criminal:    Math.PI * 0.5,
+      convicted:   Math.PI * 0.75,
+      jurisdiction: Math.PI,
+      government:  Math.PI * 1.25,
+      corporate:   Math.PI * 1.5,
+      celebrity:   Math.PI * 1.75
+    };
 
-      // Render links
+    // Seeded LCG — deterministic layout on every load
+    let _seed = 42;
+    function seededRand() {
+      _seed = (_seed * 1664525 + 1013904223) & 0xFFFFFFFF;
+      return (_seed >>> 0) / 0xFFFFFFFF;
+    }
+
+    nodes.forEach(n => {
+      const baseAngle = (clusterAngles[n.type] !== undefined) ? clusterAngles[n.type] : 0;
+      const jitter    = (seededRand() - 0.5) * Math.PI * 0.45;
+      const angle     = baseAngle + jitter;
+      const r         = 140 + seededRand() * 160;   // 140–300 px from centre
+      n.x  = Math.cos(angle) * r;
+      n.y  = Math.sin(angle) * r;
+      n.vx = 0;
+      n.vy = 0;
+      // Pre-compute dashed-link flag once (links are static)
+      n._hasDashedLink = links.some(l =>
+        (l.source === n || l.target === n) && l.type === "dashed"
+      );
+    });
+
+    // ============ INIT ELEMENTS — create all SVG elements once, store refs ============
+    function initElements() {
+      // --- Links ---
       links.forEach(link => {
-        if (!visibleTypes.has(link.source.type) || !visibleTypes.has(link.target.type)) return;
-
-        // Hit area (invisible, wider)
+        // Invisible hit target (wider, easier to click)
         const hitLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        hitLine.setAttribute("x1", link.source.x);
-        hitLine.setAttribute("y1", link.source.y);
-        hitLine.setAttribute("x2", link.target.x);
-        hitLine.setAttribute("y2", link.target.y);
         hitLine.setAttribute("stroke", "transparent");
         hitLine.setAttribute("stroke-width", "12");
         hitLine.style.cursor = "pointer";
         hitLine.addEventListener('click', (e) => showLinkPopup(e, link));
+        link._hit = hitLine;
         linksLayer.appendChild(hitLine);
 
         // Visible line
         const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", link.source.x);
-        line.setAttribute("y1", link.source.y);
-        line.setAttribute("x2", link.target.x);
-        line.setAttribute("y2", link.target.y);
         line.setAttribute("stroke", typeColors[link.source.type]);
-        line.setAttribute("stroke-width", Math.max(link.strength * 1.5, 2));
-        if (link.type === "dashed") {
-          line.setAttribute("stroke-dasharray", "6,4");
-        }
+        line.setAttribute("stroke-width", String(Math.max(link.strength * 1.5, 2)));
+        if (link.type === "dashed") line.setAttribute("stroke-dasharray", "6,4");
         line.style.transition = "stroke 0.2s";
-        line.addEventListener('mouseenter', () => {
-          line.setAttribute("stroke", "#ffd700");
-        });
-        line.addEventListener('mouseleave', () => {
-          line.setAttribute("stroke", typeColors[link.source.type]);
-        });
+        line.addEventListener('mouseenter', () => line.setAttribute("stroke", "#ffd700"));
+        line.addEventListener('mouseleave', () => line.setAttribute("stroke", typeColors[link.source.type]));
+        link._line = line;
         linksLayer.appendChild(line);
       });
 
-      // Render nodes
+      // --- Nodes ---
       nodes.forEach(node => {
-        if (!visibleTypes.has(node.type)) {
-          node.visible = false;
-          return;
-        }
-        node.visible = true;
-
         const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
 
-        // Shadow circle
+        // Shadow glow
         const shadow = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        shadow.setAttribute("cx", node.x);
-        shadow.setAttribute("cy", node.y);
-        shadow.setAttribute("r", node.size);
+        shadow.setAttribute("r", String(node.size));
         shadow.setAttribute("fill", typeColors[node.type]);
         shadow.setAttribute("opacity", "0.15");
         shadow.setAttribute("filter", "url(#glow)");
+        node._shadow = shadow;
         g.appendChild(shadow);
 
         // Main circle
         const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute("cx", node.x);
-        circle.setAttribute("cy", node.y);
-        circle.setAttribute("r", node.size);
+        circle.setAttribute("r", String(node.size));
         circle.setAttribute("fill", typeColors[node.type]);
         circle.setAttribute("filter", "url(#glow)");
         circle.style.cursor = "grab";
+        node._circle = circle;
         g.appendChild(circle);
 
         // Convicted pulse ring
         if (node.tags.includes("convicted")) {
           const pulse = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-          pulse.setAttribute("cx", node.x);
-          pulse.setAttribute("cy", node.y);
-          pulse.setAttribute("r", node.size);
+          pulse.setAttribute("r", String(node.size));
           pulse.setAttribute("fill", "none");
           pulse.setAttribute("stroke", "#ff2266");
           pulse.setAttribute("stroke-width", "2");
           pulse.classList.add("convicted-pulse");
+          node._pulse = pulse;
           g.appendChild(pulse);
         }
 
         // Dashed link indicator ring
-        const hasDashedLink = links.some(l =>
-          ((l.source === node || l.target === node) && l.type === "dashed") &&
-          visibleTypes.has(l.source.type) && visibleTypes.has(l.target.type)
-        );
-        if (hasDashedLink) {
+        if (node._hasDashedLink) {
           const dashedRing = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-          dashedRing.setAttribute("cx", node.x);
-          dashedRing.setAttribute("cy", node.y);
-          dashedRing.setAttribute("r", node.size + 6);
+          dashedRing.setAttribute("r", String(node.size + 6));
           dashedRing.setAttribute("fill", "none");
           dashedRing.setAttribute("stroke", "#ff9900");
           dashedRing.setAttribute("stroke-width", "2");
           dashedRing.setAttribute("stroke-dasharray", "4,3");
+          node._dashedRing = dashedRing;
           g.appendChild(dashedRing);
         }
 
-        // Badge area (top-right)
-        const badgeR = node.size - 8;
-        const badgeX = node.x + badgeR;
-        const badgeY = node.y - badgeR;
-
-        // Convicted badge
+        // Convicted badge (! icon, top-right)
         if (node.tags.includes("convicted")) {
-          const badge1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-          badge1.setAttribute("cx", badgeX);
-          badge1.setAttribute("cy", badgeY);
-          badge1.setAttribute("r", "6");
-          badge1.setAttribute("fill", "#ff2266");
-          g.appendChild(badge1);
+          const b = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          b.setAttribute("r", "6");
+          b.setAttribute("fill", "#ff2266");
+          node._badge1 = b;
+          g.appendChild(b);
 
-          const text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-          text1.setAttribute("x", badgeX);
-          text1.setAttribute("y", badgeY);
-          text1.setAttribute("text-anchor", "middle");
-          text1.setAttribute("dominant-baseline", "central");
-          text1.setAttribute("font-size", "8");
-          text1.setAttribute("font-weight", "bold");
-          text1.setAttribute("fill", "#fff");
-          text1.textContent = "!";
-          g.appendChild(text1);
+          const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          t.setAttribute("text-anchor", "middle");
+          t.setAttribute("dominant-baseline", "central");
+          t.setAttribute("font-size", "8");
+          t.setAttribute("font-weight", "bold");
+          t.setAttribute("fill", "#fff");
+          t.textContent = "!";
+          node._badge1t = t;
+          g.appendChild(t);
         }
 
-        // Dashed link badge
-        if (hasDashedLink) {
-          const offsetX = node.tags.includes("convicted") ? -15 : 0;
-          const badge2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-          badge2.setAttribute("cx", badgeX + offsetX);
-          badge2.setAttribute("cy", badgeY);
-          badge2.setAttribute("r", "6");
-          badge2.setAttribute("fill", "#ff9900");
-          g.appendChild(badge2);
+        // Dashed link badge (? icon, top-right)
+        if (node._hasDashedLink) {
+          node._badge2offsetX = node.tags.includes("convicted") ? -15 : 0;
+          const b = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          b.setAttribute("r", "6");
+          b.setAttribute("fill", "#ff9900");
+          node._badge2 = b;
+          g.appendChild(b);
 
-          const text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-          text2.setAttribute("x", badgeX + offsetX);
-          text2.setAttribute("y", badgeY);
-          text2.setAttribute("text-anchor", "middle");
-          text2.setAttribute("dominant-baseline", "central");
-          text2.setAttribute("font-size", "8");
-          text2.setAttribute("font-weight", "bold");
-          text2.setAttribute("fill", "#fff");
-          text2.textContent = "?";
-          g.appendChild(text2);
+          const t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          t.setAttribute("text-anchor", "middle");
+          t.setAttribute("dominant-baseline", "central");
+          t.setAttribute("font-size", "8");
+          t.setAttribute("font-weight", "bold");
+          t.setAttribute("fill", "#fff");
+          t.textContent = "?";
+          node._badge2t = t;
+          g.appendChild(t);
         }
 
-        // Click and drag
+        // Events
         circle.addEventListener('mousedown', (e) => startNodeDrag(e, node));
         circle.addEventListener('click', (e) => {
-          if (dragDistance < 5) {
-            showNodePopup(e, node);
-          }
+          if (dragDistance < 5) showNodePopup(e, node);
         });
 
+        node._group = g;
         nodesLayer.appendChild(g);
-        node.svgGroup = g;
-        node.svgCircle = circle;
+      });
+    }
+
+    // ============ UPDATE POSITIONS — set attributes only, no DOM destruction ============
+    function updatePositions() {
+      links.forEach(link => {
+        const visible = visibleTypes.has(link.source.type) && visibleTypes.has(link.target.type);
+        const disp = visible ? '' : 'none';
+        if (link._hit.style.display !== disp)  link._hit.style.display  = disp;
+        if (link._line.style.display !== disp) link._line.style.display = disp;
+        if (visible) {
+          link._hit.setAttribute("x1",  String(link.source.x));
+          link._hit.setAttribute("y1",  String(link.source.y));
+          link._hit.setAttribute("x2",  String(link.target.x));
+          link._hit.setAttribute("y2",  String(link.target.y));
+          link._line.setAttribute("x1", String(link.source.x));
+          link._line.setAttribute("y1", String(link.source.y));
+          link._line.setAttribute("x2", String(link.target.x));
+          link._line.setAttribute("y2", String(link.target.y));
+        }
+      });
+
+      nodes.forEach(node => {
+        const visible = visibleTypes.has(node.type);
+        node._group.style.display = visible ? '' : 'none';
+        if (!visible) return;
+
+        const x = node.x, y = node.y;
+        node._shadow.setAttribute("cx", String(x));
+        node._shadow.setAttribute("cy", String(y));
+        node._circle.setAttribute("cx", String(x));
+        node._circle.setAttribute("cy", String(y));
+        if (node._pulse)      { node._pulse.setAttribute("cx",      String(x)); node._pulse.setAttribute("cy",      String(y)); }
+        if (node._dashedRing) { node._dashedRing.setAttribute("cx", String(x)); node._dashedRing.setAttribute("cy", String(y)); }
+
+        // Badges track top-right of circle
+        const bx = x + (node.size - 8);
+        const by = y - (node.size - 8);
+        if (node._badge1)  { node._badge1.setAttribute("cx", String(bx));  node._badge1.setAttribute("cy",  String(by)); }
+        if (node._badge1t) { node._badge1t.setAttribute("x", String(bx));  node._badge1t.setAttribute("y",  String(by)); }
+        if (node._badge2)  { node._badge2.setAttribute("cx",  String(bx + node._badge2offsetX)); node._badge2.setAttribute("cy",  String(by)); }
+        if (node._badge2t) { node._badge2t.setAttribute("x",  String(bx + node._badge2offsetX)); node._badge2t.setAttribute("y",  String(by)); }
       });
 
       canvas.setAttribute("transform", `translate(${panX},${panY}) scale(${scale})`);
     }
 
-    // ============ FORCE SIMULATION ============
-    function simulate() {
-      // Apply forces
+    // ============ FORCE SIMULATION — inverse-square repulsion + variable spring lengths ============
+    function simulate(alpha) {
       nodes.forEach(n => {
-        if (dragging === n) return; // Skip dragged node
+        if (dragging === n) return;
 
         let fx = 0, fy = 0;
 
-        // Center gravity
-        const dx = centerX - n.x;
-        const dy = centerY - n.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        fx += dx * 0.001;
-        fy += dy * 0.001;
+        // Gentle centre gravity — pulls toward origin (0,0) in SVG space
+        fx += -n.x * 0.004 * alpha;
+        fy += -n.y * 0.004 * alpha;
 
-        // Link springs
+        // Link springs — ideal length varies with connection strength
         links.forEach(l => {
-          if ((l.source === n && visibleTypes.has(l.target.type)) || (l.target === n && visibleTypes.has(l.source.type))) {
-            const other = l.source === n ? l.target : l.source;
-            if (!visibleTypes.has(other.type)) return;
-            const dx = other.x - n.x;
-            const dy = other.y - n.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            const force = (dist - 180) * 0.003;
-            fx += (dx / dist) * force;
-            fy += (dy / dist) * force;
-          }
-        });
-
-        // Node repulsion
-        nodes.forEach(other => {
-          if (other === n || !visibleTypes.has(other.type) || !visibleTypes.has(n.type)) return;
-          const dx = n.x - other.x;
-          const dy = n.y - other.y;
+          if (l.source !== n && l.target !== n) return;
+          const other = l.source === n ? l.target : l.source;
+          if (!visibleTypes.has(other.type) || !visibleTypes.has(n.type)) return;
+          const dx   = other.x - n.x;
+          const dy   = other.y - n.y;
           const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          if (dist < 200) {
-            const force = 0.05;
+          // strength 5 → ideal 130px  |  strength 1 → ideal 330px
+          const ideal = 80 + (6 - l.strength) * 50;
+          const force = (dist - ideal) * 0.004 * alpha;
+          fx += (dx / dist) * force;
+          fy += (dy / dist) * force;
+        });
+
+        // Node repulsion — inverse-square, charge scales with node size
+        nodes.forEach(other => {
+          if (other === n) return;
+          if (!visibleTypes.has(other.type) || !visibleTypes.has(n.type)) return;
+          const dx     = n.x - other.x;
+          const dy     = n.y - other.y;
+          const distSq = dx * dx + dy * dy || 1;
+          const dist   = Math.sqrt(distSq);
+          if (dist < 380) {
+            const charge = (n.size + other.size) * 180;
+            const force  = Math.min(charge / distSq, 6) * alpha;
             fx += (dx / dist) * force;
             fy += (dy / dist) * force;
           }
         });
 
-        n.vx += fx;
-        n.vy += fy;
-        n.vx *= 0.85;
-        n.vy *= 0.85;
-
+        n.vx = (n.vx + fx) * 0.82;
+        n.vy = (n.vy + fy) * 0.82;
         n.x += n.vx;
         n.y += n.vy;
       });
-
-      tick++;
-      if (tick < maxTicks) {
-        const maxV = Math.max(...nodes.map(n => Math.sqrt(n.vx * n.vx + n.vy * n.vy)));
-        if (maxV < 0.1 && tick > 50) {
-          tick = maxTicks;
-        }
-      }
     }
 
-    // ============ ANIMATION LOOP ============
+    // ============ ANIMATION LOOP — alpha cooling (~200 ticks to settle) ============
+    let alpha = 1.0;
+    const ALPHA_DECAY = 0.005;
+    const MIN_ALPHA   = 0.001;
+
     function animate() {
-      if (tick < maxTicks) {
-        simulate();
+      if (alpha > MIN_ALPHA) {
+        simulate(alpha);
+        alpha = Math.max(alpha - ALPHA_DECAY, 0);
+      } else if (dragging) {
+        // Keep simulation responsive while dragging after cooldown
+        simulate(0.08);
       }
-      render();
+      updatePositions();
       requestAnimationFrame(animate);
     }
+
+    initElements();
     animate();
 
     // ============ DRAG STATE ============
@@ -838,6 +857,7 @@
 
     function startNodeDrag(e, node) {
       dragging = node;
+      alpha = Math.max(alpha, 0.4);  // reheat so other nodes respond to the drag
       dragStartX = e.clientX;
       dragStartY = e.clientY;
       dragStartNodeX = node.x;
