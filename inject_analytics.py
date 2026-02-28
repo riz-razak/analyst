@@ -14,7 +14,7 @@ BASE = "/sessions/laughing-funny-carson/mnt/Political Research/analyst-site"
 
 # ── IDs — replace these once you have real accounts ──────────────────────────
 GA4_ID      = "G-XXXXXXXXXX"   # From GA4: Admin → Data Streams → Measurement ID
-CLARITY_ID  = "XXXXXXXXXXXX"   # From Clarity: Settings → Overview → Project ID
+CLARITY_ID  = "vomuhyeriq"     # Microsoft Clarity — analyst.rizrazak.com
 # ─────────────────────────────────────────────────────────────────────────────
 
 SNIPPET = f"""
