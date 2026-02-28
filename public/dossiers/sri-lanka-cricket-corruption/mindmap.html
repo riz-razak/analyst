@@ -411,7 +411,7 @@
 
     const nodes = [
       { id: "slc", label: "Sri Lanka Cricket", type: "slc", size: 38, desc: "National cricket board. Approved illegal betting sponsors for LPL and national team jerseys. 22 live ICC ACU corruption investigations at one point.", tags: ["slc"] },
-      { id: "sumathipala", label: "Thilanga Sumathipala", type: "slc", size: 30, desc: "Former SLC President & Deputy Speaker of Parliament. Family owns Sporting Star bookmaking business (est. 1956). Banned from SLC office by ICC. Still influences SLC through proxies.", tags: ["slc"] },
+      { id: "sumathipala", label: "Thilanga Sumathipala", type: "slc", size: 30, desc: "Former SLC President & Deputy Speaker of Parliament. Family owns Sporting Star bookmaking business (est. 1956, now betss.com). Banned from SLC office by ICC. Still influences SLC through proxies.", tags: ["slc"] },
       { id: "shammi", label: "Shammi Silva", type: "slc", size: 26, desc: "SLC President since Feb 2019, now in 4th term. Called 'Betting Shammi' by Sports Minister Ranasinghe. Father Piyasena De Silva was manager of Sumathipala's Sporting Star.", tags: ["slc"] },
       { id: "ashley", label: "Ashley de Silva", type: "slc", size: 20, desc: "SLC CEO for over a decade. Sits on LPL governing council. Oversees tournament operations including sponsor approvals.", tags: ["slc"] },
       { id: "mohan", label: "Mohan de Silva", type: "slc", size: 16, desc: "SLC Secretary. Claimed 1xBat sponsorship was approved by Asia Cricket Council. Attended ICC Board meetings with Sumathipala.", tags: ["slc"] },
@@ -420,7 +420,7 @@
       { id: "wolf777", label: "Wolf777", type: "betting", size: 22, desc: "Owner: Rakesh Rajdev (Gujarat/Dubai). GIT Operations NV, Curaçao. Ahmedabad Crime Branch lookout notice. ₹1,400 crore betting racket. Back-of-jersey sponsor for SL India Tour 2022.", tags: ["betting"] },
       { id: "kheloyar", label: "Kheloyar", type: "betting", size: 24, desc: "Mahadev Book network. Operated by Saurabh Chandrakar + Mustaqim Ibrahim Kaskar (Dawood Ibrahim's brother). ₹300-500 crore investment. ₹200 crore daily turnover across 60 apps.", tags: ["betting", "criminal"] },
       { id: "crickex", label: "Crickex", type: "betting", size: 18, desc: "VB Digital N.V., Curaçao/Cyprus. Multiple fraud complaints. Robin Uthappa is brand ambassador. Accused of freezing winning accounts.", tags: ["betting"] },
-      { id: "stbet", label: "STBet / Sporting Star", type: "betting", size: 24, desc: "Sumathipala family's platform. Sporting Star est. 1956 → Sporting Times → STBet.com. 1,000+ employees. Curaçao licence 8047/JAZ. The very business that got Sumathipala banned from SLC.", tags: ["betting", "slc"] },
+      { id: "stbet", label: "STBet / Sporting Times", type: "betting", size: 24, desc: "Sporting Times platform (est. 1956, founder Doug Thompson). STBet.com launched 2020. Curaçao licence 8047/JAZ. 1,000+ employees. Commonly confused with Sumathipala's Sporting Star — they are separate companies.", tags: ["betting"] },
       { id: "skyfair", label: "Skyfair", type: "betting", size: 16, desc: "LPL 2023 title sponsor. Sky Infotech N.V., Curaçao #152377. Named as 'illegal offshore betting website' by Justice Minister in Parliament.", tags: ["betting"] },
       { id: "semiokhin", label: "Roman Semiokhin", type: "criminal", size: 20, desc: "1xBet co-founder. 'Bryansk billionaire.' Cypriot citizenship. On Russia's international wanted list. 63 billion rubles in illegal gambling.", tags: ["criminal"] },
       { id: "karshkov", label: "Sergey Karshkov", type: "criminal", size: 18, desc: "1xBet co-founder. Former head of Bryansk cybercrime unit (Russian MVD). Died June 2023 — 'anaphylactic shock' during routine Swiss medical exam. Age 42. On Russia's wanted list.", tags: ["criminal"] },
@@ -448,7 +448,7 @@
       { id: "senanayake", label: "Sachithra Senanayake", type: "convicted", size: 16, desc: "SL cricketer. Indicted June 2025 — first criminal prosecution. Approached player via WhatsApp during LPL 2020 to underperform. Failed to appear in court.", tags: ["convicted"] },
       { id: "jayasuriya", label: "Sanath Jayasuriya", type: "convicted", size: 16, desc: "SL legend. 2-year ICC ban (2019) for refusing to cooperate with ACU investigation.", tags: ["convicted"] },
       { id: "jayasundara", label: "Sanath Jayasundara", type: "convicted", size: 14, desc: "SLC analyst. Charged by ICC for attempting to bribe Sports Minister Harin Fernando to influence match outcomes. Banned.", tags: ["convicted"] },
-      { id: "curacao", label: "Curaçao", type: "jurisdiction", size: 22, desc: "Caribbean island issuing bulk offshore gambling licences. Near-zero transparency on beneficial owners. Home jurisdiction for Melbet, 1xBet affiliates, Wolf777, Crickex, Skyfair, STBet.", tags: [] },
+      { id: "curacao", label: "Curaçao", type: "jurisdiction", size: 22, desc: "Caribbean island issuing bulk offshore gambling licences. Near-zero transparency on beneficial owners. Home jurisdiction for Melbet, 1xBet affiliates, Wolf777, Crickex, Skyfair, STBet, and Sporting Star (betss.com).", tags: [] },
       { id: "cyprus", label: "Cyprus", type: "jurisdiction", size: 16, desc: "1xBet HQ (Limassol). Payment processing for Melbet (Edric Ltd, Faren Ltd). Semiokhin and Kazorin hold Cypriot citizenship.", tags: [] },
       { id: "dubai", label: "Dubai / UAE", type: "jurisdiction", size: 18, desc: "IPG headquarters. Chandrakar arrested here. Rajdev operates from here. Beyond Sri Lankan law enforcement reach.", tags: [] },
       { id: "icc", label: "ICC", type: "corporate", size: 24, desc: "Suspended SLC for 'government interference' when Ranasinghe tried to clean house. Anti-Corruption Code prohibits gambling ties — never enforced against SLC. ACU had 22 live SL investigations.", tags: ["corporate"] },
@@ -456,7 +456,7 @@
     ];
 
     const links = [
-      { source: "sumathipala", target: "stbet", strength: 5, label: "Family owns", type: "solid" },
+      { source: "sumathipala", target: "stbet", strength: 1, label: "UNVERIFIED — commonly confused", type: "dashed" },
       { source: "sumathipala", target: "shammi", strength: 5, label: "Installed as proxy", type: "solid" },
       { source: "sumathipala", target: "slc", strength: 4, label: "Controlled via proxies", type: "dashed" },
       { source: "shammi", target: "slc", strength: 5, label: "President since 2019", type: "solid" },
@@ -521,7 +521,7 @@
     ];
 
     const linkFacts = {
-      "sumathipala→stbet": "VERIFIED: Sumathipala family owns Sporting Star (est. 1956), which operates through Sporting Times → STBet.com. Company registration records confirm ownership. Sumathipala's ICC ban specifically cited this business conflict of interest.",
+      "sumathipala→stbet": "CORRECTION: The Sumathipala family owns Sporting Star (est. 1956), which operates betss.com — NOT STBet.com. STBet is operated by Sporting Times, a separate company founded by Doug Thompson (per Tracxn records). Third-party review sites commonly conflate these two entities. The ICC ban cited Sporting Star specifically, not Sporting Times/STBet.",
       "sumathipala→shammi": "VERIFIED: Shammi Silva's father Piyasena De Silva was manager at Sumathipala's Sporting Star bookmaking business. Silva rose to SLC presidency with Sumathipala's backing. Sports Minister Ranasinghe publicly called Silva 'Betting Shammi' in Parliament.",
       "sumathipala→slc": "VERIFIED: Despite ICC ban from holding office, Sumathipala continues to influence SLC through installed proxies. ICC's own investigation confirmed this patronage network.",
       "shammi→slc": "VERIFIED: Shammi Silva has been SLC President since Feb 2019, now serving 4th term. His tenure coincides with the largest proliferation of illegal betting sponsors in SLC history.",
@@ -547,7 +547,7 @@
       "wolf777→rajdev": "VERIFIED: Ahmedabad Crime Branch and Nagpur police have issued lookout notices for Rakesh Rajdev. ED traced ₹170.70 crore through a single fraudulent bank account linked to Wolf777.",
       "wolf777→curacao": "VERIFIED: Wolf777 operates through GIT Operations N.V., registered in Curaçao.",
       "rajdev→dubai": "VERIFIED: Rajdev operates from Dubai, beyond Indian extradition reach. Multiple Indian law enforcement agencies have pending cases.",
-      "stbet→curacao": "VERIFIED: STBet operates under Curaçao licence 8047/JAZ. Online extension of Sumathipala's legacy Sporting Star business.",
+      "stbet→curacao": "VERIFIED: STBet operates under Curaçao licence 8047/JAZ. Owned by Sporting Times — NOT Sporting Star/Sumathipala. The two entities are commonly but incorrectly conflated.",
       "dialog→papare": "VERIFIED: Dialog Axiata owns ThePapare.com. Corporate records confirm full ownership.",
       "dialog→slc": "VERIFIED: Dialog has a $4.8M sponsorship deal with SLC AND holds ICC broadcast rights in Sri Lanka until 2028. Dual commercial relationship creates massive conflict of interest.",
       "dialog→icc": "VERIFIED: Dialog holds ICC broadcast rights in Sri Lanka until 2028.",
@@ -599,6 +599,7 @@
       { id:"shanaka",       label:"Dasun Shanaka",           type:"slc",        size:12, desc:"SL national team captain during T20 WC 2026 Super 8s — under post-match integrity scrutiny after shock elimination.",                      tags:["captain","cricketer"],                 expanded:true },
       { id:"mustaqim",      label:"Mustaqim Kaskar",         type:"criminal",   size:14, desc:"Identified D-Company associate — linked by investigators to Kheloyar's South Asia operations and financial flows.",                        tags:["d-company","associate"],               expanded:true },
       { id:"jayarathne",    label:"Jerome Jayarathne",       type:"slc",        size:12, desc:"SLC executive committee member — suspended as part of board-wide investigations covering 22+ active corruption cases.",                    tags:["slc-official","suspended"],            expanded:true },
+      { id:"sporting_star", label:"Sporting Star / betss.com", type:"betting",   size:16, desc:"Sumathipala family's actual bookmaking company (est. 1956, now betss.com). ICC investigation cited this specific business. Previously horse racing, now online sports betting.",   tags:["sumathipala","bookmaking","confirmed"], expanded:true },
       { id:"galle_fix",     label:"Galle Pitch-Fixing",      type:"convicted",  size:12, desc:"2000s pitch-fixing scandal at Galle — the earliest modern marker of systemic vulnerability within Sri Lanka Cricket.",                    tags:["historical","match-fixing"],           expanded:true },
     ];
 
@@ -634,6 +635,9 @@
       { source:"tharanga",      target:"icc",          type:"solid",  strength:3, label:"ICC ACU investigation pending"             },
       { source:"shanaka",       target:"slc",          type:"solid",  strength:4, label:"National team captain 2022–25"             },
       { source:"jayarathne",    target:"slc",          type:"solid",  strength:4, label:"Executive — suspended / 22+ cases"         },
+      // Sporting Star — Sumathipala's actual betting company
+      { source:"sporting_star", target:"sumathipala", type:"solid",  strength:5, label:"Family owns (ICC-confirmed)"      },
+      { source:"sporting_star", target:"curacao",     type:"solid",  strength:3, label:"Offshore licence"                 },
       { source:"galle_fix",     target:"slc",          type:"solid",  strength:4, label:"First major SLC integrity failure"         },
     ];
 
@@ -644,7 +648,7 @@
     // Expanded link facts
     Object.assign(linkFacts, {
       "lpl→slc":                "VERIFIED: Lanka Premier League franchises operate under Sri Lanka Cricket's governance structure. SLC controls broadcasting rights, franchise licensing, and player availability contracts.",
-      "lpl→stbet":              "VERIFIED: STBet (Sumathipala-linked entity) was named LPL title sponsor for the 2023 season, creating a direct conflict of interest with the SLC chairman.",
+      "lpl→stbet":              "VERIFIED: STBet was named LPL title sponsor for the 2023 season. NOTE: STBet is operated by Sporting Times (Doug Thompson), NOT by the Sumathipala family's Sporting Star. The conflict-of-interest narrative requires further verification.",
       "lpl→melbet":             "VERIFIED: Melbet sponsored multiple LPL team jerseys during 2022–23 seasons despite being classified as an unlicensed offshore operator in Sri Lanka.",
       "lpl→1xbet":            "VERIFIED: The 1xBat logo (1xBet sub-brand) appeared across all 6 LPL franchise team jerseys during the 2022 season — the most pervasive single-operator penetration in the tournament.",
       "dambulla→lpl":           "VERIFIED: Dambulla Thunders is one of the original six Lanka Premier League franchises.",
@@ -668,6 +672,8 @@
       "tharanga→icc":           "VERIFIED: ICC ACU opened formal investigation into Upul Tharanga following intelligence about alleged contacts with illegal bookmakers.",
       "shanaka→slc":            "VERIFIED: Dasun Shanaka captained the Sri Lanka national team from 2022, including the T20 World Cup 2026 campaign that ended in Super 8s elimination.",
       "jayarathne→slc":         "VERIFIED: Jerome Jayarathne served on the SLC executive committee and was among officials suspended as part of board-wide investigations into 22+ corruption cases.",
+      "sporting_star→sumathipala": "VERIFIED: Sporting Star is owned by the Sumathipala family via 'U.W. Sumathipala and Sons' (Inland Revenue Dept registration). ICC Ethics investigation explicitly named Sporting Star as the bookmaking business. UK bookmaker Glyn Palmer testified to ICC ACU about helping establish it. Now operates online as betss.com.",
+      "sporting_star→curacao":     "REPORTED: betss.com (Sporting Star) is listed with an offshore gaming licence. Jurisdiction details match Curaçao sub-licence structure.",
       "galle_fix→slc":          "VERIFIED: The Galle pitch-fixing scandal of the early 2000s was the first major documented case of systemic integrity failure within Sri Lanka Cricket, establishing patterns that persisted for two decades.",
     });
 
