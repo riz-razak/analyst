@@ -607,9 +607,9 @@
       { source:"lpl",           target:"slc",          type:"solid",  strength:5, label:"Governed under SLC franchise system"       },
       { source:"lpl",           target:"stbet",        type:"solid",  strength:4, label:"LPL title sponsor 2023"                    },
       { source:"lpl",           target:"melbet",       type:"solid",  strength:4, label:"Multi-team shirt sponsor 2022–23"           },
-      { source:"lpl",           target:"onexbet",      type:"solid",  strength:4, label:"1xBat logo on all 6 franchises"            },
+      { source:"lpl",           target:"1xbet",      type:"solid",  strength:4, label:"1xBat logo on all 6 franchises"            },
       { source:"dambulla",      target:"lpl",          type:"solid",  strength:4, label:"LPL franchise"                             },
-      { source:"dambulla",      target:"tamim",        type:"solid",  strength:5, label:"Owner convicted of betting offences"        },
+      { source:"dambulla",      target:"rahman",        type:"solid",  strength:5, label:"Owner convicted of betting offences"        },
       { source:"colombo_kings", target:"lpl",          type:"solid",  strength:4, label:"LPL franchise"                             },
       { source:"colombo_kings", target:"melbet",       type:"solid",  strength:4, label:"Main shirt sponsor"                        },
       // Mahadev / India ED nexus
@@ -618,9 +618,9 @@
       { source:"india_ed",      target:"yuvraj",       type:"solid",  strength:4, label:"₹6.64cr assets attached"                  },
       { source:"india_ed",      target:"dhawan",       type:"solid",  strength:4, label:"₹4.5cr assets attached"                   },
       { source:"india_ed",      target:"uthappa",      type:"solid",  strength:4, label:"₹2.5cr assets attached"                   },
-      { source:"india_ed",      target:"onexbet",      type:"solid",  strength:3, label:"Platform under ED jurisdiction"            },
+      { source:"india_ed",      target:"1xbet",      type:"solid",  strength:3, label:"Platform under ED jurisdiction"            },
       // Infrastructure
-      { source:"molfar",        target:"onexbet",      type:"dashed", strength:3, label:"IP overlap confirmed by OSINT"             },
+      { source:"molfar",        target:"1xbet",      type:"dashed", strength:3, label:"IP overlap confirmed by OSINT"             },
       // D-Company link
       { source:"mustaqim",      target:"dawood",       type:"solid",  strength:5, label:"D-Company associate (confirmed)"           },
       { source:"mustaqim",      target:"kheloyar",     type:"dashed", strength:3, label:"Linked to Kheloyar operations"             },
@@ -646,9 +646,9 @@
       "lpl→slc":                "VERIFIED: Lanka Premier League franchises operate under Sri Lanka Cricket's governance structure. SLC controls broadcasting rights, franchise licensing, and player availability contracts.",
       "lpl→stbet":              "VERIFIED: STBet (Sumathipala-linked entity) was named LPL title sponsor for the 2023 season, creating a direct conflict of interest with the SLC chairman.",
       "lpl→melbet":             "VERIFIED: Melbet sponsored multiple LPL team jerseys during 2022–23 seasons despite being classified as an unlicensed offshore operator in Sri Lanka.",
-      "lpl→onexbet":            "VERIFIED: The 1xBat logo (1xBet sub-brand) appeared across all 6 LPL franchise team jerseys during the 2022 season — the most pervasive single-operator penetration in the tournament.",
+      "lpl→1xbet":            "VERIFIED: The 1xBat logo (1xBet sub-brand) appeared across all 6 LPL franchise team jerseys during the 2022 season — the most pervasive single-operator penetration in the tournament.",
       "dambulla→lpl":           "VERIFIED: Dambulla Thunders is one of the original six Lanka Premier League franchises.",
-      "dambulla→tamim":         "VERIFIED: Tamim Rahman owned the Dambulla Thunders franchise and pleaded guilty to match-fixing and illegal betting offences — the first LPL franchise owner to be convicted.",
+      "dambulla→rahman":         "VERIFIED: Tamim Rahman owned the Dambulla Thunders franchise and pleaded guilty to match-fixing and illegal betting offences — the first LPL franchise owner to be convicted.",
       "colombo_kings→lpl":      "VERIFIED: Colombo Kings is one of the six LPL franchise teams.",
       "colombo_kings→melbet":   "VERIFIED: Melbet was the main shirt sponsor of Colombo Kings during the LPL 2022 season.",
       "mahadev→kheloyar":       "REPORTED: India Enforcement Directorate investigation documents note shared technical infrastructure between Mahadev Book and Kheloyar's South Asia operations.",
@@ -656,8 +656,8 @@
       "india_ed→yuvraj":        "VERIFIED: India ED attached ₹6.64 crore in assets from Yuvraj Singh linked to endorsement contracts with a 1xBet-affiliated platform.",
       "india_ed→dhawan":        "VERIFIED: India ED attached ₹4.5 crore in assets from Shikhar Dhawan linked to an affiliated offshore betting platform.",
       "india_ed→uthappa":       "VERIFIED: India ED attached ₹2.5 crore in assets from Robin Uthappa linked to endorsement of an offshore gambling operator.",
-      "india_ed→onexbet":       "VERIFIED: 1xBet and its affiliate platforms are under active India ED jurisdiction, with multiple assets attached across promotional networks.",
-      "molfar→onexbet":         "PARTIALLY VERIFIED: OSINT analysis by Molfar confirmed IP address and infrastructure overlaps between 1xBet-branded operations and affiliated operators across South Asia.",
+      "india_ed→1xbet":       "VERIFIED: 1xBet and its affiliate platforms are under active India ED jurisdiction, with multiple assets attached across promotional networks.",
+      "molfar→1xbet":         "PARTIALLY VERIFIED: OSINT analysis by Molfar confirmed IP address and infrastructure overlaps between 1xBet-branded operations and affiliated operators across South Asia.",
       "mustaqim→dawood":        "VERIFIED: Mustaqim Ibrahim Kaskar is an identified associate of the Dawood Ibrahim D-Company criminal network, confirmed in law enforcement documentation.",
       "mustaqim→kheloyar":      "REPORTED: Investigators have linked Mustaqim Kaskar to financial flows connected to Kheloyar's South Asia betting operations.",
       "zoysa→icc":              "VERIFIED: ICC handed Nuwan Zoysa a 6-year ban in 2018 for approaching an undercover operative and attempting to fix aspects of a match on behalf of a named fixer.",
@@ -682,8 +682,6 @@
     let dragStartNodeY = 0;
     let panDragStartX = 0;
     let panDragStartY = 0;
-    let tick = 0;
-    const maxTicks = 500;
     let visibleTypes = new Set(Object.keys(typeColors));
     let selectedLink = null;
     let showExpanded = false;
