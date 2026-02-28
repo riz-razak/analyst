@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Betting Web — Full Investigation | Sri Lanka Cricket Dossier</title>
+<meta name="description" content="Complete corporate anatomy of the 1xBet network, the Kheloyar–Dawood connection, Wolf777's criminal racket, celebrity endorsement machine, and every conviction in Sri Lanka's cricket betting scandal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   DESIGN SYSTEM — DARK / LIGHT THEME
+══════════════════════════════════════════ */
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a2e;
+  --bg-card: #16162a;
+  --text-primary: #e8e8f0;
+  --text-secondary: #a0a0b8;
+  --text-muted: #6a6a80;
+  --accent-primary: #ff8c00;
+  --accent-red: #ff3a3a;
+  --accent-orange: #ff8c00;
+  --accent-gold: #ffd700;
+  --accent-blue: #4a9eff;
+  --accent-cyan: #00d4ff;
+  --accent-green: #00cc88;
+  --accent-purple: #8b5cf6;
+  --border-color: rgba(255,255,255,0.06);
+  --glow-red: rgba(255,58,58,0.3);
+  --nav-bg: rgba(10,10,15,0.96);
+}
+html[data-theme="light"] {
+  --bg-primary: #f4f4fa;
+  --bg-secondary: #eaeaf2;
+  --bg-tertiary: #e0e0ec;
+  --bg-card: #ffffff;
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a6a;
+  --text-muted: #8a8aa8;
+  --accent-primary: #c96f00;
+  --accent-red: #cc2020;
+  --accent-orange: #c96f00;
+  --accent-gold: #a88700;
+  --accent-blue: #2a7ae8;
+  --accent-cyan: #0085a0;
+  --accent-green: #008855;
+  --accent-purple: #7030d0;
+  --border-color: rgba(0,0,0,0.1);
+  --glow-red: rgba(204,32,32,0.12);
+  --nav-bg: rgba(244,244,250,0.97);
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Inter',sans-serif;
+  background:var(--bg-primary);
+  color:var(--text-primary);
+  line-height:1.7;
+  transition: background 0.25s, color 0.25s;
+}
+
+/* ── STICKY NAV ── */
+.top-nav {
+  position:sticky; top:0; z-index:100;
+  background:var(--nav-bg);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border-color);
+  padding:0 1.5rem;
+  height:48px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-left { display:flex; align-items:center; gap:0.75rem; }
+.back-btn {
+  display:inline-flex; align-items:center; gap:0.35rem;
+  font-size:0.72rem; font-weight:600; font-family:'JetBrains Mono',monospace;
+  color:var(--text-muted); text-decoration:none;
+  border:1px solid var(--border-color); border-radius:6px;
+  padding:4px 10px;
+  transition:color 0.2s, border-color 0.2s;
+}
+.back-btn:hover { color:var(--accent-orange); border-color:var(--accent-orange); }
+.nav-breadcrumb {
+  font-size:0.72rem; font-family:'JetBrains Mono',monospace;
+  color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.nav-breadcrumb span { color:var(--accent-orange); }
+.nav-right { display:flex; align-items:center; gap:0.6rem; }
+.nav-social-link { display:flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:6px; color:var(--text-muted); transition:color 0.2s, background 0.2s; text-decoration:none; }
+.nav-social-link:hover { color:var(--accent-orange); background:rgba(255,140,0,0.1); }
+.nav-social-link svg { width:14px; height:14px; fill:currentColor; }
+.theme-btn {
+  background:none; border:1px solid var(--border-color); border-radius:6px;
+  width:28px; height:28px; cursor:pointer; font-size:0.85rem;
+  color:var(--text-muted); display:flex; align-items:center; justify-content:center;
+  transition:border-color 0.2s, color 0.2s;
+}
+.theme-btn:hover { border-color:var(--accent-orange); color:var(--accent-orange); }
+
+/* ── HERO ── */
+.page-hero {
+  background:linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+  border-bottom:1px solid var(--border-color);
+  padding:3rem 2rem 2.5rem;
+  max-width:1100px; margin:0 auto;
+  text-align:center;
+}
+.hero-tag {
+  display:inline-block;
+  font-size:0.65rem; font-weight:700; font-family:'JetBrains Mono',monospace;
+  text-transform:uppercase; letter-spacing:3px;
+  color:var(--accent-red); border:1px solid var(--accent-red);
+  padding:3px 12px; border-radius:4px; margin-bottom:1.25rem;
+}
+.page-hero h1 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,4vw,2.8rem); font-weight:900;
+  line-height:1.2; margin-bottom:1rem; color:var(--text-primary);
+}
+.page-hero h1 em { color:var(--accent-red); font-style:normal; }
+.page-hero .lead {
+  max-width:680px; margin:0 auto 1.5rem;
+  font-size:0.95rem; color:var(--text-secondary); line-height:1.75;
+}
+.hero-meta {
+  display:flex; align-items:center; justify-content:center; gap:1.5rem;
+  font-size:0.68rem; font-family:'JetBrains Mono',monospace;
+  color:var(--text-muted); flex-wrap:wrap;
+}
+.hero-meta span { display:flex; align-items:center; gap:0.35rem; }
+
+/* ── TABLE OF CONTENTS ── */
+.toc-wrap {
+  max-width:1100px; margin:2rem auto; padding:0 2rem;
+}
+.toc-card {
+  background:var(--bg-card); border:1px solid var(--border-color);
+  border-radius:12px; padding:1.5rem 2rem;
+}
+.toc-card h3 {
+  font-size:0.7rem; font-weight:700; font-family:'JetBrains Mono',monospace;
+  text-transform:uppercase; letter-spacing:2px; color:var(--text-muted);
+  margin-bottom:1rem;
+}
+.toc-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:0.5rem;
+}
+.toc-item {
+  display:flex; align-items:center; gap:0.5rem;
+  font-size:0.78rem; color:var(--text-secondary);
+  text-decoration:none; padding:0.4rem 0.6rem; border-radius:6px;
+  transition:color 0.2s, background 0.2s;
+}
+.toc-item:hover { color:var(--accent-orange); background:rgba(255,140,0,0.07); }
+.toc-num {
+  font-family:'JetBrains Mono',monospace; font-size:0.62rem;
+  color:var(--accent-orange); min-width:22px;
+}
+
+/* ── CONTENT WRAPPER ── */
+.content-wrap { max-width:1100px; margin:0 auto; padding:0 2rem 4rem; }
+
+/* ── SECTION ── */
+.chapter {
+  margin-bottom:3.5rem; padding-top:1rem;
+  border-top:1px solid var(--border-color);
+}
+.chapter-header { margin-bottom:1.5rem; }
+.chapter-num {
+  font-size:0.65rem; font-weight:700; font-family:'JetBrains Mono',monospace;
+  text-transform:uppercase; letter-spacing:2px; color:var(--accent-orange);
+  margin-bottom:0.4rem;
+}
+.chapter h2 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.3rem,3vw,1.8rem); font-weight:800;
+  color:var(--text-primary); line-height:1.25;
+}
+.chapter-lead {
+  margin-top:0.6rem; font-size:0.92rem; color:var(--text-secondary); line-height:1.75;
+  max-width:760px;
+}
+
+/* ── CARDS / BLOCKS ── */
+.analysis-block {
+  background:var(--bg-card); border:1px solid var(--border-color);
+  border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1.25rem;
+}
+.analysis-block h3 {
+  font-size:0.92rem; font-weight:700; color:var(--text-primary);
+  margin-bottom:0.75rem; display:flex; align-items:center; gap:0.6rem;
+}
+.analysis-block h3 .icon {
+  width:28px; height:28px; border-radius:8px;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:0.9rem; flex-shrink:0;
+}
+.analysis-block p {
+  font-size:0.84rem; color:var(--text-secondary); line-height:1.75; margin-bottom:0.6rem;
+}
+.analysis-block p:last-child { margin-bottom:0; }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.25rem; }
+@media(max-width:680px){ .two-col { grid-template-columns:1fr; } }
+.three-col { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.25rem; }
+@media(max-width:700px){ .three-col { grid-template-columns:1fr; } }
+
+/* ── CALLOUTS ── */
+.alert-callout {
+  background:rgba(220,38,38,0.06); border:1px solid rgba(220,38,38,0.2);
+  border-left:3px solid var(--accent-red);
+  border-radius:0 10px 10px 0; padding:1.1rem 1.4rem; margin-bottom:1.25rem;
+}
+.alert-callout .label {
+  font-size:0.6rem; font-weight:700; font-family:'JetBrains Mono',monospace;
+  text-transform:uppercase; letter-spacing:2px; color:var(--accent-red);
+  margin-bottom:0.4rem;
+}
+.alert-callout p { font-size:0.84rem; color:var(--text-secondary); line-height:1.75; margin-bottom:0.5rem; }
+.alert-callout p:last-child { margin-bottom:0; }
+
+.insight-callout {
+  background:rgba(255,215,0,0.05); border:1px solid rgba(255,215,0,0.2);
+  border-left:3px solid var(--accent-gold);
+  border-radius:0 10px 10px 0; padding:1.1rem 1.4rem; margin-bottom:1.25rem;
+}
+.insight-callout .label { font-size:0.6rem; font-weight:700; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:2px; color:var(--accent-gold); margin-bottom:0.4rem; }
+.insight-callout p { font-size:0.84rem; color:var(--text-secondary); line-height:1.75; margin-bottom:0.5rem; }
+.insight-callout p:last-child { margin-bottom:0; }
+
+.purple-callout {
+  background:rgba(139,92,246,0.06); border:1px solid rgba(139,92,246,0.2);
+  border-left:3px solid var(--accent-purple);
+  border-radius:0 10px 10px 0; padding:1.1rem 1.4rem; margin-bottom:1.25rem;
+}
+.purple-callout .label { font-size:0.6rem; font-weight:700; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:2px; color:var(--accent-purple); margin-bottom:0.4rem; }
+.purple-callout p { font-size:0.84rem; color:var(--text-secondary); line-height:1.75; margin-bottom:0.5rem; }
+.purple-callout p:last-child { margin-bottom:0; }
+
+/* ── OPERATOR CARDS ── */
+.operator-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.1rem; margin-bottom:1.5rem; }
+.operator-card {
+  background:var(--bg-card); border:1px solid var(--border-color);
+  border-radius:12px; overflow:hidden;
+}
+.op-header {
+  padding:0.9rem 1.1rem 0.7rem;
+  border-bottom:1px solid var(--border-color);
+  display:flex; align-items:center; gap:0.75rem;
+}
+.op-badge {
+  width:36px; height:36px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem; flex-shrink:0;
+}
+.op-name { font-weight:700; font-size:0.88rem; color:var(--text-primary); line-height:1.2; }
+.op-sub { font-size:0.65rem; font-family:'JetBrains Mono',monospace; color:var(--text-muted); }
+.op-body { padding:0.9rem 1.1rem; }
+.op-row {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding:0.3rem 0; border-bottom:1px solid var(--border-color);
+  font-size:0.72rem; gap:0.5rem;
+}
+.op-row:last-child { border-bottom:none; }
+.op-row .k { color:var(--text-muted); font-family:'JetBrains Mono',monospace; flex-shrink:0; }
+.op-row .v { color:var(--text-secondary); text-align:right; font-weight:500; }
+.op-row .v.danger { color:var(--accent-red); }
+.op-row .v.warn { color:var(--accent-orange); }
+
+/* ── CONVICTION TABLE ── */
+.conviction-table {
+  width:100%; border-collapse:collapse; font-size:0.78rem; margin-bottom:1.5rem;
+}
+.conviction-table th {
+  font-family:'JetBrains Mono',monospace; font-size:0.62rem; text-transform:uppercase;
+  letter-spacing:1px; color:var(--text-muted); padding:0.6rem 0.75rem;
+  text-align:left; border-bottom:1px solid var(--border-color);
+}
+.conviction-table td {
+  padding:0.65rem 0.75rem; border-bottom:1px solid var(--border-color);
+  color:var(--text-secondary); line-height:1.5;
+}
+.conviction-table tr:last-child td { border-bottom:none; }
+.conviction-table tr:hover td { background:rgba(255,140,0,0.04); }
+.tag-pill {
+  display:inline-block; font-size:0.6rem; font-weight:700; padding:2px 7px;
+  border-radius:4px; text-transform:uppercase; letter-spacing:0.5px; white-space:nowrap;
+}
+.tag-conviction { background:rgba(220,38,38,0.12); color:var(--accent-red); }
+.tag-ban { background:rgba(255,140,0,0.12); color:var(--accent-orange); }
+.tag-charge { background:rgba(139,92,246,0.12); color:var(--accent-purple); }
+.tag-pending { background:rgba(255,215,0,0.12); color:var(--accent-gold); }
+.person-name { font-weight:600; color:var(--text-primary); }
+
+/* ── ENABLER LAYERS ── */
+.layer-list { list-style:none; display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.5rem; }
+.layer-item {
+  display:flex; gap:1rem; align-items:flex-start;
+  background:var(--bg-card); border:1px solid var(--border-color);
+  border-radius:10px; padding:0.9rem 1.1rem;
+}
+.layer-num {
+  min-width:36px; height:36px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.85rem;
+  flex-shrink:0;
+}
+.layer-content h4 { font-size:0.85rem; font-weight:700; color:var(--text-primary); margin-bottom:0.3rem; }
+.layer-content p { font-size:0.78rem; color:var(--text-secondary); line-height:1.65; }
+
+/* ── LOOP DIAGRAM ── */
+.loop-diagram {
+  background:var(--bg-card); border:1px solid var(--border-color);
+  border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; text-align:center;
+}
+.loop-steps {
+  display:flex; align-items:center; justify-content:center;
+  flex-wrap:wrap; gap:0;
+}
+.loop-step {
+  background:var(--bg-tertiary); border:1px solid var(--border-color);
+  border-radius:8px; padding:0.6rem 0.9rem;
+  font-size:0.72rem; font-weight:600; color:var(--text-primary);
+  max-width:160px; text-align:center; line-height:1.3;
+}
+.loop-arrow {
+  font-size:1.2rem; color:var(--accent-orange); padding:0 0.35rem;
+}
+.loop-note {
+  font-size:0.72rem; color:var(--text-muted); margin-top:1rem; font-style:italic;
+}
+
+/* ── STAT PILLS ── */
+.stat-row { display:flex; flex-wrap:wrap; gap:0.75rem; margin-bottom:1.25rem; }
+.stat-pill {
+  background:var(--bg-card); border:1px solid var(--border-color);
+  border-radius:8px; padding:0.5rem 1rem;
+  display:flex; flex-direction:column; align-items:center; min-width:120px;
+}
+.stat-val { font-family:'JetBrains Mono',monospace; font-size:1.15rem; font-weight:700; color:var(--accent-red); line-height:1.2; }
+.stat-lbl { font-size:0.62rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-top:0.2rem; }
+
+/* ── CELEBRITY TABLE ── */
+.celeb-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+.celeb-card {
+  background:var(--bg-card); border:1px solid var(--border-color);
+  border-radius:10px; padding:0.9rem 1.1rem;
+  display:flex; align-items:flex-start; gap:0.75rem;
+}
+.celeb-avatar {
+  width:40px; height:40px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:0.9rem; flex-shrink:0;
+  background:rgba(255,140,0,0.15); color:var(--accent-orange);
+  font-family:'JetBrains Mono',monospace;
+}
+.celeb-info h4 { font-size:0.82rem; font-weight:700; color:var(--text-primary); margin-bottom:0.2rem; }
+.celeb-info .sport { font-size:0.62rem; color:var(--text-muted); font-family:'JetBrains Mono',monospace; margin-bottom:0.3rem; }
+.celeb-info .action { font-size:0.72rem; color:var(--text-secondary); line-height:1.45; }
+.celeb-info .action em { color:var(--accent-red); font-style:normal; font-weight:600; }
+
+/* ── TIMELINE ── */
+.timeline { position:relative; padding-left:2rem; margin-bottom:1.5rem; }
+.timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:var(--border-color); }
+.tl-item { position:relative; margin-bottom:1.25rem; }
+.tl-dot {
+  position:absolute; left:-2rem; top:0; transform:translateX(-50%);
+  width:10px; height:10px; border-radius:50%;
+  background:var(--accent-orange); border:2px solid var(--bg-primary);
+  margin-left:1px;
+}
+.tl-dot.red { background:var(--accent-red); }
+.tl-dot.gold { background:var(--accent-gold); }
+.tl-dot.purple { background:var(--accent-purple); }
+.tl-dot.blue { background:var(--accent-blue); }
+.tl-date { font-size:0.65rem; font-family:'JetBrains Mono',monospace; color:var(--accent-orange); margin-bottom:0.2rem; }
+.tl-date.red { color:var(--accent-red); }
+.tl-date.gold { color:var(--accent-gold); }
+.tl-date.purple { color:var(--accent-purple); }
+.tl-date.blue { color:var(--accent-blue); }
+.tl-item h4 { font-size:0.85rem; font-weight:700; color:var(--text-primary); margin-bottom:0.2rem; }
+.tl-item p { font-size:0.78rem; color:var(--text-secondary); line-height:1.65; }
+
+/* ── FOOTER ── */
+.page-footer {
+  border-top:1px solid var(--border-color);
+  padding:2rem; text-align:center;
+  background:var(--bg-secondary);
+}
+.footer-social { display:flex; align-items:center; justify-content:center; gap:0.75rem; margin-bottom:0.75rem; }
+.footer-social a { display:flex; align-items:center; gap:0.3rem; font-size:0.72rem; color:var(--text-muted); text-decoration:none; border:1px solid var(--border-color); border-radius:6px; padding:4px 10px; transition:color 0.2s, border-color 0.2s; }
+.footer-social a:hover { color:var(--accent-orange); border-color:var(--accent-orange); }
+.footer-social svg { width:13px; height:13px; fill:currentColor; }
+.footer-disclaimer { font-size:0.68rem; color:var(--text-muted); line-height:1.6; max-width:600px; margin:0.5rem auto 0; }
+
+/* ── UTILITY ── */
+strong { color:var(--text-primary); }
+a { color:var(--accent-blue); }
+.overflow-x { overflow-x:auto; }
+.section-divider { border:none; border-top:1px solid var(--border-color); margin:2.5rem 0; }
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     STICKY NAV
+══════════════════════════════════════════ -->
+<script>
+// Theme init — before body renders to avoid flash
+(function(){
+  const t = localStorage.getItem('dossier-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+
+<nav class="top-nav">
+  <div class="nav-left">
+    <a href="index.html" class="back-btn">← Back to Dossier</a>
+    <span class="nav-breadcrumb">Sri Lanka Cricket / <span>The Betting Web</span></span>
+  </div>
+  <div class="nav-right">
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/riz.life.crisis/" target="_blank" rel="noopener" class="nav-social-link" title="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    </a>
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/riz_razak_" target="_blank" rel="noopener" class="nav-social-link" title="Instagram">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="var(--bg-card)"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="var(--bg-card)" stroke-width="2"/></svg>
+    </a>
+    <!-- TikTok -->
+    <a href="https://www.tiktok.com/@riz.razak" target="_blank" rel="noopener" class="nav-social-link" title="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+    </a>
+    <button class="theme-btn" id="dossier-theme-btn" onclick="toggleDossierTheme()" title="Toggle theme">☀️</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PAGE HERO
+══════════════════════════════════════════ -->
+<div style="background:var(--bg-secondary); border-bottom:1px solid var(--border-color);">
+<div class="page-hero">
+  <div class="hero-tag">Full Investigation</div>
+  <h1>The <em>Betting Web</em><br>That Ate Sri Lankan Cricket</h1>
+  <p class="lead">Complete corporate anatomy of six illegal operators. The Kheloyar–Dawood Ibrahim connection. Wolf777's criminal racket. The celebrity endorsement machine. Six layers of enablers. The self-reinforcing loop. And every sanction, ban, and conviction.</p>
+  <div class="hero-meta">
+    <span>📅 Updated February 2026</span>
+    <span>🔗 Sri Lanka Cricket Dossier</span>
+    <span>⚠️ Online betting is illegal in Sri Lanka</span>
+  </div>
+</div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc-wrap">
+  <div class="toc-card">
+    <h3>In This Investigation</h3>
+    <div class="toc-grid">
+      <a href="#anatomy" class="toc-item"><span class="toc-num">01</span>Corporate Anatomy of the Network</a>
+      <a href="#melbet-dialog" class="toc-item"><span class="toc-num">02</span>The Melbet–Dialog–Papare Axis</a>
+      <a href="#kheloyar" class="toc-item"><span class="toc-num">03</span>Kheloyar & the D-Company Link</a>
+      <a href="#wolf777" class="toc-item"><span class="toc-num">04</span>Wolf777: The Criminal Racket</a>
+      <a href="#celebrities" class="toc-item"><span class="toc-num">05</span>Celebrity Endorsement Machine</a>
+      <a href="#enablers" class="toc-item"><span class="toc-num">06</span>Six Layers of Enablers</a>
+      <a href="#loop" class="toc-item"><span class="toc-num">07</span>The Self-Reinforcing Loop</a>
+      <a href="#convictions" class="toc-item"><span class="toc-num">08</span>Every Conviction & Sanction</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CONTENT
+══════════════════════════════════════════ -->
+<div class="content-wrap">
+
+<!-- ─────────────────────────────────────────
+     01: CORPORATE ANATOMY
+───────────────────────────────────────── -->
+<div class="chapter" id="anatomy">
+  <div class="chapter-header">
+    <div class="chapter-num">01 — Corporate Anatomy</div>
+    <h2>The 1xBet Hydra: Clone Brands, One Backend</h2>
+    <p class="chapter-lead">When regulators ban one operator, another immediately fills the void. This is not coincidence — it is architecture. Six brands, one infrastructure, thousands of Sri Lankan users.</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-pill"><span class="stat-val">6+</span><span class="stat-lbl">Active Sub-Brands</span></div>
+    <div class="stat-pill"><span class="stat-val">₹63B</span><span class="stat-lbl">Revenue (Russia, alleged)</span></div>
+    <div class="stat-pill"><span class="stat-val">7</span><span class="stat-lbl">Countries banned/blacklisted</span></div>
+    <div class="stat-pill"><span class="stat-val">1</span><span class="stat-lbl">Backend (BetB2B)</span></div>
+    <div class="stat-pill"><span class="stat-val">2</span><span class="stat-lbl">Co-founders on Interpol wanted lists</span></div>
+  </div>
+
+  <div class="alert-callout">
+    <div class="label">The Architecture of Evasion</div>
+    <p>According to Ukrainian investigators at the Molfar Institute and InformNapalm, 1xBet and its affiliated brands share the same core infrastructure: the BetB2B white-label platform. This means odds are identical, interfaces are near-identical, and the customer base can be instantly migrated when one brand is blocked. When India banned 1xBet, Melbet surged. When Melbet faced scrutiny, BetWinner expanded. The technology platform charges operators a licensing fee — creating a franchise model for illegal gambling.</p>
+  </div>
+
+  <div class="operator-grid">
+
+    <div class="operator-card">
+      <div class="op-header">
+        <div class="op-badge" style="background:rgba(220,38,38,0.12); font-size:1.3rem;">🎯</div>
+        <div>
+          <div class="op-name">1xBet</div>
+          <div class="op-sub">The Mothership</div>
+        </div>
+      </div>
+      <div class="op-body">
+        <div class="op-row"><span class="k">Registered</span><span class="v">Curaçao (Exinvest Ltd)</span></div>
+        <div class="op-row"><span class="k">Founded</span><span class="v">2007, Russia</span></div>
+        <div class="op-row"><span class="k">Co-founders</span><span class="v danger">Semiokhin, Kazorin, Karshkov</span></div>
+        <div class="op-row"><span class="k">Status (India)</span><span class="v danger">Blocked, MHA list</span></div>
+        <div class="op-row"><span class="k">Status (UK)</span><span class="v danger">Licence revoked 2019</span></div>
+        <div class="op-row"><span class="k">ICC involvement</span><span class="v warn">Official CAF sponsor 2019</span></div>
+        <div class="op-row"><span class="k">LPL presence</span><span class="v warn">1xBAT — all 6 teams</span></div>
+        <div class="op-row"><span class="k">India ED status</span><span class="v danger">₹19cr+ assets attached</span></div>
+      </div>
+    </div>
+
+    <div class="operator-card">
+      <div class="op-header">
+        <div class="op-badge" style="background:rgba(255,140,0,0.12); font-size:1.3rem;">🌐</div>
+        <div>
+          <div class="op-name">Melbet</div>
+          <div class="op-sub">Pelican Entertainment B.V.</div>
+        </div>
+      </div>
+      <div class="op-body">
+        <div class="op-row"><span class="k">Legal name</span><span class="v">Pelican Entertainment B.V.</span></div>
+        <div class="op-row"><span class="k">Curaçao no.</span><span class="v">#134359</span></div>
+        <div class="op-row"><span class="k">Network link</span><span class="v danger">1xBet IP overlap (Molfar)</span></div>
+        <div class="op-row"><span class="k">Russia trademark</span><span class="v warn">Held by 1XSTAVKA</span></div>
+        <div class="op-row"><span class="k">Sri Lanka ads</span><span class="v danger">Active on ThePapare.com</span></div>
+        <div class="op-row"><span class="k">SL licence</span><span class="v danger">None</span></div>
+        <div class="op-row"><span class="k">Platform</span><span class="v">BetB2B (shared)</span></div>
+      </div>
+    </div>
+
+    <div class="operator-card">
+      <div class="op-header">
+        <div class="op-badge" style="background:rgba(139,92,246,0.12); font-size:1.3rem;">💀</div>
+        <div>
+          <div class="op-name">Kheloyar</div>
+          <div class="op-sub">Mahadev Book Network</div>
+        </div>
+      </div>
+      <div class="op-body">
+        <div class="op-row"><span class="k">Network</span><span class="v danger">Mahadev Book (India ED)</span></div>
+        <div class="op-row"><span class="k">D-Company link</span><span class="v danger">Mustaqim Ibrahim Kaskar</span></div>
+        <div class="op-row"><span class="k">LPL teams</span><span class="v warn">Multiple franchise logos</span></div>
+        <div class="op-row"><span class="k">India ED action</span><span class="v danger">Assets attached</span></div>
+        <div class="op-row"><span class="k">Babar Azam</span><span class="v">Refused to wear logo</span></div>
+        <div class="op-row"><span class="k">SL licence</span><span class="v danger">None</span></div>
+      </div>
+    </div>
+
+    <div class="operator-card">
+      <div class="op-header">
+        <div class="op-badge" style="background:rgba(255,58,58,0.12); font-size:1.3rem;">🐺</div>
+        <div>
+          <div class="op-name">Wolf777</div>
+          <div class="op-sub">Criminalised operation</div>
+        </div>
+      </div>
+      <div class="op-body">
+        <div class="op-row"><span class="k">Criminal link</span><span class="v danger">India CBI investigation</span></div>
+        <div class="op-row"><span class="k">Operation mode</span><span class="v">Hawala + local agents</span></div>
+        <div class="op-row"><span class="k">LPL presence</span><span class="v warn">Colombo Kings sponsor</span></div>
+        <div class="op-row"><span class="k">SL licence</span><span class="v danger">None</span></div>
+        <div class="op-row"><span class="k">Note</span><span class="v warn">Widely advertised in SL</span></div>
+      </div>
+    </div>
+
+    <div class="operator-card">
+      <div class="op-header">
+        <div class="op-badge" style="background:rgba(74,158,255,0.12); font-size:1.3rem;">📘</div>
+        <div>
+          <div class="op-name">1xBook / 1xBAT</div>
+          <div class="op-sub">1xBet Asia sub-brand</div>
+        </div>
+      </div>
+      <div class="op-body">
+        <div class="op-row"><span class="k">Parent</span><span class="v danger">1xBet network</span></div>
+        <div class="op-row"><span class="k">Asia Cup 2023</span><span class="v warn">Official SL team sponsor</span></div>
+        <div class="op-row"><span class="k">Babar response</span><span class="v">Refused 1xBook logo</span></div>
+        <div class="op-row"><span class="k">SL licence</span><span class="v danger">None</span></div>
+      </div>
+    </div>
+
+    <div class="operator-card">
+      <div class="op-header">
+        <div class="op-badge" style="background:rgba(0,204,136,0.12); font-size:1.3rem;">🎰</div>
+        <div>
+          <div class="op-name">BetWinner / 22Bet</div>
+          <div class="op-sub">1xBet overflow brands</div>
+        </div>
+      </div>
+      <div class="op-body">
+        <div class="op-row"><span class="k">Backend</span><span class="v danger">BetB2B (same as 1xBet)</span></div>
+        <div class="op-row"><span class="k">Expansion</span><span class="v">Active when 1xBet banned</span></div>
+        <div class="op-row"><span class="k">SL visibility</span><span class="v warn">Moderate (social media)</span></div>
+        <div class="op-row"><span class="k">SL licence</span><span class="v danger">None</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background:rgba(74,158,255,0.15);">🏛️</span> The Founders: Who Actually Runs This?</h3>
+    <p>The three co-founders of 1xBet — <strong>Roman Semiokhin</strong>, <strong>Dmitry Kazorin</strong>, and <strong>Sergey Karshkov</strong> — are Russian nationals who reportedly obtained Cypriot citizenship. Fintelegram and Ukrainian investigative outlets documented that Russian authorities placed them on international wanted lists for operating illegal gambling that generated approximately 63 billion rubles. Karshkov, whose background included heading Russia's cybercrime enforcement unit in Bryansk — a posting that would have given him intimate knowledge of how to evade detection — died in June 2023 at a Swiss clinic at age 42, under unexplained circumstances.</p>
+    <p>The network's operating principle is deliberate complexity: Curaçao registration (low scrutiny), Cyprus holding companies (EU legal shield), BetB2B technology licences (arm's-length separation), and sub-brands that can be abandoned without touching core infrastructure. Byline Times described 1xBet as "the Wagner Group of sports betting" — an apt analogy to a semi-deniable enterprise conducting operations at arm's length from its actual controllers.</p>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ─────────────────────────────────────────
+     02: MELBET–DIALOG–PAPARE
+───────────────────────────────────────── -->
+<div class="chapter" id="melbet-dialog">
+  <div class="chapter-header">
+    <div class="chapter-num">02 — The Melbet–Dialog–ThePapare Axis</div>
+    <h2>How an Illegal Betting Ad Ended Up on Sri Lanka's Biggest Cricket Platform</h2>
+    <p class="chapter-lead">A telecom giant with ICC broadcast rights. A media platform it owns. And advertisements from an operator linked to a criminal network. The question is not whether the connection exists — it's documented. The question is why nothing has been done.</p>
+  </div>
+
+  <div class="alert-callout">
+    <div class="label">The Triangle</div>
+    <p><strong>Dialog Axiata PLC</strong> is Malaysia's Axiata Group's Sri Lankan subsidiary and the country's largest mobile operator. Dialog simultaneously holds (1) the exclusive ICC broadcast rights for Sri Lanka through January 2028; (2) the official national team sponsorship of Sri Lanka Cricket; and (3) ownership of ThePapare.com — Sri Lanka's largest cricket media and streaming platform, which also streams matches via ThePapare TV and Dialog Play.</p>
+    <p>Melbet (Pelican Entertainment B.V., Curaçao #134359), which Ukrainian investigators linked to the 1xBet network via shared IP infrastructure and trademark history, has run advertisements on ThePapare.com. Melbet holds no Sri Lankan licence. Online betting is illegal in Sri Lanka. The Gambling Regulatory Authority Act of 2025 explicitly covers the promotion of unlicensed gambling platforms.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="analysis-block">
+      <h3><span class="icon" style="background:rgba(74,158,255,0.15);">📡</span> Dialog's Structural Conflict</h3>
+      <p>Dialog's position is arguably the deepest structural conflict of interest in Sri Lankan sports media. As ICC broadcast rights holder, Dialog monetises every Sri Lanka match. As SLC's national team sponsor, Dialog's brand appears on every player's jersey. As ThePapare's owner, Dialog earns advertising revenue from the same audience consuming the sport. And within that advertising inventory — a gambling operator whose parent network's founders are on international wanted lists.</p>
+      <p>Whether Dialog executives were aware of Melbet's regulatory status is unknown — the company has made no public statement. What is documentable is the result: a company that profits from cricket's governance structure simultaneously hosting advertising from an entity that undermines it.</p>
+    </div>
+    <div class="analysis-block">
+      <h3><span class="icon" style="background:rgba(220,38,38,0.15);">⚖️</span> The Regulatory Gap</h3>
+      <p>The Gambling Regulatory Authority of Sri Lanka, established under the 2025 Act, has a mandate to regulate both operators and promoters of unlicensed gambling. However, the Authority is newly established and lacks the investigative capacity and institutional precedent to pursue action against a Curaçao-registered operator being advertised on the platform of a listed telecom giant.</p>
+      <p>The ICC Anti-Corruption Code's provisions on gambling associations apply to individuals (players, officials, administrators), not to media companies or telecom sponsors. The ICC has no direct mechanism to sanction Dialog for ThePapare's advertising inventory. This is the regulatory gap: operator advertising falls between national gambling law (which has no enforcement precedent) and ICC code (which doesn't cover media companies).</p>
+    </div>
+  </div>
+
+  <div class="insight-callout">
+    <div class="label">Why This Matters Beyond Sri Lanka</div>
+    <p>The Melbet–Dialog–ThePapare arrangement illustrates a pattern replicated across South Asian cricket media. Offshore operators fund media ecosystems that depend on cricket governance bodies for rights — creating mutual financial interests that make confrontation costly for all parties. Dialog cannot easily remove betting advertising without damaging ad revenue on a platform whose primary value proposition is cricket. SLC cannot easily confront Dialog without jeopardizing its sponsorship and broadcast relationship. The ICC cannot sanction Dialog without disrupting its own broadcast revenue chain in Sri Lanka. The result is structural inertia, not conspiracy — which may be worse, because it is self-sustaining.</p>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ─────────────────────────────────────────
+     03: KHELOYAR & D-COMPANY
+───────────────────────────────────────── -->
+<div class="chapter" id="kheloyar">
+  <div class="chapter-header">
+    <div class="chapter-num">03 — Kheloyar & the D-Company Connection</div>
+    <h2>The LPL Sponsor Allegedly Linked to Dawood Ibrahim's Network</h2>
+    <p class="chapter-lead">Among the six illegal operators that sponsored LPL franchises, Kheloyar carries the most serious documented allegations — a direct line, via India's Enforcement Directorate, to the Mahadev Book network and an associate of India's most-wanted fugitive.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background:rgba(139,92,246,0.15);">🔗</span> The Mahadev Book Network</h3>
+    <p>India's Enforcement Directorate, in its investigations into the Mahadev Book illegal betting syndicate, identified Kheloyar as operating within the same network. The Mahadev Book was built by Saurabh Chandrakar and Ravi Uppal, both reportedly based in Dubai while operating the platform targeting Indian bettors. The ED has attached over ₹500 crore in assets across its Mahadev Book investigation.</p>
+    <p>The specific connection investigators documented: <strong>Mustaqim Ibrahim Kaskar</strong> — brother of Dawood Ibrahim Kaskar, the Mumbai crime lord on India's most-wanted list who is believed to operate primarily from Pakistan — is alleged to have been involved in operating Kheloyar in partnership with the Mahadev Book network. Dawood Ibrahim's D-Company has historically been linked to match-fixing through the 2000 Hansie Cronje scandal and the 2010 spot-fixing investigations.</p>
+  </div>
+
+  <div class="purple-callout">
+    <div class="label">Why Babar Azam's Refusal Was Significant</div>
+    <p>When Babar Azam joined the Colombo Strikers for LPL 2023, he had inserted a specific clause in his contract forbidding him from wearing betting-related logos. After returning from Hajj, he appeared on the field in a blank jersey — no Kheloyar logo, no 1xBook — while every other player on both sides wore the sponsors. There was no press release, no statement from the PCB or LPL. Just a cricketer, alone among his peers, making a visible moral stand based on religious conviction. Given that Kheloyar is the operator the ED linked most directly to organised crime, Azam's refusal — even if based purely on religious grounds — was the most consequential act of integrity in the LPL's history.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="analysis-block">
+      <h3><span class="icon" style="background:rgba(220,38,38,0.15);">🚨</span> SLC's Position</h3>
+      <p>Sri Lanka Cricket accepted Kheloyar as an LPL franchise sponsor. LPL marketing rights are controlled by IPG (Dubai-based), not SLC directly, but SLC administers the tournament and approved its commercial structure. The argument that SLC had no visibility into the operator's regulatory status or allegations — given that India's ED investigation was public knowledge during the LPL 2023 period — strains credibility.</p>
+      <p>No Sri Lankan official has publicly named Kheloyar's Mahadev Book connection. Sports Minister Ranasinghe named it as an illegal platform in Parliament, but the D-Company dimension has never entered Sri Lankan political discourse — a notable silence given its gravity.</p>
+    </div>
+    <div class="analysis-block">
+      <h3><span class="icon" style="background:rgba(255,215,0,0.15);">🌍</span> The Broader Pattern</h3>
+      <p>D-Company's involvement in cricket match-fixing is not new. The 2000 King Commission in South Africa documented links. The 2010 spot-fixing scandal in Pakistan cricket also produced allegations of D-Company involvement. The LPL's Kheloyar sponsorship, if the ED's documentation is accurate, represents a continuation of the same criminal ecosystem — this time embedded not in the players' dressing room, but in the tournament's official commercial structure, on every jersey, broadcast to millions.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ─────────────────────────────────────────
+     04: WOLF777
+───────────────────────────────────────── -->
+<div class="chapter" id="wolf777">
+  <div class="chapter-header">
+    <div class="chapter-num">04 — Wolf777</div>
+    <h2>The Criminal Racket That Sponsored Sri Lanka Cricket</h2>
+    <p class="chapter-lead">Wolf777 is not a grey-area offshore operator — it is the subject of active criminal investigation in India, linked to hawala networks and local criminal agents. It appeared as a visible sponsor in Sri Lanka's premier domestic tournament.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background:rgba(255,58,58,0.15);">🐺</span> What Wolf777 Is</h3>
+    <p>Wolf777 (also marketed as Wolf777News, Wbet, and related brands) operates through a network of local "agents" who facilitate deposits and withdrawals in cash, bypassing banking systems entirely — a classic hawala-adjacent structure. India's Central Bureau of Investigation has investigated Wolf777 in connection with organised illegal betting syndicates. Unlike 1xBet which has at least a Curaçao registration providing nominal regulatory cover, Wolf777's operational structure is designed to be untraceable by design.</p>
+    <p>The platform's visibility in Sri Lanka has been primarily through social media promotions, WhatsApp group advertising, and — during the LPL period — jersey sponsorship on the Colombo Kings franchise. The absence of any banking infrastructure means Sri Lankan users transact in cash through local agents, making it impossible for either the Central Bank or the Gambling Regulatory Authority to track volume or enforce against it.</p>
+  </div>
+
+  <div class="alert-callout">
+    <div class="label">The Agent Network Model</div>
+    <p>Wolf777, like many South Asian illegal betting platforms, uses a tiered agent system. A "master agent" receives a cut of losses from sub-agents, who in turn receive a cut from end-users. Funds move through cash or cryptocurrency, never touching formal banking. This model is structurally resistant to the Central Bank's transaction monitoring because there are no transactions to monitor — just cash. It also means that when the platform eventually collapses or is busted, the only people arrested are typically the lowest-level agents, while the platform operators remain offshore and untouchable.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background:rgba(255,140,0,0.15);">📺</span> Media Complicity by Default</h3>
+    <p>Wolf777's social media advertising in Sri Lanka has run on platforms including Facebook and Instagram, targeting cricket fans during match broadcasts. Meta's advertising platform does not proactively verify whether gambling operators hold licences in each jurisdiction where their ads run — advertisers self-certify compliance. This means Wolf777 can legally (by Meta's ad policies) target Sri Lankan users despite being an unlicensed and criminally investigated operator, because Meta's system has no mechanism to verify Sri Lankan gambling law compliance at the point of ad approval. Sri Lankan regulators have no direct enforcement mechanism against a US-listed company for ads placed from servers outside Sri Lanka.</p>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ─────────────────────────────────────────
+     05: CELEBRITY MACHINE
+───────────────────────────────────────── -->
+<div class="chapter" id="celebrities">
+  <div class="chapter-header">
+    <div class="chapter-num">05 — The Celebrity Endorsement Machine</div>
+    <h2>How the Network Bought Legitimacy Through Famous Faces</h2>
+    <p class="chapter-lead">When you attach a beloved cricketer's face to a brand, millions of fans assume the brand is legitimate. India's Enforcement Directorate attached assets from cricketers who endorsed 1xBet-affiliated platforms — confirming the strategy was knowingly exploited, not merely an oversight.</p>
+  </div>
+
+  <div class="analysis-block">
+    <h3><span class="icon" style="background:rgba(255,215,0,0.15);">⭐</span> The Strategy</h3>
+    <p>The endorsement strategy was deliberate and systematic: sign recognisable cricketers and entertainment celebrities for promotional contracts, run their faces in social media ads, and use their credibility to recruit ordinary bettors. For operators that are illegal in their target markets, celebrity association serves a second function — it creates political risk for any regulator who tries to act, because shutting down a platform endorsed by a national icon becomes a story about the icon, not the illegality.</p>
+    <p>India's Enforcement Directorate, in its investigations into 1xBet-affiliated platforms and the Mahadev Book network, attached assets from or investigated multiple prominent cricketers and celebrities. The list below is based on documented ED actions and news reports — not convictions, but formal investigations and asset attachment orders.</p>
+  </div>
+
+  <div class="celeb-grid">
+
+    <div class="celeb-card">
+      <div class="celeb-avatar">SR</div>
+      <div class="celeb-info">
+        <h4>Suresh Raina</h4>
+        <div class="sport">INDIA — ODI / CSK</div>
+        <div class="action">ED attached assets linked to 1xBet-affiliated platform endorsement. <em>Asset attachment issued.</em></div>
+      </div>
+    </div>
+
+    <div class="celeb-card">
+      <div class="celeb-avatar">SD</div>
+      <div class="celeb-info">
+        <h4>Shikhar Dhawan</h4>
+        <div class="sport">INDIA — ODI opener</div>
+        <div class="action">Identified in ED investigation into 1xBet-affiliated platform promotions. <em>Investigated.</em></div>
+      </div>
+    </div>
+
+    <div class="celeb-card">
+      <div class="celeb-avatar">YS</div>
+      <div class="celeb-info">
+        <h4>Yuvraj Singh</h4>
+        <div class="sport">INDIA — World Cup winner</div>
+        <div class="action">Named in ED documentation relating to endorsement of affiliated gambling platform. <em>Investigated.</em></div>
+      </div>
+    </div>
+
+    <div class="celeb-card">
+      <div class="celeb-avatar">RU</div>
+      <div class="celeb-info">
+        <h4>Robin Uthappa</h4>
+        <div class="sport">INDIA — IPL / RCB</div>
+        <div class="action">Assets attached in ED's 1xBet-affiliated platform investigation. <em>Asset attachment issued.</em></div>
+      </div>
+    </div>
+
+    <div class="celeb-card">
+      <div class="celeb-avatar">SJ</div>
+      <div class="celeb-info">
+        <h4>Sanath Jayasuriya</h4>
+        <div class="sport">SRI LANKA — Legend / Former SLC Chairman</div>
+        <div class="action">ICC two-year ban for non-cooperation with anti-corruption investigation. Did not endorse betting operators but failed to provide required information. <em>Banned.</em></div>
+      </div>
+    </div>
+
+    <div class="celeb-card">
+      <div class="celeb-avatar">BA</div>
+      <div class="celeb-info">
+        <h4>Babar Azam</h4>
+        <div class="sport">PAKISTAN — Captain / Colombo Strikers LPL</div>
+        <div class="action">Refused Kheloyar and 1xBook jersey logos. Played in blank jersey. No endorsement. <em>The exception that proves the rule.</em></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="insight-callout">
+    <div class="label">The Due Diligence Question</div>
+    <p>Every celebrity in this list, regardless of their ultimate legal outcome, presumably signed a contract with an entity that presented itself with professional documentation and payment. The Curaçao registration, the BetB2B white-label technology, and the polished marketing materials all convey legitimacy. The question Indian courts will eventually have to answer: what level of due diligence is required of a public figure before endorsing a financial services brand — especially when the brand operates in a heavily regulated (or outright prohibited) sector? Sri Lankan players who endorsed LPL betting sponsors face the same question under the 2025 Gambling Regulatory Authority Act, whose promotion provisions have not yet been tested.</p>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ─────────────────────────────────────────
+     06: SIX LAYERS OF ENABLERS
+───────────────────────────────────────── -->
+<div class="chapter" id="enablers">
+  <div class="chapter-header">
+    <div class="chapter-num">06 — Six Layers of Enablers</div>
+    <h2>How the Network Survived Every Attempt to Dismantle It</h2>
+    <p class="chapter-lead">The betting network did not survive through brute corruption alone. It survived because it embedded itself across six mutually reinforcing layers of institutional enablement — each layer with its own incentives to maintain the status quo.</p>
+  </div>
+
+  <ul class="layer-list">
+    <li class="layer-item">
+      <div class="layer-num" style="background:rgba(220,38,38,0.12); color:var(--accent-red);">01</div>
+      <div class="layer-content">
+        <h4>Sri Lanka Cricket's Revenue Dependency</h4>
+        <p>SLC's budget depends heavily on LPL franchise fees (USD 2.5 million per team) and tournament commercial revenue. With six franchises, that is a USD 15 million revenue base per edition. The operators who provide this via franchise sponsorship cannot be removed without collapsing the tournament's commercial model. SLC's dire financial position during the 2021–2023 economic crisis made this dependency acute: the board needed the money, regardless of where it came from.</p>
+      </div>
+    </li>
+    <li class="layer-item">
+      <div class="layer-num" style="background:rgba(255,140,0,0.12); color:var(--accent-orange);">02</div>
+      <div class="layer-content">
+        <h4>The IPG Firewall</h4>
+        <p>LPL's marketing and commercial rights sit with IPG, a Dubai-based company of Indian origin. By delegating commercial decisions to an offshore entity, SLC created legal and regulatory distance: the betting operators are technically IPG's commercial partners, not SLC's direct sponsors. When Sri Lankan regulators or parliamentarians raise questions, the answer is that the arrangements are contractual obligations made by IPG, outside Sri Lankan jurisdiction. This is the same firewall structure used by the Board of Control for Cricket in India (BCCI) in early IPL editions — deliberate offshore commercialisation that insulates the domestic board from regulatory accountability.</p>
+      </div>
+    </li>
+    <li class="layer-item">
+      <div class="layer-num" style="background:rgba(139,92,246,0.12); color:var(--accent-purple);">03</div>
+      <div class="layer-content">
+        <h4>Political Entanglement</h4>
+        <p>Sri Lanka Cricket's board elections are political events. Every government since 2004 has attempted to control SLC's board, either through election influence or ministerial dissolution. This political entanglement means that anti-corruption reform requires political will — but every minister who has exercised that will (Fernando, Ranasinghe, Rajapaksa) has been removed, transferred, or overridden. The ICC suspended SLC in November 2023 for "government interference" — the intervention that was most likely to clean up the board — which paradoxically shielded the board by invoking ICC's constitutional protections against state interference.</p>
+      </div>
+    </li>
+    <li class="layer-item">
+      <div class="layer-num" style="background:rgba(74,158,255,0.12); color:var(--accent-blue);">04</div>
+      <div class="layer-content">
+        <h4>Media Ecosystem Capture</h4>
+        <p>The primary cricket media platform (ThePapare) is owned by the primary cricket broadcast rights holder (Dialog). Independent cricket journalism in Sri Lanka is thin: most cricket-adjacent media rely on access to SLC officials, LPL credentials, and advertising relationships with the same sponsors. Investigative journalism about LPL betting has been largely imported from Indian outlets (Cricket Age, ESPN Cricinfo investigations) or international media. Sri Lankan media has generally avoided the Kheloyar–D-Company and Melbet–Dialog dimensions of the story entirely.</p>
+      </div>
+    </li>
+    <li class="layer-item">
+      <div class="layer-num" style="background:rgba(0,204,136,0.12); color:var(--accent-green);">05</div>
+      <div class="layer-content">
+        <h4>Regulatory Immaturity</h4>
+        <p>The Gambling Regulatory Authority was only established in 2025. Before that, Sri Lanka had no dedicated gambling regulator. Police enforcement under older statutes required proof of physical gambling premises — impossible to apply to Curaçao-registered online platforms. The 2025 Act gives the Authority powers over online promotion, but the Authority lacks the technical capacity (blockchain tracing, IP attribution, international regulatory cooperation) to act against platforms operated from offshore jurisdictions with minimal disclosure requirements. Building that capacity takes years and sustained political support — neither of which has been guaranteed.</p>
+      </div>
+    </li>
+    <li class="layer-item">
+      <div class="layer-num" style="background:rgba(255,215,0,0.12); color:var(--accent-gold);">06</div>
+      <div class="layer-content">
+        <h4>The ICC's Blind Spot</h4>
+        <p>The ICC Anti-Corruption Code applies to players, officials, and administrators — not to media companies, telecom sponsors, or tournament commercial partners. The ICC's own commercial relationships (such as the broadcast rights held by Dialog, which is the parent company of an entity carrying illegal betting advertising) create conflicts that the ICC's governance structure is not designed to resolve. The ICC has a Colombo ACU office that has handled more simultaneous corruption investigations than any other territory — but its mandate is player and official corruption, not systemic commercial corruption at the board and sponsor level.</p>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<hr class="section-divider">
+
+<!-- ─────────────────────────────────────────
+     07: SELF-REINFORCING LOOP
+───────────────────────────────────────── -->
+<div class="chapter" id="loop">
+  <div class="chapter-header">
+    <div class="chapter-num">07 — The Self-Reinforcing Loop</div>
+    <h2>Why the System Perpetuates Itself</h2>
+    <p class="chapter-lead">The six enabler layers do not operate independently — they form a closed feedback loop. Understanding this loop explains why Sri Lankan cricket's corruption problem has resisted every intervention for two decades.</p>
+  </div>
+
+  <div class="loop-diagram">
+    <div class="loop-steps">
+      <div class="loop-step">Betting operators need cricket to be popular</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">Operators fund LPL via franchise fees &amp; jersey logos</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">LPL revenue keeps SLC financially viable</div>
+      <div class="loop-arrow">↓</div>
+    </div>
+    <div class="loop-steps" style="margin-top:0.5rem;">
+      <div class="loop-step">Reform threats removed (ministers fired, ICC invoked)</div>
+      <div class="loop-arrow">←</div>
+      <div class="loop-step">Political actors who challenge this lose power</div>
+      <div class="loop-arrow">←</div>
+      <div class="loop-step">Board elections produce complicit officials</div>
+      <div class="loop-arrow">←</div>
+    </div>
+    <div class="loop-steps" style="margin-top:0.5rem;">
+      <div class="loop-step">Media ecosystem depends on cricket access &amp; ad revenue</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">Coverage avoids structural critique</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step">Public pressure remains low</div>
+      <div class="loop-arrow">→</div>
+      <div class="loop-step" style="background:rgba(220,38,38,0.08); border-color:rgba(220,38,38,0.2);">Loop restarts</div>
+    </div>
+    <p class="loop-note">The loop has no natural exit point. Reform requires simultaneous political will, media pressure, regulatory capacity, and ICC support — a combination that has never materialised together.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="analysis-block">
+      <h3><span class="icon" style="background:rgba(220,38,38,0.15);">🔄</span> How It Survived Three Reform Attempts</h3>
+      <p><strong>Attempt 1 (Fernando):</strong> Filed the ICC report on Sumathipala, dissolved the board. Result: ICC reinstated the board, Fernando was eventually moved from the portfolio. <strong>Attempt 2 (Ranasinghe):</strong> Named 'Betting Shammi' in Parliament, dissolved the board again. Result: Wickremesinghe fired him from all ministerial positions. <strong>Attempt 3 (NPP Government 2024):</strong> Promised restructuring, appointed Arjuna Ranatunga to oversee reform. Result: Ranatunga's proposals have not produced a substantive change in board composition or commercial structure.</p>
+    </div>
+    <div class="analysis-block">
+      <h3><span class="icon" style="background:rgba(255,215,0,0.15);">💡</span> What Would Break the Loop</h3>
+      <p>Based on how similar loops have been broken in other cricket jurisdictions: the loop breaks either through external pressure that removes the ICC's tolerance (a match-fixing conviction that embarrasses the ICC globally), through media pressure that creates a sustained public narrative, or through a government with sufficient institutional security to absorb the ICC's "interference" threat. The ICC's suspension in 2023 — rather than breaking the loop — became a mechanism for preserving it, by making government intervention legally problematic under ICC statutes.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider">
+
+<!-- ─────────────────────────────────────────
+     08: CONVICTIONS & SANCTIONS
+───────────────────────────────────────── -->
+<div class="chapter" id="convictions">
+  <div class="chapter-header">
+    <div class="chapter-num">08 — Every Conviction & Sanction</div>
+    <h2>The Full Record: Players, Officials, Owners</h2>
+    <p class="chapter-lead">The conviction record in Sri Lanka cricket corruption is the most extensive of any Test-playing nation. This is not because Sri Lanka has more corruption — it is because the ICC ACU chose to make Sri Lanka its primary enforcement focus, stationing its only permanent non-Dubai office in Colombo.</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-pill"><span class="stat-val">22+</span><span class="stat-lbl">Simultaneous ACU investigations (peak)</span></div>
+    <div class="stat-pill"><span class="stat-val">1st</span><span class="stat-lbl">Full-member ICC suspension in history</span></div>
+    <div class="stat-pill"><span class="stat-val">1st</span><span class="stat-lbl">Franchise owner convicted in SL</span></div>
+    <div class="stat-pill"><span class="stat-val">1st</span><span class="stat-lbl">Criminal prosecution of a SL cricketer</span></div>
+  </div>
+
+  <div class="overflow-x">
+  <table class="conviction-table">
+    <thead>
+      <tr>
+        <th>Person / Entity</th>
+        <th>Role</th>
+        <th>Outcome</th>
+        <th>Year</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="person-name">Nuwan Zoysa</span></td>
+        <td>Former SL pacer; coach</td>
+        <td><span class="tag-pill tag-ban">6-year ban</span></td>
+        <td>2023</td>
+        <td>ICC: Three charges under Anti-Corruption Code — soliciting player to fix, failing to disclose approaches, obstructing investigation.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">Dilhara Lokuhettige</span></td>
+        <td>Former SL pacer; T10 player</td>
+        <td><span class="tag-pill tag-ban">8-year ban</span></td>
+        <td>2019</td>
+        <td>ICC: Charged with match-fixing in ICC World Cricket League and arranging approaches to other players. ICC's longest ban for a SL cricketer at the time.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">Sanath Jayasuriya</span></td>
+        <td>Former captain; SLC Chairman</td>
+        <td><span class="tag-pill tag-ban">2-year ban</span></td>
+        <td>2019</td>
+        <td>ICC: Non-cooperation with corruption investigation. Refused to hand over phone and communicate with ACU. Ban served; later became SLC Chairman and contested elections.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">Sachithra Senanayake</span></td>
+        <td>Former SL spinner</td>
+        <td><span class="tag-pill tag-charge">Criminal indictment</span></td>
+        <td>2023</td>
+        <td>First Sri Lankan cricketer indicted under the Prevention of Offences Relating to Sports Act 2019. Alleged match-fixing approach in domestic tournament. Case ongoing.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">Tamim Rahman</span></td>
+        <td>Owner — Dambulla Thunders (LPL)</td>
+        <td><span class="tag-pill tag-conviction">Guilty plea</span></td>
+        <td>Jan 2026</td>
+        <td>First franchise owner in Sri Lankan cricket to plead guilty to match-fixing. Coordinated with players to fix outcomes in LPL matches. First conviction of an LPL franchise owner.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">Anurag Thakkar</span></td>
+        <td>Lanka T10 official</td>
+        <td><span class="tag-pill tag-conviction">Convicted</span></td>
+        <td>May 2025</td>
+        <td>ICC-led prosecution. Charged with attempting to fix matches in Lanka T10 tournament. Convicted under Sri Lankan sports corruption statute.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">Thilanga Sumathipala</span></td>
+        <td>Former SLC President (multiple terms)</td>
+        <td><span class="tag-pill tag-ban">Barred from office</span></td>
+        <td>2019</td>
+        <td>Sports Minister's 12-page ICC report documented connection between Sumathipala family conglomerate and Sporting Star bookmaking operation. UK bookmaker Glyn Palmer testified to ICC ACU involvement. Barred from 2019 SLC election.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">Shammi Silva</span></td>
+        <td>SLC President (2019–present)</td>
+        <td><span class="tag-pill tag-pending">Under scrutiny</span></td>
+        <td>Ongoing</td>
+        <td>Named 'Betting Shammi' by Sports Minister Ranasinghe in Parliament. Auditor General's 2023 report documented USD 185,000 equipment overpayment via fictitious manufacturer. Father Piyasena managed Sporting Star. No formal charge as of February 2026.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">Jerome Jayarathne</span></td>
+        <td>Former SLC official</td>
+        <td><span class="tag-pill tag-ban">Suspended</span></td>
+        <td>2020</td>
+        <td>ICC Anti-Corruption Code violation. Charged with failing to disclose corrupt approaches, obstructing investigation. Served suspension.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">Upul Tharanga</span></td>
+        <td>Former SL ODI captain</td>
+        <td><span class="tag-pill tag-ban">Suspended (cleared)</span></td>
+        <td>2011</td>
+        <td>Suspended pending investigation into 2011 World Cup spot-fixing allegations. Cleared and ban lifted. Included for completeness of the record.</td>
+      </tr>
+      <tr>
+        <td><span class="person-name">India ED — Multiple Cricketers</span></td>
+        <td>Indian international players</td>
+        <td><span class="tag-pill tag-charge">Assets attached</span></td>
+        <td>2023–24</td>
+        <td>Enforcement Directorate attached over ₹19 crore in assets from cricketers (Raina, Uthappa and others) who endorsed 1xBet-affiliated platforms. Not Sri Lankan players, but directly relevant to the network operating in Sri Lanka.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot gold"></div>
+      <div class="tl-date gold">2007</div>
+      <h4>1xBet founded in Russia</h4>
+      <p>Semiokhin, Kazorin, Karshkov establish what becomes the world's largest illegal betting network. Russian criminal charges follow within years.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot red"></div>
+      <div class="tl-date red">2011</div>
+      <h4>ICC establishes Colombo ACU office</h4>
+      <p>The only permanent ICC ACU office outside Dubai — established because Sri Lanka already had the highest concentration of corruption cases.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-date">2019</div>
+      <h4>Sumathipala barred; Jayasuriya banned; Lokuhettige banned</h4>
+      <p>A year of cascading enforcement actions. Sumathipala's barring leads directly to Shammi Silva's presidency — with all that follows.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot red"></div>
+      <div class="tl-date red">2023 LPL</div>
+      <h4>Every franchise carries betting logos</h4>
+      <p>All six LPL franchises carry logos from operators identified as illegal, unlicensed, or criminally investigated. Kheloyar's Mahadev Book links are already public knowledge in India. Babar Azam refuses all logos.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot purple"></div>
+      <div class="tl-date purple">Nov 2023</div>
+      <h4>ICC suspends Sri Lanka Cricket — first full-member suspension in ICC history</h4>
+      <p>Stated reason: government interference. Actual context: LPL betting controversy, growing evidence of systemic corruption, three ministers already fired for reform attempts.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot red"></div>
+      <div class="tl-date red">Jun 2023</div>
+      <h4>Sergey Karshkov dies at Swiss clinic, aged 42</h4>
+      <p>1xBet co-founder and former Russian cybercrime enforcement chief dies under unexplained circumstances. No public cause of death. He had been on Russia's international wanted list.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot gold"></div>
+      <div class="tl-date gold">2025</div>
+      <h4>Sri Lanka Gambling Regulatory Authority established</h4>
+      <p>First dedicated gambling regulator in Sri Lankan history. Covers online promotion of unlicensed platforms. Melbet's ThePapare ads remain active as of February 2026.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot red"></div>
+      <div class="tl-date red">Jan 2026</div>
+      <h4>Tamim Rahman pleads guilty — first franchise owner convicted</h4>
+      <p>LPL Dambulla Thunders owner pleads guilty to match-fixing. A landmark conviction that proves the corruption extended to the ownership level, not just players and officials.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot red"></div>
+      <div class="tl-date red">Feb 27, 2026</div>
+      <h4>Sri Lanka eliminated from T20 World Cup Super 8s by New Zealand</h4>
+      <p>Total: 154. Target: 170. Chasing 170, Sri Lanka are bowled out for 154. The institution's off-field failures are now on-field results.</p>
+    </div>
+  </div>
+
+  <div class="alert-callout">
+    <div class="label">The Bottom Line</div>
+    <p>The conviction record is extensive. The structural corruption is documented. Three ministers have tried to intervene and been removed. The ICC's ACU has more permanent staff in Colombo than anywhere outside Dubai — and more simultaneous active investigations. The Auditor General's reports document financial irregularities. A franchise owner has pleaded guilty to match-fixing. And yet: the same board remains. The same commercial structure continues. The same illegal operators advertise on the same platforms. The same players who grew up watching this institution fail them line up to represent a country that let them down at every level. What happened against New Zealand on February 27, 2026 was not a bad day. It was the inevitable output of a system that has been deliberately designed to produce it.</p>
+  </div>
+
+</div>
+
+</div><!-- end content-wrap -->
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer class="page-footer">
+  <div class="footer-social">
+    <a href="https://www.facebook.com/riz.life.crisis/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg> Facebook
+    </a>
+    <a href="https://www.instagram.com/riz_razak_" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="var(--bg-secondary)"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="var(--bg-secondary)" stroke-width="2"/></svg> Instagram
+    </a>
+    <a href="https://www.tiktok.com/@riz.razak" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg> TikTok
+    </a>
+    <a href="https://rizrazak.com" target="_blank" rel="noopener">🌐 rizrazak.com</a>
+  </div>
+  <p class="footer-disclaimer">This investigation is based on publicly documented investigations, court records, parliamentary disclosures, regulatory findings, and reports from named investigative organisations including the Molfar Institute, InformNapalm, Byline Times, Fintelegram, India's Enforcement Directorate, and the ICC Anti-Corruption Unit. All allegations involving ongoing investigations are presented as alleged unless a conviction or formal finding has been made. This page is part of the <a href="index.html">Sri Lanka Cricket Corruption Dossier</a>.</p>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+function applyDossierTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.getElementById('dossier-theme-btn');
+  if (btn) btn.textContent = theme === 'light' ? '🌙' : '☀️';
+  localStorage.setItem('dossier-theme', theme);
+}
+function toggleDossierTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  applyDossierTheme(current === 'dark' ? 'light' : 'dark');
+}
+// Apply saved theme on load (also runs inline at top to prevent flash)
+(function(){
+  const t = localStorage.getItem('dossier-theme') || 'light';
+  applyDossierTheme(t);
+})();
+
+// Fade-in on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.chapter, .analysis-block, .operator-card, .celeb-card, .layer-item, .tl-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(16px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
