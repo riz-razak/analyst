@@ -232,7 +232,7 @@ body.dragging { cursor:grabbing; }
        GDPR-aware: skips tracking if user explicitly declined consent.
        To update IDs: replace values in analytics.html → Analytics tab,
        or edit GA4_ID / CLARITY_ID directly in inject_analytics.py and re-run.
-       GA4 Measurement ID : G-XXXXXXXXXX
+       GA4 Measurement ID : G-SCKES76007
        Clarity Project ID  : vomuhyeriq
   -->
   <script>
@@ -244,13 +244,13 @@ body.dragging { cursor:grabbing; }
       // ── Google Analytics 4 ───────────────────────────────────────────────
       var _ga = document.createElement('script');
       _ga.async = true;
-      _ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+      _ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-SCKES76007';
       document.head.appendChild(_ga);
       window.dataLayer = window.dataLayer || [];
       function gtag(){ dataLayer.push(arguments); }
       window.gtag = gtag;
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX', {
+      gtag('config', 'G-SCKES76007', {
         'anonymize_ip': true,      // GDPR best-practice
         'send_page_view': true
       });

@@ -13,7 +13,7 @@ import os
 BASE = "/sessions/laughing-funny-carson/mnt/Political Research/analyst-site"
 
 # ── IDs — replace these once you have real accounts ──────────────────────────
-GA4_ID      = "G-XXXXXXXXXX"   # From GA4: Admin → Data Streams → Measurement ID
+GA4_ID      = "G-SCKES76007"   # Google Analytics 4 — analyst.rizrazak.com
 CLARITY_ID  = "vomuhyeriq"     # Microsoft Clarity — analyst.rizrazak.com
 # ─────────────────────────────────────────────────────────────────────────────
 
