@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corruption Network Map — Sri Lanka Cricket Dossier</title>
+  <meta name="description" content="Interactive network map: 45 nodes, 70+ verified connections in Sri Lanka's cricket betting corruption web.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0a0a0f;
+      color: #e0e0e8;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 44px;
+      background: rgba(10, 10, 15, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #ccc;
+    }
+
+    nav .nav-center {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #aaa;
+    }
+
+    nav .nav-right {
+      font-size: 12px;
+      color: #999;
+      font-weight: 500;
+    }
+
+    #map {
+      position: absolute;
+      top: 44px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      cursor: grab;
+    }
+
+    #map:active {
+      cursor: grabbing;
+    }
+
+    #legend {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background: rgba(15, 15, 25, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 16px;
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      max-width: 240px;
+      font-size: 12px;
+    }
+
+    .legend-title {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #ccc;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+
+    .legend-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .legend-item input[type="checkbox"] {
+      cursor: pointer;
+      accent-color: #ff9900;
+    }
+
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    #node-popup,
+    #link-popup {
+      position: fixed;
+      background: rgba(15, 15, 25, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 13px;
+      max-width: 340px;
+      backdrop-filter: blur(8px);
+      z-index: 300;
+      display: none;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    #node-popup.visible,
+    #link-popup.visible {
+      display: block;
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .popup-close:hover {
+      color: #ccc;
+    }
+
+    .popup-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .popup-desc {
+      color: #aaa;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .popup-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .popup-tag {
+      display: inline-block;
+      background: rgba(255, 153, 0, 0.15);
+      color: #ff9900;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 11px;
+      border: 1px solid rgba(255, 153, 0, 0.3);
+    }
+
+    .popup-fact-header {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .fact-label {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-weight: 600;
+      font-size: 11px;
+      margin-right: 8px;
+    }
+
+    .fact-label.verified {
+      background: rgba(68, 200, 136, 0.2);
+      color: #44c888;
+      border: 1px solid rgba(68, 200, 136, 0.4);
+    }
+
+    .fact-label.reported {
+      background: rgba(255, 153, 0, 0.2);
+      color: #ff9900;
+      border: 1px solid rgba(255, 153, 0, 0.4);
+    }
+
+    .fact-label.partially {
+      background: rgba(204, 204, 68, 0.2);
+      color: #cccc44;
+      border: 1px solid rgba(204, 204, 68, 0.4);
+    }
+
+    .popup-fact-text {
+      color: #aaa;
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+
+    #embed-panel {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 150;
+    }
+
+    #embed-toggle {
+      background: rgba(15, 15, 25, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #888;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
+    }
+
+    #embed-toggle:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #ccc;
+    }
+
+    #embed-code {
+      background: rgba(15, 15, 25, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 8px;
+      max-width: 500px;
+      backdrop-filter: blur(8px);
+    }
+
+    #embed-code pre {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin-bottom: 10px;
+    }
+
+    #embed-code code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #aaa;
+      line-height: 1.4;
+    }
+
+    #copy-embed {
+      background: rgba(255, 153, 0, 0.2);
+      border: 1px solid rgba(255, 153, 0, 0.4);
+      color: #ff9900;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    #copy-embed:hover {
+      background: rgba(255, 153, 0, 0.3);
+      border-color: rgba(255, 153, 0, 0.6);
+      color: #ffb333;
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        r: 35;
+        stroke-width: 2;
+        opacity: 1;
+      }
+      100% {
+        r: 50;
+        stroke-width: 1;
+        opacity: 0;
+      }
+    }
+
+    .convicted-pulse {
+      animation: pulse-ring 2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="./index.html">← Back to Dossier</a>
+    <div class="nav-center">SRI LANKA CRICKET — CORRUPTION NETWORK MAP</div>
+    <div class="nav-right">45 nodes · 70+ links</div>
+  </nav>
+
+  <svg id="map" width="100%" height="100%">
+    <defs>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <g id="canvas">
+      <g id="links-layer"></g>
+      <g id="nodes-layer"></g>
+    </g>
+  </svg>
+
+  <div id="legend">
+    <div class="legend-title">Node Types</div>
+  </div>
+
+  <div id="node-popup">
+    <button class="popup-close">×</button>
+    <div class="popup-label" id="popup-label"></div>
+    <div class="popup-desc" id="popup-desc"></div>
+    <div class="popup-tags" id="popup-tags"></div>
+  </div>
+
+  <div id="link-popup">
+    <button class="popup-close">×</button>
+    <div class="popup-fact-header" id="popup-fact-header"></div>
+    <div class="popup-fact-text" id="popup-fact-text"></div>
+  </div>
+
+  <div id="embed-panel">
+    <button id="embed-toggle">&lt; &gt; Get embed code</button>
+    <div id="embed-code">
+      <pre><code>&lt;iframe src="https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/mindmap.html" width="100%" height="720" frameborder="0" style="border-radius:12px;border:1px solid rgba(255,255,255,0.1);" allowfullscreen title="Sri Lanka Cricket Corruption Network Map"&gt;&lt;/iframe&gt;</code></pre>
+      <button id="copy-embed">Copy</button>
+    </div>
+  </div>
+
+  <script>
+    // ============ DATA ============
+    const typeColors = {
+      slc: "#ff9900",
+      betting: "#ff4444",
+      government: "#4488ff",
+      celebrity: "#aa44ff",
+      criminal: "#ff2266",
+      corporate: "#44cc88",
+      jurisdiction: "#cccc44",
+      convicted: "#888888"
+    };
+
+    const nodes = [
+      { id: "slc", label: "Sri Lanka Cricket", type: "slc", size: 38, desc: "National cricket board. Approved illegal betting sponsors for LPL and national team jerseys. 22 live ICC ACU corruption investigations at one point.", tags: ["slc"] },
+      { id: "sumathipala", label: "Thilanga Sumathipala", type: "slc", size: 30, desc: "Former SLC President & Deputy Speaker of Parliament. Family owns Sporting Star bookmaking business (est. 1956). Banned from SLC office by ICC. Still influences SLC through proxies.", tags: ["slc"] },
+      { id: "shammi", label: "Shammi Silva", type: "slc", size: 26, desc: "SLC President since Feb 2019, now in 4th term. Called 'Betting Shammi' by Sports Minister Ranasinghe. Father Piyasena De Silva was manager of Sumathipala's Sporting Star.", tags: ["slc"] },
+      { id: "ashley", label: "Ashley de Silva", type: "slc", size: 20, desc: "SLC CEO for over a decade. Sits on LPL governing council. Oversees tournament operations including sponsor approvals.", tags: ["slc"] },
+      { id: "mohan", label: "Mohan de Silva", type: "slc", size: 16, desc: "SLC Secretary. Claimed 1xBat sponsorship was approved by Asia Cricket Council. Attended ICC Board meetings with Sumathipala.", tags: ["slc"] },
+      { id: "melbet", label: "Melbet", type: "betting", size: 26, desc: "1xBet sub-brand. Pelican Entertainment B.V., Curaçao #134359. Shares same IP, odds, and backend as 1xBet. Advertised on ThePapare/Dialog. Banned in India, UK, France, and others.", tags: ["betting"] },
+      { id: "1xbet", label: "1xBet / 1xBat", type: "betting", size: 30, desc: "Russian-founded, Cyprus HQ. ~1,800 affiliated sites on blacklists worldwide. 1xBat was official Sri Lanka Asia Cup 2023 sponsor. Founded by Semiokhin, Kazorin, Karshkov.", tags: ["betting"] },
+      { id: "wolf777", label: "Wolf777", type: "betting", size: 22, desc: "Owner: Rakesh Rajdev (Gujarat/Dubai). GIT Operations NV, Curaçao. Ahmedabad Crime Branch lookout notice. ₹1,400 crore betting racket. Back-of-jersey sponsor for SL India Tour 2022.", tags: ["betting"] },
+      { id: "kheloyar", label: "Kheloyar", type: "betting", size: 24, desc: "Mahadev Book network. Operated by Saurabh Chandrakar + Mustaqim Ibrahim Kaskar (Dawood Ibrahim's brother). ₹300-500 crore investment. ₹200 crore daily turnover across 60 apps.", tags: ["betting", "criminal"] },
+      { id: "crickex", label: "Crickex", type: "betting", size: 18, desc: "VB Digital N.V., Curaçao/Cyprus. Multiple fraud complaints. Robin Uthappa is brand ambassador. Accused of freezing winning accounts.", tags: ["betting"] },
+      { id: "stbet", label: "STBet / Sporting Star", type: "betting", size: 24, desc: "Sumathipala family's platform. Sporting Star est. 1956 → Sporting Times → STBet.com. 1,000+ employees. Curaçao licence 8047/JAZ. The very business that got Sumathipala banned from SLC.", tags: ["betting", "slc"] },
+      { id: "skyfair", label: "Skyfair", type: "betting", size: 16, desc: "LPL 2023 title sponsor. Sky Infotech N.V., Curaçao #152377. Named as 'illegal offshore betting website' by Justice Minister in Parliament.", tags: ["betting"] },
+      { id: "semiokhin", label: "Roman Semiokhin", type: "criminal", size: 20, desc: "1xBet co-founder. 'Bryansk billionaire.' Cypriot citizenship. On Russia's international wanted list. 63 billion rubles in illegal gambling.", tags: ["criminal"] },
+      { id: "karshkov", label: "Sergey Karshkov", type: "criminal", size: 18, desc: "1xBet co-founder. Former head of Bryansk cybercrime unit (Russian MVD). Died June 2023 — 'anaphylactic shock' during routine Swiss medical exam. Age 42. On Russia's wanted list.", tags: ["criminal"] },
+      { id: "dawood", label: "Dawood Ibrahim Network", type: "criminal", size: 22, desc: "D-Company. Kheloyar operated in partnership with Mustaqim Ibrahim Kaskar (Dawood's brother). Protection money paid to D-Company and allegedly to Pakistan's ISI.", tags: ["criminal"] },
+      { id: "rajdev", label: "Rakesh Rajdev", type: "criminal", size: 18, desc: "Wolf777 owner. Gujarat/Dubai. Ahmedabad Crime Branch lookout. Nagpur police wanted (₹58 crore scam). ED found ₹170.70 crore through one fraudulent bank account.", tags: ["criminal"] },
+      { id: "chandrakar", label: "Saurabh Chandrakar", type: "criminal", size: 18, desc: "Kheloyar/Mahadev Book operator. Arrested in Dubai on Interpol Red Corner Notice 2024. Paid protection to D-Company. ₹200 crore daily through 60 apps.", tags: ["criminal", "convicted"] },
+      { id: "wickremesinghe", label: "Ranil Wickremesinghe", type: "government", size: 24, desc: "President (2022-2024). Fired Sports Minister Ranasinghe for dissolving SLC board. Effectively shielded Shammi Silva's administration.", tags: ["government"] },
+      { id: "ranasinghe", label: "Roshan Ranasinghe", type: "government", size: 20, desc: "Sports Minister who called Silva 'Betting Shammi.' Dissolved SLC board. Was fired by Wickremesinghe from ALL ministerial positions.", tags: ["government"] },
+      { id: "wijedasa", label: "Wijedasa Rajapaksa", type: "government", size: 18, desc: "Justice Minister. Named 15 illegal betting sites sponsoring LPL in Parliament (Aug 2023). Called Skyfair 'illegal offshore betting website.' Nothing happened.", tags: ["government"] },
+      { id: "harin", label: "Harin Fernando", type: "government", size: 22, desc: "Sports Minister (2018-19, 2023-24). Banned Sumathipala from SLC. Passed match-fixing law. Reported bribery attempt. But also restored Silva board after Ranasinghe's removal.", tags: ["government"] },
+      { id: "dissanayake", label: "Anura K. Dissanayake", type: "government", size: 22, desc: "Current President (NPP). Passed GRA Act 2025. Raised gaming tax to 45%. GRA operational June 2026. Focus on regulation, not prohibition.", tags: ["government"] },
+      { id: "dialog", label: "Dialog Axiata", type: "corporate", size: 26, desc: "Sri Lanka's largest telecom. Owns ThePapare. ICC broadcast rights until 2028. National team sponsor ($4.8M). Runs Melbet ads on ThePapare. Too powerful to challenge.", tags: ["corporate"] },
+      { id: "ipg", label: "IPG Dubai", type: "corporate", size: 20, desc: "Indian-owned Dubai company. Holds LPL marketing, broadcast, franchise, and sponsorship rights since 2020. Controls who sponsors teams. Beyond Sri Lankan jurisdiction.", tags: ["corporate"] },
+      { id: "papare", label: "ThePapare", type: "corporate", size: 18, desc: "Sri Lanka's leading cricket website. Owned by Dialog Axiata. Carries Melbet advertising. ICC broadcast partner's content arm promoting illegal betting.", tags: ["corporate"] },
+      { id: "watson", label: "Shane Watson", type: "celebrity", size: 18, desc: "Australia. Melbet global ambassador (2021) AND Wolf777 ambassador (2023). Endorsed TWO illegal platforms targeting same markets simultaneously.", tags: ["celebrity"] },
+      { id: "raina", label: "Suresh Raina", type: "celebrity", size: 16, desc: "India. 1xBet endorser. ED attached ₹6.64 crore in mutual funds. Alleged to have 'knowingly' signed deals with 1xBet foreign entities.", tags: ["celebrity", "convicted"] },
+      { id: "dhawan", label: "Shikhar Dhawan", type: "celebrity", size: 16, desc: "India. 1xBet endorser. ED attached ₹4.5 crore in immovable property.", tags: ["celebrity", "convicted"] },
+      { id: "yuvraj", label: "Yuvraj Singh", type: "celebrity", size: 16, desc: "India. 1xBet endorser. ED attached ₹2.5 crore via YWC Health and Wellness Pvt. Ltd.", tags: ["celebrity", "convicted"] },
+      { id: "uthappa", label: "Robin Uthappa", type: "celebrity", size: 16, desc: "India. Crickex brand ambassador AND 1xBet endorser. ED attached ₹8.26 lakh.", tags: ["celebrity", "convicted"] },
+      { id: "pollard", label: "Kieron Pollard", type: "celebrity", size: 16, desc: "West Indies. 1xBet India ambassador (2-year deal). Featured on Delhi billboards and auto-rickshaw ads.", tags: ["celebrity"] },
+      { id: "bravo", label: "Dwayne Bravo", type: "celebrity", size: 16, desc: "West Indies. FIRST 1xBet brand ambassador in India (Sep 2021). Full-page Times of India ads.", tags: ["celebrity"] },
+      { id: "iniesta", label: "Andrés Iniesta", type: "celebrity", size: 16, desc: "Spain/Barcelona legend. Melbet global ambassador. 'The Greatest 8' campaign.", tags: ["celebrity"] },
+      { id: "babar", label: "Babar Azam", type: "celebrity", size: 18, desc: "Pakistan captain. REFUSED to wear betting logos on Colombo Strikers jersey. Appeared in blank jersey. Added 'no betting clause' to all contracts.", tags: ["celebrity"] },
+      { id: "rahman", label: "Tamim Rahman", type: "convicted", size: 16, desc: "Dambulla Thunders owner. Pled guilty Jan 2026. 4-year suspended sentence + LKR 24M fine. First LPL franchise owner convicted.", tags: ["convicted"] },
+      { id: "senanayake", label: "Sachithra Senanayake", type: "convicted", size: 16, desc: "SL cricketer. Indicted June 2025 — first criminal prosecution. Approached player via WhatsApp during LPL 2020 to underperform. Failed to appear in court.", tags: ["convicted"] },
+      { id: "jayasuriya", label: "Sanath Jayasuriya", type: "convicted", size: 16, desc: "SL legend. 2-year ICC ban (2019) for refusing to cooperate with ACU investigation.", tags: ["convicted"] },
+      { id: "jayasundara", label: "Sanath Jayasundara", type: "convicted", size: 14, desc: "SLC analyst. Charged by ICC for attempting to bribe Sports Minister Harin Fernando to influence match outcomes. Banned.", tags: ["convicted"] },
+      { id: "curacao", label: "Curaçao", type: "jurisdiction", size: 22, desc: "Caribbean island issuing bulk offshore gambling licences. Near-zero transparency on beneficial owners. Home jurisdiction for Melbet, 1xBet affiliates, Wolf777, Crickex, Skyfair, STBet.", tags: [] },
+      { id: "cyprus", label: "Cyprus", type: "jurisdiction", size: 16, desc: "1xBet HQ (Limassol). Payment processing for Melbet (Edric Ltd, Faren Ltd). Semiokhin and Kazorin hold Cypriot citizenship.", tags: [] },
+      { id: "dubai", label: "Dubai / UAE", type: "jurisdiction", size: 18, desc: "IPG headquarters. Chandrakar arrested here. Rajdev operates from here. Beyond Sri Lankan law enforcement reach.", tags: [] },
+      { id: "icc", label: "ICC", type: "corporate", size: 24, desc: "Suspended SLC for 'government interference' when Ranasinghe tried to clean house. Anti-Corruption Code prohibits gambling ties — never enforced against SLC. ACU had 22 live SL investigations.", tags: ["corporate"] },
+      { id: "marshall", label: "Alex Marshall", type: "corporate", size: 16, desc: "ICC ACU head (retired). Deployed Steve Richardson to Colombo. Briefed SL President and PM on corruption depth. Called SL a 'good news story' — debatable.", tags: ["corporate"] },
+    ];
+
+    const links = [
+      { source: "sumathipala", target: "stbet", strength: 5, label: "Family owns", type: "solid" },
+      { source: "sumathipala", target: "shammi", strength: 5, label: "Installed as proxy", type: "solid" },
+      { source: "sumathipala", target: "slc", strength: 4, label: "Controlled via proxies", type: "dashed" },
+      { source: "shammi", target: "slc", strength: 5, label: "President since 2019", type: "solid" },
+      { source: "ashley", target: "slc", strength: 4, label: "CEO", type: "solid" },
+      { source: "mohan", target: "slc", strength: 3, label: "Secretary", type: "solid" },
+      { source: "mohan", target: "sumathipala", strength: 3, label: "Attended ICC meetings together", type: "dashed" },
+      { source: "slc", target: "1xbet", strength: 4, label: "Asia Cup 2023 sponsor", type: "solid" },
+      { source: "slc", target: "wolf777", strength: 3, label: "National team jersey 2022", type: "solid" },
+      { source: "slc", target: "skyfair", strength: 3, label: "LPL title sponsor", type: "solid" },
+      { source: "slc", target: "kheloyar", strength: 3, label: "LPL team sponsor", type: "solid" },
+      { source: "slc", target: "crickex", strength: 2, label: "LPL team sponsor", type: "solid" },
+      { source: "slc", target: "melbet", strength: 2, label: "Advertising ecosystem", type: "dashed" },
+      { source: "1xbet", target: "melbet", strength: 5, label: "Same platform/backend", type: "solid" },
+      { source: "1xbet", target: "semiokhin", strength: 5, label: "Co-founder", type: "solid" },
+      { source: "1xbet", target: "karshkov", strength: 5, label: "Co-founder (deceased)", type: "solid" },
+      { source: "1xbet", target: "curacao", strength: 4, label: "Licensed", type: "solid" },
+      { source: "1xbet", target: "cyprus", strength: 4, label: "HQ & payments", type: "solid" },
+      { source: "melbet", target: "curacao", strength: 4, label: "Licensed", type: "solid" },
+      { source: "melbet", target: "cyprus", strength: 3, label: "Payment processing", type: "solid" },
+      { source: "kheloyar", target: "dawood", strength: 5, label: "Dawood's brother is partner", type: "solid" },
+      { source: "kheloyar", target: "chandrakar", strength: 5, label: "Operator", type: "solid" },
+      { source: "chandrakar", target: "dubai", strength: 3, label: "Arrested here", type: "solid" },
+      { source: "wolf777", target: "rajdev", strength: 5, label: "Owner", type: "solid" },
+      { source: "wolf777", target: "curacao", strength: 3, label: "GIT Operations NV", type: "solid" },
+      { source: "rajdev", target: "dubai", strength: 3, label: "Operates from", type: "solid" },
+      { source: "stbet", target: "curacao", strength: 3, label: "Licence 8047/JAZ", type: "solid" },
+      { source: "dialog", target: "papare", strength: 5, label: "Owns", type: "solid" },
+      { source: "dialog", target: "slc", strength: 4, label: "$4.8M sponsor + broadcast rights", type: "solid" },
+      { source: "dialog", target: "icc", strength: 3, label: "Broadcast rights to 2028", type: "solid" },
+      { source: "papare", target: "melbet", strength: 4, label: "Carries ads for", type: "solid" },
+      { source: "ipg", target: "slc", strength: 4, label: "LPL rights holder", type: "solid" },
+      { source: "ipg", target: "dubai", strength: 3, label: "Based in", type: "solid" },
+      { source: "wickremesinghe", target: "shammi", strength: 4, label: "Protected board / fired reformer", type: "solid" },
+      { source: "wickremesinghe", target: "ranasinghe", strength: 4, label: "Fired from all ministries", type: "solid" },
+      { source: "wickremesinghe", target: "harin", strength: 3, label: "Appointed replacement", type: "solid" },
+      { source: "ranasinghe", target: "shammi", strength: 4, label: "Dissolved board / called 'Betting Shammi'", type: "solid" },
+      { source: "harin", target: "sumathipala", strength: 4, label: "Banned from SLC", type: "solid" },
+      { source: "harin", target: "shammi", strength: 3, label: "Restored board", type: "dashed" },
+      { source: "harin", target: "icc", strength: 3, label: "Negotiated suspension lift", type: "solid" },
+      { source: "harin", target: "jayasundara", strength: 3, label: "Reported bribery attempt", type: "solid" },
+      { source: "wijedasa", target: "skyfair", strength: 3, label: "Named as illegal in Parliament", type: "solid" },
+      { source: "dissanayake", target: "slc", strength: 2, label: "GRA Act 2025", type: "solid" },
+      { source: "icc", target: "slc", strength: 4, label: "Suspended / 22 investigations", type: "solid" },
+      { source: "marshall", target: "icc", strength: 4, label: "ACU Head", type: "solid" },
+      { source: "marshall", target: "slc", strength: 3, label: "Investigated", type: "solid" },
+      { source: "watson", target: "melbet", strength: 3, label: "Global ambassador 2021", type: "solid" },
+      { source: "watson", target: "wolf777", strength: 3, label: "Ambassador 2023", type: "solid" },
+      { source: "raina", target: "1xbet", strength: 3, label: "Endorser — ₹6.64cr seized", type: "solid" },
+      { source: "dhawan", target: "1xbet", strength: 3, label: "Endorser — ₹4.5cr seized", type: "solid" },
+      { source: "yuvraj", target: "1xbet", strength: 3, label: "Endorser — ₹2.5cr seized", type: "solid" },
+      { source: "uthappa", target: "crickex", strength: 3, label: "Brand ambassador", type: "solid" },
+      { source: "uthappa", target: "1xbet", strength: 2, label: "Also endorsed", type: "dashed" },
+      { source: "pollard", target: "1xbet", strength: 3, label: "India ambassador", type: "solid" },
+      { source: "bravo", target: "1xbet", strength: 3, label: "First India ambassador", type: "solid" },
+      { source: "iniesta", target: "melbet", strength: 3, label: "Global ambassador", type: "solid" },
+      { source: "babar", target: "kheloyar", strength: 2, label: "REFUSED to wear logo", type: "dashed" },
+      { source: "rahman", target: "slc", strength: 3, label: "Thunders owner — convicted", type: "solid" },
+      { source: "senanayake", target: "slc", strength: 3, label: "SL cricketer — indicted", type: "solid" },
+      { source: "jayasuriya", target: "slc", strength: 2, label: "2-year ACU ban", type: "solid" },
+      { source: "crickex", target: "curacao", strength: 3, label: "VB Digital NV", type: "solid" },
+      { source: "skyfair", target: "curacao", strength: 3, label: "Sky Infotech NV", type: "solid" },
+    ];
+
+    const linkFacts = {
+      "sumathipala→stbet": "VERIFIED: Sumathipala family owns Sporting Star (est. 1956), which operates through Sporting Times → STBet.com. Company registration records confirm ownership. Sumathipala's ICC ban specifically cited this business conflict of interest.",
+      "sumathipala→shammi": "VERIFIED: Shammi Silva's father Piyasena De Silva was manager at Sumathipala's Sporting Star bookmaking business. Silva rose to SLC presidency with Sumathipala's backing. Sports Minister Ranasinghe publicly called Silva 'Betting Shammi' in Parliament.",
+      "sumathipala→slc": "VERIFIED: Despite ICC ban from holding office, Sumathipala continues to influence SLC through installed proxies. ICC's own investigation confirmed this patronage network.",
+      "shammi→slc": "VERIFIED: Shammi Silva has been SLC President since Feb 2019, now serving 4th term. His tenure coincides with the largest proliferation of illegal betting sponsors in SLC history.",
+      "ashley→slc": "VERIFIED: Ashley de Silva served as CEO for over a decade. Sits on LPL governing council. All sponsor approvals go through his office.",
+      "mohan→slc": "VERIFIED: Mohan de Silva serves as SLC Secretary. He publicly claimed the '1xBat' Asia Cup sponsorship was approved by the Asian Cricket Council — a claim disputed by the ACC.",
+      "mohan→sumathipala": "REPORTED: Both attended ICC Board meetings together. Nature of coordination documented in multiple Sri Lankan media reports.",
+      "slc→1xbet": "VERIFIED: '1xBat' (a rebrand of 1xBet to avoid Google ad policies) was the official sponsor of Sri Lanka's Asia Cup 2023 campaign. SLC Secretary Mohan de Silva confirmed the deal.",
+      "slc→wolf777": "VERIFIED: Wolf777 appeared on the back of Sri Lanka's national team jersey during the 2022 India tour. Jersey images widely circulated. Wolf777 owner Rakesh Rajdev is wanted by Indian police.",
+      "slc→skyfair": "VERIFIED: Skyfair was LPL 2023 title sponsor. Justice Minister Wijedasa Rajapaksa named it as an 'illegal offshore betting website' in Parliament in August 2023.",
+      "slc→kheloyar": "VERIFIED: Kheloyar sponsored LPL teams. The Mahadev Book network behind Kheloyar was operated in partnership with D-Company (Dawood Ibrahim's criminal network).",
+      "slc→crickex": "VERIFIED: Crickex sponsored LPL teams. Registered as VB Digital N.V. in Curaçao/Cyprus. Multiple consumer fraud complaints filed.",
+      "slc→melbet": "VERIFIED: Melbet advertised across SLC's digital ecosystem, primarily through ThePapare (owned by Dialog, SLC's main sponsor). Indirect but undeniable commercial relationship.",
+      "1xbet→melbet": "VERIFIED: Technical analysis shows Melbet shares the same IP infrastructure, odds feed, backend platform, and identical terms & conditions as 1xBet. Melbet is registered as Pelican Entertainment B.V. in Curaçao — a known 1xBet shell entity.",
+      "1xbet→semiokhin": "VERIFIED: Roman Semiokhin is a confirmed 1xBet co-founder. Russian media and court filings identify him. He holds Cypriot citizenship and is on Russia's international wanted list for illegal gambling (63 billion rubles).",
+      "1xbet→karshkov": "VERIFIED: Sergey Karshkov was a 1xBet co-founder and former head of Bryansk cybercrime unit. Died June 2023, age 42, from 'anaphylactic shock' during a routine Swiss medical exam. Circumstances widely considered suspicious.",
+      "1xbet→curacao": "VERIFIED: 1xBet operates under Curaçao e-gaming licences through multiple shell companies.",
+      "1xbet→cyprus": "VERIFIED: 1xBet's operational HQ is in Limassol, Cyprus. Payment processing entities (Edric Ltd, Faren Ltd) are Cyprus-registered.",
+      "melbet→curacao": "VERIFIED: Melbet operates under Curaçao licence #134359 through Pelican Entertainment B.V.",
+      "melbet→cyprus": "VERIFIED: Melbet's payment processing runs through Cyprus-registered entities shared with 1xBet.",
+      "kheloyar→dawood": "VERIFIED by ED (Enforcement Directorate, India): Kheloyar was operated with Mustaqim Ibrahim Kaskar, brother of Dawood Ibrahim. Protection money was paid to D-Company. From official Indian law enforcement filings.",
+      "kheloyar→chandrakar": "VERIFIED: Saurabh Chandrakar arrested in Dubai on Interpol Red Corner Notice (2024). ED confirmed he operated the Mahadev Book network processing ₹200 crore daily through 60+ betting apps.",
+      "chandrakar→dubai": "VERIFIED: Chandrakar was arrested in Dubai based on Interpol Red Corner Notice issued at India's request.",
+      "wolf777→rajdev": "VERIFIED: Ahmedabad Crime Branch and Nagpur police have issued lookout notices for Rakesh Rajdev. ED traced ₹170.70 crore through a single fraudulent bank account linked to Wolf777.",
+      "wolf777→curacao": "VERIFIED: Wolf777 operates through GIT Operations N.V., registered in Curaçao.",
+      "rajdev→dubai": "VERIFIED: Rajdev operates from Dubai, beyond Indian extradition reach. Multiple Indian law enforcement agencies have pending cases.",
+      "stbet→curacao": "VERIFIED: STBet operates under Curaçao licence 8047/JAZ. Online extension of Sumathipala's legacy Sporting Star business.",
+      "dialog→papare": "VERIFIED: Dialog Axiata owns ThePapare.com. Corporate records confirm full ownership.",
+      "dialog→slc": "VERIFIED: Dialog has a $4.8M sponsorship deal with SLC AND holds ICC broadcast rights in Sri Lanka until 2028. Dual commercial relationship creates massive conflict of interest.",
+      "dialog→icc": "VERIFIED: Dialog holds ICC broadcast rights in Sri Lanka until 2028.",
+      "papare→melbet": "VERIFIED: Melbet display ads ran on ThePapare.com. Screenshots documented by multiple observers. Dialog claims these are 'programmatic' (automated) ads.",
+      "ipg→slc": "VERIFIED: IPG (Dubai) holds LPL marketing, broadcast, franchise, and sponsorship rights since 2020. They control which sponsors appear on team jerseys.",
+      "ipg→dubai": "VERIFIED: IPG is Dubai-based, placing it beyond Sri Lankan jurisdiction for accountability.",
+      "wickremesinghe→shammi": "VERIFIED: When Sports Minister Ranasinghe dissolved the SLC board, President Wickremesinghe fired Ranasinghe from ALL ministries and effectively reinstated the Silva-led board.",
+      "wickremesinghe→ranasinghe": "VERIFIED: Wickremesinghe fired Ranasinghe from all ministerial positions after he dissolved SLC board and called Silva 'Betting Shammi.' Widely reported in all Sri Lankan media.",
+      "wickremesinghe→harin": "VERIFIED: Harin Fernando was appointed as replacement Sports Minister after Ranasinghe's firing.",
+      "ranasinghe→shammi": "VERIFIED: Ranasinghe dissolved the SLC board and publicly called Silva 'Betting Shammi' in Parliament. Parliamentary Hansard records exist.",
+      "harin→sumathipala": "VERIFIED: During his 2018-19 tenure, Fernando successfully pushed for Sumathipala's ban from SLC office, working with ICC.",
+      "harin→shammi": "PARTIALLY VERIFIED: Fernando restored the Silva board after being appointed following Ranasinghe's removal. Whether this was pragmatic (avoiding ICC suspension) or accommodating is debated.",
+      "harin→icc": "VERIFIED: Fernando negotiated with ICC to lift SLC's suspension by meeting their conditions for governance reforms.",
+      "harin→jayasundara": "VERIFIED: Fernando reported a bribery attempt by SLC analyst Jayasundara to the ICC ACU. Jayasundara was subsequently charged and banned.",
+      "wijedasa→skyfair": "VERIFIED: Justice Minister Wijedasa Rajapaksa named Skyfair and 14 other illegal betting sites sponsoring LPL in a Parliamentary speech, August 2023. Hansard records exist. No legal action followed.",
+      "dissanayake→slc": "VERIFIED: The NPP government passed the Gaming Regulatory Authority Act 2025 and raised gaming tax to 45%. GRA expected operational by June 2026.",
+      "icc→slc": "VERIFIED: ICC suspended SLC for 'government interference' when Ranasinghe tried to clean up. ACU had 22 live investigations into Sri Lankan cricket corruption.",
+      "marshall→icc": "VERIFIED: Alex Marshall served as ICC ACU General Manager before retirement. He deployed Steve Richardson to Colombo for investigations.",
+      "marshall→slc": "VERIFIED: Marshall briefed the Sri Lankan President and PM on the depth of corruption in Sri Lankan cricket.",
+      "watson→melbet": "VERIFIED: Shane Watson served as Melbet's global brand ambassador (2021 campaign). Promotional materials widely available.",
+      "watson→wolf777": "VERIFIED: Watson also endorsed Wolf777 (2023). Same person endorsing TWO illegal betting platforms targeting overlapping markets.",
+      "raina→1xbet": "VERIFIED: ED (Enforcement Directorate) attached ₹6.64 crore of Raina's mutual fund holdings. Raina allegedly 'knowingly' signed endorsement deals with 1xBet foreign entities.",
+      "dhawan→1xbet": "VERIFIED: ED attached ₹4.5 crore in Dhawan's immovable property linked to 1xBet endorsement earnings.",
+      "yuvraj→1xbet": "VERIFIED: ED attached ₹2.5 crore via YWC Health and Wellness Pvt. Ltd., a company linked to Yuvraj Singh.",
+      "uthappa→crickex": "VERIFIED: Robin Uthappa has been Crickex's brand ambassador. Promotional videos and social media posts confirm.",
+      "uthappa→1xbet": "REPORTED: Uthappa also endorsed 1xBet. ED attached ₹8.26 lakh in his assets.",
+      "pollard→1xbet": "VERIFIED: Kieron Pollard signed a 2-year deal as 1xBet India ambassador. Featured on Delhi billboards and auto-rickshaw wraps.",
+      "bravo→1xbet": "VERIFIED: Dwayne Bravo was the FIRST 1xBet brand ambassador in India (September 2021). Full-page Times of India advertisements documented.",
+      "iniesta→melbet": "VERIFIED: Andrés Iniesta served as Melbet global ambassador in 'The Greatest 8' campaign.",
+      "babar→kheloyar": "VERIFIED: Babar Azam refused to wear Kheloyar logo on Colombo Strikers jersey during LPL. Appeared in a blank jersey. Added 'no betting company' clause to all contracts.",
+      "rahman→slc": "VERIFIED: Tamim Rahman, Dambulla Thunders owner, pled guilty January 2026. 4-year suspended sentence + LKR 24M fine. First LPL franchise owner convicted.",
+      "senanayake→slc": "VERIFIED: Sachithra Senanayake indicted June 2025 — first criminal prosecution of a Sri Lankan cricketer for match-fixing. Accused of approaching a player via WhatsApp during LPL 2020.",
+      "jayasuriya→slc": "VERIFIED: Sanath Jayasuriya received a 2-year ICC ban (2019) for refusing to cooperate with ACU anti-corruption investigation.",
+      "crickex→curacao": "VERIFIED: Crickex operates through VB Digital N.V., registered in Curaçao.",
+      "skyfair→curacao": "VERIFIED: Skyfair operates through Sky Infotech N.V., Curaçao #152377."
+    };
+
+    // ============ STATE ============
+    let panX = window.innerWidth / 2;
+    let panY = window.innerHeight / 2;
+    let scale = 1;
+    let dragging = null;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragStartNodeX = 0;
+    let dragStartNodeY = 0;
+    let panDragStartX = 0;
+    let panDragStartY = 0;
+    let tick = 0;
+    const maxTicks = 500;
+    let visibleTypes = new Set(Object.keys(typeColors));
+    let selectedLink = null;
+
+    // ============ RESOLVE LINKS ============
+    const nodeMap = {};
+    nodes.forEach(n => nodeMap[n.id] = n);
+
+    links.forEach(l => {
+      l.source = nodeMap[l.source];
+      l.target = nodeMap[l.target];
+    });
+
+    // ============ INITIALIZE NODES ============
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2 + 22;
+    const radius = 280;
+
+    nodes.forEach((n, i) => {
+      const angle = (i / nodes.length) * Math.PI * 2;
+      n.x = centerX + Math.cos(angle) * radius;
+      n.y = centerY + Math.sin(angle) * radius;
+      n.vx = 0;
+      n.vy = 0;
+    });
+
+    // ============ SVG SETUP ============
+    const svg = document.getElementById('map');
+    const canvas = document.getElementById('canvas');
+    const linksLayer = document.getElementById('links-layer');
+    const nodesLayer = document.getElementById('nodes-layer');
+
+    // ============ RENDER FUNCTION ============
+    function render() {
+      // Clear previous
+      linksLayer.innerHTML = '';
+      nodesLayer.innerHTML = '';
+
+      // Render links
+      links.forEach(link => {
+        if (!visibleTypes.has(link.source.type) || !visibleTypes.has(link.target.type)) return;
+
+        // Hit area (invisible, wider)
+        const hitLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        hitLine.setAttribute("x1", link.source.x);
+        hitLine.setAttribute("y1", link.source.y);
+        hitLine.setAttribute("x2", link.target.x);
+        hitLine.setAttribute("y2", link.target.y);
+        hitLine.setAttribute("stroke", "transparent");
+        hitLine.setAttribute("stroke-width", "12");
+        hitLine.style.cursor = "pointer";
+        hitLine.addEventListener('click', (e) => showLinkPopup(e, link));
+        linksLayer.appendChild(hitLine);
+
+        // Visible line
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", link.source.x);
+        line.setAttribute("y1", link.source.y);
+        line.setAttribute("x2", link.target.x);
+        line.setAttribute("y2", link.target.y);
+        line.setAttribute("stroke", typeColors[link.source.type]);
+        line.setAttribute("stroke-width", Math.max(link.strength * 1.5, 2));
+        if (link.type === "dashed") {
+          line.setAttribute("stroke-dasharray", "6,4");
+        }
+        line.style.transition = "stroke 0.2s";
+        line.addEventListener('mouseenter', () => {
+          line.setAttribute("stroke", "#ffd700");
+        });
+        line.addEventListener('mouseleave', () => {
+          line.setAttribute("stroke", typeColors[link.source.type]);
+        });
+        linksLayer.appendChild(line);
+      });
+
+      // Render nodes
+      nodes.forEach(node => {
+        if (!visibleTypes.has(node.type)) {
+          node.visible = false;
+          return;
+        }
+        node.visible = true;
+
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+        // Shadow circle
+        const shadow = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        shadow.setAttribute("cx", node.x);
+        shadow.setAttribute("cy", node.y);
+        shadow.setAttribute("r", node.size);
+        shadow.setAttribute("fill", typeColors[node.type]);
+        shadow.setAttribute("opacity", "0.15");
+        shadow.setAttribute("filter", "url(#glow)");
+        g.appendChild(shadow);
+
+        // Main circle
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", node.x);
+        circle.setAttribute("cy", node.y);
+        circle.setAttribute("r", node.size);
+        circle.setAttribute("fill", typeColors[node.type]);
+        circle.setAttribute("filter", "url(#glow)");
+        circle.style.cursor = "grab";
+        g.appendChild(circle);
+
+        // Convicted pulse ring
+        if (node.tags.includes("convicted")) {
+          const pulse = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          pulse.setAttribute("cx", node.x);
+          pulse.setAttribute("cy", node.y);
+          pulse.setAttribute("r", node.size);
+          pulse.setAttribute("fill", "none");
+          pulse.setAttribute("stroke", "#ff2266");
+          pulse.setAttribute("stroke-width", "2");
+          pulse.classList.add("convicted-pulse");
+          g.appendChild(pulse);
+        }
+
+        // Dashed link indicator ring
+        const hasDashedLink = links.some(l =>
+          ((l.source === node || l.target === node) && l.type === "dashed") &&
+          visibleTypes.has(l.source.type) && visibleTypes.has(l.target.type)
+        );
+        if (hasDashedLink) {
+          const dashedRing = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          dashedRing.setAttribute("cx", node.x);
+          dashedRing.setAttribute("cy", node.y);
+          dashedRing.setAttribute("r", node.size + 6);
+          dashedRing.setAttribute("fill", "none");
+          dashedRing.setAttribute("stroke", "#ff9900");
+          dashedRing.setAttribute("stroke-width", "2");
+          dashedRing.setAttribute("stroke-dasharray", "4,3");
+          g.appendChild(dashedRing);
+        }
+
+        // Badge area (top-right)
+        const badgeR = node.size - 8;
+        const badgeX = node.x + badgeR;
+        const badgeY = node.y - badgeR;
+
+        // Convicted badge
+        if (node.tags.includes("convicted")) {
+          const badge1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          badge1.setAttribute("cx", badgeX);
+          badge1.setAttribute("cy", badgeY);
+          badge1.setAttribute("r", "6");
+          badge1.setAttribute("fill", "#ff2266");
+          g.appendChild(badge1);
+
+          const text1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text1.setAttribute("x", badgeX);
+          text1.setAttribute("y", badgeY);
+          text1.setAttribute("text-anchor", "middle");
+          text1.setAttribute("dominant-baseline", "central");
+          text1.setAttribute("font-size", "8");
+          text1.setAttribute("font-weight", "bold");
+          text1.setAttribute("fill", "#fff");
+          text1.textContent = "!";
+          g.appendChild(text1);
+        }
+
+        // Dashed link badge
+        if (hasDashedLink) {
+          const offsetX = node.tags.includes("convicted") ? -15 : 0;
+          const badge2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          badge2.setAttribute("cx", badgeX + offsetX);
+          badge2.setAttribute("cy", badgeY);
+          badge2.setAttribute("r", "6");
+          badge2.setAttribute("fill", "#ff9900");
+          g.appendChild(badge2);
+
+          const text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text2.setAttribute("x", badgeX + offsetX);
+          text2.setAttribute("y", badgeY);
+          text2.setAttribute("text-anchor", "middle");
+          text2.setAttribute("dominant-baseline", "central");
+          text2.setAttribute("font-size", "8");
+          text2.setAttribute("font-weight", "bold");
+          text2.setAttribute("fill", "#fff");
+          text2.textContent = "?";
+          g.appendChild(text2);
+        }
+
+        // Click and drag
+        circle.addEventListener('mousedown', (e) => startNodeDrag(e, node));
+        circle.addEventListener('click', (e) => {
+          if (dragDistance < 5) {
+            showNodePopup(e, node);
+          }
+        });
+
+        nodesLayer.appendChild(g);
+        node.svgGroup = g;
+        node.svgCircle = circle;
+      });
+
+      canvas.setAttribute("transform", `translate(${panX},${panY}) scale(${scale})`);
+    }
+
+    // ============ FORCE SIMULATION ============
+    function simulate() {
+      // Apply forces
+      nodes.forEach(n => {
+        if (dragging === n) return; // Skip dragged node
+
+        let fx = 0, fy = 0;
+
+        // Center gravity
+        const dx = centerX - n.x;
+        const dy = centerY - n.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        fx += dx * 0.001;
+        fy += dy * 0.001;
+
+        // Link springs
+        links.forEach(l => {
+          if ((l.source === n && visibleTypes.has(l.target.type)) || (l.target === n && visibleTypes.has(l.source.type))) {
+            const other = l.source === n ? l.target : l.source;
+            if (!visibleTypes.has(other.type)) return;
+            const dx = other.x - n.x;
+            const dy = other.y - n.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const force = (dist - 180) * 0.003;
+            fx += (dx / dist) * force;
+            fy += (dy / dist) * force;
+          }
+        });
+
+        // Node repulsion
+        nodes.forEach(other => {
+          if (other === n || !visibleTypes.has(other.type) || !visibleTypes.has(n.type)) return;
+          const dx = n.x - other.x;
+          const dy = n.y - other.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (dist < 200) {
+            const force = 0.05;
+            fx += (dx / dist) * force;
+            fy += (dy / dist) * force;
+          }
+        });
+
+        n.vx += fx;
+        n.vy += fy;
+        n.vx *= 0.85;
+        n.vy *= 0.85;
+
+        n.x += n.vx;
+        n.y += n.vy;
+      });
+
+      tick++;
+      if (tick < maxTicks) {
+        const maxV = Math.max(...nodes.map(n => Math.sqrt(n.vx * n.vx + n.vy * n.vy)));
+        if (maxV < 0.1 && tick > 50) {
+          tick = maxTicks;
+        }
+      }
+    }
+
+    // ============ ANIMATION LOOP ============
+    function animate() {
+      if (tick < maxTicks) {
+        simulate();
+      }
+      render();
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // ============ DRAG STATE ============
+    let dragDistance = 0;
+
+    function startNodeDrag(e, node) {
+      dragging = node;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      dragStartNodeX = node.x;
+      dragStartNodeY = node.y;
+      dragDistance = 0;
+    }
+
+    // ============ INTERACTIONS ============
+    svg.addEventListener('mousemove', (e) => {
+      if (dragging) {
+        const dx = e.clientX - dragStartX;
+        const dy = e.clientY - dragStartY;
+        dragDistance = Math.sqrt(dx * dx + dy * dy);
+        dragging.x = dragStartNodeX + dx / scale;
+        dragging.y = dragStartNodeY + dy / scale;
+      }
+    });
+
+    svg.addEventListener('mouseup', () => {
+      dragging = null;
+    });
+
+    svg.addEventListener('mousedown', (e) => {
+      if (e.target.tagName !== 'circle' && !e.target.closest('line')) {
+        panDragStartX = e.clientX;
+        panDragStartY = e.clientY;
+        const oldPanX = panX;
+        const oldPanY = panY;
+        const move = (moveE) => {
+          panX = oldPanX + (moveE.clientX - panDragStartX);
+          panY = oldPanY + (moveE.clientY - panDragStartY);
+        };
+        const endPan = () => {
+          svg.removeEventListener('mousemove', move);
+          svg.removeEventListener('mouseup', endPan);
+        };
+        svg.addEventListener('mousemove', move);
+        svg.addEventListener('mouseup', endPan);
+      }
+    });
+
+    svg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomSpeed = 0.1;
+      const oldScale = scale;
+      scale += (e.deltaY > 0 ? -1 : 1) * zoomSpeed * scale;
+      scale = Math.max(0.1, Math.min(3, scale));
+
+      // Zoom toward mouse
+      const mouseX = (e.clientX - panX) / oldScale;
+      const mouseY = (e.clientY - panY) / oldScale;
+      panX -= mouseX * (scale - oldScale);
+      panY -= mouseY * (scale - oldScale);
+    });
+
+    // ============ POPUPS ============
+    function showNodePopup(e, node) {
+      const popup = document.getElementById('node-popup');
+      document.getElementById('popup-label').textContent = node.label;
+      document.getElementById('popup-desc').textContent = node.desc;
+      const tagsDiv = document.getElementById('popup-tags');
+      tagsDiv.innerHTML = '';
+      node.tags.forEach(tag => {
+        const tagEl = document.createElement('div');
+        tagEl.className = 'popup-tag';
+        tagEl.textContent = tag;
+        tagsDiv.appendChild(tagEl);
+      });
+
+      let x = e.clientX + 20;
+      let y = e.clientY - 10;
+      if (x + 340 > window.innerWidth) x = window.innerWidth - 360;
+      if (y + 300 > window.innerHeight) y = window.innerHeight - 320;
+      x = Math.max(10, x);
+      y = Math.max(10, y);
+
+      popup.style.left = x + 'px';
+      popup.style.top = y + 'px';
+      popup.classList.add('visible');
+    }
+
+    function showLinkPopup(e, link) {
+      const key = link.source.id + '→' + link.target.id;
+      const fact = linkFacts[key] || 'No fact available.';
+
+      // Parse fact
+      let label = '';
+      let factText = fact;
+      if (fact.startsWith('VERIFIED:')) {
+        label = 'VERIFIED';
+        factText = fact.substring('VERIFIED:'.length).trim();
+      } else if (fact.startsWith('REPORTED:')) {
+        label = 'REPORTED';
+        factText = fact.substring('REPORTED:'.length).trim();
+      } else if (fact.startsWith('PARTIALLY VERIFIED:')) {
+        label = 'PARTIALLY VERIFIED';
+        factText = fact.substring('PARTIALLY VERIFIED:'.length).trim();
+      }
+
+      const popup = document.getElementById('link-popup');
+      const header = document.getElementById('popup-fact-header');
+      header.innerHTML = `${link.source.label} → ${link.target.label}<br>`;
+      const labelEl = document.createElement('span');
+      labelEl.className = 'fact-label ' + (label === 'VERIFIED' ? 'verified' : label === 'REPORTED' ? 'reported' : 'partially');
+      labelEl.textContent = label;
+      header.appendChild(labelEl);
+
+      document.getElementById('popup-fact-text').textContent = factText;
+
+      let x = e.clientX + 20;
+      let y = e.clientY - 10;
+      if (x + 340 > window.innerWidth) x = window.innerWidth - 360;
+      if (y + 300 > window.innerHeight) y = window.innerHeight - 320;
+      x = Math.max(10, x);
+      y = Math.max(10, y);
+
+      popup.style.left = x + 'px';
+      popup.style.top = y + 'px';
+      popup.classList.add('visible');
+    }
+
+    function closePopups() {
+      document.getElementById('node-popup').classList.remove('visible');
+      document.getElementById('link-popup').classList.remove('visible');
+    }
+
+    document.querySelectorAll('.popup-close').forEach(btn => {
+      btn.addEventListener('click', closePopups);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePopups();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#node-popup') && !e.target.closest('#link-popup') && e.target.tagName !== 'circle' && !e.target.closest('line')) {
+        closePopups();
+      }
+    });
+
+    // ============ LEGEND ============
+    const legend = document.getElementById('legend');
+    const legendTitle = legend.querySelector('.legend-title');
+    legendTitle.insertAdjacentHTML('afterend',
+      Object.entries(typeColors).map(([type, color]) => {
+        return `
+          <div class="legend-item">
+            <input type="checkbox" checked data-type="${type}" id="check-${type}">
+            <div class="legend-swatch" style="background-color: ${color};"></div>
+            <label for="check-${type}" style="cursor: pointer;">${type}</label>
+          </div>
+        `;
+      }).join('')
+    );
+
+    legend.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        const type = checkbox.getAttribute('data-type');
+        if (checkbox.checked) {
+          visibleTypes.add(type);
+        } else {
+          visibleTypes.delete(type);
+        }
+      });
+    });
+
+    // ============ EMBED CODE ============
+    const embedToggle = document.getElementById('embed-toggle');
+    const embedCode = document.getElementById('embed-code');
+    const copyBtn = document.getElementById('copy-embed');
+
+    embedToggle.addEventListener('click', () => {
+      embedCode.style.display = embedCode.style.display === 'none' ? 'block' : 'none';
+    });
+
+    copyBtn.addEventListener('click', () => {
+      const code = embedCode.querySelector('code').textContent;
+      navigator.clipboard.writeText(code);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = 'Copy';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
