@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block admin and private pages
+Disallow: /dossiers/sri-lanka-cricket-corruption/analytics.html
+Disallow: /dossiers/sri-lanka-cricket-corruption/sources.html
+
+# Sitemap
+Sitemap: https://analyst.rizrazak.com/sitemap.xml

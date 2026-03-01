@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+
+  <channel>
+    <title>analyst.rizrazak.com — Investigative Dossiers</title>
+    <link>https://analyst.rizrazak.com</link>
+    <description>Independent investigative journalism on Sri Lankan politics, cricket corruption, institutional accountability, and systemic analysis. Making complex topics digestible without losing depth.</description>
+    <language>en</language>
+    <lastBuildDate>Sat, 01 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://analyst.rizrazak.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <managingEditor>riz@dgtl.lk (Riz Razak)</managingEditor>
+    <webMaster>riz@dgtl.lk (Riz Razak)</webMaster>
+    <copyright>© 2026 Riz Razak. All rights reserved.</copyright>
+    <category>Investigative Journalism</category>
+    <category>Sri Lanka</category>
+    <category>Political Analysis</category>
+
+    <item>
+      <title>The Death of Sri Lankan Cricket: Politics, Mafia &amp; The Road to Ruin</title>
+      <link>https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/</link>
+      <guid isPermaLink="true">https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/</guid>
+      <pubDate>Sat, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <dc:creator>Riz Razak</dc:creator>
+      <description>A comprehensive investigation into the systematic corruption, political interference, and criminal networks that have hollowed out Sri Lanka Cricket — from match-fixing syndicates to the weaponisation of selection committees.</description>
+      <category>Cricket</category>
+      <category>Corruption</category>
+      <category>Sri Lanka Cricket</category>
+    </item>
+
+    <item>
+      <title>The STBet-1xBet Betting Web: How Illegal Gambling Networks Infiltrated Sri Lankan Cricket</title>
+      <link>https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/betting-web.html</link>
+      <guid isPermaLink="true">https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/betting-web.html</guid>
+      <pubDate>Sat, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <dc:creator>Riz Razak</dc:creator>
+      <description>Mapping the connections between international betting syndicates (STBet, 1xBet) and Sri Lankan cricket — player sponsorships, match manipulation, and the regulatory failures that enabled it.</description>
+      <category>Betting</category>
+      <category>Match Fixing</category>
+      <category>1xBet</category>
+    </item>
+
+    <item>
+      <title>The Kalathma Scandal: When Cricket's Elite Silenced a Teenager</title>
+      <link>https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html</link>
+      <guid isPermaLink="true">https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html</guid>
+      <pubDate>Sat, 01 Feb 2026 00:00:00 +0000</pubDate>
+      <dc:creator>Riz Razak</dc:creator>
+      <description>How Sri Lankan cricket's establishment used legal threats against a teenager who exposed misconduct — a case study in institutional power protecting itself.</description>
+      <category>KalathmaGate</category>
+      <category>Accountability</category>
+    </item>
+
+    <item>
+      <title>Easter Sunday Attacks: The Suresh Sallay Connection</title>
+      <link>https://analyst.rizrazak.com/dossiers/easter-sunday-attacks-suresh-sallay/</link>
+      <guid isPermaLink="true">https://analyst.rizrazak.com/dossiers/easter-sunday-attacks-suresh-sallay/</guid>
+      <pubDate>Sat, 15 Feb 2026 00:00:00 +0000</pubDate>
+      <dc:creator>Riz Razak</dc:creator>
+      <description>Investigating the intelligence failures, political connections, and unanswered questions surrounding the 2019 Easter Sunday bombings in Sri Lanka — with focus on the role of intelligence chief Suresh Sallay.</description>
+      <category>Easter Sunday Attacks</category>
+      <category>Intelligence</category>
+      <category>Sri Lanka</category>
+    </item>
+
+  </channel>
+</rss>
