@@ -8,6 +8,22 @@
 
 /dossiers/sri-lanka-cricket-corruption/analytics.html
   X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store, no-cache
 
 /dossiers/sri-lanka-cricket-corruption/sources.html
   X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store, no-cache
+
+/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store, no-cache
+
+/login.html
+  Cache-Control: no-store, no-cache
+
+/profile.html
+  Cache-Control: no-store, no-cache
+  X-Robots-Tag: noindex, nofollow
+
+/auth/*
+  Cache-Control: no-store

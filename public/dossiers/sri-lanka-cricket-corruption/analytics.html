@@ -27,7 +27,11 @@ body{background:var(--bg);font-family:'JetBrains Mono',monospace;color:var(--tex
 .topbar-badge{font-size:0.55rem;letter-spacing:1.5px;text-transform:uppercase;background:var(--red);color:#fff;padding:3px 10px;border-radius:2px;}
 .back-btn{color:var(--muted);font-size:0.6rem;text-decoration:none;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--border);padding:5px 12px;border-radius:3px;transition:all .2s;}
 .back-btn:hover{color:var(--text);border-color:var(--border2);}
-.topbar-right{font-size:0.55rem;color:var(--muted);letter-spacing:1px;}
+.topbar-right{font-size:0.55rem;color:var(--muted);letter-spacing:1px;display:flex;align-items:center;gap:14px;}
+.topbar-auth-link{font-size:0.55rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:4px 10px;border-radius:3px;transition:all .2s;}
+.topbar-auth-link:hover{color:var(--text);border-color:var(--border2);}
+.topbar-auth-link.danger{color:#c06060;}
+.topbar-auth-link.danger:hover{color:#e07070;border-color:#7a3030;}
 
 /* ── MAIN ── */
 .main{max-width:1400px;margin:0 auto;padding:32px 32px 80px;}
@@ -342,7 +346,11 @@ body{background:var(--bg);font-family:'JetBrains Mono',monospace;color:var(--tex
     <span class="topbar-title">Admin Dashboard</span>
     <span class="topbar-badge">Private · Riz Only</span>
   </div>
-  <div class="topbar-right" id="clock">—</div>
+  <div class="topbar-right">
+    <span id="clock">—</span>
+    <a href="/profile.html" class="topbar-auth-link">Profile</a>
+    <a href="/auth/logout" class="topbar-auth-link danger">Sign Out</a>
+  </div>
 </div>
 
 <div class="main">

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Analyst Platform</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0c10;
+      --surface:  #111318;
+      --border:   #1e2330;
+      --text:     #e8eaf0;
+      --muted:    #7a8099;
+      --accent:   #4f8ef7;
+      --accent-h: #6ba3ff;
+      --danger:   #e05252;
+      --success:  #3ecf8e;
+      --input-bg: #181c26;
+      --radius:   10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .login-wrap {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* Logo / brand */
+    .brand {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #1a2540, #2a3a6a);
+      border: 1px solid #2d3a5a;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+    .brand-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.3px;
+    }
+    .brand-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .card-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Step indicators */
+    .steps {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .step-dot {
+      height: 3px;
+      flex: 1;
+      border-radius: 2px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .step-dot.active { background: var(--accent); }
+    .step-dot.done   { background: var(--success); }
+
+    /* Form */
+    .form-group { margin-bottom: 18px; }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 7px;
+      letter-spacing: 0.2px;
+    }
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-size: 15px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus { border-color: var(--accent); }
+    input::placeholder { color: #3a4060; }
+
+    /* OTP input */
+    .otp-input {
+      font-size: 28px !important;
+      font-weight: 700 !important;
+      letter-spacing: 10px !important;
+      text-align: center !important;
+      padding: 14px 14px !important;
+    }
+
+    /* Button */
+    .btn {
+      width: 100%;
+      padding: 11px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      margin-top: 4px;
+    }
+    .btn:active { transform: scale(0.99); }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--accent-h); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: #3a4560; }
+
+    /* Alert */
+    .alert {
+      border-radius: 7px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+      display: none;
+    }
+    .alert.show { display: block; }
+    .alert-error   { background: rgba(224,82,82,0.12); border: 1px solid rgba(224,82,82,0.3); color: #f08080; }
+    .alert-success { background: rgba(62,207,142,0.10); border: 1px solid rgba(62,207,142,0.3); color: var(--success); }
+    .alert-info    { background: rgba(79,142,247,0.10); border: 1px solid rgba(79,142,247,0.25); color: #90b8ff; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Footer */
+    .login-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .login-footer a { color: var(--accent); text-decoration: none; }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 20px 0;
+    }
+
+    /* MFA note */
+    .mfa-note {
+      background: rgba(79,142,247,0.07);
+      border: 1px solid rgba(79,142,247,0.2);
+      border-radius: 7px;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: #90b8ff;
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+    .mfa-note strong { color: var(--text); }
+
+    /* Panel visibility */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* Logged out notice */
+    .logged-out-notice {
+      background: rgba(62,207,142,0.08);
+      border: 1px solid rgba(62,207,142,0.2);
+      border-radius: 7px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--success);
+      margin-bottom: 20px;
+      display: none;
+    }
+    .logged-out-notice.show { display: block; }
+  </style>
+</head>
+<body>
+
+<div class="login-wrap">
+
+  <!-- Brand -->
+  <div class="brand">
+    <div class="brand-icon">🔎</div>
+    <div class="brand-name">Analyst Platform</div>
+    <div class="brand-sub">rizrazak.com / private research</div>
+  </div>
+
+  <!-- Logged out notice -->
+  <div class="logged-out-notice" id="loggedOutNotice">
+    You've been signed out successfully.
+  </div>
+
+  <!-- Card -->
+  <div class="card">
+
+    <!-- Step progress dots -->
+    <div class="steps" id="stepDots">
+      <div class="step-dot active" id="dot1"></div>
+      <div class="step-dot" id="dot2"></div>
+    </div>
+
+    <!-- ─── STEP 1: Email + Password ─── -->
+    <div class="panel active" id="panelPassword">
+      <div class="card-title">Sign in</div>
+      <div class="card-sub">Enter your email and password to continue.</div>
+
+      <div class="alert alert-error" id="errPassword"></div>
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" autofocus>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+
+      <button class="btn btn-primary" id="btnSignIn" onclick="handleSignIn()">
+        Sign in
+      </button>
+    </div>
+
+    <!-- ─── STEP 2: TOTP / 2FA ─── -->
+    <div class="panel" id="panelMFA">
+      <div class="card-title">Two-factor authentication</div>
+      <div class="card-sub" id="mfaSubtitle">Enter the 6-digit code from your authenticator app.</div>
+
+      <div class="mfa-note" id="mfaNote" style="display:none"></div>
+
+      <div class="alert alert-error" id="errMFA"></div>
+
+      <div class="form-group" id="totpGroup">
+        <label for="totpCode">Authenticator code</label>
+        <input type="text" id="totpCode" class="otp-input"
+               placeholder="000000"
+               maxlength="6"
+               inputmode="numeric"
+               pattern="[0-9]{6}"
+               autocomplete="one-time-code">
+      </div>
+
+      <button class="btn btn-primary" id="btnVerifyMFA" onclick="handleMFAVerify()">
+        Verify
+      </button>
+      <button class="btn btn-ghost" onclick="backToPassword()">
+        ← Back
+      </button>
+    </div>
+
+  </div><!-- /card -->
+
+  <div class="login-footer">
+    Need access? Contact <a href="mailto:riz@dgtl.lk">riz@dgtl.lk</a>
+  </div>
+
+</div><!-- /login-wrap -->
+
+<!-- Supabase JS via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+<script>
+// ─── Configuration ────────────────────────────────────────────────────────────
+// Replace these with your Supabase project credentials.
+// SUPABASE_ANON_KEY is safe to expose in client-side code (it's a public key).
+const SUPABASE_URL      = 'REPLACE_WITH_YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'REPLACE_WITH_YOUR_SUPABASE_ANON_KEY';
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: false,   // We manage sessions via httpOnly cookies
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
+  }
+});
+
+// State
+let currentSession = null; // holds { access_token, refresh_token } after step 1
+let mfaFactorId   = null;  // holds the enrolled TOTP factor ID
+
+// ─── URL Params ───────────────────────────────────────────────────────────────
+const params = new URLSearchParams(window.location.search);
+const nextUrl = params.get('next') || '/dossiers/sri-lanka-cricket-corruption/analytics.html';
+
+if (params.get('logged_out')) {
+  document.getElementById('loggedOutNotice').classList.add('show');
+}
+if (params.get('mfa') === 'required') {
+  // Shouldn't normally appear on fresh login, but just in case
+  showAlert('errPassword', 'Your session requires 2FA re-verification.', 'info');
+}
+
+// ─── Step 1: Email + Password ─────────────────────────────────────────────────
+async function handleSignIn() {
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  clearAlert('errPassword');
+
+  if (!email || !password) {
+    return showAlert('errPassword', 'Please enter your email and password.');
+  }
+
+  setLoading('btnSignIn', true, 'Signing in…');
+
+  const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+  setLoading('btnSignIn', false, 'Sign in');
+
+  if (error) {
+    return showAlert('errPassword', friendlyError(error));
+  }
+
+  // Store session for step 2
+  currentSession = {
+    access_token:  data.session.access_token,
+    refresh_token: data.session.refresh_token,
+  };
+
+  // Check MFA status
+  const { data: mfaData, error: mfaErr } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+
+  if (mfaErr) {
+    // Treat as no MFA configured
+    await finalizeLogin();
+    return;
+  }
+
+  const currentLevel = mfaData?.currentLevel;
+  const nextLevel    = mfaData?.nextLevel;
+
+  if (nextLevel === 'aal2') {
+    // MFA is enrolled — need TOTP step
+    // Get the TOTP factor id
+    const { data: listData } = await sb.auth.mfa.listFactors();
+    const totpFactor = listData?.totp?.[0];
+
+    if (totpFactor) {
+      mfaFactorId = totpFactor.id;
+      showPanel('panelMFA');
+    } else {
+      // Enrolled flag but no factor? Treat as login complete
+      await finalizeLogin();
+    }
+  } else if (currentLevel === 'aal1' || !nextLevel || nextLevel === 'aal1') {
+    // No MFA enrolled — show notice in step 2 telling user to enroll via profile
+    showPanel('panelMFA', true /* no mfa enrolled */);
+  } else {
+    // Already at aal2 (shouldn't happen after fresh sign-in, but handle it)
+    await finalizeLogin();
+  }
+}
+
+// ─── Step 2: TOTP verify ──────────────────────────────────────────────────────
+async function handleMFAVerify() {
+  const code = document.getElementById('totpCode').value.replace(/\s/g, '');
+  clearAlert('errMFA');
+
+  if (!mfaFactorId) {
+    // User has no MFA — direct them to profile
+    window.location.href = '/profile.html?setup_mfa=1';
+    return;
+  }
+
+  if (!code || code.length !== 6 || !/^\d+$/.test(code)) {
+    return showAlert('errMFA', 'Please enter the 6-digit code from your authenticator app.');
+  }
+
+  setLoading('btnVerifyMFA', true, 'Verifying…');
+
+  // Create a challenge then verify it
+  const { data: challengeData, error: challengeErr } = await sb.auth.mfa.challenge({ factorId: mfaFactorId });
+
+  if (challengeErr) {
+    setLoading('btnVerifyMFA', false, 'Verify');
+    return showAlert('errMFA', friendlyError(challengeErr));
+  }
+
+  const { data: verifyData, error: verifyErr } = await sb.auth.mfa.verify({
+    factorId:    mfaFactorId,
+    challengeId: challengeData.id,
+    code,
+  });
+
+  if (verifyErr) {
+    setLoading('btnVerifyMFA', false, 'Verify');
+    return showAlert('errMFA', 'Incorrect code. Please try again.');
+  }
+
+  // MFA verified — update session tokens (Supabase upgrades the JWT to aal2)
+  currentSession = {
+    access_token:  verifyData.session.access_token,
+    refresh_token: verifyData.session.refresh_token,
+  };
+
+  await finalizeLogin();
+}
+
+// ─── Finalize: POST tokens to edge function → set httpOnly cookies ────────────
+async function finalizeLogin() {
+  setLoading('btnVerifyMFA', true, 'Finishing…');
+  setLoading('btnSignIn', true, 'Finishing…');
+
+  try {
+    const res = await fetch('/auth/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(currentSession),
+    });
+
+    const json = await res.json();
+
+    if (!json.ok) {
+      throw new Error(json.error || 'Session storage failed');
+    }
+
+    // Redirect to the originally-requested page
+    window.location.replace(nextUrl);
+
+  } catch (e) {
+    setLoading('btnVerifyMFA', false, 'Verify');
+    setLoading('btnSignIn', false, 'Sign in');
+    showAlert('errMFA', 'Could not establish session. Please try again.');
+    showAlert('errPassword', 'Could not establish session. Please try again.');
+  }
+}
+
+// ─── UI helpers ───────────────────────────────────────────────────────────────
+function showPanel(panelId, noMfa = false) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+
+  // Update step dots
+  if (panelId === 'panelMFA') {
+    document.getElementById('dot1').className = 'step-dot done';
+    document.getElementById('dot2').className = 'step-dot active';
+
+    if (noMfa) {
+      document.getElementById('mfaSubtitle').textContent = '2FA setup required';
+      document.getElementById('totpGroup').style.display = 'none';
+      document.getElementById('btnVerifyMFA').textContent = 'Set up 2FA in Profile →';
+      document.getElementById('mfaNote').style.display = 'block';
+      document.getElementById('mfaNote').innerHTML =
+        '<strong>Your account has no authenticator enrolled.</strong><br>' +
+        'For security, 2FA is required to access this platform. ' +
+        'Click below to go to your Profile and set it up.';
+    } else {
+      document.getElementById('totpCode').focus();
+    }
+  } else {
+    document.getElementById('dot1').className = 'step-dot active';
+    document.getElementById('dot2').className = 'step-dot';
+  }
+}
+
+function backToPassword() {
+  currentSession = null;
+  mfaFactorId = null;
+  clearAlert('errMFA');
+  clearAlert('errPassword');
+  document.getElementById('totpCode').value = '';
+  document.getElementById('totpGroup').style.display = '';
+  document.getElementById('btnVerifyMFA').textContent = 'Verify';
+  document.getElementById('mfaNote').style.display = 'none';
+  document.getElementById('mfaSubtitle').textContent = 'Enter the 6-digit code from your authenticator app.';
+  showPanel('panelPassword');
+}
+
+function showAlert(id, msg, type = 'error') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = `alert alert-${type} show`;
+}
+
+function clearAlert(id) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = ''; el.className = 'alert'; }
+}
+
+function setLoading(btnId, loading, label) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading
+    ? `<span class="spinner"></span>${label}`
+    : label;
+}
+
+function friendlyError(error) {
+  const msg = (error?.message || '').toLowerCase();
+  if (msg.includes('invalid login') || msg.includes('invalid email') || msg.includes('wrong password')) {
+    return 'Invalid email or password. Please try again.';
+  }
+  if (msg.includes('email not confirmed')) {
+    return 'Please confirm your email address before signing in.';
+  }
+  if (msg.includes('too many requests') || msg.includes('rate limit')) {
+    return 'Too many attempts. Please wait a moment and try again.';
+  }
+  return error?.message || 'An error occurred. Please try again.';
+}
+
+// Allow pressing Enter to submit
+document.getElementById('password').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleSignIn();
+});
+document.getElementById('totpCode').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleMFAVerify();
+});
+// Auto-submit OTP when 6 digits entered
+document.getElementById('totpCode').addEventListener('input', e => {
+  const val = e.target.value.replace(/\D/g, '');
+  e.target.value = val;
+  if (val.length === 6 && mfaFactorId) handleMFAVerify();
+});
+</script>
+</body>
+</html>

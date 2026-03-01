@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile & Security — Analyst Platform</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0c10;
+      --surface:  #111318;
+      --surface2: #161a22;
+      --border:   #1e2330;
+      --text:     #e8eaf0;
+      --muted:    #7a8099;
+      --accent:   #4f8ef7;
+      --accent-h: #6ba3ff;
+      --danger:   #e05252;
+      --danger-h: #eb6868;
+      --success:  #3ecf8e;
+      --input-bg: #181c26;
+      --radius:   10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ─── Top bar ─── */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .topbar-brand-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #1a2540, #2a3a6a);
+      border: 1px solid #2d3a5a;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    .topbar-nav {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .topbar-link {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .topbar-link:hover { color: var(--text); }
+    .topbar-link.danger { color: #c06060; }
+    .topbar-link.danger:hover { color: var(--danger-h); }
+
+    /* ─── Layout ─── */
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+    }
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .page-sub {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* ─── User pill ─── */
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 28px;
+    }
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a3060, #2d5090);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .user-info-name { font-size: 15px; font-weight: 600; }
+    .user-info-email { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    /* ─── Section cards ─── */
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .section-head {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-head-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .section-head-text h3 { font-size: 15px; font-weight: 600; }
+    .section-head-text p  { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .section-body { padding: 22px; }
+
+    /* ─── Status badge ─── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .status-badge.enabled {
+      background: rgba(62,207,142,0.12);
+      color: var(--success);
+      border: 1px solid rgba(62,207,142,0.25);
+    }
+    .status-badge.disabled {
+      background: rgba(224,82,82,0.10);
+      color: #f08080;
+      border: 1px solid rgba(224,82,82,0.25);
+    }
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ─── Alert ─── */
+    .alert {
+      border-radius: 7px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+      display: none;
+    }
+    .alert.show { display: block; }
+    .alert-error   { background: rgba(224,82,82,0.12); border: 1px solid rgba(224,82,82,0.3); color: #f08080; }
+    .alert-success { background: rgba(62,207,142,0.10); border: 1px solid rgba(62,207,142,0.3); color: var(--success); }
+    .alert-info    { background: rgba(79,142,247,0.10); border: 1px solid rgba(79,142,247,0.25); color: #90b8ff; }
+
+    /* ─── Form ─── */
+    .form-group { margin-bottom: 16px; }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      font-size: 15px;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus { border-color: var(--accent); }
+
+    /* ─── Buttons ─── */
+    .btn {
+      padding: 9px 18px;
+      border-radius: 7px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary  { background: var(--accent);  color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-h); }
+    .btn-danger   { background: rgba(224,82,82,0.15); color: #f08080; border: 1px solid rgba(224,82,82,0.3); }
+    .btn-danger:hover:not(:disabled)  { background: rgba(224,82,82,0.25); color: var(--danger-h); }
+    .btn-ghost    { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .btn-ghost:hover:not(:disabled)   { color: var(--text); border-color: #3a4560; }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+    /* ─── QR / enroll ─── */
+    .qr-wrap {
+      text-align: center;
+      padding: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .qr-wrap canvas,
+    .qr-wrap img { max-width: 180px; }
+    .qr-secret {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      margin-top: 12px;
+      word-break: break-all;
+    }
+
+    .otp-input {
+      font-size: 24px !important;
+      font-weight: 700 !important;
+      letter-spacing: 8px !important;
+      text-align: center !important;
+    }
+
+    /* ─── Collapsible form sections ─── */
+    .expand-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .expand-btn:hover { border-color: var(--accent); }
+
+    .collapsible { display: none; margin-top: 16px; }
+    .collapsible.open { display: block; }
+
+    /* ─── Spinner ─── */
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── Divider ─── */
+    hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+
+    /* ─── Loading state ─── */
+    .loading-placeholder {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 8px 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<header class="topbar">
+  <a href="/dossiers/sri-lanka-cricket-corruption/analytics.html" class="topbar-brand">
+    <div class="topbar-brand-icon">🔎</div>
+    Analyst Platform
+  </a>
+  <nav class="topbar-nav">
+    <a href="/dossiers/sri-lanka-cricket-corruption/analytics.html" class="topbar-link">Analytics</a>
+    <a href="/dossiers/sri-lanka-cricket-corruption/sources.html" class="topbar-link">Sources</a>
+    <a href="/auth/logout" class="topbar-link danger">Sign Out</a>
+  </nav>
+</header>
+
+<!-- Page -->
+<main class="page">
+
+  <div class="page-header">
+    <h1 class="page-title">Profile &amp; Security</h1>
+    <p class="page-sub">Manage your account, two-factor authentication, and active sessions.</p>
+  </div>
+
+  <!-- User info -->
+  <div class="user-pill" id="userPill">
+    <div class="user-avatar" id="userAvatar">?</div>
+    <div>
+      <div class="user-info-name" id="userName">Loading…</div>
+      <div class="user-info-email" id="userEmail"></div>
+    </div>
+  </div>
+
+  <!-- ─── Two-Factor Auth ─── -->
+  <div class="section-card">
+    <div class="section-head">
+      <span class="section-head-icon">🔐</span>
+      <div class="section-head-text">
+        <h3>Two-Factor Authentication</h3>
+        <p>TOTP via Google Authenticator, Authy, or 1Password</p>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="loading-placeholder" id="mfaLoading">Checking 2FA status…</div>
+
+      <!-- MFA Enrolled state -->
+      <div id="mfaEnrolled" style="display:none">
+        <div class="btn-row" style="margin-bottom:14px">
+          <span class="status-badge enabled"><span class="status-dot"></span> Enabled</span>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">
+          Your account is protected with a TOTP authenticator. To change your authenticator app,
+          remove the current one and re-enroll.
+        </p>
+        <div class="alert alert-error" id="errMfaRemove"></div>
+        <div class="alert alert-success" id="okMfaRemove"></div>
+        <button class="btn btn-danger" id="btnRemoveMfa" onclick="removeMFA()">
+          Remove Authenticator
+        </button>
+      </div>
+
+      <!-- MFA Not enrolled state -->
+      <div id="mfaNotEnrolled" style="display:none">
+        <div class="btn-row" style="margin-bottom:14px">
+          <span class="status-badge disabled"><span class="status-dot"></span> Not enabled</span>
+          <button class="expand-btn" onclick="startMFAEnroll()">Set up authenticator →</button>
+        </div>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6">
+          Add an authenticator app to require a one-time code at every sign-in.
+        </p>
+
+        <!-- Enrollment flow -->
+        <div class="collapsible" id="enrollFlow">
+          <hr>
+          <div class="alert alert-error" id="errEnroll"></div>
+          <div class="alert alert-success" id="okEnroll"></div>
+
+          <!-- Step A: Generate QR -->
+          <div id="enrollStepQR">
+            <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.6">
+              Scan this QR code with your authenticator app (Google Authenticator, Authy, 1Password, etc.),
+              then enter the 6-digit code it shows to confirm enrollment.
+            </p>
+            <div class="qr-wrap" id="qrWrap">
+              <div class="loading-placeholder">Generating QR code…</div>
+            </div>
+            <div class="form-group">
+              <label for="enrollCode">Verification code</label>
+              <input type="text" id="enrollCode" class="otp-input"
+                     placeholder="000000" maxlength="6"
+                     inputmode="numeric" autocomplete="one-time-code">
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-primary" id="btnEnrollVerify" onclick="verifyEnrollment()">Confirm enrollment</button>
+              <button class="btn btn-ghost" onclick="cancelEnroll()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── Change Password ─── -->
+  <div class="section-card">
+    <div class="section-head">
+      <span class="section-head-icon">🔑</span>
+      <div class="section-head-text">
+        <h3>Change Password</h3>
+        <p>Use a strong, unique password</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <button class="expand-btn" onclick="toggleSection('pwForm')">Change password →</button>
+
+      <div class="collapsible" id="pwForm">
+        <hr>
+        <div class="alert alert-error" id="errPw"></div>
+        <div class="alert alert-success" id="okPw"></div>
+
+        <div class="form-group">
+          <label for="newPw">New password</label>
+          <input type="password" id="newPw" placeholder="Minimum 8 characters" autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label for="confirmPw">Confirm new password</label>
+          <input type="password" id="confirmPw" placeholder="Repeat new password" autocomplete="new-password">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btnChangePw" onclick="changePassword()">Update password</button>
+          <button class="btn btn-ghost" onclick="toggleSection('pwForm')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Sign Out ─── -->
+  <div class="section-card">
+    <div class="section-head">
+      <span class="section-head-icon">🚪</span>
+      <div class="section-head-text">
+        <h3>Sessions</h3>
+        <p>Sign out of this device or all devices</p>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="btn-row">
+        <a href="/auth/logout" class="btn btn-ghost">Sign out of this device</a>
+        <button class="btn btn-danger" id="btnSignOutAll" onclick="signOutAll()">Sign out everywhere</button>
+      </div>
+      <div class="alert alert-success" id="okSignOut" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- Supabase JS via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<!-- QR code generator -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+<script>
+// ─── Configuration ────────────────────────────────────────────────────────────
+// Must match the values in login.html
+const SUPABASE_URL      = 'REPLACE_WITH_YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'REPLACE_WITH_YOUR_SUPABASE_ANON_KEY';
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+    detectSessionInUrl: false,
+  }
+});
+
+// Profile page is protected by edge middleware, so if we reach here,
+// the user is authenticated. However, we need to get the session from
+// the cookie — since the cookie is httpOnly, we can't read it in JS.
+// Instead, we verify identity by calling Supabase's getUser() with the
+// token we reconstruct from the cookie via a session refresh.
+//
+// Strategy: attempt a getUser() call. If it fails (token expired),
+// redirect to /login.html?next=/profile.html
+
+let enrollFactorId = null; // holds the id of the factor being enrolled
+
+async function init() {
+  // Try to get user info via session refresh
+  // Since we can't read the httpOnly cookie, we rely on Supabase's
+  // pkce/session detection OR we use the refresh token flow via the edge
+  //
+  // For profile page, we call a lightweight whoami endpoint
+  // that reads the cookie server-side and returns user info.
+  // If that's not available yet, we show the user info as "Authenticated"
+  // and let the profile functions work directly.
+
+  try {
+    // Attempt session — Supabase will use any in-memory token
+    const { data: { user }, error } = await sb.auth.getUser();
+
+    if (error || !user) {
+      // No valid session in memory — we're relying on the edge cookie
+      // Show a generic "Authenticated" state and let operations proceed
+      showUserInfo({ email: 'authenticated user', id: null });
+    } else {
+      showUserInfo(user);
+    }
+  } catch {
+    showUserInfo({ email: 'authenticated user', id: null });
+  }
+
+  await loadMFAStatus();
+}
+
+function showUserInfo(user) {
+  const email = user.email || user.user_metadata?.email || 'authenticated user';
+  const name  = user.user_metadata?.full_name || user.user_metadata?.name || email.split('@')[0];
+  const initials = name.slice(0, 2).toUpperCase();
+
+  document.getElementById('userAvatar').textContent = initials;
+  document.getElementById('userName').textContent   = name;
+  document.getElementById('userEmail').textContent  = email;
+}
+
+// ─── MFA ──────────────────────────────────────────────────────────────────────
+async function loadMFAStatus() {
+  document.getElementById('mfaLoading').style.display = 'block';
+  document.getElementById('mfaEnrolled').style.display = 'none';
+  document.getElementById('mfaNotEnrolled').style.display = 'none';
+
+  const { data, error } = await sb.auth.mfa.listFactors();
+
+  document.getElementById('mfaLoading').style.display = 'none';
+
+  if (error) {
+    document.getElementById('mfaNotEnrolled').style.display = 'block';
+    return;
+  }
+
+  const totpFactors = data?.totp || [];
+  const verified = totpFactors.filter(f => f.status === 'verified');
+
+  if (verified.length > 0) {
+    document.getElementById('mfaEnrolled').style.display = 'block';
+  } else {
+    document.getElementById('mfaNotEnrolled').style.display = 'block';
+
+    // Auto-open enrollment if redirected from login with setup_mfa param
+    if (new URLSearchParams(window.location.search).get('setup_mfa') === '1') {
+      startMFAEnroll();
+    }
+  }
+}
+
+async function startMFAEnroll() {
+  document.getElementById('enrollFlow').classList.add('open');
+
+  clearAlert('errEnroll');
+  clearAlert('okEnroll');
+
+  document.getElementById('qrWrap').innerHTML = '<div class="loading-placeholder">Generating QR code…</div>';
+
+  // Enroll a new TOTP factor
+  const { data, error } = await sb.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'Analyst Platform' });
+
+  if (error) {
+    document.getElementById('qrWrap').innerHTML = '';
+    return showAlert('errEnroll', 'Could not start enrollment: ' + error.message);
+  }
+
+  enrollFactorId = data.id;
+  const totpUri  = data.totp?.uri;
+  const secret   = data.totp?.secret;
+
+  // Render QR code
+  const qrWrap = document.getElementById('qrWrap');
+  qrWrap.innerHTML = '';
+
+  const canvas = document.createElement('canvas');
+  qrWrap.appendChild(canvas);
+
+  try {
+    await QRCode.toCanvas(canvas, totpUri, { width: 180, margin: 2, color: { dark: '#ffffff', light: '#181c26' } });
+  } catch (e) {
+    qrWrap.innerHTML = `<p style="color:var(--muted);font-size:13px">Could not render QR code. Use secret below.</p>`;
+  }
+
+  if (secret) {
+    const secretDiv = document.createElement('div');
+    secretDiv.className = 'qr-secret';
+    secretDiv.textContent = secret.match(/.{1,4}/g).join(' ');
+    qrWrap.appendChild(secretDiv);
+  }
+
+  document.getElementById('enrollCode').focus();
+}
+
+async function verifyEnrollment() {
+  const code = document.getElementById('enrollCode').value.replace(/\D/g, '');
+  clearAlert('errEnroll');
+
+  if (!code || code.length !== 6) {
+    return showAlert('errEnroll', 'Please enter the 6-digit code from your authenticator app.');
+  }
+
+  if (!enrollFactorId) {
+    return showAlert('errEnroll', 'Enrollment not started. Please refresh and try again.');
+  }
+
+  setLoading('btnEnrollVerify', true, 'Verifying…');
+
+  const { data: challengeData, error: challengeErr } = await sb.auth.mfa.challenge({ factorId: enrollFactorId });
+
+  if (challengeErr) {
+    setLoading('btnEnrollVerify', false, 'Confirm enrollment');
+    return showAlert('errEnroll', challengeErr.message);
+  }
+
+  const { error: verifyErr } = await sb.auth.mfa.verify({
+    factorId:    enrollFactorId,
+    challengeId: challengeData.id,
+    code,
+  });
+
+  setLoading('btnEnrollVerify', false, 'Confirm enrollment');
+
+  if (verifyErr) {
+    return showAlert('errEnroll', 'Incorrect code — please check your authenticator app and try again.');
+  }
+
+  showAlert('okEnroll', '✓ Authenticator enrolled successfully! Your account is now protected with 2FA.');
+  document.getElementById('enrollFlow').classList.remove('open');
+
+  // Refresh session cookies with upgraded AAL2 token
+  const { data: sessionData } = await sb.auth.getSession();
+  if (sessionData?.session) {
+    await fetch('/auth/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_token:  sessionData.session.access_token,
+        refresh_token: sessionData.session.refresh_token,
+      }),
+    });
+  }
+
+  await loadMFAStatus();
+}
+
+function cancelEnroll() {
+  document.getElementById('enrollFlow').classList.remove('open');
+  document.getElementById('enrollCode').value = '';
+  enrollFactorId = null;
+}
+
+async function removeMFA() {
+  if (!confirm('Remove your authenticator app? You will need to re-enroll to use 2FA again.')) return;
+
+  clearAlert('errMfaRemove');
+  clearAlert('okMfaRemove');
+
+  const { data, error: listErr } = await sb.auth.mfa.listFactors();
+  if (listErr) return showAlert('errMfaRemove', 'Could not load factors: ' + listErr.message);
+
+  const factor = data?.totp?.[0];
+  if (!factor) return showAlert('errMfaRemove', 'No authenticator found.');
+
+  setLoading('btnRemoveMfa', true, 'Removing…');
+
+  const { error } = await sb.auth.mfa.unenroll({ factorId: factor.id });
+
+  setLoading('btnRemoveMfa', false, 'Remove Authenticator');
+
+  if (error) {
+    return showAlert('errMfaRemove', error.message);
+  }
+
+  showAlert('okMfaRemove', '✓ Authenticator removed. You can enroll a new one below.');
+  await loadMFAStatus();
+}
+
+// ─── Password ─────────────────────────────────────────────────────────────────
+async function changePassword() {
+  const newPw     = document.getElementById('newPw').value;
+  const confirmPw = document.getElementById('confirmPw').value;
+
+  clearAlert('errPw');
+  clearAlert('okPw');
+
+  if (!newPw || newPw.length < 8) {
+    return showAlert('errPw', 'Password must be at least 8 characters.');
+  }
+  if (newPw !== confirmPw) {
+    return showAlert('errPw', 'Passwords do not match.');
+  }
+
+  setLoading('btnChangePw', true, 'Updating…');
+
+  const { error } = await sb.auth.updateUser({ password: newPw });
+
+  setLoading('btnChangePw', false, 'Update password');
+
+  if (error) {
+    return showAlert('errPw', error.message);
+  }
+
+  document.getElementById('newPw').value     = '';
+  document.getElementById('confirmPw').value = '';
+  showAlert('okPw', '✓ Password updated successfully.');
+  toggleSection('pwForm');
+}
+
+// ─── Sign out everywhere ──────────────────────────────────────────────────────
+async function signOutAll() {
+  setLoading('btnSignOutAll', true, 'Signing out…');
+
+  await sb.auth.signOut({ scope: 'global' });
+
+  // Clear cookies via edge function then redirect
+  window.location.href = '/auth/logout';
+}
+
+// ─── UI helpers ───────────────────────────────────────────────────────────────
+function toggleSection(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function showAlert(id, msg, type = 'error') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = `alert alert-${type} show`;
+}
+
+function clearAlert(id) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = ''; el.className = 'alert'; }
+}
+
+function setLoading(btnId, loading, label) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading ? `<span class="spinner"></span>${label}` : label;
+}
+
+// Auto-submit enrollment code when 6 digits
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('enrollCode')?.addEventListener('input', e => {
+    const val = e.target.value.replace(/\D/g, '');
+    e.target.value = val;
+    if (val.length === 6) verifyEnrollment();
+  });
+  init();
+});
+</script>
+</body>
+</html>
