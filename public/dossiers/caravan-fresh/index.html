@@ -701,6 +701,12 @@
             display: block !important;
         }
 
+        /* Sinhala font — apply Noto Sans Sinhala to all SI elements */
+        [data-lang="si"] {
+            font-family: 'Noto Sans Sinhala', sans-serif !important;
+            letter-spacing: 0 !important;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             h1 {
@@ -775,9 +781,100 @@
         .card, .legal-disclaimer, footer {
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+        /* Disclaimer Modal */
+        .disclaimer-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .disclaimer-overlay.hidden { display: none; }
+        .disclaimer-modal {
+            background: var(--color-bg);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            max-width: 620px;
+            width: 100%;
+            padding: 32px;
+            max-height: 80vh;
+            overflow-y: auto;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .disclaimer-modal h2 {
+            font-family: var(--font-serif);
+            font-size: 22px;
+            margin: 0 0 8px 0;
+            color: var(--color-gold);
+        }
+        .disclaimer-modal .subtitle {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .disclaimer-modal p {
+            margin: 0 0 14px 0;
+        }
+        .disclaimer-modal .section-label {
+            font-weight: 600;
+            color: var(--color-gold);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 18px 0 6px 0;
+        }
+        .disclaimer-modal .accept-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-top: 24px;
+            background: var(--color-green);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: opacity 0.2s;
+        }
+        .disclaimer-modal .accept-btn:hover { opacity: 0.9; }
+
     </style>
 </head>
 <body data-lang-active="si">
+
+    <!-- Disclaimer Modal -->
+    <div class="disclaimer-overlay" id="disclaimer-overlay">
+        <div class="disclaimer-modal">
+            <h2>Disclaimer / වියාචනය</h2>
+            <div class="subtitle">Please read before proceeding</div>
+
+            <div class="section-label">Translation Accuracy</div>
+            <p>Sinhala (සිංහල) translations on this page were generated using the <strong>Google Translate API</strong> and have not been independently verified by a certified translator. Translations may contain inaccuracies, awkward phrasing, or errors in meaning. The English version should be treated as the authoritative text.</p>
+
+            <div class="section-label">Research & AI-Assisted Content</div>
+            <p>Portions of this research were compiled with the assistance of machine learning tools. While every effort has been made to ensure factual accuracy, the analysis, categorisations, and inferences presented are <strong>the reader's responsibility to independently verify</strong> before relying upon them for any purpose.</p>
+
+            <div class="section-label">Legal Liability</div>
+            <p>This document is published for <strong>informational and public interest purposes only</strong>. It does not constitute legal advice, defamation, or an accusation of criminal conduct. The authors, publishers, and platform operators accept <strong>no liability</strong> for any loss, damage, or legal consequence arising from the use or interpretation of this content. By proceeding, you acknowledge that you assume full responsibility for how you use the information presented herein.</p>
+
+            <div class="section-label">Fair Comment</div>
+            <p>All opinions expressed constitute fair comment on matters of public interest. All factual claims are based on publicly available evidence cited within the document. Corrections and right-of-reply requests can be directed to the contact information provided.</p>
+
+            <button class="accept-btn" id="disclaimer-accept">I Understand &amp; Accept — මම තේරුම් ගනිමි</button>
+        </div>
+    </div>
+
     <header>
         <div class="header-top">
             <button class="lang-toggle" id="lang-toggle">
@@ -811,10 +908,10 @@
         <h1 data-lang="en">The Caravan Fresh "Chicken Cheese Bomb" Incident</h1>
 
         <p class="hero-subtitle" data-lang="si">
-            කැරවෑන් ෆ්‍රෙෂ් නම් බේකරි දෙපළ බෝම්බ ඉමෝජි සහ සිංහල පෙළ භාවිතා කරමින් කෑ ඩෙලිවරි නිෂ්පාදිතයක් ඇලවුවේය. සිංහල පඩුවේ යුද්ධය සහ ගැටුම් වලට ඉතිරිකරන බිම්බ සිතුවම්පත් භාවිතා කිරීමට අවසර ලබා ගත නොමැතිවේ.
+            කැරවෑන් ෆ්‍රෙෂ් නම් බේකරි දෙපළ බෝම්බ ඉමෝජි සහ සිංහල පෙළ භාවිතා කරමින් කෑ ඩෙලිවරි නිෂ්පාදිතයක් ඇලවුවේය — ගාසාවේ එක්සත් ජනපද/ඊශ්‍රායල් බෝම්බ ප්‍රහාරවලින් පාසල් දැරියන් මරා දමන අවස්ථාවක, ශ්‍රී ලංකාවේ සිවිල් යුද්ධ තුවාල තවමත් සුව නොවූ සමාජයක. වෙළඳ ප්‍රචාරණයේ බෝම්බ රූපක භාවිතය පිළිබඳ පුළුල් විවේචනයට ලක් විය.
         </p>
         <p class="hero-subtitle" data-lang="en">
-            Caravan Fresh published a bakery delivery product ad using bomb emojis and Sinhala text referencing conflict and war. The post triggered widespread criticism over the inappropriate use of war imagery in commercial marketing.
+            Caravan Fresh published a bakery delivery product ad using bomb emojis and Sinhala text that evoked the ongoing US/Israeli bombing of Gaza — where schoolgirls and children were being killed — while also reopening old wounds from Sri Lanka's own civil wars. The post triggered widespread criticism over the casual use of bombing imagery in commercial marketing.
         </p>
 
         <div class="hero-meta">
@@ -870,14 +967,14 @@
         <h2 data-lang="en">The Incident</h2>
 
         <p data-lang="si">
-            කැරවෑන් ෆ්‍රෙෂ් පිටුවෙහි, බේකරි දෙපළ වෙතින් "චිකන් චීස් බෝම්බ්" නම් නිෂ්පාදිතයක් පිළිබඳ වෙළඳ දැන්වීමක් ප්‍රකාශයට පත් කරන ලදී. එම පෝස්ටුවේ බෝම්බ ඉමෝජි (💣) සහ සිංහල පෙළ භාවිතා කරන ලදී, එය සිංහල සමාජයේ යුද්ධය සහ ගැටුම්වලට සම්බන්ධතා ඇතිවේ.
+            කැරවෑන් ෆ්‍රෙෂ් පිටුවෙහි, බේකරි දෙපළ වෙතින් "චිකන් චීස් බෝම්බ්" නම් නිෂ්පාදිතයක් පිළිබඳ වෙළඳ දැන්වීමක් ප්‍රකාශයට පත් කරන ලදී. එම පෝස්ටුවේ බෝම්බ ඉමෝජි (💣) සහ සිංහල පෙළ භාවිතා කරන ලදී — ගාසාවේ එක්සත් ජනපද/ඊශ්‍රායල් බෝම්බ ප්‍රහාරවලින් පාසල් දැරියන් ඇතුළු ළමුන් මරා දමන අවස්ථාවක, එමෙන්ම ශ්‍රී ලංකාවේ සිවිල් යුද්ධවල තුවාල තවමත් සුව නොවූ සමාජයක, මෙය ප්‍රේක්ෂකයන්ට දරුණු ලෙස අසංවේදී ලෙස දැනුණි.
         </p>
         <p data-lang="en">
-            Caravan Fresh published an advertisement for a bakery delivery product called "Chicken Cheese Bomb." The post used bomb emojis (💣) and Sinhala text that evoked associations with conflict and war in Sinhala society.
+            Caravan Fresh published an advertisement for a bakery delivery product called "Chicken Cheese Bomb." The post used bomb emojis (💣) and Sinhala text that, amid the ongoing US/Israeli bombing of Gaza — where schoolgirls and children were being killed — and in a society still carrying the scars of Sri Lanka's civil wars, struck audiences as grotesquely tone-deaf.
         </p>
 
         <p data-lang="si">
-            පෝස්ටුවට ප්‍රතිචාර ලෙස 3,800+ "කෝපයි" ඉමෝජි සහ 218+ අදහස් වලින් අනුග්‍රහය ලැබුණි. පසුව අක්‍රමිකතා සොයා ගැනීමට ගිය පුරවැසි මතුපිට කිසිවකුගේ ඉදිරියේ ඉදිරිපත් වීමට අවිශ්වාසයි.
+            පෝස්ටුවට ප්‍රතිචාර ලෙස 3,800+ "angry" reactions සහ 218+ comments ලැබුණි. යුද්ධ රූපක භාවිතය ගැන පෙන්වා දුන් අය official page එකෙන් block කරන ලදී.
         </p>
         <p data-lang="en">
             The post received 3,800+ "angry" reactions and 218+ comments of criticism. Those who pointed out the inappropriate use of war imagery found themselves blocked from the official page.
@@ -934,15 +1031,15 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon screenshot">SS</span>
-                            <div class="evidence-source-text"><strong>Screenshot: Original Caravan Fresh Facebook post</strong> — Shows "Chicken Cheese Bomb" ad with 💣🧀 emojis and Sinhala text: "ඇතිවී තිබෙන යුදමය තත්වය හේතුවෙන් ඉදිරි මෙහෙයුම් සඳහා" (referencing war operations). <span class="source-ref">[IMG_1.JPG]</span></div>
+                            <div class="evidence-source-text"><strong>Screenshot: Original Caravan Fresh Facebook post</strong> — Shows "Chicken Cheese Bomb" ad with 💣🧀 emojis and Sinhala text: "ඇතිවී තිබෙන යුදමය තත්වය හේතුවෙන් ඉදිරි මෙහෙයුම් සඳහා" (referencing war operations). <span class="source-ref">[IMG_1]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Public share by Greshan Gabriel</strong> — "If your campaign depends on tragedy to perform, your strategy has already failed." <span class="source-ref">[IMG_36.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Public share by Greshan Gabriel</strong> — "If your campaign depends on tragedy to perform, your strategy has already failed." <span class="source-ref">[IMG_36]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Public share by Sameera Mahboobdeen</strong> — Shared original screenshot with head office number for complaints (0718-698650). <span class="source-ref">[IMG_38.PNG, IMG_40.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Public share by Sameera Mahboobdeen</strong> — Shared original screenshot with head office number for complaints (0718-698650). <span class="source-ref"><span class="source-ref">[IMG_38]</span><span class="source-ref">[IMG_40]</span></span></div>
                         </li>
                     </ul>
                     <div class="evidence-factcheck">
@@ -969,24 +1066,24 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Munza Mushtaq's public post</strong> — Detailed criticism: "This was an utterly irresponsible, insensitive, and frankly cheap take from Caravan Fresh, using the unrest for humour by casually referencing 'bombs'." 117 likes. <span class="source-ref">[IMG_30.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Munza Mushtaq's public post</strong> — Detailed criticism: "This was an utterly irresponsible, insensitive, and frankly cheap take from Caravan Fresh, using the unrest for humour by casually referencing 'bombs'." 117 likes. <span class="source-ref">[IMG_30]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Marisa DS discussion with Sivamohan Sumathy</strong> — Called it "senseless and distasteful." Compared to "land mine" vadai naming, noting that comes from community's own trauma processing — fundamentally different. <span class="source-ref">[IMG_7.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Marisa DS discussion with Sivamohan Sumathy</strong> — Called it "senseless and distasteful." Compared to "land mine" vadai naming, noting that comes from community's own trauma processing — fundamentally different. <span class="source-ref">[IMG_7]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Uvindu Pasan Rajapakshe's analysis</strong> — Discussed clickbait ethics and brand responsibility, noting the product uses "Bomb" in its name alongside war imagery. <span class="source-ref">[IMG_14.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Uvindu Pasan Rajapakshe's analysis</strong> — Discussed clickbait ethics and brand responsibility, noting the product uses "Bomb" in its name alongside war imagery. <span class="source-ref">[IMG_14]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon screenshot">DM</span>
-                            <div class="evidence-source-text"><strong>Munza's DM to Caravan Fresh</strong> — "Shame on you'll for using the deaths of innocent people and an impending war as a reason to make memes." CF responded with templated hotline info. <span class="source-ref">[IMG_27.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Munza's DM to Caravan Fresh</strong> — "Shame on you'll for using the deaths of innocent people and an impending war as a reason to make memes." CF responded with templated hotline info. <span class="source-ref">[IMG_27]</span></div>
                         </li>
                     </ul>
                     <div class="evidence-factcheck">
                         <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-verified">Verified</span></div>
-                        3,800+ reactions (predominantly "Angry") and 218+ comments documented via screenshot of post metrics [IMG_26.PNG]. Multiple independent users on separate Facebook profiles posted criticism — not a coordinated campaign.
+                        3,800+ reactions (predominantly "Angry") and 218+ comments documented via screenshot of post metrics <span class="source-ref">[IMG_26]</span>. Multiple independent users on separate Facebook profiles posted criticism — not a coordinated campaign.
                     </div>
                 </div>
             </div>
@@ -1008,11 +1105,11 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Dewasiri Abenayaka's public comment</strong> — "I was blocked from the official Caravan Fresh by Kavindi Athapaththu and the marketing team for pointing this out in the original post." Later asks: "how can I address it officially when you have blocked me from the official page for making one single comment?" <span class="source-ref">[IMG_3.PNG, IMG_6.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Dewasiri Abenayaka's public comment</strong> — "I was blocked from the official Caravan Fresh by Kavindi Athapaththu and the marketing team for pointing this out in the original post." Later asks: "how can I address it officially when you have blocked me from the official page for making one single comment?" <span class="source-ref"><span class="source-ref">[IMG_3]</span><span class="source-ref">[IMG_6]</span></span></div>
                         </li>
                         <li>
                             <span class="evidence-icon screenshot">SS</span>
-                            <div class="evidence-source-text"><strong>Shajeeth's comment on Munza's post</strong> — "they even restricted comments when people started calling them out. Absolutely sickening." <span class="source-ref">[IMG_32.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Shajeeth's comment on Munza's post</strong> — "they even restricted comments when people started calling them out. Absolutely sickening." <span class="source-ref">[IMG_32]</span></div>
                         </li>
                     </ul>
                     <div class="evidence-factcheck">
@@ -1039,12 +1136,12 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Sameera Mahboobdeen's update post</strong> — "UPDATE: Caravan has since removed the word from their post, which does nothing to change the callous nature of this ad campaign. I've attached the original SS for reference." <span class="source-ref">[IMG_39.PNG, IMG_40.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Sameera Mahboobdeen's update post</strong> — "UPDATE: Caravan has since removed the word from their post, which does nothing to change the callous nature of this ad campaign. I've attached the original SS for reference." <span class="source-ref"><span class="source-ref">[IMG_39]</span><span class="source-ref">[IMG_40]</span></span></div>
                         </li>
                     </ul>
                     <div class="evidence-factcheck">
                         <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-verified">Verified</span></div>
-                        Comparison of original screenshot [IMG_1.JPG] with later version [IMG_39.PNG] confirms the Sinhala text was removed while the product name "Chicken Cheese Bomb" and imagery remained. This suggests the company recognized the problem but attempted to minimize rather than fully address it.
+                        Comparison of original screenshot <span class="source-ref">[IMG_1]</span> with later version <span class="source-ref">[IMG_39]</span> confirms the Sinhala text was removed while the product name "Chicken Cheese Bomb" and imagery remained. This suggests the company recognized the problem but attempted to minimize rather than fully address it.
                     </div>
                 </div>
             </div>
@@ -1066,11 +1163,11 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon screenshot">SS</span>
-                            <div class="evidence-source-text"><strong>Facebook UI notice on Caravan Fresh page</strong> — Visible banner: "Only people who follow this Page for more than 24 hours can comment." <span class="source-ref">[IMG_12.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Facebook UI notice on Caravan Fresh page</strong> — Visible banner: "Only people who follow this Page for more than 24 hours can comment." <span class="source-ref">[IMG_12]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon screenshot">SS</span>
-                            <div class="evidence-source-text"><strong>"Most relevant" filter notice</strong> — Multiple screenshots show: "Most relevant is selected, so some replies may have been filtered out." <span class="source-ref">[IMG_6.PNG, IMG_12.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>"Most relevant" filter notice</strong> — Multiple screenshots show: "Most relevant is selected, so some replies may have been filtered out." <span class="source-ref"><span class="source-ref">[IMG_6]</span><span class="source-ref">[IMG_12]</span></span></div>
                         </li>
                     </ul>
                     <div class="evidence-factcheck">
@@ -1097,11 +1194,11 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Munza Mushtaq's detailed account</strong> — Notes post remained up for extended period: "despite it being shared for over 17 hours and instead of taking it down, they restricted comments." <span class="source-ref">[IMG_33.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Munza Mushtaq's detailed account</strong> — Notes post remained up for extended period: "despite it being shared for over 17 hours and instead of taking it down, they restricted comments." <span class="source-ref">[IMG_33]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Ursula Bastianz's comment</strong> — "They're a company that has been around for a while.. did they not understand or care? Which is it?" <span class="source-ref">[IMG_33.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Ursula Bastianz's comment</strong> — "They're a company that has been around for a while.. did they not understand or care? Which is it?" <span class="source-ref">[IMG_33]</span></div>
                         </li>
                     </ul>
                     <div class="evidence-factcheck">
@@ -1128,19 +1225,19 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon statement">OS</span>
-                            <div class="evidence-source-text"><strong>Official Statement graphic</strong> — States: "We sincerely apologize" BUT also: "certain organized groups appear to be using this situation to deliberately target and attack our business" AND "We reserve the right to take necessary legal action against any actions intended to harm our business, reputation, or team." <span class="source-ref">[IMG_2.JPG]</span></div>
+                            <div class="evidence-source-text"><strong>Official Statement graphic</strong> — States: "We sincerely apologize" BUT also: "certain organized groups appear to be using this situation to deliberately target and attack our business" AND "We reserve the right to take necessary legal action against any actions intended to harm our business, reputation, or team." <span class="source-ref">[IMG_2]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Kavindi Athapaththu's comment thread</strong> — Praised the post ("this is team work not just mine") in one thread [IMG_17.PNG], then threatened legal action against critics ("Continuing to make false or defamatory claims...will leave me with no option but to seek legal advice") in another [IMG_3.PNG]. <span class="source-ref">[IMG_17.PNG, IMG_3.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Kavindi Athapaththu's comment thread</strong> — Praised the post ("this is team work not just mine") in one thread <span class="source-ref">[IMG_17]</span>, then threatened legal action against critics ("Continuing to make false or defamatory claims...will leave me with no option but to seek legal advice") in another <span class="source-ref">[IMG_3]</span>. <span class="source-ref"><span class="source-ref">[IMG_17]</span><span class="source-ref">[IMG_3]</span></span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Kavindi's later response to Riz Razak</strong> — Acknowledged: "sometimes impact doesn't match intention, especially during sensitive times" and apologized. Also claimed "fake accounts and unrelated agendas" were escalating things. <span class="source-ref">[IMG_5.PNG, IMG_6.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Kavindi's later response to Riz Razak</strong> — Acknowledged: "sometimes impact doesn't match intention, especially during sensitive times" and apologized. Also claimed "fake accounts and unrelated agendas" were escalating things. <span class="source-ref"><span class="source-ref">[IMG_5]</span><span class="source-ref">[IMG_6]</span></span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Dewyan Thilakasiri's analysis</strong> — Points out: "your initial comment on this thread was quite dismissive of the criticism. Which one actually reflects Caravan Fresh's position?" and "Criticism of a brand's public post is not harassment." <span class="source-ref">[IMG_24.PNG, IMG_25.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Dewyan Thilakasiri's analysis</strong> — Points out: "your initial comment on this thread was quite dismissive of the criticism. Which one actually reflects Caravan Fresh's position?" and "Criticism of a brand's public post is not harassment." <span class="source-ref"><span class="source-ref">[IMG_24]</span><span class="source-ref">[IMG_25]</span></span></div>
                         </li>
                     </ul>
                     <div class="evidence-factcheck">
@@ -1167,11 +1264,11 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Kavindi Athapaththu's public comment</strong> — "I also want to highlight that the nature of the post by the other party led to a tense situation, where certain individuals (men) had called our hotline and harassed our female customer care staff, who had nothing to do with the matter." <span class="source-ref">[IMG_6.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Kavindi Athapaththu's public comment</strong> — "I also want to highlight that the nature of the post by the other party led to a tense situation, where certain individuals (men) had called our hotline and harassed our female customer care staff, who had nothing to do with the matter." <span class="source-ref">[IMG_6]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Dewyan Thilakasiri's rebuttal</strong> — "Criticism of a brand's public post is not harassment. Sharing a publicly listed business hotline is not harassment. If your hotline was overwhelmed, that's a reflection of how many people were genuinely affected." <span class="source-ref">[IMG_25.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Dewyan Thilakasiri's rebuttal</strong> — "Criticism of a brand's public post is not harassment. Sharing a publicly listed business hotline is not harassment. If your hotline was overwhelmed, that's a reflection of how many people were genuinely affected." <span class="source-ref">[IMG_25]</span></div>
                         </li>
                     </ul>
                     <div class="evidence-factcheck">
@@ -1415,23 +1512,23 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon screenshot">SS</span>
-                            <div class="evidence-source-text"><strong>Self-identification in public comment</strong> — "I am part of Caravan Fresh marketing" and "this is team work not just mine" on post about Chicken Cheese Bomb. <span class="source-ref">[IMG_17.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Self-identification in public comment</strong> — "I am part of Caravan Fresh marketing" and "this is team work not just mine" on post about Chicken Cheese Bomb. <span class="source-ref">[IMG_17]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Legal threat comment</strong> — Response to critic Dewasiri: "I would strongly advise you to stop making baseless accusations or face legal consequences." <span class="source-ref">[IMG_3.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Legal threat comment</strong> — Response to critic Dewasiri: "I would strongly advise you to stop making baseless accusations or face legal consequences." <span class="source-ref">[IMG_3]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Acknowledgment comment</strong> — "I agree our impact doesn't match our intention" in follow-up post. <span class="source-ref">[IMG_6.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Acknowledgment comment</strong> — "I agree our impact doesn't match our intention" in follow-up post. <span class="source-ref">[IMG_6]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Harassment reframing</strong> — "certain individuals (men) had called our hotline and harassed our female customer care staff." <span class="source-ref">[IMG_22.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>Harassment reframing</strong> — "certain individuals (men) had called our hotline and harassed our female customer care staff." <span class="source-ref">[IMG_22]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon documented">DOC</span>
-                            <div class="evidence-source-text"><strong>User blocking account</strong> — Per Dewasiri Abenayaka: "I was blocked from the official Caravan Fresh page by Kavindi Athapaththu and the marketing team." <span class="source-ref">[IMG_3.PNG]</span></div>
+                            <div class="evidence-source-text"><strong>User blocking account</strong> — Per Dewasiri Abenayaka: "I was blocked from the official Caravan Fresh page by Kavindi Athapaththu and the marketing team." <span class="source-ref">[IMG_3]</span></div>
                         </li>
                     </ul>
                     <div class="evidence-factcheck">
@@ -1669,7 +1766,7 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>Sharing public contact details is not doxxing.</strong> Caravan Fresh's hotline number (0718-698650 head office, 0719-721484 hotline) was publicly listed on their own Facebook business page. Sameera Mahboobdeen shared the head office number [IMG_38.PNG] — this is sharing public information, not exposing private data. Dewyan Thilakasiri explicitly stated: "Sharing a publicly listed business hotline is not harassment." [IMG_25.PNG]</div>
+                            <div class="evidence-source-text"><strong>Sharing public contact details is not doxxing.</strong> Caravan Fresh's hotline number (0718-698650 head office, 0719-721484 hotline) was publicly listed on their own Facebook business page. Sameera Mahboobdeen shared the head office number <span class="source-ref">[IMG_38]</span> — this is sharing public information, not exposing private data. Dewyan Thilakasiri explicitly stated: "Sharing a publicly listed business hotline is not harassment." <span class="source-ref">[IMG_25]</span></div>
                         </li>
                         <li>
                             <span class="evidence-icon statement">OS</span>
@@ -1731,11 +1828,11 @@
                     <ul class="evidence-sources">
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>The company's claim:</strong> Kavindi Athapaththu stated that "certain individuals (men) had called our hotline and harassed our female customer care staff" [IMG_6.PNG]. The official statement referenced "organized groups" targeting their business.</div>
+                            <div class="evidence-source-text"><strong>The company's claim:</strong> Kavindi Athapaththu stated that "certain individuals (men) had called our hotline and harassed our female customer care staff" <span class="source-ref">[IMG_6]</span>. The official statement referenced "organized groups" targeting their business.</div>
                         </li>
                         <li>
                             <span class="evidence-icon public">FB</span>
-                            <div class="evidence-source-text"><strong>The rebuttal:</strong> Dewyan Thilakasiri responded: "Criticism of a brand's public post is not harassment. Sharing a publicly listed business hotline is not harassment. If your hotline was overwhelmed, that's a reflection of how many people were genuinely affected." [IMG_25.PNG] — This distinction is legally sound.</div>
+                            <div class="evidence-source-text"><strong>The rebuttal:</strong> Dewyan Thilakasiri responded: "Criticism of a brand's public post is not harassment. Sharing a publicly listed business hotline is not harassment. If your hotline was overwhelmed, that's a reflection of how many people were genuinely affected." <span class="source-ref">[IMG_25]</span> — This distinction is legally sound.</div>
                         </li>
                         <li>
                             <span class="evidence-icon statement">OS</span>
@@ -2020,6 +2117,26 @@
                 }
             });
         });
+        // Disclaimer modal
+        const overlay = document.getElementById('disclaimer-overlay');
+        const acceptBtn = document.getElementById('disclaimer-accept');
+        const DISCLAIMER_KEY = 'cf-dossier-disclaimer-accepted';
+
+        if (sessionStorage.getItem(DISCLAIMER_KEY)) {
+            overlay.classList.add('hidden');
+        } else {
+            document.body.style.overflow = 'hidden';
+        }
+
+        acceptBtn.addEventListener('click', () => {
+            overlay.classList.add('hidden');
+            document.body.style.overflow = '';
+            sessionStorage.setItem(DISCLAIMER_KEY, '1');
+        });
+
+            overlay.querySelector('img').src = src;
+            overlay.classList.remove('hidden');
+        }
     </script>
 </body>
 </html>
