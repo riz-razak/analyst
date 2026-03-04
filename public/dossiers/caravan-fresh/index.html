@@ -12,7 +12,9 @@
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://analyst.rizrazak.com/dossiers/caravan-fresh-case-study/">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts — preconnect for speed -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -701,9 +703,44 @@
             display: block !important;
         }
 
-        /* Sinhala font — apply Noto Sans Sinhala to all SI elements */
+        /* Sinhala font — apply Noto Sans Sinhala globally when in SI mode */
+        [data-lang-active="si"] {
+            font-family: 'Noto Sans Sinhala', 'Inter', sans-serif !important;
+            letter-spacing: 0 !important;
+        }
+        [data-lang-active="si"] h1,
+        [data-lang-active="si"] h2,
+        [data-lang-active="si"] h3,
+        [data-lang-active="si"] nav a,
+        [data-lang-active="si"] .badge,
+        [data-lang-active="si"] .hero-subtitle,
+        [data-lang-active="si"] .stat-label,
+        [data-lang-active="si"] .stat-card-label,
+        [data-lang-active="si"] .timeline-title,
+        [data-lang-active="si"] .timeline-desc,
+        [data-lang-active="si"] .timeline-date,
+        [data-lang-active="si"] .section-number,
+        [data-lang-active="si"] .meta-label,
+        [data-lang-active="si"] p,
+        [data-lang-active="si"] li,
+        [data-lang-active="si"] span,
+        [data-lang-active="si"] div,
+        [data-lang-active="si"] button {
+            font-family: 'Noto Sans Sinhala', 'Inter', sans-serif !important;
+            letter-spacing: 0 !important;
+        }
         [data-lang="si"] {
             font-family: 'Noto Sans Sinhala', sans-serif !important;
+            letter-spacing: 0 !important;
+        }
+        /* Disclaimer modal — always show Sinhala font */
+        .disclaimer-modal,
+        .disclaimer-modal h2,
+        .disclaimer-modal p,
+        .disclaimer-modal .section-label,
+        .disclaimer-modal .subtitle,
+        .disclaimer-modal .accept-btn {
+            font-family: 'Noto Sans Sinhala', 'Inter', sans-serif !important;
             letter-spacing: 0 !important;
         }
 
@@ -857,19 +894,23 @@
     <div class="disclaimer-overlay" id="disclaimer-overlay">
         <div class="disclaimer-modal">
             <h2>Disclaimer / වියාචනය</h2>
-            <div class="subtitle">Please read before proceeding</div>
+            <div class="subtitle">Please read before proceeding / කරුණාකර ඉදිරියට යාමට පෙර කියවන්න</div>
 
-            <div class="section-label">Translation Accuracy</div>
+            <div class="section-label">Translation Accuracy / පරිවර්තන නිරවද්‍යතාව</div>
             <p>Sinhala (සිංහල) translations on this page were generated using the <strong>Google Translate API</strong> and have not been independently verified by a certified translator. Translations may contain inaccuracies, awkward phrasing, or errors in meaning. The English version should be treated as the authoritative text.</p>
+            <p style="color: var(--color-text-secondary); font-size: 0.85em;">මෙම පිටුවේ සිංහල පරිවර්තන <strong>Google Translate API</strong> භාවිතයෙන් ජනනය කරන ලද අතර සහතික පරිවර්තකයෙකු විසින් ස්වාධීනව සත්‍යාපනය කර නොමැත. පරිවර්තන වල අඩුපාඩු, අමුතු වාක්‍ය ඛණ්ඩ හෝ අර්ථයේ දෝෂ අඩංගු විය හැක. ඉංග්‍රීසි පිටපත නිල පිටපත ලෙස සැලකිය යුතුය.</p>
 
-            <div class="section-label">Research & AI-Assisted Content</div>
+            <div class="section-label">Research & AI-Assisted Content / පර්යේෂණ සහ AI-ආධාරිත අන්තර්ගතය</div>
             <p>Portions of this research were compiled with the assistance of machine learning tools. While every effort has been made to ensure factual accuracy, the analysis, categorisations, and inferences presented are <strong>the reader's responsibility to independently verify</strong> before relying upon them for any purpose.</p>
+            <p style="color: var(--color-text-secondary); font-size: 0.85em;">මෙම පර්යේෂණයේ කොටස් යන්ත්‍ර ඉගෙනුම් මෙවලම් ආධාරයෙන් සම්පාදනය කර ඇත. කරුණු නිරවද්‍යතාව සහතික කිරීමට සෑම උත්සාහයක්ම ගෙන ඇතත්, ඉදිරිපත් කරන විශ්ලේෂණය, වර්ගීකරණ සහ අනුමාන <strong>කියවන්නාගේ වගකීම යටතේ ස්වාධීනව සත්‍යාපනය කළ යුතුය.</strong></p>
 
-            <div class="section-label">Legal Liability</div>
+            <div class="section-label">Legal Liability / නීතිමය වගකීම</div>
             <p>This document is published for <strong>informational and public interest purposes only</strong>. It does not constitute legal advice, defamation, or an accusation of criminal conduct. The authors, publishers, and platform operators accept <strong>no liability</strong> for any loss, damage, or legal consequence arising from the use or interpretation of this content. By proceeding, you acknowledge that you assume full responsibility for how you use the information presented herein.</p>
+            <p style="color: var(--color-text-secondary); font-size: 0.85em;">මෙම ලේඛනය <strong>තොරතුරු සහ පොදු යහපත සඳහා පමණක්</strong> ප්‍රකාශයට පත් කෙරේ. මෙය නීති උපදෙස්, අපකීර්තිය හෝ අපරාධ චෝදනාවක් නොවේ. කතුවරුන්, ප්‍රකාශකයින් සහ වේදිකා ක්‍රියාකරුවන් මෙම අන්තර්ගතයේ භාවිතයෙන් හෝ අර්ථ නිරූපණයෙන් ඇතිවන කිසිදු හානියක්, අලාභයක් හෝ නීතිමය ප්‍රතිවිපාකයක් සඳහා <strong>කිසිදු වගකීමක් භාර නොගනී.</strong></p>
 
-            <div class="section-label">Fair Comment</div>
+            <div class="section-label">Fair Comment / සාධාරණ අදහස් දැක්වීම</div>
             <p>All opinions expressed constitute fair comment on matters of public interest. All factual claims are based on publicly available evidence cited within the document. Corrections and right-of-reply requests can be directed to the contact information provided.</p>
+            <p style="color: var(--color-text-secondary); font-size: 0.85em;">ප්‍රකාශ කරන සියලුම මතයන් පොදු යහපතට අදාළ කරුණු පිළිබඳ සාධාරණ අදහස් දැක්වීම් වේ. සියලුම කරුණු පදනම් වන්නේ ලේඛනය තුළ උපුටා දක්වා ඇති ප්‍රසිද්ධියේ ලබාගත හැකි සාක්ෂි මත ය.</p>
 
             <button class="accept-btn" id="disclaimer-accept">I Understand &amp; Accept — මම තේරුම් ගනිමි</button>
         </div>
