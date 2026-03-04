@@ -1,0 +1,2015 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caravan Fresh Chicken Cheese Bomb Case Study</title>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="The Caravan Fresh 'Chicken Cheese Bomb' Incident">
+    <meta property="og:description" content="A documented pattern analysis of corporate social media marketing practices in Sri Lanka">
+    <meta property="og:image" content="https://analyst.rizrazak.com/dossiers/caravan-fresh-case-study/og-image.png">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://analyst.rizrazak.com/dossiers/caravan-fresh-case-study/">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-bg: #f4f4fa;
+            --color-text: #1a1a2e;
+            --color-text-secondary: #6b6b7a;
+            --color-card: #e0e0ec;
+            --color-gold: #a88700;
+            --color-green: #2d7a3e;
+            --color-red: #cc2020;
+            --color-amber: #d97706;
+            --color-border: rgba(0, 0, 0, 0.1);
+            --color-badge: rgba(0, 100, 0, 0.12);
+            --color-badge-text: #2d7a3e;
+            --color-badge-border: rgba(0, 100, 0, 0.3);
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --color-bg: #0f0f1a;
+            --color-text: #e0e0e0;
+            --color-text-secondary: #a0a0a8;
+            --color-card: #1a1a2e;
+            --color-gold: #d4af37;
+            --color-green: #4ade80;
+            --color-red: #ff6b6b;
+            --color-amber: #fbbf24;
+            --color-border: rgba(255, 255, 255, 0.1);
+            --color-badge: rgba(76, 175, 80, 0.15);
+            --color-badge-text: #4ade80;
+            --color-badge-border: rgba(76, 175, 80, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        a {
+            color: var(--color-green);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.2s ease;
+        }
+
+        a:hover {
+            border-bottom-color: var(--color-green);
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-serif);
+            line-height: 1.2;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .section-number {
+            color: var(--color-gold);
+            font-family: var(--font-mono);
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(244, 244, 250, 0.97);
+            border-bottom: 1px solid var(--color-border);
+            backdrop-filter: blur(10px);
+        }
+
+        [data-theme="dark"] header {
+            background: rgba(15, 15, 26, 0.97);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .lang-toggle, .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .lang-toggle:hover, .theme-toggle:hover {
+            background: var(--color-card);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1rem 0;
+            font-size: 14px;
+        }
+
+        nav a {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+            color: var(--color-text-secondary);
+        }
+
+        nav a:hover {
+            background: var(--color-card);
+            color: var(--color-text);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .social-links a {
+            color: var(--color-text);
+            border: none;
+            font-size: 20px;
+        }
+
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--color-text);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 4rem 2rem;
+            background: radial-gradient(rgba(0, 100, 0, 0.12) 0%, var(--color-bg) 70%);
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--color-badge);
+            color: var(--color-badge-text);
+            border: 1px solid var(--color-badge-border);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            margin: 1rem 0;
+            font-size: 64px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            margin: 1.5rem 0 2rem 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-top: 2rem;
+            border-top: 1px solid var(--color-border);
+            padding-top: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+            flex-wrap: wrap;
+            font-size: 14px;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--color-text-secondary);
+        }
+
+        .stat-value {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            color: var(--color-green);
+            font-weight: 600;
+        }
+
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--color-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Sections */
+        .section {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section p {
+            margin: 1rem 0;
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--color-text);
+        }
+
+        .section ul, .section ol {
+            margin: 1rem 0 1rem 2rem;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin: 0.5rem 0;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: var(--color-card);
+            padding: 2rem;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 20px;
+        }
+
+        .card p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+
+        /* Actor Cards */
+        .actor-card {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .actor-card.evidence-open .evidence-card {
+            display: block;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            margin: 3rem 0;
+            padding: 2rem 0;
+        }
+
+        .timeline-item {
+            margin-left: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--color-green);
+            border-radius: 50%;
+            border: 3px solid var(--color-bg);
+        }
+
+        .timeline-item:after {
+            content: '';
+            position: absolute;
+            left: -2.19rem;
+            top: 12px;
+            width: 2px;
+            height: 100%;
+            background: var(--color-green);
+            opacity: 0.3;
+        }
+
+        .timeline-item:last-child:after {
+            display: none;
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--color-gold);
+            font-size: 13px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-desc {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        /* Evidence Hover Card */
+        .timeline-item {
+            cursor: pointer;
+        }
+        .evidence-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--color-green);
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .evidence-trigger:hover { opacity: 1; }
+        .evidence-trigger svg { width: 14px; height: 14px; }
+
+        .evidence-card {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: var(--color-card);
+            border: 1px solid rgba(0,100,0,0.2);
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            margin-top: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            max-width: 600px;
+            animation: evidenceFadeIn 0.2s ease;
+        }
+        .timeline-item.evidence-open .evidence-card {
+            display: block;
+        }
+        @keyframes evidenceFadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .evidence-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+        .evidence-card-title {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-gold);
+        }
+        .evidence-card-close {
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            background: none;
+            border: none;
+            line-height: 1;
+        }
+        .evidence-card-close:hover { color: var(--color-text); }
+        .evidence-sources {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .evidence-sources li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .evidence-sources li:last-child { border-bottom: none; }
+        .evidence-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        .evidence-icon.screenshot { background: rgba(0,100,0,0.15); color: #2e7d32; }
+        .evidence-icon.statement { background: rgba(255,152,0,0.15); color: #ef6c00; }
+        .evidence-icon.public { background: rgba(33,150,243,0.15); color: #1565c0; }
+        .evidence-source-text {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .evidence-source-text strong {
+            font-weight: 600;
+            color: var(--color-text);
+        }
+        .evidence-source-text .source-ref {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--color-green);
+            margin-left: 4px;
+        }
+        .evidence-factcheck {
+            margin-top: 0.8rem;
+            padding: 0.7rem 1rem;
+            background: rgba(0,100,0,0.06);
+            border-radius: 6px;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        .evidence-factcheck-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--color-green);
+            margin-bottom: 4px;
+        }
+        .evidence-verdict {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 6px;
+        }
+        .verdict-verified { background: rgba(0,100,0,0.15); color: #2e7d32; }
+        .verdict-documented { background: rgba(33,150,243,0.15); color: #1565c0; }
+        .verdict-observable { background: rgba(255,152,0,0.15); color: #ef6c00; }
+
+        /* Map Container */
+        .map-container {
+            width: 100%;
+            height: 600px;
+            margin: 2rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--color-card);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Stat Cards - Colored Values */
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-card-value {
+            font-size: 48px;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .stat-card-value.green {
+            color: var(--color-green);
+        }
+
+        .stat-card-value.red {
+            color: var(--color-red);
+        }
+
+        .stat-card-value.amber {
+            color: var(--color-amber);
+        }
+
+        .stat-card-label {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Legal Disclaimer */
+        .legal-disclaimer {
+            background: var(--color-card);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 4rem 0 2rem 0;
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--color-text-secondary);
+        }
+
+        .legal-disclaimer h3 {
+            margin-top: 0;
+            color: var(--color-text);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-card);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: var(--color-text-secondary);
+            font-size: 13px;
+            margin-top: 4rem;
+            border-top: 1px solid var(--color-border);
+        }
+
+        footer a {
+            color: var(--color-green);
+        }
+
+        footer .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        footer .footer-divider {
+            margin: 1rem 0;
+            opacity: 0.5;
+        }
+
+        /* Hidden Language Content */
+        [data-lang="en"] {
+            display: none;
+        }
+
+        [data-lang-active="en"] [data-lang="en"] {
+            display: inline;
+        }
+
+        [data-lang-active="en"] [data-lang="si"] {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+
+            h2 {
+                font-size: 32px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            nav a {
+                display: block;
+                padding: 0.75rem 1rem;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            nav {
+                display: none;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            .stats-bar {
+                gap: 1.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-meta {
+                gap: 1rem;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+
+            header, footer, .social-links {
+                display: none;
+            }
+
+            .section {
+                page-break-inside: avoid;
+                margin: 2rem 0;
+            }
+        }
+
+        /* Dark mode toggle smooth transition */
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .card, .legal-disclaimer, footer {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    </style>
+</head>
+<body data-lang-active="si">
+    <header>
+        <div class="header-top">
+            <button class="lang-toggle" id="lang-toggle">
+                <span data-lang="si">සිං</span>
+                <span data-lang="en" style="display:none;">EN</span>
+                <span> | EN</span>
+            </button>
+            <div class="header-controls">
+                <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode">🌙</button>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#incident" data-lang="si">සිද්ධිය</a><a href="#incident" data-lang="en" style="display:none;">The Incident</a></li>
+                <li><a href="#timeline" data-lang="si">කාල රේඛාව</a><a href="#timeline" data-lang="en" style="display:none;">Timeline</a></li>
+                <li><a href="#patterns" data-lang="si">හැසිරීම් රටා</a><a href="#patterns" data-lang="en" style="display:none;">Behavioral Patterns</a></li>
+                <li><a href="#company" data-lang="si">ප්‍රධාන පෙරාණු</a><a href="#company" data-lang="en" style="display:none;">Key Actors</a></li>
+                <li><a href="#outlet-map" data-lang="si">සිතියම</a><a href="#outlet-map" data-lang="en" style="display:none;">Map</a></li>
+                <li><a href="#rights" data-lang="si">පාරිභෝගික අයිතිවාසිකම්</a><a href="#rights" data-lang="en" style="display:none;">Consumer Rights</a></li>
+                <li><a href="#methodology" data-lang="si">ක්‍රමවේදය</a><a href="#methodology" data-lang="en" style="display:none;">Methodology</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="badge" data-lang="si">පාරිභෝගික පර්යේෂණ ලේඛනය</div>
+        <div class="badge" data-lang="en" style="display:none;">Consumer Research Document</div>
+
+        <h1 data-lang="si">කැරවෑන් ෆ්‍රෙෂ් චිකන් චීස් බෝම්බ් සිද්ධිය</h1>
+        <h1 data-lang="en" style="display:none;">The Caravan Fresh "Chicken Cheese Bomb" Incident</h1>
+
+        <p class="hero-subtitle" data-lang="si">
+            කැරවෑන් ෆ්‍රෙෂ් නම් බේකරි දෙපළ බෝම්බ ඉමෝජි සහ සිංහල පෙළ භාවිතා කරමින් කෑ ඩෙලිවරි නිෂ්පාදිතයක් ඇලවුවේය. සිංහල පඩුවේ යුද්ධය සහ ගැටුම් වලට ඉතිරිකරන බිම්බ සිතුවම්පත් භාවිතා කිරීමට අවසර ලබා ගත නොමැතිවේ.
+        </p>
+        <p class="hero-subtitle" data-lang="en" style="display:none;">
+            Caravan Fresh published a bakery delivery product ad using bomb emojis and Sinhala text referencing conflict and war. The post triggered widespread criticism over the inappropriate use of war imagery in commercial marketing.
+        </p>
+
+        <div class="hero-meta">
+            <div class="meta-item">
+                <span class="meta-label" data-lang="si">දිනය:</span>
+                <span class="meta-label" data-lang="en" style="display:none;">Date:</span>
+                <span>2026 මාර්තු 3</span>
+            </div>
+            <div class="meta-item">
+                <span data-lang="si">කියවීමේ කාලය:</span>
+                <span data-lang="en" style="display:none;">Read time:</span>
+                <span>8 මිනිත්තු</span>
+            </div>
+            <div class="meta-item">
+                <span data-lang="si">ලේඛකයා:</span>
+                <span data-lang="en" style="display:none;">Author:</span>
+                <span data-lang="si">ස්වාධීන විශ්ලේෂණය</span>
+                <span data-lang="en" style="display:none;">Independent Analysis</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat">
+            <span class="live-indicator">
+                <span class="live-dot"></span>
+                <span data-lang="si">සජීවී</span>
+                <span data-lang="en" style="display:none;">LIVE</span>
+            </span>
+        </div>
+        <div class="stat">
+            <span class="stat-label" data-lang="si">ප්‍රතිචාර:</span>
+            <span class="stat-label" data-lang="en" style="display:none;">Reactions:</span>
+            <span class="stat-value">3,800+</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label" data-lang="si">අදහස්:</span>
+            <span class="stat-label" data-lang="en" style="display:none;">Comments:</span>
+            <span class="stat-value">218+</span>
+        </div>
+        <div class="stat">
+            <span class="stat-label" data-lang="si">පළිබිඳු සේවා:</span>
+            <span class="stat-label" data-lang="en" style="display:none;">Outlets affected:</span>
+            <span class="stat-value">70</span>
+        </div>
+    </div>
+
+    <!-- Section 1: The Incident -->
+    <section id="incident" class="section">
+        <div class="section-number">01 —</div>
+        <h2 data-lang="si">සිද්ධිය</h2>
+        <h2 data-lang="en" style="display:none;">The Incident</h2>
+
+        <p data-lang="si">
+            කැරවෑන් ෆ්‍රෙෂ් පිටුවෙහි, බේකරි දෙපළ වෙතින් "චිකන් චීස් බෝම්බ්" නම් නිෂ්පාදිතයක් පිළිබඳ වෙළඳ දැන්වීමක් ප්‍රකාශයට පත් කරන ලදී. එම පෝස්ටුවේ බෝම්බ ඉමෝජි (💣) සහ සිංහල පෙළ භාවිතා කරන ලදී, එය සිංහල සමාජයේ යුද්ධය සහ ගැටුම්වලට සම්බන්ධතා ඇතිවේ.
+        </p>
+        <p data-lang="en" style="display:none;">
+            Caravan Fresh published an advertisement for a bakery delivery product called "Chicken Cheese Bomb." The post used bomb emojis (💣) and Sinhala text that evoked associations with conflict and war in Sinhala society.
+        </p>
+
+        <p data-lang="si">
+            පෝස්ටුවට ප්‍රතිචාර ලෙස 3,800+ "කෝපයි" ඉමෝජි සහ 218+ අදහස් වලින් අනුග්‍රහය ලැබුණි. පසුව අක්‍රමිකතා සොයා ගැනීමට ගිය පුරවැසි මතුපිට කිසිවකුගේ ඉදිරියේ ඉදිරිපත් වීමට අවිශ්වාසයි.
+        </p>
+        <p data-lang="en" style="display:none;">
+            The post received 3,800+ "angry" reactions and 218+ comments of criticism. Those who pointed out the inappropriate use of war imagery found themselves blocked from the official page.
+        </p>
+
+        <div class="cards-grid">
+            <div class="card stat-card">
+                <div class="stat-card-label" data-lang="si">ප්‍රතිචාර</div>
+                <div class="stat-card-label" data-lang="en" style="display:none;">Reactions</div>
+                <div class="stat-card-value red">3,800+</div>
+            </div>
+            <div class="card stat-card">
+                <div class="stat-card-label" data-lang="si">අදහස්</div>
+                <div class="stat-card-label" data-lang="en" style="display:none;">Comments</div>
+                <div class="stat-card-value red">218+</div>
+            </div>
+            <div class="card stat-card">
+                <div class="stat-card-label" data-lang="si">පෝස්ටුවේ කාලය</div>
+                <div class="stat-card-label" data-lang="en" style="display:none;">Post Duration</div>
+                <div class="stat-card-value amber">17+ පැයි</div>
+            </div>
+            <div class="card stat-card">
+                <div class="stat-card-label" data-lang="si">බලපෑමට ලක්විය</div>
+                <div class="stat-card-label" data-lang="en" style="display:none;">Outlets Affected</div>
+                <div class="stat-card-value">70</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Timeline -->
+    <section id="timeline" class="section">
+        <div class="section-number">02 —</div>
+        <h2 data-lang="si">කාල රේඛාව</h2>
+        <h2 data-lang="en" style="display:none;">Timeline</h2>
+
+        <p data-lang="si" style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1.5rem;">සෑම සිද්ධියක්ම ක්ලික් කර සාක්ෂි සහ මූලාශ්‍ර බලන්න</p>
+        <p data-lang="en" style="display:none;font-size:13px;color:var(--color-text-secondary);margin-bottom:1.5rem;">Click any event to view evidence sources and fact-check</p>
+
+        <div class="timeline">
+            <!-- Event 1: Original Post -->
+            <div class="timeline-item" onclick="toggleEvidence(this)">
+                <div class="timeline-date" data-lang="si">පෝස්ටුවේ පළමු ඉවසුම්</div>
+                <div class="timeline-date" data-lang="en" style="display:none;">Initial Post</div>
+                <div class="timeline-title" data-lang="si">කැරවෑන් ෆ්‍රෙෂ් දැන්වීම ප්‍රකාශයට පත්</div>
+                <div class="timeline-title" data-lang="en" style="display:none;">Caravan Fresh publishes "Chicken Cheese Bomb" advertisement</div>
+                <div class="timeline-desc" data-lang="si">බෝම්බ ඉමෝජි සහ ගැටුම් වලට ඉතිරිකරන සිංහල පෙළ සහිතව</div>
+                <div class="timeline-desc" data-lang="en" style="display:none;">With bomb emojis and Sinhala text referencing the war/conflict situation</div>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> View Evidence</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Original Post</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.timeline-item').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon screenshot">SS</span>
+                            <div class="evidence-source-text"><strong>Screenshot: Original Caravan Fresh Facebook post</strong> — Shows "Chicken Cheese Bomb" ad with 💣🧀 emojis and Sinhala text: "ඇතිවී තිබෙන යුදමය තත්වය හේතුවෙන් ඉදිරි මෙහෙයුම් සඳහා" (referencing war operations). <span class="source-ref">[IMG_1.JPG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Public share by Greshan Gabriel</strong> — "If your campaign depends on tragedy to perform, your strategy has already failed." <span class="source-ref">[IMG_36.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Public share by Sameera Mahboobdeen</strong> — Shared original screenshot with head office number for complaints (0718-698650). <span class="source-ref">[IMG_38.PNG, IMG_40.PNG]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-verified">Verified</span></div>
+                        Post confirmed via multiple independent screenshots from different users. Sameera Mahboobdeen noted Caravan Fresh later removed the Sinhala text but kept the post up. Original with full text preserved in screenshots.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 2: Public Criticism -->
+            <div class="timeline-item" onclick="toggleEvidence(this)">
+                <div class="timeline-date" data-lang="si">පැයි 1-3</div>
+                <div class="timeline-date" data-lang="en" style="display:none;">Hour 1-3</div>
+                <div class="timeline-title" data-lang="si">පුරවැසි විවේචනය ආරම්භ</div>
+                <div class="timeline-title" data-lang="en" style="display:none;">Public criticism begins across platforms</div>
+                <div class="timeline-desc" data-lang="si">බහුවිධ සමාජ මාධ්‍ය වේදිකා හරහා විරෝධය පැතිරෙයි</div>
+                <div class="timeline-desc" data-lang="en" style="display:none;">Multiple independent posts criticizing the war imagery marketing</div>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> View Evidence</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Public Backlash</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.timeline-item').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Munza Mushtaq's public post</strong> — Detailed criticism: "This was an utterly irresponsible, insensitive, and frankly cheap take from Caravan Fresh, using the unrest for humour by casually referencing 'bombs'." 117 likes. <span class="source-ref">[IMG_30.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Marisa DS discussion with Sivamohan Sumathy</strong> — Called it "senseless and distasteful." Compared to "land mine" vadai naming, noting that comes from community's own trauma processing — fundamentally different. <span class="source-ref">[IMG_7.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Uvindu Pasan Rajapakshe's analysis</strong> — Discussed clickbait ethics and brand responsibility, noting the product uses "Bomb" in its name alongside war imagery. <span class="source-ref">[IMG_14.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon screenshot">DM</span>
+                            <div class="evidence-source-text"><strong>Munza's DM to Caravan Fresh</strong> — "Shame on you'll for using the deaths of innocent people and an impending war as a reason to make memes." CF responded with templated hotline info. <span class="source-ref">[IMG_27.PNG]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-verified">Verified</span></div>
+                        3,800+ reactions (predominantly "Angry") and 218+ comments documented via screenshot of post metrics [IMG_26.PNG]. Multiple independent users on separate Facebook profiles posted criticism — not a coordinated campaign.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 3: Critics Blocked -->
+            <div class="timeline-item" onclick="toggleEvidence(this)">
+                <div class="timeline-date" data-lang="si">පැයි 3-5</div>
+                <div class="timeline-date" data-lang="en" style="display:none;">Hour 3-5</div>
+                <div class="timeline-title" data-lang="si">විවේචකයින් බ්ලොක් කිරීම</div>
+                <div class="timeline-title" data-lang="en" style="display:none;">Critics blocked from official page</div>
+                <div class="timeline-desc" data-lang="si">එක් අදහසක් පළ කළ පමණින් පරිශීලකයින් නිල පිටුවෙන් අවහිර කරයි</div>
+                <div class="timeline-desc" data-lang="en" style="display:none;">Users blocked from official page after posting single comments of criticism</div>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> View Evidence</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — User Blocking</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.timeline-item').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Dewasiri Abenayaka's public comment</strong> — "I was blocked from the official Caravan Fresh by Kavindi Athapaththu and the marketing team for pointing this out in the original post." Later asks: "how can I address it officially when you have blocked me from the official page for making one single comment?" <span class="source-ref">[IMG_3.PNG, IMG_6.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon screenshot">SS</span>
+                            <div class="evidence-source-text"><strong>Shajeeth's comment on Munza's post</strong> — "they even restricted comments when people started calling them out. Absolutely sickening." <span class="source-ref">[IMG_32.PNG]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-documented">Documented</span></div>
+                        Multiple independent users reported being blocked. Dewasiri Abenayaka's account is a first-person testimony. The company representative (Kavindi Athapaththu) did not deny the blocking when directly challenged — instead responded with legal threats.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 4: Post Edited -->
+            <div class="timeline-item" onclick="toggleEvidence(this)">
+                <div class="timeline-date" data-lang="si">පැයි 5-8</div>
+                <div class="timeline-date" data-lang="en" style="display:none;">Hour 5-8</div>
+                <div class="timeline-title" data-lang="si">පෝස්ටු සංස්කරණ කරන ලදී, නමුත් ඉවත් කළේ නැත</div>
+                <div class="timeline-title" data-lang="en" style="display:none;">Post edited but not removed</div>
+                <div class="timeline-desc" data-lang="si">සිංහල පෙළ ඉවත් කරයි, නමුත් බෝම්බ නම සහ ඉමෝජි පවත්වා ගනියි</div>
+                <div class="timeline-desc" data-lang="en" style="display:none;">Sinhala war-referencing text removed, but bomb name and emojis kept</div>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> View Evidence</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Post Editing</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.timeline-item').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Sameera Mahboobdeen's update post</strong> — "UPDATE: Caravan has since removed the word from their post, which does nothing to change the callous nature of this ad campaign. I've attached the original SS for reference." <span class="source-ref">[IMG_39.PNG, IMG_40.PNG]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-verified">Verified</span></div>
+                        Comparison of original screenshot [IMG_1.JPG] with later version [IMG_39.PNG] confirms the Sinhala text was removed while the product name "Chicken Cheese Bomb" and imagery remained. This suggests the company recognized the problem but attempted to minimize rather than fully address it.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 5: Comment Restrictions -->
+            <div class="timeline-item" onclick="toggleEvidence(this)">
+                <div class="timeline-date" data-lang="si">පැයි 8-12</div>
+                <div class="timeline-date" data-lang="en" style="display:none;">Hour 8-12</div>
+                <div class="timeline-title" data-lang="si">අදහස් සීමා කිරීම</div>
+                <div class="timeline-title" data-lang="en" style="display:none;">Comment restrictions imposed</div>
+                <div class="timeline-desc" data-lang="si">24+ පැයි අනුගාමි අවශ්‍යතා ක්‍රියාත්මක — පුරවැසි කටහඬ මරයි</div>
+                <div class="timeline-desc" data-lang="en" style="display:none;">24-hour follower requirement activated — silencing consumer voices</div>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> View Evidence</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Comment Suppression</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.timeline-item').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon screenshot">SS</span>
+                            <div class="evidence-source-text"><strong>Facebook UI notice on Caravan Fresh page</strong> — Visible banner: "Only people who follow this Page for more than 24 hours can comment." <span class="source-ref">[IMG_12.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon screenshot">SS</span>
+                            <div class="evidence-source-text"><strong>"Most relevant" filter notice</strong> — Multiple screenshots show: "Most relevant is selected, so some replies may have been filtered out." <span class="source-ref">[IMG_6.PNG, IMG_12.PNG]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-verified">Verified</span></div>
+                        The 24-hour follower requirement is visible in the Facebook UI on the Caravan Fresh page screenshots. This is a deliberate page setting that must be manually activated — it prevents new users (i.e., upset consumers) from commenting.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 6: Post Removed -->
+            <div class="timeline-item" onclick="toggleEvidence(this)">
+                <div class="timeline-date" data-lang="si">පැයි 17+</div>
+                <div class="timeline-date" data-lang="en" style="display:none;">Hour 17+</div>
+                <div class="timeline-title" data-lang="si">අවසාන ඉවත් කිරීම</div>
+                <div class="timeline-title" data-lang="en" style="display:none;">Post finally removed after 17+ hours</div>
+                <div class="timeline-desc" data-lang="si">දිගු පුරවැසි පීඩනයෙන් පසුව පෝස්ටුව ඉවත් කරයි</div>
+                <div class="timeline-desc" data-lang="en" style="display:none;">After sustained public pressure, the post is deleted</div>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> View Evidence</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Delayed Removal</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.timeline-item').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Munza Mushtaq's detailed account</strong> — Notes post remained up for extended period: "despite it being shared for over 17 hours and instead of taking it down, they restricted comments." <span class="source-ref">[IMG_33.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Ursula Bastianz's comment</strong> — "They're a company that has been around for a while.. did they not understand or care? Which is it?" <span class="source-ref">[IMG_33.PNG]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-documented">Documented</span></div>
+                        The 17+ hour timeframe is based on first-person testimony from Munza Mushtaq who tracked the post's lifecycle. During this period the company chose to edit rather than remove, then restrict comments — suggesting removal was a last resort, not a priority.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 7: Contradictory Statements -->
+            <div class="timeline-item" onclick="toggleEvidence(this)">
+                <div class="timeline-date" data-lang="si">පෝස්ට් ඉවත්කිරීමෙන් පසු</div>
+                <div class="timeline-date" data-lang="en" style="display:none;">Post-Removal</div>
+                <div class="timeline-title" data-lang="si">නිල ප්‍රකාශන — සමාව දීම සහ නීතිමය තර්ජන එකවර</div>
+                <div class="timeline-title" data-lang="en" style="display:none;">Official statements — apology and legal threats simultaneously</div>
+                <div class="timeline-desc" data-lang="si">සමාජ මාධ්‍ය පිටුව + නිල ප්‍රකාශන — "සංවිධානාත්මක කණ්ඩායම්" විරුද්ධ චෝදනා සහ නීතිමය ක්‍රියාමාර්ග තර්ජන</div>
+                <div class="timeline-desc" data-lang="en" style="display:none;">Social media apology + formal statement accusing critics of being "organized groups" and threatening legal action</div>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> View Evidence</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Official Response</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.timeline-item').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Official Statement graphic</strong> — States: "We sincerely apologize" BUT also: "certain organized groups appear to be using this situation to deliberately target and attack our business" AND "We reserve the right to take necessary legal action against any actions intended to harm our business, reputation, or team." <span class="source-ref">[IMG_2.JPG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Kavindi Athapaththu's comment thread</strong> — Praised the post ("this is team work not just mine") in one thread [IMG_17.PNG], then threatened legal action against critics ("Continuing to make false or defamatory claims...will leave me with no option but to seek legal advice") in another [IMG_3.PNG]. <span class="source-ref">[IMG_17.PNG, IMG_3.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Kavindi's later response to Riz Razak</strong> — Acknowledged: "sometimes impact doesn't match intention, especially during sensitive times" and apologized. Also claimed "fake accounts and unrelated agendas" were escalating things. <span class="source-ref">[IMG_5.PNG, IMG_6.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Dewyan Thilakasiri's analysis</strong> — Points out: "your initial comment on this thread was quite dismissive of the criticism. Which one actually reflects Caravan Fresh's position?" and "Criticism of a brand's public post is not harassment." <span class="source-ref">[IMG_24.PNG, IMG_25.PNG]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-verified">Verified</span></div>
+                        The contradiction is documented across multiple screenshots: the same company representative praised the post in one public forum and condemned critics in another. The Official Statement simultaneously apologizes and threatens legal action. Dewyan Thilakasiri and Jeevani Sinniah both publicly noted this contradiction.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 8: Reframing as Harassment -->
+            <div class="timeline-item" onclick="toggleEvidence(this)">
+                <div class="timeline-date" data-lang="si">පසු ප්‍රතිචාරය</div>
+                <div class="timeline-date" data-lang="en" style="display:none;">Ongoing</div>
+                <div class="timeline-title" data-lang="si">පාරිභෝගික ප්‍රතිචාරය "හිරිහැරය" ලෙස නැවත රාමුගත කිරීම</div>
+                <div class="timeline-title" data-lang="en" style="display:none;">Consumer response reframed as "harassment"</div>
+                <div class="timeline-desc" data-lang="si">පුරවැසි දුරකථන ඇමතුම් "හිරිහැර" ලෙස හඳුන්වයි, ස්ත්‍රී-පුරුෂ භේදයෙන් රාමු</div>
+                <div class="timeline-desc" data-lang="en" style="display:none;">Consumer hotline calls characterized as "harassment" with gendered framing</div>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> View Evidence</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Narrative Reframing</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.timeline-item').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Kavindi Athapaththu's public comment</strong> — "I also want to highlight that the nature of the post by the other party led to a tense situation, where certain individuals (men) had called our hotline and harassed our female customer care staff, who had nothing to do with the matter." <span class="source-ref">[IMG_6.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Dewyan Thilakasiri's rebuttal</strong> — "Criticism of a brand's public post is not harassment. Sharing a publicly listed business hotline is not harassment. If your hotline was overwhelmed, that's a reflection of how many people were genuinely affected." <span class="source-ref">[IMG_25.PNG]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Fact-check <span class="evidence-verdict verdict-observable">Analysis</span></div>
+                        The company's publicly listed hotline number (0719-721484) was shared by multiple users for complaints — a standard consumer response. The company characterized this as "harassment" with specific gendered framing ("men harassed female staff"). While workplace harassment is serious and must be taken seriously, reframing all consumer criticism calls as harassment conflates legitimate consumer action with misconduct. The hotline number was already publicly listed on the Caravan Fresh business page.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Behavioral Patterns -->
+    <section id="patterns" class="section">
+        <div class="section-number">03 —</div>
+        <h2 data-lang="si">හැසිරීම් රටා</h2>
+        <h2 data-lang="en" style="display:none;">Behavioral Patterns</h2>
+
+        <p data-lang="si">කැරවෑන් ෆ්‍රෙෂ්ගේ ප්‍රතිචාරය සිරස්සජීවී සහ අනුකූල නොවන අශ්ර ප්‍රකාශන අඩංගු විය. නිර්දිෂ්ටව නිරීක්ෂණ කෙරෙන රටා කිහිපයි:</p>
+        <p data-lang="en" style="display:none;">Caravan Fresh's response revealed deliberate suppression tactics and contradictory messaging. Several documented patterns emerged:</p>
+
+        <div class="cards-grid">
+            <div class="card">
+                <h3 data-lang="si">සූරාකෑමේ අලෙවිකරණය</h3>
+                <h3 data-lang="en" style="display:none;">Exploitative Marketing</h3>
+                <p data-lang="si">යුද්ධ සිතුවම්පත සහ ගැටුම් දර්ශන භාවිතා කිරීම කෑ නිෂ්පාදිතයක් විකිණීම සඳහා අනුපිටසර සිතුවම්පත වර්ගීකරණය කර ගිණුම් පිටුවට බිම්බ ඉමෝජි එකතු කිරීම।</p>
+                <p data-lang="en" style="display:none;">Using war and conflict imagery to sell a food product. Adding bomb emojis to categorize and market a bakery item exploits historical trauma.</p>
+            </div>
+
+            <div class="card">
+                <h3 data-lang="si">තෝරාගත් වගකීම</h3>
+                <h3 data-lang="en" style="display:none;">Selective Accountability</h3>
+                <p data-lang="si">සමාජ මාධ්‍ය තුළ "සමාවෙත් ගිණුම ඉඉමට" ඇතුළුව, නිල ප්‍රකාශනයෙහි පුද්ගල පුරවැසි නෙතු තර්ජන ගිණුම් නීතිමය තර්ජන අඩංගු විය.</p>
+                <p data-lang="en" style="display:none;">Public apology on social media ("we regret") coupled with legal threats against individual consumers in the formal statement.</p>
+            </div>
+
+            <div class="card">
+                <h3 data-lang="si">අදහස් මර්දනය</h3>
+                <h3 data-lang="en" style="display:none;">Comment Suppression</h3>
+                <p data-lang="si">විවේචකයින්ව බ්ලොක් කිරීම, අදහස් සීමා කිරීම (24+ පැයි අනුගාමි අවශ්‍යතා), සහ අවසාන වශයෙන් පෝස්ටුවේ පිටුවේ ඉවත් කිරීම නිසා විවේචනයට විකුණු ප්‍රතිචාරය සඞ්කේතිත කිරීම।</p>
+                <p data-lang="en" style="display:none;">Blocking critics, imposing comment restrictions (24-hour follower requirement), and eventually removing the post to silence continued criticism.</p>
+            </div>
+
+            <div class="card">
+                <h3 data-lang="si">පරස්පර පණිවිඩ</h3>
+                <h3 data-lang="en" style="display:none;">Contradictory Messaging</h3>
+                <p data-lang="si">සමාගම් නිරූපක එක කතුවැකිවලින් පෝස්ටුවේ ප්‍රશංසා කිරීම සහ වෙනත් කතුවැකිවලින් පුරවැසි විවේචනය අවතක්කෝ සරල කිරීම (උදා. "සංවිධිත සමූහ" තර්ජන).</p>
+                <p data-lang="en" style="display:none;">Company rep praising the post in one thread while characterizing consumer criticism as "organized groups" in another.</p>
+            </div>
+
+            <div class="card">
+                <h3 data-lang="si">විපරීතගැන්වීම</h3>
+                <h3 data-lang="en" style="display:none;">Deflection</h3>
+                <p data-lang="si">"සංවිධිත සමූහ" සහ "නිල නොවූ ව්‍යාපාරයන්" පිළිබඳ ස්ෙතිඉටු ඉදිරිපත් කිරීම සඳහා ශ්‍රමිකයින්ගේ සිතුවම්පත ස්තර තිරස්කරණය කිරීම අසම්බන්ධයි සඳහා ක්‍රිතින් තිරස්කරණයක අඩු කිරීම।</p>
+                <p data-lang="en" style="display:none;">Attributing criticism to "organized groups" and "unofficial campaigns" instead of addressing organic public concern.</p>
+            </div>
+
+            <div class="card">
+                <h3 data-lang="si">ප්‍රමාද ප්‍රතිචාරය</h3>
+                <h3 data-lang="en" style="display:none;">Delayed Response</h3>
+                <p data-lang="si">17+ පැයි ඉඉසුමෙන් පසුව පිටුවේ ඉවත්කිරීම (සිංහල පෙළ පළමුව සංස්කරණය, බිම්බ ඉමෝජි අවතර), සඳහා ශ්‍රී ලාංකිකයෝ සිතුවම්පත වහසක නිරෝධතිර සිතුවම්පත ගිණුම ස්තරයෙ පුසුවටින් ඩිමිස් හෙලා ගිණුම ස්තර තිරස්කරණයි।</p>
+                <p data-lang="en" style="display:none;">Waited 17+ hours, edited the post (removed Sinhala text, kept bomb emojis), restricted comments, before finally removing it.</p>
+            </div>
+
+            <div class="card">
+                <h3 data-lang="si">නීතිමය තර්ජන</h3>
+                <h3 data-lang="en" style="display:none;">Legal Intimidation</h3>
+                <p data-lang="si">නිල ප්‍රකාශනයේ ස්තර ස්ඉතුවලින් පුරවැසි පුසුවටින් නිවේදනීය මෙවලම භාවිතා කරමින්, විවේචනය කිරීම ගිණුම් ස්තර තිරස්කරණයකින් සිතුවම්පත ඩිමිස් භාවිතා කිරීම තර්ජන කිරීම।</p>
+                <p data-lang="en" style="display:none;">Formal statement threatened individual consumers with legal action for expressing opinions about the product and company.</p>
+            </div>
+
+            <div class="card">
+                <h3 data-lang="si">පාරිභෝගික ප්‍රතිචාර නැවත රාමුගත කිරීම</h3>
+                <h3 data-lang="en" style="display:none;">Reframing Consumer Response</h3>
+                <p data-lang="si">පුරවැසි ලිපි ඉතිරිකරන ජාතිකභාවය ස්ඉතුවලින් "骚扰" ලෙස ප්‍රතිනිර්වචනය කිරීම සඳහා පිටුවේ ස්තර ස්ඉතුවල ජාතිකත්ව රාමුගතකිරීම.</p>
+                <p data-lang="en" style="display:none;">Calling consumers' calls to the public hotline "harassment" and using gendered framing to delegitimize criticism.</p>
+            </div>
+
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3 data-lang="si">කාර්ය මණ්ඩලය අන්තර්ගතය ලෙස භාවිතය</h3>
+                <h3 data-lang="en" style="display:none;">Staff Used as Content</h3>
+                <p data-lang="si">සේවකයින් වෛරස් සමාජ මාධ්‍ය අන්තර්ගතය සඳහා භාවිතා කිරීමේ පුනරාවර්තනීය රටාවක්. කාර්ය මණ්ඩල සාමාජිකයින් POV-ශෛලියේ රීල්වල "චරිත" ලෙස භාවිතා වේ.</p>
+                <p data-lang="en" style="display:none;">Recurring pattern of using employees as subjects for viral social media content. Staff members appear as "characters" in POV-style reels for brand engagement.</p>
+                <div class="evidence-card">
+                    <div class="evidence-sources">
+                        <div class="evidence-source-item">
+                            <div class="evidence-source-icon">🎬</div>
+                            <div class="evidence-source-text"><strong>Caravan Fresh Official Reel</strong> — "POV: When the staff is too friendly" — Staff in Caravan Fresh uniforms (green/yellow) used as actors in viral reel content. 216 likes, 16.5K views. <a href="https://www.facebook.com/reel/2374606889656960" target="_blank" style="color: var(--color-gold);">View Reel →</a> <span class="source-ref">[Facebook Reel]</span></div>
+                        </div>
+                        <div class="evidence-source-item">
+                            <div class="evidence-source-icon">⚖️</div>
+                            <div class="evidence-source-text"><strong>Labour Rights Concern</strong> — Using frontline retail employees in branded social media content raises questions about informed consent, employment terms, and whether staff participation is voluntary or an implicit condition of employment. The "Chicken Cheese Bomb" reel followed the same staff-as-content pattern that led to the original controversy.</div>
+                        </div>
+                    </div>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-verdict verdict-documented">DOCUMENTED — Ongoing Pattern</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Key Actors -->
+    <section id="company" class="section">
+        <div class="section-number">04 —</div>
+        <h2 data-lang="si">ප්‍රධාන පෙරාններු</h2>
+        <h2 data-lang="en" style="display:none;">Key Actors</h2>
+
+        <p data-lang="si">
+            කැරවෑන් ෆ්‍රෙෂ් සිටින ඉතිරි ගිණුම්කරණ ව්‍යුපතිය සහ ශ්‍රී ලංකා අධිකරණ පරිවර්තනය:
+        </p>
+        <p data-lang="en" style="display:none;">
+            Key decision-makers and organizational hierarchy for Caravan Fresh and its parent company SwitzGroup:
+        </p>
+
+        <div class="cards-grid">
+            <!-- Actor 1: Taizoon Khorakiwala -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3>Taizoon Khorakiwala</h3>
+                <p><strong>Owner & Managing Director, SwitzGroup</strong></p>
+                <ul style="margin: 1rem 0; font-size: 14px;">
+                    <li>Son of founder Fakhruddin Khorakiwala (started bakery in Al Khobar, Saudi Arabia 1980)</li>
+                    <li>INSEAD Owner Director Program (1997-98)</li>
+                    <li>SwitzGroup: 4,500+ employees, 9 countries, $250M+ revenue</li>
+                    <li>Previously at Mister Baker</li>
+                </ul>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Verify</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Taizoon Khorakiwala</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">CB</span>
+                            <div class="evidence-source-text"><strong>Crunchbase</strong> — Company profile and founder information. <span class="source-ref">Verified</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">LI</span>
+                            <div class="evidence-source-text"><strong>LinkedIn</strong> — Professional profile confirming INSEAD education and executive roles. <span class="source-ref">Verified</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">TR</span>
+                            <div class="evidence-source-text"><strong>Tracxn</strong> — SwitzGroup financial data and organizational structure. <span class="source-ref">Verified</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <span class="evidence-verdict verdict-verified">VERIFIED</span>
+                        <span style="font-size: 12px; color: var(--color-text-secondary);">Public corporate records</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actor 2: Adam Khorakiwala -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3>Adam Khorakiwala</h3>
+                <p><strong>Group CFO, SwitzGroup</strong></p>
+                <ul style="margin: 1rem 0; font-size: 14px;">
+                    <li>Stanford University BA</li>
+                    <li>American School of Bombay IB</li>
+                    <li>Previous: Palantir, World Bank Group, Stanford Law School</li>
+                    <li>Based in Dubai</li>
+                </ul>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Verify</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Adam Khorakiwala</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">LI</span>
+                            <div class="evidence-source-text"><strong>LinkedIn</strong> — Professional profile with education and employment history. <span class="source-ref">Verified</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">ZI</span>
+                            <div class="evidence-source-text"><strong>ZoomInfo</strong> — Executive profile with verified employment details. <span class="source-ref">Verified</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <span class="evidence-verdict verdict-verified">VERIFIED</span>
+                        <span style="font-size: 12px; color: var(--color-text-secondary);">LinkedIn profile</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actor 3: Mohammed Mamoola -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3>Mohammed Mamoola</h3>
+                <p><strong>CEO/Director, Caravan Fresh & SwitzGroup Sri Lanka</strong></p>
+                <ul style="margin: 1rem 0; font-size: 14px;">
+                    <li>9+ years at Caravan Fresh</li>
+                    <li>Based in Colombo, Sri Lanka</li>
+                    <li>Oversees all Sri Lanka operations and marketing decisions</li>
+                    <li>Email: m***@lanka.switzgroup.com</li>
+                </ul>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Verify</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Mohammed Mamoola</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">LI</span>
+                            <div class="evidence-source-text"><strong>LinkedIn</strong> — Professional profile confirming 9+ year tenure at Caravan Fresh. <span class="source-ref">Verified</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">GT</span>
+                            <div class="evidence-source-text"><strong>GulfTalent</strong> — Executive profile in Middle East/South Asia business network. <span class="source-ref">Verified</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">ZI</span>
+                            <div class="evidence-source-text"><strong>ZoomInfo</strong> — Corporate directory listing with executive role. <span class="source-ref">Verified</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <span class="evidence-verdict verdict-verified">VERIFIED</span>
+                        <span style="font-size: 12px; color: var(--color-text-secondary);">Public corporate records</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actor 4: Kavindi Athapaththu -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3>Kavindi Athapaththu</h3>
+                <p><strong>Marketing Team Representative, Caravan Fresh</strong></p>
+                <ul style="margin: 1rem 0; font-size: 14px;">
+                    <li>Self-identified as part of Caravan Fresh marketing team</li>
+                    <li>Praised "Chicken Cheese Bomb" post: "team work not just mine"</li>
+                    <li>Threatened legal action against critic Dewasiri Abenayaka</li>
+                    <li>Later claimed "impact doesn't match intention"</li>
+                    <li>Blamed female harassment on "men" and critics</li>
+                    <li>Blocked critics from Caravan Fresh official page</li>
+                </ul>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> View Evidence</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Kavindi Athapaththu</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon screenshot">SS</span>
+                            <div class="evidence-source-text"><strong>Self-identification in public comment</strong> — "I am part of Caravan Fresh marketing" and "this is team work not just mine" on post about Chicken Cheese Bomb. <span class="source-ref">[IMG_17.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Legal threat comment</strong> — Response to critic Dewasiri: "I would strongly advise you to stop making baseless accusations or face legal consequences." <span class="source-ref">[IMG_3.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Acknowledgment comment</strong> — "I agree our impact doesn't match our intention" in follow-up post. <span class="source-ref">[IMG_6.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Harassment reframing</strong> — "certain individuals (men) had called our hotline and harassed our female customer care staff." <span class="source-ref">[IMG_22.PNG]</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon documented">DOC</span>
+                            <div class="evidence-source-text"><strong>User blocking account</strong> — Per Dewasiri Abenayaka: "I was blocked from the official Caravan Fresh page by Kavindi Athapaththu and the marketing team." <span class="source-ref">[IMG_3.PNG]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <span class="evidence-verdict verdict-documented">DOCUMENTED</span>
+                        <span style="font-size: 12px; color: var(--color-text-secondary);">Multiple independent screenshots</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entity: Caravan Fresh -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3>Caravan Fresh</h3>
+                <p><strong>The Brand Entity</strong></p>
+                <ul style="margin: 1rem 0; font-size: 14px;">
+                    <li>Part of SwitzGroup, acquired 2011</li>
+                    <li>69+ outlets across Western Province</li>
+                    <li>Head Office: No. 08, Bund Road, Hendala, Wattala</li>
+                    <li>Phone: +94786999444</li>
+                    <li>Email: caravanfresh@caravan.switzgroup.com</li>
+                    <li>Halal Certified (HAC)</li>
+                    <li>Website: caravanfresh.lk</li>
+                </ul>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Verify</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Evidence — Caravan Fresh Corporate Details</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">WEB</span>
+                            <div class="evidence-source-text"><strong>Official Website</strong> — caravanfresh.lk store locator lists 69 outlets with addresses. <span class="source-ref">Verified</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">CO</span>
+                            <div class="evidence-source-text"><strong>Corporate Registration</strong> — Head office address and contact details registered with SwitzGroup parent company. <span class="source-ref">Public record</span></div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon observable">HC</span>
+                            <div class="evidence-source-text"><strong>Halal Certification</strong> — HAC certified bakery chain verified through official channels. <span class="source-ref">Observable</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <span class="evidence-verdict verdict-verified">VERIFIED</span>
+                        <span style="font-size: 12px; color: var(--color-text-secondary);">Public corporate records</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p data-lang="en" style="margin-top: 2rem; font-size: 14px; color: var(--color-text-secondary);">
+            Note: Hover over the "Verify" button on each actor card to see evidence sources and fact-checking details. All corporate information is from public records. Marketing team member information is documented through public social media posts and screenshots.
+        </p>
+    </section>
+
+    <!-- Section 5: Company Profile (Simplified) -->
+    <section id="company-profile" class="section">
+        <div class="section-number">05 —</div>
+        <h2 data-lang="si">සමාගම් සාරාංශය</h2>
+        <h2 data-lang="en" style="display:none;">Company Overview</h2>
+
+        <div class="cards-grid">
+            <div class="card">
+                <h3 data-lang="si">කැරවෑන් ෆ්‍රෙෂ්</h3>
+                <h3 data-lang="en" style="display:none;">Caravan Fresh</h3>
+                <ul data-lang="si">
+                    <li>බේකරිවර්ගීය සහ ආහාර සේවාව</li>
+                    <li>ශ්‍රී ලංකා ක්‍රියාකාරිත්වය</li>
+                    <li>69+ ශාඛා</li>
+                    <li>ලී හසු සහතිකරණ</li>
+                </ul>
+                <ul data-lang="en" style="display:none;">
+                    <li>Bakery & food service</li>
+                    <li>Sri Lanka operations</li>
+                    <li>69+ outlets</li>
+                    <li>Halal certified</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 data-lang="si">සිරස සමූහය (SwitzGroup)</h3>
+                <h3 data-lang="en" style="display:none;">Parent Company (SwitzGroup)</h3>
+                <ul data-lang="si">
+                    <li>රටවල් 9 තුළ ක්‍රියාකාරිත්වය</li>
+                    <li>4,500+ සේවකයින්</li>
+                    <li>$250M+ ආයෝජන</li>
+                    <li>බේකරිවර්ගීයතා ශাඛා</li>
+                </ul>
+                <ul data-lang="en" style="display:none;">
+                    <li>Operations in 9 countries</li>
+                    <li>4,500+ employees</li>
+                    <li>$250M+ revenue</li>
+                    <li>Food service group</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Map -->
+    <section id="outlet-map" class="section">
+        <div class="section-number">06 —</div>
+        <h2 data-lang="si">සිතියම</h2>
+        <h2 data-lang="en" style="display:none;">Map</h2>
+
+        <div style="display: inline-block; background: var(--color-badge); color: var(--color-badge-text); border: 1px solid var(--color-badge-border); padding: 0.4rem 0.8rem; border-radius: 16px; font-size: 12px; font-weight: 600; margin-bottom: 1.5rem;">69 Outlets</div>
+
+        <p data-lang="si">කැරවෑන් ෆ්‍රෙෂ් පිහිටි 69 ශාඛා අතර ශ්‍රී ලංකාවේ නිහිතිරණ සිතියම:</p>
+        <p data-lang="en" style="display:none;">Geographic distribution of 69 Caravan Fresh outlets across Sri Lanka:</p>
+
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+
+        <p data-lang="si" style="font-size: 13px; color: var(--color-text-secondary); margin-top: 1rem;">
+            ලිපිස්ට දෙස: සිතියම උසස්වීම් විස්තර සිතුවම්පත ස්ඉතුවල පිහිටි පිවිසුම විතරකරණ සිතුවම්පතිරණ රටකින් පිහිටි විතරකරණ විස්තර සිතුවම්පතිරණ පිහිටි ස්ඉතුවල පිහිටි ස්ඉතුවල පිහිටි ස්ඉතුවල පිහිටි පිහිටි
+        </p>
+        <p data-lang="en" style="font-size: 13px; color: var(--color-text-secondary); margin-top: 1rem; display:none;">
+            Map shows publicly listed outlet locations. Green markers indicate confirmed Caravan Fresh outlets across Western Province and surrounding districts.
+        </p>
+    </section>
+
+    <!-- Section 7: Consumer Rights -->
+    <section id="rights" class="section">
+        <div class="section-number">07 —</div>
+        <h2 data-lang="si">පාරිභෝගික අයිතිවාසිකම්</h2>
+        <h2 data-lang="en" style="display:none;">Consumer Rights</h2>
+
+        <p data-lang="si">
+            ශ්‍රී ලංකාවේ නීතිමය රෙපුබ්ලිකයා පුරවැසි අයිතිවාසිකම් ස්තර ඉතිරි තිබේ:
+        </p>
+        <p data-lang="en" style="display:none;">
+            Sri Lankan law provides several protections for consumer speech and expression:
+        </p>
+
+        <div class="cards-grid">
+            <!-- Card 1: Criminal Defamation Repeal -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3 data-lang="en">Criminal Defamation Repeal</h3>
+                <p data-lang="en">Sri Lanka was the first South Asian country to repeal criminal defamation in 2002. You cannot be jailed for expressing opinions about a company.</p>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Legal Detail</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Criminal Defamation — Full Context</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.actor-card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Penal Code (Amendment) Act No. 12 of 2002</strong> — Sections 479–482 (criminal defamation) were repealed by the Sri Lankan Parliament, making Sri Lanka the first country in South Asia to decriminalize defamation. This means no person can face criminal prosecution — arrest, detention, or imprisonment — for expressing opinions about a company, product, or public figure.</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Relevance to this case:</strong> When Caravan Fresh's official statement threatened "legal action" against critics, many consumers feared criminal consequences. Under Sri Lankan law, this threat could only refer to <em>civil</em> defamation — a lawsuit for monetary damages, not criminal prosecution. The phrasing was arguably designed to intimidate consumers unfamiliar with the 2002 repeal.</div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Legal status <span class="evidence-verdict verdict-verified">Confirmed — Act No. 12/2002</span></div>
+                        Sri Lanka's criminal defamation repeal is internationally recognized. Article 19 (UK) and Reporters Without Borders have both cited it as a landmark reform. No subsequent government has attempted re-criminalization.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Civil Defamation Defenses -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3 data-lang="en">Civil Defamation Defenses</h3>
+                <p data-lang="en">Valid defenses: (1) Truth/justification, (2) Fair comment on matters of public interest.</p>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Legal Detail</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Civil Defamation Defenses — Full Context</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.actor-card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Truth / Justification (Veritas)</strong> — If a statement is substantially true, it is a complete defense to civil defamation. In this case, every claim in public posts was backed by screenshots of Caravan Fresh's own content. Truth does not require perfection — substantial truth is sufficient.</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Fair Comment</strong> — Honest opinion on matters of public interest is protected even if the opinion is harsh, exaggerated, or prejudiced — provided it is based on true facts and is recognizable as opinion (not presented as fact). Criticism of a company's marketing campaign is textbook fair comment.</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Qualified Privilege</strong> — Statements made in good faith, where the speaker has a duty or interest to communicate and the recipient has a corresponding interest in receiving the information. Consumer warnings about insensitive corporate behavior likely qualify.</div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Application <span class="evidence-verdict verdict-verified">All three defenses apply here</span></div>
+                        Every public criticism of Caravan Fresh documented in this dossier was (a) based on verifiable screenshots, (b) recognizable as opinion/commentary, and (c) concerned a matter of public interest. A civil defamation suit against these critics would face all three defenses simultaneously.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Public Interest Doctrine -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3 data-lang="en">Public Interest Doctrine</h3>
+                <p data-lang="en">Consumers can express opinions about products and corporate practices as a matter of public interest.</p>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Legal Detail</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Public Interest — Full Context</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.actor-card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Article 14(1)(a) of the Constitution</strong> — Guarantees freedom of speech and expression to every citizen of Sri Lanka. This is a fundamental right that can only be restricted by law "in the interests of racial and religious harmony or in relation to parliamentary privilege, contempt of court, defamation or incitement to an offence."</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Consumer Protection Authority Act No. 1 of 2003</strong> — Established the Consumer Affairs Authority with powers to investigate unfair trade practices, misleading advertising, and conduct prejudicial to consumers. Consumers reporting corporate misconduct are exercising rights explicitly created by this statute.</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Relevance:</strong> A multinational bakery chain using war/conflict imagery to sell food during an active security situation is a matter of public interest. The company has 69+ outlets across Western Province, affecting tens of thousands of consumers. Public commentary on their marketing practices is constitutionally protected speech.</div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Legal basis <span class="evidence-verdict verdict-verified">Constitutional + Statutory</span></div>
+                        Both constitutional guarantees (Art. 14) and the Consumer Protection Authority Act create a strong legal framework for consumer expression about corporate practices. Companies threatening legal action against consumer critics must overcome these protections.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Consumer Expression -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3 data-lang="en">Consumer Expression</h3>
+                <p data-lang="en">Sharing publicly listed contact information and expressing concerns about company practices is a consumer right.</p>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Legal Detail</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Consumer Expression — Full Context</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.actor-card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Sharing public contact details is not doxxing.</strong> Caravan Fresh's hotline number (0718-698650 head office, 0719-721484 hotline) was publicly listed on their own Facebook business page. Sameera Mahboobdeen shared the head office number [IMG_38.PNG] — this is sharing public information, not exposing private data. Dewyan Thilakasiri explicitly stated: "Sharing a publicly listed business hotline is not harassment." [IMG_25.PNG]</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Consumer reviews and complaints are protected.</strong> Expressing dissatisfaction with a product, service, or corporate behavior — including through social media posts, calls to business hotlines, and sharing experiences with others — is a recognized consumer right under both Sri Lankan law and international consumer protection principles (UN Guidelines for Consumer Protection, 2015 revision).</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon screenshot">SS</span>
+                            <div class="evidence-source-text"><strong>Evidence in this case:</strong> Every consumer action documented here — posting opinions on personal Facebook profiles, commenting on the company's public post, calling the publicly listed hotline, sharing screenshots — falls within standard consumer expression. None involved private information, threats, or organized campaigns. <span class="source-ref">[IMG_3, IMG_6, IMG_25, IMG_30, IMG_38]</span></div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Assessment <span class="evidence-verdict verdict-verified">All consumer actions documented here are lawful</span></div>
+                        No consumer action documented in this dossier crosses any legal threshold. Caravan Fresh's characterization of these actions as "harassment" by "organized groups" has no legal basis.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Online Safety Act 2024 -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3 data-lang="en">Online Safety Act 2024</h3>
+                <p data-lang="en">Controversial new law criticized by UN, EU, and civil society for potential restrictions on legitimate expression.</p>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Legal Detail</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Online Safety Act — Full Context</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.actor-card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Online Safety Act No. 9 of 2024</strong> — Enacted January 2024. Creates an Online Safety Commission with broad powers to issue takedown orders and restrict online content. Defines "prohibited statements" including those causing "feelings of ill-will" between communities. Criticized for vague language that could criminalize legitimate consumer criticism and journalism.</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>International criticism:</strong> The UN High Commissioner for Human Rights called it "incompatible with international human rights law." The EU Delegation to Sri Lanka expressed "deep concern." Reporters Without Borders ranked it a threat to press freedom. The Bar Association of Sri Lanka challenged its constitutionality (Supreme Court upheld with amendments).</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>Could Caravan Fresh use this law?</strong> Theoretically, a company could file a complaint under the Act claiming online posts caused "reputational harm." However, (a) the Act was primarily designed for cyberbullying and false information, not consumer criticism backed by evidence; (b) truth remains a defense; (c) any complaint would need to show the content was "false" — difficult when evidence consists of the company's own screenshots.</div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Risk assessment <span class="evidence-verdict verdict-observable">Low risk — but monitor</span></div>
+                        While the Online Safety Act theoretically creates new avenues for corporate complaints, evidence-based consumer reporting is unlikely to meet the threshold for "prohibited statements." The Act's application is still being tested in courts. Several constitutional challenges are ongoing. Consumers should document everything (as done in this dossier) to maintain defensibility.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Business Hotline Calls -->
+            <div class="card actor-card" onclick="toggleEvidence(this)">
+                <h3 data-lang="en">Business Hotline Calls</h3>
+                <p data-lang="en">Calling a business's public hotline to voice concerns is a legitimate consumer action, not harassment.</p>
+                <div class="evidence-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:middle;"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Legal Detail</div>
+                <div class="evidence-card">
+                    <div class="evidence-card-header">
+                        <span class="evidence-card-title">Hotline Calls — Full Context</span>
+                        <button class="evidence-card-close" onclick="event.stopPropagation();this.closest('.actor-card').classList.remove('evidence-open');">&times;</button>
+                    </div>
+                    <ul class="evidence-sources">
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>The company's claim:</strong> Kavindi Athapaththu stated that "certain individuals (men) had called our hotline and harassed our female customer care staff" [IMG_6.PNG]. The official statement referenced "organized groups" targeting their business.</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon public">FB</span>
+                            <div class="evidence-source-text"><strong>The rebuttal:</strong> Dewyan Thilakasiri responded: "Criticism of a brand's public post is not harassment. Sharing a publicly listed business hotline is not harassment. If your hotline was overwhelmed, that's a reflection of how many people were genuinely affected." [IMG_25.PNG] — This distinction is legally sound.</div>
+                        </li>
+                        <li>
+                            <span class="evidence-icon statement">OS</span>
+                            <div class="evidence-source-text"><strong>Legal analysis:</strong> Calling a business hotline to express dissatisfaction is a standard consumer action. For it to constitute "harassment" under Sri Lankan law (Penal Code Section 345), there would need to be evidence of repeated calls with intent to cause annoyance — by the <em>same person</em>. Multiple different consumers each calling once is not harassment; it is volume of complaint reflecting public sentiment. The gendered framing ("men calling female staff") introduces irrelevant emotional context to delegitimize consumer action.</div>
+                        </li>
+                    </ul>
+                    <div class="evidence-factcheck">
+                        <div class="evidence-factcheck-label">Verdict <span class="evidence-verdict verdict-verified">Consumer calls ≠ harassment</span></div>
+                        A publicly listed business hotline exists for customer interaction. When many consumers call to express displeasure about a corporate action, that is the hotline functioning as intended. Characterizing this as "harassment" conflates volume of consumer response with individual misconduct — and the gendered framing attempts to weaponize gender sensitivity to silence legitimate criticism.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: Methodology -->
+    <section id="methodology" class="section">
+        <div class="section-number">08 —</div>
+        <h2 data-lang="si">ක්‍රමවේදය</h2>
+        <h2 data-lang="en" style="display:none;">Methodology</h2>
+
+        <div class="legal-disclaimer">
+            <h3 data-lang="si">පර්යේෂණ පෙනුම්</h3>
+            <h3 data-lang="en" style="display:none;">Research Approach</h3>
+
+            <p data-lang="si">
+                මෙම විශ්ලේෂණ සඳහා භාවිතා කෙරුණු ස්ඉතුවල තිබෙන සිතිවිඇඩ ස්තරයෙ ස්ඉතුවල සිතුවම්පතිරණ සිතිවිඇඩ තිබේ. කිසිසිටු පෞද්ගලික සිතිවිඇඩ ඉතිරිකරණ ස්තරයෙ ඉතිරිකරණ අයිතිවාසිකම් විසින්. ඇතුලුවල ඉතිරිකරණ පිටිසිරු තිබේ, සඳහා ස්තරයෙ ඉතිරිකරණ "සිතිවිඇඩ" සඳහා තිබේ.
+            </p>
+            <p data-lang="en" style="display:none;">
+                This analysis is based entirely on publicly posted social media content captured via screenshots. No private communications were accessed. All observations are documented with evidence. Opinions are clearly labeled.
+            </p>
+
+            <p data-lang="si">
+                මෙම ස්ඉතුවල පිහිටි සඳහා ස්තරයෙ ඉතිරිකරණ තිබේ - එනම් නිර්දිෂ්ට අවබෝධයෙ ස්තරයෙ ස්ඉතුවල පිහිටි සිතුවම්පතිරණ.
+            </p>
+            <p data-lang="en" style="display:none;">
+                This constitutes fair comment on matters of public interest — a legal defense in Sri Lanka and many other jurisdictions.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-divider">
+                <p data-lang="si">
+                    <strong>නීතිමය ප්‍රකාශනය:</strong> මෙම විශ්ලේෂණ ස්වාධීන පර්යේෂණ සඳහා සැදුම්ඉතිරි කිරීම. සිතිවිඇඩ සිතුවම්පතිරණ, සිතිවිඇඩ ඉතිරිකරණ සඳහා, සිතිවිඇඩ ස්ඉතුවල තිබේ ශ්‍රී ලංකාවේ නීතිමය ඉතිරිකරණයි - "ස්වාධීන පිටිසිරු" සඳහා ඉතිරිකරණ ස්තරයෙ තිබේ. එමඟින් නීතිමය ඉතිරිකරණ ස්ඉතුවල තිබේ, නිසි ස්තරයෙ ස්ඉතුවල පිහිටි ඉතිරිකරණ "නීතිමය" ඉතිරිකරණයි.
+                </p>
+                <p data-lang="en" style="display:none;">
+                    <strong>Legal Disclaimer:</strong> This analysis is independent research. Fair comment on matters of public interest, truth, and justification are legal defenses in Sri Lanka. This piece represents analysis of publicly documented events and is protected under these defenses.
+                </p>
+            </div>
+
+            <div class="footer-divider">
+                <p data-lang="si">
+                    ස්වාධීන පර්යේෂණ | 2026 මාර්තු
+                </p>
+                <p data-lang="en" style="display:none;">
+                    Independent Research | March 2026
+                </p>
+            </div>
+
+            <div class="footer-divider">
+                <p>
+                    <a href="https://pavura.rizrazak.com" data-lang="si">pavura.rizrazak.com</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Leaflet Map Library -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Analytics & Newsletter (shared) -->
+    <script src="../../_analytics_events.js" async></script>
+    <script src="../../_newsletter.js" async></script>
+
+    <script>
+        // Evidence Card Toggle
+        function toggleEvidence(item) {
+            // Close all other open evidence cards
+            document.querySelectorAll('.timeline-item.evidence-open').forEach(el => {
+                if (el !== item) el.classList.remove('evidence-open');
+            });
+            item.classList.toggle('evidence-open');
+        }
+        // Close evidence on click outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.timeline-item')) {
+                document.querySelectorAll('.timeline-item.evidence-open').forEach(el => {
+                    el.classList.remove('evidence-open');
+                });
+            }
+        });
+
+        // Language Toggle
+        const langToggle = document.getElementById('lang-toggle');
+        const body = document.body;
+
+        langToggle.addEventListener('click', function() {
+            const currentLang = body.getAttribute('data-lang-active');
+            const newLang = currentLang === 'si' ? 'en' : 'si';
+            body.setAttribute('data-lang-active', newLang);
+            localStorage.setItem('language', newLang);
+            updateLanguageDisplay(newLang);
+        });
+
+        function updateLanguageDisplay(lang) {
+            if (lang === 'en') {
+                langToggle.innerHTML = '<span>EN</span><span> | සිං</span>';
+            } else {
+                langToggle.innerHTML = '<span data-lang="si">සිං</span><span> | EN</span>';
+            }
+        }
+
+        // Load saved language preference
+        const savedLang = localStorage.getItem('language') || 'si';
+        body.setAttribute('data-lang-active', savedLang);
+        updateLanguageDisplay(savedLang);
+
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        });
+
+        // Load saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            htmlElement.setAttribute('data-theme', 'dark');
+            themeToggle.textContent = '☀️';
+        }
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Initialize Map
+        function initMap() {
+            const map = L.map('map').setView([6.9271, 79.8612], 11);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            const outlets = [
+                // Northern/Gampaha District
+                { lat: 7.2100, lng: 79.8380, name: 'Negombo - Katuwapitiya Road' },
+                { lat: 7.2080, lng: 79.8390, name: 'Negombo - Adnives Road' },
+                { lat: 7.2120, lng: 79.8400, name: 'Negombo - Archbishop Marcus Fernando Mawatha' },
+                { lat: 7.1650, lng: 79.8520, name: 'Raddolugama' },
+                { lat: 7.0910, lng: 79.8014, name: 'Gampaha' },
+                { lat: 7.0340, lng: 79.8120, name: 'Nittabuwa' },
+                { lat: 7.0280, lng: 79.8200, name: 'Thihariya' },
+                { lat: 6.9950, lng: 79.8450, name: 'Yakkala' },
+                { lat: 6.9750, lng: 79.8480, name: 'Kurana, Katunayake' },
+                { lat: 6.9620, lng: 79.8590, name: 'Kadawatha' },
+                { lat: 6.9550, lng: 79.8650, name: 'Ragama' },
+                { lat: 6.9480, lng: 79.8700, name: 'Kandana' },
+                { lat: 6.9420, lng: 79.8770, name: 'Makola' },
+                { lat: 6.9380, lng: 79.8820, name: 'Mahabage' },
+                { lat: 6.9300, lng: 79.8780, name: 'Kiribathgoda' },
+                { lat: 6.9250, lng: 79.8850, name: 'Endermulla' },
+                { lat: 6.9220, lng: 79.8760, name: 'Kiribathgoda (Kandy Road)' },
+                { lat: 6.9150, lng: 79.8950, name: 'Jude Place, Kelaniya' },
+                { lat: 6.9120, lng: 79.9050, name: 'Kelaniya - Dalugama' },
+                { lat: 6.9080, lng: 79.8920, name: 'Peliyagoda' },
+                { lat: 6.9000, lng: 79.8870, name: 'Wattala - Negombo Road' },
+                { lat: 6.8980, lng: 79.8890, name: 'Wattala - Hendala (Head Office)' },
+                { lat: 6.8950, lng: 79.8900, name: 'Ja Ela' },
+                { lat: 6.8820, lng: 79.9200, name: 'Mattakkuliya' },
+
+                // Central/Colombo Districts
+                { lat: 6.8750, lng: 79.9150, name: 'Malabe' },
+                { lat: 6.8650, lng: 79.9300, name: 'Thalahena' },
+                { lat: 6.8580, lng: 79.9350, name: 'Wellampitiya' },
+                { lat: 6.8520, lng: 79.9450, name: 'Kottawa' },
+                { lat: 6.8420, lng: 79.9280, name: 'Kaduwela' },
+                { lat: 6.8350, lng: 79.9150, name: 'Homagama' },
+                { lat: 6.8280, lng: 79.9100, name: 'Athurugiriya' },
+                { lat: 6.8200, lng: 79.9050, name: 'Nawala' },
+                { lat: 6.8150, lng: 79.9000, name: 'Rajagiriya' },
+                { lat: 6.8100, lng: 79.8950, name: 'Battaramulla' },
+                { lat: 6.8050, lng: 79.8850, name: 'Piliyandala' },
+
+                // Southern Colombo Suburbs
+                { lat: 6.8850, lng: 79.8620, name: 'Bambalapitiya' },
+                { lat: 6.8900, lng: 79.8650, name: 'Narahenpita' },
+                { lat: 6.8950, lng: 79.8700, name: 'Borella' },
+                { lat: 6.8980, lng: 79.8680, name: 'Castle Street' },
+                { lat: 6.9050, lng: 79.8640, name: 'Dematagoda' },
+                { lat: 6.9100, lng: 79.8550, name: 'Panchikawatte' },
+                { lat: 6.9150, lng: 79.8500, name: 'Maradana' },
+                { lat: 6.9200, lng: 79.8480, name: 'Grandpass' },
+                { lat: 6.9250, lng: 79.8550, name: 'Kirulapone' },
+                { lat: 6.9080, lng: 79.8480, name: 'Kotahena' },
+                { lat: 6.9000, lng: 79.8420, name: 'Pettah - Prince Street' },
+                { lat: 6.8980, lng: 79.8410, name: 'Pettah - Main Street' },
+                { lat: 6.8950, lng: 79.8380, name: 'Colombo Fort (Havelock Road)' },
+                { lat: 6.8920, lng: 79.8360, name: 'Slave Island' },
+
+                // Southern Coastal
+                { lat: 6.8450, lng: 79.8550, name: 'Dehiwala - Galle Road' },
+                { lat: 6.8420, lng: 79.8540, name: 'Dehiwala - Station Road' },
+                { lat: 6.8350, lng: 79.8520, name: 'Mt Lavinia' },
+                { lat: 6.8200, lng: 79.8480, name: 'Panadura' },
+                { lat: 6.7950, lng: 79.8600, name: 'Moratuwa' },
+                { lat: 6.7850, lng: 79.8700, name: 'Ratmalana' },
+
+                // Colombo Central
+                { lat: 6.9300, lng: 79.8420, name: 'Kolonnawa' },
+                { lat: 6.9200, lng: 79.8380, name: 'Maharagama' },
+                { lat: 6.9150, lng: 79.8350, name: 'Nugegoda - High Level Road' },
+                { lat: 6.9100, lng: 79.8370, name: 'Nugegoda - Sri Soratha Mawatha' },
+                { lat: 6.8950, lng: 79.8300, name: 'Boralesgamuwa' },
+                { lat: 6.8850, lng: 79.8280, name: 'Wellawatte' },
+                { lat: 6.8750, lng: 79.8250, name: 'Modara' },
+
+                // Additional Northern/Outer Locations
+                { lat: 7.0750, lng: 79.8280, name: 'Minuwangoda' },
+                { lat: 7.0550, lng: 79.8120, name: 'Divulapitiya' },
+                { lat: 7.0350, lng: 79.8000, name: 'Seeduwa' },
+                { lat: 6.9850, lng: 79.8350, name: 'Katana' },
+                { lat: 6.9680, lng: 79.8420, name: 'Kochchikade' },
+                { lat: 6.9600, lng: 79.8510, name: 'Katunayake - Airport Road' },
+                { lat: 6.8980, lng: 79.8750, name: 'Kelani Bridge Road' }
+            ];
+
+            outlets.forEach(outlet => {
+                const marker = L.circleMarker([outlet.lat, outlet.lng], {
+                    radius: 6,
+                    fillColor: '#2d7a3e',
+                    color: '#ffffff',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).addTo(map);
+
+                marker.bindPopup(`<strong>${outlet.name}</strong>`);
+            });
+        }
+
+        // Initialize map when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initMap);
+        } else {
+            initMap();
+        }
+
+        // Smooth scroll behavior is handled by CSS
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
