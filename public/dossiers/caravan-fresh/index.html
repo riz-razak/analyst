@@ -838,12 +838,24 @@
             border-radius: 12px;
             max-width: 620px;
             width: 100%;
-            padding: 32px;
-            max-height: 80vh;
-            overflow-y: auto;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
             font-family: var(--font-sans);
             font-size: 14px;
             line-height: 1.7;
+            overflow: hidden;
+        }
+        .disclaimer-modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px 32px 16px 32px;
+        }
+        .disclaimer-modal-footer {
+            padding: 12px 32px 24px 32px;
+            background: var(--color-bg);
+            border-top: 1px solid var(--color-border);
+            flex-shrink: 0;
         }
         .disclaimer-modal h2 {
             font-family: var(--font-serif);
@@ -873,7 +885,7 @@
             display: block;
             width: 100%;
             padding: 14px;
-            margin-top: 24px;
+            margin-top: 0;
             background: var(--color-green);
             color: #fff;
             border: none;
@@ -890,7 +902,7 @@
         /* Evidence thumbnails */
         .evidence-thumb {
             display: inline-block;
-            width: 40px;
+            width: 80px;
             height: auto;
             max-height: 60px;
             border-radius: 4px;
@@ -904,7 +916,7 @@
         }
         .evidence-thumb:hover {
             opacity: 1;
-            transform: scale(2.5);
+            transform: scale(4);
             z-index: 1000;
             position: relative;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
@@ -927,13 +939,27 @@
             border-radius: 8px;
             box-shadow: 0 0 40px rgba(0,0,0,0.5);
         }
-    </style>
+    
+        /* Fix evidence hover interference */
+        .evidence-card {
+            position: relative;
+            z-index: 50;
+        }
+        .actor-card.evidence-open {
+            z-index: 100;
+        }
+        .evidence-card .evidence-sources li {
+            margin-bottom: 12px;
+        }
+
+        </style>
 </head>
 <body data-lang-active="si">
 
     <!-- Disclaimer Modal -->
     <div class="disclaimer-overlay" id="disclaimer-overlay">
         <div class="disclaimer-modal">
+        <div class="disclaimer-modal-body">
             <h2>Disclaimer / වියාචනය</h2>
             <div class="subtitle">Please read before proceeding / කරුණාකර ඉදිරියට යාමට පෙර කියවන්න</div>
 
@@ -953,7 +979,10 @@
             <p>All opinions expressed constitute fair comment on matters of public interest. All factual claims are based on publicly available evidence cited within the document. Corrections and right-of-reply requests can be directed to the contact information provided.</p>
             <p style="color: var(--color-text-secondary); font-size: 0.85em;">ප්‍රකාශ කරන සියලුම මතයන් පොදු යහපතට අදාළ කරුණු පිළිබඳ සාධාරණ අදහස් දැක්වීම් වේ. සියලුම කරුණු පදනම් වන්නේ ලේඛනය තුළ උපුටා දක්වා ඇති ප්‍රසිද්ධියේ ලබාගත හැකි සාක්ෂි මත ය.</p>
 
+        </div>
+        <div class="disclaimer-modal-footer">
             <button class="accept-btn" id="disclaimer-accept">I Understand &amp; Accept — මම තේරුම් ගනිමි</button>
+        </div>
         </div>
     </div>
 
@@ -973,7 +1002,7 @@
                 <li><a href="#incident" data-lang="si">සිද්ධිය</a><a href="#incident" data-lang="en">The Incident</a></li>
                 <li><a href="#timeline" data-lang="si">කාල රේඛාව</a><a href="#timeline" data-lang="en">Timeline</a></li>
                 <li><a href="#patterns" data-lang="si">හැසිරීම් රටා</a><a href="#patterns" data-lang="en">Behavioral Patterns</a></li>
-                <li><a href="#company" data-lang="si">ප්‍රධාන පෙරාණු</a><a href="#company" data-lang="en">Key Actors</a></li>
+                <li><a href="#company" data-lang="si">ප්‍රධාන ක්‍රියාකාරීන්</a><a href="#company" data-lang="en">Key Actors</a></li>
                 <li><a href="#outlet-map" data-lang="si">සිතියම</a><a href="#outlet-map" data-lang="en">Map</a></li>
                 <li><a href="#rights" data-lang="si">පාරිභෝගික අයිතිවාසිකම්</a><a href="#rights" data-lang="en">Consumer Rights</a></li>
                 <li><a href="#methodology" data-lang="si">ක්‍රමවේදය</a><a href="#methodology" data-lang="en">Methodology</a></li>
@@ -1375,7 +1404,7 @@
             <div class="card">
                 <h3 data-lang="si">සූරාකෑමේ අලෙවිකරණය</h3>
                 <h3 data-lang="en">Exploitative Marketing</h3>
-                <p data-lang="si">යුද්ධ සිතුවම්පත සහ ගැටුම් දර්ශන භාවිතා කිරීම කෑ නිෂ්පාදිතයක් විකිණීම සඳහා අනුපිටසර සිතුවම්පත වර්ගීකරණය කර ගිණුම් පිටුවට බිම්බ ඉමෝජි එකතු කිරීම।</p>
+                <p data-lang="si">ආහාර නිෂ්පාදනයක් අලෙවි කිරීම සඳහා යුද්ධ සහ ගැටුම් රූපක භාවිතා කිරීම. බෝම්බ ඉමෝජි එකතු කිරීමෙන් ඓතිහාසික වේදනාව සූරාකයි.</p>
                 <p data-lang="en">Using war and conflict imagery to sell a food product. Adding bomb emojis to categorize and market a bakery item exploits historical trauma.</p>
                 <p style="font-size: 12px; color: var(--accent-gold); margin-top: 0.5rem;">Evidence: Original Facebook post with Sinhala war references + bomb emojis — verified via multiple independent screenshots.</p>
             </div>
@@ -1383,7 +1412,7 @@
             <div class="card">
                 <h3 data-lang="si">තෝරාගත් වගකීම</h3>
                 <h3 data-lang="en">Selective Accountability</h3>
-                <p data-lang="si">සමාජ මාධ්‍ය තුළ "සමාවෙත් ගිණුම ඉඉමට" ඇතුළුව, නිල ප්‍රකාශනයෙහි පුද්ගල පුරවැසි නෙතු තර්ජන ගිණුම් නීතිමය තර්ජන අඩංගු විය.</p>
+                <p data-lang="si">සමාජ මාධ්‍ය තුළ ප්‍රසිද්ධ සමාව ("අපි කනගාටු වෙනවා") නිල ප්‍රකාශනයේ පුද්ගල පාරිභෝගිකයින්ට එරෙහි නීතිමය තර්ජන සමඟ යුගල කිරීම.</p>
                 <p data-lang="en">Public apology on social media ("we regret") coupled with legal threats against individual consumers in the formal statement.</p>
                 <p style="font-size: 12px; color: var(--accent-gold); margin-top: 0.5rem;">Evidence: Official statement graphic contains both apology and "legal action" threat in the same document. Marketing rep Kavindi separately threatened defamation lawsuit against individual critic.</p>
             </div>
@@ -1391,7 +1420,7 @@
             <div class="card">
                 <h3 data-lang="si">අදහස් මර්දනය</h3>
                 <h3 data-lang="en">Comment Suppression</h3>
-                <p data-lang="si">විවේචකයින්ව බ්ලොක් කිරීම, අදහස් සීමා කිරීම (24+ පැයි අනුගාමි අවශ්‍යතා), සහ අවසාන වශයෙන් පෝස්ටුවේ පිටුවේ ඉවත් කිරීම නිසා විවේචනයට විකුණු ප්‍රතිචාරය සඞ්කේතිත කිරීම।</p>
+                <p data-lang="si">විවේචකයින් අවහිර කිරීම, අදහස් සීමා කිරීම (පැය 24 ක අනුගාමී අවශ්‍යතාව), සහ අවසානයේ අඛණ්ඩ විවේචනය නිහඬ කිරීමට පෝස්ට් එක ඉවත් කිරීම.</p>
                 <p data-lang="en">Blocking critics, imposing comment restrictions (24-hour follower requirement), and eventually removing the post to silence continued criticism.</p>
                 <p style="font-size: 12px; color: var(--accent-gold); margin-top: 0.5rem;">Evidence: Shajeeth commented "they even restricted comments when people started calling them out. Absolutely sickening." Dewasiri Abenayaka reported being blocked from the page. Post ultimately deleted after 17+ hours.</p>
             </div>
@@ -1406,7 +1435,7 @@
             <div class="card">
                 <h3 data-lang="si">විපරීතගැන්වීම</h3>
                 <h3 data-lang="en">Deflection</h3>
-                <p data-lang="si">"සංවිධිත සමූහ" සහ "නිල නොවූ ව්‍යාපාරයන්" පිළිබඳ ස්ෙතිඉටු ඉදිරිපත් කිරීම සඳහා ශ්‍රමිකයින්ගේ සිතුවම්පත ස්තර තිරස්කරණය කිරීම අසම්බන්ධයි සඳහා ක්‍රිතින් තිරස්කරණයක අඩු කිරීම।</p>
+                <p data-lang="si">ස්වාභාවික මහජන කනස්සල්ල ආමන්ත්‍රණය කිරීම වෙනුවට "සංවිධිත කණ්ඩායම්" සහ "නිල නොවන ව්‍යාපාරවලට" විවේචනය ආරෝපණය කිරීම.</p>
                 <p data-lang="en">Attributing criticism to "organized groups" and "unofficial campaigns" instead of addressing organic public concern.</p>
                 <p style="font-size: 12px; color: var(--accent-gold); margin-top: 0.5rem;">Evidence: Official statement references "organized groups" and "unofficial campaigns" — language designed to delegitimize organic consumer response. No evidence of coordination was ever presented by the company.</p>
             </div>
@@ -1414,7 +1443,7 @@
             <div class="card">
                 <h3 data-lang="si">ප්‍රමාද ප්‍රතිචාරය</h3>
                 <h3 data-lang="en">Delayed Response</h3>
-                <p data-lang="si">17+ පැයි ඉඉසුමෙන් පසුව පිටුවේ ඉවත්කිරීම (සිංහල පෙළ පළමුව සංස්කරණය, බිම්බ ඉමෝජි අවතර), සඳහා ශ්‍රී ලාංකිකයෝ සිතුවම්පත වහසක නිරෝධතිර සිතුවම්පත ගිණුම ස්තරයෙ පුසුවටින් ඩිමිස් හෙලා ගිණුම ස්තර තිරස්කරණයි।</p>
+                <p data-lang="si">පැය 17+ බලා සිට, පෝස්ට් එක සංස්කරණය කර (සිංහල පෙළ ඉවත් කර, බෝම්බ ඉමෝජි තබා), අදහස් සීමා කර, අවසානයේ ඉවත් කිරීම.</p>
                 <p data-lang="en">Waited 17+ hours, edited the post (removed Sinhala text, kept bomb emojis), restricted comments, before finally removing it.</p>
                 <p style="font-size: 12px; color: var(--accent-gold); margin-top: 0.5rem;">Evidence: Sameera Mahboobdeen noted "Caravan has since removed the word from their post, which does nothing to change the callous nature." Munza Mushtaq documented: post stayed up 17+ hours, comments restricted, called it "utterly irresponsible."</p>
             </div>
@@ -1422,7 +1451,7 @@
             <div class="card">
                 <h3 data-lang="si">නීතිමය තර්ජන</h3>
                 <h3 data-lang="en">Legal Intimidation</h3>
-                <p data-lang="si">නිල ප්‍රකාශනයේ ස්තර ස්ඉතුවලින් පුරවැසි පුසුවටින් නිවේදනීය මෙවලම භාවිතා කරමින්, විවේචනය කිරීම ගිණුම් ස්තර තිරස්කරණයකින් සිතුවම්පත ඩිමිස් භාවිතා කිරීම තර්ජන කිරීම।</p>
+                <p data-lang="si">නිල ප්‍රකාශනයෙන් නිෂ්පාදනය සහ සමාගම ගැන අදහස් ප්‍රකාශ කිරීම සඳහා තනි පාරිභෝගිකයින්ට නීතිමය ක්‍රියාමාර්ග ගැන තර්ජනය කිරීම.</p>
                 <p data-lang="en">Formal statement threatened individual consumers with legal action for expressing opinions about the product and company.</p>
                 <p style="font-size: 12px; color: var(--accent-gold); margin-top: 0.5rem;">Evidence: Official statement contains explicit "legal action" threat. Kavindi separately threatened defamation lawsuit against critic Dewasiri Abenayaka. Ursula Bastianz noted the "subtle hint of 'if you criticize us too much we will take action'" in the statement.</p>
             </div>
@@ -1430,7 +1459,7 @@
             <div class="card">
                 <h3 data-lang="si">පාරිභෝගික ප්‍රතිචාර නැවත රාමුගත කිරීම</h3>
                 <h3 data-lang="en">Reframing Consumer Response</h3>
-                <p data-lang="si">පුරවැසි ලිපි ඉතිරිකරන ජාතිකභාවය ස්ඉතුවලින් "骚扰" ලෙස ප්‍රතිනිර්වචනය කිරීම සඳහා පිටුවේ ස්තර ස්ඉතුවල ජාතිකත්ව රාමුගතකිරීම.</p>
+                <p data-lang="si">පාරිභෝගිකයින්ගේ ප්‍රසිද්ධ හොට්ලයින් ඇමතුම් "හිරිහැර" ලෙස හඳුන්වා, විවේචනය අවිශ්වසනීය කිරීමට ස්ත්‍රී-පුරුෂ රාමුවක් භාවිතා කිරීම.</p>
                 <p data-lang="en">Calling consumers' calls to the public hotline "harassment" and using gendered framing to delegitimize criticism.</p>
                 <p style="font-size: 12px; color: var(--accent-gold); margin-top: 0.5rem;">Evidence: Kavindi claimed consumers calling the hotline constituted "harassment of female staff" and blamed "men" — introducing gendered framing to delegitimize legitimate consumer complaints. Dewyan challenged: "Criticism of a brand's public post is not harassment."</p>
             </div>
@@ -1462,11 +1491,11 @@
     <!-- Section 4: Key Actors -->
     <section id="company" class="section">
         <div class="section-number">04 —</div>
-        <h2 data-lang="si">ප්‍රධාන පෙරාններු</h2>
+        <h2 data-lang="si">ප්‍රධාන ක්‍රියාකාරීන්</h2>
         <h2 data-lang="en">Key Actors</h2>
 
         <p data-lang="si">
-            කැරවෑන් ෆ්‍රෙෂ් සිටින ඉතිරි ගිණුම්කරණ ව්‍යුපතිය සහ ශ්‍රී ලංකා අධිකරණ පරිවර්තනය:
+            කැරවෑන් ෆ්‍රෙෂ් සහ එහි මව් සමාගම SwitzGroup හි ප්‍රධාන තීරණ ගන්නන් සහ ආයතනික ධුරාවලිය:
         </p>
         <p data-lang="en">
             Key decision-makers and organizational hierarchy for Caravan Fresh and its parent company SwitzGroup:
@@ -1767,10 +1796,10 @@
         </div>
 
         <p data-lang="si" style="font-size: 13px; color: var(--color-text-secondary); margin-top: 1rem;">
-            ලිපිස්ට දෙස: සිතියම උසස්වීම් විස්තර සිතුවම්පත ස්ඉතුවල පිහිටි පිවිසුම විතරකරණ සිතුවම්පතිරණ රටකින් පිහිටි විතරකරණ විස්තර සිතුවම්පතිරණ පිහිටි ස්ඉතුවල පිහිටි ස්ඉතුවල පිහිටි ස්ඉතුවල පිහිටි පිහිටි
+            සිතියම ප්‍රසිද්ධියේ ලැයිස්තුගත කළ ශාඛා ස්ථාන පෙන්වයි. හරිත සලකුණු බස්නාහිර පළාත සහ අවට දිස්ත්‍රික්කවල තහවුරු කළ කැරවෑන් ෆ්‍රෙෂ් ශාඛා දක්වයි.
         </p>
         <p data-lang="en" style="font-size: 13px; color: var(--color-text-secondary); margin-top: 1rem;">
-            Map shows publicly listed outlet locations. Green markers indicate confirmed Caravan Fresh outlets across Western Province and surrounding districts.
+            Map shows publicly listed outlet locations. Green markers indicate confirmed Caravan Fresh outlets across Western Province and surrounding districts. <a href="https://caravanfresh.lk/store-locator/" target="_blank" style="color: var(--color-gold); text-decoration: underline;">View full outlet list on caravanfresh.lk →</a>
         </p>
     </section>
 
@@ -1781,7 +1810,7 @@
         <h2 data-lang="en">Consumer Rights</h2>
 
         <p data-lang="si">
-            ශ්‍රී ලංකාවේ නීතිමය රෙපුබ්ලිකයා පුරවැසි අයිතිවාසිකම් ස්තර ඉතිරි තිබේ:
+            ශ්‍රී ලංකාවේ නීතිය මගින් පාරිභෝගික අදහස් ප්‍රකාශනය සහ වාචික නිදහස සඳහා ආරක්ෂාවන් කිහිපයක් සපයනු ලැබේ:
         </p>
         <p data-lang="en">
             Sri Lankan law provides several protections for consumer speech and expression:
@@ -1983,14 +2012,14 @@
             <h3 data-lang="en">Research Approach</h3>
 
             <p data-lang="si">
-                මෙම විශ්ලේෂණ සඳහා භාවිතා කෙරුණු ස්ඉතුවල තිබෙන සිතිවිඇඩ ස්තරයෙ ස්ඉතුවල සිතුවම්පතිරණ සිතිවිඇඩ තිබේ. කිසිසිටු පෞද්ගලික සිතිවිඇඩ ඉතිරිකරණ ස්තරයෙ ඉතිරිකරණ අයිතිවාසිකම් විසින්. ඇතුලුවල ඉතිරිකරණ පිටිසිරු තිබේ, සඳහා ස්තරයෙ ඉතිරිකරණ "සිතිවිඇඩ" සඳහා තිබේ.
+                මෙම විශ්ලේෂණය සඳහා භාවිතා කළ සියලුම සාක්ෂි ප්‍රසිද්ධියේ පවතින තොරතුරු වේ. කිසිදු පෞද්ගලික දත්ත ප්‍රවේශ කර නැත. සියලු තිරපිටපත් ප්‍රසිද්ධ පෝස්ට් සහ අදහස් වලින් ගනු ලැබීය.
             </p>
             <p data-lang="en">
                 This analysis is based entirely on publicly posted social media content captured via screenshots. No private communications were accessed. All observations are documented with evidence. Opinions are clearly labeled.
             </p>
 
             <p data-lang="si">
-                මෙම ස්ඉතුවල පිහිටි සඳහා ස්තරයෙ ඉතිරිකරණ තිබේ - එනම් නිර්දිෂ්ට අවබෝධයෙ ස්තරයෙ ස්ඉතුවල පිහිටි සිතුවම්පතිරණ.
+                සියලුම මූලාශ්‍ර සත්‍යාපිත ප්‍රසිද්ධ වාර්තා මත පදනම් වේ — නිශ්චිත සාක්ෂි සඳහන් සමඟ.
             </p>
             <p data-lang="en">
                 This constitutes fair comment on matters of public interest — a legal defense in Sri Lanka and many other jurisdictions.
@@ -2003,7 +2032,7 @@
         <div class="footer-content">
             <div class="footer-divider">
                 <p data-lang="si">
-                    <strong>නීතිමය ප්‍රකාශනය:</strong> මෙම විශ්ලේෂණ ස්වාධීන පර්යේෂණ සඳහා සැදුම්ඉතිරි කිරීම. සිතිවිඇඩ සිතුවම්පතිරණ, සිතිවිඇඩ ඉතිරිකරණ සඳහා, සිතිවිඇඩ ස්ඉතුවල තිබේ ශ්‍රී ලංකාවේ නීතිමය ඉතිරිකරණයි - "ස්වාධීන පිටිසිරු" සඳහා ඉතිරිකරණ ස්තරයෙ තිබේ. එමඟින් නීතිමය ඉතිරිකරණ ස්ඉතුවල තිබේ, නිසි ස්තරයෙ ස්ඉතුවල පිහිටි ඉතිරිකරණ "නීතිමය" ඉතිරිකරණයි.
+                    <strong>නීතිමය ප්‍රකාශනය:</strong> මෙම විශ්ලේෂණය ස්වාධීන පර්යේෂණ ලේඛනයකි. ප්‍රකාශිත සියලුම අදහස් මහජන යහපත පිළිබඳ කරුණු සම්බන්ධ සාධාරණ අදහස් දැක්වීමකි — ශ්‍රී ලංකාවේ නීතිය යටතේ ආරක්ෂිතය. සියලුම කරුණු ප්‍රසිද්ධියේ පවතින සාක්ෂි මත පදනම් වේ.
                 </p>
                 <p data-lang="en">
                     <strong>Legal Disclaimer:</strong> This analysis is independent research. Fair comment on matters of public interest, truth, and justification are legal defenses in Sri Lanka. This piece represents analysis of publicly documented events and is protected under these defenses.
@@ -2117,7 +2146,7 @@
 
         // Initialize Map
         function initMap() {
-            const map = L.map('map').setView([6.9271, 79.8612], 11);
+            const map = L.map('map').setView([6.9271, 79.8612], 10);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
