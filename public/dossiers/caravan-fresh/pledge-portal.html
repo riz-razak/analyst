@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Pledge Your Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Serif+Display&family=Noto+Sans+Sinhala:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#fafafa;--bg-card:#ffffff;--bg-hover:#f5f5f5;
+  --text:#111827;--text-secondary:#6b7280;--text-muted:#9ca3af;
+  --accent:#0d9488;--accent-light:#ccfbf1;--accent-dark:#0f766e;
+  --border:#e5e7eb;--border-light:#f3f4f6;
+  --gold:#d97706;--gold-light:#fef3c7;
+  --green:#059669;--red:#dc2626;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.04);
+  --shadow:0 4px 24px rgba(0,0,0,0.06);
+  --shadow-lg:0 12px 48px rgba(0,0,0,0.08);
+  --radius:12px;--radius-lg:16px;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+[data-lang="si"] body,.si-text{font-family:'Noto Sans Sinhala','Inter',system-ui,sans-serif}
+.serif{font-family:'DM Serif Display',serif}
+[data-lang="si"] .serif{font-family:'Noto Sans Sinhala',serif}
+
+/* Bilingual */
+[data-lang="en"] .si{display:none}
+[data-lang="si"] .en{display:none}
+
+/* Language Toggle */
+.lang-toggle{position:fixed;top:12px;right:12px;z-index:50;display:flex;background:var(--bg-card);border:1px solid var(--border);border-radius:100px;padding:2px;box-shadow:var(--shadow-sm);font-size:12px}
+.lang-btn{padding:5px 12px;border:none;border-radius:100px;font-weight:600;cursor:pointer;transition:all 0.2s;background:transparent;color:var(--text-muted);font-family:inherit}
+.lang-btn.active{background:var(--accent);color:#fff}
+
+/* Layout */
+.container{max-width:720px;margin:0 auto;padding:0 20px}
+section{padding:40px 0}
+
+/* Hero */
+.hero{text-align:center;padding:64px 0 32px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(13,148,136,0.06) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);color:var(--accent-dark);padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600;letter-spacing:0.02em;margin-bottom:20px}
+.hero-badge .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-size:clamp(1.6rem,5vw,2.8rem);font-weight:800;line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em}
+.hero h1 span{color:var(--accent)}
+.hero p{font-size:15px;color:var(--text-secondary);max-width:480px;margin:0 auto;line-height:1.7}
+
+/* Tracker */
+.tracker{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:36px;box-shadow:var(--shadow)}
+.tracker-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;flex-wrap:wrap;gap:4px}
+.tracker-amount{font-size:26px;font-weight:800;letter-spacing:-0.02em}
+.tracker-amount .currency{color:var(--accent)}
+.tracker-goal{font-size:13px;color:var(--text-muted);font-weight:500}
+.progress-wrap{position:relative;height:12px;background:var(--border-light);border-radius:100px;overflow:visible;margin-bottom:28px}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:100px;transition:width 1.5s cubic-bezier(0.22,1,0.36,1);position:relative;min-width:2px}
+.progress-bar::after{content:'';position:absolute;right:-1px;top:50%;transform:translateY(-50%);width:18px;height:18px;background:#fff;border:3px solid var(--accent);border-radius:50%;box-shadow:0 0 0 4px rgba(13,148,136,0.15)}
+.milestones{display:flex;justify-content:space-between;position:relative}
+.milestone{text-align:center;flex:0 0 auto;position:relative}
+.milestone-marker{width:10px;height:10px;border-radius:50%;background:var(--border);border:2px solid var(--border);margin:0 auto 4px;transition:all 0.5s ease}
+.milestone.reached .milestone-marker{background:var(--accent);border-color:var(--accent);animation:markerPop 0.6s cubic-bezier(0.175,0.885,0.32,1.275)}
+.milestone-label{font-size:10px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em}
+.milestone.reached .milestone-label{color:var(--accent)}
+.milestone-value{font-size:12px;font-weight:700;color:var(--text)}
+.milestone-icon{font-size:0;opacity:0;transition:all 0.5s cubic-bezier(0.175,0.885,0.32,1.275);display:block;height:0;overflow:hidden}
+.milestone.reached .milestone-icon{font-size:20px;opacity:1;height:26px;margin-bottom:2px;animation:celebrateBounce 0.8s cubic-bezier(0.175,0.885,0.32,1.275)}
+
+/* Progress bar animations */
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes progressGlow{0%,100%{box-shadow:0 0 8px rgba(13,148,136,0.3)}50%{box-shadow:0 0 20px rgba(13,148,136,0.5),0 0 40px rgba(13,148,136,0.2)}}
+@keyframes markerPop{0%{transform:scale(0)}50%{transform:scale(1.6)}100%{transform:scale(1)}}
+@keyframes celebrateBounce{0%{transform:scale(0) rotate(-20deg)}40%{transform:scale(1.4) rotate(10deg)}70%{transform:scale(0.9) rotate(-5deg)}100%{transform:scale(1) rotate(0deg)}}
+.progress-bar.animated{background:linear-gradient(90deg,var(--accent),var(--green),var(--accent),var(--green));background-size:200% 100%;animation:shimmer 3s linear infinite,progressGlow 2s ease infinite}
+.progress-bar.animated::after{animation:pulse 1.5s ease infinite}
+
+/* Confetti */
+.confetti{position:absolute;width:6px;height:6px;border-radius:1px;opacity:0}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}50%{opacity:1}100%{opacity:0;transform:translateY(-80px) rotate(720deg) scale(0)}}
+
+.tracker-stats{display:flex;gap:16px;padding-top:16px;border-top:1px solid var(--border-light)}
+.stat{text-align:center;flex:1}
+.stat-value{font-size:18px;font-weight:700}
+.stat-label{font-size:11px;color:var(--text-muted);font-weight:500;margin-top:2px}
+
+/* Currency Toggle */
+.currency-toggle{display:flex;justify-content:center;gap:4px;background:var(--border-light);border-radius:100px;padding:3px;margin-bottom:24px;max-width:220px;margin-left:auto;margin-right:auto}
+.currency-btn{flex:1;padding:8px 16px;border:none;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.25s ease;background:transparent;color:var(--text-muted)}
+.currency-btn.active{background:var(--bg-card);color:var(--text);box-shadow:var(--shadow-sm)}
+
+/* Pledge Type Toggle */
+.type-toggle{display:flex;justify-content:center;gap:4px;background:var(--border-light);border-radius:100px;padding:3px;margin-bottom:24px;max-width:280px;margin-left:auto;margin-right:auto}
+.type-btn{flex:1;padding:8px 16px;border:none;border-radius:100px;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.25s ease;background:transparent;color:var(--text-muted)}
+.type-btn.active{background:var(--bg-card);color:var(--text);box-shadow:var(--shadow-sm)}
+
+/* Tier Cards */
+.tiers{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.tier{background:var(--bg-card);border:2px solid var(--border);border-radius:var(--radius);padding:18px 10px;text-align:center;cursor:pointer;transition:all 0.2s ease;position:relative;-webkit-tap-highlight-color:transparent;min-height:72px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.tier:hover{border-color:var(--accent)}
+.tier:active{transform:scale(0.97)}
+.tier.selected{border-color:var(--accent);background:var(--accent-light)}
+.tier.selected::after{content:'\2713';position:absolute;top:6px;right:8px;font-size:11px;color:var(--accent);font-weight:700}
+.tier-amount{font-size:20px;font-weight:800;letter-spacing:-0.02em}
+.tier-period{font-size:11px;color:var(--text-muted);margin-top:2px;font-weight:500}
+.tier-custom input{width:100%;border:none;background:transparent;text-align:center;font-size:16px;font-weight:700;color:var(--text);outline:none;font-family:inherit}
+.tier-custom input::placeholder{color:var(--text-muted);font-weight:500;font-size:13px}
+
+/* One-time section */
+.onetime-input{display:flex;align-items:center;gap:8px;background:var(--bg-card);border:2px solid var(--border);border-radius:var(--radius);padding:14px 16px;transition:border-color 0.2s}
+.onetime-input:focus-within{border-color:var(--accent)}
+.onetime-input .prefix{font-size:16px;font-weight:700;color:var(--text-muted)}
+.onetime-input input{flex:1;border:none;background:transparent;font-size:16px;font-weight:600;color:var(--text);outline:none;font-family:inherit}
+.onetime-input input::placeholder{color:var(--text-muted);font-weight:400;font-size:14px}
+
+/* Contact Form */
+.form-section{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-top:24px;box-shadow:var(--shadow-sm)}
+.form-section h3{font-size:15px;font-weight:700;margin-bottom:4px}
+.form-section .subtitle{font-size:12px;color:var(--text-muted);margin-bottom:20px}
+.form-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:14px}
+.form-group{position:relative}
+.form-group.full{grid-column:1/-1}
+.form-group label{display:block;font-size:11px;font-weight:600;color:var(--text-secondary);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.04em}
+.form-group input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:16px;font-family:inherit;transition:border-color 0.2s;background:var(--bg);-webkit-appearance:none;appearance:none}
+.form-group input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(13,148,136,0.1)}
+.form-group input.error{border-color:var(--red)}
+.error-msg{font-size:11px;color:var(--red);margin-top:3px;display:none}
+
+.submit-btn{width:100%;padding:16px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s ease;font-family:inherit;letter-spacing:0.01em;-webkit-tap-highlight-color:transparent;min-height:52px}
+.submit-btn:hover{background:var(--accent-dark)}
+.submit-btn:active{transform:scale(0.98)}
+
+/* Success State */
+.success-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,0.97);z-index:100;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding:24px;backdrop-filter:blur(8px)}
+.success-overlay.show{display:flex}
+.success-icon{width:72px;height:72px;background:var(--accent-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:20px;animation:scaleIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275)}
+@keyframes scaleIn{0%{transform:scale(0)}100%{transform:scale(1)}}
+.success-overlay h2{font-size:22px;font-weight:800;margin-bottom:8px}
+.success-overlay p{color:var(--text-secondary);max-width:360px;font-size:14px;line-height:1.6}
+.success-close{margin-top:20px;padding:12px 28px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;min-height:48px}
+
+/* Trust Section */
+.trust{border-top:1px solid var(--border-light)}
+.trust h2{text-align:center;font-size:18px;font-weight:700;margin-bottom:24px}
+.trust-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.trust-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.trust-card h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.trust-card p{font-size:12px;color:var(--text-secondary);line-height:1.6}
+
+/* Footer */
+footer{text-align:center;padding:32px 20px;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border-light)}
+
+/* Admin Panel */
+.admin-panel{display:none;min-height:100vh;background:var(--bg)}
+.admin-panel.show{display:block}
+.admin-header{background:var(--bg-card);border-bottom:1px solid var(--border);padding:16px 0}
+.admin-header h1{font-size:18px;font-weight:700}
+.admin-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+.admin-stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.admin-stat .label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;font-weight:600}
+.admin-stat .value{font-size:20px;font-weight:800;margin-top:4px}
+.admin-table{width:100%;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.admin-table table{width:100%;border-collapse:collapse;min-width:600px}
+.admin-table th{text-align:left;padding:10px 12px;font-size:10px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);font-weight:600;background:var(--border-light);border-bottom:1px solid var(--border);white-space:nowrap}
+.admin-table td{padding:10px 12px;font-size:12px;border-bottom:1px solid var(--border-light);white-space:nowrap}
+.admin-table tr:last-child td{border-bottom:none}
+.admin-actions{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.admin-btn{padding:10px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-family:inherit;transition:all 0.2s;min-height:44px}
+.admin-btn:hover{background:var(--border-light)}
+.admin-btn.danger{color:var(--red);border-color:rgba(220,38,38,0.2)}
+.admin-btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Password prompt */
+.pw-overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+.pw-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow-lg)}
+.pw-box h2{font-size:17px;font-weight:700;margin-bottom:6px}
+.pw-box p{font-size:12px;color:var(--text-muted);margin-bottom:16px}
+.pw-box input{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:8px;font-size:16px;text-align:center;font-family:inherit;margin-bottom:10px;-webkit-appearance:none}
+.pw-box input:focus{outline:none;border-color:var(--accent)}
+.pw-box button{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-family:inherit;min-height:48px;font-size:14px}
+.pw-error{color:var(--red);font-size:12px;margin-bottom:8px;display:none}
+
+/* Desktop overrides */
+@media(min-width:641px){
+  .hero{padding:80px 0 40px}
+  .hero h1{font-size:2.8rem}
+  .tiers{grid-template-columns:repeat(4,1fr)}
+  .form-grid{grid-template-columns:1fr 1fr}
+  .trust-grid{grid-template-columns:1fr 1fr}
+  .admin-stats{grid-template-columns:repeat(4,1fr)}
+  .tracker{padding:32px}
+  .form-section{padding:32px}
+  .container{padding:0 24px}
+  .lang-toggle{top:16px;right:16px}
+}
+
+/* Embedded in iframe */
+.embedded .lang-toggle{top:8px;right:8px}
+.embedded .hero{padding:48px 0 24px}
+</style>
+</head>
+<body>
+
+<!-- Language Toggle -->
+<div class="lang-toggle">
+  <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" data-lang="si" onclick="setLang('si')">සි</button>
+</div>
+
+<!-- ===== PUBLIC PLEDGE PAGE ===== -->
+<div id="public-view">
+
+<div class="container">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge"><span class="dot"></span> <span class="en">Pledges Open</span><span class="si">පොරොන්දු විවෘතයි</span></div>
+    <h1 class="serif"><span class="en">Help Build Something <span>Sri Lanka Needs</span></span><span class="si"><span>ශ්‍රී ලංකාවට</span> අවශ්‍ය දෙයක් ගොඩනගමු</span></h1>
+    <p><span class="en">We're building an independent, transparent platform for Sri Lanka. Before we launch, we want to know: are you in? This is a pledge of intent — no payment today.</span><span class="si">අපි ශ්‍රී ලංකාව වෙනුවෙන් ස්වාධීන, විනිවිදභාවී වේදිකාවක් ගොඩනගමින් සිටිමු. එළිදැක්වීමට පෙර, ඔබ සමඟ දැයි දැනගැනීමට අවශ්‍යයි. මෙය අභිප්‍රාය පොරොන්දුවක් පමණි — අද ගෙවීමක් නැත.</span></p>
+  </section>
+
+  <!-- Tracker -->
+  <div class="tracker">
+    <div class="tracker-header">
+      <div class="tracker-amount"><span class="currency">$</span><span id="tracker-total">0</span> <span style="font-size:14px;font-weight:500;color:var(--text-muted)"><span class="en">/ month</span><span class="si">/ මසකට</span></span></div>
+      <div class="tracker-goal"><span class="en">Goal: $10,000/mo</span><span class="si">ඉලක්කය: $10,000/මසකට</span></div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+    </div>
+    <div class="milestones" id="milestones">
+      <div class="milestone" data-threshold="1000" data-icon="&#x1F331;">
+        <div class="milestone-icon"></div>
+        <div class="milestone-marker"></div>
+        <div class="milestone-label"><span class="en">Seed</span><span class="si">බීජය</span></div>
+        <div class="milestone-value">$1K</div>
+      </div>
+      <div class="milestone" data-threshold="5000" data-icon="&#x1F3C1;">
+        <div class="milestone-icon"></div>
+        <div class="milestone-marker"></div>
+        <div class="milestone-label"><span class="en">Halfway</span><span class="si">අඩක්</span></div>
+        <div class="milestone-value">$5K</div>
+      </div>
+      <div class="milestone" data-threshold="10000" data-icon="&#x1F3C6;">
+        <div class="milestone-icon"></div>
+        <div class="milestone-marker"></div>
+        <div class="milestone-label"><span class="en">Goal</span><span class="si">ඉලක්කය</span></div>
+        <div class="milestone-value">$10K</div>
+      </div>
+    </div>
+    <div class="tracker-stats">
+      <div class="stat"><div class="stat-value" id="stat-supporters">0</div><div class="stat-label"><span class="en">Supporters</span><span class="si">සහය දක්වන්නන්</span></div></div>
+      <div class="stat"><div class="stat-value" id="stat-avg">$0</div><div class="stat-label"><span class="en">Avg Pledge</span><span class="si">සාමාන්‍ය</span></div></div>
+      <div class="stat"><div class="stat-value" id="stat-pct">0%</div><div class="stat-label"><span class="en">of Goal</span><span class="si">ඉලක්කයෙන්</span></div></div>
+    </div>
+  </div>
+
+  <!-- Pledge Section -->
+  <section>
+    <h2 style="text-align:center;font-size:18px;font-weight:700;margin-bottom:6px"><span class="en">Make Your Pledge</span><span class="si">ඔබේ පොරොන්දුව ලබා දෙන්න</span></h2>
+    <p style="text-align:center;font-size:13px;color:var(--text-muted);margin-bottom:20px"><span class="en">Choose your currency and pledge amount. No payment is collected today.</span><span class="si">ඔබේ මුදල් වර්ගය සහ පොරොන්දු මුදල තෝරන්න. අද ගෙවීමක් අය නොකරයි.</span></p>
+
+    <!-- Currency Toggle -->
+    <div class="currency-toggle">
+      <button class="currency-btn active" data-currency="USD" onclick="setCurrency('USD')">USD $</button>
+      <button class="currency-btn" data-currency="LKR" onclick="setCurrency('LKR')">LKR Rs</button>
+    </div>
+
+    <!-- Type Toggle -->
+    <div class="type-toggle">
+      <button class="type-btn active" data-type="monthly" onclick="setType('monthly')"><span class="en">Monthly</span><span class="si">මාසික</span></button>
+      <button class="type-btn" data-type="onetime" onclick="setType('onetime')"><span class="en">One-Time</span><span class="si">එක් වරක්</span></button>
+    </div>
+
+    <!-- Monthly Tiers -->
+    <div id="monthly-section">
+      <!-- USD Tiers -->
+      <div id="usd-tiers" class="tiers">
+        <div class="tier" data-amount="5" onclick="selectTier(this,5)">
+          <div class="tier-amount">$5</div>
+          <div class="tier-period"><span class="en">/month</span><span class="si">/මසකට</span></div>
+        </div>
+        <div class="tier" data-amount="10" onclick="selectTier(this,10)">
+          <div class="tier-amount">$10</div>
+          <div class="tier-period"><span class="en">/month</span><span class="si">/මසකට</span></div>
+        </div>
+        <div class="tier" data-amount="50" onclick="selectTier(this,50)">
+          <div class="tier-amount">$50</div>
+          <div class="tier-period"><span class="en">/month</span><span class="si">/මසකට</span></div>
+        </div>
+        <div class="tier tier-custom" data-amount="custom" onclick="selectTier(this,'custom')">
+          <input type="number" placeholder="Other $" min="1" id="usd-custom" onfocus="selectTier(this.parentElement,'custom')" oninput="updateCustomAmount(this)">
+          <div class="tier-period"><span class="en">/month</span><span class="si">/මසකට</span></div>
+        </div>
+      </div>
+      <!-- LKR Tiers -->
+      <div id="lkr-tiers" class="tiers" style="display:none">
+        <div class="tier" data-amount="500" onclick="selectTier(this,500)">
+          <div class="tier-amount">Rs.500</div>
+          <div class="tier-period"><span class="en">/month</span><span class="si">/මසකට</span></div>
+        </div>
+        <div class="tier" data-amount="1000" onclick="selectTier(this,1000)">
+          <div class="tier-amount">Rs.1,000</div>
+          <div class="tier-period"><span class="en">/month</span><span class="si">/මසකට</span></div>
+        </div>
+        <div class="tier" data-amount="5000" onclick="selectTier(this,5000)">
+          <div class="tier-amount">Rs.5,000</div>
+          <div class="tier-period"><span class="en">/month</span><span class="si">/මසකට</span></div>
+        </div>
+        <div class="tier tier-custom" data-amount="custom" onclick="selectTier(this,'custom')">
+          <input type="number" placeholder="වෙනත් Rs" min="1" id="lkr-custom" onfocus="selectTier(this.parentElement,'custom')" oninput="updateCustomAmount(this)">
+          <div class="tier-period"><span class="en">/month</span><span class="si">/මසකට</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- One-time section -->
+    <div id="onetime-section" style="display:none">
+      <div class="onetime-input">
+        <span class="prefix" id="onetime-prefix">$</span>
+        <input type="number" min="1" id="onetime-amount">
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="form-section">
+      <h3><span class="en">Almost there</span><span class="si">තව ටිකක්</span></h3>
+      <p class="subtitle"><span class="en">We'll only contact you when the platform launches and your pledge can be activated.</span><span class="si">වේදිකාව එළිදැක්වූ විට සහ ඔබේ පොරොන්දුව සක්‍රිය කළ හැකි විට පමණක් අපි ඔබව සම්බන්ධ කර ගනිමු.</span></p>
+      <div class="form-grid">
+        <div class="form-group">
+          <label><span class="en">Email *</span><span class="si">ඊමේල් *</span></label>
+          <input type="email" id="pledge-email" placeholder="you@example.com" required>
+          <div class="error-msg" id="email-error"><span class="en">Please enter a valid email</span><span class="si">කරුණාකර වලංගු ඊමේල් ලිපිනයක් ඇතුළත් කරන්න</span></div>
+        </div>
+        <div class="form-group">
+          <label><span class="en">Phone <span style="font-weight:400;text-transform:none">(optional)</span></span><span class="si">දුරකථන <span style="font-weight:400;text-transform:none">(අවශ්‍ය නැත)</span></span></label>
+          <input type="tel" id="pledge-phone" placeholder="+94 77 123 4567">
+        </div>
+        <div class="form-group">
+          <label><span class="en">First Name *</span><span class="si">මුල් නම *</span></label>
+          <input type="text" id="pledge-fname" placeholder="" required>
+          <div class="error-msg" id="fname-error"><span class="en">First name is required</span><span class="si">මුල් නම අවශ්‍යයි</span></div>
+        </div>
+        <div class="form-group">
+          <label><span class="en">Last Name *</span><span class="si">අවසන් නම *</span></label>
+          <input type="text" id="pledge-lname" placeholder="" required>
+          <div class="error-msg" id="lname-error"><span class="en">Last name is required</span><span class="si">අවසන් නම අවශ්‍යයි</span></div>
+        </div>
+      </div>
+      <button class="submit-btn" id="submit-btn" onclick="submitPledge()"><span class="en">Submit My Pledge</span><span class="si">මගේ පොරොන්දුව ඉදිරිපත් කරන්න</span></button>
+    </div>
+  </section>
+
+  <!-- Trust Section -->
+  <section class="trust">
+    <h2><span class="en">How This Works</span><span class="si">මෙය ක්‍රියා කරන ආකාරය</span></h2>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <h4><span class="en">&#x1F4CB; Pledge, Not Payment</span><span class="si">&#x1F4CB; පොරොන්දුවක්, ගෙවීමක් නොවේ</span></h4>
+        <p><span class="en">This is a commitment gauge. No money is collected today. When we launch, you'll choose whether to activate your pledge via our official Patreon.</span><span class="si">මෙය කැපවීම් මිනුමකි. අද මුදල් අය නොකරයි. අපි එළිදැක්වූ විට, අපගේ නිල Patreon හරහා ඔබේ පොරොන්දුව සක්‍රිය කරන්නේද යන්න ඔබ තීරණය කරනු ඇත.</span></p>
+      </div>
+      <div class="trust-card">
+        <h4><span class="en">&#x1F4DC; Constitution First</span><span class="si">&#x1F4DC; ආණ්ඩුක්‍රම ව්‍යවස්ථාව පළමුව</span></h4>
+        <p><span class="en">Before any funds are collected, a public constitution will define how money is used, who decides, and how accountability works.</span><span class="si">අරමුදල් එකතු කිරීමට පෙර, මුදල් භාවිතා කරන ආකාරය, තීරණ ගන්නේ කවුද, සහ වගවීම ක්‍රියාත්මක වන ආකාරය පොදු ව්‍යවස්ථාවක් මගින් නිර්වචනය කරනු ලැබේ.</span></p>
+      </div>
+      <div class="trust-card">
+        <h4><span class="en">&#x1F4CA; Transparent Dashboard</span><span class="si">&#x1F4CA; විනිවිදභාවී පුවරුව</span></h4>
+        <p><span class="en">A live fund management dashboard will show every rupee and dollar — where it comes from and where it goes. Full transparency, always.</span><span class="si">සජීවී අරමුදල් කළමනාකරණ පුවරුවක් සෑම රුපියලක්ම සහ ඩොලරයක්ම — එය පැමිණෙන තැන සහ යන තැන — පෙන්වනු ඇත. සෑම විටම සම්පූර්ණ විනිවිදභාවයක්.</span></p>
+      </div>
+      <div class="trust-card">
+        <h4><span class="en">&#x1F310; Patreon Integration</span><span class="si">&#x1F310; Patreon ඒකාබද්ධ කිරීම</span></h4>
+        <p><span class="en">Official Patreon page launching soon with tiered benefits, community access, and direct engagement with the project's development.</span><span class="si">නිල Patreon පිටුව ඉක්මනින් ආරම්භ කෙරේ — ස්ථරගත ප්‍රතිලාභ, ප්‍රජා ප්‍රවේශය, සහ ව්‍යාපෘතියේ සංවර්ධනයට සෘජු සහභාගීත්වය සමඟින්.</span></p>
+      </div>
+    </div>
+  </section>
+</div>
+</div><!-- /public-view -->
+
+<footer>
+  <div class="container">
+    <p style="margin-bottom:4px"><span class="en">This is a community pledge — not a financial transaction.</span><span class="si">මෙය ප්‍රජා පොරොන්දුවකි — මුල්‍ය ගනුදෙනුවක් නොවේ.</span></p>
+    <p><span class="en">Your data is stored securely and will only be used to contact you about this project.</span><span class="si">ඔබේ දත්ත ආරක්ෂිතව ගබඩා කර ඇති අතර මෙම ව්‍යාපෘතිය පිළිබඳව ඔබව සම්බන්ධ කර ගැනීමට පමණක් භාවිතා කරනු ලැබේ.</span></p>
+  </div>
+</footer>
+
+<!-- Success Overlay -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-icon">&#x2714;&#xFE0F;</div>
+  <h2><span class="en">Pledge Recorded!</span><span class="si">පොරොන්දුව වාර්තා විය!</span></h2>
+  <p><span class="en">Thank you for your commitment. We'll be in touch when the platform launches and your pledge can be activated.</span><span class="si">ඔබේ කැපවීමට ස්තුතියි. වේදිකාව එළිදැක්වූ විට සහ ඔබේ පොරොන්දුව සක්‍රිය කළ හැකි විට අපි ඔබව සම්බන්ධ කර ගනිමු.</span></p>
+  <button class="success-close" onclick="closeSuccess()"><span class="en">Back to Page</span><span class="si">නැවත පිටුවට</span></button>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div class="admin-panel" id="admin-panel">
+  <div class="admin-header">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <h1>Pledge Admin</h1>
+      <button class="admin-btn" onclick="location.href=location.pathname">Exit Admin</button>
+    </div>
+  </div>
+  <div class="container" style="padding-top:24px;padding-bottom:48px">
+    <div class="admin-stats" id="admin-stats"></div>
+    <div class="admin-actions">
+      <button class="admin-btn primary" onclick="exportCSV()">Export CSV</button>
+      <button class="admin-btn" onclick="location.reload()">Refresh</button>
+      <button class="admin-btn danger" onclick="clearAllPledges()">Clear All Data</button>
+    </div>
+    <div class="admin-table" id="admin-table"></div>
+  </div>
+</div>
+
+<!-- Password Overlay -->
+<div class="pw-overlay" id="pw-overlay" style="display:none">
+  <div class="pw-box">
+    <h2>Admin Access</h2>
+    <p>Enter the admin password to view pledge data.</p>
+    <div class="pw-error" id="pw-error">Incorrect password</div>
+    <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPassword()">
+    <button onclick="checkPassword()">Access</button>
+  </div>
+</div>
+
+<script>
+// ==========================================
+// Language
+// ==========================================
+function setLang(lang) {
+  document.documentElement.setAttribute('data-lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  try { localStorage.setItem('pledge_lang', lang); } catch(e) {}
+}
+// Restore saved language
+try { const saved = localStorage.getItem('pledge_lang'); if (saved) setLang(saved); } catch(e) {}
+
+// Detect if embedded in iframe
+if (window !== window.top) { document.body.classList.add('embedded'); }
+
+// ==========================================
+// PledgeDB
+// ==========================================
+const PledgeDB = {
+  _key: 'pledges_v1',
+  getAll() { try { return JSON.parse(localStorage.getItem(this._key) || '[]'); } catch { return []; } },
+  add(pledge) {
+    const all = this.getAll();
+    pledge.id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+    pledge.timestamp = new Date().toISOString();
+    all.push(pledge);
+    localStorage.setItem(this._key, JSON.stringify(all));
+    return pledge;
+  },
+  clear() { localStorage.removeItem(this._key); },
+  stats() {
+    const all = this.getAll();
+    const LKR_RATE = 330;
+    let totalMonthlyUSD = 0;
+    all.forEach(p => {
+      let usd = p.currency === 'LKR' ? p.amount / LKR_RATE : p.amount;
+      if (p.type === 'onetime') usd = usd / 12;
+      totalMonthlyUSD += usd;
+    });
+    return {
+      total: all.length,
+      totalMonthlyUSD: Math.round(totalMonthlyUSD),
+      avgUSD: all.length ? Math.round(totalMonthlyUSD / all.length) : 0
+    };
+  }
+};
+
+// ==========================================
+// State
+// ==========================================
+let state = { currency: 'USD', type: 'monthly', amount: null };
+const ADMIN_PW = 'Pavurapledge@2026';
+const EMAIL_WORKER_URL = ''; // Set to your Cloudflare Worker URL, e.g. 'https://pledge-confirmation-email.yoursubdomain.workers.dev'
+
+// ==========================================
+// Init
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+  if (new URLSearchParams(location.search).has('admin')) {
+    document.getElementById('public-view').style.display = 'none';
+    document.querySelector('footer').style.display = 'none';
+    document.querySelector('.lang-toggle').style.display = 'none';
+    document.getElementById('pw-overlay').style.display = 'flex';
+    document.getElementById('pw-input').focus();
+  } else {
+    updateTracker(true);
+  }
+});
+
+// ==========================================
+// Currency & Type
+// ==========================================
+function setCurrency(c) {
+  state.currency = c; state.amount = null;
+  document.querySelectorAll('.currency-btn').forEach(b => b.classList.toggle('active', b.dataset.currency === c));
+  document.getElementById('usd-tiers').style.display = c === 'USD' ? 'grid' : 'none';
+  document.getElementById('lkr-tiers').style.display = c === 'LKR' ? 'grid' : 'none';
+  document.getElementById('onetime-prefix').textContent = c === 'USD' ? '$' : 'Rs.';
+  clearTierSelection();
+}
+
+function setType(t) {
+  state.type = t; state.amount = null;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === t));
+  document.getElementById('monthly-section').style.display = t === 'monthly' ? 'block' : 'none';
+  document.getElementById('onetime-section').style.display = t === 'onetime' ? 'block' : 'none';
+  clearTierSelection();
+}
+
+function clearTierSelection() { document.querySelectorAll('.tier').forEach(t => t.classList.remove('selected')); }
+
+function selectTier(el, amount) {
+  const container = el.closest('.tiers');
+  container.querySelectorAll('.tier').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  if (amount === 'custom') {
+    const input = el.querySelector('input');
+    if (input) input.focus();
+    state.amount = input && input.value ? parseFloat(input.value) : null;
+  } else { state.amount = amount; }
+}
+
+function updateCustomAmount(input) { state.amount = input.value ? parseFloat(input.value) : null; }
+
+// ==========================================
+// Tracker
+// ==========================================
+let _prevMilestones = new Set();
+
+function updateTracker(isInitialLoad) {
+  const stats = PledgeDB.stats();
+  const pct = Math.min((stats.totalMonthlyUSD / 10000) * 100, 100);
+
+  if (isInitialLoad && stats.totalMonthlyUSD > 0) {
+    animateCounter('tracker-total', stats.totalMonthlyUSD, 1200);
+  } else {
+    document.getElementById('tracker-total').textContent = stats.totalMonthlyUSD.toLocaleString();
+  }
+  document.getElementById('stat-supporters').textContent = stats.total;
+  document.getElementById('stat-avg').textContent = '$' + stats.avgUSD;
+  document.getElementById('stat-pct').textContent = Math.round(pct) + '%';
+
+  const bar = document.getElementById('progress-bar');
+  if (isInitialLoad) {
+    bar.classList.add('animated');
+    setTimeout(() => { bar.style.width = Math.max(pct, 0.5) + '%'; }, 400);
+    setTimeout(() => { bar.classList.remove('animated'); }, 3000);
+  } else {
+    bar.style.width = Math.max(pct, 0.5) + '%';
+    bar.classList.add('animated');
+    setTimeout(() => { bar.classList.remove('animated'); }, 2000);
+  }
+
+  document.querySelectorAll('.milestone').forEach(m => {
+    const threshold = parseInt(m.dataset.threshold);
+    const wasReached = _prevMilestones.has(threshold);
+    const isReached = stats.totalMonthlyUSD >= threshold;
+    m.classList.toggle('reached', isReached);
+    const iconEl = m.querySelector('.milestone-icon');
+    if (iconEl) iconEl.textContent = m.dataset.icon || '';
+    if (isReached && !wasReached && !isInitialLoad) spawnConfetti(m);
+    if (isReached) _prevMilestones.add(threshold);
+  });
+
+  if (isInitialLoad) {
+    document.querySelectorAll('.milestone').forEach(m => {
+      const threshold = parseInt(m.dataset.threshold);
+      if (stats.totalMonthlyUSD >= threshold) _prevMilestones.add(threshold);
+    });
+  }
+}
+
+function animateCounter(id, target, duration) {
+  const el = document.getElementById(id);
+  const start = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(target * eased).toLocaleString();
+    if (progress < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+function spawnConfetti(milestoneEl) {
+  const colors = ['#0d9488', '#d97706', '#059669', '#dc2626', '#7c3aed', '#f59e0b'];
+  const rect = milestoneEl.getBoundingClientRect();
+  const container = milestoneEl.closest('.tracker');
+  const containerRect = container.getBoundingClientRect();
+  for (let i = 0; i < 12; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti';
+    p.style.cssText = `position:absolute;left:${rect.left-containerRect.left+rect.width/2+(Math.random()-0.5)*40}px;top:${rect.top-containerRect.top}px;width:${4+Math.random()*4}px;height:${4+Math.random()*4}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>0.5?'50%':'1px'};animation:confettiFall ${0.8+Math.random()*0.7}s ease-out forwards;animation-delay:${Math.random()*0.2}s;`;
+    container.style.position = 'relative';
+    container.appendChild(p);
+    setTimeout(() => p.remove(), 2000);
+  }
+}
+
+// ==========================================
+// Submit
+// ==========================================
+function submitPledge() {
+  const email = document.getElementById('pledge-email').value.trim();
+  const phone = document.getElementById('pledge-phone').value.trim();
+  const fname = document.getElementById('pledge-fname').value.trim();
+  const lname = document.getElementById('pledge-lname').value.trim();
+  let amount = state.amount;
+  if (state.type === 'onetime') amount = parseFloat(document.getElementById('onetime-amount').value);
+
+  let valid = true;
+  const emailInput = document.getElementById('pledge-email');
+  const emailError = document.getElementById('email-error');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    emailInput.classList.add('error'); emailError.style.display = 'block'; valid = false;
+  } else { emailInput.classList.remove('error'); emailError.style.display = 'none'; }
+
+  const fnameInput = document.getElementById('pledge-fname');
+  const fnameError = document.getElementById('fname-error');
+  if (!fname) {
+    fnameInput.classList.add('error'); fnameError.style.display = 'block'; valid = false;
+  } else { fnameInput.classList.remove('error'); fnameError.style.display = 'none'; }
+
+  const lnameInput = document.getElementById('pledge-lname');
+  const lnameError = document.getElementById('lname-error');
+  if (!lname) {
+    lnameInput.classList.add('error'); lnameError.style.display = 'block'; valid = false;
+  } else { lnameInput.classList.remove('error'); lnameError.style.display = 'none'; }
+
+  if (!amount || amount <= 0) {
+    const lang = document.documentElement.getAttribute('data-lang');
+    alert(lang === 'si' ? 'කරුණාකර පොරොන්දු මුදලක් තෝරන්න හෝ ඇතුළත් කරන්න.' : 'Please select or enter a pledge amount.');
+    valid = false;
+  }
+  if (!valid) return;
+
+  const name = fname + ' ' + lname;
+  const pledgeData = { email, phone, name, firstName: fname, lastName: lname, amount, currency: state.currency, type: state.type };
+  PledgeDB.add(pledgeData);
+  document.getElementById('success-overlay').classList.add('show');
+  updateTracker(false);
+
+  // Fire-and-forget confirmation email (non-blocking)
+  sendConfirmationEmail(pledgeData);
+
+  document.getElementById('pledge-email').value = '';
+  document.getElementById('pledge-phone').value = '';
+  document.getElementById('pledge-fname').value = '';
+  document.getElementById('pledge-lname').value = '';
+  document.getElementById('onetime-amount').value = '';
+  document.getElementById('usd-custom').value = '';
+  document.getElementById('lkr-custom').value = '';
+  state.amount = null;
+  clearTierSelection();
+}
+
+function closeSuccess() { document.getElementById('success-overlay').classList.remove('show'); }
+
+// ==========================================
+// Admin
+// ==========================================
+function checkPassword() {
+  const pw = document.getElementById('pw-input').value;
+  if (pw === ADMIN_PW) {
+    document.getElementById('pw-overlay').style.display = 'none';
+    document.getElementById('admin-panel').classList.add('show');
+    renderAdmin();
+  } else {
+    document.getElementById('pw-error').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+function renderAdmin() {
+  const all = PledgeDB.getAll();
+  const stats = PledgeDB.stats();
+  const LKR_RATE = 330;
+  let totalLKR = 0, totalUSD = 0;
+  all.forEach(p => { if (p.currency === 'LKR') totalLKR += p.amount; else totalUSD += p.amount; });
+
+  document.getElementById('admin-stats').innerHTML = `
+    <div class="admin-stat"><div class="label">Monthly Value (USD eq)</div><div class="value">$${stats.totalMonthlyUSD.toLocaleString()}</div></div>
+    <div class="admin-stat"><div class="label">Total Pledges</div><div class="value">${stats.total}</div></div>
+    <div class="admin-stat"><div class="label">USD Pledged</div><div class="value">$${Math.round(totalUSD).toLocaleString()}</div></div>
+    <div class="admin-stat"><div class="label">LKR Pledged</div><div class="value">Rs.${Math.round(totalLKR).toLocaleString()}</div></div>
+  `;
+
+  if (all.length === 0) {
+    document.getElementById('admin-table').innerHTML = '<div style="padding:32px;text-align:center;color:var(--text-muted)">No pledges yet</div>';
+    return;
+  }
+
+  const rows = all.slice().reverse().map(p => `
+    <tr>
+      <td>${new Date(p.timestamp).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'})}</td>
+      <td>${p.name || '<em style="color:var(--text-muted)">Anon</em>'}</td>
+      <td>${p.email}</td>
+      <td>${p.phone || '\u2014'}</td>
+      <td style="font-weight:600">${p.currency === 'LKR' ? 'Rs.' : '$'}${p.amount.toLocaleString()}</td>
+      <td>${p.type}</td>
+    </tr>
+  `).join('');
+
+  document.getElementById('admin-table').innerHTML = `
+    <table>
+      <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Phone</th><th>Amount</th><th>Type</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+}
+
+function exportCSV() {
+  const all = PledgeDB.getAll();
+  if (!all.length) { alert('No data to export'); return; }
+  const headers = ['Date','Name','Email','Phone','Amount','Currency','Type'];
+  const rows = all.map(p => [new Date(p.timestamp).toISOString(), p.name||'', p.email, p.phone||'', p.amount, p.currency, p.type]);
+  const csv = [headers,...rows].map(r => r.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const blob = new Blob([csv],{type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'pledges_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+function clearAllPledges() {
+  if (confirm('Are you sure? This permanently deletes all pledge data.')) {
+    PledgeDB.clear(); renderAdmin();
+  }
+}
+
+// ==========================================
+// Confirmation Email
+// ==========================================
+function sendConfirmationEmail(pledge) {
+  if (!EMAIL_WORKER_URL) return; // Skip if worker URL not configured
+  const lang = document.documentElement.getAttribute('data-lang') || 'en';
+  fetch(EMAIL_WORKER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      firstName: pledge.firstName,
+      lastName: pledge.lastName,
+      email: pledge.email,
+      amount: pledge.amount,
+      currency: pledge.currency,
+      type: pledge.type,
+      lang: lang,
+    }),
+  }).catch(err => console.warn('Email send failed (non-blocking):', err));
+}
+</script>
+</body>
+</html>
