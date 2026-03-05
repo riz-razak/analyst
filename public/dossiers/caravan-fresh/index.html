@@ -2903,9 +2903,9 @@
     </div>
 
 <!-- Pledge CTA -->
-<button class="pledge-cta" onclick="openPledge()" aria-label="Make a pledge">
+<button class="pledge-cta" onclick="openPledge()" aria-label="Make a pledge" data-aria-en="Make a pledge" data-aria-si="පෞරෝන්දුවක් කරන්න">
   <span class="cta-dot"></span>
-  <span>Pledge Your Support</span>
+  <span data-lang="en">Pledge Your Support</span><span data-lang="si">ඔබේ සහය පොරොන්දු වන්න</span>
 </button>
 <div class="pledge-overlay" id="pledge-overlay" onclick="if(event.target===this)closePledge()">
   <div class="pledge-overlay-inner">
@@ -2917,7 +2917,7 @@
 function openPledge(){
   var o=document.getElementById('pledge-overlay');
   var f=document.getElementById('pledge-iframe');
-  if(!f.src||f.src==='about:blank')f.src='pledge-portal.html';
+  var lang=document.querySelector('[data-lang="si"]:not([style*="none"])')?'si':'en';f.src='pledge-portal.html?lang='+lang;
   o.classList.add('show');
   document.body.style.overflow='hidden';
 }
