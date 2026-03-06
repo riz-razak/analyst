@@ -428,13 +428,14 @@ header .header-inner {
     white-space: nowrap;
 }
 
-/* Controls — inside header-inner, right-aligned */
+/* Controls — standalone row below header-inner */
 .header-controls {
-    flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-left: auto;
+    padding: 4px 16px;
+    border-top: 1px solid var(--color-border);
+    height: 36px;
 }
 
 .header-controls button,
@@ -448,7 +449,7 @@ header .header-inner {
     color: var(--color-text);
     font-size: 11px;
     font-weight: 700;
-    height: 28px;
+    height: 26px;
     display: inline-flex;
     align-items: center;
     gap: 3px;
@@ -457,7 +458,7 @@ header .header-inner {
     letter-spacing: 0.03em;
 }
 
-#themeToggle { min-width: 28px; justify-content: center; font-size: 13px; }
+#themeToggle { min-width: 26px; justify-content: center; font-size: 13px; }
 
 .header-controls button:hover,
 #langToggle:hover,
@@ -466,29 +467,36 @@ header .header-inner {
     border-color: var(--color-gold);
 }
 
-/* ── Mobile: collapse to back-link + controls only ── */
+/* ── When inside SPA iframe: hide the meta row, keep controls + nav ── */
+html.in-iframe .header-inner {
+    display: none;
+}
+html.in-iframe .header-controls {
+    border-top: none;
+    padding: 4px 10px;
+    height: 32px;
+}
+
+/* ── Mobile standalone: hide meta/author in header (visible in hero) ── */
 @media (max-width: 768px) {
     header .header-inner {
         height: 44px;
         padding: 0 12px;
         gap: 6px;
     }
-
-    /* Hide everything except back-link and controls */
     .header-meta,
     .header-author {
         display: none;
     }
-
     .header-controls {
-        margin-left: auto;
+        padding: 3px 12px;
+        height: 32px;
         gap: 4px;
     }
-
     .header-controls button,
     #langToggle,
     #themeToggle {
-        height: 26px;
+        height: 24px;
         font-size: 10px;
         padding: 0 7px;
     }

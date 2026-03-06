@@ -10,62 +10,73 @@ const styles = {
   topBar: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '1rem 2rem',
+    height: '48px',
+    padding: '0 1.25rem',
     background: 'var(--bg-secondary)',
     borderBottom: '1px solid var(--border-color)',
-    flexWrap: 'wrap',
     gap: '0.75rem',
+    overflow: 'hidden',
+    flexShrink: 0,
   },
   leftGroup: {
     display: 'flex',
     alignItems: 'center',
     gap: '0.75rem',
+    flexShrink: 0,
   },
   backBtn: {
     display: 'flex',
     alignItems: 'center',
-    gap: '8px',
-    background: 'var(--overlay-light)',
-    border: '1px solid var(--border-color)',
+    gap: '6px',
+    background: 'transparent',
+    border: 'none',
     borderRadius: 'var(--radius-sm)',
-    padding: '8px 16px',
-    color: 'var(--text-secondary)',
+    padding: '6px 10px',
+    color: 'var(--accent-orange)',
     cursor: 'pointer',
-    fontSize: '0.82rem',
+    fontSize: '0.8rem',
     fontFamily: 'var(--font-sans)',
+    fontWeight: 600,
     transition: 'all 150ms ease',
+    whiteSpace: 'nowrap',
+    flexShrink: 0,
   },
   meta: {
     display: 'flex',
     alignItems: 'center',
-    gap: '1rem',
-    flexWrap: 'wrap',
+    gap: '0.6rem',
+    flex: 1,
+    minWidth: 0,
+    overflow: 'hidden',
   },
   title: {
     fontFamily: 'var(--font-serif)',
-    fontSize: '1rem',
+    fontSize: '0.9rem',
     fontWeight: 600,
     color: 'var(--text-primary)',
-    maxWidth: '500px',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    flex: 1,
+    minWidth: 0,
   },
   date: {
     fontFamily: 'var(--font-mono)',
-    fontSize: '0.72rem',
+    fontSize: '0.68rem',
     color: 'var(--accent-orange)',
+    flexShrink: 0,
   },
   tags: {
     display: 'flex',
-    gap: '5px',
+    gap: '4px',
+    flexShrink: 0,
   },
   tag: {
-    padding: '2px 8px',
+    padding: '2px 7px',
     borderRadius: '10px',
-    fontSize: '0.62rem',
+    fontSize: '0.6rem',
     fontWeight: 500,
+    whiteSpace: 'nowrap',
   },
   iframe: {
     flex: 1,
@@ -134,12 +145,10 @@ export default function DossierPage({ dossiers, theme, toggleTheme }) {
             style={styles.backBtn}
             onClick={() => navigate('/')}
             onMouseEnter={e => {
-              e.currentTarget.style.background = 'var(--overlay-strong)'
-              e.currentTarget.style.color = 'var(--text-primary)'
+              e.currentTarget.style.background = 'var(--overlay-light)'
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.background = 'var(--overlay-light)'
-              e.currentTarget.style.color = 'var(--text-secondary)'
+              e.currentTarget.style.background = 'transparent'
             }}
           >
             ← All Dossiers
@@ -149,33 +158,7 @@ export default function DossierPage({ dossiers, theme, toggleTheme }) {
         <div style={styles.meta}>
           <span style={styles.date}>{formattedDate}</span>
           <span style={styles.title}>{dossier.title}</span>
-          <div style={styles.tags}>
-            {dossier.tags.map(tag => {
-              const colors = getTagColor(tag)
-              return (
-                <span
-                  key={tag}
-                  style={{
-                    ...styles.tag,
-                    background: colors.bg,
-                    color: colors.text,
-                    border: `1px solid ${colors.border}`,
-                  }}
-                >
-                  {tag}
-                </span>
-              )
-            })}
-          </div>
         </div>
-
-        <span style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.72rem',
-          color: 'var(--text-muted)',
-        }}>
-          {dossier.authors.join(', ')}
-        </span>
       </div>
 
       <iframe
