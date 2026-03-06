@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Political Jenga Tower - Global Interconnection Map</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #00d4ff;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #ff6b6b;
+            letter-spacing: 1px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        section {
+            background: rgba(30, 40, 60, 0.8);
+            border: 1px solid #00d4ff;
+            border-radius: 8px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+        }
+
+        section.full-width {
+            grid-column: 1 / -1;
+        }
+
+        h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-left: 4px solid #ff6b6b;
+            padding-left: 15px;
+        }
+
+        #network-graph {
+            width: 100%;
+            height: 600px;
+            background: rgba(15, 20, 25, 0.5);
+            border-radius: 6px;
+            position: relative;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .node {
+            cursor: move;
+            stroke: #00d4ff;
+            stroke-width: 2px;
+        }
+
+        .node:hover {
+            stroke: #ff6b6b;
+            stroke-width: 3px;
+            filter: drop-shadow(0 0 8px #ff6b6b);
+        }
+
+        .link {
+            stroke: #888;
+            stroke-opacity: 0.4;
+            stroke-width: 1.5px;
+        }
+
+        .link.active {
+            stroke: #00d4ff;
+            stroke-opacity: 1;
+            stroke-width: 2px;
+        }
+
+        .link-label {
+            font-size: 11px;
+            fill: #00d4ff;
+            text-anchor: middle;
+            pointer-events: none;
+            background: rgba(15, 20, 25, 0.9);
+            padding: 2px 4px;
+        }
+
+        .node-label {
+            font-size: 11px;
+            fill: #e0e0e0;
+            text-anchor: middle;
+            pointer-events: none;
+            font-weight: 500;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid #00d4ff;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 0.9em;
+            max-width: 250px;
+            pointer-events: none;
+            display: none;
+            z-index: 1000;
+        }
+
+        .escalation-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .rung {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .rung:hover {
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .rung.current {
+            background: rgba(255, 107, 107, 0.3);
+            border-left-color: #ff6b6b;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .rung-number {
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 30px;
+            color: #00d4ff;
+        }
+
+        .rung-text {
+            flex: 1;
+            font-size: 0.95em;
+        }
+
+        .rung-1 { border-left-color: #00ff00; background: rgba(0, 255, 0, 0.05); }
+        .rung-2 { border-left-color: #90ee90; background: rgba(144, 238, 144, 0.05); }
+        .rung-3 { border-left-color: #ffff00; background: rgba(255, 255, 0, 0.05); }
+        .rung-4 { border-left-color: #ffa500; background: rgba(255, 165, 0, 0.05); }
+        .rung-5 { border-left-color: #ff7f00; background: rgba(255, 127, 0, 0.05); }
+        .rung-6 { border-left-color: #ff6347; background: rgba(255, 99, 71, 0.05); }
+        .rung-7 { border-left-color: #ff4500; background: rgba(255, 69, 0, 0.05); }
+        .rung-8 { border-left-color: #ff1493; background: rgba(255, 20, 147, 0.05); }
+        .rung-9 { border-left-color: #dc143c; background: rgba(220, 20, 60, 0.05); }
+        .rung-10 { border-left-color: #8b0000; background: rgba(139, 0, 0, 0.05); }
+        .rung-11 { border-left-color: #ff0000; background: rgba(255, 0, 0, 0.05); }
+        .rung-12 { border-left-color: #cc0000; background: rgba(204, 0, 0, 0.05); }
+        .rung-13 { border-left-color: #990000; background: rgba(153, 0, 0, 0.05); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        th {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #00d4ff;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .actor-name {
+            font-weight: 600;
+            color: #00d4ff;
+        }
+
+        .scenarios-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .scenario {
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 4px solid #00d4ff;
+            padding: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scenario:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .scenario.expanded {
+            background: rgba(0, 212, 255, 0.15);
+        }
+
+        .scenario-title {
+            font-weight: 600;
+            color: #00d4ff;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .probability {
+            background: rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .scenario-content {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .scenario.expanded .scenario-content {
+            display: block;
+        }
+
+        .scenario-outcome {
+            margin: 6px 0 6px 20px;
+            padding-left: 10px;
+            border-left: 2px solid #ff6b6b;
+            color: #e0e0e0;
+            font-size: 0.9em;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .metric-card {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid #00d4ff;
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: rgba(0, 212, 255, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .metric-label {
+            font-size: 0.85em;
+            color: #00d4ff;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-value {
+            font-size: 1.6em;
+            color: #fff;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .metric-change {
+            font-size: 0.9em;
+            color: #ff6b6b;
+            margin-top: 5px;
+        }
+
+        .metric-change.up {
+            color: #ff6b6b;
+        }
+
+        .metric-change.down {
+            color: #00ff00;
+        }
+
+        .timeline {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00d4ff 0%, transparent 100%);
+            z-index: 0;
+        }
+
+        .timeline-event {
+            flex: 0 0 150px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            background: #00d4ff;
+            border: 2px solid #0f1419;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-dot:hover {
+            width: 18px;
+            height: 18px;
+            background: #ff6b6b;
+            box-shadow: 0 0 10px #ff6b6b;
+        }
+
+        .timeline-date {
+            font-size: 0.85em;
+            color: #00d4ff;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .timeline-text {
+            font-size: 0.8em;
+            color: #e0e0e0;
+            line-height: 1.3;
+        }
+
+        .research-section {
+            background: rgba(255, 107, 107, 0.05);
+            border-left: 4px solid #ff6b6b;
+            margin-top: 40px;
+        }
+
+        .research-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .research-link {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid #00d4ff;
+            border-radius: 4px;
+            padding: 12px;
+            text-decoration: none;
+            color: #00d4ff;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .research-link:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.2);
+        }
+
+        .research-icon {
+            font-size: 1.2em;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            font-size: 0.85em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-dot.conflict { background: #ff4444; }
+        .legend-dot.powers { background: #4488ff; }
+        .legend-dot.states { background: #44ff44; }
+        .legend-dot.systems { background: #ffaa44; }
+        .legend-dot.forces { background: #bb44ff; }
+        .legend-dot.crises { background: #ffff44; }
+
+        @media (max-width: 1400px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #network-graph {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚔️ The Political Jenga Tower: Global Interconnection Map</h1>
+            <p class="subtitle">Iran-US-Israel War — March 2026 | Multi-Disciplinary Analysis</p>
+        </header>
+
+        <!-- Section 1: Interactive Network Graph -->
+        <section class="full-width">
+            <h2>Interactive Network Graph: Geopolitical Interconnections</h2>
+            <div id="network-graph"></div>
+            <div class="tooltip" id="tooltip"></div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-dot conflict"></div>
+                    <span>Conflict Nodes</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot powers"></div>
+                    <span>Major Powers</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot states"></div>
+                    <span>Small States</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot systems"></div>
+                    <span>Systems/Infrastructure</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot forces"></div>
+                    <span>Forces/Actors</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot crises"></div>
+                    <span>Crisis Categories</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="dashboard">
+            <!-- Section 2: Escalation Ladder -->
+            <section>
+                <h2>Escalation Ladder (Kahn)</h2>
+                <div class="escalation-ladder">
+                    <div class="rung rung-1">
+                        <span class="rung-number">1</span>
+                        <span class="rung-text">Subcrisis Maneuvering</span>
+                    </div>
+                    <div class="rung rung-2">
+                        <span class="rung-number">2</span>
+                        <span class="rung-text">Political/Economic Gestures</span>
+                    </div>
+                    <div class="rung rung-3">
+                        <span class="rung-number">3</span>
+                        <span class="rung-text">Solemn Declarations</span>
+                    </div>
+                    <div class="rung rung-4">
+                        <span class="rung-number">4</span>
+                        <span class="rung-text">Hardening Positions</span>
+                    </div>
+                    <div class="rung rung-5">
+                        <span class="rung-number">5</span>
+                        <span class="rung-text">Significant Mobilization</span>
+                    </div>
+                    <div class="rung rung-6">
+                        <span class="rung-number">6</span>
+                        <span class="rung-text">Dramatic Military Confrontations</span>
+                    </div>
+                    <div class="rung rung-7">
+                        <span class="rung-number">7</span>
+                        <span class="rung-text">Legal Harassment (Sanctions)</span>
+                    </div>
+                    <div class="rung rung-8">
+                        <span class="rung-number">8</span>
+                        <span class="rung-text">Harassing Acts of Violence</span>
+                    </div>
+                    <div class="rung rung-9">
+                        <span class="rung-number">9</span>
+                        <span class="rung-text">Dramatic Military Action</span>
+                    </div>
+                    <div class="rung rung-10">
+                        <span class="rung-number">10</span>
+                        <span class="rung-text">Provocative Breaking of Rules</span>
+                    </div>
+                    <div class="rung rung-11 current">
+                        <span class="rung-number">11</span>
+                        <span class="rung-text">⚡ NUCLEAR THRESHOLD (CURRENT)</span>
+                    </div>
+                    <div class="rung rung-12">
+                        <span class="rung-number">12</span>
+                        <span class="rung-text">Controlled Nuclear Escalation</span>
+                    </div>
+                    <div class="rung rung-13">
+                        <span class="rung-number">13</span>
+                        <span class="rung-text">General Nuclear War</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Actor-Incentive Table -->
+            <section>
+                <h2>Actor-Incentive Analysis</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Actor</th>
+                            <th>Primary Incentive</th>
+                            <th>Key Constraint</th>
+                            <th>Red Line</th>
+                            <th>Current Move</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="actor-name">Netanyahu</td>
+                            <td>Survival + Hegemony</td>
+                            <td>ICC Warrant, Coalition</td>
+                            <td>Nuclear Escalation</td>
+                            <td>Maximum Escalation</td>
+                        </tr>
+                        <tr>
+                            <td class="actor-name">Trump</td>
+                            <td>Evangelical Base + "Deal"</td>
+                            <td>MAGA Isolationists</td>
+                            <td>Ground Troops</td>
+                            <td>Strikes + Rhetoric</td>
+                        </tr>
+                        <tr>
+                            <td class="actor-name">Iran (Post-Khamenei)</td>
+                            <td>Regime Survival</td>
+                            <td>Leadership Vacuum</td>
+                            <td>Regime Collapse</td>
+                            <td>Hormuz + Missiles</td>
+                        </tr>
+                        <tr>
+                            <td class="actor-name">China</td>
+                            <td>Strategic Patience</td>
+                            <td>Energy Dependency on Iran Oil</td>
+                            <td>Taiwan Invasion Now</td>
+                            <td>Shadow Oil Trade + Watch</td>
+                        </tr>
+                        <tr>
+                            <td class="actor-name">Russia</td>
+                            <td>Ukraine Focus</td>
+                            <td>Military Overextension</td>
+                            <td>NATO Direct Conflict</td>
+                            <td>Verbal Support Only</td>
+                        </tr>
+                        <tr>
+                            <td class="actor-name">India</td>
+                            <td>Energy Security</td>
+                            <td>46% Hormuz Dependency</td>
+                            <td>Worker Safety in Gulf</td>
+                            <td>Awkward Silence</td>
+                        </tr>
+                        <tr>
+                            <td class="actor-name">Sri Lanka (AKD)</td>
+                            <td>Crisis Survival</td>
+                            <td>25-30 Day Oil Buffer</td>
+                            <td>Economic Collapse</td>
+                            <td>Neutrality + Gambits</td>
+                        </tr>
+                        <tr>
+                            <td class="actor-name">Saudi Arabia</td>
+                            <td>Revenue + Security</td>
+                            <td>Iran Retaliation Fear</td>
+                            <td>Oil Infrastructure Attacks</td>
+                            <td>Cautious US Alignment</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Section 4: Scenario Trees -->
+            <section>
+                <h2>Scenario Projections (2026-2027)</h2>
+                <div class="scenarios-container">
+                    <div class="scenario" onclick="toggleScenario(this)">
+                        <div class="scenario-title">
+                            Scenario A: Escalation & Regional Nuclear War
+                            <span class="probability">35-45%</span>
+                        </div>
+                        <div class="scenario-content">
+                            <div class="scenario-outcome">→ Iran develops nuclear capability and breaks out</div>
+                            <div class="scenario-outcome">→ Regional nuclear arms race (Saudi Arabia, UAE pursue weapons)</div>
+                            <div class="scenario-outcome">→ Full Hormuz blockade sustained (40+ days)</div>
+                            <div class="scenario-outcome">→ Global recession as oil hits $150+/barrel</div>
+                            <div class="scenario-outcome">→ Hezbollah full entry into conflict</div>
+                            <div class="scenario-outcome">→ Multi-front war: Israel-Gaza, Israel-Hezbollah, US-Iran</div>
+                            <div class="scenario-outcome">→ Geopolitical realignment: China-Russia deepen ties, US hegemony challenged</div>
+                        </div>
+                    </div>
+
+                    <div class="scenario" onclick="toggleScenario(this)">
+                        <div class="scenario-title">
+                            Scenario B: Managed De-escalation
+                            <span class="probability">40-50%</span>
+                        </div>
+                        <div class="scenario-content">
+                            <div class="scenario-outcome">→ New Iranian leadership negotiates ceasefire framework</div>
+                            <div class="scenario-outcome">→ Partial Hormuz reopening after 20-25 days blockade</div>
+                            <div class="scenario-outcome">→ Trump declares "mission accomplished" and begins phased withdrawal</div>
+                            <div class="scenario-outcome">→ Oil stabilizes at $90-100/barrel</div>
+                            <div class="scenario-outcome">→ Gradual economic recovery in vulnerable states</div>
+                            <div class="scenario-outcome">→ Short-term stability but underlying tensions remain</div>
+                            <div class="scenario-outcome">→ China emerges as mediator, increases regional influence</div>
+                        </div>
+                    </div>
+
+                    <div class="scenario" onclick="toggleScenario(this)">
+                        <div class="scenario-title">
+                            Scenario C: Regime Change & Fragmentation
+                            <span class="probability">15-25%</span>
+                        </div>
+                        <div class="scenario-content">
+                            <div class="scenario-outcome">→ IRGC fractures into competing factions</div>
+                            <div class="scenario-outcome">→ Internal power struggle paralyzes Iranian state</div>
+                            <div class="scenario-outcome">→ Separatist movements activate (Baloch, Kurdish, Azerbaijani regions)</div>
+                            <div class="scenario-outcome">→ Iran effectively fragments into spheres of influence</div>
+                            <div class="scenario-outcome">→ US installs friendly government or faces prolonged civil war</div>
+                            <div class="scenario-outcome">→ Short-term regional stability, long-term blowback and instability</div>
+                            <div class="scenario-outcome">→ Russia and China increase proxy influence in Iranian fragments</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Key Metrics Dashboard -->
+            <section class="full-width">
+                <h2>Live Metrics Dashboard</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Brent Crude Price</div>
+                        <div class="metric-value">$84</div>
+                        <div class="metric-change up">↑ 15% since Feb 28</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Hormuz Daily Transits</div>
+                        <div class="metric-value">~5</div>
+                        <div class="metric-change up">↓ 99% blockade</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Ships Stranded in Region</div>
+                        <div class="metric-value">150+</div>
+                        <div class="metric-change up">↑ Critical Level</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Iranian Naval Losses</div>
+                        <div class="metric-value">20+</div>
+                        <div class="metric-change up">↑ Escalating</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">IRIS Dena Casualties</div>
+                        <div class="metric-value">87 KIA</div>
+                        <div class="metric-change up">60+ Missing</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">VLCC Day Rate (Tankers)</div>
+                        <div class="metric-value">$423K</div>
+                        <div class="metric-change up">↑ All-Time High</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Sri Lanka Oil Buffer</div>
+                        <div class="metric-value">25-30 Days</div>
+                        <div class="metric-change up">↓ Critical</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">SL Remittance Exposure</div>
+                        <div class="metric-value">76.5%</div>
+                        <div class="metric-change up">From Middle East</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">GCC Foreign Workers at Risk</div>
+                        <div class="metric-value">36M</div>
+                        <div class="metric-change up">↑ Highly Vulnerable</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">US Active Military Theatres</div>
+                        <div class="metric-value">3</div>
+                        <div class="metric-change up">ME, Europe, Pacific</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">China TSMC Dependency</div>
+                        <div class="metric-value">90%</div>
+                        <div class="metric-change up">Advanced Chips</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">DeepSeek Impact</div>
+                        <div class="metric-value">-$600B</div>
+                        <div class="metric-change up">Nvidia Market Cap</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Russia War Support</div>
+                        <div class="metric-value">25%</div>
+                        <div class="metric-change down">Lowest Ever</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-label">Days Since Khamenei Assassination</div>
+                        <div class="metric-value">6</div>
+                        <div class="metric-change up">Still in Crisis</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6: Timeline -->
+            <section class="full-width">
+                <h2>Historical Timeline: Oct 2023 - March 2026</h2>
+                <div class="timeline">
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Oct 7, 2023</div>
+                        <div class="timeline-text">Hamas Attack: Gaza War Begins</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Apr 14, 2024</div>
+                        <div class="timeline-text">Iran's First Direct Attack on Israel</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Oct 2024</div>
+                        <div class="timeline-text">Israel-Hezbollah Escalation</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Jan 20, 2025</div>
+                        <div class="timeline-text">Trump Inauguration 2.0</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Feb 27, 2025</div>
+                        <div class="timeline-text">Failed Diplomacy Attempt</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Feb 28, 2025</div>
+                        <div class="timeline-text">Operation Epic Fury: US-Israel Strikes</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Mar 2, 2025</div>
+                        <div class="timeline-text">Khamenei Assassination - Leadership Vacuum</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Mar 3-5, 2025</div>
+                        <div class="timeline-text">Hormuz Blockade Begins</div>
+                    </div>
+                    <div class="timeline-event">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">Mar 6, 2026</div>
+                        <div class="timeline-text">CURRENT: Nuclear Threshold Crisis</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 7: Research Documents -->
+            <section class="full-width research-section">
+                <h2>Research Documents Library</h2>
+                <div class="research-links">
+                    <a href="../00-MASTER-RESEARCH.md" class="research-link" target="_blank">
+                        <span class="research-icon">📋</span>
+                        <span>Master Research Overview</span>
+                    </a>
+                    <a href="../02-SRI-LANKA-GAMBITS.md" class="research-link" target="_blank">
+                        <span class="research-icon">🇱🇰</span>
+                        <span>Sri Lanka Gambits & Vulnerabilities</span>
+                    </a>
+                    <a href="../03-HOLLOW-NATIONS-VASSAL-STATES.md" class="research-link" target="_blank">
+                        <span class="research-icon">🏛️</span>
+                        <span>Hollow Nations & Vassal States</span>
+                    </a>
+                    <a href="../04-TECH-DIGITAL-CONTROL-US-DECLINE.md" class="research-link" target="_blank">
+                        <span class="research-icon">💻</span>
+                        <span>Tech & Digital Control in US Decline</span>
+                    </a>
+                    <a href="../05-WAR-ANALYSIS-FRAMEWORK.md" class="research-link" target="_blank">
+                        <span class="research-icon">⚔️</span>
+                        <span>War Analysis Framework</span>
+                    </a>
+                    <a href="../06-INDIAN-OCEAN-THEATRE.md" class="research-link" target="_blank">
+                        <span class="research-icon">🌊</span>
+                        <span>Indian Ocean Theatre Analysis</span>
+                    </a>
+                    <a href="../07-GCC-FOREIGN-WORKERS.md" class="research-link" target="_blank">
+                        <span class="research-icon">👥</span>
+                        <span>GCC Foreign Workers Crisis</span>
+                    </a>
+                    <a href="../08-RUSSIA-CHINA-TAIWAN-AI.md" class="research-link" target="_blank">
+                        <span class="research-icon">🤖</span>
+                        <span>Russia-China-Taiwan-AI Nexus</span>
+                    </a>
+                    <a href="../09-EPSTEIN-KOMPROMAT-ARCHITECTURE.md" class="research-link" target="_blank">
+                        <span class="research-icon">🔗</span>
+                        <span>Epstein & Kompromat Architecture</span>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        // Network Graph Data
+        const nodeData = [
+            // Conflict
+            { id: 'Iran-US-Israel War', category: 'conflict', label: 'Iran-US-Israel War', color: '#ff4444' },
+            { id: 'Strait of Hormuz Crisis', category: 'conflict', label: 'Strait of Hormuz', color: '#ff4444' },
+            { id: 'Ukraine-Russia War', category: 'conflict', label: 'Ukraine-Russia War', color: '#ff4444' },
+            { id: 'Israel-Palestine Gaza', category: 'conflict', label: 'Israel-Palestine', color: '#ff4444' },
+
+            // Major Powers
+            { id: 'United States', category: 'power', label: 'USA', color: '#4488ff' },
+            { id: 'China', category: 'power', label: 'China', color: '#4488ff' },
+            { id: 'Russia', category: 'power', label: 'Russia', color: '#4488ff' },
+            { id: 'India', category: 'power', label: 'India', color: '#4488ff' },
+            { id: 'Israel', category: 'power', label: 'Israel', color: '#4488ff' },
+            { id: 'Iran', category: 'power', label: 'Iran', color: '#4488ff' },
+
+            // Small States
+            { id: 'Sri Lanka', category: 'state', label: 'Sri Lanka', color: '#44ff44' },
+            { id: 'Taiwan', category: 'state', label: 'Taiwan', color: '#44ff44' },
+            { id: 'Qatar', category: 'state', label: 'Qatar', color: '#44ff44' },
+            { id: 'UAE', category: 'state', label: 'UAE', color: '#44ff44' },
+            { id: 'Saudi Arabia', category: 'state', label: 'Saudi Arabia', color: '#44ff44' },
+
+            // Systems
+            { id: 'Petrodollar System', category: 'system', label: 'Petrodollar System', color: '#ffaa44' },
+            { id: 'BRICS', category: 'system', label: 'BRICS', color: '#ffaa44' },
+            { id: 'AI Arms Race', category: 'system', label: 'AI Arms Race', color: '#ffaa44' },
+            { id: 'TSMC', category: 'system', label: 'TSMC/Chip Supply', color: '#ffaa44' },
+            { id: 'Belt and Road', category: 'system', label: 'Belt & Road', color: '#ffaa44' },
+            { id: 'UN Security Council', category: 'system', label: 'UN Security Council', color: '#ffaa44' },
+
+            // Forces
+            { id: 'Christian Zionism', category: 'force', label: 'Christian Zionism', color: '#bb44ff' },
+            { id: 'Hindutva-Zionism Alliance', category: 'force', label: 'Hindutva-Zionism', color: '#bb44ff' },
+            { id: 'Sinhala Nationalism', category: 'force', label: 'Sinhala Nationalism', color: '#bb44ff' },
+            { id: 'Tech Oligarchy', category: 'force', label: 'Tech Oligarchy', color: '#bb44ff' },
+            { id: 'Epstein Kompromat', category: 'force', label: 'Epstein/Kompromat', color: '#bb44ff' },
+            { id: 'GCC Workers', category: 'force', label: 'GCC Workers (36M)', color: '#bb44ff' },
+
+            // Crises
+            { id: 'Oil Price Shock', category: 'crisis', label: 'Oil Price Shock', color: '#ffff44' },
+            { id: 'Remittance Collapse', category: 'crisis', label: 'Remittance Collapse', color: '#ffff44' },
+            { id: 'Insurance Market Collapse', category: 'crisis', label: 'Insurance Collapse', color: '#ffff44' },
+            { id: 'Food Security Crisis', category: 'crisis', label: 'Food Security Crisis', color: '#ffff44' },
+            { id: 'Currency Crisis', category: 'crisis', label: 'Currency Crisis', color: '#ffff44' },
+        ];
+
+        const linkData = [
+            { source: 'Iran-US-Israel War', target: 'Strait of Hormuz Crisis', label: 'MILITARY' },
+            { source: 'Strait of Hormuz Crisis', target: 'Oil Price Shock', label: 'ECONOMIC' },
+            { source: 'Oil Price Shock', target: 'Sri Lanka', label: 'VULNERABILITY' },
+            { source: 'Oil Price Shock', target: 'Remittance Collapse', label: 'CASCADE' },
+            { source: 'Oil Price Shock', target: 'India', label: 'ENERGY (46%)' },
+            { source: 'Iran-US-Israel War', target: 'Ukraine-Russia War', label: 'US OVERSTETCH' },
+            { source: 'Ukraine-Russia War', target: 'Russia', label: 'CONSTRAINT' },
+            { source: 'Iran-US-Israel War', target: 'China', label: 'OPPORTUNITY' },
+            { source: 'China', target: 'Taiwan', label: 'WINDOW' },
+            { source: 'China', target: 'TSMC', label: 'CHOKEPOINT' },
+            { source: 'Taiwan', target: 'TSMC', label: 'CONCENTRATION (90%)' },
+            { source: 'United States', target: 'Christian Zionism', label: 'POLICY DRIVER' },
+            { source: 'Christian Zionism', target: 'Israel', label: 'UNCONDITIONAL' },
+            { source: 'India', target: 'Hindutva-Zionism Alliance', label: 'IDEOLOGY' },
+            { source: 'Hindutva-Zionism Alliance', target: 'Israel', label: 'ARMS ($20.5B)' },
+            { source: 'Sri Lanka', target: 'Sinhala Nationalism', label: 'PARALLEL' },
+            { source: 'Sinhala Nationalism', target: 'Israel', label: 'ETHNO-RELIGIOUS' },
+            { source: 'GCC Workers', target: 'Remittance Collapse', label: '36M WORKERS' },
+            { source: 'GCC Workers', target: 'Sri Lanka', label: '76.5% REMITTANCES' },
+            { source: 'BRICS', target: 'China', label: 'LEADERSHIP' },
+            { source: 'BRICS', target: 'Russia', label: 'MEMBER' },
+            { source: 'BRICS', target: 'Petrodollar System', label: 'CHALLENGE' },
+            { source: 'AI Arms Race', target: 'United States', label: 'FRONTIER MODELS' },
+            { source: 'AI Arms Race', target: 'China', label: 'DEEPSEEK' },
+            { source: 'AI Arms Race', target: 'Iran-US-Israel War', label: 'AUTONOMOUS WEAPONS' },
+            { source: 'Tech Oligarchy', target: 'United States', label: 'INFLUENCE' },
+            { source: 'Tech Oligarchy', target: 'AI Arms Race', label: 'FUNDING' },
+            { source: 'Epstein Kompromat', target: 'United States', label: 'LEVERAGE' },
+            { source: 'Epstein Kompromat', target: 'Israel', label: 'INTELLIGENCE' },
+            { source: 'UN Security Council', target: 'Iran-US-Israel War', label: 'PARALYSIS' },
+            { source: 'Insurance Market Collapse', target: 'Strait of Hormuz Crisis', label: 'WITHDRAWAL' },
+            { source: 'Insurance Market Collapse', target: 'Oil Price Shock', label: 'AMPLIFIER' },
+            { source: 'Belt and Road', target: 'China', label: 'INFRASTRUCTURE' },
+            { source: 'Belt and Road', target: 'Iran', label: 'CORRIDOR ($26.5B)' },
+            { source: 'Qatar', target: 'Strait of Hormuz Crisis', label: 'LNG ATTACKED' },
+            { source: 'UAE', target: 'GCC Workers', label: '88.5% FOREIGN' },
+            { source: 'Saudi Arabia', target: 'Petrodollar System', label: 'ANCHOR' },
+            { source: 'Currency Crisis', target: 'Sri Lanka', label: 'VULNERABILITY' },
+            { source: 'Food Security Crisis', target: 'Sri Lanka', label: 'IMPORT DEPENDENT' },
+        ];
+
+        // Create simulation
+        const width = document.getElementById('network-graph').clientWidth;
+        const height = document.getElementById('network-graph').clientHeight;
+
+        const svg = d3.select('#network-graph').append('svg')
+            .attr('width', width)
+            .attr('height', height);
+
+        const simulation = d3.forceSimulation(nodeData)
+            .force('link', d3.forceLink(linkData).id(d => d.id).distance(100).strength(0.5))
+            .force('charge', d3.forceManyBody().strength(-800))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+            .force('collision', d3.forceCollide().radius(d => 25 + d.value * 2));
+
+        // Draw links
+        const link = svg.selectAll('line')
+            .data(linkData)
+            .enter()
+            .append('line')
+            .attr('class', 'link')
+            .attr('stroke-width', 1.5);
+
+        // Draw link labels
+        const linkLabels = svg.selectAll('.link-label')
+            .data(linkData)
+            .enter()
+            .append('text')
+            .attr('class', 'link-label')
+            .text(d => d.label)
+            .attr('dy', -5);
+
+        // Draw nodes
+        const node = svg.selectAll('circle')
+            .data(nodeData)
+            .enter()
+            .append('circle')
+            .attr('class', 'node')
+            .attr('r', d => {
+                const connections = linkData.filter(l => l.source === d.id || l.target === d.id).length;
+                d.value = connections;
+                return 12 + connections * 1.5;
+            })
+            .attr('fill', d => d.color)
+            .call(drag(simulation))
+            .on('mouseenter', function(event, d) {
+                // Highlight connected nodes and edges
+                const connectedNodes = new Set();
+                linkData.forEach(link => {
+                    if (link.source === d.id || link.target === d.id) {
+                        connectedNodes.add(link.source);
+                        connectedNodes.add(link.target);
+                    }
+                });
+
+                node.style('opacity', n => connectedNodes.has(n.id) ? 1 : 0.2);
+                link.classed('active', l => (l.source === d.id || l.target === d.id));
+                linkLabels.style('opacity', l => (l.source === d.id || l.target === d.id) ? 1 : 0);
+
+                // Show tooltip
+                const tooltip = document.getElementById('tooltip');
+                tooltip.innerHTML = `<strong>${d.label}</strong><br/>Category: ${d.category}<br/>Connections: ${d.value}`;
+                tooltip.style.display = 'block';
+                tooltip.style.left = event.pageX + 10 + 'px';
+                tooltip.style.top = event.pageY + 10 + 'px';
+            })
+            .on('mouseleave', function() {
+                node.style('opacity', 1);
+                link.classed('active', false);
+                linkLabels.style('opacity', 0);
+                document.getElementById('tooltip').style.display = 'none';
+            });
+
+        // Draw node labels
+        const nodeLabels = svg.selectAll('.node-label')
+            .data(nodeData)
+            .enter()
+            .append('text')
+            .attr('class', 'node-label')
+            .text(d => d.label);
+
+        // Update positions
+        simulation.on('tick', () => {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+
+            linkLabels
+                .attr('x', d => (d.source.x + d.target.x) / 2)
+                .attr('y', d => (d.source.y + d.target.y) / 2);
+
+            node
+                .attr('cx', d => d.x = Math.max(25, Math.min(width - 25, d.x)))
+                .attr('cy', d => d.y = Math.max(25, Math.min(height - 25, d.y)));
+
+            nodeLabels
+                .attr('x', d => d.x)
+                .attr('y', d => d.y + 4);
+        });
+
+        // Drag handler
+        function drag(simulation) {
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+            return d3.drag()
+                .on('start', dragstarted)
+                .on('drag', dragged)
+                .on('end', dragended);
+        }
+
+        // Toggle scenario expansion
+        function toggleScenario(element) {
+            element.classList.toggle('expanded');
+        }
+
+        // Prevent default drag behavior on scenario elements
+        document.querySelectorAll('.scenario').forEach(scenario => {
+            scenario.addEventListener('click', function(e) {
+                if (e.target === this || e.target.closest('.scenario-title')) {
+                    toggleScenario(this);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
