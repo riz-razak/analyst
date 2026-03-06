@@ -32,7 +32,9 @@ export default function HomePage({ dossiers, allTags, theme, toggleTheme }) {
   const [selectedTags, setSelectedTags] = useState([])
   const [view, setView] = useState('list')
 
-  const searched = useSearch(dossiers, query)
+  // Only show published dossiers in the listing (hidden ones still accessible by direct URL)
+  const publishedDossiers = useMemo(() => dossiers.filter(d => d.status === 'published'), [dossiers])
+  const searched = useSearch(publishedDossiers, query)
 
   const filtered = useMemo(() => {
     if (selectedTags.length === 0) return searched
@@ -58,7 +60,7 @@ export default function HomePage({ dossiers, allTags, theme, toggleTheme }) {
           value={query}
           onChange={setQuery}
           resultCount={filtered.length}
-          totalCount={dossiers.length}
+          totalCount={publishedDossiers.length}
         />
 
         <TagFilter

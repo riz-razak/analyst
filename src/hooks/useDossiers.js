@@ -13,7 +13,7 @@ export function useDossiers() {
       })
       .then(data => {
         const sorted = [...data.dossiers]
-          .filter(d => d.status === 'published')
+          .filter(d => d.status !== 'deleted')
           .sort((a, b) => new Date(b.date) - new Date(a.date))
         setDossiers(sorted)
         setLoading(false)
