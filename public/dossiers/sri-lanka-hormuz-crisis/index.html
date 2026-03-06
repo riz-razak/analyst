@@ -1,0 +1,2966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Lanka & the Hormuz Crisis — What You Need to Know</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FAFAFA;--surface:#FFFFFF;--border:#E5E7EB;
+  --text:#1F2937;--text-secondary:#6B7280;--text-muted:#9CA3AF;
+  --accent:#1D4ED8;--accent-light:#DBEAFE;--accent-dark:#1E3A8A;
+  --warning:#F59E0B;--warning-light:#FEF3C7;--warning-dark:#92400E;
+  --danger:#DC2626;--danger-light:#FEE2E2;
+  --success:#059669;--success-light:#D1FAE5;
+  --unity:#7C3AED;--unity-light:#EDE9FE;
+  --radius:12px;--radius-sm:8px;--radius-xs:4px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px rgba(0,0,0,.05),0 2px 4px rgba(0,0,0,.03);
+  --shadow-lg:0 10px 15px rgba(0,0,0,.05),0 4px 6px rgba(0,0,0,.03);
+  --max-w:720px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+
+/* ─── Animations ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.animate-on-scroll{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.animate-on-scroll.visible{opacity:1;transform:translateY(0)}
+
+/* ─── Header ─── */
+.site-header{
+  background:linear-gradient(135deg,#1E3A8A 0%,#1D4ED8 50%,#3B82F6 100%);
+  background-size:200% 200%;
+  animation:gradientShift 8s ease infinite;
+  color:#fff;padding:2rem 1.25rem 1.5rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.site-header::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#F59E0B,#EF4444,#F59E0B);
+}
+.header-flag{font-size:.85rem;opacity:.85;margin-bottom:.5rem;letter-spacing:.5px}
+.header-title{font-size:1.5rem;font-weight:800;line-height:1.25;margin-bottom:.5rem}
+.header-subtitle{font-size:.95rem;opacity:.9;max-width:560px;margin:0 auto .75rem;line-height:1.5}
+.header-date{font-size:.8rem;opacity:.7;font-weight:500}
+.live-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.15);backdrop-filter:blur(4px);
+  padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;
+  margin-bottom:.75rem;
+}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#F59E0B;animation:pulse 1.5s infinite}
+
+/* ─── Language Switcher ─── */
+.lang-switcher{
+  display:inline-flex;gap:4px;margin-top:.75rem;
+  background:rgba(255,255,255,.12);border-radius:20px;padding:3px;
+}
+.lang-btn{
+  padding:4px 14px;border-radius:16px;border:none;
+  font-size:.75rem;font-weight:600;cursor:pointer;
+  background:transparent;color:rgba(255,255,255,.7);
+  font-family:var(--font);transition:all .2s;letter-spacing:.3px;
+}
+.lang-btn:hover{color:#fff;background:rgba(255,255,255,.1)}
+.lang-btn.active{background:#fff;color:var(--accent-dark)}
+
+/* ─── Disclaimer Modal ─── */
+.disclaimer-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  z-index:9999;display:flex;align-items:center;justify-content:center;
+  padding:1rem;opacity:0;pointer-events:none;
+  transition:opacity .3s ease;
+}
+.disclaimer-overlay.visible{opacity:1;pointer-events:auto}
+.disclaimer-modal{
+  background:var(--surface);border-radius:var(--radius);
+  max-width:480px;width:100%;padding:1.75rem 1.5rem;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+  transform:translateY(20px);transition:transform .3s ease;
+}
+.disclaimer-overlay.visible .disclaimer-modal{transform:translateY(0)}
+.disclaimer-icon{font-size:2rem;margin-bottom:.75rem;text-align:center}
+.disclaimer-title{font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:.75rem;color:var(--text)}
+.disclaimer-body{font-size:.85rem;color:var(--text-secondary);line-height:1.65;margin-bottom:1.25rem}
+.disclaimer-body p{margin-bottom:.5rem}
+.disclaimer-body strong{color:var(--text)}
+.disclaimer-accept{
+  width:100%;padding:.875rem;border-radius:var(--radius-sm);
+  background:var(--accent);color:#fff;border:none;
+  font-size:.95rem;font-weight:600;cursor:pointer;
+  font-family:var(--font);transition:background .15s;
+}
+.disclaimer-accept:hover{background:var(--accent-dark)}
+.disclaimer-lang-note{
+  font-size:.75rem;color:var(--text-muted);text-align:center;
+  margin-top:.75rem;line-height:1.5;
+}
+
+/* Hide Google Translate widget bar */
+.goog-te-banner-frame,.skiptranslate{display:none!important}
+body{top:0!important}
+
+/* ─── Tabs ─── */
+.tab-container{
+  position:sticky;top:0;z-index:100;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+.tab-nav{display:flex;max-width:var(--max-w);margin:0 auto;padding:0 1rem}
+.tab-btn{
+  flex:1;padding:.875rem .5rem;border:none;background:none;
+  font-size:.9rem;font-weight:600;color:var(--text-secondary);
+  cursor:pointer;position:relative;transition:color .2s;
+  font-family:var(--font);
+}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent)}
+.tab-btn.active::after{
+  content:'';position:absolute;bottom:0;left:10%;right:10%;
+  height:3px;background:var(--accent);border-radius:3px 3px 0 0;
+  animation:fadeIn .2s ease;
+}
+
+/* ─── Content ─── */
+.tab-content{display:none;animation:fadeIn .3s ease}
+.tab-content.active{display:block}
+.content-wrap{max-width:var(--max-w);margin:0 auto;padding:1.25rem 1rem 3rem}
+
+/* ─── Cards ─── */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;
+  box-shadow:var(--shadow);transition:box-shadow .2s;
+}
+.card:hover{box-shadow:var(--shadow-md)}
+
+/* ─── Section Headers ─── */
+.section-label{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:1.2px;color:var(--accent);margin-bottom:.25rem;
+}
+.section-title{font-size:1.2rem;font-weight:700;margin-bottom:.75rem;line-height:1.35}
+.section-body{color:var(--text-secondary);font-size:.925rem;line-height:1.75}
+.section-body p{margin-bottom:.875rem}
+.section-body p:last-child{margin-bottom:0}
+
+/* ─── Callouts ─── */
+.callout{
+  border-radius:var(--radius-sm);padding:1rem 1.25rem;margin:1rem 0;
+  font-size:.9rem;line-height:1.6;border-left:4px solid;
+}
+.callout-warning{background:var(--warning-light);border-color:var(--warning);color:var(--warning-dark)}
+.callout-danger{background:var(--danger-light);border-color:var(--danger);color:#991B1B}
+.callout-info{background:var(--accent-light);border-color:var(--accent);color:var(--accent-dark)}
+.callout-unity{background:var(--unity-light);border-color:var(--unity);color:#5B21B6}
+.callout-success{background:var(--success-light);border-color:var(--success);color:#065F46}
+.callout-title{font-weight:700;margin-bottom:.25rem}
+
+/* ─── Timeline ─── */
+.timeline{position:relative;padding-left:2rem;margin:1rem 0}
+.timeline::before{content:'';position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:1.25rem;animation:slideIn .4s ease both}
+.tl-item:nth-child(2){animation-delay:.1s}
+.tl-item:nth-child(3){animation-delay:.2s}
+.tl-item:nth-child(4){animation-delay:.3s}
+.tl-item:nth-child(5){animation-delay:.4s}
+.tl-dot{
+  position:absolute;left:-2rem;top:6px;width:16px;height:16px;
+  border-radius:50%;border:3px solid var(--accent);background:var(--surface);
+  z-index:1;
+}
+.tl-dot.red{border-color:var(--danger)}
+.tl-dot.amber{border-color:var(--warning)}
+.tl-date{font-size:.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px}
+.tl-text{font-size:.9rem;color:var(--text-secondary);margin-top:.15rem;line-height:1.6}
+
+/* ─── Stat Grid ─── */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:1rem 0}
+.stat-card{
+  background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:.875rem;text-align:center;
+}
+.stat-number{font-size:1.5rem;font-weight:800;color:var(--accent);line-height:1.2}
+.stat-number.danger{color:var(--danger)}
+.stat-number.warning{color:var(--warning)}
+.stat-number.success{color:var(--success)}
+.stat-label{font-size:.75rem;color:var(--text-muted);margin-top:.15rem;line-height:1.3}
+
+/* ─── Scenario Cards ─── */
+.scenario{border-radius:var(--radius-sm);padding:1rem;margin-bottom:.75rem;border-left:4px solid}
+.scenario-mild{background:#F0FDF4;border-color:var(--success)}
+.scenario-moderate{background:var(--warning-light);border-color:var(--warning)}
+.scenario-severe{background:var(--danger-light);border-color:var(--danger)}
+.scenario-tag{
+  display:inline-block;font-size:.65rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.8px;padding:2px 8px;border-radius:10px;margin-bottom:.5rem;
+}
+.scenario-mild .scenario-tag{background:var(--success);color:#fff}
+.scenario-moderate .scenario-tag{background:var(--warning);color:#fff}
+.scenario-severe .scenario-tag{background:var(--danger);color:#fff}
+.scenario h4{font-size:.95rem;margin-bottom:.35rem}
+.scenario p{font-size:.85rem;color:var(--text-secondary);line-height:1.6}
+
+/* ─── Preparedness Score ─── */
+.prep-meter{margin:1rem 0}
+.prep-bar-bg{height:12px;background:var(--border);border-radius:6px;overflow:hidden}
+.prep-bar{height:100%;border-radius:6px;transition:width 1.5s ease}
+.prep-labels{display:flex;justify-content:space-between;margin-top:.25rem;font-size:.7rem;color:var(--text-muted)}
+
+/* ─── Game Theory ─── */
+.gt-matrix{overflow-x:auto;margin:1rem 0;-webkit-overflow-scrolling:touch}
+.gt-matrix table{width:100%;border-collapse:collapse;font-size:.8rem;min-width:340px}
+.gt-matrix th,.gt-matrix td{padding:.5rem .6rem;border:1px solid var(--border);text-align:left}
+.gt-matrix th{background:var(--accent);color:#fff;font-weight:600;font-size:.75rem}
+.gt-matrix td{background:var(--surface)}
+.gt-matrix tr:nth-child(even) td{background:var(--bg)}
+
+/* ─── Accordion ─── */
+.accordion-item{border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:.5rem;overflow:hidden}
+.accordion-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.875rem 1rem;background:var(--surface);cursor:pointer;
+  font-weight:600;font-size:.9rem;border:none;width:100%;text-align:left;
+  font-family:var(--font);color:var(--text);transition:background .15s;
+}
+.accordion-header:hover{background:var(--bg)}
+.accordion-chevron{transition:transform .2s;font-size:.8rem;color:var(--text-muted)}
+.accordion-item.open .accordion-chevron{transform:rotate(180deg)}
+.accordion-body{
+  max-height:0;overflow:hidden;transition:max-height .35s ease;
+  padding:0 1rem;
+}
+.accordion-item.open .accordion-body{max-height:3000px;padding:0 1rem 1rem}
+
+/* ─── Questionnaire ─── */
+.q-step{display:none}
+.q-step.active{display:block;animation:fadeUp .35s ease}
+.q-progress{margin-bottom:1.25rem}
+.q-progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.q-progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .4s ease}
+.q-progress-text{font-size:.75rem;color:var(--text-muted);margin-top:.35rem;text-align:right}
+.q-question{font-size:1.05rem;font-weight:700;margin-bottom:1rem;line-height:1.4}
+.q-options{display:flex;flex-direction:column;gap:.5rem}
+.q-option{
+  display:flex;align-items:flex-start;gap:.75rem;
+  padding:.875rem 1rem;border:2px solid var(--border);border-radius:var(--radius-sm);
+  cursor:pointer;transition:all .15s;background:var(--surface);
+}
+.q-option:hover{border-color:var(--accent);background:var(--accent-light)}
+.q-option.selected{border-color:var(--accent);background:var(--accent-light)}
+.q-option-radio{
+  width:20px;height:20px;border-radius:50%;border:2px solid var(--border);
+  flex-shrink:0;margin-top:1px;position:relative;transition:border-color .15s;
+}
+.q-option.selected .q-option-radio{border-color:var(--accent)}
+.q-option.selected .q-option-radio::after{
+  content:'';position:absolute;top:3px;left:3px;width:10px;height:10px;
+  border-radius:50%;background:var(--accent);
+}
+.q-option-text{font-size:.9rem;line-height:1.5}
+.q-option-text strong{display:block;margin-bottom:.1rem}
+.q-option-text span{color:var(--text-secondary);font-size:.8rem}
+.q-nav{display:flex;gap:.75rem;margin-top:1.25rem}
+.btn{
+  flex:1;padding:.75rem 1rem;border-radius:var(--radius-sm);font-size:.9rem;
+  font-weight:600;cursor:pointer;border:none;font-family:var(--font);
+  transition:all .15s;text-align:center;
+}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-dark)}
+.btn-secondary{background:var(--bg);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--border)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ─── Results ─── */
+.result-profile{
+  background:linear-gradient(135deg,var(--accent-light),#EDE9FE);
+  border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;
+}
+.result-profile h3{font-size:1.1rem;margin-bottom:.35rem}
+.result-profile p{font-size:.85rem;color:var(--text-secondary);line-height:1.6}
+.kit-section{margin-bottom:1rem}
+.kit-title{font-size:.95rem;font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.kit-items{list-style:none}
+.kit-items li{
+  font-size:.85rem;padding:.5rem .75rem;border-bottom:1px solid var(--border);
+  color:var(--text-secondary);line-height:1.5;display:flex;align-items:flex-start;gap:.5rem;
+}
+.kit-items li::before{content:'•';color:var(--accent);font-weight:700;flex-shrink:0}
+.kit-items li:last-child{border-bottom:none}
+.wave-label{
+  display:inline-block;font-size:.65rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.8px;padding:2px 8px;border-radius:10px;margin-bottom:.5rem;
+}
+.wave-1{background:var(--warning-light);color:var(--warning-dark)}
+.wave-2{background:var(--danger-light);color:#991B1B}
+
+/* ─── Community Banner ─── */
+.community-banner{
+  background:linear-gradient(135deg,#7C3AED,#5B21B6);
+  color:#fff;border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;
+  text-align:center;
+}
+.community-banner h3{font-size:1.1rem;margin-bottom:.5rem}
+.community-banner p{font-size:.9rem;opacity:.9;line-height:1.6}
+
+/* ─── Disinfo Section ─── */
+.disinfo-card{
+  display:flex;gap:.75rem;padding:.875rem;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  margin-bottom:.5rem;background:var(--surface);
+}
+.disinfo-icon{font-size:1.25rem;flex-shrink:0;margin-top:2px}
+.disinfo-text{font-size:.85rem;color:var(--text-secondary);line-height:1.6}
+.disinfo-text strong{color:var(--text);display:block;margin-bottom:.1rem}
+
+/* ─── Footer ─── */
+.site-footer{
+  text-align:center;padding:2rem 1rem;border-top:1px solid var(--border);
+  background:var(--surface);
+}
+.site-footer p{font-size:.8rem;color:var(--text-muted);line-height:1.6}
+
+/* ─── Responsive ─── */
+@media(min-width:640px){
+  .header-title{font-size:1.75rem}
+  .stat-grid{grid-template-columns:repeat(4,1fr)}
+  .content-wrap{padding:1.5rem 1.5rem 3rem}
+}
+@media(min-width:768px){
+  .header-title{font-size:2rem}
+  .site-header{padding:3rem 2rem 2rem}
+}
+
+/* ─── Infographics ─── */
+.infographic{display:flex;flex-direction:column;align-items:center;gap:1rem;margin:1rem 0}
+.infographic-row{display:flex;flex-wrap:wrap;justify-content:center;gap:1.25rem;width:100%}
+.infographic-item{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+.infographic-label{font-size:.75rem;color:var(--text-secondary);text-align:center;max-width:120px;line-height:1.35}
+.infographic-value{font-size:.85rem;font-weight:700;color:var(--text)}
+.cylinder-wrap{position:relative;width:70px}
+.cylinder-compare{display:flex;align-items:flex-end;gap:2rem;justify-content:center;flex-wrap:wrap}
+.cylinder-compare .infographic-item{min-width:90px}
+
+/* pipeline graphic */
+.pipeline-graphic{width:100%;overflow-x:auto;padding:.5rem 0}
+.pipeline-svg{max-width:100%;height:auto}
+
+/* map dot */
+.map-container{position:relative;width:100%;max-width:400px;margin:0 auto}
+.map-container svg{width:100%;height:auto}
+
+/* animated fill */
+@keyframes fillUp{from{height:0}to{height:var(--fill-height)}}
+.fill-animate{animation:fillUp 1.5s ease forwards}
+
+/* source bar chart */
+.source-bar-chart{width:100%;margin:1rem 0}
+.source-bar-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem}
+.source-bar-label{font-size:.75rem;color:var(--text-secondary);width:80px;text-align:right;flex-shrink:0}
+.source-bar-track{flex:1;height:22px;background:var(--border);border-radius:4px;overflow:hidden;position:relative}
+.source-bar-fill{height:100%;border-radius:4px;transition:width 1.2s ease;display:flex;align-items:center;padding-left:6px}
+.source-bar-val{font-size:.65rem;font-weight:700;color:#fff;white-space:nowrap}
+
+/* ─── Print ─── */
+@media print{
+  .tab-container,.site-footer,.community-banner{display:none}
+  .tab-content{display:block!important}
+  .card{break-inside:avoid;box-shadow:none;border:1px solid #ccc}
+}
+
+/* ─── Scroll indicator ─── */
+.scroll-top{
+  position:fixed;bottom:1.5rem;right:1.5rem;width:44px;height:44px;
+  border-radius:50%;background:var(--accent);color:#fff;border:none;
+  font-size:1.1rem;cursor:pointer;opacity:0;transition:opacity .3s;
+  box-shadow:var(--shadow-lg);z-index:50;display:flex;align-items:center;justify-content:center;
+}
+.scroll-top.visible{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- ════════ HEADER ════════ -->
+<header class="site-header">
+  <div class="live-badge"><span class="live-dot"></span> SITUATION UPDATE</div>
+  <div class="header-flag">Sri Lanka</div>
+  <h1 class="header-title">The Hormuz Crisis &amp; What It Means for You</h1>
+  <p class="header-subtitle">An independent, plain-language analysis of Sri Lanka's energy vulnerability — and a practical guide to prepare wisely, together.</p>
+  <div class="header-date">Last updated: 6 March 2026 (Day 6 of crisis)</div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="en" onclick="switchLang('en')">English</button>
+    <button class="lang-btn" data-lang="si" onclick="switchLang('si')">සිංහල</button>
+    <button class="lang-btn" data-lang="ta" onclick="switchLang('ta')">தமிழ்</button>
+  </div>
+</header>
+
+<!-- ════════ DISCLAIMER MODAL ════════ -->
+<div class="disclaimer-overlay" id="disclaimerModal">
+  <div class="disclaimer-modal">
+    <div class="disclaimer-icon">⚠️</div>
+    <div class="disclaimer-title">Important Notice — කරුණාකර කියවන්න — முக்கிய அறிவிப்பு</div>
+    <div class="disclaimer-body">
+      <p><strong>This report was generated with the assistance of AI/Machine Learning (Large Language Models).</strong></p>
+      <p>While every effort has been made to verify facts against official sources, AI-generated content may contain inaccuracies, outdated information, or unintended errors ("hallucinations").</p>
+      <p><strong>Sinhala and Tamil translations</strong> are provided via Google Neural Machine Translation (NMT) and may contain errors, especially with technical or contextual terms.</p>
+      <p>This report is for <strong>informational purposes only</strong>. It does not constitute professional, financial, or government advice. The author(s) accept <strong>no liability</strong> for decisions made based on this content.</p>
+      <p><strong>Always verify critical information</strong> through official government channels (CPC, PUCSL, Ministry of Power & Energy) before taking action.</p>
+    </div>
+    <button class="disclaimer-accept" id="disclaimerAccept">I understand — Continue / දිගටම කරගෙන යන්න / தொடரவும்</button>
+    <div class="disclaimer-lang-note">By continuing, you acknowledge this content uses AI assistance and machine translation.</div>
+  </div>
+</div>
+
+<!-- ════════ TABS ════════ -->
+<nav class="tab-container" role="tablist">
+  <div class="tab-nav">
+    <button class="tab-btn active" role="tab" data-tab="report" aria-selected="true">Full Report</button>
+    <button class="tab-btn" role="tab" data-tab="survival" aria-selected="false">Preparedness Guide</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TAB 1: REPORT                                  -->
+<!-- ══════════════════════════════════════════════ -->
+<div id="tab-report" class="tab-content active">
+<div class="content-wrap">
+
+<!-- ─── TLDR ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">The short version</div>
+  <div class="section-title">What happened and why it matters to you</div>
+  <div class="section-body">
+    <p>On 28 February 2026, the United States and Israel launched major military strikes against Iran. Iran retaliated by attacking Gulf state infrastructure and declaring the <strong>Strait of Hormuz</strong> — the narrow sea passage through which much of the world's oil travels — "effectively closed."</p>
+    <p>Sri Lanka imports <strong>over 90% of its fuel</strong>. Roughly 60–70% of its crude oil passes through this strait. The country holds <strong>only 37 days of fuel reserves</strong> and has no long-term emergency stockpile. While the government says supply is secure, the structural risks are real and deserve honest discussion.</p>
+  </div>
+  <div class="callout callout-unity">
+    <div class="callout-title">A note before you read further</div>
+    This report is not meant to alarm you. It's meant to <strong>inform</strong> you. Knowledge is how communities protect each other. We all remember 2022 — the best response is calm preparation, not panic. <strong>Look after your neighbours. Share what you know.</strong>
+  </div>
+</div>
+
+<!-- ─── KEY NUMBERS ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Key numbers</div>
+  <div class="section-title">Sri Lanka's energy position at a glance</div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-number warning">37</div><div class="stat-label">Days of fuel reserves</div></div>
+    <div class="stat-card"><div class="stat-number danger">90%+</div><div class="stat-label">Of petroleum imported</div></div>
+    <div class="stat-card"><div class="stat-number">$6.8B</div><div class="stat-label">Forex reserves (3.1 months)</div></div>
+    <div class="stat-card"><div class="stat-number danger">98%</div><div class="stat-label">Crude from UAE alone</div></div>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-number">$8B+</div><div class="stat-label">Gulf remittances (2025)</div></div>
+    <div class="stat-card"><div class="stat-number warning">6–7</div><div class="stat-label">Days of cooking gas reserves</div></div>
+    <div class="stat-card"><div class="stat-number success">50%</div><div class="stat-label">Refined fuel from non-Gulf</div></div>
+    <div class="stat-card"><div class="stat-number danger">$420M</div><div class="stat-label">Cost per $10/barrel rise</div></div>
+  </div>
+</div>
+
+<!-- ─── VISUAL: FUEL RESERVES ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">How much fuel do we really have?</div>
+  <div class="section-title">Our reserves compared to what's safe</div>
+  <div class="section-body"><p>Think of a gas cylinder. This is how "full" our reserves are compared to international safety standards:</p></div>
+
+  <div class="cylinder-compare" id="cylinder-section">
+    <!-- Oil reserves -->
+    <div class="infographic-item">
+      <svg width="80" height="160" viewBox="0 0 80 160" role="img" aria-label="Oil reserves: 37 days shown as cylinder 41% full">
+        <defs>
+          <linearGradient id="oilEmpty" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F3F4F6"/><stop offset="100%" stop-color="#E5E7EB"/></linearGradient>
+          <linearGradient id="oilFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F59E0B"/><stop offset="100%" stop-color="#D97706"/></linearGradient>
+          <clipPath id="cylClip1"><rect x="12" y="20" width="56" height="115" rx="4"/></clipPath>
+        </defs>
+        <!-- Cylinder body -->
+        <rect x="12" y="20" width="56" height="115" rx="8" fill="url(#oilEmpty)" stroke="#D1D5DB" stroke-width="2"/>
+        <!-- Fill level — 37/90 = 41% -->
+        <rect x="12" y="88" width="56" height="47" rx="0" fill="url(#oilFill)" clip-path="url(#cylClip1)" class="cylinder-fill" data-target="47" style="opacity:0">
+          <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.3s" fill="freeze"/>
+          <animate attributeName="height" from="0" to="47" dur="1s" begin="0.3s" fill="freeze"/>
+          <animate attributeName="y" from="135" to="88" dur="1s" begin="0.3s" fill="freeze"/>
+        </rect>
+        <!-- Cap -->
+        <rect x="30" y="8" width="20" height="14" rx="3" fill="#9CA3AF"/>
+        <rect x="36" y="2" width="8" height="8" rx="2" fill="#6B7280"/>
+        <!-- Level marker -->
+        <line x1="72" y1="88" x2="78" y2="88" stroke="#F59E0B" stroke-width="2"/>
+        <text x="40" y="118" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">37</text>
+        <text x="40" y="130" text-anchor="middle" fill="#fff" font-size="7" font-weight="600">DAYS</text>
+      </svg>
+      <div class="infographic-label"><strong>Sri Lanka's oil</strong></div>
+      <div style="font-size:.7rem;color:var(--warning);font-weight:600">⚠ 41% of safe level</div>
+    </div>
+
+    <!-- LPG reserves -->
+    <div class="infographic-item">
+      <svg width="80" height="160" viewBox="0 0 80 160" role="img" aria-label="LPG reserves: 7 days shown as cylinder 8% full">
+        <defs>
+          <linearGradient id="lpgFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#EF4444"/><stop offset="100%" stop-color="#DC2626"/></linearGradient>
+          <clipPath id="cylClip2"><rect x="12" y="20" width="56" height="115" rx="4"/></clipPath>
+        </defs>
+        <rect x="12" y="20" width="56" height="115" rx="8" fill="url(#oilEmpty)" stroke="#D1D5DB" stroke-width="2"/>
+        <!-- Fill level — 7/90 = ~8% -->
+        <rect x="12" y="126" width="56" height="9" rx="0" fill="url(#lpgFill)" clip-path="url(#cylClip2)" style="opacity:0">
+          <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.5s" fill="freeze"/>
+          <animate attributeName="height" from="0" to="9" dur="0.8s" begin="0.5s" fill="freeze"/>
+          <animate attributeName="y" from="135" to="126" dur="0.8s" begin="0.5s" fill="freeze"/>
+        </rect>
+        <rect x="30" y="8" width="20" height="14" rx="3" fill="#9CA3AF"/>
+        <rect x="36" y="2" width="8" height="8" rx="2" fill="#6B7280"/>
+        <text x="40" y="122" text-anchor="middle" fill="#DC2626" font-size="14" font-weight="800">7</text>
+        <text x="40" y="134" text-anchor="middle" fill="#DC2626" font-size="7" font-weight="600">DAYS</text>
+      </svg>
+      <div class="infographic-label"><strong>Cooking gas (LPG)</strong></div>
+      <div style="font-size:.7rem;color:var(--danger);font-weight:600">🔴 Critical — 8% of safe</div>
+    </div>
+
+    <!-- IEA Standard -->
+    <div class="infographic-item">
+      <svg width="80" height="160" viewBox="0 0 80 160" role="img" aria-label="IEA safe standard: 90 days, full cylinder">
+        <defs>
+          <linearGradient id="safeFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#34D399"/><stop offset="100%" stop-color="#059669"/></linearGradient>
+          <clipPath id="cylClip3"><rect x="12" y="20" width="56" height="115" rx="4"/></clipPath>
+        </defs>
+        <rect x="12" y="20" width="56" height="115" rx="8" fill="url(#oilEmpty)" stroke="#D1D5DB" stroke-width="2"/>
+        <rect x="12" y="20" width="56" height="115" rx="8" fill="url(#safeFill)" clip-path="url(#cylClip3)" style="opacity:0">
+          <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="0.7s" fill="freeze"/>
+          <animate attributeName="height" from="0" to="115" dur="1.2s" begin="0.7s" fill="freeze"/>
+          <animate attributeName="y" from="135" to="20" dur="1.2s" begin="0.7s" fill="freeze"/>
+        </rect>
+        <rect x="30" y="8" width="20" height="14" rx="3" fill="#9CA3AF"/>
+        <rect x="36" y="2" width="8" height="8" rx="2" fill="#6B7280"/>
+        <text x="40" y="82" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">90</text>
+        <text x="40" y="94" text-anchor="middle" fill="#fff" font-size="7" font-weight="600">DAYS</text>
+      </svg>
+      <div class="infographic-label"><strong>International safe standard</strong></div>
+      <div style="font-size:.7rem;color:var(--success);font-weight:600">✓ Full capacity</div>
+    </div>
+  </div>
+
+  <div class="callout callout-warning" style="margin-top:1rem">
+    <div class="callout-title">Why this matters</div>
+    IEA member countries keep 90 days of reserves. Sri Lanka's Trincomalee Tank Farm <em>could</em> store months of fuel (1.2 million tonnes) — but only 15 of 99 tanks work. Decades of neglect by successive governments left this critical asset unusable.
+  </div>
+</div>
+
+<!-- ─── VISUAL: WHERE OUR FUEL COMES FROM ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Visual guide</div>
+  <div class="section-title">Where does our fuel come from?</div>
+
+  <div class="section-body"><p style="margin-bottom:.5rem"><strong>Crude oil sources (what goes into the refinery):</strong></p></div>
+  <div class="source-bar-chart" id="crude-chart">
+    <div class="source-bar-row">
+      <div class="source-bar-label">UAE</div>
+      <div class="source-bar-track"><div class="source-bar-fill" style="width:0%;background:var(--danger)" data-width="98%"><span class="source-bar-val">98%</span></div></div>
+    </div>
+    <div class="source-bar-row">
+      <div class="source-bar-label">Saudi</div>
+      <div class="source-bar-track"><div class="source-bar-fill" style="width:0%;background:var(--warning)" data-width="2%"><span class="source-bar-val">~2%</span></div></div>
+    </div>
+  </div>
+  <p style="font-size:.8rem;color:var(--danger);font-weight:600;text-align:center;margin:.5rem 0">⚠ Almost all crude passes through the Strait of Hormuz</p>
+
+  <div class="section-body" style="margin-top:1.25rem"><p style="margin-bottom:.5rem"><strong>Refined fuel sources (petrol, diesel — the more diversified picture):</strong></p></div>
+  <div class="source-bar-chart" id="refined-chart">
+    <div class="source-bar-row">
+      <div class="source-bar-label">Singapore</div>
+      <div class="source-bar-track"><div class="source-bar-fill" style="width:0%;background:#3B82F6" data-width="27%"><span class="source-bar-val">27%</span></div></div>
+    </div>
+    <div class="source-bar-row">
+      <div class="source-bar-label">UAE</div>
+      <div class="source-bar-track"><div class="source-bar-fill" style="width:0%;background:var(--warning)" data-width="18%"><span class="source-bar-val">18%</span></div></div>
+    </div>
+    <div class="source-bar-row">
+      <div class="source-bar-label">Malaysia</div>
+      <div class="source-bar-track"><div class="source-bar-fill" style="width:0%;background:#3B82F6" data-width="17%"><span class="source-bar-val">17%</span></div></div>
+    </div>
+    <div class="source-bar-row">
+      <div class="source-bar-label">Oman</div>
+      <div class="source-bar-track"><div class="source-bar-fill" style="width:0%;background:var(--warning)" data-width="11%"><span class="source-bar-val">11%</span></div></div>
+    </div>
+    <div class="source-bar-row">
+      <div class="source-bar-label">India</div>
+      <div class="source-bar-track"><div class="source-bar-fill" style="width:0%;background:#3B82F6" data-width="9%"><span class="source-bar-val">9%</span></div></div>
+    </div>
+    <div class="source-bar-row">
+      <div class="source-bar-label">Saudi</div>
+      <div class="source-bar-track"><div class="source-bar-fill" style="width:0%;background:var(--warning)" data-width="8%"><span class="source-bar-val">8%</span></div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:1rem;justify-content:center;margin-top:.75rem;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--text-secondary)">
+      <span style="width:12px;height:12px;border-radius:3px;background:#3B82F6;display:inline-block"></span> Does NOT pass through Hormuz
+    </div>
+    <div style="display:flex;align-items:center;gap:.35rem;font-size:.75rem;color:var(--text-secondary)">
+      <span style="width:12px;height:12px;border-radius:3px;background:var(--warning);display:inline-block"></span> Passes through or near Hormuz
+    </div>
+  </div>
+
+  <div class="callout callout-info" style="margin-top:1rem">
+    <div class="callout-title">The silver lining</div>
+    About 50% of refined fuel comes from countries (Singapore, Malaysia, India) that don't depend on Hormuz. This is Sri Lanka's main buffer — but prices will still rise because oil is priced on a global market.
+  </div>
+</div>
+
+<!-- ─── VISUAL: OIL PRICE IMPACT ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">What higher oil prices mean for you</div>
+  <div class="section-title">Every $10 rise = Rs. 15–20 more per litre</div>
+  <div class="section-body"><p>Oil prices affect everything — not just fuel at the pump. Transport costs rise, which pushes up food prices, which hurts everyone.</p></div>
+
+  <div style="margin:1.25rem 0">
+    <svg width="100%" height="200" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Oil price impact diagram showing cascade from barrel price to daily life">
+      <!-- Price blocks -->
+      <rect x="10" y="10" width="100" height="45" rx="8" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.5"/>
+      <text x="60" y="28" text-anchor="middle" fill="#1E3A8A" font-size="8" font-weight="600">Before crisis</text>
+      <text x="60" y="44" text-anchor="middle" fill="#1D4ED8" font-size="14" font-weight="800">$72/barrel</text>
+
+      <rect x="130" y="10" width="100" height="45" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="180" y="28" text-anchor="middle" fill="#92400E" font-size="8" font-weight="600">If extended</text>
+      <text x="180" y="44" text-anchor="middle" fill="#D97706" font-size="14" font-weight="800">$100–120</text>
+
+      <rect x="250" y="10" width="100" height="45" rx="8" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+      <text x="300" y="28" text-anchor="middle" fill="#991B1B" font-size="8" font-weight="600">If prolonged</text>
+      <text x="300" y="44" text-anchor="middle" fill="#DC2626" font-size="14" font-weight="800">$140+</text>
+
+      <!-- Arrows down -->
+      <path d="M180 58 L180 75" stroke="#9CA3AF" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+      <defs><marker id="arrowGray" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#9CA3AF"/></marker></defs>
+
+      <!-- Impact cascade -->
+      <rect x="20" y="80" width="150" height="35" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+      <text x="95" y="96" text-anchor="middle" fill="#374151" font-size="8" font-weight="600">⛽ Fuel price rises</text>
+      <text x="95" y="108" text-anchor="middle" fill="#6B7280" font-size="7">Rs. 15–40 more per litre</text>
+
+      <rect x="190" y="80" width="150" height="35" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+      <text x="265" y="96" text-anchor="middle" fill="#374151" font-size="8" font-weight="600">🔥 Gas cylinder price rises</text>
+      <text x="265" y="108" text-anchor="middle" fill="#6B7280" font-size="7">Rs. 500–2,000+ more</text>
+
+      <path d="M95 118 L95 130 L180 130 L180 138" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="6,4" vector-effect="non-scaling-stroke" fill="none"/>
+      <path d="M265 118 L265 130 L180 130" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="6,4" vector-effect="non-scaling-stroke" fill="none"/>
+
+      <rect x="55" y="140" width="250" height="45" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="180" y="158" text-anchor="middle" fill="#92400E" font-size="9" font-weight="700">🍚 Food, transport &amp; electricity all go up</text>
+      <text x="180" y="174" text-anchor="middle" fill="#92400E" font-size="7.5">Bus fares, rice, vegetables, school costs — everything connected to transport</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ─── TIMELINE ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Timeline</div>
+  <div class="section-title">How we got here</div>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-date">April 2024</div><div class="tl-text">Iran launches its first direct attack on Israel (300+ missiles/drones) after Israel struck Iran's Damascus consulate. Both sides de-escalate.</div></div>
+    <div class="tl-item"><div class="tl-dot amber"></div><div class="tl-date">October 2024</div><div class="tl-text">Iran fires 180 ballistic missiles at Israel following assassinations of Hamas and Hezbollah leaders. Israel responds with its largest-ever strikes on Iranian soil.</div></div>
+    <div class="tl-item"><div class="tl-dot amber"></div><div class="tl-date">June 2025</div><div class="tl-text">"Twelve-Day War" — Israel and the US strike Iranian nuclear sites. A ceasefire holds. Oil markets briefly calm, dropping below $70.</div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-date">28 February 2026</div><div class="tl-text"><strong>Operation "Epic Fury" / "Roaring Lion"</strong> — Coordinated US-Israeli strikes on Tehran, Isfahan, Qom. Iran retaliates against Gulf infrastructure. IRGC declares Hormuz "effectively closed." 150+ tankers drop anchor.</div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-date">1 March 2026</div><div class="tl-text">Brent crude surges 7%+. SriLankan Airlines cancels 30+ Middle East flights. Panic buying erupts at Sri Lankan fuel stations. Police ban fuel in containers.</div></div>
+  </div>
+</div>
+
+<!-- ─── HORMUZ MAP (Leaflet.js real map) ─── -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<style>
+#hormuz-map{width:100%;height:380px;border-radius:var(--radius-sm);border:1px solid var(--border);z-index:1}
+@media(min-width:640px){#hormuz-map{height:440px}}
+.map-legend{
+  display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;
+  margin-top:.75rem;padding:.5rem;
+}
+.map-legend-item{display:flex;align-items:center;gap:5px;font-size:.75rem;color:var(--text-secondary)}
+.map-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.map-legend-line{width:18px;height:3px;border-radius:2px;flex-shrink:0}
+.hormuz-label-box{
+  background:rgba(220,38,38,.9);color:#fff;padding:3px 10px;
+  border-radius:4px;font-size:12px;font-weight:700;letter-spacing:.3px;
+  border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3);
+  white-space:nowrap;
+}
+.tanker-icon{
+  font-size:20px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.3));
+}
+.map-stat-overlay{
+  position:absolute;bottom:10px;left:10px;z-index:1000;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(6px);
+  border-radius:8px;padding:8px 12px;font-size:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);max-width:200px;
+  line-height:1.5;pointer-events:none;
+}
+.map-stat-overlay strong{color:var(--danger)}
+</style>
+
+<div class="card animate-on-scroll">
+  <div class="section-label">The chokepoint</div>
+  <div class="section-title">The Strait of Hormuz — why it matters</div>
+  <div style="margin:.75rem 0;position:relative">
+    <div id="hormuz-map"></div>
+    <div class="map-stat-overlay">
+      <strong>~20% of world's oil</strong> passes through this 33km-wide strait daily.<br>
+      <strong>150+ tankers</strong> anchored since Feb 28.
+    </div>
+  </div>
+  <div class="map-legend">
+    <div class="map-legend-item"><div class="map-legend-line" style="background:#DC2626"></div> Strait of Hormuz (blocked)</div>
+    <div class="map-legend-item"><div class="map-legend-line" style="background:#F59E0B;background:repeating-linear-gradient(90deg,#F59E0B 0 6px,transparent 6px 10px)"></div> Oil route to Sri Lanka</div>
+    <div class="map-legend-item"><div class="map-legend-line" style="background:#3B82F6;background:repeating-linear-gradient(90deg,#3B82F6 0 6px,transparent 6px 10px)"></div> Singapore alternative route</div>
+    <div class="map-legend-item"><div class="map-legend-dot" style="background:#059669"></div> Sri Lanka</div>
+  </div>
+  <div class="section-body" style="margin-top:.75rem">
+    <p>The Strait of Hormuz is only about 33 km wide at its narrowest. About 20% of the world's oil passes through it every day. When Iran says it's "closed," even a partial disruption sends global prices soaring — and Sri Lanka, at the end of the supply chain, feels it hardest.</p>
+  </div>
+</div>
+
+<!-- ─── SUPPLY CHAIN EXPLAINED ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Understanding the supply chain</div>
+  <div class="section-title">Where does Sri Lanka's fuel actually come from?</div>
+  <div class="section-body">
+    <p>Think of Sri Lanka's fuel supply as two streams:</p>
+    <p><strong>Stream 1 — Crude oil (raw oil that gets refined):</strong> Almost all of it (98–99%) comes from the UAE. It arrives at Colombo Port, travels through an aging 5.8-km pipeline to our only refinery at Sapugaskanda (built by Iran in 1969). This refinery can only cover about 30% of our needs — and the pipeline urgently needs replacing.</p>
+    <p><strong>Stream 2 — Already-refined fuel (petrol, diesel, jet fuel):</strong> This is more diversified. Singapore supplies about 27%, UAE 18%, Malaysia 17%, Oman 11%, India 9%, and Saudi Arabia 8%. Some of these routes don't pass through Hormuz.</p>
+    <!-- Supply chain visual -->
+    <div style="margin:1.25rem 0;overflow-x:auto">
+      <svg width="100%" height="120" viewBox="0 0 380 120" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Supply chain: UAE tanker to Colombo Port to Pipeline to Sapugaskanda Refinery to Fuel Stations">
+        <!-- UAE -->
+        <rect x="5" y="25" width="60" height="50" rx="8" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+        <text x="35" y="45" text-anchor="middle" fill="#991B1B" font-size="8" font-weight="700">UAE</text>
+        <text x="35" y="57" text-anchor="middle" fill="#991B1B" font-size="6.5">🛢 Crude oil</text>
+        <text x="35" y="68" text-anchor="middle" fill="#DC2626" font-size="6">via Hormuz ⚠</text>
+
+        <!-- Arrow -->
+        <line x1="68" y1="50" x2="88" y2="50" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <polygon points="86,46 93,50 86,54" fill="#9CA3AF"/>
+
+        <!-- Ship -->
+        <rect x="93" y="30" width="55" height="40" rx="6" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1"/>
+        <text x="120" y="47" text-anchor="middle" fill="#1E3A8A" font-size="7" font-weight="600">🚢 Tanker</text>
+        <text x="120" y="58" text-anchor="middle" fill="#3B82F6" font-size="6">Colombo Port</text>
+
+        <!-- Arrow -->
+        <line x1="151" y1="50" x2="168" y2="50" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <polygon points="166,46 173,50 166,54" fill="#9CA3AF"/>
+
+        <!-- Pipeline -->
+        <rect x="173" y="30" width="55" height="40" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+        <text x="200" y="47" text-anchor="middle" fill="#92400E" font-size="7" font-weight="600">5.8km pipe</text>
+        <text x="200" y="58" text-anchor="middle" fill="#D97706" font-size="6">⚠ Aging</text>
+
+        <!-- Arrow -->
+        <line x1="231" y1="50" x2="248" y2="50" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <polygon points="246,46 253,50 246,54" fill="#9CA3AF"/>
+
+        <!-- Refinery -->
+        <rect x="253" y="25" width="60" height="50" rx="6" fill="#D1FAE5" stroke="#059669" stroke-width="1"/>
+        <text x="283" y="42" text-anchor="middle" fill="#065F46" font-size="7" font-weight="600">🏭 Refinery</text>
+        <text x="283" y="53" text-anchor="middle" fill="#065F46" font-size="6">Sapugaskanda</text>
+        <text x="283" y="63" text-anchor="middle" fill="#059669" font-size="5.5">30% of needs</text>
+
+        <!-- Arrow -->
+        <line x1="316" y1="50" x2="333" y2="50" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <polygon points="331,46 338,50 331,54" fill="#9CA3AF"/>
+
+        <!-- Stations -->
+        <rect x="338" y="30" width="37" height="40" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1"/>
+        <text x="356" y="48" text-anchor="middle" fill="#5B21B6" font-size="16">⛽</text>
+        <text x="356" y="62" text-anchor="middle" fill="#5B21B6" font-size="5.5">1,190+</text>
+
+        <!-- Caption -->
+        <text x="190" y="100" text-anchor="middle" fill="#6B7280" font-size="7">Crude oil supply chain — single source, single pipeline, single refinery</text>
+        <text x="190" y="112" text-anchor="middle" fill="#DC2626" font-size="7" font-weight="600">Every link is a potential point of failure</text>
+      </svg>
+    </div>
+
+    <p><strong>Cooking gas (LPG)</strong> is a separate worry. About 75% has historically come through Hormuz. Litro Gas (which controls 75–85% of the market) receives a new shipment every 3–4 days, and the national storage holds only 6–7 days' supply. A Swiss-sourced US supply contract signed in December 2025 may help, but it hasn't been tested under crisis conditions.</p>
+  </div>
+</div>
+
+<!-- ─── WHAT GOVERNMENT SAYS VS REALITY ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Official messaging vs. the data</div>
+  <div class="section-title">What the government says — and what the numbers show</div>
+  <div class="section-body">
+    <p>The government's message has been consistent: "Supply is secure. We have 37 days of fuel. India and Singapore will bridge any gap." This is <em>technically accurate</em> in the very short term. But it systematically understates the full picture.</p>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header">"We have enough fuel reserves" <span class="accordion-chevron">▼</span></button>
+    <div class="accordion-body">
+      <p style="font-size:.875rem;color:var(--text-secondary);line-height:1.65;margin-top:.75rem">
+        Yes — 37 days. But this is <strong>commercial inventory</strong>, not a strategic reserve. It's simply what's in the system for daily operations. IEA countries maintain 90 days. The Trincomalee Oil Tank Farm could store months of reserves (1.2 million tonnes), but after decades of neglect, only 15 of 99 tanks are operational. Successive governments have failed to develop it.
+      </p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header">"India and Singapore will supply us" <span class="accordion-chevron">▼</span></button>
+    <div class="accordion-body">
+      <p style="font-size:.875rem;color:var(--text-secondary);line-height:1.65;margin-top:.75rem">
+        India and Singapore do supply refined products. But they'll face their own supply pressures if Hormuz stays closed — India imports 85% of its crude from the Gulf. And the issue isn't just <em>getting</em> the fuel — it's the <strong>price</strong>. If Brent moves from $72 to $140/barrel, that adds $2.9 billion to Sri Lanka's annual bill — equivalent to 43% of total forex reserves.
+      </p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header">"There will be no repeat of 2022" <span class="accordion-chevron">▼</span></button>
+    <div class="accordion-body">
+      <p style="font-size:.875rem;color:var(--text-secondary);line-height:1.65;margin-top:.75rem">
+        The starting position is indeed better than 2022 (reserves were near-zero then). But the <strong>double vulnerability</strong> is identical: energy costs surge while Gulf remittances ($8B+ from 1.5 million workers) face collapse. In 2022, this combination caused GDP to contract 7.8%, fuel rationing, 10–15 hour power cuts, and deaths in fuel queues. The government has no published national energy security strategy.
+      </p>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <button class="accordion-header">"We'll hit 70% renewable energy by 2030" <span class="accordion-chevron">▼</span></button>
+    <div class="accordion-body">
+      <p style="font-size:.875rem;color:var(--text-secondary);line-height:1.65;margin-top:.75rem">
+        As of 2023, about 50% of electricity came from low-carbon sources. Reaching 70% by 2030 faces "considerable challenges" per experts. Meanwhile, Sri Lanka's debt-to-GDP ratio of 96–104% limits investment. A nationwide blackout in February 2025, caused by a single substation failure, exposed how fragile the grid remains.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── THREE SCENARIOS ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Scenario analysis</div>
+  <div class="section-title">What could happen next: three scenarios</div>
+  <div class="section-body"><p>Nobody can predict exactly how this plays out. Here are three realistic paths, from least to most severe:</p></div>
+  <div class="scenario scenario-mild">
+    <div class="scenario-tag">Scenario A — Short disruption (1–2 weeks)</div>
+    <h4>Manageable</h4>
+    <p>Hormuz partially reopens within 1–2 weeks as US naval forces establish a corridor. Brent spikes to $85–95 then recedes to $70–80 range. Sri Lanka absorbs the shock with existing 37-day reserves and minor fuel price hikes (Rs. 5–15/litre). Some queues at stations, but no rationing needed. Analysts assign 35–40% probability.</p>
+  </div>
+  <div class="scenario scenario-moderate">
+    <div class="scenario-tag">Scenario B — Extended disruption (1–3 months)</div>
+    <h4>Severe</h4>
+    <p>Brent sustains at $100–120 as GCC storage capacity fills up and producers are forced to shut in production. Fuel stocks run out within 5–6 weeks. Additional annual import cost: $1.3–2.6 billion. Inflation surges toward 5–8%. Fuel rationing returns. Singapore's refineries face feedstock shortages, squeezing Sri Lanka's "diversified" supply. Cooking gas shortages become acute (6–7 days of LPG storage). Analysts assign 40–45% probability.</p>
+  </div>
+  <div class="scenario scenario-severe">
+    <div class="scenario-tag">Scenario C — Prolonged closure (3+ months)</div>
+    <h4>Potentially catastrophic</h4>
+    <p>Iran deploys mines and anti-ship missiles to enforce full closure. Brent surges to $140–200 — potentially three times the severity of the 1970s oil embargo. Additional annual cost to Sri Lanka: $2.6–7.8 billion. Forex reserves drain rapidly. Gulf remittances ($8B/year) collapse. Mass evacuation of Sri Lankan workers. IMF program derailed. Sapugaskanda refinery halts. All Singapore/India/Korea refinery supply chains starved of feedstock. Analysts assign 15–20% probability.</p>
+  </div>
+</div>
+
+<!-- ─── GAME THEORY ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Strategic analysis</div>
+  <div class="section-title">Game theory: who benefits, who loses?</div>
+  <div class="section-body">
+    <p>International crises involve multiple actors making strategic choices. Here's a simplified view of the key players and their incentives — and what each outcome means for Sri Lanka:</p>
+  </div>
+  <div class="gt-matrix">
+    <table>
+      <thead>
+        <tr><th>Actor</th><th>Incentive</th><th>Sri Lanka impact</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Iran (IRGC)</strong></td><td>Demonstrate that attacking Iran has economic consequences for the world. Hormuz closure is their strongest leverage.</td><td>Direct threat — blocks Sri Lanka's crude supply route and drives up global prices</td></tr>
+        <tr><td><strong>US / Israel</strong></td><td>Neutralise Iranian nuclear capability. Want Hormuz open (hurts allies if closed). Likely to use naval force to reopen.</td><td>If they reopen Hormuz quickly: relief. If conflict escalates: worse for everyone including SL.</td></tr>
+        <tr><td><strong>Saudi Arabia / UAE</strong></td><td>Want Hormuz open (their own exports depend on it). High prices help revenue short-term, but instability hurts investment.</td><td>UAE is SL's crude supplier. If UAE output drops or ships can't leave, SL crude dries up.</td></tr>
+        <tr><td><strong>India</strong></td><td>Regional power with its own Gulf dependency (85% crude from Gulf). Has strategic interest in SL stability.</td><td>India may divert some supply to SL, but faces its own pressure. SL is a strategic priority for India, not a top economic one.</td></tr>
+        <tr><td><strong>China</strong></td><td>Major Gulf oil importer. May mediate diplomatically. Sinopec has planned $3.7B refinery at Hambantota.</td><td>China has long-term infrastructure interest in SL but won't bail out short-term fuel needs.</td></tr>
+        <tr><td><strong>IMF</strong></td><td>Wants SL to maintain fiscal discipline. A sustained oil shock creates impossible political trade-offs.</td><td>If SL breaks IMF conditions (e.g. reintroduces fuel subsidies), program suspension is possible — cutting off critical funding.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout callout-info">
+    <div class="callout-title">The core dilemma for Sri Lanka's government</div>
+    If oil prices stay high: pass the cost to consumers (risking social unrest) <strong>or</strong> absorb it through subsidies (violating IMF terms). There is no easy path. This is why honest communication matters more than reassurance.
+  </div>
+</div>
+
+<!-- ─── PREPAREDNESS RANKING ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Preparedness assessment</div>
+  <div class="section-title">How prepared is Sri Lanka? A honest scorecard</div>
+  <div class="section-body"><p>We rate Sri Lanka's preparedness across key dimensions. A score of 100 would mean fully prepared for a sustained disruption.</p></div>
+
+  <div style="margin-top:.75rem">
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:.25rem"><span>Crude oil supply diversification</span><span style="color:var(--danger)">5/100</span></div>
+    <div class="prep-bar-bg"><div class="prep-bar" style="width:5%;background:var(--danger)"></div></div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:.25rem"><span>Refined fuel diversification</span><span style="color:var(--warning)">55/100</span></div>
+    <div class="prep-bar-bg"><div class="prep-bar" style="width:55%;background:var(--warning)"></div></div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:.25rem"><span>Strategic reserves (oil)</span><span style="color:var(--danger)">10/100</span></div>
+    <div class="prep-bar-bg"><div class="prep-bar" style="width:10%;background:var(--danger)"></div></div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:.25rem"><span>LPG storage capacity</span><span style="color:var(--danger)">8/100</span></div>
+    <div class="prep-bar-bg"><div class="prep-bar" style="width:8%;background:var(--danger)"></div></div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:.25rem"><span>Forex buffer for price shock</span><span style="color:var(--warning)">30/100</span></div>
+    <div class="prep-bar-bg"><div class="prep-bar" style="width:30%;background:var(--warning)"></div></div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:.25rem"><span>Grid / electricity resilience</span><span style="color:var(--warning)">35/100</span></div>
+    <div class="prep-bar-bg"><div class="prep-bar" style="width:35%;background:var(--warning)"></div></div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:.25rem"><span>Government crisis communication</span><span style="color:var(--danger)">20/100</span></div>
+    <div class="prep-bar-bg"><div class="prep-bar" style="width:20%;background:var(--danger)"></div></div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:.25rem"><span>Renewable energy transition</span><span style="color:var(--warning)">35/100</span></div>
+    <div class="prep-bar-bg"><div class="prep-bar" style="width:35%;background:var(--warning)"></div></div>
+  </div>
+  <div style="margin-top:.75rem">
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;margin-bottom:.25rem"><span>Remittance risk mitigation</span><span style="color:var(--danger)">5/100</span></div>
+    <div class="prep-bar-bg"><div class="prep-bar" style="width:5%;background:var(--danger)"></div></div>
+  </div>
+
+  <div class="callout callout-warning" style="margin-top:1rem">
+    <div class="callout-title">Overall preparedness: Low (22/100)</div>
+    Sri Lanka's short-term commercial stocks provide a narrow buffer, but the country has virtually no structural resilience against a sustained disruption. The single-source crude dependency and minimal LPG storage are the most critical gaps.
+  </div>
+</div>
+
+<!-- ─── DISINFORMATION ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Cutting through the noise</div>
+  <div class="section-title">Disinformation, propaganda &amp; what to watch for</div>
+  <div class="section-body"><p>During crises, misinformation spreads fast — on WhatsApp, Facebook, TikTok, and traditional media. Here's what to watch for and how to verify:</p></div>
+
+  <div class="disinfo-card">
+    <div class="disinfo-icon">🔴</div>
+    <div class="disinfo-text">
+      <strong>"Fuel is about to run out — go fill up NOW"</strong>
+      This is the most dangerous kind of message. Even if meant well, it creates the very shortage it warns about. Sri Lanka has 37 days of supply. Panic buying is the fastest way to turn adequate supply into a crisis. <strong>Do not share these messages.</strong>
+    </div>
+  </div>
+  <div class="disinfo-card">
+    <div class="disinfo-icon">🟡</div>
+    <div class="disinfo-text">
+      <strong>"The government has everything under control"</strong>
+      Partially true short-term, but lacks context about structural vulnerabilities. Healthy scepticism is appropriate — ask for specifics, timelines, and contingency plans.
+    </div>
+  </div>
+  <div class="disinfo-card">
+    <div class="disinfo-icon">🔴</div>
+    <div class="disinfo-text">
+      <strong>Political blame games</strong>
+      Expect all political sides to weaponise this crisis. The structural failures (no strategic reserve, undeveloped Trincomalee, single-source dependency) span multiple governments over decades. No single party is responsible, and no single party has a magic solution.
+    </div>
+  </div>
+  <div class="disinfo-card">
+    <div class="disinfo-icon">🟡</div>
+    <div class="disinfo-text">
+      <strong>"India/China will save us"</strong>
+      Both have strategic interests in Sri Lanka, but both face their own Gulf dependency. Bilateral help will be partial, conditional, and slow. Don't assume rescue — but don't dismiss diplomatic channels either.
+    </div>
+  </div>
+  <div class="disinfo-card">
+    <div class="disinfo-icon">🔴</div>
+    <div class="disinfo-text">
+      <strong>Fake price announcements or ration schedules</strong>
+      Only trust announcements from official CPC, Lanka IOC, and government channels. Check multiple sources. Screenshots of "leaked" documents are easy to fabricate.
+    </div>
+  </div>
+
+  <div class="callout callout-unity" style="margin-top:.75rem">
+    <div class="callout-title">How to be a responsible information citizen</div>
+    Before sharing anything on WhatsApp or social media: <strong>Stop. Check. Verify.</strong> Ask yourself: "Does sharing this help my community, or does it spread fear?" If in doubt, don't forward.
+  </div>
+</div>
+
+<!-- ─── CIVIL SOCIETY ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Civil society</div>
+  <div class="section-title">What communities can do — the real strength</div>
+  <div class="section-body">
+    <p>Sri Lanka's greatest asset isn't its fuel reserves — it's its people. The 2022 crisis proved that communities can self-organise with remarkable effectiveness when institutions fail. Here's what worked then and what can work now:</p>
+    <p><strong>Neighbourhood fuel-sharing networks</strong> — In 2022, communities organised shared transport rotas. One vehicle, multiple families. This reduces individual fuel consumption by 60–80%.</p>
+    <p><strong>Community kitchens</strong> — Cooking collectively is far more fuel-efficient than individual households. Religious institutions (kovils, temples, mosques, churches) can serve as hubs, just as they did during COVID and the 2022 crisis.</p>
+    <p><strong>Information verification networks</strong> — Designate trusted community members to verify and share accurate information, reducing the spread of panic-inducing rumours.</p>
+    <p><strong>Skills exchange</strong> — Those who know how to cook with firewood, preserve food without refrigeration, or maintain solar equipment can teach others. <strong>Knowledge is the one resource that multiplies when shared.</strong></p>
+  </div>
+</div>
+
+<!-- ─── INTERNAL POLITICS ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Internal politics</div>
+  <div class="section-title">The political landscape — what to understand</div>
+  <div class="section-body">
+    <p>The Dissanayake government faces an impossible balancing act. The IMF demands cost-recovery pricing (fuel prices that cover actual costs, with no subsidies). But if global oil prices surge, passing the full cost to consumers risks repeating the social unrest of 2022.</p>
+    <p>An additional complication: the <strong>Petroleum Dealers Association</strong> has threatened to stop placing fuel orders due to a commission dispute. This is a genuinely complex issue that both sides have legitimate claims about — and it's happening at the worst possible time.</p>
+  </div>
+
+  <!-- DEEP DIVE: FUEL DEALER COMMISSION DISPUTE -->
+  <div class="accordion-item">
+    <button class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+      <span>Deep Dive: The Fuel Dealer Commission Dispute — Who's Right?</span>
+      <span class="accordion-chevron">▼</span>
+    </button>
+    <div class="accordion-body">
+      <div class="section-body">
+
+      <p><strong>What happened:</strong> The CPC abolished a 3% commission that fuel station dealers had received since 2019, replacing it with a new formula based on operational costs. This effectively cut dealer margins from ~3% to ~1.7% — a 43% reduction in income. In response, the Petroleum Dealers Association (representing ~1,400 CPC-affiliated fuel stations) stopped placing new orders and cut off credit sales to government institutions, including hospitals.</p>
+
+      <p><strong>The dealers' argument (and where it has merit):</strong></p>
+      <div class="callout callout-info" style="margin:.75rem 0">
+        CPC fuel station owners face genuinely harsher conditions than their competitors. Unlike Lanka IOC and Sinopec dealers — who receive the same 3% commission and also get credit facilities from their companies — CPC dealers must <strong>pay upfront in full</strong> before receiving fuel. When fuel prices fluctuate, the loss falls entirely on CPC dealers, while IOC/Sinopec absorb losses for their networks. The same government that removed CPC dealers' 3% commission <strong>left it intact for IOC and Sinopec dealers</strong>. This unequal treatment is a legitimate grievance — it's effectively penalising your own dealers while allowing competitors to operate on better terms.
+      </div>
+
+      <p><strong>The government's argument (and where it has merit):</strong></p>
+      <div class="callout callout-warning" style="margin:.75rem 0">
+        The National Audit Office and COPE (parliamentary committee) found that the 3% commission resulted in <strong>Rs. 35.4 billion in cumulative excess payments</strong> to fewer than 1,000 fuel distributors — money that should have gone to the treasury. The Auditor General specifically flagged Rs. 4.3 billion in overpayments in 2022 alone. When fuel prices spiked during the 2022 crisis, the percentage-based commission meant dealers' earnings ballooned while the country was in its worst economic crisis. The CPC Chairman's position: a station selling 15 loads/month (the minimum) still earns Rs. 683,415 under the new formula — not Rs. 62,333 as dealers claim. A station selling 30 loads can net over Rs. 300,000 profit after all costs.
+      </div>
+
+      <p><strong>Who are the people behind this?</strong> The Petroleum Dealers Association operates as a collective trade body — its specific leadership names aren't prominently published, which is itself notable. The vice-president of the related Sri Lanka Petroleum Private Tank Owners' Association, Kusum Sandanayaka, has been a vocal figure. On the government side, CPC Chairman D.J. Rajakaruna has led the restructuring effort. COPE, chaired by MP Rohitha Abeygunawardena, investigated and found that officials responsible for the original overpayment arrangement had left the country — prompting a referral to the CID.</p>
+
+      <p><strong>The uncomfortable question — is this opportunistic?</strong></p>
+      <p>The timing is hard to ignore. A commission dispute that has been simmering since March 2025 escalated to a full order halt on 28 February 2026 — the exact day military strikes hit Iran. Whether intentional or coincidental, threatening fuel supply disruption during an international energy crisis creates maximum leverage. The government called it an "artificial shortage created by organised groups." The dealers say they simply can't afford to operate. The truth likely contains elements of both.</p>
+
+      <p><strong>The moral dimension:</strong> There are real small operators among the 1,400 stations who face genuine financial hardship from a 43% income cut. But the collective refusal to supply fuel to government hospitals during a crisis — regardless of the legitimacy of the commission grievance — crosses a line for many Sri Lankans who remember the suffering of 2022 fuel queues. The fact that Rs. 35 billion in excess commissions flowed to fewer than 1,000 distributors while the country was being bailed out by the IMF is also hard to justify.</p>
+
+      <p><strong>Bottom line:</strong> Both sides have legitimate grievances, but neither side is clean. The dealers have a real case on unequal treatment (CPC vs IOC/Sinopec) and the harsh upfront payment requirement. The government has a real case on the excessive past commissions and the need for reform. But the escalation during a geopolitical crisis hurts only one group — ordinary Sri Lankans already anxious about fuel. <strong>This needed to be resolved at the negotiating table, not at the fuel pumps.</strong></p>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="section-body">
+    <p>The government's track record on energy policy is mixed. Positive steps include the LPG diversification to US sources and initial discussions on Trincomalee development. But politically sensitive electricity pricing reforms have already been partially reversed, and there is still no published national energy security strategy.</p>
+    <p><strong>What citizens should demand, regardless of political allegiance:</strong> a transparent, public energy security plan; honest communication about risks (not just reassurance); accelerated Trincomalee development; and a clear contingency plan for each of the three scenarios outlined above.</p>
+  </div>
+</div>
+
+<!-- ─── SINGAPORE SUPPLY CHAIN DEEP-DIVE ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Supply chain intelligence</div>
+  <div class="section-title">The Singapore channel — tracing the origin of your fuel</div>
+  <div class="section-body">
+    <p>When officials say "we don't import directly from the Middle East anymore", they're technically correct — but it obscures a critical reality. Singapore, which supplies ~27% of Sri Lanka's refined fuel, is itself almost entirely dependent on Middle Eastern crude oil.</p>
+    <p><strong>Here's how the chain actually works:</strong></p>
+  </div>
+
+  <!-- Supply chain trace visual -->
+  <div style="margin:1rem 0;overflow-x:auto">
+    <svg width="100%" height="200" viewBox="0 0 440 200" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Singapore refined fuel supply chain showing Middle East crude origins">
+      <!-- Middle East crude sources -->
+      <rect x="5" y="10" width="90" height="75" rx="8" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+      <text x="50" y="28" text-anchor="middle" fill="#991B1B" font-size="7.5" font-weight="700">CRUDE OIL ORIGINS</text>
+      <text x="50" y="42" text-anchor="middle" fill="#991B1B" font-size="6.5">🇸🇦 Saudi Arabia 30%</text>
+      <text x="50" y="53" text-anchor="middle" fill="#991B1B" font-size="6.5">🇦🇪 UAE 25%</text>
+      <text x="50" y="64" text-anchor="middle" fill="#991B1B" font-size="6.5">🇶🇦 Qatar 10%</text>
+      <text x="50" y="75" text-anchor="middle" fill="#DC2626" font-size="6" font-weight="600">⚠ ~90% via Hormuz</text>
+
+      <!-- Arrow -->
+      <line x1="98" y1="48" x2="118" y2="48" stroke="#DC2626" stroke-width="1.5"/>
+      <polygon points="116,44 123,48 116,52" fill="#DC2626"/>
+      <text x="110" y="40" text-anchor="middle" fill="#DC2626" font-size="5">Hormuz</text>
+
+      <!-- Singapore Refineries -->
+      <rect x="125" y="10" width="100" height="75" rx="8" fill="#DBEAFE" stroke="#2563EB" stroke-width="1.5"/>
+      <text x="175" y="26" text-anchor="middle" fill="#1E3A8A" font-size="7.5" font-weight="700">🇸🇬 SINGAPORE</text>
+      <text x="175" y="38" text-anchor="middle" fill="#1E3A8A" font-size="6">1.5M barrels/day capacity</text>
+      <text x="175" y="49" text-anchor="middle" fill="#2563EB" font-size="6">ExxonMobil (593K bpd)</text>
+      <text x="175" y="59" text-anchor="middle" fill="#2563EB" font-size="6">Shell Bukom (462K bpd)</text>
+      <text x="175" y="69" text-anchor="middle" fill="#2563EB" font-size="6">SRC (290K bpd)</text>
+      <text x="175" y="80" text-anchor="middle" fill="#1E3A8A" font-size="5.5" font-weight="600">Refines → Petrol, Diesel, Jet</text>
+
+      <!-- Arrow to trading -->
+      <line x1="228" y1="48" x2="248" y2="48" stroke="#2563EB" stroke-width="1.5"/>
+      <polygon points="246,44 253,48 246,52" fill="#2563EB"/>
+
+      <!-- Trading Houses -->
+      <rect x="255" y="10" width="80" height="75" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="295" y="26" text-anchor="middle" fill="#92400E" font-size="7" font-weight="700">TRADING</text>
+      <text x="295" y="39" text-anchor="middle" fill="#92400E" font-size="6.5">Vitol Asia</text>
+      <text x="295" y="50" text-anchor="middle" fill="#92400E" font-size="6.5">PetroChina Intl</text>
+      <text x="295" y="61" text-anchor="middle" fill="#92400E" font-size="6.5">Unipec</text>
+      <text x="295" y="73" text-anchor="middle" fill="#D97706" font-size="5.5">Priced at S'pore Platts</text>
+
+      <!-- Arrow to SL -->
+      <line x1="338" y1="48" x2="358" y2="48" stroke="#F59E0B" stroke-width="1.5"/>
+      <polygon points="356,44 363,48 356,52" fill="#F59E0B"/>
+
+      <!-- Sri Lanka -->
+      <rect x="365" y="15" width="65" height="65" rx="8" fill="#D1FAE5" stroke="#059669" stroke-width="1.5"/>
+      <text x="397" y="33" text-anchor="middle" fill="#065F46" font-size="14">🇱🇰</text>
+      <text x="397" y="48" text-anchor="middle" fill="#065F46" font-size="7" font-weight="700">CPC</text>
+      <text x="397" y="59" text-anchor="middle" fill="#059669" font-size="6">~27% from SG</text>
+      <text x="397" y="70" text-anchor="middle" fill="#059669" font-size="5.5">via CPC tenders</text>
+
+      <!-- The key insight box at bottom -->
+      <rect x="5" y="100" width="430" height="85" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1" stroke-dasharray="4,2"/>
+      <text x="220" y="118" text-anchor="middle" fill="#92400E" font-size="8" font-weight="700">⚠ THE HIDDEN VULNERABILITY</text>
+      <text x="220" y="132" text-anchor="middle" fill="#78350F" font-size="6.5">Singapore doesn't produce crude oil. ~90% of its refinery feedstock comes from the Middle East via Hormuz.</text>
+      <text x="220" y="145" text-anchor="middle" fill="#78350F" font-size="6.5">When you buy "Singapore refined fuel", you're buying Middle Eastern crude that was processed in Singapore.</text>
+      <text x="220" y="158" text-anchor="middle" fill="#78350F" font-size="6.5">A Hormuz blockade doesn't just affect crude imports — it starves Singapore's refineries of feedstock within weeks.</text>
+      <text x="220" y="174" text-anchor="middle" fill="#DC2626" font-size="7" font-weight="700">Diversification from "UAE crude" to "Singapore refined" is geographic diversification, not source diversification.</text>
+    </svg>
+  </div>
+
+  <div class="section-body">
+    <p><strong>The CPC tender process:</strong> Sri Lanka's fuel procurement runs through competitive tenders managed by a Standing Procurement Committee and a Special Standing Procurement Committee, with final Cabinet approval. In 2025, Singapore-based Vitol Asia won a 6-month contract to supply 92-octane petrol (April–October 2025), beating six other bidders. PetroChina International (Singapore) has also been a regular supplier. All pricing is benchmarked to Singapore Platts — Asia's primary oil pricing mechanism.</p>
+    <p><strong>What Vitol actually supplies:</strong> Vitol Asia, headquartered in Singapore, is one of the world's largest independent energy trading companies. They don't own refineries — they procure refined products from Singapore's mega-refineries (ExxonMobil's 593,000 bpd Jurong facility, Shell's 462,000 bpd Pulau Bukom complex) and ship them to CPC. These refineries process crude oil that is ~90% Middle Eastern in origin — primarily from Saudi Arabia, UAE, and Qatar — all of which transits through the Strait of Hormuz.</p>
+    <p><strong>The uncomfortable truth:</strong> Sri Lanka's "diversified" refined fuel imports from Singapore, India, Malaysia, and South Korea all ultimately trace back to Middle Eastern crude. Singapore processes Gulf crude. Indian refineries (which supply ~9% of SL's refined fuel) import 85% of their crude from the Gulf. Even South Korean refineries are heavily dependent on Middle Eastern feedstock. The diversification is in refining geography, not in crude oil origin.</p>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">Key finding</div>
+    Sri Lanka's refined fuel supply appears diversified across 6+ countries, but the underlying crude oil feeding those refineries is 80–90% Middle Eastern in origin. A sustained Hormuz closure would create a cascading supply crisis — first affecting crude imports directly, then choking the refineries that produce Sri Lanka's "diversified" refined fuel within 4–8 weeks.
+  </div>
+</div>
+
+<!-- ─── LIVE GEOPOLITICS UPDATE ─── -->
+<div class="card animate-on-scroll" style="border-left:4px solid var(--danger)">
+  <div class="section-label" style="color:var(--danger)">
+    <span style="display:inline-flex;align-items:center;gap:6px">
+      <span style="width:8px;height:8px;border-radius:50%;background:var(--danger);animation:pulse 1.5s infinite;display:inline-block"></span>
+      Live situation — 6 March 2026 (Day 6 of crisis)
+    </span>
+  </div>
+  <div class="section-title">Geopolitical situation update</div>
+  <div class="section-body">
+    <p><strong>What triggered this:</strong> On 28 February 2026, the United States and Israel launched coordinated strikes against Iran under Operation Epic Fury, targeting military infrastructure, nuclear sites, and leadership — reportedly killing Supreme Leader Ali Khamenei. Iran retaliated with missile and drone strikes on Israeli territory, US bases across Gulf states, and critically, Qatar's LNG facilities at Ras Laffan and Mesaieed, halting production.</p>
+
+    <p><strong>Hormuz status (as of 6 March):</strong> The Strait is effectively closed. IRGC claimed "complete control" on 4 March. Insurance companies have withdrawn coverage for Hormuz transits — doing the work of a physical blockade. Tanker traffic has gone from ~70% reduction to effectively zero commercial transits. All major shipping lines (Maersk, MSC, Hapag-Lloyd, CMA CGM) have suspended passage. European natural gas prices spiked from €30 to €60/MWh before settling at ~€48. Japan's refiners have formally requested the government to release strategic petroleum reserves.</p>
+
+    <p><strong>International response:</strong> US naval forces are being positioned to attempt reopening the strait, but the risk of a direct US-Iran naval confrontation keeps escalation fears high. Thailand has suspended oil exports and activated an energy crisis plan. The Philippines has flagged fuel supply concerns. Japan and South Korea are tapping strategic reserves. China continues diplomatic mediation efforts.</p>
+  </div>
+
+  <div style="margin:1rem 0">
+    <div style="font-size:.8rem;font-weight:700;color:var(--text);margin-bottom:.5rem">TIMELINE OF KEY EVENTS</div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-date">28 Feb 2026</div><div class="tl-text">US-Israel launch Operation Epic Fury. Strikes on Iran's military, nuclear sites, leadership. Supreme Leader reportedly killed. Iran begins retaliatory operations.</div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-date">1 Mar 2026</div><div class="tl-text">IRGC declares Hormuz "closed." First oil tanker attacked. Brent surges 7%+. Iranian drones strike Qatar LNG facilities (Ras Laffan, Mesaieed). SriLankan Airlines cancels 30+ Middle East flights.</div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-date">2 Mar 2026</div><div class="tl-text">All major shipping lines suspend Hormuz transits. Insurance companies withdraw coverage. Sri Lanka panic buying erupts — CPC releases 5M+ litres. Police ban fuel in containers.</div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-date">3 Mar 2026</div><div class="tl-text">Brent at $80.73. European gas spikes to €60/MWh. CPC, LIOC and Sinopec confirm "adequate stocks." Thailand suspends oil exports, activates energy crisis plan.</div></div>
+    <div class="tl-item"><div class="tl-dot red"></div><div class="tl-date">4 Mar 2026</div><div class="tl-text">IRGC claims "complete control" of Hormuz. Tanker traffic at effectively zero. NPR satellite imagery confirms dried-up shipping. Japanese refiners request SPR release. EU gas settles at €48/MWh.</div></div>
+    <div class="tl-item"><div class="tl-dot" style="background:var(--warning)"></div><div class="tl-date">5–6 Mar 2026</div><div class="tl-text">Brent trading $83–85/bbl (+14.5% on week). WTI at $77. Markets pricing in extended disruption. Thailand seeks alternative supplies within 1 week. Philippines raises fuel supply concerns. Sri Lanka CPC confirms stocks secured through May.</div></div>
+  </div>
+
+  <div class="section-body">
+    <p><strong>Sri Lanka's domestic picture (Day 6):</strong> CPC confirms stocks secured through April–May, with 37 days of petrol, 35 days of diesel, and 47 days of aviation fuel. The initial panic buying has been contained by police action and CPC reassurances. However, the Sapugaskanda refinery's UAE crude supply transits through Hormuz — if the blockade persists, refinery operations halt within 5–6 weeks. The real question isn't today's stock — it's what happens when upstream suppliers (Singapore, India) face their own crude shortages.</p>
+    <p><strong>What's changed since Day 1:</strong> The crisis has deepened. Insurance withdrawal means even if Iran's military couldn't physically block every ship, no commercial vessel will transit without war-risk coverage. This is now a de facto blockade enforced by markets, not just missiles. Brent has climbed from $73 pre-crisis to $83–85 — a 15% surge that is already flowing through to global supply chains.</p>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">Sri Lanka's exposure points</div>
+    <strong>Immediate:</strong> Panic buying → artificial shortage (even with adequate stocks). <strong>Short-term (2–4 weeks):</strong> Price increases flow through to pump prices. <strong>Medium-term (1–3 months):</strong> Sapugaskanda refinery feedstock dries up; Singapore/India refineries face same crude shortage. <strong>Long-term:</strong> Forex pressure, IMF programme strain, Gulf remittance disruption ($8B/year at risk).
+  </div>
+</div>
+
+<!-- ─── OIL PRICE TRACKER & SCENARIO CURVES ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Market analysis</div>
+  <div class="section-title">Oil price tracker &amp; scenario projections</div>
+  <div class="section-body">
+    <p>Oil prices are the transmission mechanism through which this crisis hits Sri Lanka's economy. Here's where prices stand and where they could go under each scenario.</p>
+  </div>
+
+  <!-- Current price boxes -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:1rem 0">
+    <div style="background:linear-gradient(135deg,#1E3A8A,#2563EB);border-radius:var(--radius-sm);padding:1rem;color:#fff;text-align:center">
+      <div style="font-size:.7rem;opacity:.8;text-transform:uppercase;letter-spacing:.5px">Brent Crude</div>
+      <div style="font-size:1.75rem;font-weight:800;margin:.25rem 0" id="brent-price">$83.99</div>
+      <div style="font-size:.75rem;color:#93C5FD">
+        <span style="color:#4ADE80">▲ +3.8%</span> on day &nbsp;|&nbsp; <span style="color:#4ADE80">▲ +14.5%</span> on week
+      </div>
+      <div style="font-size:.65rem;opacity:.6;margin-top:.25rem">6 March 2026</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#065F46,#059669);border-radius:var(--radius-sm);padding:1rem;color:#fff;text-align:center">
+      <div style="font-size:.7rem;opacity:.8;text-transform:uppercase;letter-spacing:.5px">WTI Crude</div>
+      <div style="font-size:1.75rem;font-weight:800;margin:.25rem 0" id="wti-price">$77.08</div>
+      <div style="font-size:.75rem;color:#6EE7B7">
+        <span style="color:#4ADE80">▲ +3.5%</span> on day &nbsp;|&nbsp; <span style="color:#4ADE80">▲ +12.8%</span> on week
+      </div>
+      <div style="font-size:.65rem;opacity:.6;margin-top:.25rem">6 March 2026</div>
+    </div>
+  </div>
+
+  <!-- Sri Lanka cost impact -->
+  <div style="background:var(--danger-light);border:1px solid rgba(220,38,38,.2);border-radius:var(--radius-sm);padding:.75rem 1rem;margin:1rem 0">
+    <div style="font-size:.8rem;font-weight:700;color:#991B1B;margin-bottom:.35rem">💰 What this means for Sri Lanka right now</div>
+    <div style="font-size:.85rem;color:#7F1D1D;line-height:1.6">
+      At $84/barrel, Sri Lanka's annual oil import bill is approximately <strong>$5.4 billion</strong> — already <strong>+$900M/year above pre-crisis</strong>. Every additional $10/barrel adds roughly <strong>$650 million/year</strong> to the bill — equivalent to <strong>Rs. 15–20 more per litre</strong> at the pump.
+    </div>
+  </div>
+
+  <!-- Chart.js scenario projection -->
+  <div style="margin:1.25rem 0">
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:.5rem">Brent crude — scenario price curves (next 90 days)</div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;position:relative">
+      <canvas id="scenario-chart" width="680" height="320" style="width:100%;height:auto"></canvas>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.5rem;font-size:.75rem">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:3px;background:#059669;display:inline-block;border-radius:2px"></span> Scenario A: Quick resolution</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:3px;background:#F59E0B;display:inline-block;border-radius:2px"></span> Scenario B: Extended disruption</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:3px;background:#DC2626;display:inline-block;border-radius:2px"></span> Scenario C: Prolonged closure</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:3px;background:#6B7280;display:inline-block;border-radius:2px;border:1px dashed #6B7280"></span> Pre-crisis baseline</span>
+    </div>
+  </div>
+
+  <!-- Scenario breakdown table -->
+  <div style="overflow-x:auto;margin:1rem 0">
+    <table style="width:100%;font-size:.8rem;border-collapse:collapse">
+      <thead>
+        <tr style="background:var(--bg)">
+          <th style="padding:.5rem;text-align:left;border-bottom:2px solid var(--border)">Scenario</th>
+          <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border)">Duration</th>
+          <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border)">Brent range</th>
+          <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border)">SL pump impact</th>
+          <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border)">Annual cost increase</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:.5rem;border-bottom:1px solid var(--border)"><span style="color:#059669;font-weight:700">A</span> Quick resolution</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">1–2 weeks</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">$85–95 → $70–80</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">Rs. 5–15/litre</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">+$0.3–0.6B</td>
+        </tr>
+        <tr style="background:rgba(245,158,11,.05)">
+          <td style="padding:.5rem;border-bottom:1px solid var(--border)"><span style="color:#F59E0B;font-weight:700">B</span> Extended disruption</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">1–3 months</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">$100–120</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">Rs. 30–55/litre</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">+$1.3–2.6B</td>
+        </tr>
+        <tr style="background:rgba(220,38,38,.05)">
+          <td style="padding:.5rem;border-bottom:1px solid var(--border)"><span style="color:#DC2626;font-weight:700">C</span> Prolonged closure</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">3+ months</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">$120–200</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">Rs. 55–120+/litre</td>
+          <td style="padding:.5rem;text-align:center;border-bottom:1px solid var(--border)">+$2.6–7.8B</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">Analyst consensus (6 March 2026)</div>
+    After 6 days of crisis, with insurance withdrawal making the blockade effectively total, analyst probabilities have shifted. Scenario A (quick resolution) has dropped to 25–30%, Scenario B (extended disruption) risen to 45–50%, and Scenario C (prolonged closure) holds at 20–25%. Markets are pricing in $85–90 Brent as the new floor, with $100+ if the blockade persists into week 3. The insurance-driven de facto closure means even diplomatic progress may not immediately restart tanker traffic.
+  </div>
+</div>
+
+<!-- ─── REFINERY BUFFER ANALYSIS ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Critical analysis</div>
+  <div class="section-title">The upstream buffer: how long can Sri Lanka's suppliers keep supplying?</div>
+  <div class="section-body">
+    <p>Sri Lanka's 37-day fuel reserve sounds reassuring — but what about the countries that supply the remaining 70% of our refined fuel? If Hormuz stays closed, when do <em>their</em> refineries run out of crude to process?</p>
+  </div>
+
+  <!-- Buffer comparison chart -->
+  <div style="margin:1rem 0">
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:.75rem">Upstream supplier buffer: how many days before they stop refining?</div>
+
+    <!-- Singapore -->
+    <div style="margin-bottom:1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">
+        <span style="font-size:.85rem;font-weight:700">🇸🇬 Singapore <span style="color:var(--text-muted);font-weight:400">(27% of SL refined imports)</span></span>
+        <span style="background:var(--danger-light);color:#991B1B;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700">~11 days buffer</span>
+      </div>
+      <div class="prep-bar-bg" style="height:14px"><div class="prep-bar" style="width:12%;background:var(--danger);border-radius:3px;height:14px"></div></div>
+      <div style="font-size:.75rem;color:var(--text-secondary);margin-top:.35rem;line-height:1.5">
+        No formal strategic reserve. ~17M barrels Jurong Island storage / ~1.5M bpd refinery throughput. <strong>~90% of feedstock is Middle Eastern crude via Hormuz.</strong> Singapore processes crude — it doesn't produce it. Once commercial inventory depletes (~11 days), refineries must throttle or halt. Vitol Asia and other traders cannot source product from refineries that have no crude to process.
+      </div>
+    </div>
+
+    <!-- India -->
+    <div style="margin-bottom:1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">
+        <span style="font-size:.85rem;font-weight:700">🇮🇳 India <span style="color:var(--text-muted);font-weight:400">(9% of SL refined imports)</span></span>
+        <span style="background:var(--warning-light);color:#92400E;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700">~60 days buffer</span>
+      </div>
+      <div class="prep-bar-bg" style="height:14px"><div class="prep-bar" style="width:55%;background:var(--warning);border-radius:3px;height:14px"></div></div>
+      <div style="font-size:.75rem;color:var(--text-secondary);margin-top:.35rem;line-height:1.5">
+        25 days crude stock + 25 days products + 9.5 days SPR (Visakhapatnam, Mangaluru, Padur) = ~60 days. But India itself imports 85% of crude from the Gulf and consumes 5.5M bpd — it will prioritise domestic needs. India has indicated it's exploring alternative sources (Nigeria, US), but any spare capacity will go to India's 1.4 billion people first. Exports to Sri Lanka may be restricted within weeks.
+      </div>
+    </div>
+
+    <!-- South Korea -->
+    <div style="margin-bottom:1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">
+        <span style="font-size:.85rem;font-weight:700">🇰🇷 South Korea <span style="color:var(--text-muted);font-weight:400">(~5% of SL refined imports)</span></span>
+        <span style="background:var(--success-light);color:#065F46;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700">210+ days buffer</span>
+      </div>
+      <div class="prep-bar-bg" style="height:14px"><div class="prep-bar" style="width:90%;background:var(--success);border-radius:3px;height:14px"></div></div>
+      <div style="font-size:.75rem;color:var(--text-secondary);margin-top:.35rem;line-height:1.5">
+        100M+ barrels in state reserves + 95M barrels held by private firms = 210+ days of IEA-standard coverage. Fourth-largest reserves among IEA members. <strong>South Korea is the most resilient supplier</strong> — but it's a minor source for Sri Lanka (~5% of refined imports), and under sustained crisis it too would prioritise domestic consumption.
+      </div>
+    </div>
+
+    <!-- Malaysia -->
+    <div style="margin-bottom:1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">
+        <span style="font-size:.85rem;font-weight:700">🇲🇾 Malaysia <span style="color:var(--text-muted);font-weight:400">(17% of SL refined imports)</span></span>
+        <span style="background:var(--warning-light);color:#92400E;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700">~40–50 days buffer</span>
+      </div>
+      <div class="prep-bar-bg" style="height:14px"><div class="prep-bar" style="width:42%;background:var(--warning);border-radius:3px;height:14px"></div></div>
+      <div style="font-size:.75rem;color:var(--text-secondary);margin-top:.35rem;line-height:1.5">
+        Malaysia has domestic crude production (~597K bpd) plus 955K bpd refining capacity. About 35% of refinery feedstock comes from the Middle East — the rest is domestic or regional. This makes Malaysia more resilient than Singapore, but its own exports to Sri Lanka would face price pressure and possible government restrictions under prolonged disruption.
+      </div>
+    </div>
+
+    <!-- UAE direct -->
+    <div style="margin-bottom:1rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">
+        <span style="font-size:.85rem;font-weight:700">🇦🇪 UAE — direct crude <span style="color:var(--text-muted);font-weight:400">(98% of SL crude imports)</span></span>
+        <span style="background:#1F2937;color:#fff;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700">0 days if Hormuz closed</span>
+      </div>
+      <div class="prep-bar-bg" style="height:14px"><div class="prep-bar" style="width:1%;background:#1F2937;border-radius:3px;height:14px"></div></div>
+      <div style="font-size:.75rem;color:var(--text-secondary);margin-top:.35rem;line-height:1.5">
+        UAE crude for the Sapugaskanda refinery transits directly through Hormuz. A blockade immediately stops supply. The refinery operates on existing inventory (~7–10 days of crude at the facility) before halting. UAE itself is sitting on vast crude reserves but <strong>cannot ship if Hormuz is closed</strong> — only the 1.5M bpd Abu Dhabi-Fujairah pipeline bypasses Hormuz, and that capacity is reserved for UAE's own use.
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline cascade -->
+  <div style="background:#FEF3C7;border:1px solid rgba(245,158,11,.3);border-radius:var(--radius-sm);padding:1rem;margin:1rem 0">
+    <div style="font-size:.85rem;font-weight:700;color:#78350F;margin-bottom:.5rem">⏱️ The cascading supply failure timeline</div>
+    <div style="font-size:.8rem;color:#78350F;line-height:1.7">
+      <strong>Day 0–7:</strong> Hormuz closes. UAE crude to Sapugaskanda halted. Existing stock covers refinery operations.<br>
+      <strong>Day 7–14:</strong> Sapugaskanda refinery halts (no feedstock). Sri Lanka now 100% dependent on refined imports.<br>
+      <strong>Day 11–18:</strong> Singapore refineries begin throttling (commercial crude inventory depleted). Vitol Asia scrambles for non-ME crude — but at massive premium.<br>
+      <strong>Day 14–30:</strong> India prioritises domestic supply. Indian refined fuel exports to SL likely restricted or halted.<br>
+      <strong>Day 30–45:</strong> Malaysia throttles exports. Only South Korea (210+ days) and some rerouted non-ME supplies still flowing — but at $100–120+/barrel.<br>
+      <strong>Day 45–60:</strong> Sri Lanka's 37-day domestic reserves exhausted. Multiple upstream suppliers simultaneously constrained. Rationing inevitable. Price surge compounds forex drain.
+    </div>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">Scenario cross-check: do the three scenarios still hold?</div>
+    <p style="margin-bottom:.5rem"><strong>Scenario A (1–2 weeks):</strong> ✅ <strong>Still valid.</strong> If Hormuz reopens within 2 weeks, Singapore's ~11-day buffer and India's ~60-day buffer mean Sri Lanka's supply chain survives intact. Minimal disruption beyond price spikes.</p>
+    <p style="margin-bottom:.5rem"><strong>Scenario B (1–3 months):</strong> ⚠️ <strong>Now more severe than initially estimated.</strong> The upstream buffer analysis reveals that by week 3, Singapore's refineries are throttling. By week 4–6, India restricts exports. Sri Lanka loses 36% of refined supply (Singapore 27% + India 9%) within 4–6 weeks — not because of its own reserves, but because <em>the suppliers run out</em>. The effective buffer isn't 37 days — it's closer to <strong>25–30 days</strong> once upstream constraints cascade.</p>
+    <p><strong>Scenario C (3+ months):</strong> ⚠️ <strong>Significantly worse than estimated.</strong> At 3+ months, only South Korea (~5% of supply) is still producing normally. Every other supplier is either halted (UAE, Singapore) or restricted (India, Malaysia). Sri Lanka faces near-total supply collapse, not just price shock. This is a 2022-level crisis that arrives faster than the 37-day reserve figure suggests.</p>
+  </div>
+</div>
+
+<!-- ─── COUNTRY COMPARISON ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">Global comparison</div>
+  <div class="section-title">How prepared are other countries? Sri Lanka in context</div>
+  <div class="section-body">
+    <p>Sri Lanka isn't the only country staring at this crisis. Virtually every Asian economy depends on Middle Eastern energy transiting Hormuz. But the level of preparedness varies enormously — and the comparison is revealing.</p>
+  </div>
+
+  <!-- Country comparison cards -->
+  <div style="margin:1rem 0;display:grid;gap:.75rem">
+
+    <!-- Japan -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start">
+      <div style="text-align:center;min-width:60px">
+        <div style="font-size:1.5rem">🇯🇵</div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--text)">Japan</div>
+        <div style="background:#D1FAE5;color:#065F46;padding:2px 6px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:.25rem">254 days</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-secondary);line-height:1.6">
+        <strong>ME dependency:</strong> 95% of crude imports from Middle East. <strong>SPR:</strong> 146 days (govt) + 108 days (private) = 254 days — among the world's largest. <strong>Response:</strong> Refiners have formally requested government SPR release. IEA member with coordinated emergency response. <strong>Vulnerability:</strong> High import dependency but massive buffers. Will weather months of disruption. <strong>LNG:</strong> 2–4 weeks of reserves; gas prices already spiking.
+      </div>
+    </div>
+
+    <!-- South Korea -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start">
+      <div style="text-align:center;min-width:60px">
+        <div style="font-size:1.5rem">🇰🇷</div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--text)">S. Korea</div>
+        <div style="background:#D1FAE5;color:#065F46;padding:2px 6px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:.25rem">210+ days</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-secondary);line-height:1.6">
+        <strong>ME dependency:</strong> ~75% of crude from Middle East. <strong>SPR:</strong> 100M+ barrels (state) + 95M barrels (private) = 210+ days — 4th largest among IEA members. <strong>Response:</strong> SPR release authorised. Nomura flags as "most vulnerable on current account" despite large reserves. <strong>Vulnerability:</strong> Oil imports = 2.7% of GDP. Strong reserves but high economic exposure to sustained price shock.
+      </div>
+    </div>
+
+    <!-- India -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start">
+      <div style="text-align:center;min-width:60px">
+        <div style="font-size:1.5rem">🇮🇳</div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--text)">India</div>
+        <div style="background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:.25rem">~60 days</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-secondary);line-height:1.6">
+        <strong>ME dependency:</strong> 85% of crude from Gulf. 53% of LNG from Gulf. <strong>SPR:</strong> 25 days crude + 25 days products + 9.5 days strategic = ~60 days. Expanding to 22 days SPR in Phase-II. <strong>Response:</strong> Exploring Nigeria, US as alternative sources. Has 8 weeks of total stock. <strong>Vulnerability:</strong> Dual physical + financial shock (Brent-indexed LNG contracts). 1.4B population = enormous domestic priority. <strong>SL impact:</strong> India will restrict fuel exports to Sri Lanka if its own supply tightens.
+      </div>
+    </div>
+
+    <!-- Thailand -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start">
+      <div style="text-align:center;min-width:60px">
+        <div style="font-size:1.5rem">🇹🇭</div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--text)">Thailand</div>
+        <div style="background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:.25rem">61–90 days</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-secondary);line-height:1.6">
+        <strong>ME dependency:</strong> 52% of crude from Middle East. <strong>SPR:</strong> 61 days (ME-only scenario) to 90+ days (including non-ME sources). <strong>Response:</strong> Already suspended oil exports. Activated national energy crisis plan. Seeking alternative supply within 1 week. <strong>Vulnerability:</strong> Flagged by analysts as "Asia's most exposed importer" — not due to reserves but economic sensitivity. Imports 491K bpd from ME.
+      </div>
+    </div>
+
+    <!-- Philippines -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start">
+      <div style="text-align:center;min-width:60px">
+        <div style="font-size:1.5rem">🇵🇭</div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--text)">Philippines</div>
+        <div style="background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:.25rem">60 days</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-secondary);line-height:1.6">
+        <strong>ME dependency:</strong> 95–98% of crude from Middle East. <strong>SPR:</strong> 60 days inventory (3× minimum requirement). <strong>Vulnerability:</strong> Extreme import dependency but reasonable reserves. Interconnected with Asian refinery networks. No domestic crude production of significance. Raised fuel supply concerns on March 4.
+      </div>
+    </div>
+
+    <!-- Pakistan -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start">
+      <div style="text-align:center;min-width:60px">
+        <div style="font-size:1.5rem">🇵🇰</div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--text)">Pakistan</div>
+        <div style="background:var(--danger-light);color:#991B1B;padding:2px 6px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:.25rem">~28 days</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-secondary);line-height:1.6">
+        <strong>ME dependency:</strong> ~90% of crude from Middle East. 99% of LNG from Qatar/UAE. <strong>SPR:</strong> No formal strategic petroleum reserve. ~28 days of operational stock. <strong>Vulnerability:</strong> Critical. No SPR policy despite years of proposals. Imports 300K bpd crude vs 70K bpd domestic production. LNG supply collapse would trigger power sector destruction. Pakistan and Sri Lanka share similar structural vulnerabilities.
+      </div>
+    </div>
+
+    <!-- Bangladesh -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start">
+      <div style="text-align:center;min-width:60px">
+        <div style="font-size:1.5rem">🇧🇩</div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--text)">Bangladesh</div>
+        <div style="background:var(--danger-light);color:#991B1B;padding:2px 6px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:.25rem">14–28 days</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-secondary);line-height:1.6">
+        <strong>ME dependency:</strong> 72% of LNG from Gulf. <strong>SPR:</strong> No strategic reserve. Diesel 14 days, octane 28 days, petrol 15 days. <strong>Vulnerability:</strong> Already running 1,300 MMcf/day gas deficit before the crisis. Limited storage and procurement flexibility. BPC says short-term stocks adequate but acknowledges structural fragility.
+      </div>
+    </div>
+
+    <!-- SRI LANKA — highlighted -->
+    <div style="background:linear-gradient(135deg,rgba(220,38,38,.05),rgba(245,158,11,.05));border:2px solid var(--danger);border-radius:var(--radius-sm);padding:.75rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start">
+      <div style="text-align:center;min-width:60px">
+        <div style="font-size:1.5rem">🇱🇰</div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--danger)">Sri Lanka</div>
+        <div style="background:var(--danger-light);color:#991B1B;padding:2px 6px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:.25rem">37 days*</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-secondary);line-height:1.6">
+        <strong>ME dependency:</strong> 98% of crude from UAE (via Hormuz). 80–90% of refined fuel traces to ME crude. <strong>SPR:</strong> No strategic reserve. 37 days operational stock (petrol), 35 (diesel), 47 (jet). <strong>Unique vulnerabilities:</strong> Only 1 refinery (Sapugaskanda, 50K bpd). No bypass pipeline. 1.5M workers in Gulf ($8B remittances). IMF programme constraints. 2022 crisis scar tissue.<br>
+        <strong style="color:#991B1B">*Effective buffer is 25–30 days</strong> once upstream supplier constraints (Singapore ~11 days, India prioritisation) are factored in.
+      </div>
+    </div>
+
+    <!-- Singapore — as supplier -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start">
+      <div style="text-align:center;min-width:60px">
+        <div style="font-size:1.5rem">🇸🇬</div>
+        <div style="font-size:.7rem;font-weight:700;color:var(--text)">Singapore</div>
+        <div style="background:var(--danger-light);color:#991B1B;padding:2px 6px;border-radius:8px;font-size:.65rem;font-weight:700;margin-top:.25rem">~11 days*</div>
+      </div>
+      <div style="font-size:.75rem;color:var(--text-secondary);line-height:1.6">
+        <strong>Role:</strong> Major refinery hub (1.5M bpd), not end-consumer. 27% of SL's refined supply. <strong>SPR:</strong> No formal strategic reserve. ~17M barrels Jurong Island commercial inventory. <strong>Vulnerability:</strong> Zero domestic crude. ~90% ME feedstock. Once commercial inventory depletes (~11 days), refineries throttle. <strong>*As a supplier to SL, Singapore's 11-day buffer is Sri Lanka's upstream constraint.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison ranking visual -->
+  <div style="margin:1rem 0;background:var(--bg);border-radius:var(--radius-sm);padding:1rem">
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:.75rem">Strategic reserve ranking — days of oil cover</div>
+    <!-- Japan -->
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem"><span>🇯🇵 Japan</span><span>254 days</span></div>
+      <div class="prep-bar-bg" style="height:10px"><div class="prep-bar" style="width:100%;background:#059669;border-radius:3px;height:10px"></div></div>
+    </div>
+    <!-- South Korea -->
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem"><span>🇰🇷 South Korea</span><span>210 days</span></div>
+      <div class="prep-bar-bg" style="height:10px"><div class="prep-bar" style="width:83%;background:#059669;border-radius:3px;height:10px"></div></div>
+    </div>
+    <!-- Thailand -->
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem"><span>🇹🇭 Thailand</span><span>61–90 days</span></div>
+      <div class="prep-bar-bg" style="height:10px"><div class="prep-bar" style="width:30%;background:#F59E0B;border-radius:3px;height:10px"></div></div>
+    </div>
+    <!-- Philippines -->
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem"><span>🇵🇭 Philippines</span><span>60 days</span></div>
+      <div class="prep-bar-bg" style="height:10px"><div class="prep-bar" style="width:24%;background:#F59E0B;border-radius:3px;height:10px"></div></div>
+    </div>
+    <!-- India -->
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem"><span>🇮🇳 India</span><span>~60 days</span></div>
+      <div class="prep-bar-bg" style="height:10px"><div class="prep-bar" style="width:24%;background:#F59E0B;border-radius:3px;height:10px"></div></div>
+    </div>
+    <!-- Sri Lanka -->
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem;color:var(--danger)"><span>🇱🇰 Sri Lanka</span><span>37 days (effective: 25–30)</span></div>
+      <div class="prep-bar-bg" style="height:10px"><div class="prep-bar" style="width:12%;background:var(--danger);border-radius:3px;height:10px"></div></div>
+    </div>
+    <!-- Pakistan -->
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem"><span>🇵🇰 Pakistan</span><span>~28 days</span></div>
+      <div class="prep-bar-bg" style="height:10px"><div class="prep-bar" style="width:11%;background:var(--danger);border-radius:3px;height:10px"></div></div>
+    </div>
+    <!-- Bangladesh -->
+    <div style="margin-bottom:.5rem">
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem"><span>🇧🇩 Bangladesh</span><span>14–28 days</span></div>
+      <div class="prep-bar-bg" style="height:10px"><div class="prep-bar" style="width:8%;background:var(--danger);border-radius:3px;height:10px"></div></div>
+    </div>
+    <!-- Singapore -->
+    <div>
+      <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem"><span>🇸🇬 Singapore (refinery buffer)</span><span>~11 days</span></div>
+      <div class="prep-bar-bg" style="height:10px"><div class="prep-bar" style="width:4%;background:#1F2937;border-radius:3px;height:10px"></div></div>
+    </div>
+    <div style="font-size:.65rem;color:var(--text-muted);margin-top:.5rem">IEA recommends 90 days minimum. Japan and South Korea exceed this. Most South Asian nations fall well below.</div>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">Where Sri Lanka sits</div>
+    Sri Lanka ranks near the bottom of regional preparedness, alongside Pakistan and Bangladesh. But Sri Lanka faces a unique compounding vulnerability that no other country in this comparison shares: <strong>simultaneous exposure to oil supply disruption, upstream refinery dependency, Gulf labour market collapse, and IMF programme constraints</strong>. Japan can ride out 254 days. Sri Lanka's effective window — accounting for upstream supplier failure — is closer to 25–30 days before the cascading crisis begins.
+  </div>
+</div>
+
+<!-- ─── SUSTAINED WAR ECONOMIC IMPACT ─── -->
+<div class="card animate-on-scroll" style="border-left:4px solid #7C3AED">
+  <div class="section-label" style="color:#7C3AED">War economy analysis</div>
+  <div class="section-title">If the war persists: Sri Lanka's economic reckoning</div>
+  <div class="section-body">
+    <p>Sri Lanka entered 2026 on the cusp of genuine recovery — 4.2% GDP growth forecast, inflation at 1.6%, forex reserves at $6.7 billion, and an IMF programme on track. A sustained Middle East war systematically unravels every pillar of that recovery.</p>
+  </div>
+
+  <!-- Economic transmission channels -->
+  <div style="margin:1rem 0">
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:.75rem">Five transmission channels — how the crisis hits the economy</div>
+
+    <!-- Channel 1: Oil import bill -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.75rem">
+      <div style="font-size:.85rem;font-weight:700;color:var(--danger);margin-bottom:.25rem">1️⃣ Oil import bill explosion</div>
+      <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6">
+        Sri Lanka's 2024 refined petroleum imports: ~$2.5 billion. At current $79/barrel: ~$5.1B annual bill. At $120/barrel (Scenario B): <strong>+$2.6B/year</strong>. At $150–200 (Scenario C): <strong>+$4.5–7.8B/year</strong>. For a country with $6.7B in forex reserves, a $5B+ increase is existential. The 2022 crisis was triggered by reserves falling below $2B — a sustained $120+ oil price gets there within 12–18 months even with IMF support.
+      </div>
+    </div>
+
+    <!-- Channel 2: Forex drain -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.75rem">
+      <div style="font-size:.85rem;font-weight:700;color:var(--danger);margin-bottom:.25rem">2️⃣ Forex reserve haemorrhage</div>
+      <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6">
+        Current reserves: $6.7B (3.9 months import cover). Every $10/barrel increase drains ~$650M/year extra. At $120/barrel, reserves could drop below the critical $4B threshold within 6–9 months. The rupee, which stabilised at ~Rs. 295/$ in early 2026, would face intense depreciation pressure — a repeat of the 2022 collapse from Rs. 200 to Rs. 360 is not impossible. A weakening rupee further amplifies the cost of oil imports in a vicious cycle.
+      </div>
+    </div>
+
+    <!-- Channel 3: Remittance collapse -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.75rem">
+      <div style="font-size:.85rem;font-weight:700;color:var(--warning-dark);margin-bottom:.25rem">3️⃣ Gulf remittance shock ($8B+ at risk)</div>
+      <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6">
+        1.5+ million Sri Lankans work in GCC countries, generating $8B+ in annual remittances — the single largest forex source. A sustained war triggers: hiring freezes → salary reductions → project cancellations → potential mass evacuations (as in the 1990 Gulf War, when ~100,000 Sri Lankans were evacuated from Kuwait/Iraq). Even a 20% decline in remittances = <strong>$1.6B/year loss</strong> — equivalent to losing the entire tea export industry overnight. A 50% collapse = $4B loss, pushing forex reserves into crisis territory.
+      </div>
+    </div>
+
+    <!-- Channel 4: Inflation spiral -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.75rem">
+      <div style="font-size:.85rem;font-weight:700;color:var(--warning-dark);margin-bottom:.25rem">4️⃣ Inflation spiral → cost of living crisis</div>
+      <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6">
+        Fuel prices feed into everything: transport costs → food prices → manufacturing → services. The 2022 inflation peak hit 70%. Current 1.6% inflation could surge to 15–25% under Scenario B, and 30–50%+ under Scenario C. The IMF projects 5.4% for 2026 under normal conditions — a sustained war makes even 10% optimistic. Low-income households, which spend 60–70% of income on food and transport, would be devastated.
+      </div>
+    </div>
+
+    <!-- Channel 5: IMF programme -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem;margin-bottom:.75rem">
+      <div style="font-size:.85rem;font-weight:700;color:var(--accent);margin-bottom:.25rem">5️⃣ IMF programme derailment</div>
+      <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6">
+        Sri Lanka's $3B IMF EFF programme requires: fiscal discipline, no fuel subsidies, controlled inflation, and growing reserves. A sustained oil shock creates an impossible dilemma: <strong>pass costs to consumers</strong> (risking social unrest and political instability) or <strong>absorb costs through subsidies</strong> (violating IMF conditions and risking programme suspension). If the IMF programme is suspended, Sri Lanka loses access to critical foreign financing just when it needs it most. The December 2025 IMF Rapid Financing Instrument shows the Fund is aware of SL's vulnerability, but patience has limits.
+      </div>
+    </div>
+  </div>
+
+  <!-- Economic scenario modelling -->
+  <div style="overflow-x:auto;margin:1rem 0">
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:.5rem">Economic scenario modelling — sustained war impact on Sri Lanka</div>
+    <table style="width:100%;font-size:.75rem;border-collapse:collapse">
+      <thead>
+        <tr style="background:var(--bg)">
+          <th style="padding:.5rem;text-align:left;border-bottom:2px solid var(--border)">Indicator</th>
+          <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border)">Pre-crisis<br>(Feb 2026)</th>
+          <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border);background:rgba(5,150,105,.05)">Scen. A<br>(1–2 wks)</th>
+          <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border);background:rgba(245,158,11,.05)">Scen. B<br>(1–3 mo)</th>
+          <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border);background:rgba(220,38,38,.05)">Scen. C<br>(3+ mo)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Brent crude ($/bbl)</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">$70</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#059669">$85–95 → $72</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#D97706">$100–120</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#DC2626">$140–200</td>
+        </tr>
+        <tr>
+          <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Annual oil import bill</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">$4.5B</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">$4.8–5.1B</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#D97706">$5.8–7.1B</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#DC2626">$8.5–12.3B</td>
+        </tr>
+        <tr>
+          <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Forex reserves</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">$6.7B</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">$6.2–6.5B</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#D97706">$4.0–5.0B</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#DC2626">$1.5–3.0B</td>
+        </tr>
+        <tr>
+          <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Rupee / USD</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">~295</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">295–310</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#D97706">320–380</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#DC2626">380–500+</td>
+        </tr>
+        <tr>
+          <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Inflation (y/y)</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">1.6%</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">3–5%</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#D97706">15–25%</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#DC2626">30–50%+</td>
+        </tr>
+        <tr>
+          <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Remittances</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">$8B+/yr</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">$7.5–8B</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#D97706">$5–6.5B</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#DC2626">$2–4B</td>
+        </tr>
+        <tr>
+          <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">GDP growth</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">4.2%</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">3.5–4.0%</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#D97706">0 to –2%</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#DC2626">–5 to –8%</td>
+        </tr>
+        <tr>
+          <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Fuel pump price</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Rs. 366/L</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Rs. 375–385</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#D97706">Rs. 420–500</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#DC2626">Rs. 550–800+</td>
+        </tr>
+        <tr>
+          <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">IMF programme</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">On track</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#059669">Intact</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#D97706">Strained</td>
+          <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);color:#DC2626">Suspended</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:.7rem;color:var(--text-muted);margin-top:.35rem">Estimates based on historical price elasticities, 2022 crisis data, IMF programme parameters, and current macro indicators. These are best-estimate projections, not forecasts.</div>
+  </div>
+</div>
+
+<!-- ─── SOCIO-POLITICAL CALCULUS ─── -->
+<div class="card animate-on-scroll" style="border-left:4px solid var(--danger)">
+  <div class="section-label" style="color:var(--danger)">Socio-political analysis</div>
+  <div class="section-title">The socio-political calculus: what happens to people and politics</div>
+  <div class="section-body">
+    <p>Economics is the mechanism. But it's the human consequences that matter. Sri Lanka's 2022 crisis showed that economic collapse cascades into social breakdown and political upheaval in predictable ways. Here's how a sustained war plays out beyond the spreadsheets.</p>
+  </div>
+
+  <!-- Phase diagram -->
+  <div style="margin:1rem 0">
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:.75rem">The three phases of social crisis</div>
+
+    <!-- Phase 1 -->
+    <div style="border-left:4px solid var(--warning);padding:.75rem;margin-bottom:.75rem;background:rgba(245,158,11,.03);border-radius:0 var(--radius-sm) var(--radius-sm) 0">
+      <div style="font-size:.8rem;font-weight:700;color:#92400E;margin-bottom:.35rem">PHASE 1 — Anxiety & hoarding (Week 1–3)</div>
+      <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6">
+        This is where Sri Lanka is <strong>right now</strong>. Panic buying erupts (CPC has already released 5M+ litres). Police ban fuel in containers. Social media amplifies fear — WhatsApp forwards claiming imminent shortages trigger self-fulfilling prophecies. Queues appear at fuel stations even though supply is adequate. The wealthy stockpile; the poor wait in line. Trust in official reassurances is low (the 2022 government claimed "no crisis" until the crisis was total). This phase is manageable if the disruption is short.
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div style="border-left:4px solid var(--danger);padding:.75rem;margin-bottom:.75rem;background:rgba(220,38,38,.03);border-radius:0 var(--radius-sm) var(--radius-sm) 0">
+      <div style="font-size:.8rem;font-weight:700;color:#991B1B;margin-bottom:.35rem">PHASE 2 — Rationing & social strain (Month 1–3)</div>
+      <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6">
+        If Scenario B materialises: fuel rationing returns (QR-code systems, plate-number rotation). Transport costs spike — bus fares, school transport, food delivery all increase. Daily-wage workers face income collapse (three-wheeler drivers, delivery riders, farmers who rely on diesel). Hospital fuel supply becomes critical. Schools may close. The informal economy — 60% of Sri Lanka's workforce — bears the heaviest burden. The poor and rural communities face disproportionate impact. Inter-community tensions can flare as scarcity creates competition.
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div style="border-left:4px solid #1F2937;padding:.75rem;margin-bottom:.75rem;background:rgba(31,41,55,.03);border-radius:0 var(--radius-sm) var(--radius-sm) 0">
+      <div style="font-size:.8rem;font-weight:700;color:#1F2937;margin-bottom:.35rem">PHASE 3 — Political instability & social rupture (Month 3+)</div>
+      <div style="font-size:.8rem;color:var(--text-secondary);line-height:1.6">
+        If Scenario C unfolds: the 2022 Aragalaya (protest movement) template re-emerges. In 2022, fuel queues → hospital deaths from lack of medicine transport → mass protests → the president fled the country. The current AKD/NPP government, elected in September 2024 on a reform mandate, faces an impossible political calculus: <strong>protect the IMF programme (and lose popular support)</strong> or <strong>protect the people with subsidies (and lose the IMF programme)</strong>. Neither path ends well under a sustained $120+ oil price. History shows: Sri Lankan governments do not survive fuel crises. Three prime ministers fell between 2020–2022.
+      </div>
+    </div>
+  </div>
+
+  <!-- Gulf workers section -->
+  <div style="background:#EDE9FE;border:1px solid rgba(124,58,237,.2);border-radius:var(--radius-sm);padding:1rem;margin:1rem 0">
+    <div style="font-size:.85rem;font-weight:700;color:#5B21B6;margin-bottom:.5rem">🏗️ The Gulf workers: 1.5 million people in the firing line</div>
+    <div style="font-size:.8rem;color:#4C1D95;line-height:1.6">
+      <p style="margin-bottom:.5rem">Over 1.5 million Sri Lankans work in Gulf states — primarily in Saudi Arabia, UAE, Kuwait, and Qatar. They work in construction, hospitality, domestic service, and retail. Their remittances ($8B+) exceed the entire tea export industry and tourism combined.</p>
+      <p style="margin-bottom:.5rem"><strong>In a sustained war:</strong> Gulf construction projects freeze. Hospitality shuts down. Airports face closures (SriLankan Airlines has already cancelled 30+ flights). If the conflict widens to Gulf cities — as the Feb 28 strikes near Dubai and Kuwait airports suggest — mass evacuation becomes necessary.</p>
+      <p style="margin-bottom:.5rem"><strong>Historical precedent:</strong> During the 1990 Gulf War, ~100,000 Sri Lankans were evacuated from Kuwait and Iraq. A 2026 equivalent involving 500,000+ workers would be the largest repatriation in Sri Lankan history. The returning workers face: no jobs (domestic economy is contracting), lost savings (many leave assets behind), and psychological trauma.</p>
+      <p><strong>The double hit:</strong> When workers return, remittances stop AND domestic unemployment surges simultaneously. This is the most underappreciated risk in the entire crisis — it's not on any government talking point, but it could be more destabilising than the oil price itself.</p>
+    </div>
+  </div>
+
+  <!-- Political calculus matrix -->
+  <div style="margin:1rem 0">
+    <div style="font-size:.85rem;font-weight:700;margin-bottom:.5rem">The government's impossible choices</div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;font-size:.75rem;border-collapse:collapse">
+        <thead>
+          <tr style="background:var(--bg)">
+            <th style="padding:.5rem;text-align:left;border-bottom:2px solid var(--border)">Decision</th>
+            <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border)">Option A</th>
+            <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border)">Option B</th>
+            <th style="padding:.5rem;text-align:center;border-bottom:2px solid var(--border)">Consequence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Fuel pricing</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Pass full cost to consumers</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Subsidise fuel prices</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);font-size:.7rem">A → Social unrest, cost of living crisis<br>B → IMF programme violation, fiscal collapse</td>
+          </tr>
+          <tr>
+            <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Currency</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Let rupee float (depreciate)</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Defend rupee (burn reserves)</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);font-size:.7rem">A → Imports become unaffordable<br>B → Reserves drain faster, repeating 2022</td>
+          </tr>
+          <tr>
+            <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Rationing</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Implement early rationing</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Avoid rationing, rely on markets</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);font-size:.7rem">A → Preserve stock but signal crisis to public<br>B → Black markets form, inequitable access</td>
+          </tr>
+          <tr>
+            <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">Gulf workers</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Proactive evacuation planning</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Wait and hope for de-escalation</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);font-size:.7rem">A → Costs billions, but saves lives<br>B → Risks a catastrophic late-stage evacuation</td>
+          </tr>
+          <tr>
+            <td style="padding:.4rem .5rem;border-bottom:1px solid var(--border);font-weight:600">IMF programme</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Stick to programme terms</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border)">Request emergency modification</td>
+            <td style="padding:.4rem;text-align:center;border-bottom:1px solid var(--border);font-size:.7rem">A → Public sacrifice during crisis<br>B → Shows pragmatism but risks credibility</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">The core lesson from 2022</div>
+    The Aragalaya didn't erupt because of fuel shortages alone. It erupted because the government <strong>lied</strong> — told people everything was fine while quietly running out of reserves. The AKD/NPP government's greatest asset right now is its reform credibility. Its greatest risk is repeating the same communication failure: reassuring when the situation demands honesty. Citizens who are told the truth early can prepare; citizens who are told "don't worry" until it's too late revolt.
+  </div>
+</div>
+
+<!-- ─── CONCLUSION ─── -->
+<div class="card animate-on-scroll">
+  <div class="section-label">The bottom line</div>
+  <div class="section-title">Structural fragility behind a thin reassurance</div>
+  <div class="section-body">
+    <p>The short-term picture offers genuine comfort. 37 days of fuel. Diversified refined product sources. $6.7 billion in reserves (far better than 2022's near-zero). An immediate collapse is unlikely.</p>
+    <p>But the structural picture is deeply concerning — and worse than the headline numbers suggest. Nearly all crude from one country through one chokepoint. Days, not months, of storage. One aging refinery with one aging pipeline. And the "diversified" refined supply chain? It traces back to the same Middle Eastern crude — Singapore's refineries have only ~11 days of buffer before they run dry. The effective supply window is 25–30 days, not 37.</p>
+    <p>The critical insight from this analysis: <strong>Sri Lanka's vulnerability is triple-layered.</strong> Layer 1: direct crude supply through Hormuz (immediately cut). Layer 2: upstream refineries in Singapore, India, and Malaysia lose their feedstock within 2–6 weeks (cascading supply failure). Layer 3: the $8 billion Gulf remittance lifeline — 1.5 million Sri Lankans working in the conflict zone — faces disruption that no fuel reserve can buffer against.</p>
+    <p>A sustained war doesn't just raise fuel prices. It simultaneously drains forex reserves, collapses remittances, starves upstream refineries, triggers inflation, strains the IMF programme, and creates the conditions for social and political instability. This is not one crisis — it's five crises hitting simultaneously.</p>
+    <p>What Sri Lanka needs is not reassurance but honest communication, early rationing planning, diplomatic engagement for alternative supply routes, and citizens who understand the real picture well enough to prepare wisely and support each other. The 2022 crisis proved that Sri Lankans can endure hardship — but only when they're told the truth.</p>
+  </div>
+</div>
+
+<div class="community-banner">
+  <h3>We've been through worse. We'll get through this — together.</h3>
+  <p>The 2022 crisis proved Sri Lanka's resilience. Prepare calmly, look after your community, share accurate information, and demand better from your leaders.</p>
+</div>
+
+</div><!-- /content-wrap -->
+</div><!-- /tab-report -->
+
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TAB 2: SURVIVAL QUESTIONNAIRE                  -->
+<!-- ══════════════════════════════════════════════ -->
+<div id="tab-survival" class="tab-content">
+<div class="content-wrap">
+
+<div class="callout callout-unity" style="margin-bottom:1.25rem">
+  <div class="callout-title">This is about smart preparation, not panic</div>
+  Answer a few questions about your situation and we'll give you a practical, affordable checklist tailored to your circumstances. The goal is <strong>community resilience</strong> — not hoarding. Every suggestion is designed to be achievable on a limited budget.
+</div>
+
+<!-- Questionnaire Container -->
+<div id="questionnaire" class="card">
+  <div class="q-progress">
+    <div class="q-progress-bar"><div class="q-progress-fill" id="q-progress-fill" style="width:0%"></div></div>
+    <div class="q-progress-text" id="q-progress-text">Question 1 of 7</div>
+  </div>
+
+  <!-- Q1: Location -->
+  <div class="q-step active" data-step="1">
+    <div class="q-question">Where do you live?</div>
+    <div class="q-options" data-name="location">
+      <div class="q-option" data-value="city">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>City / large town</strong><span>Colombo, Kandy, Galle, Jaffna, or similar urban area</span></div>
+      </div>
+      <div class="q-option" data-value="semi-urban">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Semi-urban / small town</strong><span>Smaller town or suburb with some rural surroundings</span></div>
+      </div>
+      <div class="q-option" data-value="rural">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Rural village</strong><span>Agriculture-based area, away from major towns</span></div>
+      </div>
+      <div class="q-option" data-value="estate">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Plantation / estate</strong><span>Tea, rubber, or coconut estate area</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2: Income source -->
+  <div class="q-step" data-step="2">
+    <div class="q-question">What best describes your main income?</div>
+    <div class="q-options" data-name="income">
+      <div class="q-option" data-value="salaried">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Regular salary / pension</strong><span>Government, private sector, or retirement income</span></div>
+      </div>
+      <div class="q-option" data-value="daily">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Daily wages / casual work</strong><span>Construction, domestic work, three-wheeler driving, etc.</span></div>
+      </div>
+      <div class="q-option" data-value="farming">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Farming / fishing</strong><span>Own farming, estate labour, or fishing</span></div>
+      </div>
+      <div class="q-option" data-value="business">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Small business / self-employed</strong><span>Shop owner, trader, freelancer, or informal business</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3: Household size -->
+  <div class="q-step" data-step="3">
+    <div class="q-question">How many people depend on your household income?</div>
+    <div class="q-options" data-name="household">
+      <div class="q-option" data-value="small">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>1–2 people</strong></div>
+      </div>
+      <div class="q-option" data-value="medium">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>3–5 people</strong></div>
+      </div>
+      <div class="q-option" data-value="large">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>6 or more people</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4: Cooking method -->
+  <div class="q-step" data-step="4">
+    <div class="q-question">What do you mainly use for cooking?</div>
+    <div class="q-options" data-name="cooking">
+      <div class="q-option" data-value="gas">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>LP gas cylinder</strong><span>Standard Litro or Laugfs gas</span></div>
+      </div>
+      <div class="q-option" data-value="electric">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Electric / induction cooker</strong></div>
+      </div>
+      <div class="q-option" data-value="firewood">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Firewood / biomass</strong></div>
+      </div>
+      <div class="q-option" data-value="kerosene">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Kerosene stove</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5: Transport -->
+  <div class="q-step" data-step="5">
+    <div class="q-question">How do you mainly get around?</div>
+    <div class="q-options" data-name="transport">
+      <div class="q-option" data-value="own-vehicle">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Own vehicle (car/motorbike/three-wheeler)</strong></div>
+      </div>
+      <div class="q-option" data-value="public">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Public transport (bus/train)</strong></div>
+      </div>
+      <div class="q-option" data-value="walk-cycle">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Walking / cycling</strong></div>
+      </div>
+      <div class="q-option" data-value="mixed">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Mix of the above</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6: Gulf connection -->
+  <div class="q-step" data-step="6">
+    <div class="q-question">Does your family receive money from someone working in the Gulf (Middle East)?</div>
+    <div class="q-options" data-name="gulf">
+      <div class="q-option" data-value="yes-dependent">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Yes — it's our main income source</strong></div>
+      </div>
+      <div class="q-option" data-value="yes-partial">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Yes — but we have other income too</strong></div>
+      </div>
+      <div class="q-option" data-value="no">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>No</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7: Budget -->
+  <div class="q-step" data-step="7">
+    <div class="q-question">How much can you realistically set aside for preparation this month?</div>
+    <div class="q-options" data-name="budget">
+      <div class="q-option" data-value="none">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Nothing — we live hand to mouth</strong><span>Every rupee goes to daily needs</span></div>
+      </div>
+      <div class="q-option" data-value="low">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Rs. 500 – 2,000</strong><span>A small amount for essentials</span></div>
+      </div>
+      <div class="q-option" data-value="medium">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Rs. 2,000 – 10,000</strong></div>
+      </div>
+      <div class="q-option" data-value="higher">
+        <div class="q-option-radio"></div>
+        <div class="q-option-text"><strong>Rs. 10,000+</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-nav">
+    <button class="btn btn-secondary" id="q-prev" disabled>Back</button>
+    <button class="btn btn-primary" id="q-next" disabled>Next</button>
+  </div>
+</div>
+
+<!-- ─── RESULTS ─── -->
+<div id="results-container" style="display:none">
+
+  <div id="result-profile" class="result-profile"></div>
+
+  <div class="callout callout-warning" style="margin-bottom:1rem">
+    <div class="callout-title">Important: This is NOT a shopping list to rush to the store with</div>
+    These are suggestions to implement <strong>gradually over the coming weeks</strong>. Panic buying helps no one and hurts the most vulnerable. Buy only what you need, when you normally shop.
+  </div>
+
+  <div id="result-wave1" class="card"></div>
+  <div id="result-wave2" class="card"></div>
+  <div id="result-community" class="card"></div>
+  <div id="result-remittance" class="card" style="display:none"></div>
+
+  <div class="community-banner">
+    <h3>Your preparation helps your whole community</h3>
+    <p>A prepared household is one that can help others. Share this guide with your neighbours. The strongest families are those surrounded by strong communities.</p>
+  </div>
+
+  <button class="btn btn-secondary" onclick="resetQuiz()" style="width:100%;margin-top:1rem">Retake assessment</button>
+</div>
+
+</div><!-- /content-wrap -->
+</div><!-- /tab-survival -->
+
+<!-- ════════ SCROLL TOP ════════ -->
+<button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="site-footer">
+  <p>An independent analysis. Not affiliated with any government or political party.<br>Information as of 2 March 2026. Situation may evolve.<br><br>
+  <strong>Share knowledge, not fear.</strong></p>
+</footer>
+
+<!-- Google Translate Element (hidden) -->
+<div id="google_translate_element" style="display:none"></div>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+/* ─── GOOGLE TRANSLATE INIT ─── */
+function googleTranslateElementInit(){
+  new google.translate.TranslateElement({
+    pageLanguage:'en',
+    includedLanguages:'en,si,ta',
+    autoDisplay:false
+  },'google_translate_element');
+}
+
+/* ─── LANGUAGE SWITCHER ─── */
+function switchLang(lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.lang-btn[data-lang="${lang}"]`).classList.add('active');
+
+  const gtCombo=document.querySelector('.goog-te-combo');
+  if(gtCombo){
+    if(lang==='en'){
+      // Reset to original
+      gtCombo.value='';
+      gtCombo.dispatchEvent(new Event('change'));
+      // Google Translate sometimes needs a manual reset
+      const frame=document.querySelector('.goog-te-banner-frame');
+      if(frame){
+        const btn=frame.contentDocument?.querySelector('.goog-close-link');
+        if(btn) btn.click();
+      }
+      // Fallback: reload approach
+      if(document.cookie.indexOf('googtrans')!==-1){
+        document.cookie='googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;';
+        document.cookie='googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain=.'+window.location.hostname;
+        location.reload();
+      }
+    } else {
+      gtCombo.value=lang;
+      gtCombo.dispatchEvent(new Event('change'));
+    }
+  } else {
+    // Fallback: set cookie and reload
+    const code=lang==='en'?'':('/en/'+lang);
+    document.cookie='googtrans='+code+';path=/;';
+    document.cookie='googtrans='+code+';path=/;domain=.'+window.location.hostname;
+    if(lang!=='en') location.reload();
+  }
+}
+
+/* ─── PRE-TRANSLATION: PROTECT ENGLISH TERMS FROM TRANSLATION ─── */
+/*
+ * Google Translate respects class="notranslate". We wrap key English terms
+ * that Sri Lankans use in everyday speech so they DON'T get translated.
+ * This runs BEFORE switching language.
+ */
+const protectedTerms=[
+  'IMF','GDP','LPG','CPC','PUCSL','CEB','IEA',
+  'Brent','WhatsApp','Facebook','TikTok',
+  'Sapugaskanda','Trincomalee','Lanka IOC',
+  'forex','barrel','supply chain','chokepoint',
+  'cost-recovery','subsidy','rationing','inflation',
+  'remittance','remittances','strategic reserve',
+  'grid','refinery','crude oil','pipeline'
+];
+
+let termsProtected=false;
+function protectEnglishTerms(){
+  if(termsProtected) return;
+  termsProtected=true;
+  const walker=document.createTreeWalker(
+    document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode(n){
+        // Skip script/style/notranslate elements
+        const p=n.parentElement;
+        if(!p) return NodeFilter.FILTER_REJECT;
+        const tag=p.tagName;
+        if(tag==='SCRIPT'||tag==='STYLE'||tag==='NOSCRIPT') return NodeFilter.FILTER_REJECT;
+        if(p.classList.contains('notranslate')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
+  );
+  const nodes=[];
+  let node;
+  while(node=walker.nextNode()) nodes.push(node);
+
+  // Build regex from protected terms (longest first to avoid partial matches)
+  const sorted=[...protectedTerms].sort((a,b)=>b.length-a.length);
+  const escaped=sorted.map(t=>t.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'));
+  const re=new RegExp('('+escaped.join('|')+')','gi');
+
+  nodes.forEach(textNode=>{
+    const text=textNode.textContent;
+    if(!re.test(text)){re.lastIndex=0;return;}
+    re.lastIndex=0;
+    const frag=document.createDocumentFragment();
+    let lastIdx=0;
+    let match;
+    while((match=re.exec(text))!==null){
+      if(match.index>lastIdx){
+        frag.appendChild(document.createTextNode(text.slice(lastIdx,match.index)));
+      }
+      const span=document.createElement('span');
+      span.className='notranslate';
+      span.style.display='inline'; // don't break layout
+      span.textContent=match[0];
+      frag.appendChild(span);
+      lastIdx=re.lastIndex;
+    }
+    if(lastIdx<text.length){
+      frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+    }
+    textNode.parentNode.replaceChild(frag,textNode);
+  });
+}
+
+// Run protection before first translation
+const origSwitchLangPre=switchLang;
+window.switchLang=function(lang){
+  if(lang!=='en') protectEnglishTerms();
+  origSwitchLangPre(lang);
+};
+
+/* ─── SINHALA/TAMIL GLOSSARY POST-TRANSLATION FIX ─── */
+/*
+ * POST-TRANSLATION GLOSSARY — "Social Media Sinhala" approach
+ * ─────────────────────────────────────────────────────────────
+ * Philosophy: Sri Lankans code-switch constantly. On WhatsApp, FB,
+ * and everyday conversation, people say "IMF", "barrel", "supply chain"
+ * etc. in English even when speaking Sinhala. Overly formal translations
+ * like "ජා.මූ.අ." or "සැපයුම් දාමය" make text HARDER to understand.
+ *
+ * Rules:
+ * 1. KEEP English terms people already use (IMF, GDP, LPG, CPC, forex)
+ * 2. Use spoken Sinhala, not literary/formal ("තෙල් හිඟය" not "ඛනිජ තෙල් හිඟතාවය")
+ * 3. Where Google Translate makes a mess, fix with natural phrasing
+ * 4. Don't translate proper nouns (Sapugaskanda, Trincomalee, Brent)
+ * 5. Match the tone: informed friend explaining, not government gazette
+ */
+const glossary={
+  si:{
+    // ── KEEP ENGLISH TERMS (undo Google Translate's Sinhala-ization) ──
+    // IMF — everyone says "IMF", nobody says ජා.මූ.අ.
+    'ජා.මූ.අ.':'IMF',
+    'ජාත්‍යන්තර මූල්‍ය අරමුදල':'IMF',
+    'ජාත්‍යන්තර මුදල් අරමුදල':'IMF',
+    'අන්තර්ජාතික මූල්‍ය අරමුදල':'IMF',
+    // GDP — people say "GDP" or "දළ දේශීය නිෂ්පාදිතය" is too textbook
+    'දළ දේශීය නිෂ්පාදිතය':'GDP එක',
+    'දළ ජාතික නිෂ්පාදිතය':'GDP එක',
+    // LPG — everyone says "gas" or "LPG"
+    'එල්පීජී':'LPG',
+    'එල්.පී.ජී.':'LPG',
+    'ද්‍රවීකෘත පෙට්‍රෝලියම් වායුව':'LPG (gas)',
+    // CPC — people know "CPC" or "ලංකා ඛනිජ තෙල් නීතිගත සංස්ථාව"
+    'සීපීසී':'CPC',
+    // IEA
+    'ජාත්‍යන්තර බලශක්ති ඒජන්සිය':'IEA (ජාත්‍යන්තර බලශක්ති ආයතනය)',
+    // Forex — people say "forex" or "ඩොලර් reserves"
+    'විදේශ විනිමය සංචිත':'forex reserves',
+    'විදේශ විනිමය':'forex',
+    'ෆොරෙක්ස්':'forex',
+    // Barrel — people say "බැරලයක්" or "barrel"
+    'බැරල්':'barrel',
+    // Brent crude — keep English
+    'බ්‍රෙන්ට්':'Brent',
+    // Supply chain — people understand "supply chain" better
+    'සැපයුම් දාමය':'supply chain එක',
+    'සැපයුම් දාම':'supply chain',
+    // WhatsApp, Facebook, TikTok — keep as-is
+    'වට්ස්ඇප්':'WhatsApp',
+    'ෆේස්බුක්':'Facebook',
+    'ටික්ටොක්':'TikTok',
+
+    // ── FIX BAD TRANSLATIONS WITH NATURAL SINHALA ──
+    // Trincomalee Tank Farm — use the name people know
+    'ත්‍රිකුණාමල ටැංකි ගොවිපලට':'ත්‍රිකුණාමලේ තෙල් ටැංකි ෆාම් එක',
+    'ත්‍රිකුණාමලය ටැංකි ගොවිපල':'ත්‍රිකුණාමලේ තෙල් ටැංකි ෆාම් එක',
+    'ත්‍රිකුණාමල තෙල් ටැංකි ගොවිපල':'ත්‍රිකුණාමලේ තෙල් ටැංකි ෆාම් එක',
+    'ටැංකි ගොවිපල':'ටැංකි ෆාම් එක',
+    'ටැංකි ෆාම්':'ටැංකි ෆාම් එක',
+
+    // Strait of Hormuz — natural pronunciation
+    'හෝමුස් සමුද්ර සන්ධිය':'Hormuz සමුද්‍ර සන්ධිය',
+    'හෝමස් සමුද්ර සන්ධිය':'Hormuz සමුද්‍ර සන්ධිය',
+    'හෝර්මුස් සමුද්‍ර සන්ධිය':'Hormuz සමුද්‍ර සන්ධිය',
+
+    // Sapugaskanda — keep the name people use
+    'සපුගස්කන්ද තෙල් පිරිපහදු කර්මාන්තශාලාව':'සපුගස්කන්ද refinery එක',
+    'ශෝධනාගාරය':'refinery එක',
+    'තෙල් පිරිපහදු කර්මාන්තශාලාව':'refinery එක',
+
+    // "Chokepoint" — people don't know "බාධක ස්ථානය"
+    'චෝක්පොයින්ට්':'chokepoint එක (bottleneck)',
+    'චොක්පොයින්ට්':'chokepoint එක',
+    'පිපිරෙන ලක්ෂ්‍යයේ':'හරි critical point එකේ',
+
+    // Corporation → keep "CPC" since that's what people say
+    'කෝපරේෂන්':'Corporation එක',
+    'කෝපරේශන්':'Corporation එක',
+    'පෙට්‍රෝලියම් කෝපරේෂන්':'CPC (ලංකා ඛනිජ තෙල් සංස්ථාව)',
+
+    // Natural phrasing for common terms
+    'ග්‍රිඩ්':'grid එක (විදුලි පද්ධතිය)',
+    'මිල ගණන්':'මිල',
+    'රට්ටීනික':'rationing (බෙදීම)',
+    'රේෂනින්':'rationing',
+    'කතිර බෙදීම':'rationing',
+    'ස්ථරාත්මක':'strategic',
+    'උපායමාර්ගික':'strategic',
+
+    // Remittances — people say "මුදල් එවනවා" not "ප්‍රේෂණ"
+    'ප්‍රේෂණ':'remittance මුදල්',
+    'මුදල් ප්‍රේෂණ':'remittance මුදල්',
+
+    // Inflation — people understand "inflation" better than formal term
+    'උද්ධමනය':'inflation එක',
+    'මිල උද්ධමනය':'inflation',
+
+    // "Fiscal discipline" — IMF jargon nobody understands
+    'රාජ්‍ය මූල්‍ය විනය':'fiscal discipline (වියදම් පාලනය)',
+
+    // Crisis — keep it simple
+    'අර්බුදය':'crisis එක',
+
+    // Subsidies — people say "subsidy"
+    'සහනාධාර':'subsidy',
+    'මිල සහනය':'subsidy',
+
+    // "Cost-recovery pricing" — make it human
+    'පිරිවැය ප්‍රතිසාධන මිල ගණන් කිරීම':'cost-recovery pricing (සැබෑ මිලට විකුණනවා)',
+    'පිරිවැය අය කර ගැනීම':'cost-recovery pricing',
+  },
+  ta:{
+    // ── KEEP ENGLISH TERMS ──
+    'சர்வதேச நாணய நிதியம்':'IMF',
+    'ஐ.எம்.எஃப்':'IMF',
+    'மொத்த உள்நாட்டு உற்பத்தி':'GDP',
+    'திரவமாக்கப்பட்ட பெட்ரோலிய வாயு':'LPG (gas)',
+    'எல்.பி.ஜி':'LPG',
+    'அந்நிய செலாவணி':'forex',
+
+    // ── FIX BAD TRANSLATIONS ──
+    // Trincomalee Tank Farm
+    'டிரிங்கோமலி டேங்க் பண்ணை':'திருகோணமலை Tank Farm',
+    'டேங்க் பண்ணை':'Tank Farm',
+    // Strait of Hormuz
+    'ஹார்முஸ் நீரிணை':'Hormuz நீரிணை',
+    // Technical terms
+    'சப்புகஸ்கந்த':'சபுகஸ்கந்த',
+    'சுத்திகரிப்பு ஆலை':'refinery',
+    'எரிவாயு':'சமையல் gas',
+    // Remittances
+    'பணம் அனுப்புதல்':'remittance பணம்',
+    // Supply chain
+    'விநியோக சங்கிலி':'supply chain',
+  }
+};
+
+function applyGlossary(lang){
+  if(!glossary[lang]) return;
+  const terms=glossary[lang];
+  // Wait for Google Translate to finish, then fix terms
+  setTimeout(()=>{
+    const walker=document.createTreeWalker(
+      document.body,NodeFilter.SHOW_TEXT,null,false
+    );
+    let node;
+    while(node=walker.nextNode()){
+      let text=node.textContent;
+      let changed=false;
+      for(const [bad,good] of Object.entries(terms)){
+        if(text.includes(bad)){
+          text=text.split(bad).join(good);
+          changed=true;
+        }
+      }
+      if(changed) node.textContent=text;
+    }
+  },2500); // Wait 2.5s for Google Translate to finish
+  // Run again after 5s in case translation was slow
+  setTimeout(()=>{
+    const walker=document.createTreeWalker(
+      document.body,NodeFilter.SHOW_TEXT,null,false
+    );
+    let node;
+    while(node=walker.nextNode()){
+      let text=node.textContent;
+      let changed=false;
+      for(const [bad,good] of Object.entries(glossary[lang])){
+        if(text.includes(bad)){
+          text=text.split(bad).join(good);
+          changed=true;
+        }
+      }
+      if(changed) node.textContent=text;
+    }
+  },5000);
+}
+
+// Patch switchLang to also apply glossary
+const origSwitchLang=switchLang;
+window.switchLang=function(lang){
+  origSwitchLang(lang);
+  if(lang!=='en') applyGlossary(lang);
+};
+
+// Also watch for Google Translate auto-activation (from cookie)
+(function(){
+  const cookie=document.cookie;
+  if(cookie.includes('googtrans=/en/si')) applyGlossary('si');
+  if(cookie.includes('googtrans=/en/ta')) applyGlossary('ta');
+})();
+
+/* ─── DISCLAIMER POPUP (15 second delay) ─── */
+(function(){
+  const STORAGE_KEY='hormuz_disclaimer_accepted';
+  const accepted=localStorage.getItem(STORAGE_KEY);
+  if(!accepted){
+    setTimeout(()=>{
+      document.getElementById('disclaimerModal').classList.add('visible');
+    },15000);
+  }
+  document.getElementById('disclaimerAccept').addEventListener('click',()=>{
+    document.getElementById('disclaimerModal').classList.remove('visible');
+    try{localStorage.setItem(STORAGE_KEY,'1')}catch(e){}
+  });
+  // Also close on overlay click (outside modal)
+  document.getElementById('disclaimerModal').addEventListener('click',(e)=>{
+    if(e.target===document.getElementById('disclaimerModal')){
+      document.getElementById('disclaimerModal').classList.remove('visible');
+      try{localStorage.setItem(STORAGE_KEY,'1')}catch(e){}
+    }
+  });
+})();
+
+/* ─── TAB SWITCHING ─── */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false')});
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    btn.classList.add('active');btn.setAttribute('aria-selected','true');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+/* ─── SCROLL ANIMATIONS ─── */
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+},{threshold:0.08});
+document.querySelectorAll('.animate-on-scroll').forEach(el=>obs.observe(el));
+
+/* ─── ACCORDION ─── */
+document.querySelectorAll('.accordion-header').forEach(h=>{
+  h.addEventListener('click',()=>{
+    const item=h.parentElement;
+    item.classList.toggle('open');
+  });
+});
+
+/* ─── ANIMATED BAR CHARTS ─── */
+const barObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.source-bar-fill').forEach((bar,i)=>{
+        setTimeout(()=>{bar.style.width=bar.dataset.width},i*120);
+      });
+      barObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.source-bar-chart').forEach(c=>barObs.observe(c));
+
+/* ─── ANIMATED PREP BARS ─── */
+const prepObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.prep-bar').forEach(bar=>{
+        const w=bar.style.width;
+        bar.style.width='0%';
+        setTimeout(()=>{bar.style.width=w},100);
+      });
+      prepObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.2});
+document.querySelectorAll('.card').forEach(c=>{if(c.querySelector('.prep-bar'))prepObs.observe(c)});
+
+/* ─── SCROLL TOP BUTTON ─── */
+const scrollBtn=document.getElementById('scrollTop');
+window.addEventListener('scroll',()=>{
+  scrollBtn.classList.toggle('visible',window.scrollY>600);
+});
+scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ═══════════════════════════════════════════════ */
+/* QUESTIONNAIRE LOGIC                             */
+/* ═══════════════════════════════════════════════ */
+const answers={};
+let currentStep=1;
+const totalSteps=7;
+
+function updateUI(){
+  document.querySelectorAll('.q-step').forEach(s=>s.classList.remove('active'));
+  const cur=document.querySelector(`.q-step[data-step="${currentStep}"]`);
+  if(cur)cur.classList.add('active');
+  document.getElementById('q-progress-fill').style.width=((currentStep-1)/totalSteps*100)+'%';
+  document.getElementById('q-progress-text').textContent=`Question ${currentStep} of ${totalSteps}`;
+  document.getElementById('q-prev').disabled=currentStep===1;
+  const stepName=cur?.querySelector('.q-options')?.dataset.name;
+  document.getElementById('q-next').disabled=!answers[stepName];
+  document.getElementById('q-next').textContent=currentStep===totalSteps?'See your plan':'Next';
+}
+
+document.querySelectorAll('.q-option').forEach(opt=>{
+  opt.addEventListener('click',()=>{
+    const parent=opt.closest('.q-options');
+    parent.querySelectorAll('.q-option').forEach(o=>o.classList.remove('selected'));
+    opt.classList.add('selected');
+    answers[parent.dataset.name]=opt.dataset.value;
+    document.getElementById('q-next').disabled=false;
+  });
+});
+
+document.getElementById('q-next').addEventListener('click',()=>{
+  if(currentStep<totalSteps){currentStep++;updateUI()}
+  else{showResults()}
+});
+document.getElementById('q-prev').addEventListener('click',()=>{
+  if(currentStep>1){currentStep--;updateUI()}
+});
+
+function resetQuiz(){
+  Object.keys(answers).forEach(k=>delete answers[k]);
+  currentStep=1;
+  document.querySelectorAll('.q-option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('results-container').style.display='none';
+  document.getElementById('questionnaire').style.display='block';
+  updateUI();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ─── RESULTS GENERATION ─── */
+function showResults(){
+  document.getElementById('questionnaire').style.display='none';
+  document.getElementById('results-container').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  const {location,income,household,cooking,transport,gulf,budget}=answers;
+
+  // Profile
+  let profileTitle='';
+  let profileDesc='';
+  const profiles={
+    'city':{'salaried':'Urban Salaried Worker','daily':'Urban Daily Wage Earner','farming':'Urban Market Vendor/Fisher','business':'Urban Small Business Owner'},
+    'semi-urban':{'salaried':'Semi-Urban Professional','daily':'Semi-Urban Casual Worker','farming':'Peri-Urban Farmer','business':'Small Town Entrepreneur'},
+    'rural':{'salaried':'Rural Government/Salaried Worker','daily':'Rural Day Labourer','farming':'Subsistence Farmer / Fisher','business':'Village Trader'},
+    'estate':{'salaried':'Estate Supervisor/Staff','daily':'Estate / Plantation Worker','farming':'Estate Smallholder','business':'Estate Area Trader'}
+  };
+  profileTitle=profiles[location]?.[income]||'Sri Lankan Household';
+
+  const hhSize=household==='small'?'1–2':household==='medium'?'3–5':'6+';
+  const cookText={'gas':'LP gas','electric':'electricity','firewood':'firewood','kerosene':'kerosene'}[cooking];
+  const transText={'own-vehicle':'personal vehicle','public':'public transport','walk-cycle':'walking/cycling','mixed':'mixed transport'}[transport];
+  profileDesc=`Household of ${hhSize} people in a ${location==='estate'?'plantation area':location==='semi-urban'?'semi-urban area':location+' area'}, primarily cooking with ${cookText}, using ${transText}.`;
+  if(gulf!=='no') profileDesc+=` Your family receives remittances from the Gulf.`;
+
+  document.getElementById('result-profile').innerHTML=`<h3>${profileTitle}</h3><p>${profileDesc}</p>`;
+
+  // Wave 1 — First 2 weeks
+  let w1Items=[];
+  // Universal
+  w1Items.push('Keep your mobile phone charged at all times. If you have a power bank, keep it topped up.');
+  w1Items.push('Identify your nearest community hub — temple, kovil, church, mosque, or community centre — that could serve as a gathering point.');
+  w1Items.push('Talk to your neighbours. Agree to share information and check on each other.');
+
+  if(cooking==='gas'){
+    w1Items.push('If your gas cylinder is below half, get a refill on your <strong>normal schedule</strong> (do NOT queue for a second cylinder — that takes gas away from someone else).');
+    w1Items.push('If possible, set up a simple firewood cooking option as backup. Even a few bricks arranged in a square with a grate works. Ask an elder neighbour who remembers — many still know how.');
+  }
+  if(cooking==='electric'){
+    w1Items.push('Electric cooking depends entirely on the grid. Consider getting a small portable gas burner (single-ring) as backup if available without queuing.');
+  }
+  if(cooking==='kerosene'){
+    w1Items.push('Kerosene supply may tighten. If you have space, store one extra bottle safely (away from children, well-ventilated). Firewood is a reliable backup.');
+  }
+
+  if(transport==='own-vehicle'){
+    w1Items.push('Keep your vehicle fuel tank at least half full (fill gradually, not all at once). Start combining trips — one outing for multiple errands.');
+    w1Items.push('If you drive a three-wheeler for income: start noting which fuel stations have shorter queues and what times are quieter.');
+  }
+  if(transport==='public'){
+    w1Items.push('Public transport may become less frequent if fuel is rationed. Identify backup routes, and consider whether walking or cycling is feasible for shorter journeys.');
+  }
+
+  if(budget==='none'){
+    w1Items.push('With no spare budget, focus entirely on <strong>zero-cost preparations</strong>: knowledge, community connections, planning.');
+    w1Items.push('If your children receive school meals, check whether the programme will continue during any disruption.');
+  }
+  if(budget==='low'){
+    w1Items.push('Prioritise spending on: matches/lighter, candles or a small rechargeable torch (Rs. 200–500), and if you cook with gas, a few extra kg of firewood or coconut shells.');
+  }
+  if(budget==='medium'||budget==='higher'){
+    w1Items.push('A small solar charging panel for phones (Rs. 2,000–4,000) is a worthwhile investment if power cuts return.');
+    if(cooking==='gas'||cooking==='electric') w1Items.push('A portable single-ring gas burner with one small canister provides backup cooking for 1–2 weeks (Rs. 3,000–5,000).');
+  }
+
+  // Food - universal
+  if(budget!=='none'){
+    w1Items.push('Gradually (over 2 weeks, not in one trip) build a small buffer of essentials: 5–10 kg extra rice, 2 kg dhal, coconut oil, salt, sugar, powdered milk. <strong>Buy a little more than usual each shop visit — do not bulk-buy.</strong>');
+  }else{
+    w1Items.push('If you grow any food at home — even herbs, chillies, or a few vegetables — continue and expand. Every home-grown item reduces dependence on transport-heavy supply chains.');
+  }
+
+  if(location==='estate'){
+    w1Items.push('Estate workers: check whether your estate management has a contingency plan for food/fuel supply. If not, raise it collectively through your union or worker committee.');
+    w1Items.push('If you have access to estate land, even small-scale vegetable cultivation provides food security that money cannot always buy.');
+  }
+  if(location==='rural'&&income==='farming'){
+    w1Items.push('If you rely on diesel for machinery/irrigation pumps, identify manual alternatives or neighbours with whom you can share equipment to reduce fuel consumption.');
+    w1Items.push('You are among the most resilient in a fuel crisis because you can grow food. Consider increasing planting for the next season — you may be able to help feed urban communities.');
+  }
+
+  document.getElementById('result-wave1').innerHTML=`
+    <span class="wave-label wave-1">First wave — Next 2 weeks</span>
+    <div class="section-title" style="margin-top:.35rem">Immediate sensible steps</div>
+    <ul class="kit-items">${w1Items.map(i=>`<li>${i}</li>`).join('')}</ul>
+  `;
+
+  // Wave 2 — If crisis extends (weeks 3–8)
+  let w2Items=[];
+  w2Items.push('If fuel rationing begins, your <strong>National Identity Card (NIC)</strong> will likely be needed. Keep it accessible.');
+  w2Items.push('Power cuts may return. Identify your household\'s absolute essentials for electricity: phone charging, medical equipment, lighting. Everything else can wait.');
+
+  if(transport==='own-vehicle'){
+    w2Items.push('Explore carpooling with neighbours and colleagues. One car carrying 4 people uses 75% less fuel per person than 4 individual trips.');
+    w2Items.push('If you drive a three-wheeler for work: coordinate with other drivers to serve routes together rather than competing — shared fuel, shared fares.');
+  }
+  if(cooking==='gas'){
+    w2Items.push('If gas becomes scarce, community cooking is far more efficient. 10 families cooking together use about 1/5 the gas of 10 families cooking separately. Organise this with your neighbours <em>before</em> it becomes necessary.');
+  }
+  if(income==='daily'){
+    w2Items.push('Daily-wage workers are the most vulnerable to economic disruption. Know your rights: check whether any government relief programmes are activated. Previous crises triggered food subsidies and cash transfers — stay informed.');
+    w2Items.push('If your work depends on transport (construction sites, domestic work across town), start exploring opportunities closer to home now, so you have options if commuting becomes impossible.');
+  }
+  if(income==='farming'){
+    w2Items.push('If diesel prices spike, manual labour becomes valuable again. This may actually increase demand for agricultural workers — but also increases the importance of shared equipment.');
+    w2Items.push('Food prices will rise. If you sell produce, be fair to your community — short-term greed destroys long-term trust.');
+  }
+  if(income==='business'){
+    w2Items.push('Assess which parts of your business depend on fuel/transport and which can operate locally. Shift focus to local customers and reduce supply chain length where possible.');
+  }
+  if(household==='large'){
+    w2Items.push('Larger households should designate roles: one person for information monitoring, one for food management, one for water/fuel tracking. Coordination saves resources.');
+  }
+
+  w2Items.push('Water supply may be affected if pumping stations lose power. Store clean water gradually — even 2–3 large bottles filled and sealed provide a valuable 1–2 day buffer.');
+  w2Items.push('Medications: if anyone in your household takes regular medication, try to maintain a 2-week buffer. Speak to your pharmacist about this calmly and early — don\'t wait until shortages.');
+
+  if(budget==='higher'){
+    w2Items.push('If you have resources: consider how you can help your community. Funding a community kitchen for even one week could feed dozens of families. Shared generators can keep a whole lane\'s phones charged.');
+  }
+
+  document.getElementById('result-wave2').innerHTML=`
+    <span class="wave-label wave-2">Second wave — If the crisis extends (3–8 weeks)</span>
+    <div class="section-title" style="margin-top:.35rem">Adapting to a sustained disruption</div>
+    <ul class="kit-items">${w2Items.map(i=>`<li>${i}</li>`).join('')}</ul>
+  `;
+
+  // Community section
+  document.getElementById('result-community').innerHTML=`
+    <div class="section-label">Community resilience</div>
+    <div class="section-title">You are not alone in this</div>
+    <ul class="kit-items">
+      <li><strong>Form a neighbourhood WhatsApp group</strong> (if you don't already have one) specifically for sharing verified information and coordinating support.</li>
+      <li><strong>Identify vulnerable neighbours:</strong> elderly people living alone, families with infants, people with disabilities or chronic illnesses. Check on them. A crisis hits the most vulnerable first.</li>
+      <li><strong>Shared transport:</strong> Organise with 3–4 families to share vehicle trips. One school run for all children on the lane. One market trip per day for the group.</li>
+      <li><strong>Community cooking nights:</strong> Even once a week, cooking together saves fuel and builds solidarity. Share recipes for meals that use less gas/oil.</li>
+      <li><strong>Skills sharing:</strong> Someone in your community knows how to preserve food, cook on firewood, fix a bicycle, or set up a small solar panel. Ask. Teach. Learn.</li>
+      <li><strong>Do not tolerate hoarding or price gouging in your community.</strong> If shops are overcharging, report to the Consumer Affairs Authority (hotline: 1977) and tell your neighbours.</li>
+    </ul>
+  `;
+
+  // Remittance section
+  if(gulf==='yes-dependent'||gulf==='yes-partial'){
+    document.getElementById('result-remittance').style.display='block';
+    const isDependent=gulf==='yes-dependent';
+    document.getElementById('result-remittance').innerHTML=`
+      <div class="section-label">Gulf remittance advisory</div>
+      <div class="section-title">${isDependent?'Your household depends heavily on Gulf income':'You receive partial Gulf income'}</div>
+      <ul class="kit-items">
+        <li><strong>Stay in contact</strong> with your family member in the Gulf. Make sure they have the Sri Lanka Embassy contact numbers saved.${isDependent?' Their safety is the priority.':''}</li>
+        <li><strong>Remittance transfers may be disrupted</strong> if Gulf banking systems face pressure. If possible, ask your family member to send a slightly larger amount now as a buffer — but do not empty their savings.</li>
+        ${isDependent?'<li><strong>Identify alternative income sources at home.</strong> Even small earnings — domestic work, selling produce, casual labour — provide a lifeline if remittances are delayed. Start looking now, while the situation is still manageable.</li>':''}
+        <li><strong>If evacuation becomes necessary:</strong> The Sri Lanka Bureau of Foreign Employment (SLBFE) should coordinate. Keep documents ready: passport copies, employment contracts, NIC. Monitor official SLBFE channels, not WhatsApp rumours.</li>
+        ${isDependent?'<li><strong>Apply for the Samurdhi programme</strong> or other social safety nets if you are not already enrolled. In previous crises, eligibility criteria were relaxed.</li>':''}
+      </ul>
+    `;
+  }
+}
+
+updateUI();
+</script>
+
+<!-- Leaflet.js Map -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+  const mapEl=document.getElementById('hormuz-map');
+  if(!mapEl) return;
+
+  // Fallback if Leaflet didn't load (e.g. opened from local file without network)
+  if(typeof L==='undefined'){
+    mapEl.style.background='linear-gradient(135deg,#DBEAFE,#BFDBFE)';
+    mapEl.style.display='flex';mapEl.style.alignItems='center';mapEl.style.justifyContent='center';
+    mapEl.innerHTML='<div style="text-align:center;padding:2rem;color:#1E3A8A"><div style="font-size:2.5rem;margin-bottom:.5rem">🗺️</div><div style="font-size:.9rem;font-weight:700">Interactive map requires internet connection</div><div style="font-size:.8rem;color:#3B82F6;margin-top:.25rem">The Strait of Hormuz lies between Iran and Oman — just 33km wide at its narrowest</div></div>';
+    return;
+  }
+
+  // Initialize map centered between Hormuz and Sri Lanka
+  const map=L.map('hormuz-map',{
+    center:[18,62],
+    zoom:4,
+    minZoom:3,
+    maxZoom:7,
+    zoomControl:true,
+    attributionControl:true,
+    scrollWheelZoom:false,
+    dragging:true,
+    touchZoom:true
+  });
+
+  // Clean, light map tiles (CartoDB Positron — no API key needed)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains:'abcd',
+    maxZoom:19
+  }).addTo(map);
+
+  // ─── Key locations ───
+  const hormuzCenter=[26.56,56.25];
+  const sriLanka=[7.0,80.0];
+  const colombo=[6.93,79.85];
+  const uaePort=[24.96,55.06]; // Jebel Ali
+  const singapore=[1.26,103.85];
+  const india=[12.9,80.2]; // Chennai area
+  const oman=[23.6,58.5]; // Muscat area
+
+  // ─── Strait of Hormuz zone (red danger zone) ───
+  const hormuzZone=L.polygon([
+    [26.2,56.0],[26.8,56.0],[27.0,56.3],[26.9,56.7],
+    [26.5,56.8],[26.0,56.5],[26.0,56.2]
+  ],{
+    color:'#DC2626',weight:3,fillColor:'#DC2626',fillOpacity:0.2,
+    dashArray:'8,6'
+  }).addTo(map);
+
+  // Hormuz label — combined with BLOCKED to avoid overlap
+  const hormuzIcon=L.divIcon({
+    className:'',
+    html:'<div class="hormuz-label-box notranslate" style="text-align:center;line-height:1.4">⚠ Hormuz Strait<br><span style="font-size:9px;animation:pulse 1.5s infinite;display:inline-block">🚫 BLOCKED</span></div>',
+    iconSize:[180,44],iconAnchor:[90,22]
+  });
+  L.marker([26.8,56.35],{icon:hormuzIcon,interactive:false,zIndexOffset:1000}).addTo(map);
+
+  // ─── Oil route: UAE → through Hormuz → across Indian Ocean → Sri Lanka ───
+  const oilRoute=[
+    uaePort,
+    [25.5,55.8],[26.3,56.4],[26.0,57.5], // through Hormuz
+    [24.0,60.0],[21.0,64.0],[17.0,69.0], // across Arabian Sea
+    [12.0,74.0],[9.0,77.5],colombo        // to Sri Lanka
+  ];
+
+  // Animated oil route (dashed, animated via CSS)
+  const oilPath=L.polyline(oilRoute,{
+    color:'#F59E0B',weight:3,opacity:0.8,
+    dashArray:'12,8',
+    className:'animated-route-oil'
+  }).addTo(map);
+
+  // ─── Singapore alternative route ───
+  const sgRoute=[
+    singapore,
+    [3.0,98.0],[5.0,90.0],[6.5,84.0],colombo
+  ];
+  const sgPath=L.polyline(sgRoute,{
+    color:'#3B82F6',weight:2.5,opacity:0.7,
+    dashArray:'10,8',
+    className:'animated-route-sg'
+  }).addTo(map);
+
+  // ─── India route ───
+  const indiaRoute=[india,[9.5,79.5],colombo];
+  const indiaPath=L.polyline(indiaRoute,{
+    color:'#8B5CF6',weight:2,opacity:0.6,
+    dashArray:'8,6',
+    className:'animated-route-india'
+  }).addTo(map);
+
+  // ─── Animated tanker icons moving along the oil route ───
+  function animateTanker(route,delay,speed){
+    const tankerIcon=L.divIcon({
+      className:'',
+      html:'<div class="tanker-icon">🛢️</div>',
+      iconSize:[20,20],iconAnchor:[10,10]
+    });
+    const marker=L.marker(route[0],{icon:tankerIcon,interactive:false}).addTo(map);
+
+    let step=0;
+    const totalSteps=route.length;
+    const points=[];
+    // Interpolate points along route for smooth animation
+    for(let i=0;i<totalSteps-1;i++){
+      const from=route[i],to=route[i+1];
+      const segments=40;
+      for(let j=0;j<segments;j++){
+        const t=j/segments;
+        points.push([
+          from[0]+(to[0]-from[0])*t,
+          from[1]+(to[1]-from[1])*t
+        ]);
+      }
+    }
+    points.push(route[totalSteps-1]);
+
+    let idx=0;
+    setTimeout(()=>{
+      const interval=setInterval(()=>{
+        idx++;
+        if(idx>=points.length){idx=0}
+        marker.setLatLng(points[idx]);
+      },speed);
+    },delay);
+  }
+
+  // Launch 2 tankers on the oil route at different positions
+  animateTanker(oilRoute,0,80);
+  animateTanker(oilRoute,3000,80);
+
+  // Launch 1 tanker on Singapore route
+  animateTanker(sgRoute,1500,90);
+
+  // ─── Location markers ───
+  // Sri Lanka
+  const slIcon=L.divIcon({
+    className:'',
+    html:'<div style="background:#059669;color:#fff;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2);white-space:nowrap">🇱🇰 Sri Lanka</div>',
+    iconSize:[100,24],iconAnchor:[50,12]
+  });
+  L.marker([8.2,80.5],{icon:slIcon,interactive:false}).addTo(map);
+
+  // Colombo port
+  L.circleMarker(colombo,{radius:6,color:'#059669',fillColor:'#059669',fillOpacity:1,weight:2,className:''}).addTo(map)
+    .bindPopup('<strong>Colombo Port</strong><br>Main fuel import terminal');
+
+  // UAE port
+  L.circleMarker(uaePort,{radius:5,color:'#F59E0B',fillColor:'#F59E0B',fillOpacity:1,weight:2}).addTo(map)
+    .bindPopup('<strong>Jebel Ali, UAE</strong><br>98% of Sri Lanka\'s crude originates here');
+
+  // Singapore
+  L.circleMarker(singapore,{radius:5,color:'#3B82F6',fillColor:'#3B82F6',fillOpacity:1,weight:2}).addTo(map)
+    .bindPopup('<strong>Singapore</strong><br>27% of refined fuel. Major refining hub.<br>⚠ Also imports 2/3 of crude from Gulf');
+
+  // India
+  L.circleMarker(india,{radius:4,color:'#8B5CF6',fillColor:'#8B5CF6',fillOpacity:1,weight:2}).addTo(map)
+    .bindPopup('<strong>India</strong><br>9% of refined fuel. Closest alternative.<br>⚠ India imports 46% of crude from Gulf');
+
+  // Location labels
+  const labelStyle='background:rgba(255,255,255,.85);padding:1px 6px;border-radius:3px;font-size:10px;font-weight:600;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.1)';
+  L.marker([23.8,54.0],{icon:L.divIcon({className:'',html:'<div class="notranslate" style="'+labelStyle+';color:#D97706">UAE (Jebel Ali)</div>',iconSize:[90,18],iconAnchor:[45,-8]}),interactive:false}).addTo(map);
+  L.marker(singapore,{icon:L.divIcon({className:'',html:'<div class="notranslate" style="'+labelStyle+';color:#2563EB">Singapore</div>',iconSize:[70,18],iconAnchor:[35,-8]}),interactive:false}).addTo(map);
+  L.marker([13.5,79],{icon:L.divIcon({className:'',html:'<div class="notranslate" style="'+labelStyle+';color:#7C3AED">India</div>',iconSize:[40,18],iconAnchor:[20,-5]}),interactive:false}).addTo(map);
+
+  // ─── Anchored tankers cluster near Hormuz ───
+  const anchoredPositions=[
+    [25.8,57.2],[25.5,57.8],[25.2,58.3],[26.0,57.6],[25.3,57.0],
+    [25.7,58.1],[26.2,57.9],[25.0,57.5]
+  ];
+  anchoredPositions.forEach(pos=>{
+    const anchorIcon=L.divIcon({
+      className:'',
+      html:'<div style="font-size:12px;opacity:.6" title="Anchored tanker">⚓</div>',
+      iconSize:[14,14],iconAnchor:[7,7]
+    });
+    L.marker(pos,{icon:anchorIcon,interactive:false}).addTo(map);
+  });
+
+  // Anchored label — positioned well below Hormuz to avoid overlap
+  L.marker([23.2,58.5],{icon:L.divIcon({
+    className:'',
+    html:'<div class="notranslate" style="background:rgba(220,38,38,.1);color:#991B1B;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:600;white-space:nowrap;border:1px solid rgba(220,38,38,.3)">150+ tankers anchored</div>',
+    iconSize:[120,18],iconAnchor:[60,0]
+  }),interactive:false}).addTo(map);
+
+  // Inject CSS animation for route dashes
+  const routeCSS=document.createElement('style');
+  routeCSS.textContent=`
+    @keyframes dashFlow{to{stroke-dashoffset:-40}}
+    @keyframes dashFlowSlow{to{stroke-dashoffset:-36}}
+    .animated-route-oil{animation:dashFlow 1.5s linear infinite}
+    .animated-route-sg{animation:dashFlowSlow 2s linear infinite}
+    .animated-route-india{animation:dashFlowSlow 2.2s linear infinite}
+  `;
+  document.head.appendChild(routeCSS);
+
+  // Lazy init — only start map when visible
+  const mapObs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        setTimeout(()=>map.invalidateSize(),100);
+        mapObs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.1});
+  mapObs.observe(mapEl);
+
+})();
+</script>
+
+<!-- Chart.js for price scenario visualization -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(function(){
+  const canvas=document.getElementById('scenario-chart');
+  if(!canvas) return;
+
+  // Generate 90 days of scenario data
+  const days=[];
+  const scenA=[], scenB=[], scenC=[], baseline=[];
+  const startPrice=84;
+
+  for(let d=0;d<=90;d++){
+    const date=new Date(2026,2,3); // March 3
+    date.setDate(date.getDate()+d);
+    days.push(date.toLocaleDateString('en-US',{month:'short',day:'numeric'}));
+
+    // Baseline: pre-crisis ~$70
+    baseline.push(70);
+
+    // Scenario A: Quick resolution — spike to ~$90, return to $72-75 by week 3
+    if(d<=7) scenA.push(startPrice + d*1.5);
+    else if(d<=21) scenA.push(90 - (d-7)*1.3);
+    else scenA.push(Math.max(72, 72 + Math.sin(d/5)*2));
+
+    // Scenario B: Extended disruption — rise to $100-120, sustain
+    if(d<=14) scenB.push(startPrice + d*2.8);
+    else if(d<=45) scenB.push(Math.min(120, 118 + Math.sin(d/7)*5));
+    else scenB.push(110 + Math.sin(d/8)*8);
+
+    // Scenario C: Prolonged closure — surge to $140-200
+    if(d<=7) scenC.push(startPrice + d*5);
+    else if(d<=30) scenC.push(115 + (d-7)*2.5);
+    else if(d<=60) scenC.push(Math.min(200, 172 + (d-30)*0.8 + Math.sin(d/5)*8));
+    else scenC.push(185 + Math.sin(d/6)*12);
+  }
+
+  new Chart(canvas,{
+    type:'line',
+    data:{
+      labels:days,
+      datasets:[
+        {
+          label:'Scenario A: Quick resolution',
+          data:scenA,
+          borderColor:'#059669',
+          backgroundColor:'rgba(5,150,105,.08)',
+          fill:false,
+          borderWidth:2.5,
+          pointRadius:0,
+          tension:.3
+        },
+        {
+          label:'Scenario B: Extended disruption',
+          data:scenB,
+          borderColor:'#F59E0B',
+          backgroundColor:'rgba(245,158,11,.08)',
+          fill:false,
+          borderWidth:2.5,
+          pointRadius:0,
+          tension:.3
+        },
+        {
+          label:'Scenario C: Prolonged closure',
+          data:scenC,
+          borderColor:'#DC2626',
+          backgroundColor:'rgba(220,38,38,.08)',
+          fill:false,
+          borderWidth:2.5,
+          pointRadius:0,
+          tension:.3
+        },
+        {
+          label:'Pre-crisis baseline',
+          data:baseline,
+          borderColor:'#9CA3AF',
+          borderDash:[5,5],
+          fill:false,
+          borderWidth:1.5,
+          pointRadius:0
+        }
+      ]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:true,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'rgba(31,41,55,.95)',
+          titleFont:{size:11},
+          bodyFont:{size:11},
+          callbacks:{
+            label:function(ctx){return ctx.dataset.label+': $'+ctx.parsed.y.toFixed(0)+'/bbl'}
+          }
+        }
+      },
+      scales:{
+        x:{
+          ticks:{
+            maxTicksLimit:10,
+            font:{size:10},
+            color:'#9CA3AF'
+          },
+          grid:{display:false}
+        },
+        y:{
+          min:60,
+          max:210,
+          ticks:{
+            stepSize:20,
+            font:{size:10},
+            color:'#9CA3AF',
+            callback:function(v){return '$'+v}
+          },
+          grid:{color:'rgba(229,231,235,.5)'}
+        }
+      }
+    }
+  });
+
+  // Add danger zone annotation via gradient
+  const ctx=canvas.getContext('2d');
+  // Mark $100+ zone subtly after chart renders
+  setTimeout(()=>{
+    const chart=Chart.getChart(canvas);
+    if(!chart) return;
+    const yScale=chart.scales.y;
+    const xScale=chart.scales.x;
+    const y100=yScale.getPixelForValue(100);
+    const yTop=yScale.getPixelForValue(210);
+    ctx.save();
+    ctx.fillStyle='rgba(220,38,38,.04)';
+    ctx.fillRect(xScale.left,yTop,xScale.width,y100-yTop);
+    ctx.restore();
+    // Label
+    ctx.save();
+    ctx.font='600 9px -apple-system,sans-serif';
+    ctx.fillStyle='rgba(220,38,38,.4)';
+    ctx.fillText('$100+ DANGER ZONE',xScale.left+5,y100-4);
+    ctx.restore();
+  },300);
+})();
+</script>
+</body>
+</html>
