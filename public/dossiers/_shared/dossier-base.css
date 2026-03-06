@@ -1,0 +1,882 @@
+/* ============================================================================
+   DOSSIER BASE CSS - Core Layout, Typography, Colors & Header
+   analyst.rizrazak.com - Bilingual Investigative Journalism Framework
+   ============================================================================ */
+
+/* ============================================================================
+   CSS RESET & BOX MODEL
+   ============================================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============================================================================
+   CSS CUSTOM PROPERTIES - LIGHT MODE (DEFAULT)
+   ============================================================================ */
+:root {
+    /* Color Palette */
+    --color-bg: #f4f4fa;
+    --color-text: #1a1a2e;
+    --color-text-secondary: #6b6b7a;
+    --color-card: #e0e0ec;
+    --color-gold: #a88700;
+    --color-green: #2d7a3e;
+    --color-red: #cc2020;
+    --color-amber: #d97706;
+    --color-border: rgba(0, 0, 0, 0.1);
+    --color-badge: rgba(0, 100, 0, 0.12);
+    --color-badge-text: #2d7a3e;
+    --color-badge-border: rgba(0, 100, 0, 0.3);
+
+    /* Typography */
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+
+    /* Spacing & Layout */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 4rem;
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+    /* Z-index Stack */
+    --z-header: 100;
+    --z-nav: 90;
+    --z-modal: 1000;
+    --z-tooltip: 999;
+}
+
+/* ============================================================================
+   CSS CUSTOM PROPERTIES - DARK MODE
+   ============================================================================ */
+[data-theme="dark"] {
+    --color-bg: #0f0f1a;
+    --color-text: #e0e0e0;
+    --color-text-secondary: #a0a0a8;
+    --color-card: #1a1a2e;
+    --color-gold: #d4af37;
+    --color-green: #4ade80;
+    --color-red: #ff6b6b;
+    --color-amber: #fbbf24;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-badge: rgba(76, 175, 80, 0.15);
+    --color-badge-text: #4ade80;
+    --color-badge-border: rgba(76, 175, 80, 0.4);
+}
+
+/* ============================================================================
+   BODY & GLOBAL STYLES
+   ============================================================================ */
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 16px;
+}
+
+/* ============================================================================
+   TYPOGRAPHY - HEADINGS
+   ============================================================================ */
+h1 {
+    font-family: var(--font-serif);
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+    color: var(--color-text);
+}
+
+h2 {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: var(--spacing-xl) 0 var(--spacing-md) 0;
+    color: var(--color-text);
+}
+
+h3 {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: var(--spacing-lg) 0 var(--spacing-md) 0;
+    color: var(--color-text);
+}
+
+h4 {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    font-weight: 600;
+    margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+    color: var(--color-text);
+}
+
+h5 {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 600;
+    margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+    color: var(--color-text);
+}
+
+h6 {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+    color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+}
+
+/* ============================================================================
+   TYPOGRAPHY - BODY TEXT & PARAGRAPH
+   ============================================================================ */
+p {
+    margin: 0 0 var(--spacing-md) 0;
+    color: var(--color-text);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+a {
+    color: var(--color-gold);
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    border-bottom: 1px solid transparent;
+}
+
+a:hover {
+    color: var(--color-text);
+    border-bottom-color: var(--color-gold);
+}
+
+/* ============================================================================
+   TYPOGRAPHY - CODE & MONOSPACE
+   ============================================================================ */
+code,
+pre {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    background-color: var(--color-card);
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+}
+
+code {
+    padding: 0.2em 0.4em;
+    display: inline-block;
+}
+
+pre {
+    padding: var(--spacing-md);
+    overflow-x: auto;
+    margin: var(--spacing-md) 0;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    display: block;
+}
+
+/* ============================================================================
+   TYPOGRAPHY - BLOCKQUOTE
+   ============================================================================ */
+blockquote {
+    margin: var(--spacing-lg) 0;
+    padding-left: var(--spacing-lg);
+    border-left: 4px solid var(--color-gold);
+    color: var(--color-text-secondary);
+    font-style: italic;
+    line-height: 1.8;
+}
+
+/* ============================================================================
+   TYPOGRAPHY - LISTS
+   ============================================================================ */
+ul,
+ol {
+    margin: var(--spacing-md) 0;
+    padding-left: var(--spacing-lg);
+    color: var(--color-text);
+}
+
+li {
+    margin: var(--spacing-sm) 0;
+    line-height: 1.7;
+}
+
+ul ul,
+ol ol {
+    margin: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-lg);
+}
+
+/* ============================================================================
+   TYPOGRAPHY - SINHALA TEXT
+   ============================================================================ */
+[lang="si"],
+[data-lang="si"] {
+    font-family: var(--font-sinhala);
+    letter-spacing: 0;
+    line-height: 1.8;
+}
+
+/* ============================================================================
+   LANGUAGE TOGGLE - BILINGUAL DISPLAY
+   ============================================================================ */
+/* Default: English visible, Sinhala hidden */
+[data-lang="si"] {
+    display: none;
+}
+
+[data-lang="en"] {
+    display: inline;
+}
+
+/* When language is switched to Sinhala */
+body.show-sinhala [data-lang="si"] {
+    display: inline;
+}
+
+body.show-sinhala [data-lang="en"] {
+    display: none;
+}
+
+/* Block-level language elements */
+div[data-lang="si"],
+section[data-lang="si"],
+article[data-lang="si"],
+p[data-lang="si"],
+h1[data-lang="si"],
+h2[data-lang="si"],
+h3[data-lang="si"],
+h4[data-lang="si"],
+h5[data-lang="si"],
+h6[data-lang="si"] {
+    display: none;
+}
+
+body.show-sinhala div[data-lang="si"],
+body.show-sinhala section[data-lang="si"],
+body.show-sinhala article[data-lang="si"],
+body.show-sinhala p[data-lang="si"],
+body.show-sinhala h1[data-lang="si"],
+body.show-sinhala h2[data-lang="si"],
+body.show-sinhala h3[data-lang="si"],
+body.show-sinhala h4[data-lang="si"],
+body.show-sinhala h5[data-lang="si"],
+body.show-sinhala h6[data-lang="si"] {
+    display: block;
+}
+
+body.show-sinhala div[data-lang="en"],
+body.show-sinhala section[data-lang="en"],
+body.show-sinhala article[data-lang="en"],
+body.show-sinhala p[data-lang="en"],
+body.show-sinhala h1[data-lang="en"],
+body.show-sinhala h2[data-lang="en"],
+body.show-sinhala h3[data-lang="en"],
+body.show-sinhala h4[data-lang="en"],
+body.show-sinhala h5[data-lang="en"],
+body.show-sinhala h6[data-lang="en"] {
+    display: none;
+}
+
+/* ============================================================================
+   HEADER - STICKY NAVIGATION HEADER
+   ============================================================================ */
+header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+    background: rgba(244, 244, 250, 0.97);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    padding: var(--spacing-md) 0;
+}
+
+[data-theme="dark"] header {
+    background: rgba(15, 15, 26, 0.97);
+}
+
+header .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+/* Back Button */
+.header-back {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--color-gold);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.header-back:hover {
+    color: var(--color-text);
+}
+
+.header-back::before {
+    content: "←";
+    font-size: 18px;
+}
+
+/* Header Center: Title & Meta */
+.header-content {
+    text-align: center;
+}
+
+.header-date {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+.header-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: var(--spacing-xs) 0;
+    line-height: 1.2;
+}
+
+.header-tags {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+    margin-top: var(--spacing-sm);
+}
+
+.header-tag {
+    font-size: 12px;
+    padding: 0.3rem 0.8rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-badge);
+    color: var(--color-badge-text);
+    border: 1px solid var(--color-badge-border);
+    font-weight: 500;
+}
+
+/* Header Right: Author & Controls */
+.header-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    justify-self: end;
+}
+
+.header-author {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+.author-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.author-role {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+/* Theme Toggle Button */
+.theme-toggle,
+.language-toggle {
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-sm);
+    cursor: pointer;
+    color: var(--color-text);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    width: 40px;
+    height: 40px;
+}
+
+.theme-toggle:hover,
+.language-toggle:hover {
+    background-color: var(--color-card);
+    border-color: var(--color-gold);
+}
+
+@media (max-width: 768px) {
+    header .header-inner {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+
+    .header-content {
+        grid-column: 1;
+        order: 2;
+    }
+
+    .header-back {
+        justify-self: start;
+        order: 1;
+    }
+
+    .header-meta {
+        justify-self: center;
+        order: 3;
+        gap: var(--spacing-sm);
+    }
+
+    .header-title {
+        font-size: 18px;
+    }
+
+    .author-role {
+        display: none;
+    }
+}
+
+/* ============================================================================
+   SECTION NAVIGATION BAR
+   ============================================================================ */
+nav.section-nav {
+    position: sticky;
+    top: 80px;
+    z-index: var(--z-nav);
+    background: rgba(244, 244, 250, 0.95);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(10px);
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+[data-theme="dark"] nav.section-nav {
+    background: rgba(15, 15, 26, 0.95);
+}
+
+nav.section-nav ul {
+    list-style: none;
+    display: flex;
+    gap: var(--spacing-lg);
+    margin: 0;
+    padding: 0 var(--spacing-lg);
+    min-width: min-content;
+}
+
+nav.section-nav li {
+    margin: 0;
+}
+
+nav.section-nav a {
+    display: block;
+    padding: var(--spacing-md) 0;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+nav.section-nav a:hover {
+    color: var(--color-text);
+    border-bottom-color: var(--color-gold);
+}
+
+nav.section-nav a.active {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+}
+
+@media (max-width: 768px) {
+    nav.section-nav {
+        top: 60px;
+    }
+
+    nav.section-nav ul {
+        gap: var(--spacing-md);
+        padding: 0 var(--spacing-md);
+    }
+
+    nav.section-nav a {
+        padding: var(--spacing-md) 0;
+        font-size: 12px;
+    }
+}
+
+/* ============================================================================
+   MAIN CONTENT SECTIONS
+   ============================================================================ */
+section {
+    max-width: 1000px;
+    margin: var(--spacing-2xl) auto;
+    padding: 0 var(--spacing-lg);
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+section:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+section:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+section:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+section:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+section:nth-child(n + 5) {
+    animation-delay: 0.5s;
+}
+
+/* Section Header with Number Label */
+.section-header {
+    margin-bottom: var(--spacing-xl);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--spacing-lg);
+}
+
+.section-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-gold);
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-border);
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* ============================================================================
+   FOOTER
+   ============================================================================ */
+footer {
+    background-color: var(--color-card);
+    color: var(--color-text-secondary);
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    margin-top: var(--spacing-2xl);
+    border-top: 1px solid var(--color-border);
+}
+
+footer .footer-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+footer p {
+    font-size: 14px;
+    margin: var(--spacing-md) 0;
+}
+
+footer a {
+    color: var(--color-gold);
+}
+
+footer a:hover {
+    color: var(--color-text);
+}
+
+/* ============================================================================
+   FLOATING ACTION BUTTON - "PLEDGE YOUR SUPPORT"
+   ============================================================================ */
+.floating-pledge {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    z-index: 95;
+    background-color: var(--color-gold);
+    color: #fff;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    border: none;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.floating-pledge:hover {
+    background-color: var(--color-text);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .floating-pledge {
+    background-color: var(--color-gold);
+}
+
+@media (max-width: 768px) {
+    .floating-pledge {
+        bottom: var(--spacing-md);
+        right: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-md);
+        font-size: 12px;
+    }
+}
+
+/* ============================================================================
+   EMAIL SUBSCRIBE BAR
+   ============================================================================ */
+.subscribe-bar {
+    background-color: var(--color-card);
+    border-top: 1px solid var(--color-border);
+    padding: var(--spacing-lg);
+    margin-top: var(--spacing-2xl);
+}
+
+.subscribe-bar-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+.subscribe-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-md);
+    align-items: center;
+}
+
+.subscribe-form input {
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    transition: border-color 0.2s ease;
+}
+
+.subscribe-form input:focus {
+    outline: none;
+    border-color: var(--color-gold);
+}
+
+.subscribe-form button {
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-gold);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+}
+
+.subscribe-form button:hover {
+    background-color: var(--color-text);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .subscribe-form {
+        grid-template-columns: 1fr;
+    }
+
+    .subscribe-form button {
+        width: 100%;
+    }
+}
+
+/* ============================================================================
+   RESPONSIVE MEDIA QUERIES
+   ============================================================================ */
+@media (max-width: 768px) {
+    section {
+        margin: var(--spacing-xl) auto;
+        padding: 0 var(--spacing-md);
+    }
+
+    .section-header {
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-md);
+    }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+@media print {
+    body {
+        background-color: #fff;
+        color: #000;
+    }
+
+    header,
+    nav,
+    footer,
+    .floating-pledge,
+    .subscribe-bar,
+    .no-print {
+        display: none;
+    }
+
+    section {
+        page-break-inside: avoid;
+        margin: var(--spacing-lg) 0;
+        opacity: 1;
+        animation: none;
+    }
+
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        page-break-after: avoid;
+        page-break-inside: avoid;
+        color: #000;
+    }
+
+    p {
+        orphans: 3;
+        widows: 3;
+    }
+}

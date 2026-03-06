@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="dossier-id" content="iran-us-israel-war">
+    <meta name="author" content="Riz Razak">
+    <meta name="description" content="A multi-disciplinary analysis of the February 2026 Iran-US-Israel conflict through geopolitics, game theory, theology, psychology, and history.">
+    <title>The War That Changed Everything | Digging Deep</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../_shared/dossier-base.css">
+    <link rel="stylesheet" href="../_shared/dossier-components.css">
+    <link rel="stylesheet" href="../_shared/dossier-interactive.css">
+</head>
+<body>
+
+<!-- ==================== DISCLAIMER MODAL ==================== -->
+<div id="disclaimerModal" class="disclaimer-modal">
+    <div class="disclaimer-content">
+        <h2>Disclaimer / වියාචනය</h2>
+        <p class="subtitle">Please read before proceeding / කරුණාකර ඉදිරියට යාමට පෙර කියවන්න</p>
+
+        <div class="disclaimer-section">
+            <h3>Translation Accuracy / පරිවර්තන නිරවද්‍යතාව</h3>
+            <p data-lang="en">Sinhala (සිංහල) translations on this page were generated using the <strong>Google Translate API</strong> and have not been independently <strong>verified by a certified translator</strong>.</p>
+            <p data-lang="si">මෙම පිටුවේ සිංහල පරිවර්තන <strong>Google Translate API</strong> භාවිතයෙන් ජනනය කරන ලද අතර සහතික පරිවර්තකයෙකු විසින් ස්වාධීනව සත්‍යාපනය කර <strong>නැත</strong>.</p>
+        </div>
+
+        <div class="disclaimer-section">
+            <h3>Research & AI-Assisted Content / පර්යේෂණ සහ AI-ආධාරිත අන්තර්ගතය</h3>
+            <p data-lang="en">Portions of this research were compiled with the assistance of machine learning tools. While every effort has been made to ensure factual accuracy, it is <strong>the reader's responsibility to independently verify</strong> claims and data presented.</p>
+            <p data-lang="si">මෙම පර්යේෂණයේ කොටස් යන්ත්‍ර ඉගෙනුම් මෙවලම් ආධාරයෙන් සම්පාදනය කර ඇත. කරුණු නිරවද්‍යතාව සහතික කිරීමට සෑම උත්සාහයක්ම ගෙන ඇතත්, ඉදිරිපත් කරන ලද ප්‍රකාශ සහ දත්ත <strong>කියවන්නාගේ වගකීම යටතේ ස්වාධීනව සත්‍යාපනය කළ යුතුය</strong>.</p>
+        </div>
+
+        <div class="disclaimer-section">
+            <h3>Legal Liability / නීතිමය වගකීම</h3>
+            <p data-lang="en">This document is published for <strong>informational and public interest purposes only</strong>. It does not constitute legal advice, defamation, or an accusation of criminal conduct. The authors and publishers assume <strong>no liability</strong> for decisions made based on this content.</p>
+            <p data-lang="si">මෙම ලේඛනය <strong>තොරතුරු සහ පොදු යහපත සඳහා පමණක්</strong> ප්‍රකාශයට පත් කෙරේ. මෙය නීති උපදෙස්, අපකීර්තිය හෝ අපරාධ චෝදනාවක් නොවේ. කතුවරුන් සහ ප්‍රකාශකයින් මෙම අන්තර්ගතය මත පදනම්ව ගන්නා තීරණ සඳහා <strong>කිසිදු වගකීමක් භාර නොගනී</strong>.</p>
+        </div>
+
+        <div class="disclaimer-section">
+            <h3>Fair Comment / සාධාරණ අදහස් දැක්වීම</h3>
+            <p data-lang="en">All opinions expressed constitute fair comment on matters of public interest. All factual claims are based on documented sources cited throughout.</p>
+            <p data-lang="si">ප්‍රකාශ කරන සියලුම මතයන් පොදු යහපතට අදාළ කරුණු පිළිබඳ සාධාරණ අදහස් දැක්වීම් වේ. සියලුම කරුණු පදනම් වන්නේ සම්පූර්ණ ලේඛනය පුරා උපුටා දක්වා ඇති ලේඛනගත මූලාශ්‍ර මතය.</p>
+        </div>
+
+        <button id="disclaimerAccept" class="accept-btn">I Understand & Accept — මම තේරුම් ගනිමි</button>
+    </div>
+</div>
+
+<!-- ==================== HEADER ==================== -->
+<header>
+    <div class="header-inner">
+        <a href="/#/dossiers" class="back-link" target="_parent">← All Dossiers</a>
+        <div class="header-meta">
+            <span class="header-date">March 6, 2026</span>
+            <span class="header-title">The War That Changed Everything: Iran, Israel & the Unravelling of American Power</span>
+            <div class="header-tags">
+                <span class="tag" style="background:#cc2020;color:#fff">Geopolitics</span>
+                <span class="tag" style="background:#8b0000;color:#fff">War</span>
+                <span class="tag" style="background:#a88700;color:#fff">Sri Lanka</span>
+                <span class="tag" style="background:#2563eb;color:#fff">Game Theory</span>
+                <span class="tag" style="background:#7c3aed;color:#fff">AI</span>
+                <span class="tag" style="background:#d97706;color:#fff">US Decline</span>
+            </div>
+        </div>
+        <span class="header-author">Riz Razak</span>
+    </div>
+    <div class="header-controls">
+        <button id="langToggle"><span class="lang-active">EN</span> | සිං</button>
+        <button id="themeToggle" aria-label="Toggle dark mode">☾</button>
+    </div>
+    <nav id="sectionNav">
+        <div class="nav-links"></div>
+    </nav>
+    <div class="social-links">
+        <a href="https://facebook.com" target="_blank" rel="noopener">f</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener">ig</a>
+        <a href="https://tiktok.com" target="_blank" rel="noopener">tt</a>
+    </div>
+</header>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="hero">
+    <div class="badge" data-lang="si">භූ-දේශපාලන පර්යේෂණ ලේඛනය</div>
+    <div class="badge" data-lang="en">Geopolitical Research Dossier</div>
+
+    <h1 data-lang="si">සියල්ල වෙනස් කළ යුද්ධය</h1>
+    <h1 data-lang="en">The War That Changed Everything</h1>
+
+    <p class="hero-subtitle" data-lang="si">2026 පෙබරවාරි ඊරාන-ඇමරිකා-ඊශ්‍රායල ගැටුමේ බහු-විෂයාන්තර විශ්ලේෂණයක් — භූ-දේශපාලනය, ක්‍රීඩා න්‍යාය, දේවධර්මය, මනෝවිද්‍යාව සහ ඉතිහාසය හරහා — ශ්‍රී ලංකාවේ උපායමාර්ගික ස්ථානය, තාක්ෂණ ඔලිගාර්කි ප්‍රතිපෝෂණ පුඩුව සහ සියල්ල වෙනස් කළ හැකි වසර 10-15 කවුළුව කෙරෙහි විශේෂ අවධානයක් යොමු කරමින්.</p>
+    <p class="hero-subtitle" data-lang="en">A multi-disciplinary analysis of the February 2026 Iran-US-Israel conflict — through geopolitics, game theory, theology, psychology, and history — with dedicated focus on Sri Lanka's strategic position, the tech oligarchy feedback loop, and the 10-15 year window that could change everything.</p>
+
+    <div class="hero-meta">
+        <div><span data-lang="si">දිනය:</span><span data-lang="en">Date:</span> <span data-lang="si">2026 මාර්තු 6</span><span data-lang="en">March 6, 2026</span></div>
+        <div><span data-lang="si">කියවීමේ වේලාව:</span><span data-lang="en">Read time:</span> <span data-lang="si">මිනිත්තු 45</span><span data-lang="en">45 minutes</span></div>
+        <div><span data-lang="si">කර්තෘ:</span><span data-lang="en">Author:</span> <span data-lang="si">ස්වාධීන විශ්ලේෂණය</span><span data-lang="en">Independent Analysis</span></div>
+    </div>
+</section>
+
+<!-- ==================== STATS ==================== -->
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="stat-number red">Day 7</div>
+        <div class="stat-label" data-lang="si">සක්‍රීය ගැටුමේ</div>
+        <div class="stat-label" data-lang="en">Of Active Conflict</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number amber">4,500+</div>
+        <div class="stat-label" data-lang="si">සන්ධාන ප්‍රහාර</div>
+        <div class="stat-label" data-lang="en">Coalition Strikes</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number red">$890M</div>
+        <div class="stat-label" data-lang="si">දෛනික ඇමරිකානු පිරිවැය</div>
+        <div class="stat-label" data-lang="en">Daily US Cost</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number gold">9</div>
+        <div class="stat-label" data-lang="si">ක්‍රියාකාරීන් ක්‍රීඩාවේ</div>
+        <div class="stat-label" data-lang="en">Actors In the Game</div>
+    </div>
+</div>
+
+<!-- ===================== SECTION 01 — THE WAR ===================== -->
+<section id="section-01" data-nav-label="THE WAR">
+    <div class="section-label" data-lang="si">01 — යුද්ධය</div>
+    <div class="section-label" data-lang="en">01 — THE WAR</div>
+
+    <h2 data-lang="si">Operation Epic Fury: සතියක යුද්ධයක්</h2>
+    <h2 data-lang="en">Operation Epic Fury: A War in Seven Days</h2>
+
+    <p data-lang="si">2026 පෙබරවාරි 28 වැනිදා, එක්සත් ජනපදය 2003 ඉරාකයෙන් පසු විශාලතම මිලිටරි මෙහෙයුම දියත් කළේය. Operation Epic Fury — ඊරානයේ න්‍යෂ්ටික යටිතල පහසුකම්, ගුවන් ආරක්ෂණ පද්ධති සහ මිලිටරි ධාරිතාව ඉලක්ක කරගත් සම්බන්ධීකරණ ප්‍රහාරයකි. ඊශ්‍රායලය මුල සිටම සම්පූර්ණ හවුල්කරුවෙකි. දින හතක් තුළ, මැද පෙරදිග සදාකාලිකවම වෙනස් විය.</p>
+    <p data-lang="en">On February 28, 2026, the United States launched its largest military operation since Iraq 2003. Operation Epic Fury — a coordinated strike campaign targeting Iran's nuclear infrastructure, air defense systems, and military capacity. Israel was a full partner from the outset. In seven days, the Middle East changed forever.</p>
+
+    <h3 data-lang="si">සිදුවූ දේ: දින 1-7 කාලරේඛාව</h3>
+    <h3 data-lang="en">What Happened: The Day 1-7 Timeline</h3>
+
+    <p data-lang="si"><strong>දින 1-2 (පෙබරවාරි 28 - මාර්තු 1):</strong> එක්සත් ජනපද/ඊශ්‍රායල බලවේග නටාන්ස්, ෆෝර්ඩෝ සහ ඉස්ෆහාන් හි ඊරාන න්‍යෂ්ටික පහසුකම් මත නිරවද්‍ය ප්‍රහාර 2,500+ දියත් කළහ. S-300/S-400 ගුවන් ආරක්ෂණ පද්ධති ප්‍රමුඛතා ඉලක්ක විය. බුෂෙහ්ර් න්‍යෂ්ටික බලාගාරයට ප්‍රහාර එල්ල විය.</p>
+    <p data-lang="en"><strong>Days 1-2 (Feb 28 - Mar 1):</strong> US/Israeli forces launched 2,500+ precision strikes on Iran's nuclear facilities at Natanz, Fordow, and Isfahan. S-300/S-400 air defense systems were priority targets. Bushehr nuclear power plant was struck. Iran's air force scrambled but was overwhelmed by fifth-generation stealth aircraft and electronic warfare.</p>
+
+    <p data-lang="si"><strong>දින 3-4 (මාර්තු 2-3):</strong> ඊරානය බැලිස්ටික් මිසයිල 300+ කින් ප්‍රතිප්‍රහාර එල්ල කළේය — බොහොමයක් Arrow-3 සහ Iron Dome මගින් අල්ලා ගන්නා ලදී. හූතී ප්‍රහාර රතු මුහුදේ නාවික ගමනාගමනය කෙරෙහි ඉලක්ක කර තීව්‍ර විය. එක්සත් ජනපදය ඊරාන නාවික සේනා වත්කම් ඉලක්ක කිරීමට පුළුල් විය.</p>
+    <p data-lang="en"><strong>Days 3-4 (Mar 2-3):</strong> Iran retaliated with 300+ ballistic missiles toward Israel — most intercepted by Arrow-3 and Iron Dome systems. Houthi attacks on Red Sea shipping intensified dramatically. The US expanded targeting to Iranian naval assets across the Persian Gulf.</p>
+
+    <p data-lang="si"><strong>දින 5-6 (මාර්තු 4-5):</strong> IRIS Dena — ඊරානයේ නවතම ෆ්‍රිගේට් යුද නැව — ඇමරිකානු සබ්මැරීනයක ටෝපීඩෝවකින් ගිල්වන ලදී. එය දෙවන ලෝක යුද්ධයෙන් පසු පළමු ඇමරිකානු සබ්මැරීන ටෝපීඩෝ ඝාතනයයි. ඊරාන නාවික හමුදාව විනාශකාරී පාඩු විඳ සිටියේය.</p>
+    <p data-lang="en"><strong>Days 5-6 (Mar 4-5):</strong> The IRIS Dena — Iran's newest frigate — was sunk by a US submarine torpedo. It was the first US submarine torpedo kill since World War II. Iran's navy had suffered devastating losses: 20+ vessels sunk or disabled across the Persian Gulf.</p>
+
+    <p data-lang="si"><strong>දින 7 (මාර්තු 6):</strong> මුළු ප්‍රහාර 4,500+ ඉක්මවා ගියේය. ඊරානයේ ගුවන් හමුදාව ඵලදායී ලෙස විනාශ විය. නමුත් භූමි ආක්‍රමණයක් ආරම්භ කර නැත — ඇමරිකානු දේශපාලන අභිමතය නැත, මිලිටරි ධාරිතාව ඇත. ඊරානය බිඳ වැටී ඇතත් පරාජය වී නැත.</p>
+    <p data-lang="en"><strong>Day 7 (Mar 6):</strong> Total strikes exceeded 4,500. Iran's air force was effectively destroyed. But no ground invasion had commenced — the US had the military capacity but not the political appetite. Iran was battered but not defeated. The question now: what comes next?</p>
+
+    <h3 data-lang="si">මිලිටරි සමතුලිතතාවය</h3>
+    <h3 data-lang="en">Military Balance</h3>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th data-lang="si">කාණ්ඩය</th><th data-lang="en">Category</th>
+                    <th data-lang="si">ඇමරිකා/ඊශ්‍රායල</th><th data-lang="en">US/Israel Coalition</th>
+                    <th data-lang="si">ඊරානය</th><th data-lang="en">Iran</th>
+                    <th data-lang="si">අසමමිතිය</th><th data-lang="en">Asymmetry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td data-lang="si">ගුවන් බලය</td><td data-lang="en">Air Power</td><td>F-35, F-22, F-15EX, F-16I</td><td>F-14 (aging), Su-35 (48 units)</td><td data-lang="si">සම්පූර්ණ ගුවන් ආධිපත්‍යය</td><td data-lang="en">Total air dominance (Coalition)</td></tr>
+                <tr><td data-lang="si">නාවික</td><td data-lang="en">Naval</td><td>Lincoln CSG + 2 destroyers</td><td>20+ vessels lost</td><td data-lang="si">නාවික ආධිපත්‍යය</td><td data-lang="en">Naval dominance (Coalition)</td></tr>
+                <tr><td data-lang="si">මිසයිල</td><td data-lang="en">Missiles</td><td>Tomahawk, JDAM, Patriot, Arrow-3</td><td>Shahab-3, Sejjil, Fattah-2</td><td data-lang="si">ඊරානයට ප්‍රමාණාත්මක වාසිය</td><td data-lang="en">Iran has quantity advantage</td></tr>
+                <tr><td data-lang="si">ඩ්‍රෝන</td><td data-lang="en">Drones</td><td>MQ-9, LUCAS swarms ($35K/unit)</td><td>Shahed-136 ($20K/unit)</td><td data-lang="si">ඊරානයට පිරිවැය වාසිය</td><td data-lang="en">Iran has cost advantage</td></tr>
+                <tr><td data-lang="si">සයිබර්</td><td data-lang="en">Cyber</td><td>NSA + Unit 8200</td><td>APT33, APT34</td><td data-lang="si">සන්ධානයට ප්‍රබල වාසිය</td><td data-lang="en">Strong Coalition advantage</td></tr>
+                <tr><td data-lang="si">න්‍යෂ්ටික</td><td data-lang="en">Nuclear</td><td>US: 5,500+ warheads; Israel: ~90</td><td>No confirmed weapons</td><td data-lang="si">ඒකපාර්ශ්වික</td><td data-lang="en">One-sided</td></tr>
+                <tr><td data-lang="si">ප්‍රොක්සි බලවේග</td><td data-lang="en">Proxy Forces</td><td>Limited</td><td>Hezbollah, Houthis, PMF, Hamas</td><td data-lang="si">ඊරානයට අසමමිතික වාසිය</td><td data-lang="en">Iran's asymmetric advantage</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="callout-box warning">
+        <h4 data-lang="si">උණ්ඩ ආර්ථික විද්‍යාව: තීරණාත්මක අවබෝධය</h4>
+        <h4 data-lang="en">Ammunition Economics: The Critical Insight</h4>
+        <p data-lang="si">ඊරානයේ ඩ්‍රෝන/මිසයිල උපාය මාර්ගය ඒකකයකට $20K-50K ක් වැය වේ. ඇමරිකානු ඉන්ටර්සෙප්ටරයකට $100K-500K+. මෙයින් අදහස් වන්නේ ඊරානයට 9-18 ගුණයකින් වඩා පිරිවැය-කාර්යක්ෂමව පවත්වා ගැනීමට හැකි බවයි. ඇමරිකාව දිනකට $890M වියදම් කරන විට — සතියකින් $6.2B — මෙය ආර්ථික ස්ථායීතාවයේ ප්‍රශ්නයක් බවට පත් වේ, මිලිටරි ධාරිතාවයේ නොවේ.</p>
+        <p data-lang="en">Iran's drone/missile strategy costs $20K-50K per unit versus $100K-500K+ per US interceptor. This means Iran can sustain operations 9-18x more cost-efficiently. When the US is spending $890M per day — $6.2B in the first week alone — this becomes a question of economic sustainability, not military capability. The US can destroy anything it targets. The question is whether it can afford to keep doing so.</p>
+    </div>
+
+    <p data-lang="si">මේ ආකාරයෙන් අපට යුද්ධයේ මූලික ප්‍රශ්නයට පැමිණෙනවා: මෙය තවත් ඉරාකයක් වේද — වසර 20 ක කාණු යුද්ධයක් — නැත්නම් අලුත් දෙයක්ද? පිළිතුර ඊරානයේ ගුහා සහ උමං පද්ධති තුළ ඇත, ඇමරිකානු මැතිවරණ චක්‍රය තුළ ඇත, සහ සම්බන්ධීකරණය මත — නුදුරු අනාගතයේ — චීනය දකුණු චීන මුහුදේ කුමක් කිරීමට තීරණය කරන්නේද යන්න මත.</p>
+    <p data-lang="en">And so we arrive at the fundamental question of this war: does this become another Iraq — a 20-year quagmire that drains American treasury and credibility — or something new? The answer lies in Iran's cave and tunnel systems, in the American electoral cycle, and in the coordination — or lack thereof — of what China decides to do in the South China Sea in the near future.</p>
+</section>
+
+<!-- ===================== SECTION 02 — SCENARIO ANALYSIS ===================== -->
+<section id="section-02" data-nav-label="SCENARIO ANALYSIS">
+    <div class="section-label" data-lang="si">02 — අවස්ථා විශ්ලේෂණය</div>
+    <div class="section-label" data-lang="en">02 — SCENARIO ANALYSIS</div>
+
+    <h2 data-lang="si">අවස්ථා විශ්ලේෂණය: ඉදිරියේ ඇත්තේ කුමක්ද?</h2>
+    <h2 data-lang="en">Scenario Analysis: What Lies Ahead?</h2>
+
+    <p data-lang="si">ක්‍රීඩා න්‍යාය, ඓතිහාසික රටා ගැලපීම සහ ක්‍රියාකාරී-දිරිගැන්වීම් සිතියම්ගත කිරීම භාවිතා කරමින්, අපි ඉදිරි මාස 12 සඳහා සම්භාවිතා ගස් ගොඩනඟමු. මූලික යෙදවුම්: ක්‍රියාකාරීන් 9 දෙනෙකුගේ දිරිගැන්වීම්, සීමාවන් සහ රතු රේඛා.</p>
+    <p data-lang="en">Using game theory, historical pattern matching, and actor-incentive mapping, we construct probability trees for the next 12 months. The fundamental inputs: the incentives, constraints, and red lines of 9 key actors.</p>
+
+    <h3 data-lang="si">ක්‍රියාකාරී-දිරිගැන්වීම්-සීමා සිතියම</h3>
+    <h3 data-lang="en">Actor-Incentive-Constraint Map</h3>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th data-lang="en">Actor</th><th data-lang="si">ක්‍රියාකාරී</th>
+                    <th data-lang="en">Primary Incentive</th><th data-lang="si">මූලික දිරිගැන්වීම</th>
+                    <th data-lang="en">Key Constraint</th><th data-lang="si">ප්‍රධාන සීමාව</th>
+                    <th data-lang="en">Red Line</th><th data-lang="si">රතු රේඛාව</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>United States</td><td>Neutralize Iran nuclear threat</td><td>Domestic war fatigue; $890M/day cost</td><td>Ground invasion with casualties</td></tr>
+                <tr><td>Iran</td><td>Regime survival</td><td>Air force destroyed; economy crippled</td><td>Existential threat to Supreme Leader</td></tr>
+                <tr><td>Israel</td><td>Permanent Iran neutralization</td><td>US political timeline; Hezbollah second front</td><td>Nuclear Iran</td></tr>
+                <tr><td>Russia</td><td>US strategic overextension</td><td>Ukraine consuming all capacity</td><td>Direct NATO confrontation</td></tr>
+                <tr><td>China</td><td>Maximum leverage, minimum commitment</td><td>BRI investments in Iran at risk</td><td>Dollar weaponization against Chinese banks</td></tr>
+                <tr><td>Saudi Arabia</td><td>Regional stability; oil price management</td><td>Cannot be seen supporting Iran</td><td>Direct attacks on Saudi territory</td></tr>
+                <tr><td>India</td><td>Energy security; strategic autonomy</td><td>Dependent on both US and Iran oil</td><td>Chabahar port investment threatened</td></tr>
+                <tr><td>Turkey</td><td>Regional broker status</td><td>NATO membership vs. Islamic solidarity</td><td>Kurdish separatism exploitation</td></tr>
+                <tr><td>Sri Lanka</td><td>Remittance protection; non-alignment</td><td>Small state with limited leverage</td><td>Forced alignment with any bloc</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 data-lang="si">අවස්ථා ගස: සම්භාවිතා ඇගයීම්</h3>
+    <h3 data-lang="en">Scenario Tree: Probability Assessments</h3>
+
+    <div class="cards-grid">
+        <div class="scenario-card" style="border-left: 4px solid var(--color-green)">
+            <div class="scenario-header">
+                <span class="scenario-label" style="color:var(--color-green)">★ MOST LIKELY</span>
+                <span class="scenario-prob">40-50%</span>
+            </div>
+            <h4 data-lang="en">Path A: Managed De-escalation</h4>
+            <h4 data-lang="si">මාර්ගය A: කළමනාකරණය කළ උත්තේජන අඩුවීම</h4>
+            <p data-lang="en"><strong>A1: Face-saving deal within 3-6 months (25-30%)</strong> — The single most likely outcome. Both sides find an off-ramp: Iran accepts nuclear inspections; US lifts some sanctions; Israel gets security guarantees. Nobody wins, nobody loses face completely.</p>
+            <p data-lang="si"><strong>A1: මාස 3-6 තුළ මුහුණත රැකගැනීමේ ගිවිසුම (25-30%)</strong> — තනි වඩාත්ම ඉඩ ඇති ප්‍රතිඵලය. දෙපාර්ශ්වයම පිටවීමේ මාර්ගයක් සොයා ගනී: ඊරානය න්‍යෂ්ටික පරීක්ෂා පිළිගනී; ඇමරිකාව සම්බාධක සමහරක් ඉවත් කරයි; ඊශ්‍රායලයට ආරක්ෂිත සහතික ලැබේ.</p>
+            <p data-lang="en"><strong>A2: Frozen conflict (15-20%)</strong> — No formal resolution. Occasional strikes continue. Iran rebuilds covertly. A new "normal" of low-level hostility.</p>
+            <p data-lang="si"><strong>A2: කැටි වූ ගැටුම (15-20%)</strong> — විධිමත් විසඳුමක් නැත. ඉඳහිට ප්‍රහාර දිගටම. ඊරානය රහසිගතව ප්‍රතිනිර්මාණය කරයි.</p>
+        </div>
+
+        <div class="scenario-card" style="border-left: 4px solid var(--color-amber)">
+            <div class="scenario-header">
+                <span class="scenario-prob">25-35%</span>
+            </div>
+            <h4 data-lang="en">Path B: Sustained Escalation</h4>
+            <h4 data-lang="si">මාර්ගය B: අඛණ්ඩ උත්තේජනය</h4>
+            <p data-lang="en">Air campaign extends beyond 30 days. Proxy fronts activate — Hezbollah in Lebanon, Houthis in Red Sea, PMF in Iraq. Oil prices spike above $150/barrel. Global recession triggered. US faces domestic political crisis over war spending.</p>
+            <p data-lang="si">ගුවන් ව්‍යාපාරය දින 30 ඉක්මවා දිගු වේ. ප්‍රොක්සි පෙරමුණු සක්‍රිය වේ — ලෙබනනයේ හෙස්බුල්ලා, රතු මුහුදේ හූතීන්, ඉරාකයේ PMF. තෙල් මිල බැරලයකට $150 ඉක්මවයි. ගෝලීය අවපාතයක් ඇති වේ.</p>
+        </div>
+
+        <div class="scenario-card" style="border-left: 4px solid var(--color-red)">
+            <div class="scenario-header">
+                <span class="scenario-prob">10-15%</span>
+            </div>
+            <h4 data-lang="en">Path C: Regime Change Attempt</h4>
+            <h4 data-lang="si">මාර්ගය C: පාලන මාරු කිරීමේ උත්සාහය</h4>
+            <p data-lang="en">US pivots to explicit regime change objective. Covert support for Iranian opposition. Potential limited ground operation (special forces, not invasion). Historical precedent: universally ends badly (Iraq 2003, Libya 2011).</p>
+            <p data-lang="si">ඇමරිකාව පැහැදිලි පාලන වෙනස් කිරීමේ අරමුණ වෙත හැරේ. ඊරාන විරුද්ධ පාක්ෂිකයන්ට රහස් සහාය. ඓතිහාසික පූර්වාදර්ශය: සෑම විටම නරක ලෙස අවසන් වේ.</p>
+        </div>
+
+        <div class="scenario-card" style="border-left: 4px solid #4a0000">
+            <div class="scenario-header">
+                <span class="scenario-prob" style="color:#cc0000">5-10%</span>
+            </div>
+            <h4 data-lang="en">Path D: Black Swan / Nuclear Threshold</h4>
+            <h4 data-lang="si">මාර්ගය D: කළු හංසයා / න්‍යෂ්ටික සීමාව</h4>
+            <p data-lang="en">Iran reveals an undisclosed nuclear weapon or reaches breakout capability. Israel contemplates preemptive nuclear strike. China uses distraction to move on Taiwan. Simultaneous crises overwhelm US capacity.</p>
+            <p data-lang="si">ඊරානය අනාවරණය නොකළ න්‍යෂ්ටික ආයුධයක් හෙළි කරයි. ඊශ්‍රායලය පූර්ව-ක්‍රියාකාරී න්‍යෂ්ටික ප්‍රහාරයක් සලකා බලයි. චීනය තායිවානය මත පියවර ගනී. එකවර අර්බුද ඇමරිකානු ධාරිතාව ඉක්මවයි.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== SECTION 03 — SRI LANKA GAMBITS ===================== -->
+<section id="section-03" data-nav-label="SRI LANKA GAMBITS">
+    <div class="section-label" data-lang="si">03 — ශ්‍රී ලංකා උපාය</div>
+    <div class="section-label" data-lang="en">03 — SRI LANKA GAMBITS</div>
+
+    <h2 data-lang="si">ශ්‍රී ලංකාවේ උපායමාර්ගික අවස්ථාව</h2>
+    <h2 data-lang="en">Sri Lanka's Strategic Opportunity</h2>
+
+    <p data-lang="si">ශ්‍රී ලංකාව — අන්තර්ජාලයෙන් හුදෙකලා, මුහුදු මාර්ග මත යැපෙන, ප්‍රේෂණ වලට බැඳුණු — යුද්ධයේ වින්දිතයෙකු මෙන්ම විභව ප්‍රතිලාභකරුවෙකු ද වේ. ඉන්දියන් සාගරයේ මධ්‍යයේ, බැංකොක් සිට ඩුබායි දක්වා නැව් මාර්ග මත පිහිටා ඇති මෙම දිවයින, මහා බල තරඟයේ උත්තෝලනය සපයයි — නිවැරදි පියවර ගන්නේ නම්.</p>
+    <p data-lang="en">Sri Lanka — internet-isolated, sea-lane dependent, remittance-bound — is both a potential victim and potential beneficiary of this war. Situated in the middle of the Indian Ocean, astride shipping routes from Bangkok to Dubai, the island provides leverage in the great power competition — if it plays its cards right.</p>
+
+    <h3 data-lang="si">උපායමාර්ගික උපක්‍රම 7</h3>
+    <h3 data-lang="en">The 7 Strategic Gambits</h3>
+
+    <div class="callout-box info">
+        <h4 data-lang="en">1. Neutral Diplomatic Hub</h4><h4 data-lang="si">1. මධ්‍යස්ථ රාජ්‍ය තාන්ත්‍රික මධ්‍යස්ථානය</h4>
+        <p data-lang="en">Offer Colombo as a venue for Iran-US back-channel talks. The Swiss model: profit from neutrality. Sri Lanka's non-aligned history and Buddhist peacemaking tradition provide cultural legitimacy.</p>
+        <p data-lang="si">ඊරාන-ඇමරිකා පසුබිම් සාකච්ඡා සඳහා කොළඹ ස්ථානයක් ලෙස ඉදිරිපත් කරන්න. ස්විස් ආකෘතිය: මධ්‍යස්ථභාවයෙන් ලාභ ගන්න.</p>
+    </div>
+
+    <div class="callout-box info">
+        <h4 data-lang="en">2. Indian Ocean Surveillance Partnership</h4><h4 data-lang="si">2. ඉන්දියන් සාගර නිරීක්ෂණ හවුල්කාරිත්වය</h4>
+        <p data-lang="en">Monetize Trincomalee's natural deep-water harbor. Offer maritime surveillance facilities to the highest bidder — or, better, to multiple partners simultaneously. India wants it. China has Hambantota. The US needs Indian Ocean coverage.</p>
+        <p data-lang="si">ත්‍රිකුණාමලයේ ස්වභාවික ගැඹුරු ජල වරාය මුදල් බවට පරිවර්තනය කරන්න. බහු හවුල්කරුවන්ට එකවර සාගර නිරීක්ෂණ පහසුකම් ලබා දෙන්න.</p>
+    </div>
+
+    <div class="callout-box info">
+        <h4 data-lang="en">3. Energy Hedging</h4><h4 data-lang="si">3. බලශක්ති හෙජින්</h4>
+        <p data-lang="en">Negotiate discounted Iranian oil via Chinese intermediaries. Sri Lanka's 2022 crisis was fundamentally an energy crisis. Securing below-market oil during wartime price spikes is existential, not optional.</p>
+        <p data-lang="si">චීන මැදිහත්කරුවන් හරහා වට්ටම් සහිත ඊරාන තෙල් සාකච්ඡා කරන්න. ශ්‍රී ලංකාවේ 2022 අර්බුදය මූලික වශයෙන් බලශක්ති අර්බුදයක් විය.</p>
+    </div>
+
+    <div class="callout-box info">
+        <h4 data-lang="en">4. Remittance Protection</h4><h4 data-lang="si">4. ප්‍රේෂණ ආරක්ෂාව</h4>
+        <p data-lang="en">Bilateral agreements with Gulf states for worker protection and remittance flow guarantees. 76.5% of Sri Lanka's remittances come from the Gulf — this is the most immediate economic vulnerability.</p>
+        <p data-lang="si">සේවක ආරක්ෂාව සහ ප්‍රේෂණ ප්‍රවාහ සහතික සඳහා ගල්ෆ් රාජ්‍යයන් සමඟ ද්විපාර්ශ්වික ගිවිසුම්. ශ්‍රී ලංකාවේ ප්‍රේෂණ වලින් 76.5% ක් ගල්ෆ් කලාපයෙන්.</p>
+    </div>
+
+    <div class="callout-box info">
+        <h4 data-lang="en">5. Tech Leapfrog</h4><h4 data-lang="si">5. තාක්ෂණ පැනීම</h4>
+        <p data-lang="en">Attract tech talent fleeing conflict zones and AI professionals seeking alternatives to Silicon Valley's military-industrial pivot. Position Colombo as a regional tech hub with favorable visa and tax regimes.</p>
+        <p data-lang="si">ගැටුම් කලාප වලින් පලා යන තාක්ෂණ දක්ෂයන් සහ සිලිකන් වැලියේ මිලිටරි-කාර්මික හැරීමට විකල්ප සොයන AI වෘත්තිකයන් ආකර්ෂණය කරන්න.</p>
+    </div>
+
+    <div class="callout-box info">
+        <h4 data-lang="en">6. BRICS+ Observer Status</h4><h4 data-lang="si">6. BRICS+ නිරීක්ෂක තත්ත්වය</h4>
+        <p data-lang="en">Hedge between dollar and yuan systems by seeking BRICS+ observer status. Not full membership — that would alienate the US — but observer status signals multi-alignment without commitment.</p>
+        <p data-lang="si">BRICS+ නිරීක්ෂක තත්ත්වය ලබා ගැනීමෙන් ඩොලර් සහ යුආන් පද්ධති අතර හෙජ් කරන්න. සම්පූර්ණ සාමාජිකත්වය නොවේ — එය ඇමරිකාව ඈත් කරයි — නමුත් නිරීක්ෂක තත්ත්වය බහු-පෙළගැස්වීම සංඥා කරයි.</p>
+    </div>
+
+    <div class="callout-box info">
+        <h4 data-lang="en">7. Humanitarian Corridor</h4><h4 data-lang="si">7. මානුෂීය කොරිදෝව</h4>
+        <p data-lang="en">Establish refugee processing infrastructure for Middle Eastern displacement. International organizations will need regional hubs. The moral authority of offering humanitarian assistance translates to diplomatic leverage and international funding.</p>
+        <p data-lang="si">මැද පෙරදිග අවතැන්වීම් සඳහා සරණාගත සැකසුම් යටිතල පහසුකම් ස්ථාපිත කරන්න. ජාත්‍යන්තර සංවිධානවලට ප්‍රාදේශීය මධ්‍යස්ථාන අවශ්‍ය වනු ඇත.</p>
+    </div>
+
+    <div class="callout-box warning">
+        <h4 data-lang="en">The Leverage Window: 30-90 Days</h4><h4 data-lang="si">උත්තෝලන කවුළුව: දින 30-90</h4>
+        <p data-lang="en">Small state leverage windows are typically 30-90 days during a crisis — after that, positions calcify and opportunities close. Sri Lanka must act decisively within this window or watch the moment pass. The 2022 Aragalaya showed Sri Lankans can mobilize. The question is whether the government can think strategically.</p>
+        <p data-lang="si">කුඩා රාජ්‍ය උත්තෝලන කවුළු සාමාන්‍යයෙන් අර්බුදයක් තුළ දින 30-90 කි — ඉන් පසු, ස්ථාවර තත්ත්වයන් ස්ථාපිත වී අවස්ථා වැසේ.</p>
+    </div>
+</section>
+
+<!-- ===================== SECTION 04 — INDIAN OCEAN ===================== -->
+<section id="section-04" data-nav-label="INDIAN OCEAN">
+    <div class="section-label" data-lang="si">04 — ඉන්දියන් සාගරය</div>
+    <div class="section-label" data-lang="en">04 — INDIAN OCEAN</div>
+
+    <h2 data-lang="si">ඉන්දියන් සාගරය: නව යුද්ධ භූමිය</h2>
+    <h2 data-lang="en">The Indian Ocean: The New Theatre of War</h2>
+
+    <p data-lang="si">2026 මාර්තු 4 වැනිදා, ඇමරිකානු සබ්මැරීනයක් IRIS Dena — ඊරානයේ නවතම ෆ්‍රිගේට් යුද නැව — ටෝපීඩෝ ප්‍රහාරයකින් ගිල්වීය. එය දෙවන ලෝක යුද්ධයෙන් පසු පළමු ඇමරිකානු සබ්මැරීන ටෝපීඩෝ ඝාතනයයි. මෙම තනි සිදුවීම නාවික යුද්ධය, ඉන්දියන් සාගර බල ගතිකය සහ ශ්‍රී ලංකාවේ උපායමාර්ගික ස්ථානය ගැන ප්‍රමාණයන් කතා කරයි.</p>
+    <p data-lang="en">On March 4, 2026, a US submarine sank the IRIS Dena — Iran's newest frigate — with a torpedo strike. It was the first US submarine torpedo kill since World War II. This single event speaks volumes about naval warfare, Indian Ocean power dynamics, and Sri Lanka's strategic position.</p>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-number red">20+</div>
+            <div class="stat-label" data-lang="en">Iranian Vessels Sunk/Disabled</div>
+            <div class="stat-label" data-lang="si">ඊරාන නැව් ගිල්වූ/අබල කළ</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number amber">$423,736</div>
+            <div class="stat-label" data-lang="en">VLCC Daily Rate (10x Normal)</div>
+            <div class="stat-label" data-lang="si">VLCC දෛනික අනුපාතය</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number gold">21%</div>
+            <div class="stat-label" data-lang="en">Of World Oil Through Hormuz</div>
+            <div class="stat-label" data-lang="si">ලෝක තෙල් හොර්මුස් හරහා</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number green">5%+</div>
+            <div class="stat-label" data-lang="en">War Risk Insurance Premium</div>
+            <div class="stat-label" data-lang="si">යුද අවදානම් රක්ෂණ වාරිකය</div>
+        </div>
+    </div>
+
+    <h3 data-lang="en">The Shipping Collapse</h3><h3 data-lang="si">නැව්ගත කඩා වැටීම</h3>
+
+    <p data-lang="en">The war has triggered a shipping crisis not seen since the Suez blockage of 2021 — but worse. VLCC (Very Large Crude Carrier) rates have spiked to $423,736 per day, roughly 10 times normal rates. War risk insurance premiums have exceeded 5%. Major shipping lines are rerouting around the Cape of Good Hope, adding 10-14 days to Asia-Europe voyages. Sri Lanka, positioned on the alternative route, could benefit — if it positions its ports as safe harbor alternatives.</p>
+    <p data-lang="si">යුද්ධය 2021 සූවස් අවහිරය තරම් නරක — ඊට වඩා — නැව්ගත අර්බුදයක් ඇති කර ඇත. VLCC අනුපාත දිනකට $423,736 දක්වා ඉහළ ගොස් ඇත. ප්‍රධාන නැව් සමාගම් Good Hope මුනුවර වටේ නැවත මාර්ගගත වෙමින් ආසියා-යුරෝප ගමන් වලට දින 10-14 ක් එකතු කරයි.</p>
+
+    <div class="callout-box quote">
+        <h4 data-lang="en">Sri Lanka's Port Triangle</h4><h4 data-lang="si">ශ්‍රී ලංකාවේ වරාය ත්‍රිකෝණය</h4>
+        <p data-lang="en"><strong>Hambantota</strong> (Chinese 99-year lease) — <strong>Trincomalee</strong> (natural deep-water harbor, Indian interest) — <strong>Colombo</strong> (commercial hub, $3.85B port city project). Three ports, three great powers, one small island. This is leverage — if Sri Lanka can play it without being captured by any single partner.</p>
+        <p data-lang="si"><strong>හම්බන්තොට</strong> (චීන වසර 99 බද්ද) — <strong>ත්‍රිකුණාමලය</strong> (ස්වභාවික ගැඹුරු ජල වරාය, ඉන්දීය උනන්දුව) — <strong>කොළඹ</strong> (වාණිජ මධ්‍යස්ථානය, $3.85B වරාය නගර ව්‍යාපෘතිය). වරාය තුනක්, මහා බල තුනක්, එක් කුඩා දිවයිනක්.</p>
+    </div>
+
+    <h3 data-lang="en">India's Humiliation</h3><h3 data-lang="si">ඉන්දියාවේ අවමානය</h3>
+
+    <p data-lang="en">India — which styles itself as the preeminent Indian Ocean power — has been sidelined in its own ocean. Its attempted neutrality between the US (Quad partner) and Iran (Chabahar port, oil dependency) has left it without influence over events happening in waters it claims to dominate. The Chabahar port investment is now at risk. Indian oil imports from Iran face secondary sanctions. And the US submarine operating in the Arabian Sea underscores that American, not Indian, naval power determines outcomes in the Indian Ocean.</p>
+    <p data-lang="si">ඉන්දියාව — ප්‍රමුඛ ඉන්දියන් සාගර බලවතා ලෙස ස්වයං හඳුනා ගන්නා — තමාගේම සාගරයේ පැත්තකට ගෙන ඇත. ඇමරිකාව (Quad හවුල්කරු) සහ ඊරානය (චබහාර් වරාය, තෙල් යැපීම) අතර උත්සාහ කළ මධ්‍යස්ථභාවය එයට ආධිපත්‍යය කරන බවට ප්‍රකාශ කරන ජලයන්හි සිදුවීම් මත බලපෑමක් නොමැතිව තබා ඇත.</p>
+</section>
+
+<!-- ===================== SECTION 05 — HOLLOW NATIONS ===================== -->
+<section id="section-05" data-nav-label="HOLLOW NATIONS">
+    <div class="section-label" data-lang="si">05 — හිස් ජාතීන්</div>
+    <div class="section-label" data-lang="en">05 — HOLLOW NATIONS</div>
+
+    <h2 data-lang="si">හිස් ජාතීන්: වාසල් රාජ්‍ය රාමුව</h2>
+    <h2 data-lang="en">Hollow Nations: The Vassal State Framework</h2>
+
+    <p data-lang="en">Some nations appear sovereign on paper but are functionally controlled — through debt, military dependence, intelligence penetration, or ideological capture. Understanding these "hollow nations" is essential context for understanding why the Iran war is unfolding the way it is, and why certain countries cannot act in their own interests even when the path forward is obvious.</p>
+    <p data-lang="si">සමහර ජාතීන් ලේඛන මත ස්වෛරී ලෙස පෙනුණත් ක්‍රියාකාරීව පාලනය වේ — ණය, මිලිටරි යැපීම, බුද්ධි විනිවිද යාම හෝ දෘෂ්ටිවාදී අල්ලා ගැනීම හරහා.</p>
+
+    <h3 data-lang="en">The Hindutva-Zionism Structural Parallel</h3>
+    <h3 data-lang="si">හින්දුත්ව-සියොනිස්ම් ව්‍යුහාත්මක සමාන්තරය</h3>
+
+    <p data-lang="en">Two of the world's most powerful ethno-religious nationalist movements share striking structural similarities. This is not a moral equivalence — it is a structural comparison that illuminates how democratic forms can be captured by supremacist ideologies.</p>
+    <p data-lang="si">ලෝකයේ වඩාත්ම බලවත් වාර්ගික-ආගමික ජාතිකවාදී ව්‍යාපාර දෙකක් කැපී පෙනෙන ව්‍යුහාත්මක සමානකම් බෙදා ගනී.</p>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th data-lang="en">Dimension</th><th data-lang="si">මාන</th>
+                    <th data-lang="en">Zionism (Israel)</th><th data-lang="si">සියොනිස්ම් (ඊශ්‍රායල)</th>
+                    <th data-lang="en">Hindutva (India)</th><th data-lang="si">හින්දුත්ව (ඉන්දියාව)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td data-lang="en">Divine Territorial Claim</td><td data-lang="si">දිව්‍ය භෞමික හිමිකම</td><td>Eretz Israel (Greater Israel)</td><td>Akhand Bharat (Undivided India)</td></tr>
+                <tr><td data-lang="en">Constitutional Privileging</td><td data-lang="si">ආණ්ඩුක්‍රම විශේෂාධිකාර</td><td>2018 Nation-State Law: "Jewish state"</td><td>CAA/NRC: Citizenship tied to religion</td></tr>
+                <tr><td data-lang="en">Minority Framing</td><td data-lang="si">සුළුතරයන් රාමු කිරීම</td><td>Palestinians as existential threat</td><td>Muslims as existential threat</td></tr>
+                <tr><td data-lang="en">Military-Religious Nexus</td><td data-lang="si">මිලිටරි-ආගමික සබඳතාව</td><td>Settler movement + IDF integration</td><td>RSS + Military establishment ties</td></tr>
+                <tr><td data-lang="en">Diaspora Support</td><td data-lang="si">ඩයස්පෝරා සහාය</td><td>AIPAC ($100M+/cycle)</td><td>Hindu American Foundation, VHP-A</td></tr>
+                <tr><td data-lang="en">Surveillance State</td><td data-lang="si">නිරීක්ෂණ රාජ්‍යය</td><td>Unit 8200 / NSO Pegasus</td><td>Pegasus buyer / Aadhaar system</td></tr>
+                <tr><td data-lang="en">Historical Victimhood</td><td data-lang="si">ඓතිහාසික වින්දිතභාවය</td><td>Holocaust as founding narrative</td><td>Mughal/British colonialism narrative</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p data-lang="en">The key insight is not that these movements are identical — they aren't. It's that both use democratic institutions as vehicles for ethno-religious supremacism while claiming victimhood as justification. Both frame the majority population as an endangered minority requiring state protection against a demographic threat. Both weaponize historical trauma to justify present-day oppression.</p>
+    <p data-lang="si">ප්‍රධාන අවබෝධය නම් මෙම ව්‍යාපාර සමාන බව නොවේ. එය වන්නේ දෙකම ප්‍රජාතන්ත්‍රවාදී ආයතන වාර්ගික-ආගමික ආධිපත්‍යය සඳහා වාහන ලෙස භාවිතා කරන අතරම සාධාරණීකරණය ලෙස වින්දිතභාවය ප්‍රකාශ කිරීමයි.</p>
+</section>
+
+<!-- ===================== SECTION 06 — GCC WORKERS ===================== -->
+<section id="section-06" data-nav-label="GCC WORKERS">
+    <div class="section-label" data-lang="si">06 — GCC සේවකයින්</div>
+    <div class="section-label" data-lang="en">06 — GCC WORKERS</div>
+
+    <h2 data-lang="si">මිලියන 36: අදෘශ්‍ය මිනිසුන්</h2>
+    <h2 data-lang="en">36 Million: The Invisible People</h2>
+
+    <p data-lang="en">Across the six Gulf Cooperation Council states, approximately 36 million foreign workers sustain entire economies — building cities, serving meals, driving taxis, caring for children. They have no citizenship path, limited legal protections under the kafala sponsorship system, and no evacuation plan if the Gulf becomes a war zone. Their remittances keep countries like Sri Lanka, the Philippines, and Nepal economically viable.</p>
+    <p data-lang="si">ගල්ෆ් සහයෝගිතා කවුන්සිලයේ රාජ්‍ය හයක පුරා, විදේශ සේවකයින් මිලියන 36 ක් පමණ සමස්ත ආර්ථික පවත්වාගෙන යයි — නගර ගොඩනැගීම, ආහාර සැපයීම, ටැක්සි රිය පැදවීම, ළමුන් රැක බලා ගැනීම. ඔවුන්ට පුරවැසිභාවය ලැබීමේ මාර්ගයක් නැත, කෆාලා අනුග්‍රාහක පද්ධතිය යටතේ සීමිත නීතිමය ආරක්ෂාවන් සහ ගල්ෆ් කලාපය යුද කලාපයක් වුවහොත් නික්මවීමේ සැලැස්මක් නැත.</p>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-number amber">88.5%</div>
+            <div class="stat-label" data-lang="en">UAE Foreign Population</div>
+            <div class="stat-label" data-lang="si">UAE විදේශ ජනගහනය</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number amber">90%</div>
+            <div class="stat-label" data-lang="en">Qatar Foreign Population</div>
+            <div class="stat-label" data-lang="si">කටාර් විදේශ ජනගහනය</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number gold">77%</div>
+            <div class="stat-label" data-lang="en">Saudi Foreign Workforce</div>
+            <div class="stat-label" data-lang="si">සවුදි විදේශ ශ්‍රම බලකාය</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number red">76.5%</div>
+            <div class="stat-label" data-lang="en">SL Remittances from Gulf</div>
+            <div class="stat-label" data-lang="si">ගල්ෆ් කලාපයෙන් SL ප්‍රේෂණ</div>
+        </div>
+    </div>
+
+    <h3 data-lang="en">The Kafala System</h3><h3 data-lang="si">කෆාලා පද්ධතිය</h3>
+
+    <p data-lang="en">The kafala (sponsorship) system ties a migrant worker's legal status to their employer. The employer controls their visa, their ability to change jobs, and often their passport. Workers who flee abusive employers become "illegal" — subject to detention and deportation. This system creates a labor force that cannot organize, cannot protest, and cannot leave. It is, by any reasonable definition, a system of structural coercion that affects 36 million human beings.</p>
+    <p data-lang="si">කෆාලා (අනුග්‍රාහක) පද්ධතිය සංක්‍රමණික සේවකයෙකුගේ නීතිමය තත්ත්වය ඔවුන්ගේ සේවායෝජකයාට බැඳ තබයි. සේවායෝජකයා ඔවුන්ගේ වීසා, රැකියා මාරු කිරීමේ හැකියාව සහ බොහෝ විට ඔවුන්ගේ ගමන් බලපත්‍රය පාලනය කරයි.</p>
+
+    <div class="callout-box danger">
+        <h4 data-lang="en">The Missing Evacuation Plan</h4><h4 data-lang="si">අතුරුදහන් නික්මවීමේ සැලැස්ම</h4>
+        <p data-lang="en">If the Iran conflict escalates to involve Gulf states directly — missile strikes on Saudi Arabia or UAE — there is no viable plan to evacuate 36 million people. No country has the airlift capacity. No neighboring state has the absorption capacity. These workers exist in a policy blind spot: essential to Gulf economies, invisible to Gulf contingency planning.</p>
+        <p data-lang="si">ඊරාන ගැටුම ගල්ෆ් රාජ්‍යයන් සෘජුව සම්බන්ධ කර ගැනීමට තීව්‍ර වුවහොත් — සවුදි අරේබියාව හෝ UAE මත මිසයිල ප්‍රහාර — මිලියන 36 ක් නික්මවා ගැනීමට ශක්‍ය සැලැස්මක් නැත. කිසිම රටකට ගුවන් ප්‍රවාහන ධාරිතාවක් නැත.</p>
+    </div>
+</section>
+
+<!-- ===================== SECTION 07 — TECH OLIGARCHY ===================== -->
+<section id="section-07" data-nav-label="TECH OLIGARCHY">
+    <div class="section-label" data-lang="si">07 — තාක්ෂණ ඔලිගාර්කිය</div>
+    <div class="section-label" data-lang="en">07 — TECH OLIGARCHY</div>
+
+    <h2 data-lang="si">තාක්ෂණ ඔලිගාර්කිය, ඩිජිටල් පාලනය සහ ඇමරිකානු ආධිපත්‍ය පිරිහීම</h2>
+    <h2 data-lang="en">Tech Oligarchy, Digital Control & US Hegemonic Decline</h2>
+
+    <p data-lang="en">A structural transformation is underway that transcends partisan politics: a small network of technology billionaires has captured substantial influence over US foreign policy, military contracting, surveillance infrastructure, and information systems. This is not conspiracy theory; it is power structure analysis grounded in documented corporate relationships, federal contracts, and public statements.</p>
+    <p data-lang="si">පාක්ෂික දේශපාලනය ඉක්මවන ව්‍යුහාත්මක පරිවර්තනයක් සිදුවෙමින් පවතී: තාක්ෂණ කෝටිපතියන්ගේ කුඩා ජාලයක් ඇමරිකානු විදේශ ප්‍රතිපත්තිය, මිලිටරි කොන්ත්‍රාත්, නිරීක්ෂණ යටිතල පහසුකම් සහ තොරතුරු පද්ධති මත සැලකිය යුතු බලපෑමක් අත්පත් කර ගෙන ඇත.</p>
+
+    <h3 data-lang="en">The Core Network</h3><h3 data-lang="si">මූලික ජාලය</h3>
+
+    <div class="cards-grid">
+        <div class="actor-card">
+            <div class="actor-role" data-lang="en">The Architect</div><div class="actor-role" data-lang="si">ගෘහ නිර්මාතා</div>
+            <h4>Peter Thiel</h4>
+            <p data-lang="en">PayPal founder, Palantir co-founder. Political philosophy explicitly anti-democratic: wrote in 2009 that he "no longer believes that freedom and democracy are compatible." Backed JD Vance's Senate run ($15M). His proteges now run significant portions of the national security apparatus.</p>
+            <p data-lang="si">PayPal නිර්මාතා, Palantir සම-නිර්මාතා. දේශපාලන දර්ශනය පැහැදිලිවම ප්‍රජාතන්ත්‍ර විරෝධී: 2009 දී "නිදහස සහ ප්‍රජාතන්ත්‍රවාදය අනුකූල බව තවදුරටත් විශ්වාස නොකරන" බව ලිව්වේය.</p>
+        </div>
+
+        <div class="actor-card">
+            <div class="actor-role" data-lang="en">The Executor</div><div class="actor-role" data-lang="si">ක්‍රියාත්මක කරන්නා</div>
+            <h4>Elon Musk</h4>
+            <p data-lang="en">$250M+ in 2024 campaign contributions. Heads DOGE. Controls Starlink (US military dependent), SpaceX (launch monopoly), X/Twitter (information infrastructure), xAI. The US military cannot function without Starlink, giving him genuine leverage over US defense operations.</p>
+            <p data-lang="si">2024 ව්‍යාපාර දායකත්ව $250M+. DOGE ප්‍රධානී. Starlink (ඇමරිකානු හමුදාව යැපෙන), SpaceX, X/Twitter, xAI පාලනය කරයි. ඇමරිකානු හමුදාවට Starlink නොමැතිව ක්‍රියා කළ නොහැක.</p>
+        </div>
+
+        <div class="actor-card">
+            <div class="actor-role" data-lang="en">The Institutionalist</div><div class="actor-role" data-lang="si">ආයතනවාදී</div>
+            <h4>Jeff Bezos</h4>
+            <p data-lang="en">AWS provides 50%+ of Amazon's profits largely through government contracts ($10B+ Pentagon contract). Washington Post as influence tool. Blue Origin. Bezos plays a quieter game — embedding infrastructure rather than seeking visibility.</p>
+            <p data-lang="si">AWS Amazon හි ලාභයෙන් 50%+ ක් රජයේ කොන්ත්‍රාත් හරහා ලබා දෙයි ($10B+ Pentagon කොන්ත්‍රාත්). Washington Post බලපෑම් මෙවලමක් ලෙස.</p>
+        </div>
+
+        <div class="actor-card">
+            <div class="actor-role" data-lang="en">The AGI Evangelist</div><div class="actor-role" data-lang="si">AGI එවැන්ජලිස්ට්</div>
+            <h4>Sam Altman</h4>
+            <p data-lang="en">OpenAI at center of AI race. Seeking $5-7 trillion in investment for next-gen AI chip fabs. His thesis: AGI will be the most transformative technology in human history — and he intends to control it.</p>
+            <p data-lang="si">AI තරඟයේ මධ්‍යයේ OpenAI. ඊළඟ පරම්පරාවේ AI චිප් කර්මාන්ත ශාලා සඳහා ට්‍රිලියන $5-7 ආයෝජනය සොයයි.</p>
+        </div>
+
+        <div class="actor-card">
+            <div class="actor-role" data-lang="en">The Infrastructure Owner</div><div class="actor-role" data-lang="si">යටිතල පහසුකම් හිමිකරු</div>
+            <h4>Mark Zuckerberg</h4>
+            <p data-lang="en">Meta controls the social graph of 3 billion+ people. Anduril partnership: developing EagleEye XR military headsets. Meta's AI investment ($60B+ capex in 2025) positions it as a sovereign AI power.</p>
+            <p data-lang="si">Meta මිනිසුන් බිලියන 3+ ක සමාජ ප්‍රස්තාරය පාලනය කරයි. Anduril හවුල්කාරිත්වය: EagleEye XR මිලිටරි headsets සංවර්ධනය.</p>
+        </div>
+    </div>
+
+    <h3 data-lang="en">Palantir: The Surveillance Backbone</h3><h3 data-lang="si">Palantir: නිරීක්ෂණ කොඳු නාරටිය</h3>
+
+    <p data-lang="en">Founded 2003 by Thiel and Alex Karp; funded by CIA's In-Q-Tel. Serves 12+ US federal agencies. 2025 US Army contract: $10 billion (TITAN ground station program). ICE contract: $127 million. The IDF uses Palantir's Maven Smart System in Gaza targeting operations. The company is now effectively infrastructure — removing it from US government operations would cause paralysis.</p>
+    <p data-lang="si">2003 දී Thiel සහ Alex Karp විසින් පිහිටුවන ලදී; CIA හි In-Q-Tel විසින් අරමුදල් සපයන ලදී. ඇමරිකානු ෆෙඩරල් ආයතන 12+ ක් සේවය කරයි. 2025 ඇමරිකානු යුධ හමුදා කොන්ත්‍රාත්: ඩොලර් බිලියන 10.</p>
+
+    <h3 data-lang="en">Unit 8200: The Silicon Valley-Israel Pipeline</h3><h3 data-lang="si">Unit 8200: සිලිකන් වැලි-ඊශ්‍රායල නල මාර්ගය</h3>
+
+    <p data-lang="en">Israel's NSA equivalent. ~80% of Israel's 700+ cybersecurity companies were founded by Unit 8200 alumni. Technologies developed for Palestinian surveillance — facial recognition, mobile monitoring, social graph mapping — commercialize globally. Israel becomes a "laboratory" for authoritarian surveillance tools sold to governments worldwide. NSO Group's Pegasus spyware, used against Indian opposition politicians and journalists, originates from this pipeline.</p>
+    <p data-lang="si">ඊශ්‍රායලයේ NSA සමාන ඒකකය. ඊශ්‍රායලයේ සයිබර් ආරක්ෂණ සමාගම් 700+ වලින් ~80% ක් Unit 8200 හිටපු සාමාජිකයින් විසින් පිහිටුවන ලදී. පලස්තීන නිරීක්ෂණය සඳහා සංවර්ධිත තාක්ෂණ ගෝලීය වශයෙන් වාණිජකරණය වේ.</p>
+
+    <div class="callout-box danger">
+        <h4 data-lang="en">The War-Profit-Control Feedback Loop</h4><h4 data-lang="si">යුද්ධ-ලාභ-පාලන ප්‍රතිපෝෂණ පුඩුව</h4>
+        <p data-lang="en">Wars → Military contracts → Tech/defense profits → Surveillance infrastructure + Life extension research → Control of populations + Immortal elites → Less accountability + No natural turnover of power → More wars. This circuit does not require conscious coordination. It emerges from aligned incentives between military contractors, technology companies, intelligence agencies, and political actors.</p>
+        <p data-lang="si">යුද්ධ → මිලිටරි කොන්ත්‍රාත් → තාක්ෂණ/ආරක්ෂක ලාභ → නිරීක්ෂණ යටිතල පහසුකම් + ආයු දීර්ඝ පර්යේෂණ → ජනගහන පාලනය + අමරණීය ප්‍රභූන් → අඩු වගවීම + බලයේ ස්වාභාවික මාරුවීමක් නැත → තවත් යුද්ධ.</p>
+    </div>
+</section>
+
+<!-- ===================== SECTION 08 — GREAT POWERS ===================== -->
+<section id="section-08" data-nav-label="GREAT POWERS">
+    <div class="section-label" data-lang="si">08 — මහා බලවතුන්</div>
+    <div class="section-label" data-lang="en">08 — GREAT POWERS</div>
+
+    <h2 data-lang="si">රුසියාව, චීනය, තායිවානය සහ AI: මහා බල චෙස් ක්‍රීඩාව</h2>
+    <h2 data-lang="en">Russia, China, Taiwan & AI: The Great Power Chess Game</h2>
+
+    <p data-lang="en">The Iran conflict is a revealing X-ray of great power dynamics in 2026. Russia proves too weakened by Ukraine to support its Iranian ally. China maintains strategic distance while deepening economic leverage. Taiwan's semiconductor chokepoint becomes more critical. And AI emerges as the ultimate determinant of 21st-century power.</p>
+    <p data-lang="si">ඊරාන ගැටුම 2026 දී මහා බල ගතිකයේ හෙළිදරව් කරන X-ray එකකි. යුක්‍රේනය නිසා රුසියාව දුර්වල බව ඔප්පු වේ. චීනය ආර්ථික උත්තෝලනය ගැඹුරු කරන අතරම උපායමාර්ගික දුරස්ථභාවය පවත්වාගෙන යයි.</p>
+
+    <h3 data-lang="en">Russia: The Alliance That Isn't</h3><h3 data-lang="si">රුසියාව: නොපවතින සන්ධානය</h3>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-number red">416,000+</div>
+            <div class="stat-label" data-lang="en">Russian Military Casualties (2025)</div>
+            <div class="stat-label" data-lang="si">රුසියානු මිලිටරි අනතුරු</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number amber">25%</div>
+            <div class="stat-label" data-lang="en">Public Support for War (Dec 2025)</div>
+            <div class="stat-label" data-lang="si">යුද්ධය සඳහා මහජන සහාය</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number green">66%</div>
+            <div class="stat-label" data-lang="en">Russians Supporting Peace Talks</div>
+            <div class="stat-label" data-lang="si">සාම සාකච්ඡා සඳහා සහාය</div>
+        </div>
+    </div>
+
+    <p data-lang="en">Despite its strategic partnership with Iran, Russia has maintained a notably cautious stance. No mutual defense clause exists. Russia issued diplomatic condemnations but provided no military support beyond 48 Su-35 fighter jets. The Ukraine war — now in its 5th year with 416,000+ casualties — has consumed Russia's capacity entirely. For the first time since 1945, Russia's Mediterranean naval presence is effectively absent.</p>
+    <p data-lang="si">ඊරානය සමඟ උපායමාර්ගික හවුල්කාරිත්වය තිබියදීත්, රුසියාව කැපී පෙනෙන ලෙස ප්‍රවේශම් ආකල්පයක් පවත්වාගෙන ගියේය. අන්‍යෝන්‍ය ආරක්ෂණ වගන්තියක් නැත. යුක්‍රේන යුද්ධය — දැන් 5 වැනි වසරේ, 416,000+ අනතුරු — රුසියාවේ ධාරිතාව සම්පූර්ණයෙන්ම පරිභෝජනය කර ඇත.</p>
+
+    <h3 data-lang="en">China: Maximum Leverage, Minimum Commitment</h3><h3 data-lang="si">චීනය: උපරිම උත්තෝලනය, අවම කැපවීම</h3>
+
+    <p data-lang="en">China's response epitomizes calculated distance. It buys 90% of Iran's oil exports (~1.7M barrels/day) at $8-10/barrel discount — over $55 billion by early 2026. Transaction volume conducted in digital yuan, accelerating de-dollarization. Meanwhile, SMIC has achieved 5nm-class chip production, Huawei's Ascend 950 AI chips integrate in-house HBM, and DeepSeek V4 — a trillion-parameter open-source AI — proves frontier AI is achievable without US chips. Nvidia lost $600 billion in market value on the DeepSeek announcement alone.</p>
+    <p data-lang="si">චීනයේ ප්‍රතිචාරය ගණනය කළ දුරස්ථභාවයේ සාරාංශයකි. එය ඊරානයේ තෙල් අපනයනයෙන් 90% මිලදී ගනී (~දිනකට බැරල් 1.7M) $8-10/බැරලයකට වට්ටම් සහිතව. ඩිජිටල් යුආන් වලින් ගනුදෙනු, ඩොලරීකරණය ත්වරණය කරයි.</p>
+
+    <h3 data-lang="en">The Taiwan Window (2024-2028)</h3><h3 data-lang="si">තායිවාන කවුළුව (2024-2028)</h3>
+
+    <p data-lang="en">The US is now stretched across three major theatres: Europe/Ukraine, Middle East/Iran, and Pacific/Taiwan. Most crisis simulations fail to account for simultaneous contingencies. China approaches 2027 military readiness targets. Trump is hesitating on planned arms sales to Taiwan to preserve a Beijing visit. TSMC produces 90%+ of the world's advanced chips — if Taiwan is blockaded, global chip supply faces years of disruption. Every empire that simultaneously committed to 3+ geographic fronts experienced strategic overextension: Rome, the Ottomans, the British Empire, the Soviet Union.</p>
+    <p data-lang="si">ඇමරිකාව දැන් ප්‍රධාන යුද්ධ භූමි තුනකට විහිදී ඇත: යුරෝපය/යුක්‍රේනය, මැද පෙරදිග/ඊරානය, සහ පැසිෆික්/තායිවානය. TSMC ලෝකයේ උසස් චිප් වලින් 90%+ නිෂ්පාදනය කරයි — තායිවානය අවහිර කළහොත්, ගෝලීය චිප් සැපයුම වසර ගණනාවක් කඩාකප්පල් වේ.</p>
+</section>
+
+<!-- ===================== SECTION 09 — KOMPROMAT ===================== -->
+<section id="section-09" data-nav-label="KOMPROMAT">
+    <div class="section-label" data-lang="si">09 — කොම්ප්‍රොමැට්</div>
+    <div class="section-label" data-lang="en">09 — KOMPROMAT</div>
+
+    <h2 data-lang="si">Epstein මාන: ලේඛනගත කරුණු සහ Kompromat ගෘහනිර්මාණ ශිල්පය</h2>
+    <h2 data-lang="en">The Epstein Dimension: Documented Facts & Kompromat Architecture</h2>
+
+    <div class="callout-box info">
+        <h4 data-lang="en">Methodology Note</h4><h4 data-lang="si">ක්‍රමවේද සටහන</h4>
+        <p data-lang="en">This section deals exclusively with documented facts from court filings, investigative journalism, and credible sources. Analysis and inference are clearly labelled. This is power structure analysis, not conspiracy theory.</p>
+        <p data-lang="si">මෙම කොටස සම්පූර්ණයෙන්ම අධිකරණ ගොනු කිරීම්, පර්යේෂණාත්මක ජර්නලිස්ම සහ විශ්වසනීය මූලාශ්‍ර වලින් ලේඛනගත කරුණු සමඟ කටයුතු කරයි.</p>
+    </div>
+
+    <p data-lang="en">Jeffrey Epstein's network matches the structural pattern of a classic kompromat operation: recruitment of powerful targets through social access, creation of compromising situations, documentation (FBI found safes with labelled CDs), and leverage deployment. Prosecutor Alexander Acosta reportedly told the Trump transition team: "I was told Epstein belonged to intelligence and to leave it alone." Robert Maxwell — Ghislaine's father — was given a state-level burial on the Mount of Olives in Jerusalem, an honor reserved for individuals of extraordinary significance to Israel.</p>
+    <p data-lang="si">Jeffrey Epstein ජාලය සම්භාව්‍ය kompromat මෙහෙයුමක ව්‍යුහාත්මක රටාවට ගැලපේ: සමාජ ප්‍රවේශය හරහා බලවත් ඉලක්ක බඳවා ගැනීම, සම්මුතිගත තත්ත්වයන් නිර්මාණය, ලේඛනගත කිරීම (FBI ලේබල් කළ CD සහිත safe සොයා ගත්තේය), සහ උත්තෝලන යෙදවීම.</p>
+
+    <h3 data-lang="en">Historical Precedent: Intelligence & Sexual Blackmail</h3><h3 data-lang="si">ඓතිහාසික පූර්වාදර්ශය: බුද්ධි අංශ සහ ලිංගික කප්පම්</h3>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead><tr><th data-lang="en">Operation</th><th data-lang="en">Agency</th><th data-lang="en">Period</th><th data-lang="en">Method</th></tr></thead>
+            <tbody>
+                <tr><td>Operation Midnight Climax</td><td>CIA (MKUltra)</td><td>1953-1965</td><td data-lang="en">Safe houses with prostitutes; drugged and filmed through one-way mirrors</td></tr>
+                <tr><td>Profumo Affair</td><td>MI5/Soviet</td><td>1961-1963</td><td data-lang="en">War Secretary shared mistress with Soviet attaché</td></tr>
+                <tr><td>FBI COINTELPRO</td><td>FBI (Hoover)</td><td>1956-1971</td><td data-lang="en">Sexual blackmail of civil rights leaders including MLK</td></tr>
+                <tr><td>East German Stasi</td><td>Stasi</td><td>Cold War</td><td data-lang="en">"Romeo agents" — systematic sexual relationships for intelligence</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p data-lang="en">The question is not whether such operations exist — they demonstrably do. The question for the current conflict is whether this architecture influences US foreign policy decisions toward Israel. What can be documented: US policy toward Israel has been remarkably consistent across administrations regardless of party. AIPAC's $100M+ per election cycle influence is well-documented and operates through legal lobbying. The existence of additional leverage mechanisms beyond lobbying is alleged by credible sources but not proven. The refusal to fully release Epstein files creates an information vacuum.</p>
+    <p data-lang="si">ප්‍රශ්නය වන්නේ එවැනි මෙහෙයුම් පවතින්නේද යන්න නොවේ — ඒවා පැහැදිලිවම පවතී. වත්මන් ගැටුම සඳහා ප්‍රශ්නය වන්නේ මෙම ගෘහනිර්මාණ ශිල්පය ඊශ්‍රායලය වෙත ඇමරිකානු විදේශ ප්‍රතිපත්ති තීරණවලට බලපාන්නේද යන්නයි.</p>
+</section>
+
+<!-- ===================== SECTION 10 — US DECLINE ===================== -->
+<section id="section-10" data-nav-label="US DECLINE">
+    <div class="section-label" data-lang="si">10 — ඇමරිකානු පිරිහීම</div>
+    <div class="section-label" data-lang="en">10 — US DECLINE</div>
+
+    <h2 data-lang="si">ඇමරිකානු ආධිපත්‍ය පිරිහීම: දර්ශක</h2>
+    <h2 data-lang="en">US Hegemonic Decline: The Indicators</h2>
+
+    <p data-lang="en">Applying the imperial decline pattern recognition framework — drawn from Rome, Ottoman, British, and Soviet precedents — to the United States of 2026 produces a score of 7.4/10, above the 7.0 historical threshold for "active decline phase." This is not collapse prediction; it is structural analysis suggesting managed decline over 20-40 years.</p>
+    <p data-lang="si">අධිරාජ්‍ය පිරිහීමේ රටා හඳුනාගැනීමේ රාමුව — රෝමය, ඔස්මාන්, බ්‍රිතාන්‍ය සහ සෝවියට් පූර්වාදර්ශ වලින් ලබා ගත් — 2026 එක්සත් ජනපදයට යෙදීමෙන් 10 න් 7.4 ලකුණු ලැබේ, "ක්‍රියාකාරී පිරිහීමේ අදියර" සඳහා 7.0 ඓතිහාසික සීමාවට ඉහළින්.</p>
+
+    <h3 data-lang="en">The 10-Point Imperial Decline Scorecard</h3><h3 data-lang="si">කරුණු 10 අධිරාජ්‍ය පිරිහීමේ ලකුණු පත්‍රය</h3>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead><tr><th data-lang="en">Indicator</th><th data-lang="en">Score</th><th data-lang="en">Evidence</th></tr></thead>
+            <tbody>
+                <tr><td data-lang="en">Fiscal Overstretch</td><td class="red">8/10</td><td>$36T+ debt; interest exceeds defense spending</td></tr>
+                <tr><td data-lang="en">Military Overcommitment</td><td class="red">9/10</td><td>3 active theatres; stretched logistics</td></tr>
+                <tr><td data-lang="en">Currency Erosion</td><td class="amber">6/10</td><td>Dollar at 60% of reserves (from 70%); 80% of oil trade (from 95%)</td></tr>
+                <tr><td data-lang="en">Institutional Decay</td><td class="amber">7/10</td><td>Congressional dysfunction; Supreme Court legitimacy crisis</td></tr>
+                <tr><td data-lang="en">Social Indicators</td><td class="amber">7/10</td><td>Life expectancy declining since 2015; opioid crisis</td></tr>
+                <tr><td data-lang="en">Elite Capture</td><td class="red">9/10</td><td>Top 1% hold 38% of wealth; tech oligarchs in cabinet</td></tr>
+                <tr><td data-lang="en">Ideological Exhaustion</td><td class="amber">6/10</td><td>Neither party offers coherent governing vision</td></tr>
+                <tr><td data-lang="en">Peripheral Independence</td><td class="amber">7/10</td><td>Saudi selling oil in yuan; European strategic autonomy</td></tr>
+                <tr><td data-lang="en">Technology Diffusion</td><td class="amber">6/10</td><td>DeepSeek moment; China semiconductor catch-up</td></tr>
+                <tr><td data-lang="en">Internal Polarization</td><td class="red">9/10</td><td>Jan 6th; political violence normalized</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="callout-box warning">
+        <h4 data-lang="en">Average Score: 7.4/10 — Active Decline Phase</h4>
+        <h4 data-lang="si">සාමාන්‍ය ලකුණු: 10 න් 7.4 — ක්‍රියාකාරී පිරිහීමේ අදියර</h4>
+        <p data-lang="en">Above the 7.0 threshold where historical empires entered irreversible structural decline. Not collapse — managed transition over 20-40 years, similar to Britain 1945-1971.</p>
+        <p data-lang="si">ඓතිහාසික අධිරාජ්‍යයන් ආපසු හැරවිය නොහැකි ව්‍යුහාත්මක පිරිහීමට ඇතුළු වූ 7.0 සීමාවට ඉහළින්. කඩා වැටීම නොවේ — වසර 20-40 තුළ කළමනාකරණය කළ සංක්‍රමණය.</p>
+    </div>
+
+    <h3 data-lang="en">De-dollarization Trajectory</h3><h3 data-lang="si">ඩි-ඩොලරීකරණ ගමන් මග</h3>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead><tr><th data-lang="en">Metric</th><th>2000</th><th>2015</th><th>2025</th><th data-lang="en">Trend</th></tr></thead>
+            <tbody>
+                <tr><td data-lang="en">Dollar share of global reserves</td><td>72%</td><td>65%</td><td>60%</td><td>↓ Slow</td></tr>
+                <tr><td data-lang="en">Dollar share of oil trade</td><td>95%</td><td>95%</td><td>80%</td><td>↓ Accelerating</td></tr>
+                <tr><td data-lang="en">Dollar share of SWIFT</td><td>80%</td><td>79%</td><td>72%</td><td>↓ Slow</td></tr>
+                <tr><td data-lang="en">Dollar share of global trade</td><td>52%</td><td>47%</td><td>41%</td><td>↓ Steady</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ===================== SECTION 11 — POLITICAL JENGA ===================== -->
+<section id="section-11" data-nav-label="POLITICAL JENGA">
+    <div class="section-label" data-lang="si">11 — දේශපාලන ජෙන්ගා</div>
+    <div class="section-label" data-lang="en">11 — POLITICAL JENGA</div>
+
+    <h2 data-lang="si">දේශපාලන ජෙන්ගා කුළුණ: අන්තර්සම්බන්ධතා සිතියම</h2>
+    <h2 data-lang="en">The Political Jenga Tower: Interconnections Map</h2>
+
+    <p data-lang="en">Every geopolitical event is connected to every other. The interactive dashboard below maps 35+ actors across 6 categories with 40+ connections, a Kahn escalation ladder, and scenario projections. Think of the global system as a Jenga tower — identify which blocks, if removed, cause the most instability.</p>
+    <p data-lang="si">සෑම භූ-දේශපාලන සිදුවීමක්ම අනෙක් සෑම සිදුවීමකටම සම්බන්ධ වේ. පහත අන්තර්ක්‍රියාකාරී උපකරණ පුවරුව ක්‍රියාකාරීන් 35+, Kahn උත්තේජන ඉනිමඟ සහ අවස්ථා ප්‍රක්ෂේපණ සිතියම් ගත කරයි.</p>
+
+    <div class="dashboard-embed">
+        <div class="callout-box info" style="text-align:center">
+            <h4 data-lang="en">Interactive Political Jenga Tower Dashboard</h4>
+            <h4 data-lang="si">අන්තර්ක්‍රියාකාරී දේශපාලන ජෙන්ගා කුළුණ උපකරණ පුවරුව</h4>
+            <p data-lang="en">D3.js force-directed network graph with 35+ nodes, escalation ladder, actor-incentive table, and scenario projections. <strong>View the full interactive dashboard:</strong></p>
+            <p data-lang="si">D3.js බල-යොමු ජාල ප්‍රස්තාරය, උත්තේජන ඉනිමඟ, ක්‍රියාකාරී-දිරිගැන්වීම් වගුව සහ අවස්ථා ප්‍රක්ෂේපණ.</p>
+            <p><a href="../../POLITICAL-JENGA-TOWER.html" target="_blank" style="color:var(--color-gold);font-weight:700;font-size:1.1em">Open Full Dashboard →</a></p>
+        </div>
+    </div>
+
+    <h3 data-lang="en">The Cascade Chains</h3><h3 data-lang="si">ධාරාව දාම</h3>
+
+    <div class="callout-box quote">
+        <p data-lang="en"><strong>Chain 1:</strong> Iran conflict → US military overextension → China opportunity window on Taiwan → TSMC vulnerability → Global chip shortage → AI development disruption</p>
+        <p data-lang="en"><strong>Chain 2:</strong> Oil price spike → Russia benefits financially → De-dollarization accelerates → US economic pressure → Domestic political crisis → Further overextension</p>
+        <p data-lang="en"><strong>Chain 3:</strong> Gulf instability → GCC worker crisis → Remittance collapse → Sri Lanka/Philippines/Nepal economic shock → Political instability in South Asia</p>
+        <p data-lang="si"><strong>දාමය 1:</strong> ඊරාන ගැටුම → ඇමරිකානු මිලිටරි අධි ව්‍යාප්තිය → තායිවානය මත චීන අවස්ථා කවුළුව → TSMC අවදානම → ගෝලීය චිප් හිඟය</p>
+        <p data-lang="si"><strong>දාමය 2:</strong> තෙල් මිල ඉහළ යාම → රුසියාව මූල්‍යමය වශයෙන් ප්‍රතිලාභ → ඩි-ඩොලරීකරණය ත්වරණය → ඇමරිකානු ආර්ථික පීඩනය</p>
+        <p data-lang="si"><strong>දාමය 3:</strong> ගල්ෆ් අස්ථාවරත්වය → GCC සේවක අර්බුදය → ප්‍රේෂණ කඩා වැටීම → ශ්‍රී ලංකා/පිලිපීන/නේපාල ආර්ථික කම්පනය</p>
+    </div>
+</section>
+
+<!-- ===================== SECTION 12 — GAME THEORY ===================== -->
+<section id="section-12" data-nav-label="GAME THEORY">
+    <div class="section-label" data-lang="si">12 — ක්‍රීඩා න්‍යාය</div>
+    <div class="section-label" data-lang="en">12 — GAME THEORY</div>
+
+    <h2 data-lang="si">ක්‍රීඩා න්‍යාය විශ්ලේෂණය: Nash සමතුලිතතාවය සහ උත්තේජන ඉනිමඟ</h2>
+    <h2 data-lang="en">Game Theory Analysis: Nash Equilibrium & Escalation Ladder</h2>
+
+    <p data-lang="en">The Iran-US conflict maps onto two classic game theory frameworks: the Chicken Game (who swerves first?) and Kahn's Escalation Ladder (how high can you go before nuclear?). Understanding these frameworks reveals why the most likely outcome is a face-saving deal — and why the risk of catastrophic miscalculation remains non-trivial.</p>
+    <p data-lang="si">ඊරාන-ඇමරිකා ගැටුම සම්භාව්‍ය ක්‍රීඩා න්‍යාය රාමු දෙකකට සිතියම් ගත වේ: Chicken Game (මුලින්ම හැරෙන්නේ කවුද?) සහ Kahn හි උත්තේජන ඉනිමඟ (න්‍යෂ්ටිකයට පෙර කොතරම් ඉහළට යා හැකිද?).</p>
+
+    <h3 data-lang="en">The Chicken Game</h3><h3 data-lang="si">Chicken Game එක</h3>
+
+    <div class="callout-box info">
+        <p data-lang="en">In the Chicken Game, two drivers race toward each other. The one who swerves is "chicken" (loses face); if neither swerves, both die. The Nash equilibrium is that one player swerves — but which one? The US has more to lose from a crash (global economic collapse, Taiwan vulnerability). Iran has less to lose (already devastated). This asymmetry of stakes paradoxically gives Iran leverage despite military inferiority.</p>
+        <p data-lang="si">Chicken Game එකේ, රියදුරන් දෙදෙනෙක් එකිනෙකාට දුවයි. හැරෙන කෙනා "chicken" (මුහුණත අහිමි වේ); කිසිවෙක් නොහැරුණොත්, දෙදෙනාම මැරෙයි. Nash සමතුලිතතාවය නම් එක් ක්‍රීඩකයෙක් හැරෙන බවයි — නමුත් කවුද?</p>
+    </div>
+
+    <h3 data-lang="en">Kahn's Escalation Ladder — Current Position</h3><h3 data-lang="si">Kahn හි උත්තේජන ඉනිමඟ — වත්මන් ස්ථානය</h3>
+
+    <div class="escalation-ladder">
+        <div class="escalation-rung" style="opacity:0.4"><span class="rung-number">13</span><span class="rung-label" data-lang="en">Nuclear War</span></div>
+        <div class="escalation-rung" style="opacity:0.4"><span class="rung-number">12</span><span class="rung-label" data-lang="en">Nuclear Demonstration</span></div>
+        <div class="escalation-rung active"><span class="rung-number">11</span><span class="rung-label" data-lang="en">Full Conventional War ← WE ARE HERE</span></div>
+        <div class="escalation-rung" style="opacity:0.6"><span class="rung-number">10</span><span class="rung-label" data-lang="en">Limited Military Engagement</span></div>
+        <div class="escalation-rung" style="opacity:0.6"><span class="rung-number">9</span><span class="rung-label" data-lang="en">Proxy Conflict</span></div>
+        <div class="escalation-rung" style="opacity:0.5"><span class="rung-number">8</span><span class="rung-label" data-lang="en">Naval Blockade</span></div>
+        <div class="escalation-rung" style="opacity:0.4"><span class="rung-number">7</span><span class="rung-label" data-lang="en">Economic Sanctions</span></div>
+        <div class="escalation-rung" style="opacity:0.3"><span class="rung-number">6</span><span class="rung-label" data-lang="en">Diplomatic Crisis</span></div>
+    </div>
+
+    <p data-lang="en">We are at Rung 11 — full conventional war without nuclear dimension. The critical question: what prevents escalation to Rung 12 (nuclear demonstration) or 13 (nuclear war)? The answer is MAD (Mutually Assured Destruction) with respect to Israel's ~90 warheads, and the absence of confirmed Iranian nuclear weapons. But the closer Iran gets to breakout capability, the more unstable this equilibrium becomes.</p>
+    <p data-lang="si">අපි 11 වැනි පියවරේ සිටිමු — න්‍යෂ්ටික මාන නොමැති සම්පූර්ණ සම්ප්‍රදායික යුද්ධය. තීරණාත්මක ප්‍රශ්නය: 12 වැනි පියවරට (න්‍යෂ්ටික නිරූපණය) හෝ 13 (න්‍යෂ්ටික යුද්ධය) උත්තේජනයට ඉඩ නොදෙන්නේ කුමක්ද?</p>
+</section>
+
+<!-- ===================== SECTION 13 — THE WINDOW ===================== -->
+<section id="section-13" data-nav-label="THE WINDOW">
+    <div class="section-label" data-lang="si">13 — කවුළුව</div>
+    <div class="section-label" data-lang="en">13 — THE WINDOW</div>
+
+    <h2 data-lang="si">වසර 10-15 කවුළුව: බලාපොරොත්තුව සඳහා හේතු</h2>
+    <h2 data-lang="en">The 10-15 Year Window: Reasons for Hope</h2>
+
+    <div class="callout-box quote">
+        <p><em>"There is a crack in everything. That's how the light gets in."</em> — Leonard Cohen</p>
+    </div>
+
+    <p data-lang="en">The war-profit-control feedback loop is powerful but not permanent. A convergence of structural forces suggests a 10-15 year window in which the circuit could be broken. The question is whether the damage done in the interim is recoverable.</p>
+    <p data-lang="si">යුද්ධ-ලාභ-පාලන ප්‍රතිපෝෂණ පුඩුව බලවත් නමුත් ස්ථිර නොවේ. ව්‍යුහාත්මක බලවේගයන්ගේ එකතුවීම මගින් පරිපථය කැඩීමට හැකි වසර 10-15 ක කවුළුවක් යෝජනා කරයි.</p>
+
+    <h3 data-lang="en">The Counter-Forces</h3><h3 data-lang="si">ප්‍රති-බලවේග</h3>
+
+    <div class="callout-box success">
+        <h4 data-lang="en">1. Clean Energy Transition</h4><h4 data-lang="si">1. පිරිසිදු බලශක්ති සංක්‍රමණය</h4>
+        <p data-lang="en">Renewable energy is making oil geopolitics irrelevant. Solar costs have dropped 90% in a decade. When oil doesn't matter, the resource basis for petrodollar-driven conflicts disappears.</p>
+        <p data-lang="si">පුනර්ජනනීය බලශක්තිය තෙල් භූ-දේශපාලනය අදාල නොවන බවට පත් කරමින් සිටී. සූර්ය පිරිවැය දශකයක් තුළ 90% කින් පහත වැටී ඇත.</p>
+    </div>
+
+    <div class="callout-box success">
+        <h4 data-lang="en">2. Open-Source AI</h4><h4 data-lang="si">2. විවෘත-මූලාශ්‍ර AI</h4>
+        <p data-lang="en">DeepSeek proves frontier AI is achievable without Silicon Valley's monopolistic control. Open-source AI democratizes the most powerful technology in human history.</p>
+        <p data-lang="si">DeepSeek සිලිකන් වැලියේ ඒකාධිකාර පාලනයෙන් තොරව සීමාන්ත AI සාක්ෂාත් කර ගත හැකි බව ඔප්පු කරයි.</p>
+    </div>
+
+    <div class="callout-box success">
+        <h4 data-lang="en">3. De-dollarization</h4><h4 data-lang="si">3. ඩි-ඩොලරීකරණය</h4>
+        <p data-lang="en">Removes the financial infrastructure that makes US global military dominance sustainable. BRICS alternatives, digital yuan, and Saudi Arabia selling oil in multiple currencies are reducing US financial enforcement capacity.</p>
+        <p data-lang="si">ඇමරිකානු ගෝලීය මිලිටරි ආධිපත්‍යය තිරසාර කරන මූල්‍ය යටිතල පහසුකම් ඉවත් කරයි.</p>
+    </div>
+
+    <div class="callout-box success">
+        <h4 data-lang="en">4. Young Global South</h4><h4 data-lang="si">4. තරුණ ගෝලීය දකුණ</h4>
+        <p data-lang="en">Young populations in Africa, South Asia, and Latin America are demanding different politics. Sri Lanka's 2022 Aragalaya showed that people power can topple entrenched systems. The generation coming of age has access to information tools their parents never had.</p>
+        <p data-lang="si">අප්‍රිකාවේ, දකුණු ආසියාවේ සහ ලතින් ඇමරිකාවේ තරුණ ජනගහන වෙනස් දේශපාලනයක් ඉල්ලා සිටී. ශ්‍රී ලංකාවේ 2022 අරගලය ජන බලයට ස්ථාපිත පද්ධති පෙරළිය හැකි බව පෙන්වූයේය.</p>
+    </div>
+
+    <div class="callout-box success">
+        <h4 data-lang="en">5. Information Democratization</h4><h4 data-lang="si">5. තොරතුරු ප්‍රජාතන්ත්‍රීකරණය</h4>
+        <p data-lang="en">AI-augmented analysis — like this very document — is available to civil society, not just governments and corporations. The ability to conduct sophisticated geopolitical analysis is no longer restricted to intelligence agencies with billion-dollar budgets.</p>
+        <p data-lang="si">AI-වැඩිදියුණු කළ විශ්ලේෂණය — මෙම ලේඛනය මෙන් — සිවිල් සමාජයට ලබා ගත හැකිය, රජයන්ට සහ සමාගම්වලට පමණක් නොවේ.</p>
+    </div>
+
+    <p data-lang="en">The feedback loop is real, the decline indicators are serious, and the war will cause immense human suffering. But history is not deterministic. Within the 10-15 year window, the convergence of clean energy, open-source AI, de-dollarization, and youth-led political movements creates genuine possibilities for structural change. The crack in everything is real. And the light does get in.</p>
+    <p data-lang="si">ප්‍රතිපෝෂණ පුඩුව සැබෑය, පිරිහීමේ දර්ශක බැරෑරුම් ය, සහ යුද්ධය අපමාණ මානුෂික දුක් විඳවීම ඇති කරනු ඇත. නමුත් ඉතිහාසය නිර්ණායක නොවේ. වසර 10-15 කවුළුව තුළ, පිරිසිදු බලශක්තිය, විවෘත-මූලාශ්‍ර AI, ඩි-ඩොලරීකරණය සහ තරුණ නායකත්වයේ දේශපාලන ව්‍යාපාරවල එකතුවීම ව්‍යුහාත්මක වෙනස්කම් සඳහා සැබෑ හැකියාවන් නිර්මාණය කරයි.</p>
+</section>
+
+<!-- ===================== SECTION 14 — METHODOLOGY ===================== -->
+<section id="section-14" data-nav-label="METHODOLOGY">
+    <div class="section-label" data-lang="si">14 — ක්‍රමවේදය</div>
+    <div class="section-label" data-lang="en">14 — METHODOLOGY</div>
+
+    <h2 data-lang="si">ක්‍රමවේදය සහ මූලාශ්‍ර</h2>
+    <h2 data-lang="en">Methodology & Sources</h2>
+
+    <h3 data-lang="en">Research Approach</h3><h3 data-lang="si">පර්යේෂණ ප්‍රවේශය</h3>
+
+    <p data-lang="en">This dossier was compiled using multi-disciplinary analysis combining 9 expert perspectives: geopolitical analysis, theological/religious studies, philosophy, game theory, statistical modelling, regional political expertise, financial policy analysis, psychology, and military history. AI-assisted research tools were used for data synthesis and pattern recognition, with human editorial oversight throughout.</p>
+    <p data-lang="si">මෙම ලේඛනය විශේෂඥ දෘෂ්ටිකෝණ 9 ක් ඒකාබද්ධ කරන බහු-විෂයාන්තර විශ්ලේෂණය භාවිතයෙන් සම්පාදනය කරන ලදී: භූ-දේශපාලන විශ්ලේෂණය, ආගමික අධ්‍යයන, දර්ශනය, ක්‍රීඩා න්‍යාය, සංඛ්‍යානමය ආකෘතිකරණය, ප්‍රාදේශීය දේශපාලන විශේෂඥතාව, මූල්‍ය ප්‍රතිපත්ති විශ්ලේෂණය, මනෝවිද්‍යාව සහ මිලිටරි ඉතිහාසය.</p>
+
+    <h3 data-lang="en">Analytical Frameworks Used</h3><h3 data-lang="si">භාවිතා කළ විශ්ලේෂණ රාමු</h3>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead><tr><th data-lang="en">Framework</th><th data-lang="en">Application</th><th data-lang="en">Source</th></tr></thead>
+            <tbody>
+                <tr><td>Kahn's Escalation Ladder</td><td>Iran-US escalation tracking</td><td>Herman Kahn, <em>On Escalation</em> (1965)</td></tr>
+                <tr><td>Game Theory (Nash/Chicken)</td><td>Actor strategic interaction</td><td>von Neumann & Morgenstern; Schelling</td></tr>
+                <tr><td>Imperial Decline Pattern</td><td>US hegemonic assessment</td><td>Paul Kennedy, <em>Rise and Fall of Great Powers</em></td></tr>
+                <tr><td>Actor-Incentive-Constraint</td><td>Multi-actor mapping</td><td>Adapted from intelligence analysis tradecraft</td></tr>
+                <tr><td>Ethno-Religious Nationalism</td><td>Hindutva-Zionism comparison</td><td>Comparative political science</td></tr>
+                <tr><td>Ammunition Economics</td><td>Sustainability of conflict</td><td>RUSI, CSIS conflict economics research</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 data-lang="en">Confidence Assessment</h3><h3 data-lang="si">විශ්වාස ඇගයීම</h3>
+
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead><tr><th data-lang="en">Claim</th><th data-lang="en">Confidence</th><th data-lang="en">Basis</th></tr></thead>
+            <tbody>
+                <tr><td>US launched 4,500+ strikes in 7 days</td><td class="green"><strong>HIGH</strong></td><td>Multiple OSINT, Pentagon briefings</td></tr>
+                <tr><td>Iran cost advantage 9-18x</td><td class="green"><strong>HIGH</strong></td><td>Documented unit costs; RUSI analysis</td></tr>
+                <tr><td>Face-saving deal most likely (25-30%)</td><td class="amber"><strong>MEDIUM</strong></td><td>Historical pattern matching; game theory</td></tr>
+                <tr><td>US decline score 7.4/10</td><td class="amber"><strong>MEDIUM</strong></td><td>Framework application; subjective scoring</td></tr>
+                <tr><td>Epstein intelligence connection</td><td class="amber"><strong>MEDIUM</strong></td><td>Acosta statement; circumstantial evidence</td></tr>
+                <tr><td>China moves on Taiwan 2027-2028</td><td class="red"><strong>LOW</strong></td><td>Speculative; based on capability timeline</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="callout-box info">
+        <h4 data-lang="en">AI-Assisted Research Disclosure</h4><h4 data-lang="si">AI-ආධාරිත පර්යේෂණ අනාවරණය</h4>
+        <p data-lang="en">This research was compiled with the assistance of Claude (Anthropic) for data synthesis, pattern recognition, scenario modelling, and multi-disciplinary analysis. All factual claims are sourced from documented public records. The AI tool was used as an analytical instrument, not as a primary source. Human editorial judgment was applied throughout. Sinhala translations were generated using Google Translate API and have not been independently verified by a certified translator.</p>
+        <p data-lang="si">මෙම පර්යේෂණය දත්ත සංශ්ලේෂණය, රටා හඳුනාගැනීම, අවස්ථා ආකෘතිකරණය සහ බහු-විෂයාන්තර විශ්ලේෂණය සඳහා Claude (Anthropic) ආධාරයෙන් සම්පාදනය කරන ලදී. සියලුම කරුණු ප්‍රකාශ ලේඛනගත පොදු වාර්තා වලින් මූලාශ්‍ර ලබා ගෙන ඇත.</p>
+    </div>
+</section>
+
+<!-- ==================== PLEDGE BUTTON ==================== -->
+<div class="pledge-cta" data-pledge>
+    <span data-lang="en">Pledge Your Support</span>
+    <span data-lang="si">ඔබේ සහය පොරොන්දු වන්න</span>
+</div>
+
+<!-- ==================== EMAIL SUBSCRIBE ==================== -->
+<div class="subscribe-bar">
+    <div class="subscribe-inner">
+        <p><strong style="color:var(--color-red)">Stay informed.</strong> <span data-lang="en">Get new investigations delivered to your inbox — no spam, no tracking, just journalism.</span><span data-lang="si">නව පරීක්ෂණ ඔබේ inbox එකට ලබා ගන්න — spam නැත, tracking නැත, ජර්නලිස්ම පමණි.</span></p>
+        <div class="subscribe-form">
+            <input type="email" placeholder="your@email.com" aria-label="Email address">
+            <button>SUBSCRIBE</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+    <p data-lang="en"><strong>Legal Disclaimer:</strong> This analysis is independent research. Fair comment on matters of public interest, truth, and justification are valid legal defenses in Sri Lanka and most common law jurisdictions.</p>
+    <p data-lang="si"><strong>නීතිමය ප්‍රකාශනය:</strong> මෙම විශ්ලේෂණය ස්වාධීන පර්යේෂණයකි. පොදු යහපතට අදාළ කරුණු පිළිබඳ සාධාරණ අදහස් ප්‍රකාශනය, සත්‍ය සහ සාධාරණීකරණය ශ්‍රී ලංකාවේ සහ බොහෝ පොදු නීති අධිකරණ බල ප්‍රදේශවල වලංගු නීතිමය ආරක්ෂාවන් වේ.</p>
+    <p><span data-lang="en">Independent Research | March 2026</span><span data-lang="si">ස්වාධීන පර්යේෂණ | 2026 මාර්තු</span></p>
+    <p>ML-Assisted Research — <a href="https://pavura.rizrazak.com" target="_blank" rel="noopener">pavura.rizrazak.com</a></p>
+</footer>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script src="../_shared/dossier-disclaimer.js"></script>
+<script src="../_shared/dossier-lang.js"></script>
+<script src="../_shared/dossier-nav.js"></script>
+<script src="../_shared/dossier-theme.js"></script>
+<script data-ga="G-SCKES76007" src="../_shared/dossier-analytics.js"></script>
+
+</body>
+</html>

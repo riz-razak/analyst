@@ -1,0 +1,860 @@
+/* ============================================================================
+   DOSSIER INTERACTIVE CSS - Styles for Visualizations & Interactive Elements
+   analyst.rizrazak.com - Bilingual Investigative Journalism Framework
+   ============================================================================ */
+
+/* ============================================================================
+   NETWORK MAP - CONTAINER FOR D3.JS FORCE-DIRECTED GRAPHS
+   ============================================================================ */
+.network-map {
+    width: 100%;
+    height: 500px;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-lg) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.network-map-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.network-node {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.network-node circle {
+    fill: var(--color-gold);
+    stroke: var(--color-text);
+    stroke-width: 2px;
+}
+
+.network-node:hover circle {
+    r: 1.5;
+    filter: drop-shadow(0 0 6px var(--color-gold));
+}
+
+.network-node text {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    fill: var(--color-text);
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: central;
+}
+
+.network-link {
+    stroke: var(--color-border);
+    stroke-width: 1px;
+    opacity: 0.6;
+}
+
+.network-link.active {
+    stroke: var(--color-gold);
+    stroke-width: 2px;
+    opacity: 1;
+}
+
+.network-legend {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    background-color: rgba(244, 244, 250, 0.95);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    font-size: 12px;
+    max-width: 200px;
+}
+
+[data-theme="dark"] .network-legend {
+    background-color: rgba(15, 15, 26, 0.95);
+}
+
+.network-legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.network-legend-item:last-child {
+    margin-bottom: 0;
+}
+
+.network-legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.network-map-controls {
+    position: absolute;
+    bottom: var(--spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--spacing-sm);
+    background-color: rgba(244, 244, 250, 0.95);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+}
+
+[data-theme="dark"] .network-map-controls {
+    background-color: rgba(15, 15, 26, 0.95);
+}
+
+.network-control-btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--color-border);
+    background-color: transparent;
+    color: var(--color-text);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.network-control-btn:hover,
+.network-control-btn.active {
+    background-color: var(--color-gold);
+    color: #fff;
+    border-color: var(--color-gold);
+}
+
+@media (max-width: 768px) {
+    .network-map {
+        height: 400px;
+    }
+
+    .network-legend {
+        max-width: 150px;
+        font-size: 11px;
+    }
+}
+
+/* ============================================================================
+   ESCALATION LADDER - VERTICAL LADDER VISUALIZATION
+   ============================================================================ */
+.escalation-ladder {
+    position: relative;
+    max-width: 600px;
+    margin: var(--spacing-lg) auto;
+    padding: 0 var(--spacing-lg);
+}
+
+.escalation-ladder::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(
+        180deg,
+        var(--color-border) 0%,
+        var(--color-gold) 50%,
+        var(--color-red) 100%
+    );
+    border-radius: 2px;
+}
+
+.escalation-rung {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s ease;
+}
+
+.escalation-rung:nth-child(odd) {
+    margin-left: var(--spacing-xl);
+    text-align: left;
+}
+
+.escalation-rung:nth-child(even) {
+    margin-right: var(--spacing-xl);
+    text-align: right;
+}
+
+.escalation-rung.active {
+    border-color: var(--color-gold);
+    box-shadow: var(--shadow-md);
+    background-color: rgba(168, 135, 0, 0.05);
+}
+
+.escalation-rung.critical {
+    border-color: var(--color-red);
+    background-color: rgba(204, 32, 32, 0.05);
+}
+
+.escalation-rung.past {
+    border-color: var(--color-green);
+    background-color: rgba(45, 122, 62, 0.05);
+}
+
+.escalation-step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-gold);
+    color: #fff;
+    text-align: center;
+    line-height: 40px;
+    font-weight: 900;
+    font-size: 18px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.escalation-rung.active .escalation-step-number {
+    box-shadow: 0 0 0 4px var(--color-gold);
+}
+
+.escalation-step-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+}
+
+.escalation-step-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+}
+
+.escalation-step-content {
+    font-size: 14px;
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .escalation-ladder::before {
+        left: 20px;
+    }
+
+    .escalation-rung {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 60px;
+        text-align: left !important;
+    }
+
+    .escalation-rung::before {
+        content: "";
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 2px;
+        background-color: var(--color-border);
+    }
+}
+
+/* ============================================================================
+   SCENARIO TREE - BRANCHING DECISION TREE LAYOUT
+   ============================================================================ */
+.scenario-tree {
+    margin: var(--spacing-lg) 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: var(--spacing-lg) 0;
+}
+
+.scenario-tree-content {
+    display: flex;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    align-items: flex-start;
+    min-width: min-content;
+    padding: 0 var(--spacing-lg);
+}
+
+.scenario-branch {
+    position: relative;
+    flex: 0 0 auto;
+    width: 200px;
+}
+
+.scenario-branch::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background-color: var(--color-border);
+}
+
+.scenario-branch:first-child::before {
+    display: none;
+}
+
+.scenario-decision {
+    background-color: var(--color-card);
+    border: 2px solid var(--color-gold);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.scenario-decision:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.scenario-decision.outcome {
+    border-color: var(--color-green);
+    background-color: rgba(45, 122, 62, 0.08);
+}
+
+.scenario-decision.risk {
+    border-color: var(--color-red);
+    background-color: rgba(204, 32, 32, 0.08);
+}
+
+.scenario-decision-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+}
+
+.scenario-decision-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.scenario-probability-small {
+    font-size: 12px;
+    color: var(--color-gold);
+    font-weight: 700;
+    margin-top: var(--spacing-sm);
+}
+
+.scenario-outcomes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.scenario-outcome {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    font-size: 13px;
+    color: var(--color-text);
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* ============================================================================
+   GAME THEORY MATRIX - PAYOFF MATRIX TABLE STYLING
+   ============================================================================ */
+.game-theory-matrix {
+    margin: var(--spacing-lg) 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.game-theory-matrix thead {
+    background-color: var(--color-card);
+}
+
+.game-theory-matrix th,
+.game-theory-matrix td {
+    padding: var(--spacing-md);
+    text-align: center;
+    border: 1px solid var(--color-border);
+    font-size: 13px;
+}
+
+.game-theory-matrix th {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+}
+
+.game-theory-matrix tbody tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] .game-theory-matrix tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.game-theory-payoff {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}
+
+.payoff-player1 {
+    font-weight: 700;
+    color: var(--color-gold);
+}
+
+.payoff-player2 {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+}
+
+.game-theory-matrix .optimal {
+    background-color: rgba(168, 135, 0, 0.1);
+}
+
+/* ============================================================================
+   CHART CONTAINER - RESPONSIVE CONTAINER FOR EMBEDDED CHARTS
+   ============================================================================ */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin: var(--spacing-lg) 0;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    overflow: hidden;
+}
+
+.chart-canvas {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+}
+
+.chart-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
+.chart-description {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin-top: var(--spacing-md);
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        padding: var(--spacing-md);
+    }
+
+    .chart-canvas {
+        max-height: 350px;
+    }
+}
+
+/* ============================================================================
+   DASHBOARD EMBED - IFRAME/EMBEDDED DASHBOARD CONTAINER
+   ============================================================================ */
+.dashboard-embed {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%;
+    height: 0;
+    overflow: hidden;
+    margin: var(--spacing-lg) 0;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+}
+
+.dashboard-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: var(--radius-lg);
+}
+
+.dashboard-title {
+    margin-bottom: var(--spacing-lg);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+@media (max-width: 768px) {
+    .dashboard-embed {
+        padding-bottom: 100%;
+    }
+}
+
+/* ============================================================================
+   POWER BOARD - CONSPIRACY/STAKEHOLDER BOARD GRID
+   ============================================================================ */
+.power-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+}
+
+.power-tier {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.power-tier-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    font-weight: 700;
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--color-border);
+}
+
+.power-actor {
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.power-actor:hover {
+    border-color: var(--color-gold);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+}
+
+.power-actor-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.power-actor-influence {
+    font-size: 12px;
+    color: var(--color-gold);
+    font-weight: 600;
+}
+
+.power-tier.tier-1 {
+    grid-column: 1 / -1;
+}
+
+.power-tier.tier-1 .power-tier-label {
+    color: var(--color-red);
+    border-bottom-color: var(--color-red);
+}
+
+.power-tier.tier-2 .power-tier-label {
+    color: var(--color-amber);
+    border-bottom-color: var(--color-amber);
+}
+
+.power-tier.tier-3 .power-tier-label {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+}
+
+/* ============================================================================
+   INTERACTIVE CONTROLS - FILTER/SORT CONTROLS
+   ============================================================================ */
+.interactive-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
+    background-color: var(--color-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.control-label {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+}
+
+.control-input,
+.control-select {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control-input:focus,
+.control-select:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    box-shadow: 0 0 0 2px rgba(168, 135, 0, 0.1);
+}
+
+.control-button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--color-gold);
+    background-color: transparent;
+    color: var(--color-gold);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control-button:hover,
+.control-button.active {
+    background-color: var(--color-gold);
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .interactive-controls {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+
+    .control-group {
+        width: 100%;
+    }
+
+    .control-input,
+    .control-select {
+        width: 100%;
+    }
+}
+
+/* ============================================================================
+   LEGEND - CHART/MAP LEGEND STYLING
+   ============================================================================ */
+.legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background-color: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-lg) 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.legend-color {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    border: 1px solid var(--color-border);
+}
+
+.legend-label {
+    font-size: 13px;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+/* ============================================================================
+   PROBABILITY BAR - HORIZONTAL PROBABILITY INDICATOR
+   ============================================================================ */
+.probability-bar {
+    margin: var(--spacing-md) 0;
+}
+
+.probability-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.probability-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.probability-percentage {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-gold);
+}
+
+.probability-track {
+    width: 100%;
+    height: 12px;
+    background-color: var(--color-border);
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+}
+
+.probability-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-green), var(--color-gold), var(--color-red));
+    border-radius: 6px;
+    transition: width 0.3s ease;
+}
+
+/* ============================================================================
+   ANIMATIONS FOR INTERACTIVE ELEMENTS
+   ============================================================================ */
+@keyframes pulse-indicator {
+    0% {
+        opacity: 1;
+        r: 6px;
+    }
+    50% {
+        opacity: 0.6;
+        r: 8px;
+    }
+    100% {
+        opacity: 1;
+        r: 6px;
+    }
+}
+
+.escalation-rung.active::after,
+.network-node.current circle {
+    animation: pulse-indicator 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.chart-loading {
+    background: linear-gradient(
+        90deg,
+        var(--color-border) 25%,
+        var(--color-card) 50%,
+        var(--color-border) 75%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+    height: 200px;
+    border-radius: var(--radius-lg);
+}
+
+/* ============================================================================
+   RESPONSIVE ADJUSTMENTS FOR MOBILE
+   ============================================================================ */
+@media (max-width: 768px) {
+    .scenario-tree-content {
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .scenario-branch {
+        width: 100%;
+    }
+
+    .power-board {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+
+    .game-theory-matrix {
+        font-size: 12px;
+    }
+
+    .game-theory-matrix th,
+    .game-theory-matrix td {
+        padding: var(--spacing-sm);
+    }
+
+    .escalation-ladder::before {
+        left: 20px;
+    }
+}
+
+/* ============================================================================
+   PRINT STYLES FOR INTERACTIVE ELEMENTS
+   ============================================================================ */
+@media print {
+    .network-map,
+    .chart-container,
+    .dashboard-embed,
+    .interactive-controls,
+    .network-map-controls {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        border: 1px solid #000;
+    }
+
+    .scenario-tree-content {
+        flex-direction: column;
+    }
+
+    .scenario-branch {
+        width: 100%;
+    }
+
+    .network-legend,
+    .chart-loading {
+        display: none;
+    }
+}
