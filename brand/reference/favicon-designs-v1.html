@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favicon Designs — Stylised R</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    background: #0F0F14;
+    color: #E8E8F0;
+    padding: 48px 40px;
+    min-height: 100vh;
+  }
+  h1 {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #6B7280;
+    margin-bottom: 40px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-bottom: 60px;
+  }
+  .card {
+    background: #16161F;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 32px 24px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .card:hover { border-color: #6366F1; transform: translateY(-2px); }
+  .card.selected { border-color: #6366F1; background: #16162A; }
+
+  .sizes {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+  }
+  .size-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #4B5563;
+    margin-top: 6px;
+    text-align: center;
+  }
+  .size-group { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+
+  /* Dark bg swatch */
+  .on-dark { background: #0F0F14; border-radius: 4px; padding: 3px; display: inline-flex; }
+  /* Light bg swatch */
+  .on-light { background: #F3F4F6; border-radius: 4px; padding: 3px; display: inline-flex; }
+
+  .name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #E8E8F0;
+    text-align: center;
+  }
+  .desc {
+    font-size: 12px;
+    color: #6B7280;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .context-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .mock-tab {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #1E1E28;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px 6px 0 0;
+    padding: 6px 10px;
+    font-size: 10px;
+    color: #9CA3AF;
+    white-space: nowrap;
+  }
+  .mock-tab span { font-size: 9px; }
+
+  .variant-label {
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #374151;
+    background: #1F2937;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+  }
+
+  hr { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 48px 0; }
+  h2 { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #4B5563; margin-bottom: 24px; }
+</style>
+</head>
+<body>
+
+<h1>Favicon Designs · Stylised R · analyst.rizrazak.com</h1>
+
+<div class="grid">
+
+  <!-- ═══════════════════════════════════════════
+       OPTION A — "SIGNAL" — geometric notched R
+  ═══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="sizes">
+      <!-- 64px -->
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#6366F1"/>
+            <!-- Geometric R: thick vertical stroke + arch top + diagonal leg -->
+            <!-- Vertical bar -->
+            <rect x="14" y="12" width="9" height="40" rx="2" fill="white"/>
+            <!-- Top arch bump: rectangle + semicircle top -->
+            <rect x="14" y="12" width="26" height="9" rx="2" fill="white"/>
+            <rect x="14" y="25" width="26" height="9" rx="2" fill="white"/>
+            <!-- Inner cutout to make it an "R" arch -->
+            <rect x="23" y="14" width="9" height="14" rx="1" fill="#6366F1"/>
+            <!-- Diagonal leg: rotated rectangle from mid-right to bottom-right -->
+            <rect x="30" y="33" width="9" height="22" rx="2" transform="rotate(-33 30 33)" fill="white"/>
+          </svg>
+        </div>
+        <div class="size-label">64px</div>
+      </div>
+      <!-- 32px -->
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#6366F1"/>
+            <rect x="14" y="12" width="9" height="40" rx="2" fill="white"/>
+            <rect x="14" y="12" width="26" height="9" rx="2" fill="white"/>
+            <rect x="14" y="25" width="26" height="9" rx="2" fill="white"/>
+            <rect x="23" y="14" width="9" height="14" rx="1" fill="#6366F1"/>
+            <rect x="30" y="33" width="9" height="22" rx="2" transform="rotate(-33 30 33)" fill="white"/>
+          </svg>
+        </div>
+        <div class="size-label">32px</div>
+      </div>
+      <!-- 16px -->
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="16" height="16" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="14" fill="#6366F1"/>
+            <rect x="14" y="12" width="9" height="40" rx="2" fill="white"/>
+            <rect x="14" y="12" width="26" height="9" rx="2" fill="white"/>
+            <rect x="14" y="25" width="26" height="9" rx="2" fill="white"/>
+            <rect x="23" y="14" width="9" height="14" rx="1" fill="#6366F1"/>
+            <rect x="30" y="33" width="9" height="22" rx="2" transform="rotate(-33 30 33)" fill="white"/>
+          </svg>
+        </div>
+        <div class="size-label">16px</div>
+      </div>
+    </div>
+
+    <!-- Browser tab mockup -->
+    <div class="mock-tab">
+      <svg width="12" height="12" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#6366F1"/><rect x="14" y="12" width="9" height="40" rx="2" fill="white"/><rect x="14" y="12" width="26" height="9" rx="2" fill="white"/><rect x="14" y="25" width="26" height="9" rx="2" fill="white"/><rect x="23" y="14" width="9" height="14" rx="1" fill="#6366F1"/><rect x="30" y="33" width="9" height="22" rx="2" transform="rotate(-33 30 33)" fill="white"/></svg>
+      <span>Admin Dashboard</span>
+    </div>
+
+    <div class="name">Option A — Signal</div>
+    <div class="desc">Geometric, pixel-perfect R built from rectangles. Clean and technical. Matches the admin dashboard energy.</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       OPTION B — "MONOGRAM" — serif elegant R on dark circle
+  ═══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="sizes">
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="32" fill="#111118"/>
+            <circle cx="32" cy="32" r="28" fill="none" stroke="#6366F1" stroke-width="2"/>
+            <!-- Elegant R using path - serif-style -->
+            <text x="32" y="45" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-weight="700" fill="white" text-anchor="middle" dominant-baseline="auto">R</text>
+          </svg>
+        </div>
+        <div class="size-label">64px</div>
+      </div>
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="32" fill="#111118"/>
+            <circle cx="32" cy="32" r="28" fill="none" stroke="#6366F1" stroke-width="2"/>
+            <text x="32" y="45" font-family="Georgia, serif" font-size="38" font-weight="700" fill="white" text-anchor="middle">R</text>
+          </svg>
+        </div>
+        <div class="size-label">32px</div>
+      </div>
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="16" height="16" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="32" fill="#111118"/>
+            <circle cx="32" cy="32" r="28" fill="none" stroke="#6366F1" stroke-width="2"/>
+            <text x="32" y="45" font-family="Georgia, serif" font-size="38" font-weight="700" fill="white" text-anchor="middle">R</text>
+          </svg>
+        </div>
+        <div class="size-label">16px</div>
+      </div>
+    </div>
+
+    <div class="mock-tab">
+      <svg width="12" height="12" viewBox="0 0 64 64"><rect width="64" height="64" rx="32" fill="#111118"/><circle cx="32" cy="32" r="28" fill="none" stroke="#6366F1" stroke-width="2"/><text x="32" y="45" font-family="Georgia, serif" font-size="38" font-weight="700" fill="white" text-anchor="middle">R</text></svg>
+      <span>Admin Dashboard</span>
+    </div>
+
+    <div class="name">Option B — Monogram</div>
+    <div class="desc">Serif R in a bordered circle. Editorial, authoritative. Suits the long-form dossier tone of the site.</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       OPTION C — "BLADE" — angular cut R, gradient
+  ═══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="sizes">
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gC" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#818CF8"/>
+                <stop offset="100%" stop-color="#4F46E5"/>
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="12" fill="url(#gC)"/>
+            <!-- Custom R path: vertical bar + bump + slanted leg -->
+            <path d="
+              M 14 12
+              L 14 52
+              L 21 52
+              L 21 37
+              L 32 37
+              L 42 52
+              L 50 52
+              L 39 36
+              C 46 33 48 27 44 21
+              C 41 15 35 12 26 12
+              Z
+              M 21 18
+              L 26 18
+              C 33 18 37 20 37 26
+              C 37 32 33 31 26 31
+              L 21 31
+              Z
+            " fill="white"/>
+          </svg>
+        </div>
+        <div class="size-label">64px</div>
+      </div>
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gC2" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#818CF8"/>
+                <stop offset="100%" stop-color="#4F46E5"/>
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="12" fill="url(#gC2)"/>
+            <path d="M 14 12 L 14 52 L 21 52 L 21 37 L 32 37 L 42 52 L 50 52 L 39 36 C 46 33 48 27 44 21 C 41 15 35 12 26 12 Z M 21 18 L 26 18 C 33 18 37 20 37 26 C 37 32 33 31 26 31 L 21 31 Z" fill="white"/>
+          </svg>
+        </div>
+        <div class="size-label">32px</div>
+      </div>
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="16" height="16" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gC3" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#818CF8"/>
+                <stop offset="100%" stop-color="#4F46E5"/>
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="12" fill="url(#gC3)"/>
+            <path d="M 14 12 L 14 52 L 21 52 L 21 37 L 32 37 L 42 52 L 50 52 L 39 36 C 46 33 48 27 44 21 C 41 15 35 12 26 12 Z M 21 18 L 26 18 C 33 18 37 20 37 26 C 37 32 33 31 26 31 L 21 31 Z" fill="white"/>
+          </svg>
+        </div>
+        <div class="size-label">16px</div>
+      </div>
+    </div>
+
+    <div class="mock-tab">
+      <svg width="12" height="12" viewBox="0 0 64 64">
+        <defs><linearGradient id="gC4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#818CF8"/><stop offset="100%" stop-color="#4F46E5"/></linearGradient></defs>
+        <rect width="64" height="64" rx="12" fill="url(#gC4)"/>
+        <path d="M 14 12 L 14 52 L 21 52 L 21 37 L 32 37 L 42 52 L 50 52 L 39 36 C 46 33 48 27 44 21 C 41 15 35 12 26 12 Z M 21 18 L 26 18 C 33 18 37 20 37 26 C 37 32 33 31 26 31 L 21 31 Z" fill="white"/>
+      </svg>
+      <span>Admin Dashboard</span>
+    </div>
+
+    <div class="name">Option C — Blade</div>
+    <div class="desc">Full hand-drawn SVG R path with gradient. The most "designed" option — proper typographic R with a curved bowl and diagonal leg.</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       OPTION D — "STAMP" — white R on dark, no bg fill
+  ═══════════════════════════════════════════ -->
+  <div class="card">
+    <div class="sizes">
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="10" fill="#0F0F14"/>
+            <!-- Pill underline accent -->
+            <rect x="14" y="56" width="36" height="4" rx="2" fill="#6366F1"/>
+            <!-- Bold sans R using path -->
+            <path d="
+              M 13 10
+              L 13 54
+              L 22 54
+              L 22 38
+              L 30 38
+              L 40 54
+              L 51 54
+              L 40 37
+              C 46 34 49 28 46 21
+              C 43 14 36 10 27 10
+              Z
+              M 22 17
+              L 27 17
+              C 34 17 38 20 38 26
+              C 38 32 34 33 27 33
+              L 22 33
+              Z
+            " fill="white"/>
+          </svg>
+        </div>
+        <div class="size-label">64px</div>
+      </div>
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="10" fill="#0F0F14"/>
+            <rect x="14" y="56" width="36" height="4" rx="2" fill="#6366F1"/>
+            <path d="M 13 10 L 13 54 L 22 54 L 22 38 L 30 38 L 40 54 L 51 54 L 40 37 C 46 34 49 28 46 21 C 43 14 36 10 27 10 Z M 22 17 L 27 17 C 34 17 38 20 38 26 C 38 32 34 33 27 33 L 22 33 Z" fill="white"/>
+          </svg>
+        </div>
+        <div class="size-label">32px</div>
+      </div>
+      <div class="size-group">
+        <div class="on-dark">
+          <svg width="16" height="16" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="10" fill="#0F0F14"/>
+            <rect x="14" y="56" width="36" height="4" rx="2" fill="#6366F1"/>
+            <path d="M 13 10 L 13 54 L 22 54 L 22 38 L 30 38 L 40 54 L 51 54 L 40 37 C 46 34 49 28 46 21 C 43 14 36 10 27 10 Z M 22 17 L 27 17 C 34 17 38 20 38 26 C 38 32 34 33 27 33 L 22 33 Z" fill="white"/>
+          </svg>
+        </div>
+        <div class="size-label">16px</div>
+      </div>
+    </div>
+
+    <div class="mock-tab">
+      <svg width="12" height="12" viewBox="0 0 64 64">
+        <rect width="64" height="64" rx="10" fill="#0F0F14"/>
+        <rect x="14" y="56" width="36" height="4" rx="2" fill="#6366F1"/>
+        <path d="M 13 10 L 13 54 L 22 54 L 22 38 L 30 38 L 40 54 L 51 54 L 40 37 C 46 34 49 28 46 21 C 43 14 36 10 27 10 Z M 22 17 L 27 17 C 34 17 38 20 38 26 C 38 32 34 33 27 33 L 22 33 Z" fill="white"/>
+      </svg>
+      <span>Admin Dashboard</span>
+    </div>
+
+    <div class="name">Option D — Stamp</div>
+    <div class="desc">White R on near-black with a purple underline accent. Minimal, no background fill. Feels like a personal brand mark.</div>
+  </div>
+
+</div>
+
+
+<hr>
+<h2>Context — how they look at different sizes on light backgrounds too</h2>
+
+<div style="display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start;">
+
+  <!-- A light bg comparison -->
+  <div>
+    <div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6B7280;margin-bottom:12px;">On light (browser bookmark bar)</div>
+    <div style="background:#F9FAFB; border-radius:8px; padding:16px; display:flex; gap:16px; align-items:center;">
+      <!-- A -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <svg width="32" height="32" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#6366F1"/><rect x="14" y="12" width="9" height="40" rx="2" fill="white"/><rect x="14" y="12" width="26" height="9" rx="2" fill="white"/><rect x="14" y="25" width="26" height="9" rx="2" fill="white"/><rect x="23" y="14" width="9" height="14" rx="1" fill="#6366F1"/><rect x="30" y="33" width="9" height="22" rx="2" transform="rotate(-33 30 33)" fill="white"/></svg>
+        <span style="font-size:9px;color:#9CA3AF;">A</span>
+      </div>
+      <!-- B -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <svg width="32" height="32" viewBox="0 0 64 64"><rect width="64" height="64" rx="32" fill="#111118"/><circle cx="32" cy="32" r="28" fill="none" stroke="#6366F1" stroke-width="2"/><text x="32" y="45" font-family="Georgia, serif" font-size="38" font-weight="700" fill="white" text-anchor="middle">R</text></svg>
+        <span style="font-size:9px;color:#9CA3AF;">B</span>
+      </div>
+      <!-- C -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <svg width="32" height="32" viewBox="0 0 64 64"><defs><linearGradient id="gCl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#818CF8"/><stop offset="100%" stop-color="#4F46E5"/></linearGradient></defs><rect width="64" height="64" rx="12" fill="url(#gCl)"/><path d="M 14 12 L 14 52 L 21 52 L 21 37 L 32 37 L 42 52 L 50 52 L 39 36 C 46 33 48 27 44 21 C 41 15 35 12 26 12 Z M 21 18 L 26 18 C 33 18 37 20 37 26 C 37 32 33 31 26 31 L 21 31 Z" fill="white"/></svg>
+        <span style="font-size:9px;color:#9CA3AF;">C</span>
+      </div>
+      <!-- D -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <svg width="32" height="32" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="#0F0F14"/><rect x="14" y="56" width="36" height="4" rx="2" fill="#6366F1"/><path d="M 13 10 L 13 54 L 22 54 L 22 38 L 30 38 L 40 54 L 51 54 L 40 37 C 46 34 49 28 46 21 C 43 14 36 10 27 10 Z M 22 17 L 27 17 C 34 17 38 20 38 26 C 38 32 34 33 27 33 L 22 33 Z" fill="white"/></svg>
+        <span style="font-size:9px;color:#9CA3AF;">D</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pinned tab mockup -->
+  <div>
+    <div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#6B7280;margin-bottom:12px;">Pinned tab (icon only, 16px)</div>
+    <div style="background:#1E1E2A; border-radius:8px; padding:12px 20px; display:flex; gap:20px; align-items:center;">
+      <svg width="16" height="16" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#6366F1"/><rect x="14" y="12" width="9" height="40" rx="2" fill="white"/><rect x="14" y="12" width="26" height="9" rx="2" fill="white"/><rect x="14" y="25" width="26" height="9" rx="2" fill="white"/><rect x="23" y="14" width="9" height="14" rx="1" fill="#6366F1"/><rect x="30" y="33" width="9" height="22" rx="2" transform="rotate(-33 30 33)" fill="white"/></svg>
+      <svg width="16" height="16" viewBox="0 0 64 64"><rect width="64" height="64" rx="32" fill="#111118"/><circle cx="32" cy="32" r="28" fill="none" stroke="#6366F1" stroke-width="2"/><text x="32" y="45" font-family="Georgia, serif" font-size="38" font-weight="700" fill="white" text-anchor="middle">R</text></svg>
+      <svg width="16" height="16" viewBox="0 0 64 64"><defs><linearGradient id="gDl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#818CF8"/><stop offset="100%" stop-color="#4F46E5"/></linearGradient></defs><rect width="64" height="64" rx="12" fill="url(#gDl)"/><path d="M 14 12 L 14 52 L 21 52 L 21 37 L 32 37 L 42 52 L 50 52 L 39 36 C 46 33 48 27 44 21 C 41 15 35 12 26 12 Z M 21 18 L 26 18 C 33 18 37 20 37 26 C 37 32 33 31 26 31 L 21 31 Z" fill="white"/></svg>
+      <svg width="16" height="16" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="#0F0F14"/><rect x="14" y="56" width="36" height="4" rx="2" fill="#6366F1"/><path d="M 13 10 L 13 54 L 22 54 L 22 38 L 30 38 L 40 54 L 51 54 L 40 37 C 46 34 49 28 46 21 C 43 14 36 10 27 10 Z M 22 17 L 27 17 C 34 17 38 20 38 26 C 38 32 34 33 27 33 L 22 33 Z" fill="white"/></svg>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top: 48px; padding: 20px; background: #16161F; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); display: inline-block;">
+  <div style="font-size: 11px; color: #6B7280; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">Tell me which to apply →</div>
+  <div style="font-size: 13px; color: #9CA3AF;">A = Signal (geometric blocks) &nbsp;·&nbsp; B = Monogram (serif in circle) &nbsp;·&nbsp; C = Blade (gradient, full SVG path) &nbsp;·&nbsp; D = Stamp (dark bg, purple underline)</div>
+</div>
+
+</body>
+</html>

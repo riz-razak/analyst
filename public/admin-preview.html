@@ -4,18 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Analyst.RizRazak.com</title>
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
+    <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#1B4D2E">
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
 /* CSS Variables */
         :root {
-            --color-primary: #6366F1;
+            --color-primary: #1B4D2E;
             --color-success: #10B981;
             --color-warning: #F59E0B;
             --color-danger: #EF4444;
             
             --bg-main: #FFFFFF;
             --bg-sidebar: #F7F8FA;
-            --bg-active-nav: #EEF2FF;
+            --bg-active-nav: #E8F0E8;
             
             --border-color: #E5E7EB;
             --text-primary: #1F2937;
@@ -112,7 +120,7 @@
         }
 
         .nav-item:hover {
-            background-color: rgba(99, 102, 241, 0.05);
+            background-color: rgba(27, 77, 46, 0.05);
             color: var(--text-primary);
         }
 
@@ -313,7 +321,7 @@
         .totp-input:focus {
             outline: none;
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            box-shadow: 0 0 0 3px rgba(27, 77, 46, 0.1);
         }
 
         .totp-input.error {
@@ -339,7 +347,7 @@
         }
 
         .button-primary:hover {
-            background-color: #4F46E5;
+            background-color: #174025;
             box-shadow: var(--shadow-md);
         }
 
@@ -412,8 +420,8 @@
     }
 
     .status-draft {
-        background-color: #EDE9FE;
-        color: #7C3AED;
+        background-color: #E2EDE2;
+        color: #3D7A4A;
     }
 
     /* Alert Banner */
@@ -472,7 +480,7 @@
     .search-input:focus {
         outline: none;
         border-color: var(--color-primary);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        box-shadow: 0 0 0 3px rgba(27, 77, 46, 0.1);
     }
 
     .filter-tabs {
@@ -495,7 +503,7 @@
     }
 
     .filter-tab:hover {
-        background-color: rgba(99, 102, 241, 0.05);
+        background-color: rgba(27, 77, 46, 0.05);
         color: var(--text-primary);
     }
 
@@ -552,7 +560,7 @@
     }
 
     .btn-primary:hover {
-        background-color: #4F46E5;
+        background-color: #174025;
         box-shadow: var(--shadow-md);
     }
 
@@ -652,7 +660,7 @@
         justify-content: center;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);
+        background: linear-gradient(135deg, #1B4D2E 0%, #5D8A5E 100%);
         color: white;
         font-size: 48px;
         font-weight: 700;
@@ -810,7 +818,7 @@
         width: 48px;
         height: 48px;
         border-radius: 6px;
-        background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);
+        background: linear-gradient(135deg, #1B4D2E 0%, #5D8A5E 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -954,7 +962,7 @@
     .detail-input:focus {
         outline: none;
         border-color: var(--color-primary);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        box-shadow: 0 0 0 3px rgba(27, 77, 46, 0.1);
     }
 
     .detail-textarea {
@@ -972,13 +980,13 @@
     .detail-textarea:focus {
         outline: none;
         border-color: var(--color-primary);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        box-shadow: 0 0 0 3px rgba(27, 77, 46, 0.1);
     }
 
     .detail-thumbnail-box {
         width: 100%;
         height: 200px;
-        background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);
+        background: linear-gradient(135deg, #1B4D2E 0%, #5D8A5E 100%);
         border-radius: var(--radius-md);
         display: flex;
         align-items: center;
@@ -1100,7 +1108,7 @@
     }
 
     .btn-full.primary:hover {
-        background-color: #4F46E5;
+        background-color: #174025;
         box-shadow: var(--shadow-md);
     }
 
@@ -1268,7 +1276,7 @@
     .side-panel-input:focus {
         outline: none;
         border-color: var(--color-primary);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        box-shadow: 0 0 0 3px rgba(27, 77, 46, 0.1);
     }
 
     .side-panel-textarea {
@@ -1286,7 +1294,7 @@
     .side-panel-textarea:focus {
         outline: none;
         border-color: var(--color-primary);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        box-shadow: 0 0 0 3px rgba(27, 77, 46, 0.1);
     }
 
     .side-panel-preview {
@@ -1333,7 +1341,7 @@
     }
 
     .side-panel-btn.primary:hover {
-        background-color: #4F46E5;
+        background-color: #174025;
     }
 
     .side-panel-btn.secondary {
@@ -1440,8 +1448,8 @@
         }
 
         .app-tab-btn.active {
-            color: #6366F1 !important;
-            border-bottom-color: #6366F1 !important;
+            color: #1B4D2E !important;
+            border-bottom-color: #1B4D2E !important;
         }
   </style>
 
@@ -1486,16 +1494,16 @@
                 <svg width="52" height="28" viewBox="0 0 52 28" xmlns="http://www.w3.org/2000/svg" aria-label="Riz — Home">
                   <!-- R -->
                   <path d="M2 4 L2 24 L6 24 L6 16 L10 16 L15 24 L19.5 24 L14 15.5 C17 14.5 18.5 12 17.5 9 C16.5 6 14 4 10 4 Z M6 7.5 L10 7.5 C12.5 7.5 14 8.5 14 10.5 C14 12.5 12.5 12.5 10 12.5 L6 12.5 Z"
-                    fill="#6366F1"/>
+                    fill="#1B4D2E"/>
                   <!-- i dot -->
-                  <circle cx="23" cy="6" r="1.8" fill="#6366F1"/>
+                  <circle cx="23" cy="6" r="1.8" fill="#1B4D2E"/>
                   <!-- i stem -->
-                  <rect x="21.5" y="10" width="3" height="14" rx="1.2" fill="#6366F1"/>
+                  <rect x="21.5" y="10" width="3" height="14" rx="1.2" fill="#1B4D2E"/>
                   <!-- z -->
                   <path d="M28 10 L40 10 L40 12.5 L31.5 21.5 L40 21.5 L40 24 L28 24 L28 21.5 L36.5 12.5 L28 12.5 Z"
-                    fill="#6366F1"/>
+                    fill="#1B4D2E"/>
                   <!-- subtle underline accent -->
-                  <rect x="2" y="26.5" width="38" height="1.5" rx="0.75" fill="#6366F1" opacity="0.35"/>
+                  <rect x="2" y="26.5" width="38" height="1.5" rx="0.75" fill="#1B4D2E" opacity="0.35"/>
                 </svg>
             </a>
 
@@ -1613,8 +1621,8 @@
     <!-- Stats Row -->
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;">
         <!-- Total Dossiers -->
-        <div class="card" onclick="window.location.hash='#/dossiers'" style="background: linear-gradient(135deg, #F0F4FF 0%, #FFFFFF 100%); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
-            <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">6</div>
+        <div class="card" onclick="window.location.hash='#/dossiers'" style="background: linear-gradient(135deg, #EDF5ED 0%, #FFFFFF 100%); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+            <div style="font-size: 32px; font-weight: 700; color: #1B4D2E; margin-bottom: 4px;">6</div>
             <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">Total Dossiers</div>
             <div style="font-size: 12px; color: #6B7280;">2 published · 4 pending</div>
         </div>
@@ -1634,8 +1642,8 @@
         </div>
 
         <!-- SEO Score -->
-        <div class="card" onclick="window.location.hash='#/seo'" style="background: linear-gradient(135deg, #F0F4FF 0%, #FFFFFF 100%); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
-            <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">75</div>
+        <div class="card" onclick="window.location.hash='#/seo'" style="background: linear-gradient(135deg, #EDF5ED 0%, #FFFFFF 100%); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
+            <div style="font-size: 32px; font-weight: 700; color: #1B4D2E; margin-bottom: 4px;">75</div>
             <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">SEO Score</div>
             <div style="font-size: 12px; color: #6B7280;">analyst-site · Good</div>
         </div>
@@ -1698,7 +1706,7 @@
                     <div style="font-size: 14px; color: #F59E0B; flex-shrink: 0;">⚠</div>
                     <div style="flex: 1;">
                         <div style="font-size: 13px; color: #1F2937;">2 orphaned dossiers not in registry</div>
-                        <button onclick="window.location.hash='#/dossiers'" style="margin-top: 6px; background: none; border: none; color: #6366F1; cursor: pointer; font-size: 12px; font-weight: 500; padding: 0;">Go to Dossiers →</button>
+                        <button onclick="window.location.hash='#/dossiers'" style="margin-top: 6px; background: none; border: none; color: #1B4D2E; cursor: pointer; font-size: 12px; font-weight: 500; padding: 0;">Go to Dossiers →</button>
                     </div>
                 </div>
 
@@ -1707,7 +1715,7 @@
                     <div style="font-size: 14px; color: #F59E0B; flex-shrink: 0;">⚠</div>
                     <div style="flex: 1;">
                         <div style="font-size: 13px; color: #1F2937;">4 comments pending moderation</div>
-                        <button onclick="window.location.hash='#/comments'" style="margin-top: 6px; background: none; border: none; color: #6366F1; cursor: pointer; font-size: 12px; font-weight: 500; padding: 0;">Review →</button>
+                        <button onclick="window.location.hash='#/comments'" style="margin-top: 6px; background: none; border: none; color: #1B4D2E; cursor: pointer; font-size: 12px; font-weight: 500; padding: 0;">Review →</button>
                     </div>
                 </div>
 
@@ -1716,7 +1724,7 @@
                     <div style="font-size: 14px; color: #F59E0B; flex-shrink: 0;">⚠</div>
                     <div style="flex: 1;">
                         <div style="font-size: 13px; color: #1F2937;">sitemap.xml outdated</div>
-                        <button onclick="window.location.hash='#/seo'" style="margin-top: 6px; background: none; border: none; color: #6366F1; cursor: pointer; font-size: 12px; font-weight: 500; padding: 0;">SEO →</button>
+                        <button onclick="window.location.hash='#/seo'" style="margin-top: 6px; background: none; border: none; color: #1B4D2E; cursor: pointer; font-size: 12px; font-weight: 500; padding: 0;">SEO →</button>
                     </div>
                 </div>
 
@@ -2089,7 +2097,7 @@
         <div style="font-size: 18px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Connect your analytics</div>
         <div style="font-size: 13px; color: #6B7280; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto;">Connect Umami or Google Analytics to see real visitor data here.</div>
         <div style="display: flex; gap: 12px; justify-content: center;">
-            <button style="padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Connect Umami (recommended)</button>
+            <button style="padding: 10px 20px; background-color: #1B4D2E; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Connect Umami (recommended)</button>
             <button style="padding: 10px 20px; background-color: transparent; color: #6B7280; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Connect GA4</button>
         </div>
     </div>
@@ -2105,7 +2113,7 @@
                     <span style="font-size: 12px; color: #6B7280;">4,821</span>
                 </div>
                 <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
-                    <div style="height: 100%; width: 100%; background-color: #6366F1; border-radius: 4px;"></div>
+                    <div style="height: 100%; width: 100%; background-color: #1B4D2E; border-radius: 4px;"></div>
                 </div>
             </div>
 
@@ -2177,9 +2185,9 @@
                 <div style="margin-bottom: 16px;">
                     <div style="font-size: 12px; font-weight: 600; color: #9CA3AF; margin-bottom: 8px; text-transform: uppercase;">Stack</div>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <span style="background-color: #EEF2FF; color: #6366F1; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Next.js</span>
-                        <span style="background-color: #EEF2FF; color: #6366F1; font-size: 12px; padding: 4px 8px; border-radius: 4px;">TypeScript</span>
-                        <span style="background-color: #EEF2FF; color: #6366F1; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Tailwind</span>
+                        <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Next.js</span>
+                        <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 12px; padding: 4px 8px; border-radius: 4px;">TypeScript</span>
+                        <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Tailwind</span>
                     </div>
                 </div>
 
@@ -2203,14 +2211,14 @@
                     <a href="https://github.com/riz-razak/kunatu" target="_blank" rel="noopener noreferrer" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background-color: #1F2937; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">
                         <span style="font-size: 15px;">⌘</span> GitHub
                     </a>
-                    <button onclick="window.location.hash='#/apps/kunatu'" style="flex: 1; background-color: #6366F1; color: white; padding: 10px 16px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">View Details</button>
+                    <button onclick="window.location.hash='#/apps/kunatu'" style="flex: 1; background-color: #1B4D2E; color: white; padding: 10px 16px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">View Details</button>
                 </div>
             </div>
 
             <!-- Waren Yan Card -->
-            <div class="card" style="border-top: 4px solid #A855F7;">
+            <div class="card" style="border-top: 4px solid #5D8A5E;">
                 <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px;">
-                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #A855F7 0%, #D946EF 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700;">Y</div>
+                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #5D8A5E 0%, #D4AF37 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700;">Y</div>
                     <div style="background-color: #FEF3C7; color: #D97706; font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 4px;">WIP</div>
                 </div>
                 <div style="font-size: 18px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Waren Yan</div>
@@ -2219,9 +2227,9 @@
                 <div style="margin-bottom: 16px;">
                     <div style="font-size: 12px; font-weight: 600; color: #9CA3AF; margin-bottom: 8px; text-transform: uppercase;">Stack</div>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <span style="background-color: #FDF2F8; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Firebase</span>
-                        <span style="background-color: #FDF2F8; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Next.js</span>
-                        <span style="background-color: #FDF2F8; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">PWA</span>
+                        <span style="background-color: #F0F5EB; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Firebase</span>
+                        <span style="background-color: #F0F5EB; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Next.js</span>
+                        <span style="background-color: #F0F5EB; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">PWA</span>
                     </div>
                 </div>
 
@@ -2245,7 +2253,7 @@
                     <a href="https://github.com/riz-razak/waren-yan" target="_blank" rel="noopener noreferrer" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background-color: #1F2937; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">
                         <span style="font-size: 15px;">⌘</span> GitHub
                     </a>
-                    <button onclick="window.location.hash='#/apps/yan'" style="flex: 1; background-color: #6366F1; color: white; padding: 10px 16px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">View Details</button>
+                    <button onclick="window.location.hash='#/apps/yan'" style="flex: 1; background-color: #1B4D2E; color: white; padding: 10px 16px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">View Details</button>
                 </div>
             </div>
         </div>
@@ -2265,10 +2273,10 @@
             <div style="margin-bottom: 24px;">
                 <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Stack</div>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <span style="background-color: #EEF2FF; color: #6366F1; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Next.js 14</span>
-                    <span style="background-color: #EEF2FF; color: #6366F1; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">TypeScript</span>
-                    <span style="background-color: #EEF2FF; color: #6366F1; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Tailwind CSS</span>
-                    <span style="background-color: #EEF2FF; color: #6366F1; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">React</span>
+                    <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Next.js 14</span>
+                    <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">TypeScript</span>
+                    <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Tailwind CSS</span>
+                    <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">React</span>
                 </div>
             </div>
 
@@ -2315,11 +2323,11 @@
 
             <div style="padding: 20px; background-color: #F9FAFB; border: 2px dashed #E5E7EB; border-radius: 8px; margin-bottom: 24px; text-align: center;">
                 <div style="font-size: 14px; color: #6B7280; margin-bottom: 12px;">Logo/Thumbnail</div>
-                <button class="button" style="background-color: #6366F1; color: white; padding: 8px 16px; margin-top: 8px; cursor: pointer;">Upload Logo</button>
+                <button class="button" style="background-color: #1B4D2E; color: white; padding: 8px 16px; margin-top: 8px; cursor: pointer;">Upload Logo</button>
             </div>
 
             <div style="display: flex; gap: 12px;">
-                <button class="button" style="background-color: #6366F1; color: white; padding: 10px 20px; flex: 1; cursor: pointer;">Edit Details</button>
+                <button class="button" style="background-color: #1B4D2E; color: white; padding: 10px 20px; flex: 1; cursor: pointer;">Edit Details</button>
                 <button class="button" style="background-color: transparent; border: 1px solid #E5E7EB; color: #6B7280; padding: 10px 20px; flex: 1; cursor: pointer;">Open in Finder</button>
             </div>
         </div>
@@ -2329,7 +2337,7 @@
     <div class="app-tab-content" data-tab="waren-yan">
         <div class="card">
             <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-                <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #A855F7 0%, #D946EF 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: 700;">Y</div>
+                <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #5D8A5E 0%, #D4AF37 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: 700;">Y</div>
                 <div>
                     <div style="font-size: 24px; font-weight: 700; color: #1F2937;">Waren Yan</div>
                     <div style="font-size: 14px; color: #6B7280; margin-top: 4px;">Personal portfolio and business presence</div>
@@ -2339,13 +2347,13 @@
             <div style="margin-bottom: 24px;">
                 <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Stack</div>
                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <span style="background-color: #FDF2F8; color: #BE185D; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Firebase</span>
-                    <span style="background-color: #FDF2F8; color: #BE185D; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Next.js</span>
-                    <span style="background-color: #FDF2F8; color: #BE185D; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">PWA</span>
+                    <span style="background-color: #F0F5EB; color: #BE185D; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Firebase</span>
+                    <span style="background-color: #F0F5EB; color: #BE185D; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Next.js</span>
+                    <span style="background-color: #F0F5EB; color: #BE185D; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">PWA</span>
                 </div>
             </div>
 
-            <div style="margin-bottom: 24px; padding: 16px; background-color: #FDF2F8; border-radius: 8px;">
+            <div style="margin-bottom: 24px; padding: 16px; background-color: #F0F5EB; border-radius: 8px;">
                 <div style="font-size: 13px; color: #9F1239; margin-bottom: 8px; font-weight: 500;">Business Plan Summary</div>
                 <div style="font-size: 13px; color: #BE185D; line-height: 1.6;">Focus on portfolio showcase and freelance services. Monetization through premium consulting tier. Target audience: agencies and enterprises seeking strategic consulting.</div>
             </div>
@@ -2384,11 +2392,11 @@
 
             <div style="padding: 20px; background-color: #F9FAFB; border: 2px dashed #E5E7EB; border-radius: 8px; margin-bottom: 24px; text-align: center;">
                 <div style="font-size: 14px; color: #6B7280; margin-bottom: 12px;">Logo/Thumbnail</div>
-                <button class="button" style="background-color: #6366F1; color: white; padding: 8px 16px; margin-top: 8px; cursor: pointer;">Upload Logo</button>
+                <button class="button" style="background-color: #1B4D2E; color: white; padding: 8px 16px; margin-top: 8px; cursor: pointer;">Upload Logo</button>
             </div>
 
             <div style="display: flex; gap: 12px;">
-                <button class="button" style="background-color: #6366F1; color: white; padding: 10px 20px; flex: 1; cursor: pointer;">Edit Details</button>
+                <button class="button" style="background-color: #1B4D2E; color: white; padding: 10px 20px; flex: 1; cursor: pointer;">Edit Details</button>
                 <button class="button" style="background-color: transparent; border: 1px solid #E5E7EB; color: #6B7280; padding: 10px 20px; flex: 1; cursor: pointer;">Open in Finder</button>
             </div>
         </div>
@@ -2419,8 +2427,8 @@
                 
                 // Mark button as active
                 this.classList.add('active');
-                this.style.color = '#6366F1';
-                this.style.borderBottomColor = '#6366F1';
+                this.style.color = '#1B4D2E';
+                this.style.borderBottomColor = '#1B4D2E';
             });
         });
     
@@ -2432,7 +2440,7 @@
     <!-- Stat Cards -->
     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px;">
         <div class="card">
-            <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">75<span style="font-size: 18px;">/100</span></div>
+            <div style="font-size: 32px; font-weight: 700; color: #1B4D2E; margin-bottom: 4px;">75<span style="font-size: 18px;">/100</span></div>
             <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Overall Score</div>
         </div>
         <div class="card">
@@ -2615,8 +2623,8 @@
         }
 
         .tab-btn.active {
-            color: #6366F1;
-            border-bottom-color: #6366F1;
+            color: #1B4D2E;
+            border-bottom-color: #1B4D2E;
         }
 
         .badge {
@@ -2653,13 +2661,13 @@
         }
 
         .comment-card:hover {
-            background-color: #F8F7FF;
-            border-color: #D8D4E8;
+            background-color: #F5F8F5;
+            border-color: #C8D8C8;
         }
 
         .comment-card.selected {
-            border-left-color: #6366F1;
-            background-color: #F8F7FF;
+            border-left-color: #1B4D2E;
+            background-color: #F5F8F5;
         }
 
         .comment-card.approved {
@@ -2686,11 +2694,11 @@
             flex-shrink: 0;
         }
 
-        .avatar.color-a { background-color: #6366F1; }
+        .avatar.color-a { background-color: #1B4D2E; }
         .avatar.color-b { background-color: #EC4899; }
         .avatar.color-c { background-color: #F59E0B; }
         .avatar.color-d { background-color: #10B981; }
-        .avatar.color-n { background-color: #8B5CF6; }
+        .avatar.color-n { background-color: #5D8A5E; }
 
         .comment-meta {
             flex: 1;
@@ -2717,8 +2725,8 @@
             border-radius: 4px;
             font-size: 11px;
             font-weight: 500;
-            border: 1px solid #C4B5FD;
-            background-color: #F3E8FF;
+            border: 1px solid #A8C8A8;
+            background-color: #E8F0E8;
             color: #6B21A8;
         }
 
@@ -2748,7 +2756,7 @@
         }
 
         .expand-btn {
-            color: #6366F1;
+            color: #1B4D2E;
             font-size: 12px;
             cursor: pointer;
             font-weight: 500;
@@ -2772,7 +2780,7 @@
         }
 
         .action-btn:hover {
-            color: #6366F1;
+            color: #1B4D2E;
         }
 
         .action-btn.approve:hover {
@@ -2889,7 +2897,7 @@
         }
 
         .send-reply-btn {
-            background-color: #6366F1;
+            background-color: #1B4D2E;
             color: white;
             border: none;
             padding: 8px 12px;
@@ -2901,7 +2909,7 @@
         }
 
         .send-reply-btn:hover {
-            background-color: #4F46E5;
+            background-color: #174025;
         }
 
         .stats-grid {
@@ -3346,7 +3354,7 @@
     function showToast(message) {
         const toast = document.createElement('div');
         toast.textContent = message;
-        toast.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background-color: #6366F1; color: white; padding: 12px 16px; border-radius: 6px; font-size: 13px; z-index: 9999;';
+        toast.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background-color: #1B4D2E; color: white; padding: 12px 16px; border-radius: 6px; font-size: 13px; z-index: 9999;';
         document.body.appendChild(toast);
 
         setTimeout(() => {
@@ -3365,7 +3373,7 @@
         <!-- Left Navigation -->
         <div>
             <div style="display: flex; flex-direction: column; gap: 4px;">
-                <button class="settings-nav-btn active" data-section="site-identity" style="text-align: left; padding: 10px 12px; border: none; background-color: #EEF2FF; color: #6366F1; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Site Identity</button>
+                <button class="settings-nav-btn active" data-section="site-identity" style="text-align: left; padding: 10px 12px; border: none; background-color: #E8F0E8; color: #1B4D2E; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Site Identity</button>
                 <button class="settings-nav-btn" data-section="publishing" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Publishing</button>
                 <button class="settings-nav-btn" data-section="authentication" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Authentication</button>
                 <button class="settings-nav-btn" data-section="analytics" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Analytics</button>
@@ -3381,13 +3389,13 @@
                     <div style="margin-bottom: 24px;">
                         <label style="display: block; font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Site Name</label>
                         <div style="font-size: 12px; color: #6B7280; margin-bottom: 8px;">Used in metadata and footers</div>
-                        <input type="text" value="analyst.rizrazak.com" style="width: 100%; padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-family: Inter; outline: none;" onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E5E7EB'">
+                        <input type="text" value="analyst.rizrazak.com" style="width: 100%; padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-family: Inter; outline: none;" onfocus="this.style.borderColor='#1B4D2E'" onblur="this.style.borderColor='#E5E7EB'">
                     </div>
 
                     <div style="margin-bottom: 24px;">
                         <label style="display: block; font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Default Author</label>
                         <div style="font-size: 12px; color: #6B7280; margin-bottom: 8px;">Used in JSON-LD schema</div>
-                        <input type="text" value="Riz Razak" style="width: 100%; padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-family: Inter; outline: none;" onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E5E7EB'">
+                        <input type="text" value="Riz Razak" style="width: 100%; padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-family: Inter; outline: none;" onfocus="this.style.borderColor='#1B4D2E'" onblur="this.style.borderColor='#E5E7EB'">
                     </div>
 
                     <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
@@ -3442,8 +3450,8 @@
                         </div>
                     </div>
                     <div style="display: flex; gap: 8px;">
-                        <button style="flex: 1; padding: 8px 12px; background-color: #6366F1; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Export JSON</button>
-                        <button style="flex: 1; padding: 8px 12px; background-color: transparent; color: #6366F1; border: 1px solid #6366F1; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Validate</button>
+                        <button style="flex: 1; padding: 8px 12px; background-color: #1B4D2E; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Export JSON</button>
+                        <button style="flex: 1; padding: 8px 12px; background-color: transparent; color: #1B4D2E; border: 1px solid #1B4D2E; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Validate</button>
                     </div>
                 </div>
             </div>
@@ -3513,8 +3521,8 @@
                 document.querySelector(`[data-section="${section}"].settings-section`).style.display = 'block';
                 
                 // Mark button as active
-                this.style.backgroundColor = '#EEF2FF';
-                this.style.color = '#6366F1';
+                this.style.backgroundColor = '#E8F0E8';
+                this.style.color = '#1B4D2E';
             });
         });
 
@@ -3548,7 +3556,7 @@
     </div>
 
     <!-- New Note Button -->
-    <button style="background-color: #6366F1; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 24px;">+ New Note</button>
+    <button style="background-color: #1B4D2E; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 24px;">+ New Note</button>
 
     <!-- Notes Grid -->
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
@@ -3557,8 +3565,8 @@
             <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Caravan Fresh Analysis</div>
             <div style="font-size: 13px; color: #6B7280; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Key findings on the supply chain disruption. Economic impact significant...</div>
             <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
-                <span style="background-color: #EEF2FF; color: #6366F1; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Research</span>
-                <span style="background-color: #FDF2F8; color: #BE185D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Political</span>
+                <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Research</span>
+                <span style="background-color: #F0F5EB; color: #BE185D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Political</span>
             </div>
             <div style="font-size: 11px; color: #9CA3AF;">Mar 5, 2026</div>
         </div>
@@ -3568,7 +3576,7 @@
             <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Iran-US-Israel Tensions</div>
             <div style="font-size: 13px; color: #6B7280; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Regional power dynamics. Three-way diplomatic breakdown. Geopolitical implications...</div>
             <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
-                <span style="background-color: #EEF2FF; color: #6366F1; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Research</span>
+                <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Research</span>
                 <span style="background-color: #FEF3C7; color: #92400E; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Strategy</span>
             </div>
             <div style="font-size: 11px; color: #9CA3AF;">Mar 3, 2026</div>
@@ -3579,7 +3587,7 @@
             <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Cricket Corruption Timeline</div>
             <div style="font-size: 13px; color: #6B7280; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Chronological events from 2014-2026. Key figures involved. Evidence documentation...</div>
             <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
-                <span style="background-color: #EEF2FF; color: #6366F1; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Research</span>
+                <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Research</span>
                 <span style="background-color: #F0FDF4; color: #15803D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Legal</span>
             </div>
             <div style="font-size: 11px; color: #9CA3AF;">Feb 28, 2026</div>
@@ -3590,7 +3598,7 @@
             <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Easter Sunday Attacks - Personal Notes</div>
             <div style="font-size: 13px; color: #6B7280; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Interview notes from survivors and analysts. Religious context and implications...</div>
             <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
-                <span style="background-color: #FDF2F8; color: #BE185D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Political</span>
+                <span style="background-color: #F0F5EB; color: #BE185D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Political</span>
                 <span style="background-color: #F0FDF4; color: #15803D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Legal</span>
             </div>
             <div style="font-size: 11px; color: #9CA3AF;">Feb 22, 2026</div>
@@ -3623,27 +3631,27 @@
             <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">This Week</div>
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" checked class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" checked class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span style="text-decoration: line-through; color: #9CA3AF;">Deploy unified dashboard</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" checked class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" checked class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span style="text-decoration: line-through; color: #9CA3AF;">Write SEO.md</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Submit to Google Search Console</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Register 2 orphaned dossiers</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Approve 4 comments</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Regenerate sitemap.xml</span>
                 </label>
             </div>
@@ -3654,27 +3662,27 @@
             <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Backlog</div>
             <div style="display: flex; flex-direction: column; gap: 12px;">
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Publish iran dossier</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Publish easter-sunday</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Add OG image easter-sunday</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Set up Kunatu on Vercel</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Firebase deploy Waren Yan</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
-                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
                     <span>Apply Google News</span>
                 </label>
             </div>

@@ -1,0 +1,88 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   GHIBLI — FOREST SPIRIT
+   Design tokens for analyst.rizrazak.com
+   Based on Princess Mononoke's ancient forest palette
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Brand Colours ── */
+  --color-brand:         #1B4D2E;   /* Ancient Forest — primary */
+  --color-brand-dark:    #174025;   /* deeper forest — hover */
+  --color-brand-mid:     #3D7A4A;   /* mid forest */
+  --color-interactive:   #5D8A5E;   /* Mononoke — links, active states */
+  --color-accent:        #D4AF37;   /* Spirit Gold — CTAs, highlights */
+  --color-accent-soft:   #E8D48A;   /* light gold — hover on accent */
+
+  /* ── Semantic ── */
+  --color-danger:        #8B1A1A;   /* Blood Red — errors, critical only */
+  --color-danger-soft:   #C44040;   /* lighter red — hover on danger */
+  --color-success:       #3D7A4A;   /* mid forest — published, approved */
+  --color-warning:       #D4AF37;   /* Spirit Gold — pending, review */
+  --color-info:          #5D8A5E;   /* Mononoke — informational */
+
+  /* ── Surfaces (light mode) ── */
+  --color-bg-primary:    #FFFFFF;
+  --color-bg-secondary:  #F5F5DC;   /* Bone */
+  --color-bg-tertiary:   #E8F0E8;   /* Forest mist */
+  --color-bg-hover:      #E2EDE2;   /* light sage */
+
+  /* ── Surfaces (dark mode) ── */
+  --color-bg-dark:       #0E1A10;   /* deepest forest */
+  --color-bg-dark-mid:   #1A2A1C;   /* dark canopy */
+  --color-bg-dark-card:  #3A3028;   /* Deep Ash */
+
+  /* ── Text ── */
+  --color-text-primary:  #1A1815;   /* near-black warm */
+  --color-text-secondary:#7A7060;   /* aged stone */
+  --color-text-muted:    #9B9282;   /* muted earth */
+  --color-text-on-brand: #F5F5DC;   /* Bone — text on forest green bg */
+
+  /* ── Borders ── */
+  --color-border:        #E5E7EB;   /* neutral gray border */
+  --color-border-subtle: rgba(27, 77, 46, 0.08);
+  --color-border-focus:  #5D8A5E;   /* Mononoke — focus rings */
+
+  /* ── Shadows (brand-tinted) ── */
+  --shadow-brand-sm:     0 2px 8px rgba(27, 77, 46, 0.12);
+  --shadow-brand-md:     0 4px 16px rgba(27, 77, 46, 0.16);
+  --shadow-brand-lg:     0 8px 32px rgba(27, 77, 46, 0.20);
+
+  /* ── Typography ── */
+  --font-display:        'Playfair Display', Georgia, serif;
+  --font-body:           'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:           'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-xs:   0.6875rem;   /* 11px */
+  --text-sm:   0.8125rem;   /* 13px */
+  --text-base: 0.9375rem;   /* 15px */
+  --text-md:   1.0625rem;   /* 17px */
+  --text-lg:   1.25rem;     /* 20px */
+  --text-xl:   1.5rem;      /* 24px */
+  --text-2xl:  2rem;        /* 32px */
+  --text-3xl:  2.5rem;      /* 40px */
+  --text-4xl:  3rem;        /* 48px */
+
+  /* ── Spacing ── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-8:  48px;
+  --space-10: 64px;
+  --space-12: 96px;
+
+  /* ── Radius ── */
+  --radius-sm:  4px;
+  --radius-md:  6px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-pill: 9999px;
+
+  /* ── Motion ── */
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+}
