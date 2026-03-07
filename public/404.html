@@ -4,19 +4,15 @@
   <meta charset="utf-8">
   <title>Redirecting...</title>
   <script>
-    // GitHub Pages SPA redirect
-    // Converts /path/to/page into /#/path/to/page so HashRouter can handle it
-    var path = window.location.pathname;
-    var query = window.location.search;
-    var hash = window.location.hash;
-
-    // If there's already a hash, just go to root
-    if (hash) {
-      window.location.replace('/' + hash);
-    } else {
-      // Convert path-based URL to hash-based URL
-      window.location.replace('/#' + path + query);
-    }
+    // GitHub Pages SPA redirect (BrowserRouter / path-based)
+    // Encodes the requested path into ?p= so index.html can restore it via history.replaceState.
+    // See: https://github.com/rafgraph/spa-github-pages
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.host + '/' +
+      '?p=' + encodeURIComponent(l.pathname + l.search) +
+      (l.hash ? '&h=' + encodeURIComponent(l.hash) : '')
+    );
   </script>
 </head>
 <body>

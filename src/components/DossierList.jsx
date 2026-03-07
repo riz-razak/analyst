@@ -104,7 +104,7 @@ export default function DossierList({ dossiers }) {
         <span>Authors</span>
       </div>
       {dossiers.map((d, i) => (
-        <ListRow key={d.id} dossier={d} index={i} onClick={() => navigate(`/dossier/${d.id}`)} />
+        <ListRow key={d.id} dossier={d} index={i} onClick={() => navigate(`/${d.id}`)} />
       ))}
     </div>
   )

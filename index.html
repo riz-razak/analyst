@@ -85,6 +85,23 @@
   <!-- ═══ End Analytics ═══ -->
   <!-- analytics-events-module -->
   <script src="/dossiers/_analytics_events.js" defer></script>
+  <!-- SPA path restore: reads ?p= set by 404.html and restores the real URL before React boots -->
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var p = params.get('p');
+      if (p) {
+        var h = params.get('h') || '';
+        params.delete('p');
+        params.delete('h');
+        var remaining = params.toString();
+        window.history.replaceState(
+          null, null,
+          p + (remaining ? '?' + remaining : '') + h
+        );
+      }
+    })();
+  </script>
   </head>
   <body>
     <div id="root"></div>

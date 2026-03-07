@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
-import { HashRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom'
 import { useDossiers } from './hooks/useDossiers'
 import { useTheme } from './hooks/useTheme'
 import HomePage from './pages/HomePage'
 import DossierPage from './pages/DossierPage'
 import './styles/global.css'
 
-function LegacyRedirect() {
+// Redirects old /#/dossier/:id hash URLs (bookmarks) to clean /:id paths
+function LegacyDossierRedirect() {
   const { id } = useParams()
-  return <Navigate to={`/dossier/${id}`} replace />
+  return <Navigate to={`/${id}`} replace />
 }
 
 function MLDisclaimerBanner() {
@@ -96,9 +97,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage dossiers={dossiers} allTags={allTags} theme={theme} toggleTheme={toggleTheme} />} />
-          <Route path="/dossier/:id" element={<DossierPage dossiers={dossiers} theme={theme} toggleTheme={toggleTheme} />} />
-          {/* Legacy redirect: /political-analysis → /dossier/political-analysis */}
-          <Route path="/:id" element={<LegacyRedirect />} />
+          <Route path="/:id" element={<DossierPage dossiers={dossiers} theme={theme} toggleTheme={toggleTheme} />} />
+          {/* Legacy redirect: /dossier/:id → /:id */}
+          <Route path="/dossier/:id" element={<LegacyDossierRedirect />} />
         </Routes>
       </Router>
       <MLDisclaimerBanner />

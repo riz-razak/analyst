@@ -114,7 +114,7 @@ export default function DossierTile({ dossier, index }) {
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={() => navigate(`/dossier/${dossier.id}`)}
+      onClick={() => navigate(`/${dossier.id}`)}
       role="button"
       tabIndex={0}
     >
