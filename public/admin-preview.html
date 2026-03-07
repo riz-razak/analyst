@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Analyst.RizRazak.com</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+  <style>
+>
         /* CSS Variables */
         :root {
             --color-primary: #6366F1;
@@ -380,30 +380,7 @@
             background: #D1D5DB;
         }
     
-        /* Loading Bar */
-        .loading-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #6366F1, #8B5CF6);
-            width: 0%;
-            animation: loadingProgress 2s ease-in-out forwards;
-            z-index: 10000;
-            display: none;
-        }
-
-        .loading-bar.active {
-            display: block;
-        }
-
-        @keyframes loadingProgress {
-            0% { width: 10%; }
-            50% { width: 70%; }
-            100% { width: 100%; }
-        }
-    </style>
-        
+>
     /* Status Pills */
     .pill {
         display: inline-flex;
@@ -1448,13 +1425,10 @@
             width: 100%;
         }
     }
-
-    
+  </style>
 </head>
 <body>
-        <div id="toast" style="position:fixed;bottom:24px;right:24px;background:#1F2937;color:white;padding:12px 18px;border-radius:8px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;"></div>
-
-    <div class="dashboard-container">
+<div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-logo">ANALYST.RIZ</div>
@@ -1560,50 +1534,39 @@
             <!-- Views Container -->
             <div class="views-container">
                 <!-- Dashboard View -->
-                <div class="view active" id="view-dashboard"><!-- Greeting Header -->
-    <div style="margin-bottom: 32px;">
-        <div style="font-size: 28px; font-weight: 700; color: #1F2937; margin-bottom: 6px;">Good morning, Riz</div>
+                <div class="view active" id="view-dashboard">
+                    <div class="view-placeholder">Dashboard View</div>
+                </div>
 
                 <!-- Analytics View -->
-                <div class="view" id="view-analytics"><!-- Stats Row -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;">
-        <div class="card">
-            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
+                <div class="view" id="view-analytics">
+                    <div class="view-placeholder">Analytics View</div>
+                </div>
 
                 <!-- Dossiers View -->
-                <div class="view" id="view-dossiers"><!-- Orphan Alert Banner -->
-    <div class="alert-banner" id="orphan-alert">
-        <div class="alert-banner-title">2 items need attention</div>
-        <ul class="alert-banner-list">
-            <li class="alert-banner-item">sri-lanka-hormuz-crisis: Real content, needs registration</li>
-            <li class="alert-banner-item">mp-accountability: Empty folder — no index.html found</li>
-        </ul></div>
+                <div class="view" id="view-dossiers">
+                    <div class="view-placeholder">Dossiers View</div>
+                </div>
 
                 <!-- Dossier Detail View -->
-                <div class="view" id="view-dossier-detail"><div class="detail-header">
-        <button class="detail-header-back" id="back-btn">← All Dossiers</button>
-        <h1 class="detail-header-title" id="detail-title-display">Dossier Name</h1></div>
+                <div class="view" id="view-dossier-detail">
+                    <div class="view-placeholder">Dossier Detail View</div>
+                </div>
 
                 <!-- SEO View -->
-                <div class="view" id="view-seo"><!-- Stat Cards -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px;">
-        <div class="card">
-            <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">75<span style="font-size: 18px;">/100</span></div>
+                <div class="view" id="view-seo">
+                    <div class="view-placeholder">SEO View</div>
+                </div>
 
                 <!-- Comments View -->
-                <div class="view" id="view-comments"><!-- Alert Banner -->
-    <div id="comments-alert" style="background-color: #FFFBEB; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 20px;">⚠</span>
-            <span style="color: #92400E; font-size: 13px; font-weight: 500;">4 comments pending on caravan-fresh</span></div>
+                <div class="view" id="view-comments">
+                    <div class="view-placeholder">Comments View</div>
+                </div>
 
                 <!-- Apps View -->
-                <div class="view" id="view-apps"><div style="margin-bottom: 24px;">
-        <!-- Tab Bar -->
-        <div style="display: flex; gap: 0; border-bottom: 1px solid #E5E7EB;">
-            <button class="app-tab-btn active" data-tab="overview" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Overview</button>
-            <button class="app-tab-btn" data-tab="kunatu" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Kunatu</button>
-            <button class="app-tab-btn" data-tab="waren-yan" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Waren Yan</button></div>
+                <div class="view" id="view-apps">
+                    <div class="view-placeholder">Apps View</div>
+                </div>
 
                 <!-- App Detail View -->
                 <div class="view" id="view-app-detail">
@@ -1611,27 +1574,19 @@
                 </div>
 
                 <!-- Settings View -->
-                <div class="view" id="view-settings"><div style="display: grid; grid-template-columns: 200px 1fr; gap: 24px;">
-        <!-- Left Navigation -->
-        <div>
-            <div style="display: flex; flex-direction: column; gap: 4px;">
-                <button class="settings-nav-btn active" data-section="site-identity" style="text-align: left; padding: 10px 12px; border: none; background-color: #EEF2FF; color: #6366F1; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Site Identity</button>
-                <button class="settings-nav-btn" data-section="publishing" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Publishing</button>
-                <button class="settings-nav-btn" data-section="authentication" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Authentication</button>
-                <button class="settings-nav-btn" data-section="analytics" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Analytics</button>
-                <button class="settings-nav-btn" data-section="danger-zone" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #EF4444; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Danger Zone</button></div>
+                <div class="view" id="view-settings">
+                    <div class="view-placeholder">Settings View</div>
+                </div>
 
                 <!-- Private Notes View -->
-                <div class="view" id="view-private-notes"><!-- Private Banner -->
-    <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
-        <span style="font-size: 18px;">🔒</span>
-        <span style="font-size: 13px; color: #92400E; font-weight: 500;">Private — session active</span></div>
+                <div class="view" id="view-private-notes">
+                    <div class="view-placeholder">Private Notes View</div>
+                </div>
 
                 <!-- Private Tasks View -->
-                <div class="view" id="view-private-tasks"><!-- Private Banner -->
-    <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
-        <span style="font-size: 18px;">🔒</span>
-        <span style="font-size: 13px; color: #92400E; font-weight: 500;">Private — session active</span></div>
+                <div class="view" id="view-private-tasks">
+                    <div class="view-placeholder">Private Tasks View</div>
+                </div>
             </div>
         </div>
     </div>
@@ -1646,9 +1601,8 @@
             <div class="error-message" id="totp-error">Invalid code. Please try again.</div>
         </div>
     </div>
-
-    <script>
-        // Application State
+  <script>
+// Application State
         const appState = {
             currentRoute: '',
             currentView: 'dashboard',
@@ -1912,10 +1866,6 @@
                 }
             });
         });
-    </script>
-
-    <script>
-
 // ========================================
 // DOSSIERS DATA & STATE
 // ========================================
@@ -2527,111 +2477,150 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGridView();
     }
 });
-
-    </script>
-
-    <script>
-        // Toast Notification System
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            
-            // Remove all type classes
-            toast.classList.remove('success', 'error', 'warning');
-            
-            // Add border based on type
-            if (type === 'success') {
-                toast.style.borderLeft = '4px solid #10B981';
-            } else if (type === 'error') {
-                toast.style.borderLeft = '4px solid #EF4444';
-            } else if (type === 'warning') {
-                toast.style.borderLeft = '4px solid #F59E0B';
-            }
-            
-            toast.style.opacity = '1';
-            toast.style.pointerEvents = 'auto';
-            
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.pointerEvents = 'none';
-            }, 3000);
-        }
-
-        // Loading Bar
-        function showLoadingBar() {
-            let bar = document.getElementById('loadingBar');
-            if (!bar) {
-                bar = document.createElement('div');
-                bar.id = 'loadingBar';
-                bar.className = 'loading-bar';
-                document.body.appendChild(bar);
-            }
-            bar.classList.add('active');
-            
-            setTimeout(() => {
-                bar.classList.remove('active');
-            }, 2500);
-        }
-
-        // Router with loading bar
-        function navigate(route) {
-            showLoadingBar();
-            window.location.hash = '#/' + route;
-        }
-
-        // Dossier Preview Button Handler
-        function previewDossier(dossierSlug) {
-            if (dossierSlug === 'mp-accountability') {
-                showToast('No content — empty folder. Create an index.html first.', 'error');
-            } else if (dossierSlug === 'sri-lanka-hormuz-crisis') {
-                window.open('https://analyst.rizrazak.com/dossiers/sri-lanka-hormuz-crisis/index.html', '_blank');
-            } else {
-                window.open('https://analyst.rizrazak.com/dossiers/' + dossierSlug + '/index.html', '_blank');
+// Set dashboard date
+        const today = new Date('2026-03-07');
+        const dateString = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('dashboard-date').textContent = dateString;
+// Apps tab switching
+        document.querySelectorAll('.app-tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabName = this.dataset.tab;
+                
+                // Hide all content
+                document.querySelectorAll('.app-tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Remove active class from all buttons
+                document.querySelectorAll('.app-tab-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.style.color = '#6B7280';
+                    b.style.borderBottomColor = 'transparent';
+                });
+                
+                // Show selected content
+                document.querySelector(`[data-tab="${tabName}"].app-tab-content`).classList.add('active');
+                
+                // Mark button as active
+                this.classList.add('active');
+                this.style.color = '#6366F1';
+                this.style.borderBottomColor = '#6366F1';
+            });
+        });
+function approveComment(id) {
+            const row = document.querySelector(`[data-comment-id="${id}"]`);
+            if (row) {
+                row.remove();
+                checkPendingComments();
             }
         }
 
-        // Linked dossier navigation
-        function navigateToDossier(dossierSlug) {
-            navigate('dossiers/' + dossierSlug);
+        function deleteComment(id) {
+            const row = document.querySelector(`[data-comment-id="${id}"]`);
+            if (row) {
+                row.remove();
+                checkPendingComments();
+            }
         }
 
-        // Initialize router on page load
-        window.addEventListener('hashchange', function() {
-            showLoadingBar();
-            updateActiveView();
+        function approveAllComments() {
+            document.querySelectorAll('#pending-comments-table tbody tr').forEach(row => {
+                row.remove();
+            });
+            checkPendingComments();
+        }
+
+        function checkPendingComments() {
+            const tableBody = document.querySelector('#pending-comments-table tbody');
+            const hasRows = tableBody.querySelector('tr') !== null;
+            
+            if (!hasRows) {
+                document.getElementById('comments-alert').style.display = 'none';
+                document.querySelector('[data-tab="pending"]').style.display = 'none';
+                document.getElementById('comments-empty-state').style.display = 'block';
+                document.querySelector('.comment-tab-content[data-tab="pending"]').innerHTML = '';
+                document.querySelector('[data-tab="approved"]').click();
+            }
+        }
+
+        // Comment tab switching
+        document.querySelectorAll('.comment-tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabName = this.dataset.tab;
+                
+                document.querySelectorAll('.comment-tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                document.querySelectorAll('.comment-tab-btn').forEach(b => {
+                    b.style.color = '#6B7280';
+                    b.style.borderBottomColor = 'transparent';
+                });
+                
+                document.querySelector(`[data-tab="${tabName}"].comment-tab-content`).classList.add('active');
+                
+                this.style.color = '#6366F1';
+                this.style.borderBottomColor = '#6366F1';
+            });
+        });
+// Settings navigation
+        document.querySelectorAll('.settings-nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const section = this.dataset.section;
+                
+                // Hide all sections
+                document.querySelectorAll('.settings-section').forEach(sec => {
+                    sec.style.display = 'none';
+                });
+                
+                // Remove active state from all buttons
+                document.querySelectorAll('.settings-nav-btn').forEach(b => {
+                    b.style.backgroundColor = 'transparent';
+                    b.style.color = '#6B7280';
+                });
+                
+                // Show selected section
+                document.querySelector(`[data-section="${section}"].settings-section`).style.display = 'block';
+                
+                // Mark button as active
+                this.style.backgroundColor = '#EEF2FF';
+                this.style.color = '#6366F1';
+            });
         });
 
-        function updateActiveView() {
-            const hash = window.location.hash.slice(2) || 'dashboard';
-            const viewId = 'view-' + hash.split('/')[0];
-            
-            // Hide all views
-            document.querySelectorAll('.view').forEach(view => {
-                view.classList.remove('active');
+        // Toggle switches
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const slider = this.nextElementSibling;
+                if (this.checked) {
+                    slider.style.backgroundColor = '#10B981';
+                } else {
+                    slider.style.backgroundColor = '#D1D5DB';
+                }
             });
-            
-            // Show active view
-            const activeView = document.getElementById(viewId);
-            if (activeView) {
-                activeView.classList.add('active');
-            }
-            
-            // Update nav items
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            const activeNav = document.querySelector('[href="#/' + hash.split('/')[0] + '"]');
-            if (activeNav) {
-                activeNav.classList.add('active');
-            }
-        }
-
-        // Initial setup
-        document.addEventListener('DOMContentLoaded', function() {
-            updateActiveView();
         });
-    </script>
 
-        </body>
+        // Initialize toggles
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            const slider = checkbox.nextElementSibling;
+            slider.style.backgroundColor = checkbox.checked ? '#10B981' : '#D1D5DB';
+        });
+function toggleNote(element) {
+            element.style.boxShadow = element.style.boxShadow ? '' : '0 4px 12px rgba(0, 0, 0, 0.08)';
+            element.style.transform = element.style.transform ? '' : 'translateY(-2px)';
+        }
+document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.closest('label').querySelector('span');
+                if (this.checked) {
+                    label.style.textDecoration = 'line-through';
+                    label.style.color = '#9CA3AF';
+                } else {
+                    label.style.textDecoration = 'none';
+                    label.style.color = '#1F2937';
+                }
+            });
+        });
+  </script>
+</body>
 </html>
