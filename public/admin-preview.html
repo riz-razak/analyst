@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Analyst.RizRazak.com</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
->
-        /* CSS Variables */
+/* CSS Variables */
         :root {
             --color-primary: #6366F1;
             --color-success: #10B981;
@@ -379,9 +378,7 @@
         .views-container::-webkit-scrollbar-thumb:hover {
             background: #D1D5DB;
         }
-    
->
-    /* Status Pills */
+/* Status Pills */
     .pill {
         display: inline-flex;
         align-items: center;
@@ -1425,10 +1422,11 @@
             width: 100%;
         }
     }
+
   </style>
 </head>
 <body>
-<div class="dashboard-container">
+    <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-logo">ANALYST.RIZ</div>
@@ -1535,37 +1533,1024 @@
             <div class="views-container">
                 <!-- Dashboard View -->
                 <div class="view active" id="view-dashboard">
-                    <div class="view-placeholder">Dashboard View</div>
+    <!-- Greeting Header -->
+    <div style="margin-bottom: 32px;">
+        <div style="font-size: 28px; font-weight: 700; color: #1F2937; margin-bottom: 6px;">Good morning, Riz</div>
+        <div style="display: flex; gap: 24px; color: #6B7280; font-size: 14px;">
+            <span id="dashboard-date">March 7, 2026</span>
+            <span>Last deploy: 3 days ago</span>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;">
+        <!-- Total Dossiers -->
+        <div class="card" style="background: linear-gradient(135deg, #F0F4FF 0%, #FFFFFF 100%);">
+            <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">6</div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">Total Dossiers</div>
+            <div style="font-size: 12px; color: #6B7280;">2 published · 4 pending</div>
+        </div>
+
+        <!-- Sites Live -->
+        <div class="card" style="background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%);">
+            <div style="font-size: 32px; font-weight: 700; color: #10B981; margin-bottom: 4px;">2</div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">Sites Live</div>
+            <div style="font-size: 12px; color: #6B7280;">analyst + rizrazak.com</div>
+        </div>
+
+        <!-- Comments -->
+        <div class="card" style="background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%);">
+            <div style="font-size: 32px; font-weight: 700; color: #F59E0B; margin-bottom: 4px;">4</div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">Comments</div>
+            <div style="font-size: 12px; color: #F59E0B;">pending approval</div>
+        </div>
+
+        <!-- SEO Score -->
+        <div class="card" style="background: linear-gradient(135deg, #F0F4FF 0%, #FFFFFF 100%);">
+            <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">75</div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">SEO Score</div>
+            <div style="font-size: 12px; color: #6B7280;">analyst-site · Good</div>
+        </div>
+    </div>
+
+    <!-- Two Column Section -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+        <!-- Platform Status -->
+        <div class="card">
+            <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Platform Status</div>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <!-- analyst.rizrazak.com -->
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 500; color: #1F2937;">analyst.rizrazak.com</div>
+                        <div style="font-size: 13px; color: #6B7280; margin-top: 2px;">6 dossiers, 2 published</div>
+                    </div>
+                    <div style="font-size: 12px; font-weight: 500; color: #10B981;">Live</div>
+                </div>
+
+                <!-- rizrazak.com -->
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 500; color: #1F2937;">rizrazak.com</div>
+                        <div style="font-size: 13px; color: #6B7280; margin-top: 2px;">Portfolio</div>
+                    </div>
+                    <div style="font-size: 12px; font-weight: 500; color: #10B981;">Live</div>
+                </div>
+
+                <!-- Kunatu -->
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="width: 8px; height: 8px; background-color: #F59E0B; border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Kunatu</div>
+                        <div style="font-size: 13px; color: #6B7280; margin-top: 2px;">No deploy target</div>
+                    </div>
+                    <div style="font-size: 12px; font-weight: 500; color: #F59E0B;">WIP</div>
+                </div>
+
+                <!-- Waren Yan -->
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="width: 8px; height: 8px; background-color: #F59E0B; border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Waren Yan</div>
+                        <div style="font-size: 13px; color: #6B7280; margin-top: 2px;">Firebase project</div>
+                    </div>
+                    <div style="font-size: 12px; font-weight: 500; color: #F59E0B;">WIP</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Needs Attention -->
+        <div class="card">
+            <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Needs Attention</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <!-- Orphaned dossiers -->
+                <div style="display: flex; gap: 12px; padding: 12px; background-color: #FFFBEB; border-radius: 8px; align-items: flex-start;">
+                    <div style="font-size: 14px; color: #F59E0B; flex-shrink: 0;">⚠</div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 13px; color: #1F2937;">2 orphaned dossiers not in registry</div>
+                        <button onclick="window.location.hash='#/dossiers'" style="margin-top: 6px; background: none; border: none; color: #6366F1; cursor: pointer; font-size: 12px; font-weight: 500; padding: 0;">Go to Dossiers →</button>
+                    </div>
+                </div>
+
+                <!-- Pending comments -->
+                <div style="display: flex; gap: 12px; padding: 12px; background-color: #FFFBEB; border-radius: 8px; align-items: flex-start;">
+                    <div style="font-size: 14px; color: #F59E0B; flex-shrink: 0;">⚠</div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 13px; color: #1F2937;">4 comments pending moderation</div>
+                        <button onclick="window.location.hash='#/comments'" style="margin-top: 6px; background: none; border: none; color: #6366F1; cursor: pointer; font-size: 12px; font-weight: 500; padding: 0;">Review →</button>
+                    </div>
+                </div>
+
+                <!-- Sitemap -->
+                <div style="display: flex; gap: 12px; padding: 12px; background-color: #FFFBEB; border-radius: 8px; align-items: flex-start;">
+                    <div style="font-size: 14px; color: #F59E0B; flex-shrink: 0;">⚠</div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 13px; color: #1F2937;">sitemap.xml outdated</div>
+                        <button onclick="window.location.hash='#/seo'" style="margin-top: 6px; background: none; border: none; color: #6366F1; cursor: pointer; font-size: 12px; font-weight: 500; padding: 0;">SEO →</button>
+                    </div>
+                </div>
+
+                <!-- Build passing -->
+                <div style="display: flex; gap: 12px; padding: 12px; background-color: #F0FDF4; border-radius: 8px; align-items: flex-start;">
+                    <div style="font-size: 14px; color: #10B981; flex-shrink: 0;">✓</div>
+                    <div style="font-size: 13px; color: #1F2937;">analyst-site build passing</div>
+                </div>
+
+                <!-- Live -->
+                <div style="display: flex; gap: 12px; padding: 12px; background-color: #F0FDF4; border-radius: 8px; align-items: flex-start;">
+                    <div style="font-size: 14px; color: #10B981; flex-shrink: 0;">✓</div>
+                    <div style="font-size: 13px; color: #1F2937;">rizrazak.com live</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card">
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Recent Activity</div>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- Item 1 -->
+            <div style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB;">
+                <div style="font-size: 18px;">📄</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 13px; color: #1F2937;">Pushed SEO.md + Admin Dashboard preview (analyst)</div>
+                    <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Today</div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB;">
+                <div style="font-size: 18px;">✓</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 13px; color: #1F2937;">caravan-fresh set to published</div>
+                    <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Today 14:22</div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB;">
+                <div style="font-size: 18px;">🔄</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 13px; color: #1F2937;">BrowserRouter migration, URL cleanup</div>
+                    <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">3 days ago</div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB;">
+                <div style="font-size: 18px;">📁</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 13px; color: #1F2937;">sri-lanka-hormuz-crisis folder detected</div>
+                    <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">5 days ago</div>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div style="display: flex; gap: 12px;">
+                <div style="font-size: 18px;">✨</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 13px; color: #1F2937;">Folder restructure complete</div>
+                    <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">7 days ago</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
                 </div>
 
                 <!-- Analytics View -->
                 <div class="view" id="view-analytics">
-                    <div class="view-placeholder">Analytics View</div>
+    <!-- Stats Row -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;">
+        <div class="card">
+            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
+            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Page Views 30d</div>
+        </div>
+        <div class="card">
+            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
+            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Unique Visitors</div>
+        </div>
+        <div class="card">
+            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
+            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Avg Time</div>
+        </div>
+        <div class="card">
+            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
+            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Bounce Rate</div>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="card" style="text-align: center; padding: 60px 40px; margin-bottom: 32px;">
+        <div style="width: 100%; height: 100px; background-color: #F3F4F6; border-radius: 8px; margin-bottom: 24px;"></div>
+        <div style="font-size: 18px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Connect your analytics</div>
+        <div style="font-size: 13px; color: #6B7280; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto;">Connect Umami or Google Analytics to see real visitor data here.</div>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+            <button style="padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Connect Umami (recommended)</button>
+            <button style="padding: 10px 20px; background-color: transparent; color: #6B7280; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Connect GA4</button>
+        </div>
+    </div>
+
+    <!-- Sample Chart Card -->
+    <div class="card">
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Views by Dossier <span style="font-size: 12px; color: #6B7280; font-weight: 400;">(sample data)</span></div>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Bar 1 -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">sri-lanka-cricket-corruption</span>
+                    <span style="font-size: 12px; color: #6B7280;">4,821</span>
+                </div>
+                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
+                    <div style="height: 100%; width: 100%; background-color: #6366F1; border-radius: 4px;"></div>
+                </div>
+            </div>
+
+            <!-- Bar 2 -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">caravan-fresh</span>
+                    <span style="font-size: 12px; color: #6B7280;">3,562</span>
+                </div>
+                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
+                    <div style="height: 100%; width: 74%; background-color: #10B981; border-radius: 4px;"></div>
+                </div>
+            </div>
+
+            <!-- Bar 3 -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">iran-us-israel-war</span>
+                    <span style="font-size: 12px; color: #6B7280;">1,820</span>
+                </div>
+                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
+                    <div style="height: 100%; width: 38%; background-color: #F59E0B; border-radius: 4px;"></div>
+                </div>
+            </div>
+
+            <!-- Bar 4 -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">easter-sunday-attacks</span>
+                    <span style="font-size: 12px; color: #6B7280;">1,203</span>
+                </div>
+                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
+                    <div style="height: 100%; width: 25%; background-color: #EF4444; border-radius: 4px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
+            <div style="font-size: 12px; color: #9CA3AF; display: flex; align-items: center; gap: 6px;">
+                <span>⚠</span>
+                <span>Placeholder — connect analytics API</span>
+            </div>
+        </div>
+    </div>
+</div>
                 </div>
 
                 <!-- Dossiers View -->
-                <div class="view" id="view-dossiers">
-                    <div class="view-placeholder">Dossiers View</div>
+                <div id="view-dossiers" class="view">
+    <!-- Orphan Alert Banner -->
+    <div class="alert-banner" id="orphan-alert">
+        <div class="alert-banner-title">2 items need attention</div>
+        <ul class="alert-banner-list">
+            <li class="alert-banner-item">sri-lanka-hormuz-crisis: Real content, needs registration</li>
+            <li class="alert-banner-item">mp-accountability: Empty folder — no index.html found</li>
+        </ul>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <input
+            type="text"
+            class="search-input"
+            id="dossier-search"
+            placeholder="Search dossiers..."
+        />
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="published">Published</button>
+            <button class="filter-tab" data-filter="hidden">Hidden</button>
+            <button class="filter-tab" data-filter="orphan">Orphans</button>
+        </div>
+        <div class="view-controls">
+            <div class="view-toggle">
+                <button class="view-toggle-btn active" data-view="grid">Grid</button>
+                <button class="view-toggle-btn" data-view="table">Table</button>
+            </div>
+            <button class="btn-primary" id="new-dossier-btn">+ New Dossier</button>
+        </div>
+    </div>
+
+    <!-- Grid View -->
+    <div class="grid-view" id="dossiers-grid">
+        <!-- Cards will be generated by JavaScript -->
+    </div>
+
+    <!-- Table View -->
+    <div class="table-view" id="dossiers-table">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 60px;">Thumbnail</th>
+                        <th style="width: auto;">Title</th>
+                        <th style="width: 150px;">Slug</th>
+                        <th style="width: 100px;">Date</th>
+                        <th style="width: 80px;">Status</th>
+                        <th style="width: 80px;">Sections</th>
+                        <th style="width: 80px;">Video</th>
+                        <th style="width: 100px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="dossiers-table-body">
+                    <!-- Rows will be generated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
                 </div>
 
                 <!-- Dossier Detail View -->
-                <div class="view" id="view-dossier-detail">
-                    <div class="view-placeholder">Dossier Detail View</div>
+                <div id="view-dossier-detail" class="view detail-view">
+    <div class="detail-header">
+        <button class="detail-header-back" id="back-btn">← All Dossiers</button>
+        <h1 class="detail-header-title" id="detail-title-display">Dossier Name</h1>
+    </div>
+
+    <div class="detail-content">
+        <!-- LEFT COLUMN -->
+        <div class="detail-left">
+            <!-- Thumbnail Section -->
+            <div class="detail-section">
+                <label class="detail-section-title">Thumbnail</label>
+                <div class="detail-thumbnail-box" id="detail-thumbnail-display">
+                    <div class="detail-thumbnail-overlay">
+                        <button class="thumbnail-upload-btn" id="upload-thumbnail-btn">Upload</button>
+                    </div>
+                </div>
+                <button class="btn-ghost" style="width: 100%; margin-bottom: 8px;" id="change-thumb-btn">Change thumbnail</button>
+                <button class="btn-ghost" style="width: 100%;" id="generate-thumb-btn">✨ Generate with AI</button>
+            </div>
+
+            <!-- Basic Info Section -->
+            <div class="detail-section">
+                <label class="detail-section-title">Basic Information</label>
+
+                <div class="detail-field">
+                    <label class="detail-label">Title</label>
+                    <input
+                        type="text"
+                        class="detail-input"
+                        id="detail-title"
+                        placeholder="Dossier title"
+                    />
+                </div>
+
+                <div class="detail-field">
+                    <label class="detail-label">Description</label>
+                    <textarea
+                        class="detail-textarea"
+                        id="detail-description"
+                        placeholder="Brief description of this dossier..."
+                    ></textarea>
+                </div>
+
+                <div class="detail-field">
+                    <label class="detail-label">Tags</label>
+                    <input
+                        type="text"
+                        class="detail-input"
+                        id="detail-tags"
+                        placeholder="e.g. geopolitics, investigation, sri-lanka"
+                    />
+                </div>
+            </div>
+
+            <!-- Metadata Section -->
+            <div class="detail-section">
+                <label class="detail-section-title">Metadata</label>
+
+                <div class="detail-field">
+                    <label class="detail-label">Date Created</label>
+                    <div class="detail-value" id="detail-date">2024-01-15</div>
+                </div>
+
+                <div class="detail-field">
+                    <label class="detail-label">Author</label>
+                    <div class="detail-value" id="detail-author">Riz Razak</div>
+                </div>
+
+                <div class="detail-field">
+                    <label class="detail-label">Sections</label>
+                    <div class="detail-value" id="detail-sections">12</div>
+                </div>
+
+                <div class="detail-field">
+                    <label class="detail-label">Slug</label>
+                    <div class="detail-value mono" id="detail-slug">dossier-slug</div>
+                </div>
+            </div>
+
+            <!-- Status Section -->
+            <div class="detail-section">
+                <label class="detail-section-title">Publication Status</label>
+
+                <div class="detail-field">
+                    <label class="detail-label">Status</label>
+                    <div class="status-toggle">
+                        <button class="status-toggle-btn active" data-status="published">Published</button>
+                        <button class="status-toggle-btn" data-status="hidden">Hidden</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Facebook Video Section -->
+            <div class="detail-section">
+                <label class="detail-section-title">Social Proof</label>
+
+                <div class="detail-field">
+                    <label class="detail-label">Facebook Video URL</label>
+                    <input
+                        type="text"
+                        class="detail-input"
+                        id="detail-fb-url"
+                        placeholder="https://facebook.com/watch/?v=..."
+                    />
+                </div>
+
+                <div class="detail-field">
+                    <div class="side-panel-preview" id="detail-fb-preview" style="display: none;">
+                        <div style="text-align: center; color: var(--text-light); font-size: 12px;">Video preview</div>
+                    </div>
+                </div>
+
+                <button class="btn-ghost" style="width: 100%;" id="manage-fb-btn">Manage video →</button>
+            </div>
+
+            <!-- Warning Box for Empty Dossiers -->
+            <div class="warning-box" id="empty-warning" style="display: none;">
+                <div class="warning-box-title">This folder is empty</div>
+                <div class="warning-box-text">No index.html found. You need to create content before this dossier can be published.</div>
+                <button class="btn-primary" style="width: 100%;">Create content with Claude →</button>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="detail-right">
+            <div class="detail-right-sticky">
+                <!-- Actions Card -->
+                <div class="detail-action-card">
+                    <label class="detail-action-card-title">Actions</label>
+                    <div class="detail-action-buttons">
+                        <button class="btn-full primary" id="preview-btn">Preview Dossier ↗</button>
+                        <button class="btn-full danger" id="delete-btn">Delete / Archive</button>
+                    </div>
+                </div>
+
+                <!-- File Info Card -->
+                <div class="detail-action-card">
+                    <label class="detail-action-card-title">File Info</label>
+                    <div class="detail-info-text" style="margin-bottom: 12px;">
+                        Open in Finder:
+                    </div>
+                    <a href="computer://dossiers" class="detail-info-link">computer://dossiers/[id]</a>
+                    <div class="detail-info-text" style="margin-top: 12px; font-size: 12px; color: var(--text-light);">
+                        Last modified: 2 hours ago
+                    </div>
+                </div>
+
+                <!-- Status Card -->
+                <div class="detail-action-card">
+                    <label class="detail-action-card-title">Live Status</label>
+                    <div class="detail-info-text" style="margin-bottom: 12px;">
+                        Live URL:
+                    </div>
+                    <a href="#" class="detail-info-link" id="live-url">https://analyst.rizrazak.com/dossiers/[id]</a>
+                    <div class="detail-info-text" style="margin-top: 12px;">
+                        <span class="pill status-pub">● Published</span>
+                    </div>
+                </div>
+
+                <!-- Linked Dossiers Card -->
+                <div class="detail-action-card" id="linked-card" style="display: none;">
+                    <label class="detail-action-card-title">Linked Dossiers</label>
+                    <div class="detail-info-text">
+                        <a href="#" class="detail-info-link" id="linked-dossier">→ Linked Dossier</a>
+                    </div>
+                </div>
+
+                <!-- SEO Audit Card -->
+                <div class="detail-action-card">
+                    <label class="detail-action-card-title">SEO Audit</label>
+                    <div class="seo-audit">
+                        <div class="seo-item">
+                            <span class="seo-check pass">✓</span>
+                            <span>Title tag</span>
+                        </div>
+                        <div class="seo-item">
+                            <span class="seo-check fail">✗</span>
+                            <span>Meta description</span>
+                        </div>
+                        <div class="seo-item">
+                            <span class="seo-check pass">✓</span>
+                            <span>OG image</span>
+                        </div>
+                        <div class="seo-item">
+                            <span class="seo-check pass">✓</span>
+                            <span>Schema markup</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Save Button -->
+                <button class="btn-full primary" id="save-btn" style="margin-top: auto;">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
                 </div>
 
                 <!-- SEO View -->
                 <div class="view" id="view-seo">
-                    <div class="view-placeholder">SEO View</div>
+    <!-- Stat Cards -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px;">
+        <div class="card">
+            <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">75<span style="font-size: 18px;">/100</span></div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Overall Score</div>
+        </div>
+        <div class="card">
+            <div style="font-size: 32px; font-weight: 700; color: #F59E0B; margin-bottom: 4px;">6</div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Issues Found</div>
+        </div>
+        <div class="card">
+            <div style="font-size: 32px; font-weight: 700; color: #10B981; margin-bottom: 4px;">4<span style="font-size: 18px;">/6</span></div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Dossiers Audited</div>
+        </div>
+    </div>
+
+    <!-- SEO Table -->
+    <div class="card" style="margin-bottom: 32px;">
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Per-Dossier SEO Checklist</div>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Dossier</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Title Tag</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Meta Desc</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">OG Image</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Schema</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">caravan-fresh</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">92</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">sri-lanka-cricket-corruption</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">89</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">iran-us-israel-war</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #F59E0B;">⚠ Short</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">78</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">easter-sunday-attacks</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #EF4444;">✗ Missing</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">72</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td colspan="6" style="padding: 12px; color: #6B7280;">mp-accountability — Not registered</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="padding: 12px; color: #6B7280;">sri-lanka-hormuz-crisis — Not registered</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Action Plan -->
+    <div class="card" style="margin-bottom: 32px;">
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Action Plan</div>
+        <ol style="list-style-position: inside; display: flex; flex-direction: column; gap: 12px;">
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Submit to Google Search Console</span> <span style="background-color: #FEE2E2; color: #991B1B; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P0</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Regenerate sitemap.xml</span> <span style="background-color: #FEE2E2; color: #991B1B; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P0</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Add OG image to easter-sunday dossier</span> <span style="background-color: #FEF3C7; color: #92400E; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P1</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Lengthen iran dossier meta description</span> <span style="background-color: #FEF3C7; color: #92400E; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P1</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Add BreadcrumbList schema</span> <span style="background-color: #FEF3C7; color: #92400E; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P1</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Internal linking between related dossiers</span> <span style="background-color: #F3F4F6; color: #6B7280; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P2</span></li>
+        </ol>
+    </div>
+
+    <!-- Keyword Targets -->
+    <div class="card">
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Keyword Targets</div>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Keyword</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Est. Monthly Volume</th>
+                        <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Target Dossier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">Easter Sunday attacks Sri Lanka</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937;">9,100</td>
+                        <td style="padding: 12px; color: #6B7280;">easter-sunday</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">Iran US Israel war 2026</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937;">6,800</td>
+                        <td style="padding: 12px; color: #6B7280;">iran-us-israel-war</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">Sri Lanka cricket corruption</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937;">4,500</td>
+                        <td style="padding: 12px; color: #6B7280;">cricket</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; color: #1F2937;">Suresh Sallay arrest</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937;">3,200</td>
+                        <td style="padding: 12px; color: #6B7280;">easter-sunday</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
                 </div>
 
                 <!-- Comments View -->
                 <div class="view" id="view-comments">
-                    <div class="view-placeholder">Comments View</div>
+    <!-- Alert Banner -->
+    <div id="comments-alert" style="background-color: #FFFBEB; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 20px;">⚠</span>
+            <span style="color: #92400E; font-size: 13px; font-weight: 500;">4 comments pending on caravan-fresh</span>
+        </div>
+        <button onclick="approveAllComments()" style="background-color: #F59E0B; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;">Approve All</button>
+    </div>
+
+    <!-- Tab Bar -->
+    <div style="display: flex; gap: 0; border-bottom: 1px solid #E5E7EB; margin-bottom: 24px;">
+        <button class="comment-tab-btn active" data-tab="pending" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Pending <span style="background-color: #EF4444; color: white; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">4</span></button>
+        <button class="comment-tab-btn" data-tab="approved" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Approved <span style="background-color: #E5E7EB; color: #6B7280; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">12</span></button>
+        <button class="comment-tab-btn" data-tab="spam" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Spam <span style="background-color: #E5E7EB; color: #6B7280; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">1</span></button>
+    </div>
+
+    <!-- Pending Comments Tab -->
+    <div class="comment-tab-content active" data-tab="pending">
+        <div class="card">
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;" id="pending-comments-table">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #E5E7EB;">
+                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Author</th>
+                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Comment</th>
+                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Dossier</th>
+                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Date</th>
+                            <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="1">
+                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Malith S.</td>
+                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"This is exactly what mainstream media won't cover..."</td>
+                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
+                            <td style="padding: 12px; color: #9CA3AF;">2h ago</td>
+                            <td style="padding: 12px; text-align: center;">
+                                <button onclick="approveComment(1)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
+                                <button onclick="deleteComment(1)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="2">
+                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Nuwanthi P.</td>
+                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"Shared with 3 journalists. Is there a Sinhala version?"</td>
+                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
+                            <td style="padding: 12px; color: #9CA3AF;">5h ago</td>
+                            <td style="padding: 12px; text-align: center;">
+                                <button onclick="approveComment(2)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
+                                <button onclick="deleteComment(2)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="3">
+                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Diaspora Reader</td>
+                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"Reading from London. This level of analysis doesn't exist..."</td>
+                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
+                            <td style="padding: 12px; color: #9CA3AF;">1d ago</td>
+                            <td style="padding: 12px; text-align: center;">
+                                <button onclick="approveComment(3)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
+                                <button onclick="deleteComment(3)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="4">
+                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Anonymous</td>
+                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"When is cricket dossier getting Sinhala translation?"</td>
+                            <td style="padding: 12px; color: #6B7280;">sri-lanka-cricket-corruption</td>
+                            <td style="padding: 12px; color: #9CA3AF;">2d ago</td>
+                            <td style="padding: 12px; text-align: center;">
+                                <button onclick="approveComment(4)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
+                                <button onclick="deleteComment(4)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Approved Comments Tab -->
+    <div class="comment-tab-content" data-tab="approved">
+        <div class="card">
+            <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px 20px;">12 approved comments</div>
+        </div>
+    </div>
+
+    <!-- Spam Comments Tab -->
+    <div class="comment-tab-content" data-tab="spam">
+        <div class="card">
+            <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px 20px;">1 spam comment</div>
+        </div>
+    </div>
+
+    <!-- Empty State (hidden until all comments approved) -->
+    <div id="comments-empty-state" style="display: none; text-align: center; padding: 40px 20px;">
+        <div style="font-size: 32px; margin-bottom: 12px;">✓</div>
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">No pending comments</div>
+        <div style="color: #6B7280; font-size: 13px;">All comments have been reviewed</div>
+    </div>
+
+    
+</div>
                 </div>
 
                 <!-- Apps View -->
                 <div class="view" id="view-apps">
-                    <div class="view-placeholder">Apps View</div>
+    <div style="margin-bottom: 24px;">
+        <!-- Tab Bar -->
+        <div style="display: flex; gap: 0; border-bottom: 1px solid #E5E7EB;">
+            <button class="app-tab-btn active" data-tab="overview" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Overview</button>
+            <button class="app-tab-btn" data-tab="kunatu" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Kunatu</button>
+            <button class="app-tab-btn" data-tab="waren-yan" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Waren Yan</button>
+        </div>
+    </div>
+
+    <!-- Overview Tab -->
+    <div class="app-tab-content active" data-tab="overview">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <!-- Kunatu Card -->
+            <div class="card" style="border-top: 4px solid #14B8A6;">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px;">
+                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700;">K</div>
+                    <div style="background-color: #FEF3C7; color: #D97706; font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 4px;">WIP</div>
+                </div>
+                <div style="font-size: 18px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Kunatu</div>
+                <div style="font-size: 13px; color: #6B7280; margin-bottom: 16px;">Next.js web application for task management and analytics</div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-size: 12px; font-weight: 600; color: #9CA3AF; margin-bottom: 8px; text-transform: uppercase;">Stack</div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span style="background-color: #EEF2FF; color: #6366F1; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Next.js</span>
+                        <span style="background-color: #EEF2FF; color: #6366F1; font-size: 12px; padding: 4px 8px; border-radius: 4px;">TypeScript</span>
+                        <span style="background-color: #EEF2FF; color: #6366F1; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Tailwind</span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 16px; padding: 12px; background-color: #F9FAFB; border-radius: 8px; font-size: 12px;">
+                    <div style="color: #6B7280; margin-bottom: 4px;">Deploy target:</div>
+                    <div style="color: #1F2937; font-weight: 500;">Not set</div>
+                </div>
+
+                <div style="margin-bottom: 16px; padding: 12px; background-color: #F0FDF4; border-radius: 8px;">
+                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #10B981;">
+                        <span>✓</span>
+                        <span>Proposal documentation done</span>
+                    </div>
+                </div>
+
+                <div style="padding: 12px; background-color: #FEF3C7; border-radius: 8px; margin-bottom: 16px;">
+                    <div style="font-size: 12px; color: #92400E;">Recommended next: Connect to Vercel for zero-config deploys</div>
+                </div>
+
+                <button class="button" onclick="window.location.hash='#/apps/kunatu'" style="background-color: #6366F1; color: white; width: 100%; padding: 10px 16px; cursor: pointer;">View Project</button>
+            </div>
+
+            <!-- Waren Yan Card -->
+            <div class="card" style="border-top: 4px solid #A855F7;">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px;">
+                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #A855F7 0%, #D946EF 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700;">Y</div>
+                    <div style="background-color: #FEF3C7; color: #D97706; font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 4px;">WIP</div>
+                </div>
+                <div style="font-size: 18px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Waren Yan</div>
+                <div style="font-size: 13px; color: #6B7280; margin-bottom: 16px;">Personal portfolio and business presence</div>
+                
+                <div style="margin-bottom: 16px;">
+                    <div style="font-size: 12px; font-weight: 600; color: #9CA3AF; margin-bottom: 8px; text-transform: uppercase;">Stack</div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span style="background-color: #FDF2F8; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Firebase</span>
+                        <span style="background-color: #FDF2F8; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Next.js</span>
+                        <span style="background-color: #FDF2F8; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">PWA</span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 16px; padding: 12px; background-color: #F9FAFB; border-radius: 8px; font-size: 12px;">
+                    <div style="color: #6B7280; margin-bottom: 4px;">Deploy method:</div>
+                    <div style="color: #1F2937; font-weight: 500;">Firebase CLI</div>
+                </div>
+
+                <div style="margin-bottom: 16px; padding: 12px; background-color: #F0FDF4; border-radius: 8px;">
+                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #10B981;">
+                        <span>✓</span>
+                        <span>Business plan done</span>
+                    </div>
+                </div>
+
+                <div style="padding: 12px; background-color: #FEF3C7; border-radius: 8px; margin-bottom: 16px;">
+                    <div style="font-size: 12px; color: #92400E;">Note: firebase-debug.log present in repo</div>
+                </div>
+
+                <button class="button" onclick="window.location.hash='#/apps/yan'" style="background-color: #6366F1; color: white; width: 100%; padding: 10px 16px; cursor: pointer;">View Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kunatu Tab -->
+    <div class="app-tab-content" data-tab="kunatu">
+        <div class="card">
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: 700;">K</div>
+                <div>
+                    <div style="font-size: 24px; font-weight: 700; color: #1F2937;">Kunatu</div>
+                    <div style="font-size: 14px; color: #6B7280; margin-top: 4px;">Next.js web application for task management and analytics</div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Stack</div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span style="background-color: #EEF2FF; color: #6366F1; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Next.js 14</span>
+                    <span style="background-color: #EEF2FF; color: #6366F1; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">TypeScript</span>
+                    <span style="background-color: #EEF2FF; color: #6366F1; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Tailwind CSS</span>
+                    <span style="background-color: #EEF2FF; color: #6366F1; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">React</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Status Timeline</div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <div style="text-align: center;">
+                        <div style="width: 32px; height: 32px; background-color: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; margin-bottom: 4px;">✓</div>
+                        <div style="font-size: 11px; color: #6B7280;">Proposal</div>
+                    </div>
+                    <div style="flex: 1; height: 2px; background-color: #10B981;"></div>
+                    <div style="text-align: center;">
+                        <div style="width: 32px; height: 32px; background-color: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; margin-bottom: 4px;">✓</div>
+                        <div style="font-size: 11px; color: #6B7280;">Scaffold</div>
+                    </div>
+                    <div style="flex: 1; height: 2px; background-color: #E5E7EB;"></div>
+                    <div style="text-align: center;">
+                        <div style="width: 32px; height: 32px; background-color: #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6B7280; font-weight: 600; margin-bottom: 4px;">○</div>
+                        <div style="font-size: 11px; color: #6B7280;">API</div>
+                    </div>
+                    <div style="flex: 1; height: 2px; background-color: #E5E7EB;"></div>
+                    <div style="text-align: center;">
+                        <div style="width: 32px; height: 32px; background-color: #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6B7280; font-weight: 600; margin-bottom: 4px;">○</div>
+                        <div style="font-size: 11px; color: #6B7280;">Deploy</div>
+                    </div>
+                    <div style="flex: 1; height: 2px; background-color: #E5E7EB;"></div>
+                    <div style="text-align: center;">
+                        <div style="width: 32px; height: 32px; background-color: #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6B7280; font-weight: 600; margin-bottom: 4px;">○</div>
+                        <div style="font-size: 11px; color: #6B7280;">Launch</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Recommended Deploy Steps</div>
+                <ol style="list-style-position: inside; display: flex; flex-direction: column; gap: 8px; color: #6B7280; font-size: 13px;">
+                    <li>Create Vercel project from GitHub repository</li>
+                    <li>Configure environment variables (.env.production)</li>
+                    <li>Set up preview deployments for pull requests</li>
+                    <li>Configure custom domain after first deploy</li>
+                    <li>Enable analytics and monitoring</li>
+                </ol>
+            </div>
+
+            <div style="padding: 20px; background-color: #F9FAFB; border: 2px dashed #E5E7EB; border-radius: 8px; margin-bottom: 24px; text-align: center;">
+                <div style="font-size: 14px; color: #6B7280; margin-bottom: 12px;">Logo/Thumbnail</div>
+                <button class="button" style="background-color: #6366F1; color: white; padding: 8px 16px; margin-top: 8px; cursor: pointer;">Upload Logo</button>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <button class="button" style="background-color: #6366F1; color: white; padding: 10px 20px; flex: 1; cursor: pointer;">Edit Details</button>
+                <button class="button" style="background-color: transparent; border: 1px solid #E5E7EB; color: #6B7280; padding: 10px 20px; flex: 1; cursor: pointer;">Open in Finder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Waren Yan Tab -->
+    <div class="app-tab-content" data-tab="waren-yan">
+        <div class="card">
+            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #A855F7 0%, #D946EF 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: 700;">Y</div>
+                <div>
+                    <div style="font-size: 24px; font-weight: 700; color: #1F2937;">Waren Yan</div>
+                    <div style="font-size: 14px; color: #6B7280; margin-top: 4px;">Personal portfolio and business presence</div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Stack</div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span style="background-color: #FDF2F8; color: #BE185D; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Firebase</span>
+                    <span style="background-color: #FDF2F8; color: #BE185D; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Next.js</span>
+                    <span style="background-color: #FDF2F8; color: #BE185D; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">PWA</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px; padding: 16px; background-color: #FDF2F8; border-radius: 8px;">
+                <div style="font-size: 13px; color: #9F1239; margin-bottom: 8px; font-weight: 500;">Business Plan Summary</div>
+                <div style="font-size: 13px; color: #BE185D; line-height: 1.6;">Focus on portfolio showcase and freelance services. Monetization through premium consulting tier. Target audience: agencies and enterprises seeking strategic consulting.</div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Deploy Command</div>
+                <div style="background-color: #1F2937; color: #10B981; padding: 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 12px; overflow-x: auto;">
+                    <code>firebase deploy --only hosting:waren-yan</code>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Status Timeline</div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <div style="text-align: center;">
+                        <div style="width: 32px; height: 32px; background-color: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; margin-bottom: 4px;">✓</div>
+                        <div style="font-size: 11px; color: #6B7280;">Plan</div>
+                    </div>
+                    <div style="flex: 1; height: 2px; background-color: #E5E7EB;"></div>
+                    <div style="text-align: center;">
+                        <div style="width: 32px; height: 32px; background-color: #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6B7280; font-weight: 600; margin-bottom: 4px;">○</div>
+                        <div style="font-size: 11px; color: #6B7280;">Develop</div>
+                    </div>
+                    <div style="flex: 1; height: 2px; background-color: #E5E7EB;"></div>
+                    <div style="text-align: center;">
+                        <div style="width: 32px; height: 32px; background-color: #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6B7280; font-weight: 600; margin-bottom: 4px;">○</div>
+                        <div style="font-size: 11px; color: #6B7280;">Deploy</div>
+                    </div>
+                    <div style="flex: 1; height: 2px; background-color: #E5E7EB;"></div>
+                    <div style="text-align: center;">
+                        <div style="width: 32px; height: 32px; background-color: #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6B7280; font-weight: 600; margin-bottom: 4px;">○</div>
+                        <div style="font-size: 11px; color: #6B7280;">Launch</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 20px; background-color: #F9FAFB; border: 2px dashed #E5E7EB; border-radius: 8px; margin-bottom: 24px; text-align: center;">
+                <div style="font-size: 14px; color: #6B7280; margin-bottom: 12px;">Logo/Thumbnail</div>
+                <button class="button" style="background-color: #6366F1; color: white; padding: 8px 16px; margin-top: 8px; cursor: pointer;">Upload Logo</button>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <button class="button" style="background-color: #6366F1; color: white; padding: 10px 20px; flex: 1; cursor: pointer;">Edit Details</button>
+                <button class="button" style="background-color: transparent; border: 1px solid #E5E7EB; color: #6B7280; padding: 10px 20px; flex: 1; cursor: pointer;">Open in Finder</button>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
                 </div>
 
                 <!-- App Detail View -->
@@ -1575,17 +2560,276 @@
 
                 <!-- Settings View -->
                 <div class="view" id="view-settings">
-                    <div class="view-placeholder">Settings View</div>
+    <div style="display: grid; grid-template-columns: 200px 1fr; gap: 24px;">
+        <!-- Left Navigation -->
+        <div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+                <button class="settings-nav-btn active" data-section="site-identity" style="text-align: left; padding: 10px 12px; border: none; background-color: #EEF2FF; color: #6366F1; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Site Identity</button>
+                <button class="settings-nav-btn" data-section="publishing" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Publishing</button>
+                <button class="settings-nav-btn" data-section="authentication" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Authentication</button>
+                <button class="settings-nav-btn" data-section="analytics" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Analytics</button>
+                <button class="settings-nav-btn" data-section="danger-zone" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #EF4444; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Danger Zone</button>
+            </div>
+        </div>
+
+        <!-- Right Content Panel -->
+        <div>
+            <!-- Site Identity Section -->
+            <div class="settings-section active" data-section="site-identity">
+                <div class="card">
+                    <div style="margin-bottom: 24px;">
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Site Name</label>
+                        <div style="font-size: 12px; color: #6B7280; margin-bottom: 8px;">Used in metadata and footers</div>
+                        <input type="text" value="analyst.rizrazak.com" style="width: 100%; padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-family: Inter; outline: none;" onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E5E7EB'">
+                    </div>
+
+                    <div style="margin-bottom: 24px;">
+                        <label style="display: block; font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Default Author</label>
+                        <div style="font-size: 12px; color: #6B7280; margin-bottom: 8px;">Used in JSON-LD schema</div>
+                        <input type="text" value="Riz Razak" style="width: 100%; padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-family: Inter; outline: none;" onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E5E7EB'">
+                    </div>
+
+                    <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Sinhala Translations</label>
+                            <div style="font-size: 12px; color: #6B7280;">Auto-generate toggle on new dossiers</div>
+                        </div>
+                        <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                            <input type="checkbox" checked style="opacity: 0; width: 0; height: 0;">
+                            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10B981; transition: 0.3s; border-radius: 24px;" class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Dark Mode Default</label>
+                            <div style="font-size: 12px; color: #6B7280;">Dossier pages default to dark mode</div>
+                        </div>
+                        <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                            <input type="checkbox" checked style="opacity: 0; width: 0; height: 0;">
+                            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10B981; transition: 0.3s; border-radius: 24px;" class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <label style="display: block; font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Comments</label>
+                            <div style="font-size: 12px; color: #6B7280;">Enable Giscus comments via GitHub Discussions</div>
+                        </div>
+                        <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                            <input type="checkbox" checked style="opacity: 0; width: 0; height: 0;">
+                            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #10B981; transition: 0.3s; border-radius: 24px;" class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Registry Card -->
+                <div class="card" style="margin-top: 24px;">
+                    <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Registry · dossiers.json</div>
+                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                            <span style="color: #6B7280;">Version</span>
+                            <span style="color: #1F2937; font-weight: 500;">1.3</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                            <span style="color: #6B7280;">Last updated</span>
+                            <span style="color: #1F2937; font-weight: 500;">2026-03-06</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                            <span style="color: #6B7280;">Entries</span>
+                            <span style="color: #1F2937; font-weight: 500;">4 active</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <button style="flex: 1; padding: 8px 12px; background-color: #6366F1; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Export JSON</button>
+                        <button style="flex: 1; padding: 8px 12px; background-color: transparent; color: #6366F1; border: 1px solid #6366F1; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Validate</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Publishing Section -->
+            <div class="settings-section" data-section="publishing" style="display: none;">
+                <div class="card">
+                    <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px;">Publishing settings coming soon</div>
+                </div>
+            </div>
+
+            <!-- Authentication Section -->
+            <div class="settings-section" data-section="authentication" style="display: none;">
+                <div class="card">
+                    <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px;">Authentication settings coming soon</div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="settings-section" data-section="analytics" style="display: none;">
+                <div class="card">
+                    <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px;">Analytics settings coming soon</div>
+                </div>
+            </div>
+
+            <!-- Danger Zone Section -->
+            <div class="settings-section" data-section="danger-zone" style="display: none;">
+                <div class="card" style="border: 2px solid #EF4444;">
+                    <div style="font-size: 16px; font-weight: 600; color: #EF4444; margin-bottom: 24px;">Danger Zone</div>
+
+                    <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #FEE2E2;">
+                        <div style="font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Unpublish all dossiers</div>
+                        <div style="font-size: 12px; color: #6B7280; margin-bottom: 12px;">This will immediately unpublish all dossiers and hide them from the public site.</div>
+                        <button style="padding: 8px 16px; background-color: transparent; color: #EF4444; border: 1px solid #EF4444; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Unpublish All</button>
+                    </div>
+
+                    <div>
+                        <div style="font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Reset dossiers.json</div>
+                        <div style="font-size: 12px; color: #6B7280; margin-bottom: 12px;">This will reset the registry to its default state, removing all custom configurations.</div>
+                        <button style="padding: 8px 16px; background-color: transparent; color: #EF4444; border: 1px solid #EF4444; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Reset Registry</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
                 </div>
 
                 <!-- Private Notes View -->
                 <div class="view" id="view-private-notes">
-                    <div class="view-placeholder">Private Notes View</div>
+    <!-- Private Banner -->
+    <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 18px;">🔒</span>
+        <span style="font-size: 13px; color: #92400E; font-weight: 500;">Private — session active</span>
+    </div>
+
+    <!-- New Note Button -->
+    <button style="background-color: #6366F1; color: white; border: none; padding: 10px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 24px;">+ New Note</button>
+
+    <!-- Notes Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+        <!-- Note 1 -->
+        <div onclick="toggleNote(this)" class="note-card" style="background-color: white; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s ease;">
+            <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Caravan Fresh Analysis</div>
+            <div style="font-size: 13px; color: #6B7280; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Key findings on the supply chain disruption. Economic impact significant...</div>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                <span style="background-color: #EEF2FF; color: #6366F1; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Research</span>
+                <span style="background-color: #FDF2F8; color: #BE185D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Political</span>
+            </div>
+            <div style="font-size: 11px; color: #9CA3AF;">Mar 5, 2026</div>
+        </div>
+
+        <!-- Note 2 -->
+        <div onclick="toggleNote(this)" class="note-card" style="background-color: white; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s ease;">
+            <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Iran-US-Israel Tensions</div>
+            <div style="font-size: 13px; color: #6B7280; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Regional power dynamics. Three-way diplomatic breakdown. Geopolitical implications...</div>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                <span style="background-color: #EEF2FF; color: #6366F1; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Research</span>
+                <span style="background-color: #FEF3C7; color: #92400E; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Strategy</span>
+            </div>
+            <div style="font-size: 11px; color: #9CA3AF;">Mar 3, 2026</div>
+        </div>
+
+        <!-- Note 3 -->
+        <div onclick="toggleNote(this)" class="note-card" style="background-color: white; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s ease;">
+            <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Cricket Corruption Timeline</div>
+            <div style="font-size: 13px; color: #6B7280; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Chronological events from 2014-2026. Key figures involved. Evidence documentation...</div>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                <span style="background-color: #EEF2FF; color: #6366F1; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Research</span>
+                <span style="background-color: #F0FDF4; color: #15803D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Legal</span>
+            </div>
+            <div style="font-size: 11px; color: #9CA3AF;">Feb 28, 2026</div>
+        </div>
+
+        <!-- Note 4 -->
+        <div onclick="toggleNote(this)" class="note-card" style="background-color: white; border: 1px solid #E5E7EB; border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s ease;">
+            <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Easter Sunday Attacks - Personal Notes</div>
+            <div style="font-size: 13px; color: #6B7280; line-height: 1.5; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">Interview notes from survivors and analysts. Religious context and implications...</div>
+            <div style="display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap;">
+                <span style="background-color: #FDF2F8; color: #BE185D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Political</span>
+                <span style="background-color: #F0FDF4; color: #15803D; font-size: 11px; padding: 3px 6px; border-radius: 3px;">Legal</span>
+            </div>
+            <div style="font-size: 11px; color: #9CA3AF;">Feb 22, 2026</div>
+        </div>
+    </div>
+
+    
+</div>
                 </div>
 
                 <!-- Private Tasks View -->
                 <div class="view" id="view-private-tasks">
-                    <div class="view-placeholder">Private Tasks View</div>
+    <!-- Private Banner -->
+    <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 18px;">🔒</span>
+        <span style="font-size: 13px; color: #92400E; font-weight: 500;">Private — session active</span>
+    </div>
+
+    <!-- Tasks Grid -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+        <!-- This Week -->
+        <div class="card">
+            <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">This Week</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" checked class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span style="text-decoration: line-through; color: #9CA3AF;">Deploy unified dashboard</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" checked class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span style="text-decoration: line-through; color: #9CA3AF;">Write SEO.md</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Submit to Google Search Console</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Register 2 orphaned dossiers</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Approve 4 comments</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Regenerate sitemap.xml</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Backlog -->
+        <div class="card">
+            <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Backlog</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Publish iran dossier</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Publish easter-sunday</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Add OG image easter-sunday</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Set up Kunatu on Vercel</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Firebase deploy Waren Yan</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
+                    <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #6366F1;">
+                    <span>Apply Google News</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
                 </div>
             </div>
         </div>
