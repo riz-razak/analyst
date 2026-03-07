@@ -2076,7 +2076,7 @@
     </div>
 
     <!-- KPI Stats Row -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px;">
+    <div class="analytics-kpi-row" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px;">
         <div class="card" style="padding: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <div>
@@ -2124,18 +2124,18 @@
         <!-- Traffic Sparkline Chart -->
         <div class="card" style="padding: 24px;">
             <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Daily Views <span style="font-size: 11px; font-weight: 400; color: #9CA3AF;">last 30 days</span></div>
-            <svg viewBox="0 0 600 140" style="width: 100%; height: 140px;" xmlns="http://www.w3.org/2000/svg">
+            <svg id="analytics-sparkline" viewBox="0 0 600 140" style="width: 100%; height: 140px;" xmlns="http://www.w3.org/2000/svg">
                 <!-- Grid lines -->
                 <line x1="0" y1="35" x2="600" y2="35" stroke="#F3F4F6" stroke-width="1"/>
                 <line x1="0" y1="70" x2="600" y2="70" stroke="#F3F4F6" stroke-width="1"/>
                 <line x1="0" y1="105" x2="600" y2="105" stroke="#F3F4F6" stroke-width="1"/>
                 <!-- Area fill -->
-                <path d="M0,105 L20,98 L40,102 L60,88 L80,92 L100,78 L120,82 L140,65 L160,70 L180,58 L200,62 L220,48 L240,55 L260,42 L280,50 L300,38 L320,45 L340,32 L360,28 L380,35 L400,22 L420,18 L440,25 L460,30 L480,20 L500,15 L520,22 L540,12 L560,18 L580,8 L600,14 L600,140 L0,140 Z" fill="url(#analyticsGradient)" opacity="0.3"/>
+                <path class="spark-area" d="M0,105 L20,98 L40,102 L60,88 L80,92 L100,78 L120,82 L140,65 L160,70 L180,58 L200,62 L220,48 L240,55 L260,42 L280,50 L300,38 L320,45 L340,32 L360,28 L380,35 L400,22 L420,18 L440,25 L460,30 L480,20 L500,15 L520,22 L540,12 L560,18 L580,8 L600,14 L600,140 L0,140 Z" fill="url(#analyticsGradient)" opacity="0.3"/>
                 <!-- Line -->
-                <path d="M0,105 L20,98 L40,102 L60,88 L80,92 L100,78 L120,82 L140,65 L160,70 L180,58 L200,62 L220,48 L240,55 L260,42 L280,50 L300,38 L320,45 L340,32 L360,28 L380,35 L400,22 L420,18 L440,25 L460,30 L480,20 L500,15 L520,22 L540,12 L560,18 L580,8 L600,14" fill="none" stroke="#1B4D2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path class="spark-line" d="M0,105 L20,98 L40,102 L60,88 L80,92 L100,78 L120,82 L140,65 L160,70 L180,58 L200,62 L220,48 L240,55 L260,42 L280,50 L300,38 L320,45 L340,32 L360,28 L380,35 L400,22 L420,18 L440,25 L460,30 L480,20 L500,15 L520,22 L540,12 L560,18 L580,8 L600,14" fill="none" stroke="#1B4D2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <!-- Dot on latest -->
-                <circle cx="600" cy="14" r="4" fill="#1B4D2E"/>
-                <circle cx="600" cy="14" r="7" fill="#1B4D2E" opacity="0.15"/>
+                <circle class="spark-dot" cx="600" cy="14" r="4" fill="#1B4D2E"/>
+                <circle class="spark-pulse" cx="600" cy="14" r="7" fill="#1B4D2E" opacity="0.15"/>
                 <defs>
                     <linearGradient id="analyticsGradient" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stop-color="#1B4D2E"/>
@@ -2143,7 +2143,7 @@
                     </linearGradient>
                 </defs>
             </svg>
-            <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+            <div id="analytics-date-labels" style="display: flex; justify-content: space-between; margin-top: 8px;">
                 <span style="font-size: 10px; color: #9CA3AF;">Feb 5</span>
                 <span style="font-size: 10px; color: #9CA3AF;">Feb 12</span>
                 <span style="font-size: 10px; color: #9CA3AF;">Feb 19</span>
@@ -2155,7 +2155,7 @@
         <!-- Top Referrers -->
         <div class="card" style="padding: 24px;">
             <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Top Sources</div>
-            <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div id="analytics-sources" style="display: flex; flex-direction: column; gap: 14px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <div style="width: 6px; height: 6px; border-radius: 50%; background: #1B4D2E;"></div>
@@ -2215,7 +2215,7 @@
         <!-- Views by Dossier -->
         <div class="card" style="padding: 24px;">
             <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Views by Dossier</div>
-            <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div id="analytics-dossiers" style="display: flex; flex-direction: column; gap: 16px;">
                 <div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
                         <span style="font-size: 12px; color: #1F2937; font-weight: 500;">sri-lanka-cricket-corruption</span>
@@ -2267,7 +2267,7 @@
         <!-- Top Countries / Geography -->
         <div class="card" style="padding: 24px;">
             <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Visitors by Country</div>
-            <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div id="analytics-countries" style="display: flex; flex-direction: column; gap: 12px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 18px; width: 28px; text-align: center;">🇱🇰</span>
                     <div style="flex: 1;">
@@ -2341,7 +2341,7 @@
                     </div>
                 </div>
             </div>
-            <div style="font-size: 11px; color: #9CA3AF; margin-top: 14px; text-align: right;">+ 82 visitors from 14 other countries</div>
+            <div id="analytics-countries-other" style="font-size: 11px; color: #9CA3AF; margin-top: 14px; text-align: right;">+ 82 visitors from 14 other countries</div>
         </div>
     </div>
 
@@ -2358,7 +2358,7 @@
                     <th style="text-align: right; padding: 8px 12px; font-size: 11px; font-weight: 500; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px;">Bounce</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="analytics-pages-tbody">
                 <tr style="border-bottom: 1px solid #F3F4F6;">
                     <td style="padding: 10px 12px; color: #1B4D2E; font-weight: 500;">/sri-lanka-cricket-corruption</td>
                     <td style="padding: 10px 12px; text-align: right; color: #1F2937;">4,821</td>
@@ -2403,7 +2403,7 @@
         <!-- Devices -->
         <div class="card" style="padding: 24px;">
             <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Devices</div>
-            <div style="display: flex; gap: 24px; align-items: center;">
+            <div id="analytics-devices" style="display: flex; gap: 24px; align-items: center;">
                 <!-- Donut chart via SVG -->
                 <svg width="100" height="100" viewBox="0 0 100 100">
                     <!-- Mobile 58% -->
@@ -2439,7 +2439,7 @@
                     <span style="font-size: 12px; color: #059669; font-weight: 600;">3 online now</span>
                 </div>
             </div>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div id="analytics-live-feed" style="display: flex; flex-direction: column; gap: 10px;">
                 <div style="display: flex; align-items: center; gap: 10px; padding: 8px; background: #F9FAFB; border-radius: 6px;">
                     <span style="font-size: 14px;">🇱🇰</span>
                     <div style="flex: 1;">
@@ -2466,11 +2466,275 @@
     </div>
 
     <!-- Data source footer -->
-    <div style="margin-top: 20px; padding: 12px 16px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; display: flex; align-items: center; gap: 8px;">
+    <div id="analytics-sample-banner" style="margin-top: 20px; padding: 12px 16px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; display: flex; align-items: center; gap: 8px;">
         <span style="font-size: 13px;">&#9888;</span>
         <span style="font-size: 12px; color: #92400E;">Showing sample data. Connect <a href="#" style="color: #1B4D2E; font-weight: 600; text-decoration: underline;">Umami</a> or <a href="#" style="color: #1B4D2E; font-weight: 600; text-decoration: underline;">Google Analytics 4</a> to display real metrics.</span>
     </div>
 </div>
+
+<!-- Analytics IIFE: interactive controls, data per period/site, live timestamps -->
+<script>
+(function() {
+    "use strict";
+
+    /* ── Data sets per period & site ── */
+    const analyticsData = {
+        analyst: {
+            "7d":  { views: 3218, uniques: 891, avgTime: "3:48", bounce: "31%", prevViews: 2904, prevUniques: 762, prevAvgTime: "3:32", prevBounce: "29%",
+                     dossiers: [{name:"sri-lanka-cricket-corruption",v:1204},{name:"caravan-fresh",v:892},{name:"iran-us-israel-war",v:481},{name:"easter-sunday-attacks",v:341},{name:"sri-lanka-hormuz-crisis",v:210}],
+                     sources: [{name:"X / Twitter",v:1042,pct:"32%"},{name:"Google Search",v:804,pct:"25%"},{name:"Direct",v:612,pct:"19%"},{name:"Reddit",v:402,pct:"13%"},{name:"WhatsApp",v:358,pct:"11%"}],
+                     countries: [{flag:"\ud83c\uddf1\ud83c\uddf0",name:"Sri Lanka",v:486},{flag:"\ud83c\uddec\ud83c\udde7",name:"United Kingdom",v:124},{flag:"\ud83c\uddfa\ud83c\uddf8",name:"United States",v:88},{flag:"\ud83c\udde6\ud83c\uddfa",name:"Australia",v:56},{flag:"\ud83c\uddee\ud83c\uddf3",name:"India",v:48},{flag:"\ud83c\udde8\ud83c\udde6",name:"Canada",v:36}],
+                     otherCountries: 53, otherCount: 8,
+                     pages: [{path:"/sri-lanka-cricket-corruption",views:1204,uniq:521,time:"6:18",bounce:"20%"},{path:"/caravan-fresh",views:892,uniq:378,time:"5:02",bounce:"26%"},{path:"/iran-us-israel-war",views:481,uniq:234,time:"3:52",bounce:"33%"},{path:"/easter-sunday-attacks",views:341,uniq:168,time:"3:28",bounce:"38%"},{path:"/",views:300,uniq:241,time:"1:08",bounce:"54%"}],
+                     devices: {mobile:56,desktop:36,tablet:8},
+                     sparkline: "M0,85 L86,78 L171,82 L257,68 L343,72 L429,58 L514,52 L600,42" },
+            "30d": { views: 12847, uniques: 3291, avgTime: "4:32", bounce: "34%", prevViews: 10887, prevUniques: 2654, prevAvgTime: "4:12", prevBounce: "31%",
+                     dossiers: [{name:"sri-lanka-cricket-corruption",v:4821},{name:"caravan-fresh",v:3562},{name:"iran-us-israel-war",v:1820},{name:"easter-sunday-attacks",v:1203},{name:"sri-lanka-hormuz-crisis",v:891}],
+                     sources: [{name:"X / Twitter",v:4218,pct:"33%"},{name:"Google Search",v:3106,pct:"24%"},{name:"Direct",v:2441,pct:"19%"},{name:"Reddit",v:1580,pct:"12%"},{name:"WhatsApp",v:1502,pct:"12%"}],
+                     countries: [{flag:"\ud83c\uddf1\ud83c\uddf0",name:"Sri Lanka",v:1842},{flag:"\ud83c\uddec\ud83c\udde7",name:"United Kingdom",v:487},{flag:"\ud83c\uddfa\ud83c\uddf8",name:"United States",v:324},{flag:"\ud83c\udde6\ud83c\uddfa",name:"Australia",v:218},{flag:"\ud83c\uddee\ud83c\uddf3",name:"India",v:196},{flag:"\ud83c\udde8\ud83c\udde6",name:"Canada",v:142}],
+                     otherCountries: 82, otherCount: 14,
+                     pages: [{path:"/sri-lanka-cricket-corruption",views:4821,uniq:2103,time:"6:42",bounce:"22%"},{path:"/caravan-fresh",views:3562,uniq:1487,time:"5:18",bounce:"28%"},{path:"/iran-us-israel-war",views:1820,uniq:891,time:"4:05",bounce:"35%"},{path:"/easter-sunday-attacks",views:1203,uniq:604,time:"3:47",bounce:"41%"},{path:"/",views:1041,uniq:812,time:"1:12",bounce:"52%"}],
+                     devices: {mobile:58,desktop:34,tablet:8},
+                     sparkline: "M0,105 L20,98 L40,102 L60,88 L80,92 L100,78 L120,82 L140,65 L160,70 L180,58 L200,62 L220,48 L240,55 L260,42 L280,50 L300,38 L320,45 L340,32 L360,28 L380,35 L400,22 L420,18 L440,25 L460,30 L480,20 L500,15 L520,22 L540,12 L560,18 L580,8 L600,14" },
+            "90d": { views: 34219, uniques: 8742, avgTime: "4:18", bounce: "36%", prevViews: 28104, prevUniques: 7201, prevAvgTime: "3:58", prevBounce: "34%",
+                     dossiers: [{name:"sri-lanka-cricket-corruption",v:12840},{name:"caravan-fresh",v:9412},{name:"iran-us-israel-war",v:5104},{name:"easter-sunday-attacks",v:3618},{name:"sri-lanka-hormuz-crisis",v:2245}],
+                     sources: [{name:"X / Twitter",v:10924,pct:"32%"},{name:"Google Search",v:8897,pct:"26%"},{name:"Direct",v:6160,pct:"18%"},{name:"Reddit",v:4448,pct:"13%"},{name:"WhatsApp",v:3790,pct:"11%"}],
+                     countries: [{flag:"\ud83c\uddf1\ud83c\uddf0",name:"Sri Lanka",v:4812},{flag:"\ud83c\uddec\ud83c\udde7",name:"United Kingdom",v:1384},{flag:"\ud83c\uddfa\ud83c\uddf8",name:"United States",v:918},{flag:"\ud83c\udde6\ud83c\uddfa",name:"Australia",v:604},{flag:"\ud83c\uddee\ud83c\uddf3",name:"India",v:528},{flag:"\ud83c\udde8\ud83c\udde6",name:"Canada",v:382}],
+                     otherCountries: 214, otherCount: 22,
+                     pages: [{path:"/sri-lanka-cricket-corruption",views:12840,uniq:5618,time:"6:38",bounce:"21%"},{path:"/caravan-fresh",views:9412,uniq:3941,time:"5:22",bounce:"27%"},{path:"/iran-us-israel-war",views:5104,uniq:2482,time:"4:10",bounce:"34%"},{path:"/easter-sunday-attacks",views:3618,uniq:1804,time:"3:52",bounce:"39%"},{path:"/",views:2845,uniq:2218,time:"1:14",bounce:"51%"}],
+                     devices: {mobile:55,desktop:37,tablet:8},
+                     sparkline: "M0,120 L24,115 L48,118 L72,108 L96,112 L120,98 L144,102 L168,88 L192,92 L216,82 L240,78 L264,85 L288,72 L312,68 L336,75 L360,62 L384,58 L408,65 L432,52 L456,48 L480,42 L504,38 L528,45 L552,32 L576,28 L600,22" },
+            "all":  { views: 68104, uniques: 16841, avgTime: "4:05", bounce: "38%", prevViews: null, prevUniques: null, prevAvgTime: null, prevBounce: null,
+                     dossiers: [{name:"sri-lanka-cricket-corruption",v:24618},{name:"caravan-fresh",v:18240},{name:"iran-us-israel-war",v:10842},{name:"easter-sunday-attacks",v:7204},{name:"sri-lanka-hormuz-crisis",v:4800}],
+                     sources: [{name:"X / Twitter",v:21794,pct:"32%"},{name:"Google Search",v:17707,pct:"26%"},{name:"Direct",v:12259,pct:"18%"},{name:"Reddit",v:8853,pct:"13%"},{name:"WhatsApp",v:7491,pct:"11%"}],
+                     countries: [{flag:"\ud83c\uddf1\ud83c\uddf0",name:"Sri Lanka",v:9412},{flag:"\ud83c\uddec\ud83c\udde7",name:"United Kingdom",v:2804},{flag:"\ud83c\uddfa\ud83c\uddf8",name:"United States",v:1842},{flag:"\ud83c\udde6\ud83c\uddfa",name:"Australia",v:1204},{flag:"\ud83c\uddee\ud83c\uddf3",name:"India",v:1048},{flag:"\ud83c\udde8\ud83c\udde6",name:"Canada",v:762}],
+                     otherCountries: 469, otherCount: 31,
+                     pages: [{path:"/sri-lanka-cricket-corruption",views:24618,uniq:10842,time:"6:32",bounce:"20%"},{path:"/caravan-fresh",views:18240,uniq:7604,time:"5:16",bounce:"26%"},{path:"/iran-us-israel-war",views:10842,uniq:5284,time:"4:08",bounce:"33%"},{path:"/easter-sunday-attacks",views:7204,uniq:3604,time:"3:48",bounce:"38%"},{path:"/",views:5800,uniq:4521,time:"1:10",bounce:"50%"}],
+                     devices: {mobile:54,desktop:38,tablet:8},
+                     sparkline: "M0,130 L30,125 L60,120 L90,118 L120,112 L150,108 L180,102 L210,95 L240,88 L270,82 L300,78 L330,72 L360,68 L390,62 L420,55 L450,48 L480,42 L510,38 L540,32 L570,28 L600,22" }
+        },
+        portfolio: {
+            "7d":  { views: 842, uniques: 318, avgTime: "1:24", bounce: "62%", prevViews: 724, prevUniques: 281, prevAvgTime: "1:18", prevBounce: "64%",
+                     dossiers: [{name:"portfolio-home",v:412},{name:"about",v:204},{name:"contact",v:128},{name:"projects",v:98}],
+                     sources: [{name:"Google Search",v:382,pct:"45%"},{name:"Direct",v:218,pct:"26%"},{name:"LinkedIn",v:142,pct:"17%"},{name:"X / Twitter",v:62,pct:"7%"},{name:"Other",v:38,pct:"5%"}],
+                     countries: [{flag:"\ud83c\uddf1\ud83c\uddf0",name:"Sri Lanka",v:184},{flag:"\ud83c\uddec\ud83c\udde7",name:"United Kingdom",v:48},{flag:"\ud83c\uddfa\ud83c\uddf8",name:"United States",v:32},{flag:"\ud83c\udde6\ud83c\uddfa",name:"Australia",v:18},{flag:"\ud83c\uddee\ud83c\uddf3",name:"India",v:14},{flag:"\ud83c\udde8\ud83c\udde6",name:"Canada",v:8}],
+                     otherCountries: 14, otherCount: 5,
+                     pages: [{path:"/",views:412,uniq:184,time:"1:42",bounce:"58%"},{path:"/about",views:204,uniq:98,time:"1:18",bounce:"64%"},{path:"/contact",views:128,uniq:62,time:"0:48",bounce:"72%"},{path:"/projects",views:98,uniq:48,time:"2:04",bounce:"52%"}],
+                     devices: {mobile:42,desktop:52,tablet:6},
+                     sparkline: "M0,95 L86,88 L171,92 L257,82 L343,78 L429,85 L514,72 L600,68" },
+            "30d": { views: 3412, uniques: 1284, avgTime: "1:32", bounce: "58%", prevViews: 2918, prevUniques: 1104, prevAvgTime: "1:28", prevBounce: "61%",
+                     dossiers: [{name:"portfolio-home",v:1682},{name:"about",v:812},{name:"contact",v:504},{name:"projects",v:414}],
+                     sources: [{name:"Google Search",v:1536,pct:"45%"},{name:"Direct",v:887,pct:"26%"},{name:"LinkedIn",v:580,pct:"17%"},{name:"X / Twitter",v:239,pct:"7%"},{name:"Other",v:170,pct:"5%"}],
+                     countries: [{flag:"\ud83c\uddf1\ud83c\uddf0",name:"Sri Lanka",v:742},{flag:"\ud83c\uddec\ud83c\udde7",name:"United Kingdom",v:192},{flag:"\ud83c\uddfa\ud83c\uddf8",name:"United States",v:128},{flag:"\ud83c\udde6\ud83c\uddfa",name:"Australia",v:72},{flag:"\ud83c\uddee\ud83c\uddf3",name:"India",v:58},{flag:"\ud83c\udde8\ud83c\udde6",name:"Canada",v:32}],
+                     otherCountries: 60, otherCount: 9,
+                     pages: [{path:"/",views:1682,uniq:742,time:"1:48",bounce:"54%"},{path:"/about",views:812,uniq:384,time:"1:22",bounce:"62%"},{path:"/contact",views:504,uniq:248,time:"0:52",bounce:"68%"},{path:"/projects",views:414,uniq:198,time:"2:12",bounce:"48%"}],
+                     devices: {mobile:44,desktop:50,tablet:6},
+                     sparkline: "M0,105 L40,98 L80,102 L120,92 L160,88 L200,95 L240,82 L280,78 L320,85 L360,72 L400,68 L440,75 L480,62 L520,58 L560,65 L600,52" },
+            "90d": { views: 9218, uniques: 3482, avgTime: "1:28", bounce: "60%", prevViews: 7842, prevUniques: 2918, prevAvgTime: "1:22", prevBounce: "63%",
+                     dossiers: [{name:"portfolio-home",v:4542},{name:"about",v:2184},{name:"contact",v:1348},{name:"projects",v:1144}],
+                     sources: [{name:"Google Search",v:4148,pct:"45%"},{name:"Direct",v:2397,pct:"26%"},{name:"LinkedIn",v:1567,pct:"17%"},{name:"X / Twitter",v:645,pct:"7%"},{name:"Other",v:461,pct:"5%"}],
+                     countries: [{flag:"\ud83c\uddf1\ud83c\uddf0",name:"Sri Lanka",v:2004},{flag:"\ud83c\uddec\ud83c\udde7",name:"United Kingdom",v:522},{flag:"\ud83c\uddfa\ud83c\uddf8",name:"United States",v:348},{flag:"\ud83c\udde6\ud83c\uddfa",name:"Australia",v:196},{flag:"\ud83c\uddee\ud83c\uddf3",name:"India",v:158},{flag:"\ud83c\udde8\ud83c\udde6",name:"Canada",v:88}],
+                     otherCountries: 166, otherCount: 16,
+                     pages: [{path:"/",views:4542,uniq:2004,time:"1:44",bounce:"56%"},{path:"/about",views:2184,uniq:1042,time:"1:20",bounce:"63%"},{path:"/contact",views:1348,uniq:662,time:"0:50",bounce:"70%"},{path:"/projects",views:1144,uniq:548,time:"2:08",bounce:"50%"}],
+                     devices: {mobile:43,desktop:51,tablet:6},
+                     sparkline: "M0,115 L30,110 L60,108 L90,102 L120,98 L150,95 L180,88 L210,85 L240,82 L270,78 L300,72 L330,68 L360,65 L390,62 L420,58 L450,52 L480,48 L510,45 L540,42 L570,38 L600,32" },
+            "all":  { views: 18412, uniques: 6842, avgTime: "1:24", bounce: "62%", prevViews: null, prevUniques: null, prevAvgTime: null, prevBounce: null,
+                     dossiers: [{name:"portfolio-home",v:9082},{name:"about",v:4368},{name:"contact",v:2696},{name:"projects",v:2266}],
+                     sources: [{name:"Google Search",v:8285,pct:"45%"},{name:"Direct",v:4787,pct:"26%"},{name:"LinkedIn",v:3130,pct:"17%"},{name:"X / Twitter",v:1289,pct:"7%"},{name:"Other",v:921,pct:"5%"}],
+                     countries: [{flag:"\ud83c\uddf1\ud83c\uddf0",name:"Sri Lanka",v:4008},{flag:"\ud83c\uddec\ud83c\udde7",name:"United Kingdom",v:1044},{flag:"\ud83c\uddfa\ud83c\uddf8",name:"United States",v:696},{flag:"\ud83c\udde6\ud83c\uddfa",name:"Australia",v:392},{flag:"\ud83c\uddee\ud83c\uddf3",name:"India",v:316},{flag:"\ud83c\udde8\ud83c\udde6",name:"Canada",v:176}],
+                     otherCountries: 310, otherCount: 24,
+                     pages: [{path:"/",views:9082,uniq:4008,time:"1:42",bounce:"55%"},{path:"/about",views:4368,uniq:2084,time:"1:18",bounce:"62%"},{path:"/contact",views:2696,uniq:1324,time:"0:48",bounce:"69%"},{path:"/projects",views:2266,uniq:1082,time:"2:06",bounce:"49%"}],
+                     devices: {mobile:43,desktop:51,tablet:6},
+                     sparkline: "M0,125 L30,120 L60,115 L90,108 L120,102 L150,98 L180,92 L210,88 L240,82 L270,78 L300,72 L330,68 L360,62 L390,58 L420,52 L450,48 L480,42 L510,38 L540,32 L570,28 L600,22" }
+        }
+    };
+
+    /* Combined "all" sites data (sum of analyst + portfolio) */
+    const allSitesData = {};
+    ["7d","30d","90d","all"].forEach(function(period) {
+        const a = analyticsData.analyst[period];
+        const p = analyticsData.portfolio[period];
+        allSitesData[period] = {
+            views: a.views + p.views, uniques: a.uniques + p.uniques,
+            avgTime: a.avgTime, bounce: a.bounce,
+            prevViews: a.prevViews && p.prevViews ? a.prevViews + p.prevViews : null,
+            prevUniques: a.prevUniques && p.prevUniques ? a.prevUniques + p.prevUniques : null,
+            prevAvgTime: a.prevAvgTime, prevBounce: a.prevBounce,
+            dossiers: a.dossiers, sources: a.sources, countries: a.countries,
+            otherCountries: a.otherCountries + p.otherCountries,
+            otherCount: a.otherCount + p.otherCount,
+            pages: a.pages.concat(p.pages).sort(function(x,y){return y.views - x.views}).slice(0,5),
+            devices: {mobile: Math.round((a.devices.mobile + p.devices.mobile)/2), desktop: Math.round((a.devices.desktop + p.devices.desktop)/2), tablet: Math.round((a.devices.tablet + p.devices.tablet)/2)},
+            sparkline: a.sparkline
+        };
+    });
+    analyticsData.all = allSitesData;
+
+    const sourceColors = ["#1B4D2E","#5D8A5E","#D4AF37","#8B1A1A","#9CA3AF"];
+    const barColors = ["#1B4D2E","#5D8A5E","#D4AF37","#8B1A1A","#9CA3AF"];
+    const periodLabels = {"7d":["Today-6","Today-4","Today-2","Today"],"30d":["Feb 5","Feb 12","Feb 19","Feb 26","Mar 7"],"90d":["Dec","Jan","Feb","Mar"],"all":["2024 Q3","Q4","2025 Q1","Q2"]};
+
+    let currentPeriod = "30d";
+    let currentSite = "analyst";
+
+    function fmt(n) { return n == null ? "n/a" : n.toLocaleString(); }
+
+    function delta(cur, prev) {
+        if (prev == null || prev === 0) return "";
+        const pctNum = Math.round(((cur - prev) / prev) * 100);
+        const isUp = pctNum >= 0;
+        const color = isUp ? "#059669" : "#DC2626";
+        const bg = isUp ? "#ECFDF5" : "#FEF2F2";
+        const sign = isUp ? "+" : "";
+        return '<div style="font-size:12px;font-weight:600;color:' + color + ';background:' + bg + ';padding:2px 8px;border-radius:10px;">' + sign + pctNum + '%</div>';
+    }
+
+    function deltaStr(cur, prev) {
+        /* For string metrics like time and bounce */
+        if (!prev) return "";
+        return '<div style="font-size:12px;font-weight:600;color:#6B7280;background:#F3F4F6;padding:2px 8px;border-radius:10px;">&Delta;</div>';
+    }
+
+    function renderAnalytics() {
+        const d = analyticsData[currentSite][currentPeriod];
+        const maxDossier = d.dossiers.length > 0 ? d.dossiers[0].v : 1;
+        const maxCountry = d.countries.length > 0 ? d.countries[0].v : 1;
+
+        /* KPI cards */
+        const kpiContainer = document.querySelector("#view-analytics .analytics-kpi-row");
+        if (kpiContainer) {
+            kpiContainer.innerHTML =
+                '<div class="card" style="padding:20px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><div style="font-size:11px;font-weight:500;color:#6B7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Page Views</div><div style="font-size:28px;font-weight:700;color:#1F2937;line-height:1;">' + fmt(d.views) + '</div></div>' + delta(d.views, d.prevViews) + '</div><div style="font-size:11px;color:#9CA3AF;margin-top:6px;">' + (d.prevViews ? "vs prev.: " + fmt(d.prevViews) : "all time") + '</div></div>' +
+                '<div class="card" style="padding:20px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><div style="font-size:11px;font-weight:500;color:#6B7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Unique Visitors</div><div style="font-size:28px;font-weight:700;color:#1F2937;line-height:1;">' + fmt(d.uniques) + '</div></div>' + delta(d.uniques, d.prevUniques) + '</div><div style="font-size:11px;color:#9CA3AF;margin-top:6px;">' + (d.prevUniques ? "vs prev.: " + fmt(d.prevUniques) : "all time") + '</div></div>' +
+                '<div class="card" style="padding:20px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><div style="font-size:11px;font-weight:500;color:#6B7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Avg. Time on Page</div><div style="font-size:28px;font-weight:700;color:#1F2937;line-height:1;">' + d.avgTime + '</div></div>' + (d.prevAvgTime ? delta(parseFloat(d.avgTime.replace(":",".")) * 100, parseFloat(d.prevAvgTime.replace(":",".")) * 100) : "") + '</div><div style="font-size:11px;color:#9CA3AF;margin-top:6px;">' + (d.prevAvgTime ? "vs prev.: " + d.prevAvgTime : "all time") + '</div></div>' +
+                '<div class="card" style="padding:20px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;"><div><div style="font-size:11px;font-weight:500;color:#6B7280;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Bounce Rate</div><div style="font-size:28px;font-weight:700;color:#1F2937;line-height:1;">' + d.bounce + '</div></div>' + (d.prevBounce ? delta(parseInt(d.bounce), parseInt(d.prevBounce)) : "") + '</div><div style="font-size:11px;color:#9CA3AF;margin-top:6px;">' + (d.prevBounce ? "vs prev.: " + d.prevBounce : "all time") + '</div></div>';
+        }
+
+        /* Sparkline */
+        const sparkSvg = document.getElementById("analytics-sparkline");
+        if (sparkSvg) {
+            const pts = d.sparkline;
+            const lastPt = pts.split(" ").pop();
+            const coords = lastPt.split(",");
+            sparkSvg.querySelector(".spark-area").setAttribute("d", pts + " L600,140 L0,140 Z");
+            sparkSvg.querySelector(".spark-line").setAttribute("d", pts);
+            sparkSvg.querySelector(".spark-dot").setAttribute("cx", coords[0]);
+            sparkSvg.querySelector(".spark-dot").setAttribute("cy", coords[1]);
+            sparkSvg.querySelector(".spark-pulse").setAttribute("cx", coords[0]);
+            sparkSvg.querySelector(".spark-pulse").setAttribute("cy", coords[1]);
+        }
+
+        /* Date labels */
+        const labelsEl = document.getElementById("analytics-date-labels");
+        if (labelsEl) {
+            const labels = periodLabels[currentPeriod] || [];
+            labelsEl.innerHTML = labels.map(function(l){ return '<span style="font-size:10px;color:#9CA3AF;">' + l + '</span>'; }).join("");
+        }
+
+        /* Sources */
+        const srcEl = document.getElementById("analytics-sources");
+        if (srcEl) {
+            srcEl.innerHTML = d.sources.map(function(s, i) {
+                return '<div style="display:flex;justify-content:space-between;align-items:center;"><div style="display:flex;align-items:center;gap:8px;"><div style="width:6px;height:6px;border-radius:50%;background:' + sourceColors[i] + ';"></div><span style="font-size:13px;color:#1F2937;">' + s.name + '</span></div><div style="text-align:right;"><span style="font-size:13px;font-weight:600;color:#1F2937;">' + fmt(s.v) + '</span><span style="font-size:11px;color:#9CA3AF;margin-left:6px;">' + s.pct + '</span></div></div>';
+            }).join("");
+        }
+
+        /* Dossiers / pages bar chart */
+        const dosEl = document.getElementById("analytics-dossiers");
+        if (dosEl) {
+            dosEl.innerHTML = d.dossiers.map(function(item, i) {
+                const w = Math.round((item.v / maxDossier) * 100);
+                return '<div><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:12px;color:#1F2937;font-weight:500;">' + item.name + '</span><span style="font-size:12px;font-weight:600;color:#1F2937;">' + fmt(item.v) + '</span></div><div style="height:8px;background-color:#F3F4F6;border-radius:4px;overflow:hidden;"><div style="height:100%;width:' + w + '%;background-color:' + barColors[i] + ';border-radius:4px;"></div></div></div>';
+            }).join("");
+        }
+
+        /* Countries */
+        const ctrEl = document.getElementById("analytics-countries");
+        if (ctrEl) {
+            ctrEl.innerHTML = d.countries.map(function(c) {
+                const w = Math.round((c.v / maxCountry) * 100);
+                return '<div style="display:flex;align-items:center;gap:10px;"><span style="font-size:18px;width:28px;text-align:center;">' + c.flag + '</span><div style="flex:1;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;color:#1F2937;font-weight:500;">' + c.name + '</span><span style="font-size:12px;font-weight:600;color:#1F2937;">' + fmt(c.v) + '</span></div><div style="height:4px;background-color:#F3F4F6;border-radius:2px;overflow:hidden;"><div style="height:100%;width:' + w + '%;background-color:#1B4D2E;border-radius:2px;"></div></div></div></div>';
+            }).join("");
+            var otherEl = document.getElementById("analytics-countries-other");
+            if (otherEl) otherEl.textContent = "+ " + d.otherCountries + " visitors from " + d.otherCount + " other countries";
+        }
+
+        /* Top Pages table */
+        const tblEl = document.getElementById("analytics-pages-tbody");
+        if (tblEl) {
+            tblEl.innerHTML = d.pages.map(function(p, i) {
+                var border = i < d.pages.length - 1 ? "border-bottom:1px solid #F3F4F6;" : "";
+                return '<tr style="' + border + '"><td style="padding:10px 12px;color:#1B4D2E;font-weight:500;">' + p.path + '</td><td style="padding:10px 12px;text-align:right;color:#1F2937;">' + fmt(p.views) + '</td><td style="padding:10px 12px;text-align:right;color:#6B7280;">' + fmt(p.uniq) + '</td><td style="padding:10px 12px;text-align:right;color:#6B7280;">' + p.time + '</td><td style="padding:10px 12px;text-align:right;color:#6B7280;">' + p.bounce + '</td></tr>';
+            }).join("");
+        }
+
+        /* Devices donut */
+        var devEl = document.getElementById("analytics-devices");
+        if (devEl) {
+            var mob = d.devices.mobile;
+            var desk = d.devices.desktop;
+            var tab = d.devices.tablet;
+            var circ = 2 * Math.PI * 40; // ~251.3
+            var mobArc = (mob / 100) * circ;
+            var deskArc = (desk / 100) * circ;
+            var tabArc = (tab / 100) * circ;
+            devEl.innerHTML = '<svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="#1B4D2E" stroke-width="16" stroke-dasharray="' + mobArc + ' ' + (circ - mobArc) + '" stroke-dashoffset="0" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="40" fill="none" stroke="#5D8A5E" stroke-width="16" stroke-dasharray="' + deskArc + ' ' + (circ - deskArc) + '" stroke-dashoffset="-' + mobArc + '" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="40" fill="none" stroke="#D4AF37" stroke-width="16" stroke-dasharray="' + tabArc + ' ' + (circ - tabArc) + '" stroke-dashoffset="-' + (mobArc + deskArc) + '" transform="rotate(-90 50 50)"/></svg>' +
+                '<div style="display:flex;flex-direction:column;gap:10px;"><div style="display:flex;align-items:center;gap:8px;"><div style="width:10px;height:10px;border-radius:2px;background:#1B4D2E;"></div><span style="font-size:12px;color:#1F2937;">Mobile <span style="font-weight:600;">' + mob + '%</span></span></div><div style="display:flex;align-items:center;gap:8px;"><div style="width:10px;height:10px;border-radius:2px;background:#5D8A5E;"></div><span style="font-size:12px;color:#1F2937;">Desktop <span style="font-weight:600;">' + desk + '%</span></span></div><div style="display:flex;align-items:center;gap:8px;"><div style="width:10px;height:10px;border-radius:2px;background:#D4AF37;"></div><span style="font-size:12px;color:#1F2937;">Tablet <span style="font-weight:600;">' + tab + '%</span></span></div></div>';
+        }
+    }
+
+    /* Period button switching */
+    document.querySelectorAll(".analytics-period-btn").forEach(function(btn) {
+        btn.addEventListener("click", function() {
+            currentPeriod = this.getAttribute("data-period");
+            document.querySelectorAll(".analytics-period-btn").forEach(function(b) {
+                b.style.background = "transparent";
+                b.style.color = "#6B7280";
+                b.style.fontWeight = "500";
+            });
+            this.style.background = "#1B4D2E";
+            this.style.color = "white";
+            this.style.fontWeight = "600";
+            renderAnalytics();
+        });
+    });
+
+    /* Site dropdown switching */
+    var siteSelect = document.getElementById("analytics-site-select");
+    if (siteSelect) {
+        siteSelect.addEventListener("change", function() {
+            currentSite = this.value;
+            renderAnalytics();
+        });
+    }
+
+    /* Live Activity: update timestamps every 30s */
+    var liveStartTime = Date.now();
+    var liveVisitors = [
+        {flag:"\ud83c\uddf1\ud83c\uddf0", page:"/caravan-fresh", city:"Colombo", device:"Mobile", offset:0},
+        {flag:"\ud83c\uddec\ud83c\udde7", page:"/sri-lanka-cricket-corruption", city:"London", device:"Desktop", offset:180000},
+        {flag:"\ud83c\udde6\ud83c\uddfa", page:"/iran-us-israel-war", city:"Melbourne", device:"Desktop", offset:480000}
+    ];
+
+    function updateLiveActivity() {
+        var container = document.getElementById("analytics-live-feed");
+        if (!container) return;
+        var now = Date.now();
+        container.innerHTML = liveVisitors.map(function(v) {
+            var elapsed = now - liveStartTime + v.offset;
+            var mins = Math.floor(elapsed / 60000);
+            var timeStr = mins < 1 ? "just now" : mins + "m ago";
+            return '<div style="display:flex;align-items:center;gap:10px;padding:8px;background:#F9FAFB;border-radius:6px;"><span style="font-size:14px;">' + v.flag + '</span><div style="flex:1;"><div style="font-size:12px;color:#1F2937;font-weight:500;">' + v.page + '</div><div style="font-size:10px;color:#9CA3AF;">' + v.city + ' \u00b7 ' + v.device + ' \u00b7 ' + timeStr + '</div></div></div>';
+        }).join("");
+    }
+
+    setInterval(updateLiveActivity, 30000);
+    updateLiveActivity();
+
+    /* IDs are already in the HTML. Do initial render on page load if analytics view is active. */
+    /* No initial render needed — static HTML matches 30d/analyst default. */
+})();
+</script>
 
 <div class="view" id="view-apps">
     <div style="margin-bottom: 24px;">
