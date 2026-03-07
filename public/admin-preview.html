@@ -68,13 +68,34 @@
             flex-direction: column;
         }
 
-        .sidebar-logo {
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--text-primary);
+        .sidebar-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 20px;
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
             margin-bottom: 24px;
-            padding: 0 8px;
-            letter-spacing: -0.5px;
+            margin-left: 4px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+        }
+
+        .sidebar-home-btn:hover {
+            background-color: #4F46E5;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .sidebar-home-btn:active {
+            transform: scale(0.97);
         }
 
         .sidebar-section {
@@ -1426,13 +1447,58 @@
         }
     }
 
+
+        .app-tab-content {
+            display: none;
+        }
+
+        .app-tab-content.active {
+            display: block;
+        }
+
+        .app-tab-btn.active {
+            color: #6366F1 !important;
+            border-bottom-color: #6366F1 !important;
+        }
   </style>
+
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="PLACEHOLDER_SEARCH_CONSOLE_ID">
+
+    <!-- Analytics: GA4 + Microsoft Clarity (GDPR-aware) -->
+    <script>
+    (function(){
+      try {
+        var c = JSON.parse(localStorage.getItem('gdpr_consent_v1') || 'null');
+        if (c && c.accepted === false) return;
+      } catch(e) {}
+      
+      // Google Analytics 4
+      var _ga = document.createElement('script');
+      _ga.async = true;
+      _ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
+      document.head.appendChild(_ga);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', { 'anonymize_ip': true, 'send_page_view': true });
+      
+      // Microsoft Clarity
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;
+        t.src='https://www.clarity.ms/tag/'+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window,document,'clarity','script','XXXXXXXXXX');
+    })();
+    </script>
 </head>
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="sidebar-logo">ANALYST.RIZ</div>
+            <a href="https://rizrazak.com" class="sidebar-home-btn" target="_blank" rel="noopener noreferrer">RizRazak</a>
 
             <!-- Overview Section -->
             <div class="sidebar-section">
@@ -1548,28 +1614,28 @@
     <!-- Stats Row -->
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;">
         <!-- Total Dossiers -->
-        <div class="card" style="background: linear-gradient(135deg, #F0F4FF 0%, #FFFFFF 100%);">
+        <div class="card" onclick="window.location.hash='#/dossiers'" style="background: linear-gradient(135deg, #F0F4FF 0%, #FFFFFF 100%); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
             <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">6</div>
             <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">Total Dossiers</div>
             <div style="font-size: 12px; color: #6B7280;">2 published · 4 pending</div>
         </div>
 
         <!-- Sites Live -->
-        <div class="card" style="background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%);">
+        <div class="card" onclick="window.location.hash='#/apps'" style="background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
             <div style="font-size: 32px; font-weight: 700; color: #10B981; margin-bottom: 4px;">2</div>
             <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">Sites Live</div>
             <div style="font-size: 12px; color: #6B7280;">analyst + rizrazak.com</div>
         </div>
 
         <!-- Comments -->
-        <div class="card" style="background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%);">
+        <div class="card" onclick="window.location.hash='#/comments'" style="background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
             <div style="font-size: 32px; font-weight: 700; color: #F59E0B; margin-bottom: 4px;">4</div>
             <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">Comments</div>
             <div style="font-size: 12px; color: #F59E0B;">pending approval</div>
         </div>
 
         <!-- SEO Score -->
-        <div class="card" style="background: linear-gradient(135deg, #F0F4FF 0%, #FFFFFF 100%);">
+        <div class="card" onclick="window.location.hash='#/seo'" style="background: linear-gradient(135deg, #F0F4FF 0%, #FFFFFF 100%); cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 16px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='none';this.style.boxShadow='none'">
             <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">75</div>
             <div style="font-size: 14px; font-weight: 500; color: #1F2937; margin-bottom: 8px;">SEO Score</div>
             <div style="font-size: 12px; color: #6B7280;">analyst-site · Good</div>
@@ -1675,7 +1741,7 @@
         <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Recent Activity</div>
         <div style="display: flex; flex-direction: column; gap: 16px;">
             <!-- Item 1 -->
-            <div style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB;">
+            <div onclick="window.location.hash='#/seo'" style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB; cursor: pointer; border-radius: 6px; padding: 12px; margin: -4px; transition: background 0.15s ease;" onmouseover="this.style.background='#F9FAFB'" onmouseout="this.style.background='none'">
                 <div style="font-size: 18px;">📄</div>
                 <div style="flex: 1;">
                     <div style="font-size: 13px; color: #1F2937;">Pushed SEO.md + Admin Dashboard preview (analyst)</div>
@@ -1684,7 +1750,7 @@
             </div>
 
             <!-- Item 2 -->
-            <div style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB;">
+            <div onclick="window.location.hash='#/dossiers/caravan-fresh'" style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB; cursor: pointer; border-radius: 6px; padding: 12px; margin: -4px; transition: background 0.15s ease;" onmouseover="this.style.background='#F9FAFB'" onmouseout="this.style.background='none'">
                 <div style="font-size: 18px;">✓</div>
                 <div style="flex: 1;">
                     <div style="font-size: 13px; color: #1F2937;">caravan-fresh set to published</div>
@@ -1693,7 +1759,7 @@
             </div>
 
             <!-- Item 3 -->
-            <div style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB;">
+            <div onclick="window.location.hash='#/settings'" style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB; cursor: pointer; border-radius: 6px; padding: 12px; margin: -4px; transition: background 0.15s ease;" onmouseover="this.style.background='#F9FAFB'" onmouseout="this.style.background='none'">
                 <div style="font-size: 18px;">🔄</div>
                 <div style="flex: 1;">
                     <div style="font-size: 13px; color: #1F2937;">BrowserRouter migration, URL cleanup</div>
@@ -1702,7 +1768,7 @@
             </div>
 
             <!-- Item 4 -->
-            <div style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB;">
+            <div onclick="window.location.hash='#/dossiers/sri-lanka-hormuz-crisis'" style="display: flex; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid #E5E7EB; cursor: pointer; border-radius: 6px; padding: 12px; margin: -4px; transition: background 0.15s ease;" onmouseover="this.style.background='#F9FAFB'" onmouseout="this.style.background='none'">
                 <div style="font-size: 18px;">📁</div>
                 <div style="flex: 1;">
                     <div style="font-size: 13px; color: #1F2937;">sri-lanka-hormuz-crisis folder detected</div>
@@ -1711,7 +1777,7 @@
             </div>
 
             <!-- Item 5 -->
-            <div style="display: flex; gap: 12px;">
+            <div onclick="window.location.hash='#/dossiers'" style="display: flex; gap: 12px; cursor: pointer; border-radius: 6px; padding: 12px; margin: -4px; transition: background 0.15s ease;" onmouseover="this.style.background='#F9FAFB'" onmouseout="this.style.background='none'">
                 <div style="font-size: 18px;">✨</div>
                 <div style="flex: 1;">
                     <div style="font-size: 13px; color: #1F2937;">Folder restructure complete</div>
@@ -2134,7 +2200,12 @@
                     <div style="font-size: 12px; color: #92400E;">Recommended next: Connect to Vercel for zero-config deploys</div>
                 </div>
 
-                <button class="button" onclick="window.location.hash='#/apps/kunatu'" style="background-color: #6366F1; color: white; width: 100%; padding: 10px 16px; cursor: pointer;">View Project</button>
+                <div style="display: flex; gap: 8px;">
+                    <a href="https://github.com/riz-razak/kunatu" target="_blank" rel="noopener noreferrer" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background-color: #1F2937; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">
+                        <span style="font-size: 15px;">⌘</span> GitHub
+                    </a>
+                    <button onclick="window.location.hash='#/apps/kunatu'" style="flex: 1; background-color: #6366F1; color: white; padding: 10px 16px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">View Details</button>
+                </div>
             </div>
 
             <!-- Waren Yan Card -->
@@ -2171,7 +2242,12 @@
                     <div style="font-size: 12px; color: #92400E;">Note: firebase-debug.log present in repo</div>
                 </div>
 
-                <button class="button" onclick="window.location.hash='#/apps/yan'" style="background-color: #6366F1; color: white; width: 100%; padding: 10px 16px; cursor: pointer;">View Project</button>
+                <div style="display: flex; gap: 8px;">
+                    <a href="https://github.com/riz-razak/waren-yan" target="_blank" rel="noopener noreferrer" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background-color: #1F2937; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">
+                        <span style="font-size: 15px;">⌘</span> GitHub
+                    </a>
+                    <button onclick="window.location.hash='#/apps/yan'" style="flex: 1; background-color: #6366F1; color: white; padding: 10px 16px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">View Details</button>
+                </div>
             </div>
         </div>
     </div>
@@ -3159,6 +3235,27 @@
 
             appState.currentRoute = hash;
             appState.currentView = routeInfo.view;
+
+            // Handle app detail routes by switching tabs within apps view
+            if (routeInfo.view === 'apps' || (hash.startsWith('#/apps/') && hash !== '#/apps')) {
+                const appId = hash.replace('#/apps/', '');
+                if (appId && appId !== 'apps') {
+                    // Switch to the app's detail tab within view-apps
+                    const tabName = appId === 'yan' ? 'waren-yan' : appId;
+                    const targetTab = document.querySelector(`.app-tab-btn[data-tab="${tabName}"]`);
+                    if (targetTab) {
+                        targetTab.click();
+                    }
+                    // Make sure view-apps is the active view (not view-app-detail)
+                    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                    const appsView = document.getElementById('view-apps');
+                    if (appsView) appsView.classList.add('active');
+                    // Update topbar
+                    const titles = { 'kunatu': 'Apps: Kunatu', 'yan': 'Apps: Waren Yan', 'waren-yan': 'Apps: Waren Yan' };
+                    document.getElementById('topbar-title').textContent = titles[appId] || 'Apps';
+                    return;
+                }
+            }
 
             // Update topbar
             let title = routeInfo.title;
