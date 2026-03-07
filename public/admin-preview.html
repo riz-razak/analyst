@@ -2558,166 +2558,807 @@
 </div>
 
 <div class="view" id="view-comments">
-    <!-- Alert Banner -->
-    <div id="comments-alert" style="background-color: #FFFBEB; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 20px;">⚠</span>
-            <span style="color: #92400E; font-size: 13px; font-weight: 500;">4 comments pending on caravan-fresh</span>
-        </div>
-        <button onclick="approveAllComments()" style="background-color: #F59E0B; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;">Approve All</button>
-    </div>
+    <style>
+        .comments-container {
+            display: grid;
+            grid-template-columns: 1fr 35%;
+            gap: 24px;
+            align-items: start;
+        }
 
-    <!-- Tab Bar -->
-    <div style="display: flex; gap: 0; border-bottom: 1px solid #E5E7EB; margin-bottom: 24px;">
-        <button class="comment-tab-btn active" data-tab="pending" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Pending <span style="background-color: #EF4444; color: white; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">4</span></button>
-        <button class="comment-tab-btn" data-tab="approved" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Approved <span style="background-color: #E5E7EB; color: #6B7280; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">12</span></button>
-        <button class="comment-tab-btn" data-tab="spam" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Spam <span style="background-color: #E5E7EB; color: #6B7280; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">1</span></button>
-    </div>
+        .comments-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-    <!-- Pending Comments Tab -->
-    <div class="comment-tab-content active" data-tab="pending">
-        <div class="card">
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 13px;" id="pending-comments-table">
-                    <thead>
-                        <tr style="border-bottom: 1px solid #E5E7EB;">
-                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Author</th>
-                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Comment</th>
-                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Dossier</th>
-                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Date</th>
-                            <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="1">
-                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Malith S.</td>
-                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"This is exactly what mainstream media won't cover..."</td>
-                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
-                            <td style="padding: 12px; color: #9CA3AF;">2h ago</td>
-                            <td style="padding: 12px; text-align: center;">
-                                <button onclick="approveComment(1)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
-                                <button onclick="deleteComment(1)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="2">
-                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Nuwanthi P.</td>
-                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"Shared with 3 journalists. Is there a Sinhala version?"</td>
-                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
-                            <td style="padding: 12px; color: #9CA3AF;">5h ago</td>
-                            <td style="padding: 12px; text-align: center;">
-                                <button onclick="approveComment(2)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
-                                <button onclick="deleteComment(2)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="3">
-                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Diaspora Reader</td>
-                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"Reading from London. This level of analysis doesn't exist..."</td>
-                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
-                            <td style="padding: 12px; color: #9CA3AF;">1d ago</td>
-                            <td style="padding: 12px; text-align: center;">
-                                <button onclick="approveComment(3)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
-                                <button onclick="deleteComment(3)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="4">
-                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Anonymous</td>
-                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"When is cricket dossier getting Sinhala translation?"</td>
-                            <td style="padding: 12px; color: #6B7280;">sri-lanka-cricket-corruption</td>
-                            <td style="padding: 12px; color: #9CA3AF;">2d ago</td>
-                            <td style="padding: 12px; text-align: center;">
-                                <button onclick="approveComment(4)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
-                                <button onclick="deleteComment(4)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .filter-dropdown, .search-input {
+            padding: 8px 12px;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: Inter, sans-serif;
+        }
+
+        .filter-dropdown {
+            flex: 0 0 auto;
+        }
+
+        .search-input {
+            flex: 1;
+        }
+
+        .tab-bar {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid #E5E7EB;
+            margin-bottom: 16px;
+        }
+
+        .tab-btn {
+            padding: 12px 16px;
+            border: none;
+            background: none;
+            color: #6B7280;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            position: relative;
+            bottom: -1px;
+        }
+
+        .tab-btn.active {
+            color: #6366F1;
+            border-bottom-color: #6366F1;
+        }
+
+        .badge {
+            background-color: #EF4444;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+            display: inline-block;
+        }
+
+        .tab-btn.approved .badge {
+            background-color: #10B981;
+        }
+
+        .tab-btn.flagged .badge {
+            background-color: #F59E0B;
+        }
+
+        .tab-btn.spam .badge {
+            background-color: #6B7280;
+        }
+
+        .comment-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .comment-card:hover {
+            background-color: #F8F7FF;
+            border-color: #D8D4E8;
+        }
+
+        .comment-card.selected {
+            border-left-color: #6366F1;
+            background-color: #F8F7FF;
+        }
+
+        .comment-card.approved {
+            opacity: 0.7;
+        }
+
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .avatar.color-a { background-color: #6366F1; }
+        .avatar.color-b { background-color: #EC4899; }
+        .avatar.color-c { background-color: #F59E0B; }
+        .avatar.color-d { background-color: #10B981; }
+        .avatar.color-n { background-color: #8B5CF6; }
+
+        .comment-meta {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #1F2937;
+            font-size: 14px;
+        }
+
+        .meta-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 4px;
+            font-size: 12px;
+            color: #6B7280;
+        }
+
+        .dossier-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            border: 1px solid #C4B5FD;
+            background-color: #F3E8FF;
+            color: #6B21A8;
+        }
+
+        .approved-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            background-color: #DCFCE7;
+            color: #166534;
+        }
+
+        .comment-text {
+            color: #374151;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            max-height: 80px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .comment-text.expanded {
+            max-height: none;
+            overflow: visible;
+        }
+
+        .expand-btn {
+            color: #6366F1;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #6B7280;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 0;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .action-btn:hover {
+            color: #6366F1;
+        }
+
+        .action-btn.approve:hover {
+            color: #10B981;
+        }
+
+        .action-btn.delete:hover {
+            color: #EF4444;
+        }
+
+        .action-btn.flag:hover {
+            color: #F59E0B;
+        }
+
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .rhs-card {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .rhs-title {
+            font-weight: 600;
+            color: #1F2937;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .giscus-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #10B981;
+            flex-shrink: 0;
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 12px;
+            border-bottom: 1px solid #F3F4F6;
+        }
+
+        .config-item:last-child {
+            border-bottom: none;
+        }
+
+        .config-label {
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .config-value {
+            color: #1F2937;
+            font-family: 'Courier New', monospace;
+        }
+
+        .edit-config-btn {
+            background-color: #F3F4F6;
+            border: 1px solid #E5E7EB;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6B7280;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 12px;
+            width: 100%;
+        }
+
+        .edit-config-btn:hover {
+            background-color: #E5E7EB;
+            color: #1F2937;
+        }
+
+        .no-selection {
+            color: #9CA3AF;
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 13px;
+        }
+
+        .reply-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .reply-textarea {
+            padding: 8px 12px;
+            border: 1px solid #E5E7EB;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: Inter, sans-serif;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .send-reply-btn {
+            background-color: #6366F1;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .send-reply-btn:hover {
+            background-color: #4F46E5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #1F2937;
+            font-size: 16px;
+        }
+
+        .stat-label {
+            color: #6B7280;
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 1024px) {
+            .comments-container {
+                grid-template-columns: 1fr;
+            }
+
+            .right-panel {
+                order: -1;
+            }
+        }
+    </style>
+
+    <div class="comments-container">
+        <!-- LEFT COLUMN: Comment Feed -->
+        <div class="comments-feed">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <select class="filter-dropdown" id="dosser-filter">
+                    <option value="">All Dossiers</option>
+                    <option value="caravan-fresh">caravan-fresh</option>
+                    <option value="sri-lanka-cricket-corruption">sri-lanka-cricket-corruption</option>
+                    <option value="iran-us-israel-war">iran-us-israel-war</option>
+                    <option value="easter-sunday">easter-sunday</option>
+                </select>
+                <input type="text" class="search-input" id="comment-search" placeholder="Search comments...">
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="tab-bar">
+                <button class="tab-btn active" data-tab="pending">Pending <span class="badge">4</span></button>
+                <button class="tab-btn approved" data-tab="approved">Approved <span class="badge">12</span></button>
+                <button class="tab-btn flagged" data-tab="flagged">Flagged <span class="badge">0</span></button>
+                <button class="tab-btn spam" data-tab="spam">Spam <span class="badge">1</span></button>
+            </div>
+
+            <!-- Comments List -->
+            <div id="comments-list" class="comments-list-container">
+                <!-- Pending Comments -->
+                <div class="tab-content active" data-tab="pending">
+                    <!-- Comment 1: Malith S. -->
+                    <div class="comment-card" data-comment-id="1" data-status="pending" data-dossier="caravan-fresh">
+                        <div class="comment-header">
+                            <div class="avatar color-a">M</div>
+                            <div class="comment-meta">
+                                <div class="author-name">Malith S.</div>
+                                <div class="meta-row">
+                                    <span class="dossier-badge">caravan-fresh</span>
+                                    <span>2h ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-text">"This is exactly what mainstream media won't cover. Finally someone with the courage to lay it all out. The political protection racket is real."</div>
+                        <div class="comment-actions">
+                            <button class="action-btn approve" onclick="window.approveComment(1)">✓ Approve</button>
+                            <button class="action-btn delete" onclick="window.deleteComment(1)">✗ Delete</button>
+                            <button class="action-btn flag" onclick="window.flagComment(1)">⚑ Flag</button>
+                        </div>
+                    </div>
+
+                    <!-- Comment 2: Nuwanthi P. -->
+                    <div class="comment-card" data-comment-id="2" data-status="pending" data-dossier="caravan-fresh">
+                        <div class="comment-header">
+                            <div class="avatar color-n">N</div>
+                            <div class="comment-meta">
+                                <div class="author-name">Nuwanthi P.</div>
+                                <div class="meta-row">
+                                    <span class="dossier-badge">caravan-fresh</span>
+                                    <span>5h ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-text">"Shared with 3 journalists I trust. Is there a Sinhala version? The impact would be massive in the local media sphere."</div>
+                        <div class="comment-actions">
+                            <button class="action-btn approve" onclick="window.approveComment(2)">✓ Approve</button>
+                            <button class="action-btn delete" onclick="window.deleteComment(2)">✗ Delete</button>
+                            <button class="action-btn flag" onclick="window.flagComment(2)">⚑ Flag</button>
+                        </div>
+                    </div>
+
+                    <!-- Comment 3: Diaspora Reader -->
+                    <div class="comment-card" data-comment-id="3" data-status="pending" data-dossier="caravan-fresh">
+                        <div class="comment-header">
+                            <div class="avatar color-d">D</div>
+                            <div class="comment-meta">
+                                <div class="author-name">Diaspora Reader</div>
+                                <div class="meta-row">
+                                    <span class="dossier-badge">caravan-fresh</span>
+                                    <span>1d ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-text">"Reading from London. This level of analysis doesn't exist in any Sri Lankan publication. The connections you've drawn between political figures and business interests are eye-opening."</div>
+                        <div class="comment-actions">
+                            <button class="action-btn approve" onclick="window.approveComment(3)">✓ Approve</button>
+                            <button class="action-btn delete" onclick="window.deleteComment(3)">✗ Delete</button>
+                            <button class="action-btn flag" onclick="window.flagComment(3)">⚑ Flag</button>
+                        </div>
+                    </div>
+
+                    <!-- Comment 4: Anonymous -->
+                    <div class="comment-card" data-comment-id="4" data-status="pending" data-dossier="sri-lanka-cricket-corruption">
+                        <div class="comment-header">
+                            <div class="avatar color-b">A</div>
+                            <div class="comment-meta">
+                                <div class="author-name">Anonymous</div>
+                                <div class="meta-row">
+                                    <span class="dossier-badge">sri-lanka-cricket-corruption</span>
+                                    <span>2d ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-text">"When is the cricket dossier getting a Sinhala translation? The evidence section needs wider reach."</div>
+                        <div class="comment-actions">
+                            <button class="action-btn approve" onclick="window.approveComment(4)">✓ Approve</button>
+                            <button class="action-btn delete" onclick="window.deleteComment(4)">✗ Delete</button>
+                            <button class="action-btn flag" onclick="window.flagComment(4)">⚑ Flag</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Approved Comments -->
+                <div class="tab-content" data-tab="approved">
+                    <!-- Comment 5: Kumara W. -->
+                    <div class="comment-card approved" data-comment-id="5" data-status="approved" data-dossier="sri-lanka-cricket-corruption">
+                        <div class="comment-header">
+                            <div class="avatar color-a">K</div>
+                            <div class="comment-meta">
+                                <div class="author-name">Kumara W.</div>
+                                <div class="meta-row">
+                                    <span class="dossier-badge">sri-lanka-cricket-corruption</span>
+                                    <span>3d ago</span>
+                                    <span class="approved-badge">Approved</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-text">"The SLC timeline is devastating. Well-researched."</div>
+                        <div class="comment-actions">
+                            <button class="action-btn delete" onclick="window.deleteComment(5)">✗ Delete</button>
+                            <button class="action-btn flag" onclick="window.flagComment(5)">⚑ Flag</button>
+                        </div>
+                    </div>
+
+                    <!-- Comment 6: Tamil Reader -->
+                    <div class="comment-card approved" data-comment-id="6" data-status="approved" data-dossier="caravan-fresh">
+                        <div class="comment-header">
+                            <div class="avatar color-c">T</div>
+                            <div class="comment-meta">
+                                <div class="author-name">Tamil Reader</div>
+                                <div class="meta-row">
+                                    <span class="dossier-badge">caravan-fresh</span>
+                                    <span>4d ago</span>
+                                    <span class="approved-badge">Approved</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-text">"Important work. More people need to see this."</div>
+                        <div class="comment-actions">
+                            <button class="action-btn delete" onclick="window.deleteComment(6)">✗ Delete</button>
+                            <button class="action-btn flag" onclick="window.flagComment(6)">⚑ Flag</button>
+                        </div>
+                    </div>
+
+                    <!-- Comment 7: NewsWatch -->
+                    <div class="comment-card approved" data-comment-id="7" data-status="approved" data-dossier="caravan-fresh">
+                        <div class="comment-header">
+                            <div class="avatar color-b">N</div>
+                            <div class="comment-meta">
+                                <div class="author-name">NewsWatch</div>
+                                <div class="meta-row">
+                                    <span class="dossier-badge">caravan-fresh</span>
+                                    <span>5d ago</span>
+                                    <span class="approved-badge">Approved</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-text">"Verified several of these claims independently. Solid reporting."</div>
+                        <div class="comment-actions">
+                            <button class="action-btn delete" onclick="window.deleteComment(7)">✗ Delete</button>
+                            <button class="action-btn flag" onclick="window.flagComment(7)">⚑ Flag</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spam Comments -->
+                <div class="tab-content" data-tab="spam">
+                    <!-- Comment 8: BuySEOLinks -->
+                    <div class="comment-card" data-comment-id="8" data-status="spam" data-dossier="sri-lanka-cricket-corruption">
+                        <div class="comment-header">
+                            <div class="avatar color-c">B</div>
+                            <div class="comment-meta">
+                                <div class="author-name">BuySEOLinks</div>
+                                <div class="meta-row">
+                                    <span class="dossier-badge">sri-lanka-cricket-corruption</span>
+                                    <span>1d ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-text">"Great article! Visit our site for cheap backlinks..."</div>
+                        <div class="comment-actions">
+                            <button class="action-btn delete" onclick="window.deleteComment(8)">✗ Delete</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Approved Comments Tab -->
-    <div class="comment-tab-content" data-tab="approved">
-        <div class="card">
-            <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px 20px;">12 approved comments</div>
+        <!-- RIGHT COLUMN: Detail Panel -->
+        <div class="right-panel">
+            <!-- Giscus Integration Card -->
+            <div class="rhs-card">
+                <div class="rhs-title">Giscus Integration</div>
+                <div class="giscus-status">
+                    <span class="status-dot"></span>
+                    <span>Connected to riz-razak/analyst</span>
+                </div>
+                <div class="config-item">
+                    <span class="config-label">Mapping:</span>
+                    <span class="config-value">pathname</span>
+                </div>
+                <div class="config-item">
+                    <span class="config-label">Category:</span>
+                    <span class="config-value">Announcements</span>
+                </div>
+                <div class="config-item">
+                    <span class="config-label">Theme:</span>
+                    <span class="config-value">preferred_color_scheme</span>
+                </div>
+                <button class="edit-config-btn">Edit Configuration</button>
+            </div>
+
+            <!-- Comment Preview Card -->
+            <div class="rhs-card" id="preview-card" style="display: none;">
+                <div class="rhs-title">Comment Preview</div>
+                <div id="preview-content"></div>
+            </div>
+
+            <!-- No Selection State -->
+            <div class="rhs-card" id="no-selection" style="text-align: center; padding: 40px 20px;">
+                <div class="no-selection">Click a comment to view details</div>
+            </div>
+
+            <!-- Quick Stats Card -->
+            <div class="rhs-card">
+                <div class="rhs-title">Quick Stats</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">17</div>
+                        <div class="stat-label">Total Comments</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">2.8</div>
+                        <div class="stat-label">Per Dossier</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">0%</div>
+                        <div class="stat-label">Response Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">caravan-fresh</div>
+                        <div class="stat-label">Most Active</div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <!-- Spam Comments Tab -->
-    <div class="comment-tab-content" data-tab="spam">
-        <div class="card">
-            <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px 20px;">1 spam comment</div>
-        </div>
-    </div>
-
-    <!-- Empty State (hidden until all comments approved) -->
-    <div id="comments-empty-state" style="display: none; text-align: center; padding: 40px 20px;">
-        <div style="font-size: 32px; margin-bottom: 12px;">✓</div>
-        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">No pending comments</div>
-        <div style="color: #6B7280; font-size: 13px;">All comments have been reviewed</div>
     </div>
 
     <script>
 (function() {
 
-        function approveComment(id) {
-            const row = document.querySelector(`[data-comment-id="${id}"]`);
-            if (row) {
-                row.remove();
-                checkPendingComments();
-            }
-        }
+    // Store comment data
+    const comments = {
+        1: { id: 1, author: 'Malith S.', dossier: 'caravan-fresh', timestamp: '2h ago', text: 'This is exactly what mainstream media won't cover. Finally someone with the courage to lay it all out. The political protection racket is real.', status: 'pending', avatar: 'M', color: 'color-a' },
+        2: { id: 2, author: 'Nuwanthi P.', dossier: 'caravan-fresh', timestamp: '5h ago', text: 'Shared with 3 journalists I trust. Is there a Sinhala version? The impact would be massive in the local media sphere.', status: 'pending', avatar: 'N', color: 'color-n' },
+        3: { id: 3, author: 'Diaspora Reader', dossier: 'caravan-fresh', timestamp: '1d ago', text: 'Reading from London. This level of analysis doesn't exist in any Sri Lankan publication. The connections you've drawn between political figures and business interests are eye-opening.', status: 'pending', avatar: 'D', color: 'color-d' },
+        4: { id: 4, author: 'Anonymous', dossier: 'sri-lanka-cricket-corruption', timestamp: '2d ago', text: 'When is the cricket dossier getting a Sinhala translation? The evidence section needs wider reach.', status: 'pending', avatar: 'A', color: 'color-b' },
+        5: { id: 5, author: 'Kumara W.', dossier: 'sri-lanka-cricket-corruption', timestamp: '3d ago', text: 'The SLC timeline is devastating. Well-researched.', status: 'approved', avatar: 'K', color: 'color-a' },
+        6: { id: 6, author: 'Tamil Reader', dossier: 'caravan-fresh', timestamp: '4d ago', text: 'Important work. More people need to see this.', status: 'approved', avatar: 'T', color: 'color-c' },
+        7: { id: 7, author: 'NewsWatch', dossier: 'caravan-fresh', timestamp: '5d ago', text: 'Verified several of these claims independently. Solid reporting.', status: 'approved', avatar: 'N', color: 'color-b' },
+        8: { id: 8, author: 'BuySEOLinks', dossier: 'sri-lanka-cricket-corruption', timestamp: '1d ago', text: 'Great article! Visit our site for cheap backlinks...', status: 'spam', avatar: 'B', color: 'color-c' }
+    };
 
-        function deleteComment(id) {
-            const row = document.querySelector(`[data-comment-id="${id}"]`);
-            if (row) {
-                row.remove();
-                checkPendingComments();
-            }
-        }
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tabName = this.dataset.tab;
 
-        function approveAllComments() {
-            document.querySelectorAll('#pending-comments-table tbody tr').forEach(row => {
-                row.remove();
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
             });
-            checkPendingComments();
-        }
 
-        function checkPendingComments() {
-            const tableBody = document.querySelector('#pending-comments-table tbody');
-            const hasRows = tableBody.querySelector('tr') !== null;
-            
-            if (!hasRows) {
-                document.getElementById('comments-alert').style.display = 'none';
-                document.querySelector('[data-tab="pending"]').style.display = 'none';
-                document.getElementById('comments-empty-state').style.display = 'block';
-                document.querySelector('.comment-tab-content[data-tab="pending"]').innerHTML = '';
-                document.querySelector('[data-tab="approved"]').click();
-            }
-        }
-
-        // Comment tab switching
-        document.querySelectorAll('.comment-tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const tabName = this.dataset.tab;
-                
-                document.querySelectorAll('.comment-tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                document.querySelectorAll('.comment-tab-btn').forEach(b => {
-                    b.style.color = '#6B7280';
-                    b.style.borderBottomColor = 'transparent';
-                });
-                
-                document.querySelector(`[data-tab="${tabName}"].comment-tab-content`).classList.add('active');
-                
-                this.style.color = '#6366F1';
-                this.style.borderBottomColor = '#6366F1';
+            // Update button styles
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active');
             });
+
+            // Show selected tab
+            document.querySelector('.tab-content[data-tab="' + tabName + '"]').classList.add('active');
+            this.classList.add('active');
         });
-    
+    });
+
+    // Comment card click handler
+    document.querySelectorAll('.comment-card').forEach(card => {
+        card.addEventListener('click', function() {
+            // Remove selection from all cards
+            document.querySelectorAll('.comment-card').forEach(c => {
+                c.classList.remove('selected');
+            });
+
+            // Add selection to this card
+            this.classList.add('selected');
+
+            // Get comment ID and show preview
+            const commentId = parseInt(this.dataset.commentId);
+            showPreview(commentId);
+        });
+    });
+
+    function showPreview(commentId) {
+        const comment = comments[commentId];
+        if (!comment) return;
+
+        const previewCard = document.getElementById('preview-card');
+        const noSelection = document.getElementById('no-selection');
+        const previewContent = document.getElementById('preview-content');
+
+        const statusBadge = comment.status === 'approved' ? '<span class="approved-badge">Approved</span>' : '';
+
+        const html = `
+            <div style="margin-bottom: 16px;">
+                <div style="font-weight: 600; color: #1F2937; margin-bottom: 4px;">${comment.author}</div>
+                <div style="font-size: 12px; color: #6B7280; margin-bottom: 8px;">
+                    <span class="dossier-badge">${comment.dossier}</span>
+                    <span style="margin-left: 8px;">${comment.timestamp}</span>
+                    ${statusBadge}
+                </div>
+            </div>
+            <div style="color: #374151; font-size: 13px; line-height: 1.6; margin-bottom: 16px; padding: 12px; background-color: #F9FAFB; border-radius: 4px;">
+                ${comment.text}
+            </div>
+            <div style="font-size: 12px; color: #6B7280; margin-bottom: 12px;">
+                192.168.x.x · Chrome 120 · London, UK
+            </div>
+            <div class="reply-form">
+                <textarea class="reply-textarea" placeholder="Write a reply..."></textarea>
+                <button class="send-reply-btn" onclick="window.sendReply(${commentId})">Send Reply</button>
+            </div>
+            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #E5E7EB; display: flex; gap: 8px; flex-wrap: wrap;">
+                ${comment.status !== 'approved' ? '<button class="action-btn approve" onclick="window.approveComment(' + commentId + ')">✓ Approve</button>' : ''}
+                <button class="action-btn delete" onclick="window.deleteComment(' + commentId + ')">✗ Delete</button>
+                <button class="action-btn flag" onclick="window.flagComment(' + commentId + ')">⚑ Flag</button>
+            </div>
+        `;
+
+        previewContent.innerHTML = html;
+        previewCard.style.display = 'block';
+        noSelection.style.display = 'none';
+    }
+
+    // Expose functions to window
+    window.approveComment = function(id) {
+        const card = document.querySelector('[data-comment-id="' + id + '"]');
+        if (card) {
+            card.style.opacity = '0';
+            setTimeout(() => {
+                card.remove();
+                updateCounts();
+                document.getElementById('no-selection').style.display = 'block';
+                document.getElementById('preview-card').style.display = 'none';
+            }, 300);
+        }
+    };
+
+    window.deleteComment = function(id) {
+        const card = document.querySelector('[data-comment-id="' + id + '"]');
+        if (card) {
+            card.style.opacity = '0';
+            setTimeout(() => {
+                card.remove();
+                updateCounts();
+                document.getElementById('no-selection').style.display = 'block';
+                document.getElementById('preview-card').style.display = 'none';
+            }, 300);
+        }
+    };
+
+    window.flagComment = function(id) {
+        showToast('Comment flagged for review');
+    };
+
+    window.sendReply = function(id) {
+        const textarea = document.querySelector('.reply-textarea');
+        if (textarea && textarea.value.trim()) {
+            textarea.value = '';
+            showToast('Reply sent!');
+        }
+    };
+
+    function updateCounts() {
+        const pendingCount = document.querySelectorAll('.tab-content[data-tab="pending"] .comment-card').length;
+        const approvedCount = document.querySelectorAll('.tab-content[data-tab="approved"] .comment-card').length;
+        const spamCount = document.querySelectorAll('.tab-content[data-tab="spam"] .comment-card').length;
+
+        document.querySelector('.tab-btn[data-tab="pending"] .badge').textContent = pendingCount;
+        document.querySelector('.tab-btn[data-tab="approved"] .badge').textContent = approvedCount;
+        document.querySelector('.tab-btn[data-tab="spam"] .badge').textContent = spamCount;
+    }
+
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background-color: #6366F1; color: white; padding: 12px 16px; border-radius: 6px; font-size: 13px; z-index: 9999;';
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, 2000);
+    }
+
 })();
-</script>
+    </script>
 </div>
 
 <div class="view" id="view-settings">
