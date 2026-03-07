@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Analyst.RizRazak.com</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
+    <style>
 /* CSS Variables */
         :root {
             --color-primary: #6366F1;
@@ -1534,8 +1534,8 @@
 
             <!-- Views Container -->
             <div class="views-container">
-                <!-- Dashboard View -->
-                <div class="view active" id="view-dashboard">
+
+<div class="view active" id="view-dashboard">
     <!-- Greeting Header -->
     <div style="margin-bottom: 32px;">
         <div style="font-size: 28px; font-weight: 700; color: #1F2937; margin-bottom: 6px;">Good morning, Riz</div>
@@ -1721,108 +1721,15 @@
         </div>
     </div>
 
-    
+    <script>
+        // Set dashboard date
+        const today = new Date('2026-03-07');
+        const dateString = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('dashboard-date').textContent = dateString;
+    </script>
 </div>
-                </div>
 
-                <!-- Analytics View -->
-                <div class="view" id="view-analytics">
-    <!-- Stats Row -->
-    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;">
-        <div class="card">
-            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
-            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
-            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Page Views 30d</div>
-        </div>
-        <div class="card">
-            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
-            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
-            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Unique Visitors</div>
-        </div>
-        <div class="card">
-            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
-            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
-            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Avg Time</div>
-        </div>
-        <div class="card">
-            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
-            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
-            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Bounce Rate</div>
-        </div>
-    </div>
-
-    <!-- Empty State -->
-    <div class="card" style="text-align: center; padding: 60px 40px; margin-bottom: 32px;">
-        <div style="width: 100%; height: 100px; background-color: #F3F4F6; border-radius: 8px; margin-bottom: 24px;"></div>
-        <div style="font-size: 18px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Connect your analytics</div>
-        <div style="font-size: 13px; color: #6B7280; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto;">Connect Umami or Google Analytics to see real visitor data here.</div>
-        <div style="display: flex; gap: 12px; justify-content: center;">
-            <button style="padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Connect Umami (recommended)</button>
-            <button style="padding: 10px 20px; background-color: transparent; color: #6B7280; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Connect GA4</button>
-        </div>
-    </div>
-
-    <!-- Sample Chart Card -->
-    <div class="card">
-        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Views by Dossier <span style="font-size: 12px; color: #6B7280; font-weight: 400;">(sample data)</span></div>
-        <div style="display: flex; flex-direction: column; gap: 20px;">
-            <!-- Bar 1 -->
-            <div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">sri-lanka-cricket-corruption</span>
-                    <span style="font-size: 12px; color: #6B7280;">4,821</span>
-                </div>
-                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
-                    <div style="height: 100%; width: 100%; background-color: #6366F1; border-radius: 4px;"></div>
-                </div>
-            </div>
-
-            <!-- Bar 2 -->
-            <div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">caravan-fresh</span>
-                    <span style="font-size: 12px; color: #6B7280;">3,562</span>
-                </div>
-                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
-                    <div style="height: 100%; width: 74%; background-color: #10B981; border-radius: 4px;"></div>
-                </div>
-            </div>
-
-            <!-- Bar 3 -->
-            <div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">iran-us-israel-war</span>
-                    <span style="font-size: 12px; color: #6B7280;">1,820</span>
-                </div>
-                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
-                    <div style="height: 100%; width: 38%; background-color: #F59E0B; border-radius: 4px;"></div>
-                </div>
-            </div>
-
-            <!-- Bar 4 -->
-            <div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">easter-sunday-attacks</span>
-                    <span style="font-size: 12px; color: #6B7280;">1,203</span>
-                </div>
-                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
-                    <div style="height: 100%; width: 25%; background-color: #EF4444; border-radius: 4px;"></div>
-                </div>
-            </div>
-        </div>
-
-        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
-            <div style="font-size: 12px; color: #9CA3AF; display: flex; align-items: center; gap: 6px;">
-                <span>⚠</span>
-                <span>Placeholder — connect analytics API</span>
-            </div>
-        </div>
-    </div>
-</div>
-                </div>
-
-                <!-- Dossiers View -->
-                <div id="view-dossiers" class="view">
+<div id="view-dossiers" class="view">
     <!-- Orphan Alert Banner -->
     <div class="alert-banner" id="orphan-alert">
         <div class="alert-banner-title">2 items need attention</div>
@@ -1883,10 +1790,8 @@
         </div>
     </div>
 </div>
-                </div>
 
-                <!-- Dossier Detail View -->
-                <div id="view-dossier-detail" class="view detail-view">
+<div id="view-dossier-detail" class="view detail-view">
     <div class="detail-header">
         <button class="detail-header-back" id="back-btn">← All Dossiers</button>
         <h1 class="detail-header-title" id="detail-title-display">Dossier Name</h1>
@@ -2083,244 +1988,102 @@
         </div>
     </div>
 </div>
-                </div>
 
-                <!-- SEO View -->
-                <div class="view" id="view-seo">
-    <!-- Stat Cards -->
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px;">
+<div class="view" id="view-analytics">
+    <!-- Stats Row -->
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;">
         <div class="card">
-            <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">75<span style="font-size: 18px;">/100</span></div>
-            <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Overall Score</div>
+            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
+            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Page Views 30d</div>
         </div>
         <div class="card">
-            <div style="font-size: 32px; font-weight: 700; color: #F59E0B; margin-bottom: 4px;">6</div>
-            <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Issues Found</div>
+            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
+            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Unique Visitors</div>
         </div>
         <div class="card">
-            <div style="font-size: 32px; font-weight: 700; color: #10B981; margin-bottom: 4px;">4<span style="font-size: 18px;">/6</span></div>
-            <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Dossiers Audited</div>
+            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
+            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Avg Time</div>
+        </div>
+        <div class="card">
+            <div style="font-size: 24px; font-weight: 700; color: #6B7280;">—</div>
+            <div style="font-size: 12px; color: #9CA3AF; margin-top: 4px;">Connect analytics</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1F2937; margin-top: 6px;">Bounce Rate</div>
         </div>
     </div>
 
-    <!-- SEO Table -->
-    <div class="card" style="margin-bottom: 32px;">
-        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Per-Dossier SEO Checklist</div>
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-                <thead>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Dossier</th>
-                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Title Tag</th>
-                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Meta Desc</th>
-                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">OG Image</th>
-                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Schema</th>
-                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <td style="padding: 12px; color: #1F2937;">caravan-fresh</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">92</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <td style="padding: 12px; color: #1F2937;">sri-lanka-cricket-corruption</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">89</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <td style="padding: 12px; color: #1F2937;">iran-us-israel-war</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #F59E0B;">⚠ Short</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">78</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <td style="padding: 12px; color: #1F2937;">easter-sunday-attacks</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #EF4444;">✗ Missing</td>
-                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
-                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">72</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <td colspan="6" style="padding: 12px; color: #6B7280;">mp-accountability — Not registered</td>
-                    </tr>
-                    <tr>
-                        <td colspan="6" style="padding: 12px; color: #6B7280;">sri-lanka-hormuz-crisis — Not registered</td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- Empty State -->
+    <div class="card" style="text-align: center; padding: 60px 40px; margin-bottom: 32px;">
+        <div style="width: 100%; height: 100px; background-color: #F3F4F6; border-radius: 8px; margin-bottom: 24px;"></div>
+        <div style="font-size: 18px; font-weight: 600; color: #1F2937; margin-bottom: 8px;">Connect your analytics</div>
+        <div style="font-size: 13px; color: #6B7280; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto;">Connect Umami or Google Analytics to see real visitor data here.</div>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+            <button style="padding: 10px 20px; background-color: #6366F1; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Connect Umami (recommended)</button>
+            <button style="padding: 10px 20px; background-color: transparent; color: #6B7280; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Connect GA4</button>
         </div>
     </div>
 
-    <!-- Action Plan -->
-    <div class="card" style="margin-bottom: 32px;">
-        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Action Plan</div>
-        <ol style="list-style-position: inside; display: flex; flex-direction: column; gap: 12px;">
-            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Submit to Google Search Console</span> <span style="background-color: #FEE2E2; color: #991B1B; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P0</span></li>
-            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Regenerate sitemap.xml</span> <span style="background-color: #FEE2E2; color: #991B1B; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P0</span></li>
-            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Add OG image to easter-sunday dossier</span> <span style="background-color: #FEF3C7; color: #92400E; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P1</span></li>
-            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Lengthen iran dossier meta description</span> <span style="background-color: #FEF3C7; color: #92400E; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P1</span></li>
-            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Add BreadcrumbList schema</span> <span style="background-color: #FEF3C7; color: #92400E; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P1</span></li>
-            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Internal linking between related dossiers</span> <span style="background-color: #F3F4F6; color: #6B7280; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P2</span></li>
-        </ol>
-    </div>
-
-    <!-- Keyword Targets -->
+    <!-- Sample Chart Card -->
     <div class="card">
-        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Keyword Targets</div>
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-                <thead>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Keyword</th>
-                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Est. Monthly Volume</th>
-                        <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Target Dossier</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <td style="padding: 12px; color: #1F2937;">Easter Sunday attacks Sri Lanka</td>
-                        <td style="text-align: center; padding: 12px; color: #1F2937;">9,100</td>
-                        <td style="padding: 12px; color: #6B7280;">easter-sunday</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <td style="padding: 12px; color: #1F2937;">Iran US Israel war 2026</td>
-                        <td style="text-align: center; padding: 12px; color: #1F2937;">6,800</td>
-                        <td style="padding: 12px; color: #6B7280;">iran-us-israel-war</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #E5E7EB;">
-                        <td style="padding: 12px; color: #1F2937;">Sri Lanka cricket corruption</td>
-                        <td style="text-align: center; padding: 12px; color: #1F2937;">4,500</td>
-                        <td style="padding: 12px; color: #6B7280;">cricket</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 12px; color: #1F2937;">Suresh Sallay arrest</td>
-                        <td style="text-align: center; padding: 12px; color: #1F2937;">3,200</td>
-                        <td style="padding: 12px; color: #6B7280;">easter-sunday</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 20px;">Views by Dossier <span style="font-size: 12px; color: #6B7280; font-weight: 400;">(sample data)</span></div>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <!-- Bar 1 -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">sri-lanka-cricket-corruption</span>
+                    <span style="font-size: 12px; color: #6B7280;">4,821</span>
                 </div>
+                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
+                    <div style="height: 100%; width: 100%; background-color: #6366F1; border-radius: 4px;"></div>
+                </div>
+            </div>
 
-                <!-- Comments View -->
-                <div class="view" id="view-comments">
-    <!-- Alert Banner -->
-    <div id="comments-alert" style="background-color: #FFFBEB; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-            <span style="font-size: 20px;">⚠</span>
-            <span style="color: #92400E; font-size: 13px; font-weight: 500;">4 comments pending on caravan-fresh</span>
+            <!-- Bar 2 -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">caravan-fresh</span>
+                    <span style="font-size: 12px; color: #6B7280;">3,562</span>
+                </div>
+                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
+                    <div style="height: 100%; width: 74%; background-color: #10B981; border-radius: 4px;"></div>
+                </div>
+            </div>
+
+            <!-- Bar 3 -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">iran-us-israel-war</span>
+                    <span style="font-size: 12px; color: #6B7280;">1,820</span>
+                </div>
+                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
+                    <div style="height: 100%; width: 38%; background-color: #F59E0B; border-radius: 4px;"></div>
+                </div>
+            </div>
+
+            <!-- Bar 4 -->
+            <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                    <span style="font-size: 12px; color: #1F2937; font-weight: 500;">easter-sunday-attacks</span>
+                    <span style="font-size: 12px; color: #6B7280;">1,203</span>
+                </div>
+                <div style="height: 24px; background-color: #F3F4F6; border-radius: 4px; overflow: hidden;">
+                    <div style="height: 100%; width: 25%; background-color: #EF4444; border-radius: 4px;"></div>
+                </div>
+            </div>
         </div>
-        <button onclick="approveAllComments()" style="background-color: #F59E0B; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;">Approve All</button>
-    </div>
 
-    <!-- Tab Bar -->
-    <div style="display: flex; gap: 0; border-bottom: 1px solid #E5E7EB; margin-bottom: 24px;">
-        <button class="comment-tab-btn active" data-tab="pending" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Pending <span style="background-color: #EF4444; color: white; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">4</span></button>
-        <button class="comment-tab-btn" data-tab="approved" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Approved <span style="background-color: #E5E7EB; color: #6B7280; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">12</span></button>
-        <button class="comment-tab-btn" data-tab="spam" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Spam <span style="background-color: #E5E7EB; color: #6B7280; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">1</span></button>
-    </div>
-
-    <!-- Pending Comments Tab -->
-    <div class="comment-tab-content active" data-tab="pending">
-        <div class="card">
-            <div style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 13px;" id="pending-comments-table">
-                    <thead>
-                        <tr style="border-bottom: 1px solid #E5E7EB;">
-                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Author</th>
-                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Comment</th>
-                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Dossier</th>
-                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Date</th>
-                            <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="1">
-                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Malith S.</td>
-                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"This is exactly what mainstream media won't cover..."</td>
-                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
-                            <td style="padding: 12px; color: #9CA3AF;">2h ago</td>
-                            <td style="padding: 12px; text-align: center;">
-                                <button onclick="approveComment(1)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
-                                <button onclick="deleteComment(1)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="2">
-                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Nuwanthi P.</td>
-                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"Shared with 3 journalists. Is there a Sinhala version?"</td>
-                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
-                            <td style="padding: 12px; color: #9CA3AF;">5h ago</td>
-                            <td style="padding: 12px; text-align: center;">
-                                <button onclick="approveComment(2)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
-                                <button onclick="deleteComment(2)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="3">
-                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Diaspora Reader</td>
-                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"Reading from London. This level of analysis doesn't exist..."</td>
-                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
-                            <td style="padding: 12px; color: #9CA3AF;">1d ago</td>
-                            <td style="padding: 12px; text-align: center;">
-                                <button onclick="approveComment(3)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
-                                <button onclick="deleteComment(3)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
-                            </td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="4">
-                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Anonymous</td>
-                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"When is cricket dossier getting Sinhala translation?"</td>
-                            <td style="padding: 12px; color: #6B7280;">sri-lanka-cricket-corruption</td>
-                            <td style="padding: 12px; color: #9CA3AF;">2d ago</td>
-                            <td style="padding: 12px; text-align: center;">
-                                <button onclick="approveComment(4)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
-                                <button onclick="deleteComment(4)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
+            <div style="font-size: 12px; color: #9CA3AF; display: flex; align-items: center; gap: 6px;">
+                <span>⚠</span>
+                <span>Placeholder — connect analytics API</span>
             </div>
         </div>
     </div>
-
-    <!-- Approved Comments Tab -->
-    <div class="comment-tab-content" data-tab="approved">
-        <div class="card">
-            <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px 20px;">12 approved comments</div>
-        </div>
-    </div>
-
-    <!-- Spam Comments Tab -->
-    <div class="comment-tab-content" data-tab="spam">
-        <div class="card">
-            <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px 20px;">1 spam comment</div>
-        </div>
-    </div>
-
-    <!-- Empty State (hidden until all comments approved) -->
-    <div id="comments-empty-state" style="display: none; text-align: center; padding: 40px 20px;">
-        <div style="font-size: 32px; margin-bottom: 12px;">✓</div>
-        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">No pending comments</div>
-        <div style="color: #6B7280; font-size: 13px;">All comments have been reviewed</div>
-    </div>
-
-    
 </div>
-                </div>
 
-                <!-- Apps View -->
-                <div class="view" id="view-apps">
+<div class="view" id="view-apps">
     <div style="margin-bottom: 24px;">
         <!-- Tab Bar -->
         <div style="display: flex; gap: 0; border-bottom: 1px solid #E5E7EB;">
@@ -2552,17 +2315,324 @@
         </div>
     </div>
 
-    
+    <script>
+        // Apps tab switching
+        document.querySelectorAll('.app-tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabName = this.dataset.tab;
+                
+                // Hide all content
+                document.querySelectorAll('.app-tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Remove active class from all buttons
+                document.querySelectorAll('.app-tab-btn').forEach(b => {
+                    b.classList.remove('active');
+                    b.style.color = '#6B7280';
+                    b.style.borderBottomColor = 'transparent';
+                });
+                
+                // Show selected content
+                document.querySelector(`[data-tab="${tabName}"].app-tab-content`).classList.add('active');
+                
+                // Mark button as active
+                this.classList.add('active');
+                this.style.color = '#6366F1';
+                this.style.borderBottomColor = '#6366F1';
+            });
+        });
+    </script>
 </div>
-                </div>
 
-                <!-- App Detail View -->
-                <div class="view" id="view-app-detail">
-                    <div class="view-placeholder">App Detail View</div>
-                </div>
+<div class="view" id="view-seo">
+    <!-- Stat Cards -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px;">
+        <div class="card">
+            <div style="font-size: 32px; font-weight: 700; color: #6366F1; margin-bottom: 4px;">75<span style="font-size: 18px;">/100</span></div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Overall Score</div>
+        </div>
+        <div class="card">
+            <div style="font-size: 32px; font-weight: 700; color: #F59E0B; margin-bottom: 4px;">6</div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Issues Found</div>
+        </div>
+        <div class="card">
+            <div style="font-size: 32px; font-weight: 700; color: #10B981; margin-bottom: 4px;">4<span style="font-size: 18px;">/6</span></div>
+            <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Dossiers Audited</div>
+        </div>
+    </div>
 
-                <!-- Settings View -->
-                <div class="view" id="view-settings">
+    <!-- SEO Table -->
+    <div class="card" style="margin-bottom: 32px;">
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Per-Dossier SEO Checklist</div>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Dossier</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Title Tag</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Meta Desc</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">OG Image</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Schema</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">caravan-fresh</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">92</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">sri-lanka-cricket-corruption</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">89</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">iran-us-israel-war</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #F59E0B;">⚠ Short</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">78</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">easter-sunday-attacks</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #EF4444;">✗ Missing</td>
+                        <td style="text-align: center; padding: 12px; color: #10B981;">✓</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937; font-weight: 600;">72</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td colspan="6" style="padding: 12px; color: #6B7280;">mp-accountability — Not registered</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="padding: 12px; color: #6B7280;">sri-lanka-hormuz-crisis — Not registered</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Action Plan -->
+    <div class="card" style="margin-bottom: 32px;">
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Action Plan</div>
+        <ol style="list-style-position: inside; display: flex; flex-direction: column; gap: 12px;">
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Submit to Google Search Console</span> <span style="background-color: #FEE2E2; color: #991B1B; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P0</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Regenerate sitemap.xml</span> <span style="background-color: #FEE2E2; color: #991B1B; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P0</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Add OG image to easter-sunday dossier</span> <span style="background-color: #FEF3C7; color: #92400E; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P1</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Lengthen iran dossier meta description</span> <span style="background-color: #FEF3C7; color: #92400E; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P1</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Add BreadcrumbList schema</span> <span style="background-color: #FEF3C7; color: #92400E; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P1</span></li>
+            <li style="color: #1F2937; font-size: 13px;"><span style="font-weight: 600;">Internal linking between related dossiers</span> <span style="background-color: #F3F4F6; color: #6B7280; font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">P2</span></li>
+        </ol>
+    </div>
+
+    <!-- Keyword Targets -->
+    <div class="card">
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 16px;">Keyword Targets</div>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Keyword</th>
+                        <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Est. Monthly Volume</th>
+                        <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Target Dossier</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">Easter Sunday attacks Sri Lanka</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937;">9,100</td>
+                        <td style="padding: 12px; color: #6B7280;">easter-sunday</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">Iran US Israel war 2026</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937;">6,800</td>
+                        <td style="padding: 12px; color: #6B7280;">iran-us-israel-war</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #E5E7EB;">
+                        <td style="padding: 12px; color: #1F2937;">Sri Lanka cricket corruption</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937;">4,500</td>
+                        <td style="padding: 12px; color: #6B7280;">cricket</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; color: #1F2937;">Suresh Sallay arrest</td>
+                        <td style="text-align: center; padding: 12px; color: #1F2937;">3,200</td>
+                        <td style="padding: 12px; color: #6B7280;">easter-sunday</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="view" id="view-comments">
+    <!-- Alert Banner -->
+    <div id="comments-alert" style="background-color: #FFFBEB; border-left: 4px solid #F59E0B; padding: 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 20px;">⚠</span>
+            <span style="color: #92400E; font-size: 13px; font-weight: 500;">4 comments pending on caravan-fresh</span>
+        </div>
+        <button onclick="approveAllComments()" style="background-color: #F59E0B; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;">Approve All</button>
+    </div>
+
+    <!-- Tab Bar -->
+    <div style="display: flex; gap: 0; border-bottom: 1px solid #E5E7EB; margin-bottom: 24px;">
+        <button class="comment-tab-btn active" data-tab="pending" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Pending <span style="background-color: #EF4444; color: white; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">4</span></button>
+        <button class="comment-tab-btn" data-tab="approved" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Approved <span style="background-color: #E5E7EB; color: #6B7280; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">12</span></button>
+        <button class="comment-tab-btn" data-tab="spam" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Spam <span style="background-color: #E5E7EB; color: #6B7280; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;">1</span></button>
+    </div>
+
+    <!-- Pending Comments Tab -->
+    <div class="comment-tab-content active" data-tab="pending">
+        <div class="card">
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;" id="pending-comments-table">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #E5E7EB;">
+                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Author</th>
+                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Comment</th>
+                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Dossier</th>
+                            <th style="text-align: left; padding: 12px; color: #6B7280; font-weight: 600;">Date</th>
+                            <th style="text-align: center; padding: 12px; color: #6B7280; font-weight: 600;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="1">
+                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Malith S.</td>
+                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"This is exactly what mainstream media won't cover..."</td>
+                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
+                            <td style="padding: 12px; color: #9CA3AF;">2h ago</td>
+                            <td style="padding: 12px; text-align: center;">
+                                <button onclick="approveComment(1)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
+                                <button onclick="deleteComment(1)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="2">
+                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Nuwanthi P.</td>
+                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"Shared with 3 journalists. Is there a Sinhala version?"</td>
+                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
+                            <td style="padding: 12px; color: #9CA3AF;">5h ago</td>
+                            <td style="padding: 12px; text-align: center;">
+                                <button onclick="approveComment(2)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
+                                <button onclick="deleteComment(2)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="3">
+                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Diaspora Reader</td>
+                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"Reading from London. This level of analysis doesn't exist..."</td>
+                            <td style="padding: 12px; color: #6B7280;">caravan-fresh</td>
+                            <td style="padding: 12px; color: #9CA3AF;">1d ago</td>
+                            <td style="padding: 12px; text-align: center;">
+                                <button onclick="approveComment(3)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
+                                <button onclick="deleteComment(3)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #E5E7EB;" data-comment-id="4">
+                            <td style="padding: 12px; color: #1F2937; font-weight: 500;">Anonymous</td>
+                            <td style="padding: 12px; color: #6B7280; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"When is cricket dossier getting Sinhala translation?"</td>
+                            <td style="padding: 12px; color: #6B7280;">sri-lanka-cricket-corruption</td>
+                            <td style="padding: 12px; color: #9CA3AF;">2d ago</td>
+                            <td style="padding: 12px; text-align: center;">
+                                <button onclick="approveComment(4)" style="background: none; border: none; color: #10B981; cursor: pointer; font-size: 12px; font-weight: 600; margin-right: 8px;">Approve</button>
+                                <button onclick="deleteComment(4)" style="background: none; border: none; color: #EF4444; cursor: pointer; font-size: 12px; font-weight: 600;">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Approved Comments Tab -->
+    <div class="comment-tab-content" data-tab="approved">
+        <div class="card">
+            <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px 20px;">12 approved comments</div>
+        </div>
+    </div>
+
+    <!-- Spam Comments Tab -->
+    <div class="comment-tab-content" data-tab="spam">
+        <div class="card">
+            <div style="color: #6B7280; font-size: 13px; text-align: center; padding: 40px 20px;">1 spam comment</div>
+        </div>
+    </div>
+
+    <!-- Empty State (hidden until all comments approved) -->
+    <div id="comments-empty-state" style="display: none; text-align: center; padding: 40px 20px;">
+        <div style="font-size: 32px; margin-bottom: 12px;">✓</div>
+        <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">No pending comments</div>
+        <div style="color: #6B7280; font-size: 13px;">All comments have been reviewed</div>
+    </div>
+
+    <script>
+        function approveComment(id) {
+            const row = document.querySelector(`[data-comment-id="${id}"]`);
+            if (row) {
+                row.remove();
+                checkPendingComments();
+            }
+        }
+
+        function deleteComment(id) {
+            const row = document.querySelector(`[data-comment-id="${id}"]`);
+            if (row) {
+                row.remove();
+                checkPendingComments();
+            }
+        }
+
+        function approveAllComments() {
+            document.querySelectorAll('#pending-comments-table tbody tr').forEach(row => {
+                row.remove();
+            });
+            checkPendingComments();
+        }
+
+        function checkPendingComments() {
+            const tableBody = document.querySelector('#pending-comments-table tbody');
+            const hasRows = tableBody.querySelector('tr') !== null;
+            
+            if (!hasRows) {
+                document.getElementById('comments-alert').style.display = 'none';
+                document.querySelector('[data-tab="pending"]').style.display = 'none';
+                document.getElementById('comments-empty-state').style.display = 'block';
+                document.querySelector('.comment-tab-content[data-tab="pending"]').innerHTML = '';
+                document.querySelector('[data-tab="approved"]').click();
+            }
+        }
+
+        // Comment tab switching
+        document.querySelectorAll('.comment-tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tabName = this.dataset.tab;
+                
+                document.querySelectorAll('.comment-tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                document.querySelectorAll('.comment-tab-btn').forEach(b => {
+                    b.style.color = '#6B7280';
+                    b.style.borderBottomColor = 'transparent';
+                });
+                
+                document.querySelector(`[data-tab="${tabName}"].comment-tab-content`).classList.add('active');
+                
+                this.style.color = '#6366F1';
+                this.style.borderBottomColor = '#6366F1';
+            });
+        });
+    </script>
+</div>
+
+<div class="view" id="view-settings">
     <div style="display: grid; grid-template-columns: 200px 1fr; gap: 24px;">
         <!-- Left Navigation -->
         <div>
@@ -2692,12 +2762,53 @@
         </div>
     </div>
 
-    
-</div>
-                </div>
+    <script>
+        // Settings navigation
+        document.querySelectorAll('.settings-nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const section = this.dataset.section;
+                
+                // Hide all sections
+                document.querySelectorAll('.settings-section').forEach(sec => {
+                    sec.style.display = 'none';
+                });
+                
+                // Remove active state from all buttons
+                document.querySelectorAll('.settings-nav-btn').forEach(b => {
+                    b.style.backgroundColor = 'transparent';
+                    b.style.color = '#6B7280';
+                });
+                
+                // Show selected section
+                document.querySelector(`[data-section="${section}"].settings-section`).style.display = 'block';
+                
+                // Mark button as active
+                this.style.backgroundColor = '#EEF2FF';
+                this.style.color = '#6366F1';
+            });
+        });
 
-                <!-- Private Notes View -->
-                <div class="view" id="view-private-notes">
+        // Toggle switches
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const slider = this.nextElementSibling;
+                if (this.checked) {
+                    slider.style.backgroundColor = '#10B981';
+                } else {
+                    slider.style.backgroundColor = '#D1D5DB';
+                }
+            });
+        });
+
+        // Initialize toggles
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            const slider = checkbox.nextElementSibling;
+            slider.style.backgroundColor = checkbox.checked ? '#10B981' : '#D1D5DB';
+        });
+    </script>
+</div>
+
+<div class="view" id="view-private-notes">
     <!-- Private Banner -->
     <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
         <span style="font-size: 18px;">🔒</span>
@@ -2754,12 +2865,15 @@
         </div>
     </div>
 
-    
+    <script>
+        function toggleNote(element) {
+            element.style.boxShadow = element.style.boxShadow ? '' : '0 4px 12px rgba(0, 0, 0, 0.08)';
+            element.style.transform = element.style.transform ? '' : 'translateY(-2px)';
+        }
+    </script>
 </div>
-                </div>
 
-                <!-- Private Tasks View -->
-                <div class="view" id="view-private-tasks">
+<div class="view" id="view-private-tasks">
     <!-- Private Banner -->
     <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
         <span style="font-size: 18px;">🔒</span>
@@ -2831,10 +2945,23 @@
         </div>
     </div>
 
-    
+    <script>
+        document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.closest('label').querySelector('span');
+                if (this.checked) {
+                    label.style.textDecoration = 'line-through';
+                    label.style.color = '#9CA3AF';
+                } else {
+                    label.style.textDecoration = 'none';
+                    label.style.color = '#1F2937';
+                }
+            });
+        });
+    </script>
 </div>
-                </div>
-            </div>
+
+</div>
         </div>
     </div>
 
@@ -2848,7 +2975,8 @@
             <div class="error-message" id="totp-error">Invalid code. Please try again.</div>
         </div>
     </div>
-  <script>
+
+    <script>
 // Application State
         const appState = {
             currentRoute: '',
