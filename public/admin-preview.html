@@ -3027,6 +3027,14 @@
 
             // Update active nav items
             updateActiveNav(hash, routeInfo);
+
+            // Trigger view-specific renders
+            if (routeInfo.view === 'dossiers' && typeof renderGridView === 'function') {
+                renderGridView();
+            }
+            if (routeInfo.view === 'dossier-detail' && routeInfo.id && typeof renderDetailView === 'function') {
+                renderDetailView(routeInfo.id);
+            }
         }
 
         function updateActiveNav(hash, routeInfo) {
