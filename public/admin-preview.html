@@ -204,12 +204,15 @@
         }
 
         .view {
-            display: none;
+            display: none !important;
             animation: fadeIn 0.2s ease;
         }
-
         .view.active {
-            display: block;
+            display: block !important;
+        }
+
+        .view.active.detail-view {
+            display: flex !important;
         }
 
         @keyframes fadeIn {
