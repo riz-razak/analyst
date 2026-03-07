@@ -3199,12 +3199,13 @@ const dossiersData = [
     }
 ];
 
-const appState = {
+// Dossier view state (extends main appState)
+Object.assign(appState, {
     currentDossierId: null,
     viewMode: 'grid',
     filterMode: 'all',
     searchQuery: ''
-};
+});
 
 // ========================================
 // UTILITY FUNCTIONS
