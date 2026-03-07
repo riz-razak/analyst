@@ -3689,37 +3689,23 @@ function setupDetailView() {
 // ROUTER INTEGRATION
 // ========================================
 
-window.addEventListener('hashchange', () => {
-    const hash = window.location.hash;
 
-    if (hash === '#/dossiers' || hash === '') {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById('view-dossiers').classList.add('active');
-        renderGridView();
-    } else if (hash.startsWith('#/dossiers/')) {
-        const id = hash.replace('#/dossiers/', '');
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-        document.getElementById('view-dossier-detail').classList.add('active');
-        renderDetailView(id);
-    }
-});
+// (duplicate hashchange router removed - shell router handles all routing)
+
 
 // ========================================
 // INITIALIZATION
 // ========================================
 
-document.addEventListener('DOMContentLoaded', () => {
-    setupToolbar();
-    setupDetailView();
-
-    // Initial render
-    const hash = window.location.hash;
-    if (hash.startsWith('#/dossiers/')) {
-        const id = hash.replace('#/dossiers/', '');
-        renderDetailView(id);
-    } else {
-        renderGridView();
-    }
+// Run setup functions on load (navigation handled by shell DOMContentLoaded)
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof setupToolbar === 'function') setupToolbar();
+        if (typeof setupDetailView === 'function') setupDetailView();
+    });
+} else {
+    if (typeof setupToolbar === 'function') setupToolbar();
+    if (typeof setupDetailView === 'function') setupDetailView();
 });
 // Set dashboard date
         const today = new Date('2026-03-07');
