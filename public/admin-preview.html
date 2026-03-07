@@ -71,32 +71,15 @@
         .sidebar-home-btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            padding: 8px 20px;
-            background-color: var(--color-primary);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
+            justify-content: flex-start;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.2s ease;
             margin-bottom: 24px;
-            margin-left: 4px;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+            margin-left: 2px;
+            transition: opacity 0.2s ease;
         }
-
-        .sidebar-home-btn:hover {
-            background-color: #4F46E5;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-            transform: translateY(-1px);
-        }
-
-        .sidebar-home-btn:active {
-            transform: scale(0.97);
-        }
+        .sidebar-home-btn:hover { opacity: 0.8; }
+        .sidebar-home-btn:active { opacity: 0.6; }
 
         .sidebar-section {
             margin-bottom: 28px;
@@ -1498,7 +1481,23 @@
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <a href="https://rizrazak.com" class="sidebar-home-btn" target="_blank" rel="noopener noreferrer">RizRazak</a>
+            <a href="#/dashboard" class="sidebar-home-btn" onclick="event.preventDefault(); window.location.hash='#/dashboard';">
+                <!-- Stylised 'Riz' SVG wordmark -->
+                <svg width="52" height="28" viewBox="0 0 52 28" xmlns="http://www.w3.org/2000/svg" aria-label="Riz — Home">
+                  <!-- R -->
+                  <path d="M2 4 L2 24 L6 24 L6 16 L10 16 L15 24 L19.5 24 L14 15.5 C17 14.5 18.5 12 17.5 9 C16.5 6 14 4 10 4 Z M6 7.5 L10 7.5 C12.5 7.5 14 8.5 14 10.5 C14 12.5 12.5 12.5 10 12.5 L6 12.5 Z"
+                    fill="#6366F1"/>
+                  <!-- i dot -->
+                  <circle cx="23" cy="6" r="1.8" fill="#6366F1"/>
+                  <!-- i stem -->
+                  <rect x="21.5" y="10" width="3" height="14" rx="1.2" fill="#6366F1"/>
+                  <!-- z -->
+                  <path d="M28 10 L40 10 L40 12.5 L31.5 21.5 L40 21.5 L40 24 L28 24 L28 21.5 L36.5 12.5 L28 12.5 Z"
+                    fill="#6366F1"/>
+                  <!-- subtle underline accent -->
+                  <rect x="2" y="26.5" width="38" height="1.5" rx="0.75" fill="#6366F1" opacity="0.35"/>
+                </svg>
+            </a>
 
             <!-- Overview Section -->
             <div class="sidebar-section">
@@ -1825,8 +1824,8 @@
         </div>
         <div class="view-controls">
             <div class="view-toggle">
-                <button class="view-toggle-btn active" data-view="grid">Grid</button>
-                <button class="view-toggle-btn" data-view="table">Table</button>
+                <button class="view-toggle-btn" data-view="grid">Grid</button>
+                <button class="view-toggle-btn active" data-view="table">Table</button>
             </div>
             <button class="btn-primary" id="new-dossier-btn">+ New Dossier</button>
         </div>
@@ -3923,8 +3922,18 @@
             updateActiveNav(hash, routeInfo);
 
             // Trigger view-specific renders
-            if (routeInfo.view === 'dossiers' && typeof renderGridView === 'function') {
-                renderGridView();
+            if (routeInfo.view === 'dossiers') {
+                if (typeof renderTableView === 'function' && appState.viewMode === 'table') {
+                    renderTableView();
+                } else if (typeof renderGridView === 'function') {
+                    renderGridView();
+                }
+                // Sync toggle button active state
+                document.querySelectorAll('.view-toggle-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.view === appState.viewMode);
+                });
+                document.getElementById('dossiers-grid').classList.toggle('hidden', appState.viewMode !== 'grid');
+                document.getElementById('dossiers-table').classList.toggle('active', appState.viewMode === 'table');
             }
             if (routeInfo.view === 'dossier-detail' && routeInfo.id && typeof renderDetailView === 'function') {
                 renderDetailView(routeInfo.id);
@@ -4107,7 +4116,7 @@ const dossiersData = [
 // Dossier view state (extends main appState)
 Object.assign(appState, {
     currentDossierId: null,
-    viewMode: 'grid',
+    viewMode: 'table',
     filterMode: 'all',
     searchQuery: ''
 });
