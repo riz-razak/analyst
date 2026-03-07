@@ -1722,11 +1722,15 @@
     </div>
 
     <script>
+(function() {
+
         // Set dashboard date
         const today = new Date('2026-03-07');
         const dateString = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         document.getElementById('dashboard-date').textContent = dateString;
-    </script>
+    
+})();
+</script>
 </div>
 
 <div id="view-dossiers" class="view">
@@ -2316,6 +2320,8 @@
     </div>
 
     <script>
+(function() {
+
         // Apps tab switching
         document.querySelectorAll('.app-tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -2342,7 +2348,9 @@
                 this.style.borderBottomColor = '#6366F1';
             });
         });
-    </script>
+    
+})();
+</script>
 </div>
 
 <div class="view" id="view-seo">
@@ -2573,6 +2581,8 @@
     </div>
 
     <script>
+(function() {
+
         function approveComment(id) {
             const row = document.querySelector(`[data-comment-id="${id}"]`);
             if (row) {
@@ -2629,7 +2639,9 @@
                 this.style.borderBottomColor = '#6366F1';
             });
         });
-    </script>
+    
+})();
+</script>
 </div>
 
 <div class="view" id="view-settings">
@@ -2763,6 +2775,8 @@
     </div>
 
     <script>
+(function() {
+
         // Settings navigation
         document.querySelectorAll('.settings-nav-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -2805,7 +2819,9 @@
             const slider = checkbox.nextElementSibling;
             slider.style.backgroundColor = checkbox.checked ? '#10B981' : '#D1D5DB';
         });
-    </script>
+    
+})();
+</script>
 </div>
 
 <div class="view" id="view-private-notes">
@@ -2866,11 +2882,15 @@
     </div>
 
     <script>
+(function() {
+
         function toggleNote(element) {
             element.style.boxShadow = element.style.boxShadow ? '' : '0 4px 12px rgba(0, 0, 0, 0.08)';
             element.style.transform = element.style.transform ? '' : 'translateY(-2px)';
         }
-    </script>
+    
+})();
+</script>
 </div>
 
 <div class="view" id="view-private-tasks">
@@ -2946,6 +2966,8 @@
     </div>
 
     <script>
+(function() {
+
         document.querySelectorAll('.task-checkbox').forEach(checkbox => {
             checkbox.addEventListener('change', function() {
                 const label = this.closest('label').querySelector('span');
@@ -2958,7 +2980,9 @@
                 }
             });
         });
-    </script>
+    
+})();
+</script>
 </div>
 
 </div>
