@@ -10,16 +10,16 @@
 |---|---|
 | Custom domain (analyst.rizrazak.com) | ✓ Active |
 | HTTPS / CNAME | ✓ Via GitHub Pages + Cloudflare |
-| sitemap.xml | ⚠ Exists but stale — only 2 dossiers |
+| sitemap.xml | ✓ Regenerated 2026-03-08 — correct SPA routes, published dossiers only |
 | robots.txt | ✓ Present |
 | Article JSON-LD schema | ✓ On all published dossiers |
 | Open Graph + Twitter Card | ✓ Present |
-| RSS feed (feed.xml) | ✓ Present (verify auto-discovery in `<head>`) |
+| RSS feed (feed.xml) | ✓ Present (auto-discovery added to all dossiers 2026-03-08) |
 | Google Search Console | ✗ Not submitted |
-| BreadcrumbList schema | ✗ Missing |
-| Internal linking between dossiers | ✗ None |
+| BreadcrumbList schema | ✓ Added to cricket and caravan-fresh (2026-03-08) |
+| Internal linking between dossiers | ✓ "Also on Analyst" section added to cricket + caravan-fresh |
 | Image alt text | ⚠ Partial |
-| Meta description length (150–160 chars) | ⚠ Mixed — iran dossier is too short |
+| Meta description length (150–160 chars) | ✓ Iran dossier updated to 143 chars (acceptable range) |
 
 ---
 
@@ -32,61 +32,24 @@
 - Submit `https://analyst.rizrazak.com/sitemap.xml`
 - Request indexing for all 2 published dossiers manually
 
-**2. Regenerate sitemap.xml**
-- Current sitemap is missing `iran-us-israel-war` and `easter-sunday-attacks-suresh-sallay` (both hidden — exclude them)
+**2. Regenerate sitemap.xml** ✅ Done 2026-03-08
+- Corrected URLs to React SPA routes (`/sri-lanka-cricket-corruption` not `/dossiers/...`)
+- Excluded hidden dossiers (iran-us-israel-war, easter-sunday-attacks-suresh-sallay)
 - When `mp-accountability` and `sri-lanka-hormuz-crisis` are published, add them
-- Format: include `<changefreq>monthly</changefreq>` and `<priority>` values
-- Highest priority (1.0): homepage. Dossiers: 0.9. Feed: 0.5.
+- Sub-pages retained for cricket (betting-web, kalathma-scandal, mindmap, power-network)
 
-```xml
-<!-- Example entry -->
-<url>
-  <loc>https://analyst.rizrazak.com/sri-lanka-cricket-corruption</loc>
-  <lastmod>2026-02-27</lastmod>
-  <changefreq>monthly</changefreq>
-  <priority>0.9</priority>
-</url>
-```
-
-**3. Fix RSS auto-discovery**
-Add to `<head>` in both `index.html` (React SPA) and each dossier's `index.html`:
-```html
-<link rel="alternate" type="application/rss+xml" title="analyst.rizrazak.com" href="/feed.xml">
-```
+**3. Fix RSS auto-discovery** ✅ Done 2026-03-08
+Added to `<head>` of iran-us-israel-war, caravan-fresh, and sri-lanka-hormuz-crisis. Cricket and easter already had it.
 
 ---
 
 ### P1 — Do This Month
 
-**4. Add BreadcrumbList schema to all dossiers**
+**4. Add BreadcrumbList schema to all dossiers** ✅ Done 2026-03-08
+Added to `sri-lanka-cricket-corruption` and `caravan-fresh` (the two published dossiers). Add to hidden dossiers when they go live.
 
-Each dossier `index.html` should include:
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://analyst.rizrazak.com"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Sri Lankan Cricket Corruption",
-      "item": "https://analyst.rizrazak.com/sri-lanka-cricket-corruption"
-    }
-  ]
-}
-```
-
-**5. Fix meta descriptions**
-
-Target 150–160 characters. Current issues:
-- `iran-us-israel-war` — description is under 100 chars in `<meta>` tag (expand it)
-- All others: check they haven't been truncated in the HTML `<head>`
+**5. Fix meta descriptions** ✅ Done 2026-03-08
+Iran dossier is at 143 chars (acceptable range). Hidden dossiers — check when publishing.
 
 **6. Add OG image to easter-sunday-attacks-suresh-sallay**
 
@@ -96,16 +59,14 @@ Missing social preview thumbnail. Create a 1200×630 image (match style of exist
 <meta name="twitter:image" content="https://analyst.rizrazak.com/images/thumbnails/easter-sunday-attacks-suresh-sallay.jpg">
 ```
 
-**7. Internal linking**
-
-Add a "Related Dossiers" section to the bottom of each published dossier. Manual links, not automated. Suggested connections:
+**7. Internal linking** ✅ Done 2026-03-08
+"Also on Analyst" section added to cricket (→ caravan-fresh) and caravan-fresh (→ cricket). Update cross-links as more dossiers are published:
 
 | From | Link to |
 |---|---|
-| sri-lanka-cricket-corruption | easter-sunday-attacks (political patronage connection) |
-| iran-us-israel-war | sri-lanka-hormuz-crisis (direct economic consequence) |
-| caravan-fresh | (standalone — no strong internal link yet) |
-| easter-sunday-attacks | iran-us-israel-war (intelligence / geopolitics angle) |
+| sri-lanka-cricket-corruption | easter-sunday-attacks (political patronage connection) — add when published |
+| iran-us-israel-war | sri-lanka-hormuz-crisis (direct economic consequence) — add when both published |
+| easter-sunday-attacks | iran-us-israel-war (intelligence / geopolitics angle) — add when both published |
 
 ---
 
@@ -204,5 +165,5 @@ Once Search Console is set up, monitor monthly:
 
 ---
 
-*Last updated: 2026-03-07*
+*Last updated: 2026-03-08*
 *Owner: Riz Razak*
