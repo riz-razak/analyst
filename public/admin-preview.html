@@ -3025,6 +3025,10 @@
                 targetView.classList.add('active');
             }
 
+            // Reset scroll position on navigation
+            const container = document.querySelector('.views-container');
+            if (container) container.scrollTop = 0;
+
             // Update active nav items
             updateActiveNav(hash, routeInfo);
 
