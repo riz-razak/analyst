@@ -2836,7 +2836,8 @@
         if (tblEl) {
             tblEl.innerHTML = d.pages.map(function(p, i) {
                 var border = i < d.pages.length - 1 ? "border-bottom:1px solid #F3F4F6;" : "";
-                return '<tr style="' + border + '"><td style="padding:10px 12px;color:#1B4D2E;font-weight:500;">' + p.path + '</td><td style="padding:10px 12px;text-align:right;color:#1F2937;">' + fmt(p.views) + '</td><td style="padding:10px 12px;text-align:right;color:#6B7280;">' + fmt(p.uniq) + '</td><td style="padding:10px 12px;text-align:right;color:#6B7280;">' + p.time + '</td><td style="padding:10px 12px;text-align:right;color:#6B7280;">' + p.bounce + '</td></tr>';
+                var url = 'https://analyst.rizrazak.com' + p.path;
+                return '<tr style="' + border + 'cursor:pointer;" onclick="window.open(\'' + url + '\',\'_blank\')" title="Open ' + p.path + '"><td style="padding:10px 12px;color:#1B4D2E;font-weight:500;">' + p.path + '</td><td style="padding:10px 12px;text-align:right;color:#1F2937;">' + fmt(p.views) + '</td><td style="padding:10px 12px;text-align:right;color:#6B7280;">' + fmt(p.uniq) + '</td><td style="padding:10px 12px;text-align:right;color:#6B7280;">' + p.time + '</td><td style="padding:10px 12px;text-align:right;color:#6B7280;">' + p.bounce + '</td></tr>';
             }).join("");
         }
 
@@ -5359,7 +5360,7 @@ function renderTableView() {
         }
 
         return `
-            <tr ${isEmpty ? 'class="empty-row"' : ''} data-id="${dossier.id}" data-status="${dossier.status}">
+            <tr ${isEmpty ? 'class="empty-row"' : `onclick="window.location.hash='#/dossiers/${dossier.id}'" style="cursor:pointer;"`} data-id="${dossier.id}" data-status="${dossier.status}">
                 <td>
                     <div class="table-thumbnail">
                         ${dossier.thumbnailUrl ? `<img src="${dossier.thumbnailUrl}" alt="${dossier.title}" />` : initials}
@@ -5376,8 +5377,8 @@ function renderTableView() {
                 <td>${dossier.fbUrl ? '✓' : '—'}</td>
                 <td>
                     <div class="table-cell-actions">
-                        <button class="btn-ghost" onclick="handlePreview('${dossier.id}')">Preview</button>
-                        <button class="btn-ghost" onclick="window.location.hash='#/dossiers/${dossier.id}'">Edit</button>
+                        <button class="btn-ghost" onclick="event.stopPropagation();handlePreview('${dossier.id}')">Preview</button>
+                        <button class="btn-ghost" onclick="event.stopPropagation();window.location.hash='#/dossiers/${dossier.id}'">Edit</button>
                     </div>
                 </td>
             </tr>
