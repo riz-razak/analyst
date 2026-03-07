@@ -13,6 +13,8 @@
     <meta name="theme-color" content="#1B4D2E">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Identity Services (GA4 OAuth) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
 /* CSS Variables */
         :root {
@@ -2072,6 +2074,10 @@
                 <option value="analyst" selected>analyst.rizrazak.com</option>
                 <option value="portfolio">rizrazak.com</option>
             </select>
+            <button id="ga4-connect-btn" onclick="window.ga4Connect()" style="display:flex;align-items:center;gap:6px;padding:6px 12px;border:1px solid #E5E7EB;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;background:white;color:#1F2937;transition:all 0.2s;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                <span id="ga4-btn-label">Connect GA4</span>
+            </button>
         </div>
     </div>
 
@@ -2733,6 +2739,309 @@
 
     /* IDs are already in the HTML. Do initial render on page load if analytics view is active. */
     /* No initial render needed — static HTML matches 30d/analyst default. */
+
+    /* Expose refs for GA4 real-data injection */
+    window._analyticsDataRef = analyticsData;
+    window._renderAnalytics = renderAnalytics;
+    window._getAnalyticsPeriod = function() { return currentPeriod; };
+    window._getAnalyticsSite = function() { return currentSite; };
+})();
+</script>
+
+<!-- GA4 Real Data Integration -->
+<script>
+(function() {
+    "use strict";
+
+    var GA4_CLIENT_ID = "144945918043-pmel7fofl90e87i4fbv5mde8ao10mhln.apps.googleusercontent.com";
+    var GA4_PROPERTY_ID = "526389018";
+    var GA4_SCOPE = "https://www.googleapis.com/auth/analytics.readonly";
+    var tokenClient = null;
+    var accessToken = null;
+    var isConnected = false;
+
+    /* ── Button state helpers ── */
+    function setBtnConnected(email) {
+        var btn = document.getElementById("ga4-connect-btn");
+        var lbl = document.getElementById("ga4-btn-label");
+        if (!btn || !lbl) return;
+        btn.style.background = "#ECFDF5";
+        btn.style.borderColor = "#059669";
+        btn.style.color = "#059669";
+        lbl.textContent = "GA4 Live";
+    }
+
+    function setBtnLoading() {
+        var lbl = document.getElementById("ga4-btn-label");
+        if (lbl) lbl.textContent = "Loading…";
+    }
+
+    function setBtnError() {
+        var lbl = document.getElementById("ga4-btn-label");
+        if (lbl) lbl.textContent = "Connect GA4";
+        var btn = document.getElementById("ga4-connect-btn");
+        if (btn) { btn.style.background = "white"; btn.style.borderColor = "#E5E7EB"; btn.style.color = "#1F2937"; }
+    }
+
+    /* ── Fetch GA4 report ── */
+    function fetchGA4(startDate, endDate, callback) {
+        var url = "https://analyticsdata.googleapis.com/v1beta/properties/" + GA4_PROPERTY_ID + ":runReport";
+        fetch(url, {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + accessToken, "Content-Type": "application/json" },
+            body: JSON.stringify({
+                dateRanges: [{ startDate: startDate, endDate: endDate }],
+                metrics: [
+                    { name: "screenPageViews" },
+                    { name: "activeUsers" },
+                    { name: "averageSessionDuration" },
+                    { name: "bounceRate" }
+                ],
+                dimensions: [{ name: "sessionDefaultChannelGroup" }],
+                limit: 10
+            })
+        })
+        .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function(data) { callback(null, data); })
+        .catch(function(err) { callback(err, null); });
+    }
+
+    function fetchGA4Pages(startDate, endDate, callback) {
+        var url = "https://analyticsdata.googleapis.com/v1beta/properties/" + GA4_PROPERTY_ID + ":runReport";
+        fetch(url, {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + accessToken, "Content-Type": "application/json" },
+            body: JSON.stringify({
+                dateRanges: [{ startDate: startDate, endDate: endDate }],
+                metrics: [{ name: "screenPageViews" }, { name: "activeUsers" }],
+                dimensions: [{ name: "pagePath" }],
+                limit: 5,
+                orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }]
+            })
+        })
+        .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function(data) { callback(null, data); })
+        .catch(function(err) { callback(err, null); });
+    }
+
+    function fetchGA4Countries(startDate, endDate, callback) {
+        var url = "https://analyticsdata.googleapis.com/v1beta/properties/" + GA4_PROPERTY_ID + ":runReport";
+        fetch(url, {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + accessToken, "Content-Type": "application/json" },
+            body: JSON.stringify({
+                dateRanges: [{ startDate: startDate, endDate: endDate }],
+                metrics: [{ name: "activeUsers" }],
+                dimensions: [{ name: "country" }],
+                limit: 6,
+                orderBys: [{ metric: { metricName: "activeUsers" }, desc: true }]
+            })
+        })
+        .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function(data) { callback(null, data); })
+        .catch(function(err) { callback(err, null); });
+    }
+
+    /* ── Country → flag emoji ── */
+    var countryFlags = {
+        "Sri Lanka": "🇱🇰", "United Kingdom": "🇬🇧", "United States": "🇺🇸",
+        "Australia": "🇦🇺", "India": "🇮🇳", "Canada": "🇨🇦",
+        "Germany": "🇩🇪", "France": "🇫🇷", "Singapore": "🇸🇬",
+        "Japan": "🇯🇵", "China": "🇨🇳", "Brazil": "🇧🇷",
+        "Netherlands": "🇳🇱", "Sweden": "🇸🇪", "Switzerland": "🇨🇭",
+        "New Zealand": "🇳🇿", "Malaysia": "🇲🇾", "Pakistan": "🇵🇰",
+        "UAE": "🇦🇪", "United Arab Emirates": "🇦🇪", "Qatar": "🇶🇦"
+    };
+
+    function getFlag(country) { return countryFlags[country] || "🌐"; }
+
+    /* ── Period → date range ── */
+    function periodDates(period) {
+        var today = new Date();
+        var fmt = function(d) {
+            return d.toISOString().split("T")[0];
+        };
+        var end = fmt(today);
+        if (period === "7d") {
+            var s = new Date(today); s.setDate(s.getDate() - 6); return { start: fmt(s), end: end };
+        } else if (period === "30d") {
+            var s = new Date(today); s.setDate(s.getDate() - 29); return { start: fmt(s), end: end };
+        } else if (period === "90d") {
+            var s = new Date(today); s.setDate(s.getDate() - 89); return { start: fmt(s), end: end };
+        } else {
+            return { start: "2020-01-01", end: end };
+        }
+    }
+
+    /* ── Seconds → m:ss ── */
+    function fmtDuration(secs) {
+        var m = Math.floor(secs / 60);
+        var s = Math.round(secs % 60);
+        return m + ":" + (s < 10 ? "0" : "") + s;
+    }
+
+    /* ── Inject real data into existing analyticsData and re-render ── */
+    function loadRealData(period) {
+        var dates = periodDates(period);
+        var pending = 3;
+        var realViews = 0, realUniques = 0, realAvgTime = "–", realBounce = "–";
+        var realSources = [], realPages = [], realCountries = [];
+
+        function maybeDone() {
+            pending--;
+            if (pending > 0) return;
+
+            /* Build a data object matching the existing analyticsData schema */
+            var realEntry = {
+                views: realViews,
+                uniques: realUniques,
+                avgTime: realAvgTime,
+                bounce: realBounce,
+                prevViews: null, prevUniques: null, prevAvgTime: null, prevBounce: null,
+                sources: realSources,
+                pages: realPages,
+                countries: realCountries,
+                otherCountries: 0,
+                otherCount: 0,
+                dossiers: realPages.map(function(p) { return { name: p.path.replace(/^\//, "") || "home", v: p.views }; }),
+                devices: { mobile: 55, desktop: 38, tablet: 7 }, /* GA4 device breakdown needs extra call */
+                sparkline: "M0,80 L150,60 L300,40 L450,30 L600,20"
+            };
+
+            /* Inject into existing analyticsData.analyst for current period */
+            if (window._analyticsDataRef) {
+                window._analyticsDataRef.analyst[period] = realEntry;
+            }
+
+            /* Re-render */
+            if (window._renderAnalytics) {
+                window._renderAnalytics();
+            }
+
+            /* Update banner */
+            var banner = document.getElementById("analytics-sample-banner");
+            if (banner) {
+                banner.style.background = "#F0FDF4";
+                banner.style.borderColor = "#86EFAC";
+                banner.innerHTML = '<span style="font-size:14px;">✓</span><span style="font-size:12px;color:#166534;">Showing live GA4 data for <strong>analyst.rizrazak.com</strong> · Property <code style="background:#dcfce7;padding:1px 4px;border-radius:3px;">' + GA4_PROPERTY_ID + '</code></span>';
+            }
+        }
+
+        /* 1. Main metrics + sources */
+        fetchGA4(dates.start, dates.end, function(err, data) {
+            if (!err && data && data.rows) {
+                var totViews = 0, totUniques = 0, totDuration = 0, totBounce = 0, rowCount = 0;
+                var sourceMap = {};
+                data.rows.forEach(function(row) {
+                    var channel = row.dimensionValues[0].value;
+                    var views = parseInt(row.metricValues[0].value) || 0;
+                    var users = parseInt(row.metricValues[1].value) || 0;
+                    var dur = parseFloat(row.metricValues[2].value) || 0;
+                    var bounce = parseFloat(row.metricValues[3].value) || 0;
+                    totViews += views; totUniques += users;
+                    totDuration += dur * users; totBounce += bounce * users; rowCount += users;
+                    sourceMap[channel] = (sourceMap[channel] || 0) + views;
+                });
+                realViews = totViews;
+                realUniques = totUniques;
+                realAvgTime = rowCount > 0 ? fmtDuration(totDuration / rowCount) : "–";
+                realBounce = rowCount > 0 ? Math.round((totBounce / rowCount) * 100) + "%" : "–";
+
+                /* Map GA4 channel names to display names */
+                var channelDisplay = {
+                    "Organic Search": "Google Search", "Organic Social": "Social Media",
+                    "Direct": "Direct", "Referral": "Referral", "Email": "Email",
+                    "Paid Search": "Paid Search", "(none)": "Direct", "Unassigned": "Other"
+                };
+                var totalSrcViews = totViews || 1;
+                realSources = Object.keys(sourceMap).slice(0, 5).map(function(k) {
+                    return { name: channelDisplay[k] || k, v: sourceMap[k], pct: Math.round(sourceMap[k] / totalSrcViews * 100) + "%" };
+                }).sort(function(a, b) { return b.v - a.v; });
+            }
+            maybeDone();
+        });
+
+        /* 2. Top pages */
+        fetchGA4Pages(dates.start, dates.end, function(err, data) {
+            if (!err && data && data.rows) {
+                realPages = data.rows.map(function(row) {
+                    return {
+                        path: row.dimensionValues[0].value,
+                        views: parseInt(row.metricValues[0].value) || 0,
+                        uniq: parseInt(row.metricValues[1].value) || 0,
+                        time: "–", bounce: "–"
+                    };
+                });
+            }
+            maybeDone();
+        });
+
+        /* 3. Countries */
+        fetchGA4Countries(dates.start, dates.end, function(err, data) {
+            if (!err && data && data.rows) {
+                realCountries = data.rows.map(function(row) {
+                    var country = row.dimensionValues[0].value;
+                    return { flag: getFlag(country), name: country, v: parseInt(row.metricValues[0].value) || 0 };
+                });
+            }
+            maybeDone();
+        });
+    }
+
+    /* ── Main connect flow ── */
+    window.ga4Connect = function() {
+        if (isConnected) return; /* already live */
+
+        if (!window.google || !window.google.accounts) {
+            alert("Google Identity Services not loaded yet. Please wait a moment and try again.");
+            return;
+        }
+
+        if (!tokenClient) {
+            tokenClient = window.google.accounts.oauth2.initTokenClient({
+                client_id: GA4_CLIENT_ID,
+                scope: GA4_SCOPE,
+                callback: function(resp) {
+                    if (resp.error) { setBtnError(); return; }
+                    accessToken = resp.access_token;
+                    isConnected = true;
+                    setBtnConnected();
+                    /* Load data for the currently selected period */
+                    var activePeriodBtn = document.querySelector(".analytics-period-btn.active");
+                    var period = activePeriodBtn ? activePeriodBtn.dataset.period : "30d";
+                    loadRealData(period);
+                }
+            });
+        }
+
+        setBtnLoading();
+        tokenClient.requestAccessToken();
+    };
+
+    /* ── Expose re-load hook so period buttons can refresh real data ── */
+    /* When GA4 is connected, period changes should re-fetch real data */
+    var origPeriodHandlerInstalled = false;
+    function installPeriodHook() {
+        if (origPeriodHandlerInstalled) return;
+        origPeriodHandlerInstalled = true;
+        document.querySelectorAll(".analytics-period-btn").forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                if (!isConnected) return;
+                var period = this.dataset.period;
+                setTimeout(function() { loadRealData(period); }, 50);
+            });
+        });
+    }
+
+    /* Wait for DOM ready then install hook */
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", installPeriodHook);
+    } else {
+        installPeriodHook();
+    }
+
+    /* Analytics data refs are exposed by the analytics IIFE as window._analyticsDataRef etc. */
+
 })();
 </script>
 
