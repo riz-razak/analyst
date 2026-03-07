@@ -3206,9 +3206,9 @@
 
     // Store comment data
     const comments = {
-        1: { id: 1, author: 'Malith S.', dossier: 'caravan-fresh', timestamp: '2h ago', text: 'This is exactly what mainstream media won't cover. Finally someone with the courage to lay it all out. The political protection racket is real.', status: 'pending', avatar: 'M', color: 'color-a' },
+        1: { id: 1, author: 'Malith S.', dossier: 'caravan-fresh', timestamp: '2h ago', text: "This is exactly what mainstream media won't cover. Finally someone with the courage to lay it all out. The political protection racket is real.", status: 'pending', avatar: 'M', color: 'color-a' },
         2: { id: 2, author: 'Nuwanthi P.', dossier: 'caravan-fresh', timestamp: '5h ago', text: 'Shared with 3 journalists I trust. Is there a Sinhala version? The impact would be massive in the local media sphere.', status: 'pending', avatar: 'N', color: 'color-n' },
-        3: { id: 3, author: 'Diaspora Reader', dossier: 'caravan-fresh', timestamp: '1d ago', text: 'Reading from London. This level of analysis doesn't exist in any Sri Lankan publication. The connections you've drawn between political figures and business interests are eye-opening.', status: 'pending', avatar: 'D', color: 'color-d' },
+        3: { id: 3, author: 'Diaspora Reader', dossier: 'caravan-fresh', timestamp: '1d ago', text: "Reading from London. This level of analysis doesn't exist in any Sri Lankan publication. The connections you've drawn between political figures and business interests are eye-opening.", status: 'pending', avatar: 'D', color: 'color-d' },
         4: { id: 4, author: 'Anonymous', dossier: 'sri-lanka-cricket-corruption', timestamp: '2d ago', text: 'When is the cricket dossier getting a Sinhala translation? The evidence section needs wider reach.', status: 'pending', avatar: 'A', color: 'color-b' },
         5: { id: 5, author: 'Kumara W.', dossier: 'sri-lanka-cricket-corruption', timestamp: '3d ago', text: 'The SLC timeline is devastating. Well-researched.', status: 'approved', avatar: 'K', color: 'color-a' },
         6: { id: 6, author: 'Tamil Reader', dossier: 'caravan-fresh', timestamp: '4d ago', text: 'Important work. More people need to see this.', status: 'approved', avatar: 'T', color: 'color-c' },
@@ -3285,8 +3285,8 @@
             </div>
             <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #E5E7EB; display: flex; gap: 8px; flex-wrap: wrap;">
                 ${comment.status !== 'approved' ? '<button class="action-btn approve" onclick="window.approveComment(' + commentId + ')">✓ Approve</button>' : ''}
-                <button class="action-btn delete" onclick="window.deleteComment(' + commentId + ')">✗ Delete</button>
-                <button class="action-btn flag" onclick="window.flagComment(' + commentId + ')">⚑ Flag</button>
+                <button class="action-btn delete" onclick="window.deleteComment(${commentId})">✗ Delete</button>
+                <button class="action-btn flag" onclick="window.flagComment(${commentId})">⚑ Flag</button>
             </div>
         `;
 
