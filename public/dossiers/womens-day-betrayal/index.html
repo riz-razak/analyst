@@ -219,34 +219,51 @@ body.sinhala [lang-en-inline] { display: none; }
 }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-/* ===== HOVER IMAGE PREVIEWS ===== */
+/* ===== EVIDENCE SOURCE CARDS (always visible inline) ===== */
 .evidence-link {
   position: relative; cursor: pointer;
   color: var(--forest); text-decoration: underline;
   text-decoration-style: dotted; text-underline-offset: 3px;
 }
-.evidence-link .hover-preview {
-  display: none; position: fixed; z-index: 9000;
-  background: var(--bg-card); border: 2px solid var(--sage);
-  border-radius: var(--radius); box-shadow: var(--shadow-lg);
-  padding: 12px; max-width: 400px; width: 90vw;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  pointer-events: none;
+.evidence-card {
+  display: block; position: relative; z-index: 1;
+  width: 100%; max-width: 100%;
+  background: var(--sage-mist, #e8f0e2);
+  border-radius: 10px; box-shadow: none;
+  padding: 14px 18px 12px; margin-top: 12px;
+  border-left: 3px solid var(--forest, #2d5a27);
+  font-size: 0.85rem; line-height: 1.5;
 }
-.evidence-link:hover .hover-preview,
-.evidence-link:focus .hover-preview { display: block; }
-.hover-preview img {
-  width: 100%; border-radius: 8px; display: block;
+.evidence-card .ec-badge {
+  display: inline-block; background: var(--forest, #2d5a27);
+  color: #fff; font-size: 0.7rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 4px; margin-right: 8px;
+  vertical-align: middle; letter-spacing: 0.5px;
 }
-.hover-preview .preview-caption {
-  font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;
-  text-align: center; font-weight: 500;
+.evidence-card .ec-source {
+  font-weight: 600; color: var(--forest, #2d5a27);
+  display: inline; vertical-align: middle;
 }
-
-/* Mobile: tap to toggle */
-@media (hover: none) {
-  .evidence-link .hover-preview { display: none !important; }
-  .evidence-link.active .hover-preview { display: block !important; pointer-events: auto; }
+.evidence-card .ec-quote {
+  display: block; margin-top: 8px;
+  color: #444; font-style: italic;
+}
+.evidence-card .ec-meta {
+  display: block; margin-top: 6px;
+  color: var(--text-muted, #888); font-size: 0.75rem;
+}
+.evidence-card .ec-tag {
+  display: inline-block; margin-top: 8px;
+  font-size: 0.65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  padding: 2px 10px; border-radius: 3px;
+}
+.ec-tag.article { background: #dbeafe; color: #1e40af; }
+.ec-tag.social { background: #fce7f3; color: #9d174d; }
+.ec-tag.testimony { background: #fef3c7; color: #92400e; }
+.ec-tag.primary { background: #d1fae5; color: #065f46; }
+@media (max-width: 600px) {
+  .evidence-card { padding: 12px 14px 10px; font-size: 0.8rem; }
 }
 
 /* ===== SMOKING GUN ===== */
@@ -637,7 +654,14 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="card-icon card-icon-green">📰</div>
       <h3 lang-en data-cms-id="s1-card1-title">The Article</h3>
       <p lang-en data-cms-id="s1-card1-body">On March 8, 2026, the <strong>Sunday Observer</strong>'s <strong>Observer MUSE</strong> supplement published a Women's Day feature titled <em>"One is not born, but rather becomes a woman"</em> — celebrating Simone de Beauvoir's feminist philosophy.</p>
-      <a class="src-link" href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank"><span class="preview-dot"></span> View on Sunday Observer →</a>
+      <a class="src-link evidence-link" href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank"><span class="preview-dot"></span> View on Sunday Observer →</a>
+      <div class="evidence-card">
+        <span class="ec-badge">S2</span>
+        <div class="ec-source">Sunday Observer — Feature Article</div>
+        <span class="ec-quote">"Vangeesa Sumanasekara's International Women's Day message" — a puff piece published on the same day victims were speaking out.</span>
+        <span class="ec-meta">Sunday Observer &bull; March 8, 2026</span>
+        <span class="ec-tag article">THE ARTICLE</span>
+      </div>
     </div>
 
     <div class="card">
@@ -650,7 +674,14 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="card-icon card-icon-gold">📢</div>
       <h3 lang-en data-cms-id="s1-card3-title">The Promotion</h3>
       <p lang-en data-cms-id="s1-card3-body"><strong>Anuradha Perera</strong> shared the article on Facebook, tagging all resource persons including Vangeesa Sumanasekara, alongside Deepthi Kumara Gunarathne, Swarna Mallawarachchi, Prasanna Vithanage, and Dhananjaya Karunarathne.</p>
-      <a class="src-link" href="https://www.facebook.com/story.php?story_fbid=10239366361167514&id=1540883472" target="_blank"><span class="preview-dot"></span> View Facebook Post →</a>
+      <a class="src-link evidence-link" href="https://www.facebook.com/story.php?story_fbid=10239366361167514&id=1540883472" target="_blank"><span class="preview-dot"></span> View Facebook Post →</a>
+      <div class="evidence-card">
+        <span class="ec-badge">S1</span>
+        <div class="ec-source">Anuradha Perera — Facebook Post</div>
+        <span class="ec-quote">Shared the Sunday Observer article, tagging all resource persons including Vangeesa Sumanasekara alongside prominent cultural figures.</span>
+        <span class="ec-meta">Facebook &bull; March 8, 2026</span>
+        <span class="ec-tag social">SOCIAL MEDIA</span>
+      </div>
     </div>
 
     <div class="card">
@@ -714,8 +745,23 @@ body.sinhala [lang-en-inline] { display: none; }
     </div>
 
     <div style="margin-top: 24px; text-align: center;">
-      <a class="src-link" href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank"><span class="preview-dot"></span> Read: "Sexual Harassment and Violence" →</a><br>
-      <a class="src-link" href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank" style="margin-top: 8px;"><span class="preview-dot"></span> Vincika De Saram's posts →</a>
+      <a class="src-link evidence-link" href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank"><span class="preview-dot"></span> Read: "Sexual Harassment and Violence" →</a>
+      <div class="evidence-card">
+        <span class="ec-badge">S3</span>
+        <div class="ec-source">Working PPS — WordPress Blog</div>
+        <span class="ec-quote">Detailed account of sexual harassment and violence within the poetry/literary community, naming specific incidents and patterns of behavior.</span>
+        <span class="ec-meta">Working PPS Blog &bull; June 29, 2021</span>
+        <span class="ec-tag testimony">TESTIMONY</span>
+      </div>
+      <br>
+      <a class="src-link evidence-link" href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank" style="margin-top: 8px;"><span class="preview-dot"></span> Vincika De Saram's posts →</a>
+      <div class="evidence-card">
+        <span class="ec-badge">S8/S9</span>
+        <div class="ec-source">Vincika De Saram — Facebook Posts</div>
+        <span class="ec-quote">Public posts documenting personal experiences of harassment and the broader culture of silence protecting perpetrators in literary circles.</span>
+        <span class="ec-meta">Facebook &bull; Multiple dates, 2021–2025</span>
+        <span class="ec-tag primary">PRIMARY SOURCE</span>
+      </div>
     </div>
   </div>
 </section>
@@ -1046,24 +1092,7 @@ body.sinhala [lang-en-inline] { display: none; }
   <div style="margin-top: 12px; display: inline-block; padding: 4px 14px; border: 1px solid var(--border); border-radius: 16px; font-size: 0.72rem; color: var(--text-muted);">CC BY-SA 4.0</div>
 </footer>
 
-<script>
-// Mobile touch toggle for evidence previews
-document.querySelectorAll('.evidence-link').forEach(el => {
-  el.addEventListener('click', function(e) {
-    if (window.matchMedia('(hover: none)').matches) {
-      e.preventDefault();
-      document.querySelectorAll('.evidence-link.active').forEach(a => { if (a !== this) a.classList.remove('active'); });
-      this.classList.toggle('active');
-    }
-  });
-});
-// Close previews on tap outside
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.evidence-link')) {
-    document.querySelectorAll('.evidence-link.active').forEach(a => a.classList.remove('active'));
-  }
-});
-</script>
+<!-- Evidence cards are always visible inline, no toggle needed -->
 
 </body>
 </html>
