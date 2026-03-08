@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>කාන්තා දිනයේ කෑගැසීම — The Women's Day Betrayal Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5ed;
+  --bg-warm: #f0ece0;
+  --bg-card: #ffffff;
+  --bg-card-alt: #faf8f2;
+  --forest: #2d5a27;
+  --forest-deep: #1a3a15;
+  --moss: #4a7c3f;
+  --sage: #7da56d;
+  --sage-light: #c5ddb8;
+  --sage-mist: #e8f0e2;
+  --blood: #8b1a1a;
+  --ember: #c0392b;
+  --ember-light: #f8d7da;
+  --gold: #a67c00;
+  --gold-light: #fef3c7;
+  --earth: #5c4033;
+  --earth-light: #f5ebe0;
+  --text: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --text-muted: #7a7a6e;
+  --border: #d4d0c4;
+  --border-green: #b8cfab;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+.si { font-family: var(--font-sinhala); }
+
+/* ===== LANGUAGE TOGGLE ===== */
+[lang-si] { display: none; }
+body.sinhala [lang-en] { display: none; }
+body.sinhala [lang-si] { display: block; }
+body.sinhala [lang-si-inline] { display: inline; }
+body.sinhala [lang-en-inline] { display: none; }
+[lang-si-inline] { display: none; }
+
+/* ===== DISCLAIMER ===== */
+.disclaimer-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(26,58,21,0.92);
+  backdrop-filter: blur(16px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.disclaimer-overlay.hidden { display: none; }
+.disclaimer-box {
+  max-width: 640px; width: 100%;
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  padding: 40px; box-shadow: var(--shadow-lg);
+  border: 2px solid var(--sage-light);
+}
+.disclaimer-box h2 {
+  font-family: var(--font-serif); font-size: 1.4rem;
+  color: var(--forest-deep); margin-bottom: 20px;
+}
+.disclaimer-box p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px; }
+.disclaimer-tags { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+.tag {
+  padding: 4px 14px; border-radius: 20px; font-size: 0.7rem;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+}
+.tag-green { background: var(--sage-mist); color: var(--forest); }
+.tag-red { background: var(--ember-light); color: var(--blood); }
+.tag-gold { background: var(--gold-light); color: var(--gold); }
+
+.btn-accept {
+  display: inline-block; margin-top: 20px; padding: 14px 36px;
+  background: var(--forest); color: #fff; border: none; border-radius: 10px;
+  font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+  font-family: var(--font-sans);
+}
+.btn-accept:hover { background: var(--forest-deep); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(45,90,39,0.3); }
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(247,245,237,0.88); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px; transition: all 0.3s;
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.nav-brand { font-weight: 800; font-size: 0.8rem; color: var(--forest); letter-spacing: 0.1em; text-transform: uppercase; }
+.nav-links { display: flex; gap: 2px; overflow-x: auto; }
+.nav-links a {
+  color: var(--text-muted); text-decoration: none; font-size: 0.72rem;
+  padding: 6px 10px; border-radius: 6px; transition: all 0.2s;
+  font-weight: 600; white-space: nowrap;
+}
+.nav-links a:hover { color: var(--forest); background: var(--sage-mist); }
+.lang-btn {
+  padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-green);
+  background: var(--sage-mist); color: var(--forest); font-size: 0.7rem;
+  font-weight: 700; cursor: pointer; font-family: var(--font-sinhala);
+  transition: all 0.2s; margin-left: 8px;
+}
+.lang-btn:hover { background: var(--forest); color: #fff; }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh; min-height: 100svh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center;
+  padding: 100px 20px 60px;
+  background: linear-gradient(170deg, var(--sage-mist) 0%, var(--bg) 40%, var(--bg-warm) 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(125,165,109,0.15) 0%, transparent 70%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 20px; background: var(--ember); color: #fff;
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; border-radius: 24px; margin-bottom: 28px;
+}
+.hero h1 {
+  font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800; line-height: 1.2; margin-bottom: 20px;
+  color: var(--forest-deep);
+}
+.hero h1 .accent { color: var(--ember); }
+.hero .subtitle {
+  font-size: clamp(0.95rem, 2vw, 1.1rem); color: var(--text-secondary);
+  max-width: 640px; margin: 0 auto 36px; line-height: 1.8;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+}
+.stat { text-align: center; }
+.stat-value { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 800; color: var(--forest); }
+.stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+
+/* ===== SECTIONS ===== */
+.section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+.section-label {
+  display: inline-block; font-size: 0.65rem; font-weight: 700;
+  color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em;
+  padding: 5px 14px; border: 1px solid var(--border-green);
+  border-radius: 20px; background: var(--sage-mist); margin-bottom: 12px;
+}
+.section h2 {
+  font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 700; color: var(--forest-deep); margin-bottom: 12px;
+}
+.section-desc { color: var(--text-muted); max-width: 560px; font-size: 0.95rem; }
+.section-header { margin-bottom: 48px; }
+
+.divider {
+  width: 100%; max-width: 1100px; margin: 0 auto;
+  height: 1px; background: linear-gradient(90deg, transparent, var(--sage-light), transparent);
+}
+
+/* ===== EVIDENCE CARDS ===== */
+.card-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px; margin-top: 32px;
+}
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 28px;
+  transition: all 0.3s; position: relative;
+}
+.card:hover { border-color: var(--sage); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.card-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 16px;
+}
+.card-icon-green { background: var(--sage-mist); }
+.card-icon-red { background: var(--ember-light); }
+.card-icon-gold { background: var(--gold-light); }
+.card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; color: var(--forest-deep); }
+.card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7; }
+
+/* ===== SOURCE LINKS WITH HOVER PREVIEW ===== */
+.src-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 14px; color: var(--forest); text-decoration: none;
+  font-size: 0.82rem; font-weight: 600; transition: gap 0.2s;
+  position: relative;
+}
+.src-link:hover { gap: 10px; }
+.src-link .preview-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--sage);
+  display: inline-block; animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ===== HOVER IMAGE PREVIEWS ===== */
+.evidence-link {
+  position: relative; cursor: pointer;
+  color: var(--forest); text-decoration: underline;
+  text-decoration-style: dotted; text-underline-offset: 3px;
+}
+.evidence-link .hover-preview {
+  display: none; position: fixed; z-index: 9000;
+  background: var(--bg-card); border: 2px solid var(--sage);
+  border-radius: var(--radius); box-shadow: var(--shadow-lg);
+  padding: 12px; max-width: 400px; width: 90vw;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.evidence-link:hover .hover-preview,
+.evidence-link:focus .hover-preview { display: block; }
+.hover-preview img {
+  width: 100%; border-radius: 8px; display: block;
+}
+.hover-preview .preview-caption {
+  font-size: 0.75rem; color: var(--text-muted); margin-top: 8px;
+  text-align: center; font-weight: 500;
+}
+
+/* Mobile: tap to toggle */
+@media (hover: none) {
+  .evidence-link .hover-preview { display: none !important; }
+  .evidence-link.active .hover-preview { display: block !important; pointer-events: auto; }
+}
+
+/* ===== SMOKING GUN ===== */
+.smoking-gun {
+  background: linear-gradient(135deg, #fdf5f5 0%, #fff 100%);
+  border: 2px solid var(--ember);
+  border-radius: var(--radius-lg); padding: 48px 32px;
+  margin: 64px auto; max-width: 880px;
+  position: relative; box-shadow: 0 0 48px rgba(139,26,26,0.06);
+}
+.smoking-gun::before {
+  content: '🔥'; position: absolute; top: -18px; left: 50%;
+  transform: translateX(-50%); font-size: 2rem;
+  background: var(--bg); padding: 0 16px;
+}
+.smoking-gun h2 {
+  font-family: var(--font-serif); color: var(--blood);
+  font-size: 1.5rem; margin-bottom: 20px; text-align: center;
+}
+.quote-block {
+  background: rgba(139,26,26,0.04); border-left: 4px solid var(--ember);
+  padding: 20px 24px; margin: 20px 0; border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: var(--font-serif); font-size: 0.95rem; line-height: 1.8;
+  color: var(--text);
+}
+.quote-attr { color: var(--text-muted); font-size: 0.8rem; margin-top: 8px; font-style: italic; font-family: var(--font-sans); }
+.evidence-label {
+  color: var(--ember); font-family: var(--font-serif);
+  font-size: 1.1rem; font-weight: 700; margin: 28px 0 12px;
+}
+.chat-transcript {
+  background: #f9f9f6; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; margin: 16px 0;
+  font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+}
+.chat-transcript .chat-header {
+  font-family: var(--font-sans); font-size: 0.75rem; color: var(--text-muted);
+  margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.chat-msg { margin-bottom: 6px; }
+.chat-msg .sender { font-weight: 600; }
+.chat-msg .sender-accused { color: var(--blood); }
+.chat-msg .sender-victim { color: var(--forest); }
+.chat-msg .msg-danger { color: var(--ember); font-weight: 700; }
+
+.key-reveal-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px; margin: 20px 0;
+}
+.key-reveal {
+  background: var(--bg-card); padding: 16px; border-radius: 10px;
+  border-left: 3px solid var(--ember);
+}
+.key-reveal strong { font-size: 0.85rem; color: var(--blood); display: block; margin-bottom: 4px; }
+.key-reveal span { font-size: 0.8rem; color: var(--text-secondary); }
+
+/* ===== TIMELINE ===== */
+.timeline { position: relative; padding-left: 36px; max-width: 800px; margin: 32px auto 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 14px; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(to bottom, var(--sage), var(--ember), var(--sage));
+}
+.tl-item { position: relative; padding: 0 0 40px 32px; }
+.tl-item::before {
+  content: ''; position: absolute; left: -29px; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--sage); border: 3px solid var(--bg);
+}
+.tl-item.key::before {
+  width: 16px; height: 16px; left: -31px; top: 4px;
+  background: var(--ember); box-shadow: 0 0 12px rgba(192,57,43,0.3);
+}
+.tl-date { font-size: 0.72rem; font-weight: 700; color: var(--forest); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.tl-item h3 { font-size: 1rem; font-weight: 700; color: var(--forest-deep); margin-bottom: 6px; }
+.tl-item p { color: var(--text-secondary); font-size: 0.88rem; }
+.tl-item a { color: var(--forest); font-weight: 600; }
+
+/* ===== CAST OF CHARACTERS (renamed Stakeholders) ===== */
+.cast-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px; margin-top: 32px;
+}
+.cast-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; transition: all 0.3s;
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.cast-card:hover { border-color: var(--sage); box-shadow: var(--shadow); }
+.avatar {
+  width: 52px; height: 52px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.9rem; color: #fff;
+}
+.avatar-accused { background: var(--blood); }
+.avatar-journalist { background: var(--gold); }
+.avatar-whistleblower { background: var(--forest); }
+.avatar-public { background: var(--earth); }
+.avatar-publication { background: var(--text-muted); }
+
+.cast-info { flex: 1; }
+.role-tag {
+  display: inline-block; padding: 2px 10px; border-radius: 12px;
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.06em; margin-bottom: 6px;
+}
+.role-tag-accused { background: var(--ember-light); color: var(--blood); }
+.role-tag-journalist { background: var(--gold-light); color: var(--gold); }
+.role-tag-whistleblower { background: var(--sage-mist); color: var(--forest); }
+.role-tag-public { background: var(--earth-light); color: var(--earth); }
+.role-tag-publication { background: #eee; color: var(--text-muted); }
+
+.cast-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+.cast-card p { color: var(--text-secondary); font-size: 0.82rem; line-height: 1.6; }
+
+/* ===== JOURNALIST PROFILE ===== */
+.profile-box {
+  background: var(--bg-card); border: 2px solid var(--gold);
+  border-radius: var(--radius-lg); padding: 40px 32px;
+  max-width: 880px; margin: 32px auto 0;
+}
+.profile-top { display: flex; gap: 24px; align-items: flex-start; margin-bottom: 28px; }
+.profile-avatar-lg {
+  width: 72px; height: 72px; border-radius: 50%; flex-shrink: 0;
+  background: var(--gold); color: #fff; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 1.6rem; font-weight: 800;
+}
+.profile-top h3 { font-family: var(--font-serif); font-size: 1.3rem; }
+.profile-role { color: var(--gold); font-size: 0.85rem; font-weight: 600; }
+.profile-details {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px; margin: 20px 0;
+}
+.profile-detail {
+  background: var(--bg); padding: 14px; border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.profile-detail .dl { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px; font-weight: 600; }
+.profile-detail .dv { font-size: 0.88rem; color: var(--text); }
+.profile-detail .dv a { color: var(--forest); }
+
+.integrity-card {
+  background: var(--bg-card-alt); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px; margin-top: 12px;
+  border-left: 3px solid var(--gold);
+}
+.integrity-card h4 { font-size: 0.9rem; color: var(--gold); margin-bottom: 6px; }
+.integrity-card p { font-size: 0.85rem; color: var(--text-secondary); }
+
+/* ===== VOICE OF THE PEOPLE ===== */
+.voice-stack { display: flex; flex-direction: column; gap: 14px; max-width: 800px; margin: 32px auto 0; }
+.voice-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 22px;
+  transition: all 0.3s; border-left: 3px solid var(--sage);
+}
+.voice-card:hover { border-left-color: var(--forest); box-shadow: var(--shadow); }
+.voice-card.highlight { border-left-color: var(--ember); background: #fdf8f8; }
+.voice-author { font-weight: 700; font-size: 0.85rem; color: var(--forest); margin-bottom: 4px; }
+.voice-author.victim { color: var(--ember); }
+.voice-text { font-family: var(--font-serif); font-size: 0.92rem; color: var(--text); line-height: 1.7; font-style: italic; }
+.voice-meta { color: var(--text-muted); font-size: 0.72rem; margin-top: 6px; }
+
+/* ===== QUESTIONS ===== */
+.q-list { max-width: 800px; margin: 32px auto 0; counter-reset: q; }
+.q-item {
+  counter-increment: q; padding: 20px 20px 20px 56px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); margin-bottom: 10px;
+  position: relative; font-size: 0.92rem; color: var(--text);
+  transition: all 0.3s;
+}
+.q-item:hover { border-color: var(--forest); }
+.q-item::before {
+  content: counter(q); position: absolute; left: 18px; top: 20px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--forest); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700;
+}
+
+/* ===== SOURCE TABLE ===== */
+.src-table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+.src-table th, .src-table td {
+  text-align: left; padding: 12px 14px;
+  border-bottom: 1px solid var(--border); font-size: 0.85rem;
+}
+.src-table th {
+  color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase;
+  letter-spacing: 0.08em; font-weight: 600; background: var(--bg);
+}
+.src-table td a { color: var(--forest); word-break: break-all; }
+.src-badge {
+  display: inline-block; padding: 2px 10px; border-radius: 10px;
+  font-size: 0.65rem; font-weight: 600;
+}
+.src-primary { background: var(--ember-light); color: var(--blood); }
+.src-secondary { background: var(--sage-mist); color: var(--forest); }
+.src-context { background: var(--gold-light); color: var(--gold); }
+
+/* ===== FOOTER ===== */
+.footer {
+  padding: 48px 20px; text-align: center;
+  border-top: 1px solid var(--border); margin-top: 64px;
+  background: var(--bg-warm);
+}
+.footer p { color: var(--text-muted); font-size: 0.8rem; max-width: 560px; margin: 0 auto 8px; }
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .section { padding: 48px 16px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .cast-grid { grid-template-columns: 1fr; }
+  .smoking-gun { padding: 36px 20px; margin: 48px 16px; }
+  .profile-box { padding: 28px 20px; margin: 32px 16px 0; }
+  .profile-top { flex-direction: column; align-items: center; text-align: center; }
+  .hero { padding: 80px 16px 48px; }
+  .hero-stats { gap: 20px; }
+  .navbar { padding: 0 12px; }
+  .nav-links a { font-size: 0.65rem; padding: 4px 6px; }
+  .key-reveal-grid { grid-template-columns: 1fr; }
+  .src-table { font-size: 0.78rem; }
+  .src-table th, .src-table td { padding: 8px; }
+  .cast-card { flex-direction: column; align-items: center; text-align: center; }
+  .chat-transcript { font-size: 0.78rem; padding: 16px; }
+}
+@media (max-width: 480px) {
+  .nav-links { display: none; }
+  .hero h1 { font-size: 1.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== DISCLAIMER ===== -->
+<div class="disclaimer-overlay" id="disclaimer">
+  <div class="disclaimer-box">
+    <h2 lang-en>⚠️ Disclaimer</h2>
+    <h2 lang-si class="si" style="display:none">⚠️ වියාචනය</h2>
+    <div class="disclaimer-tags">
+      <span class="tag tag-green">Citizen Journalism</span>
+      <span class="tag tag-red">Allegations Referenced</span>
+      <span class="tag tag-gold">Public Interest</span>
+    </div>
+    <p lang-en>This is a <strong>citizen journalism dossier</strong> compiled from publicly available sources. It does not constitute legal advice or a formal accusation. All claims are described as <strong>allegations</strong> unless verified by a court of law.</p>
+    <p lang-en>The compiler is <strong>not the originator</strong> of any allegations. All evidence was sourced from publicly accessible posts, articles, and commentary already in the public domain.</p>
+    <p lang-en>This document exercises free expression and public-interest journalism, raising questions of <strong>editorial accountability</strong> at a state-owned publication.</p>
+
+    <p lang-si class="si" style="display:none">මෙය <strong>පොදු මූලාශ්‍ර</strong>වලින් සම්පාදනය කළ පුරවැසි මාධ්‍යවේදී ලේඛනයකි. මෙහි සඳහන් සියලු ප්‍රකාශ <strong>චෝදනා</strong> ලෙස විස්තර කෙරේ.</p>
+    <p lang-si class="si" style="display:none">මෙය <strong>ප්‍රකාශන නිදහස</strong> සහ මහජන-අවශ්‍යතා මාධ්‍යවේදනය අභ්‍යාස කරන ලේඛනයකි.</p>
+
+    <button class="btn-accept" onclick="document.getElementById('disclaimer').classList.add('hidden')">I Understand — Proceed / මම තේරුම් ගතිමි</button>
+  </div>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <div class="nav-brand">📋 Dossier</div>
+    <div class="nav-links">
+      <a href="#incident">Incident</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#cast">Cast</a>
+      <a href="#journalist">Journalist</a>
+      <a href="#voices">Voices</a>
+      <a href="#questions">Questions</a>
+      <a href="#sources">Sources</a>
+    </div>
+    <button class="lang-btn" onclick="document.body.classList.toggle('sinhala')">සිං / EN</button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🔴 Live — March 8, 2026</div>
+    <h1 lang-en>The <span class="accent">Women's Day</span> Betrayal:<br>How a State Newspaper Platformed an Alleged Sexual Predator to Celebrate Feminism</h1>
+    <h1 lang-si class="si" style="display:none">කාන්තා දිනයේ <span class="accent">විශ්වාසභංගය</span>:<br>රාජ්‍ය පුවත්පතක් ස්ත්‍රීවාදය සැමරීමට ලිංගික අපචාරකරුවෙකු වේදිකාගත කළ ආකාරය</h1>
+    <p class="subtitle" lang-en>On International Women's Day 2026, the Sunday Observer's Observer MUSE supplement published a feature celebrating Simone de Beauvoir's feminist philosophy — and chose a man with documented sexual harassment allegations as a "key resource person." Multiple women have publicly posted screenshot evidence of his uninvited sexual messages. This is that story.</p>
+    <p class="subtitle si" lang-si style="display:none">2026 ජාත්‍යන්තර කාන්තා දිනයේ, Sunday Observer හි Observer MUSE අතිරේකය සිමෝන් ද බෝවුවාගේ ස්ත්‍රීවාදී දර්ශනය සැමරූ ලිපියක් ප්‍රකාශයට පත් කළේය — තවද ලේඛනගත ලිංගික හිංසන චෝදනා ඇති පුරුෂයෙකු "ප්‍රධාන සම්පත් පුද්ගලයෙකු" ලෙස තෝරා ගන්නා ලදී. කාන්තාවන් කිහිප දෙනෙකු ඔහුගේ නොසිතූ ලිංගික පණිවිඩවල තිර රූප පොදු වශයෙන් පළ කර ඇත.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-value">10+</div><div class="stat-label" lang-en>Evidence Sources</div><div class="stat-label si" lang-si style="display:none">සාක්ෂි මූලාශ්‍ර</div></div>
+      <div class="stat"><div class="stat-value">5</div><div class="stat-label" lang-en>Years of Allegations</div><div class="stat-label si" lang-si style="display:none">චෝදනා වසර</div></div>
+      <div class="stat"><div class="stat-value">6+</div><div class="stat-label" lang-en>Public Callouts</div><div class="stat-label si" lang-si style="display:none">මහජන විරෝධ</div></div>
+      <div class="stat"><div class="stat-value">2+</div><div class="stat-label" lang-en>Named Victims</div><div class="stat-label si" lang-si style="display:none">නම් කළ ගොදුරු</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== THE INCIDENT ===== -->
+<section class="section" id="incident">
+  <div class="section-header">
+    <div class="section-label" lang-en>Section 01</div>
+    <div class="section-label si" lang-si style="display:none">කොටස 01</div>
+    <h2 lang-en>The Incident</h2>
+    <h2 lang-si class="si" style="display:none">සිද්ධිය</h2>
+    <p class="section-desc" lang-en>What happened on International Women's Day 2026</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon card-icon-green">📰</div>
+      <h3 lang-en>The Article</h3>
+      <p lang-en>On March 8, 2026, the <strong>Sunday Observer</strong>'s <strong>Observer MUSE</strong> supplement published a Women's Day feature titled <em>"One is not born, but rather becomes a woman"</em> — celebrating Simone de Beauvoir's feminist philosophy.</p>
+      <a class="src-link" href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank"><span class="preview-dot"></span> View on Sunday Observer →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon card-icon-red">👤</div>
+      <h3 lang-en>The Platforming</h3>
+      <p lang-en>Among the featured "resource persons" was <strong>Vangeesa Sumanasekara</strong>, described as a <em>"thinker"</em> — a man with <strong>documented sexual harassment allegations</strong> dating to at least 2021, with screenshot evidence from multiple women.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-icon card-icon-gold">📢</div>
+      <h3 lang-en>The Promotion</h3>
+      <p lang-en><strong>Anuradha Perera</strong> shared the article on Facebook, tagging all resource persons including Vangeesa Sumanasekara, alongside Deepthi Kumara Gunarathne, Swarna Mallawarachchi, Prasanna Vithanage, and Dhananjaya Karunarathne.</p>
+      <a class="src-link" href="https://www.facebook.com/story.php?story_fbid=10239366361167514&id=1540883472" target="_blank"><span class="preview-dot"></span> View Facebook Post →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-icon card-icon-green">🤔</div>
+      <h3 lang-en>The Contradiction</h3>
+      <p lang-en>A Women's Day article invoking de Beauvoir's feminist philosophy chose to celebrate an individual with documented harassment allegations against women. The irony is not incidental — it is structural.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SMOKING GUN ===== -->
+<section class="section" id="evidence">
+  <div class="smoking-gun">
+    <h2 lang-en>The Smoking Gun: Multiple Women's Screenshot Evidence</h2>
+    <h2 lang-si class="si" style="display:none">ප්‍රධාන සාක්ෂිය: කාන්තාවන් කිහිපදෙනෙකුගේ තිර රූප සාක්ෂි</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 20px; text-align: center; font-size: 0.95rem;" lang-en>Multiple women have independently released screenshot evidence. These are not anonymous rumours — they are documented, publicly posted, verifiable digital evidence from <strong>named individuals</strong>.</p>
+
+    <h3 class="evidence-label">🔥 Evidence A: Emy Vithanage (June 28, 2021)</h3>
+    <div class="quote-block">
+      "On June 28th, Emy Vithanage released a screenshot of an uninvited sex-chat initiated by Vangeesa Sumanasekara. This has led to yet another round of discussion about his long-discussed abusive behavior towards women."
+      <div class="quote-attr">— Prabha Manuratne, Academic & Author, June 29, 2021</div>
+    </div>
+
+    <h3 class="evidence-label">🔥 Evidence B: Vincika De Saram (August 19, 2021) — With Screenshots</h3>
+    <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9rem;">Vincika De Saram publicly posted screenshots of a Facebook Messenger conversation. The transcript:</p>
+
+    <div class="chat-transcript">
+      <div class="chat-header">📱 Facebook Messenger — Vangeesa Sumanasekara → Vincika De Saram</div>
+      <div class="chat-msg"><span class="sender sender-accused">Vangeesa Sumanasekara:</span> "show your stuff"</div>
+      <div class="chat-msg"><span class="sender sender-victim">Vincika De Saram:</span> "show my what???"</div>
+      <div class="chat-msg"><span class="sender sender-accused">Vangeesa Sumanasekara:</span> "Not like this! I want to meet you first!"</div>
+      <div class="chat-msg"><span class="sender sender-victim">Vincika De Saram:</span> "seriously! Are you kidding me? Why on earth would I want to meet you?"</div>
+      <div class="chat-msg"><span class="sender sender-accused">Vangeesa Sumanasekara:</span> "I don't know. I actually don't know how I met you 🙂"</div>
+      <div class="chat-msg"><span class="sender sender-accused">Vangeesa Sumanasekara:</span> <span class="msg-danger">"if you don't mind - tell me, how will you show me your p***y?"</span></div>
+      <div class="chat-msg"><span class="sender sender-victim">Vincika De Saram:</span> "Wtf! Get out psycho!"</div>
+      <div class="chat-msg"><span class="sender sender-accused">Vangeesa Sumanasekara:</span> "🙂 okay"</div>
+      <div style="color: var(--text-muted); margin-top: 10px; font-style: italic; font-family: var(--font-sans); font-size: 0.8rem;">— Vincika then blocked Vangeesa Sumanasekara's Facebook account</div>
+    </div>
+
+    <h3 class="evidence-label">🔥 Evidence C: Vincika De Saram's March 8, 2026 Callout</h3>
+    <div class="quote-block">
+      "Did You Think We Forgot who Vangeesa Sumanasekara is?? Anuradha Perera Sunday Observer for real? You created a platform for Vangeesa Sumanasekara on a women's day??? Just a little reminder that he was unmasked not so long ago by women including myself and young female university students. He is now a known sexual predator both online and offline. When a complaint was filed, he hid behind his father like a coward and later blamed it all on a 'mental condition'..."
+      <div class="quote-attr">— Vincika De Saram, Facebook, March 8, 2026 · 17+ reactions · 5 comments</div>
+    </div>
+
+    <div class="key-reveal-grid">
+      <div class="key-reveal">
+        <strong>Multiple victims</strong>
+        <span>"women including myself and young female university students"</span>
+      </div>
+      <div class="key-reveal">
+        <strong>Formal complaint filed</strong>
+        <span>"When a complaint was filed, he hid behind his father"</span>
+      </div>
+      <div class="key-reveal">
+        <strong>Mental health excuse</strong>
+        <span>"later blamed it all on a 'mental condition'"</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <a class="src-link" href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank"><span class="preview-dot"></span> Read: "Sexual Harassment and Violence" →</a><br>
+      <a class="src-link" href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank" style="margin-top: 8px;"><span class="preview-dot"></span> Vincika De Saram's posts →</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== TIMELINE ===== -->
+<section class="section" id="timeline">
+  <div class="section-header">
+    <div class="section-label" lang-en>Section 02</div>
+    <h2 lang-en>Timeline of Events</h2>
+    <h2 lang-si class="si" style="display:none">සිදුවීම් කාලරේඛාව</h2>
+    <p class="section-desc" lang-en>From early allegations to the Women's Day incident</p>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-date">Pre-2021</div>
+      <h3>Whispered Allegations & Facebook Controversies</h3>
+      <p>Per Prabha Manuratne's account, Sumanasekara's "alleged behaviour has sparked controversy on Facebook" over multiple years, with "little action beyond that."</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">June 2021</div>
+      <h3>Sri Lanka's #MeToo Wave Begins</h3>
+      <p>Women in Sri Lankan media began coming forward. Senior journalists joined discussions on redress mechanisms. <a href="https://www.aljazeera.com/news/2021/6/23/sri-lanka-metoo-newsrooms-women-journalists" target="_blank">Al Jazeera covered the movement</a>.</p>
+    </div>
+    <div class="tl-item key">
+      <div class="tl-date">June 28, 2021</div>
+      <h3>🔥 Emy Vithanage Releases Screenshot</h3>
+      <p>Emy Vithanage publicly released a screenshot of an uninvited sex-chat initiated by Vangeesa Sumanasekara.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">June 29, 2021</div>
+      <h3>Prabha Manuratne Publishes Condemnation</h3>
+      <p>Academic published a detailed article providing unconditional condemnation. <a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank">Read article</a>.</p>
+    </div>
+    <div class="tl-item key">
+      <div class="tl-date">August 19, 2021</div>
+      <h3>🔥 Vincika De Saram Posts Screenshot Evidence</h3>
+      <p>Publicly posted screenshots of Messenger conversation showing explicit sexual messages.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">2021-2025</div>
+      <h3>Allegations Remain in Public Record</h3>
+      <p>No retraction, legal challenge, or exoneration known. Sumanasekara continued to contribute to <a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank">Groundviews</a>.</p>
+    </div>
+    <div class="tl-item key">
+      <div class="tl-date">March 8, 2026</div>
+      <h3>🔥 Observer Muse Platforms Sumanasekara on Women's Day</h3>
+      <p>Sunday Observer publishes Women's Day feature with Sumanasekara as "thinker." <a href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank">View article</a>.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">March 8, 2026 — Hours Later</div>
+      <h3>Immediate Public Backlash</h3>
+      <p>Melani Gunathilaka, Vincika De Saram, Janindu de Zoysa, and others call it out. <a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank">View posts</a>.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">March 8, 2026</div>
+      <h3>Prabha Manuratne: "At Least 2"</h3>
+      <p>The original whistleblower comments: <em>"not 'a man' it should be 'men'. There are at least 2 there."</em></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== CAST OF CHARACTERS ===== -->
+<section class="section" id="cast">
+  <div class="section-header">
+    <div class="section-label" lang-en>Section 03</div>
+    <h2 lang-en>Cast of Characters</h2>
+    <h2 lang-si class="si" style="display:none">චරිත මණ්ඩලය</h2>
+    <p class="section-desc" lang-en>Key individuals and entities in this incident</p>
+  </div>
+
+  <div class="cast-grid">
+    <div class="cast-card">
+      <div class="avatar avatar-accused">VS</div>
+      <div class="cast-info">
+        <span class="role-tag role-tag-accused">Accused</span>
+        <h3>Vangeesa Sumanasekara</h3>
+        <p>"Thinker" and leftist public intellectual. Contributor to <a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank" style="color:var(--forest)">Groundviews</a>. Subject of sexual harassment allegations since 2021 with screenshot evidence from multiple women. Featured in the Women's Day article.</p>
+      </div>
+    </div>
+
+    <div class="cast-card">
+      <div class="avatar avatar-journalist">AP</div>
+      <div class="cast-info">
+        <span class="role-tag role-tag-journalist">Journalist</span>
+        <h3>Anuradha Perera</h3>
+        <p>Author/promoter of the Observer Muse article. Shared the article on Facebook tagging Sumanasekara. <a href="https://www.facebook.com/anuradha.perera.7549" target="_blank" style="color:var(--forest)">Facebook</a> — lives in Boralesgamuwa, from Colombo.</p>
+      </div>
+    </div>
+
+    <div class="cast-card">
+      <div class="avatar avatar-whistleblower">EV</div>
+      <div class="cast-info">
+        <span class="role-tag role-tag-whistleblower">Whistleblower</span>
+        <h3>Emy Vithanage</h3>
+        <p>On June 28, 2021, released a screenshot of an uninvited sex-chat from Sumanasekara — the catalyst that brought allegations into the public record.</p>
+      </div>
+    </div>
+
+    <div class="cast-card">
+      <div class="avatar avatar-whistleblower">VD</div>
+      <div class="cast-info">
+        <span class="role-tag role-tag-whistleblower">Victim / Whistleblower</span>
+        <h3>Vincika De Saram</h3>
+        <p>Second known woman to publicly post screenshot evidence (Aug 19, 2021). On March 8, 2026, directly called out Anuradha Perera, revealed formal complaints were filed, and that university students were also targeted.</p>
+      </div>
+    </div>
+
+    <div class="cast-card">
+      <div class="avatar avatar-whistleblower">PM</div>
+      <div class="cast-info">
+        <span class="role-tag role-tag-whistleblower">Academic / Whistleblower</span>
+        <h3>Prabha Manuratne</h3>
+        <p>Published detailed <a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank" style="color:var(--forest)">condemnation on June 29, 2021</a>. Also commented on the March 2026 backlash: <em>"There are at least 2 there."</em></p>
+      </div>
+    </div>
+
+    <div class="cast-card">
+      <div class="avatar avatar-public">MG</div>
+      <div class="cast-info">
+        <span class="role-tag role-tag-public">Public Accountability</span>
+        <h3>Melani Gunathilaka</h3>
+        <p>Shared Anuradha's post calling it "Sri Lankan media continuing the Epstein culture." <a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank" style="color:var(--forest)">View post</a>.</p>
+      </div>
+    </div>
+
+    <div class="cast-card">
+      <div class="avatar avatar-public">JZ</div>
+      <div class="cast-info">
+        <span class="role-tag role-tag-public">Public Accountability</span>
+        <h3>Janindu de Zoysa</h3>
+        <p>Directly questioned Anuradha Perera: <em>"Did you knowingly interview Vangeesa for a Women's Day feature despite his history of harassing women?"</em> (6 reactions)</p>
+      </div>
+    </div>
+
+    <div class="cast-card">
+      <div class="avatar avatar-publication">SO</div>
+      <div class="cast-info">
+        <span class="role-tag role-tag-publication">Publication</span>
+        <h3>Sunday Observer / Observer MUSE</h3>
+        <p>State-owned English newspaper by Associated Newspapers of Ceylon Ltd (Lake House). Sri Lanka's oldest English Sunday paper (est. 1928). <a href="https://www.sundayobserver.lk/" target="_blank" style="color:var(--forest)">sundayobserver.lk</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== JOURNALIST PROFILE ===== -->
+<section class="section" id="journalist">
+  <div class="section-header">
+    <div class="section-label" lang-en>Section 04</div>
+    <h2 lang-en>Journalist Under Review: Anuradha Perera</h2>
+    <h2 lang-si class="si" style="display:none">සමාලෝචනයට ලක්වන මාධ්‍යවේදී: අනුරාධා පෙරේරා</h2>
+    <p class="section-desc" lang-en>Questions of editorial judgment and journalistic integrity</p>
+  </div>
+
+  <div class="profile-box">
+    <div class="profile-top">
+      <div class="profile-avatar-lg">AP</div>
+      <div>
+        <h3>Anuradha Perera</h3>
+        <p class="profile-role">Journalist / Writer — Observer MUSE, Sunday Observer</p>
+      </div>
+    </div>
+    <div class="profile-details">
+      <div class="profile-detail"><div class="dl">Location</div><div class="dv">Boralesgamuwa, Sri Lanka</div></div>
+      <div class="profile-detail"><div class="dl">Origin</div><div class="dv">Colombo, Sri Lanka</div></div>
+      <div class="profile-detail"><div class="dl">Publication</div><div class="dv">Observer MUSE (Sunday Observer)</div></div>
+      <div class="profile-detail"><div class="dl">Public Profile</div><div class="dv"><a href="https://www.facebook.com/anuradha.perera.7549" target="_blank">Facebook</a> — Limited info</div></div>
+    </div>
+
+    <h4 style="color: var(--gold); margin: 24px 0 12px; font-size: 1rem;" lang-en>Journalistic Integrity Questions</h4>
+
+    <div class="integrity-card">
+      <h4>Was due diligence conducted?</h4>
+      <p>A basic search for "Vangeesa Sumanasekara" surfaces the sexual harassment allegations immediately. Either due diligence was not performed, or the allegations were knowingly disregarded.</p>
+    </div>
+    <div class="integrity-card">
+      <h4>Was there editorial oversight?</h4>
+      <p>The Sunday Observer is state-owned. Featuring an individual with documented harassment allegations in a Women's Day article raises questions about editorial review at Lake House.</p>
+    </div>
+    <div class="integrity-card">
+      <h4>Has there been a response?</h4>
+      <p>As of compilation, <strong>no public response, correction, or acknowledgment</strong> has been issued by Anuradha Perera, the Sunday Observer, or Observer MUSE.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== VOICES ===== -->
+<section class="section" id="voices">
+  <div class="section-header">
+    <div class="section-label" lang-en>Section 05</div>
+    <h2 lang-en>Voice of the People</h2>
+    <h2 lang-si class="si" style="display:none">ජනතාවගේ කටහඬ</h2>
+    <p class="section-desc" lang-en>Documented public reactions — all from publicly visible posts</p>
+  </div>
+
+  <div class="voice-stack">
+    <div class="voice-card highlight">
+      <div class="voice-author victim">Vincika De Saram — Named Victim</div>
+      <div class="voice-text">"Did You Think We Forgot who Vangeesa Sumanasekara is?? Anuradha Perera Sunday Observer for real? You created a platform for Vangeesa Sumanasekara on a women's day??? ...He is now a known sexual predator both online and offline. When a complaint was filed, he hid behind his father like a coward and later blamed it all on a 'mental condition'..."</div>
+      <div class="voice-meta">Facebook post — March 8, 2026 · 17+ reactions · 5 comments</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-author">Melani Gunathilaka</div>
+      <div class="voice-text">"Sri Lankan media continuing the Epstein culture by featuring a man accused of sexual harassment on #InternationalWomensDay. What a shame!"</div>
+      <div class="voice-meta">Facebook post — March 8, 2026 · 18 reactions · 8 comments · 1 share</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-author">Janindu de Zoysa</div>
+      <div class="voice-text">"Did you knowingly interview Vangeesa for a Women's Day feature despite his history of harassing women, or were you unaware of it?"</div>
+      <div class="voice-meta">Comment on Anuradha Perera's post — 6 reactions</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-author">Prabha Manuratne</div>
+      <div class="voice-text">"Not 'a man' it should be 'men'. There are at least 2 there."</div>
+      <div class="voice-meta">Comment on Melani's post</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-author">Melani Gunathilaka (reply)</div>
+      <div class="voice-text">"Oh, I was only aware of one. Would have been more fitting if the writer titled this article 'women's liberation through the eyes of men and abusers' in that case."</div>
+      <div class="voice-meta">Reply to Prabha Manuratne</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-author">Minuri Perera</div>
+      <div class="voice-text">"Let's learn about women's rights and respect for women from a certified sex offender 😂"</div>
+      <div class="voice-meta">Comment on Anuradha's post</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-author">Ranjan Ranja</div>
+      <div class="voice-text">"Epstein platform?"</div>
+      <div class="voice-meta">Comment on Anuradha's post</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-author">Nadeesha Chandrasena</div>
+      <div class="voice-text">"Happy Womanisers Day!"</div>
+      <div class="voice-meta">Comment on Melani's post · 4 reactions</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-author">Dhananjaya Pasan Wijesiri</div>
+      <div class="voice-text">">Womens day >reads >Men"</div>
+      <div class="voice-meta">Comment on Melani's post</div>
+    </div>
+
+    <div class="voice-card">
+      <div class="voice-author">Memeගේ</div>
+      <div class="voice-text">"Leftist want Epsteinism to be part of the culture so its no longer a crime. When men, women, children even animal abuse become part of a culture no one really pays attention."</div>
+      <div class="voice-meta">Comment on Melani's post</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== QUESTIONS ===== -->
+<section class="section" id="questions">
+  <div class="section-header">
+    <div class="section-label" lang-en>Section 06</div>
+    <h2 lang-en>Unanswered Questions</h2>
+    <h2 lang-si class="si" style="display:none">පිළිතුරු නොමැති ප්‍රශ්න</h2>
+    <p class="section-desc" lang-en>Questions that demand answers from those responsible</p>
+  </div>
+
+  <div class="q-list">
+    <div class="q-item">Did <strong>Anuradha Perera</strong> conduct any background research on Vangeesa Sumanasekara? A basic search surfaces the allegations immediately.</div>
+    <div class="q-item">Was the <strong>Sunday Observer editorial board</strong> aware of the allegations? Who approved his inclusion?</div>
+    <div class="q-item">What are the <strong>editorial vetting procedures</strong> at Observer MUSE? Were they followed?</div>
+    <div class="q-item">Who are the <strong>"at least 2"</strong> individuals Prabha Manuratne referenced? Are there additional accused in the article?</div>
+    <div class="q-item">Will the <strong>Sunday Observer</strong> issue a correction, retraction, or public statement?</div>
+    <div class="q-item">What accountability exists within <strong>Lake House</strong>, a state-owned corporation, for editorial failures that contradict the values their publication claims to celebrate?</div>
+    <div class="q-item">Why has <strong>Anuradha Perera</strong> not responded to the direct question posed by Janindu de Zoysa?</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SOURCE INDEX ===== -->
+<section class="section" id="sources">
+  <div class="section-header">
+    <div class="section-label" lang-en>Section 07</div>
+    <h2 lang-en>Source Index</h2>
+    <h2 lang-si class="si" style="display:none">මූලාශ්‍ර දර්ශකය</h2>
+    <p class="section-desc" lang-en>Every claim is backed by a publicly accessible source</p>
+  </div>
+
+  <div style="overflow-x: auto;">
+  <table class="src-table">
+    <thead><tr><th>#</th><th>Source</th><th>Type</th><th>Link</th></tr></thead>
+    <tbody>
+      <tr><td>S1</td><td>Anuradha Perera's Facebook Post</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/story.php?story_fbid=10239366361167514&id=1540883472" target="_blank">facebook.com</a></td></tr>
+      <tr><td>S2</td><td>Sunday Observer Article</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank">sundayobserver.lk</a></td></tr>
+      <tr><td>S3</td><td>Prabha Manuratne — "Sexual Harassment and Violence"</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank">workingpps.wordpress.com</a></td></tr>
+      <tr><td>S4</td><td>Melani Gunathilaka's Facebook Post</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank">facebook.com</a></td></tr>
+      <tr><td>S5</td><td>Anuradha Perera — Facebook Profile</td><td><span class="src-badge src-secondary">Secondary</span></td><td><a href="https://www.facebook.com/anuradha.perera.7549/about" target="_blank">facebook.com</a></td></tr>
+      <tr><td>S6</td><td>Al Jazeera — Sri Lanka #MeToo (June 2021)</td><td><span class="src-badge src-context">Context</span></td><td><a href="https://www.aljazeera.com/news/2021/6/23/sri-lanka-metoo-newsrooms-women-journalists" target="_blank">aljazeera.com</a></td></tr>
+      <tr><td>S7</td><td>Groundviews — Sumanasekara Author Profile</td><td><span class="src-badge src-secondary">Secondary</span></td><td><a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank">groundviews.org</a></td></tr>
+      <tr><td>S8</td><td>Vincika De Saram — Screenshots (Aug 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank">facebook.com/search</a></td></tr>
+      <tr><td>S9</td><td>Vincika De Saram — March 2026 Callout</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank">facebook.com/search</a></td></tr>
+      <tr><td>S10</td><td>Bentha Max — Sinhala-language post (Dec 2023)</td><td><span class="src-badge src-secondary">Secondary</span></td><td><a href="https://www.facebook.com/search/posts/?q=%E0%B7%80%E0%B6%82%E0%B6%9C%E0%B7%93%E0%B7%82%20%E0%B7%83%E0%B7%94%E0%B6%B8%E0%B6%B1%E0%B7%83%E0%B7%9A%E0%B6%9A%E0%B6%BB" target="_blank">facebook.com/search</a></td></tr>
+      <tr><td>S11</td><td>Sunday Observer — Wikipedia</td><td><span class="src-badge src-context">Context</span></td><td><a href="https://en.wikipedia.org/wiki/Sunday_Observer_(Sri_Lanka)" target="_blank">wikipedia.org</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p><strong>Citizen Journalism Dossier</strong> — Compiled from publicly available sources, March 8, 2026.</p>
+  <p lang-en>The compiler is not the originator of any allegations. All allegations are attributed to their original sources. This document exercises free expression and public-interest reporting.</p>
+  <p lang-si class="si" style="display:none">සම්පාදකයා කිසිදු චෝදනාවක මුල් නිර්මාතෘ නොවේ. සියලු චෝදනා ඒවායේ මුල් මූලාශ්‍ර වෙත ආරෝපණය කෙරේ.</p>
+  <div style="margin-top: 12px; display: inline-block; padding: 4px 14px; border: 1px solid var(--border); border-radius: 16px; font-size: 0.72rem; color: var(--text-muted);">CC BY-SA 4.0</div>
+</footer>
+
+<script>
+// Mobile touch toggle for evidence previews
+document.querySelectorAll('.evidence-link').forEach(el => {
+  el.addEventListener('click', function(e) {
+    if (window.matchMedia('(hover: none)').matches) {
+      e.preventDefault();
+      document.querySelectorAll('.evidence-link.active').forEach(a => { if (a !== this) a.classList.remove('active'); });
+      this.classList.toggle('active');
+    }
+  });
+});
+// Close previews on tap outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.evidence-link')) {
+    document.querySelectorAll('.evidence-link.active').forEach(a => a.classList.remove('active'));
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,7 +1,20 @@
 {
-  "version": "1.3",
-  "lastUpdated": "2026-03-06",
+  "version": "1.4",
+  "lastUpdated": "2026-03-08",
   "dossiers": [
+    {
+      "id": "womens-day-betrayal",
+      "date": "2026-03-08",
+      "title": "The Women's Day Betrayal: How a State Newspaper Platformed an Alleged Sexual Predator to Celebrate Feminism",
+      "description": "An investigative dossier examining how the Sunday Observer's 'Observer MUSE' International Women's Day 2026 feature — authored by journalist Anuradha Perera — platformed Vangeesa Sumanasekara, a man facing multiple public sexual harassment allegations, as a champion of women's empowerment.",
+      "authors": ["Riz Razak"],
+      "tags": ["Sexual Harassment", "Media Accountability", "Women's Rights", "Press Ethics", "Sri Lanka", "International Women's Day"],
+      "thumbnailUrl": "/images/thumbnails/womens-day-betrayal.jpg",
+      "contentUrl": "/dossiers/womens-day-betrayal/index.html",
+      "sections": 8,
+      "features": ["Victim testimony compilation", "Media editorial failure analysis", "Institutional pattern mapping", "Facebook evidence preservation", "Sinhala translation", "Legal disclaimer"],
+      "status": "published"
+    },
     {
       "id": "iran-us-israel-war",
       "date": "2026-03-06",
