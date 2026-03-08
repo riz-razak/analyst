@@ -105,6 +105,9 @@ export default function Footer() {
           </a>
         ))}
       </div>
+      <p style={{ color: 'var(--accent-orange)', fontSize: '0.7rem', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.5rem' }}>
+        Dig deep. Stay free.
+      </p>
       <p>
         © {new Date().getFullYear()} Riz Razak · <a href="https://rizrazak.com" style={styles.link} target="_blank" rel="noopener noreferrer">rizrazak.com</a>
       </p>

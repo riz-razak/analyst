@@ -37,6 +37,16 @@ const styles = {
     fontWeight: 300,
     letterSpacing: '0.5px',
   },
+  purpose: {
+    color: 'var(--accent-orange)',
+    fontSize: '0.75rem',
+    fontFamily: 'var(--font-mono)',
+    textTransform: 'uppercase',
+    letterSpacing: '2px',
+    marginTop: '0.75rem',
+    fontWeight: 600,
+    opacity: 0.9,
+  },
   author: {
     color: 'var(--text-muted)',
     fontSize: '0.8rem',
@@ -101,6 +111,7 @@ export default function Header({ theme, toggleTheme }) {
         Digging Deep
       </h1>
       <p style={styles.subtitle}>Deep analysis beyond the headlines</p>
+      <p style={styles.purpose}>Dig deep. Stay free.</p>
       <p style={styles.author}>with<br />Riz Razak</p>
     </header>
   )
