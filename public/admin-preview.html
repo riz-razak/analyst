@@ -587,6 +587,58 @@
         color: var(--color-primary);
     }
 
+    /* CMS Override fields */
+    .cms-field-group-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-light);
+        margin-top: 16px;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .cms-field-group-label:first-child { margin-top: 0; }
+    .cms-field-row {
+        margin-bottom: 10px;
+    }
+    .cms-field-row label {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        margin-bottom: 3px;
+    }
+    .cms-field-row input,
+    .cms-field-row textarea {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        color: var(--text-primary);
+        transition: border-color 0.2s;
+        box-sizing: border-box;
+    }
+    .cms-field-row input:focus,
+    .cms-field-row textarea:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(27, 77, 46, 0.08);
+    }
+    .cms-field-row textarea {
+        resize: vertical;
+        min-height: 60px;
+    }
+    .cms-field-row .cms-field-id {
+        font-size: 10px;
+        font-family: 'JetBrains Mono', monospace;
+        color: #9CA3AF;
+        margin-top: 2px;
+    }
+
     .btn-primary {
         padding: 10px 20px;
         background-color: var(--color-primary);
@@ -2189,6 +2241,25 @@
                 </div>
 
                 <button class="btn-ghost" style="width: 100%;" id="manage-fb-btn">Manage video →</button>
+            </div>
+
+            <!-- CMS Content Overrides Section -->
+            <div class="detail-section" id="cms-overrides-section" style="display: none;">
+                <label class="detail-section-title" style="display: flex; align-items: center; gap: 8px;">
+                    CMS Content Overrides
+                    <span style="font-size: 11px; background: #ECFDF5; color: #059669; padding: 2px 8px; border-radius: 99px; font-weight: 600;">Live</span>
+                </label>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 16px;">
+                    Edit values below to override live page content without touching the HTML file. Changes apply when saved to the overrides JSON.
+                </div>
+                <div id="cms-fields-container">
+                    <!-- Fields rendered by JS -->
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 16px;">
+                    <button class="btn-primary" id="cms-save-overrides" style="flex: 1;">Copy Overrides JSON</button>
+                    <button class="btn-ghost" id="cms-open-editor" style="flex: 1;">Open CMS Editor ↗</button>
+                </div>
+                <div id="cms-save-status" style="font-size: 12px; color: #059669; text-align: center; margin-top: 8px; display: none;"></div>
             </div>
 
             <!-- Warning Box for Empty Dossiers -->
@@ -5559,7 +5630,26 @@ const dossiersData = [
         tags: ['business', 'investigation', 'sri-lanka'],
         description: 'Investigation into Caravan Fresh and supply chain issues.',
         fbUrl: '',
-        thumbnailUrl: ''
+        thumbnailUrl: '',
+        cmsFields: [
+            { id: 'hero-title-en', label: 'Hero Title (EN)', group: 'Hero' },
+            { id: 'hero-title-si', label: 'Hero Title (SI)', group: 'Hero' },
+            { id: 'hero-subtitle-en', label: 'Subtitle (EN)', group: 'Hero', multiline: true },
+            { id: 'hero-subtitle-si', label: 'Subtitle (SI)', group: 'Hero', multiline: true },
+            { id: 'meta-date', label: 'Date', group: 'Meta' },
+            { id: 'meta-readtime', label: 'Read Time', group: 'Meta' },
+            { id: 'stat-reactions', label: 'Reactions (bar)', group: 'Stats' },
+            { id: 'stat-comments', label: 'Comments (bar)', group: 'Stats' },
+            { id: 'stat-outlets', label: 'Outlets (bar)', group: 'Stats' },
+            { id: 'card-reactions', label: 'Reactions (card)', group: 'Stats' },
+            { id: 'card-comments', label: 'Comments (card)', group: 'Stats' },
+            { id: 'card-duration', label: 'Post Duration (card)', group: 'Stats' },
+            { id: 'card-outlets', label: 'Outlets (card)', group: 'Stats' },
+            { id: 's1-heading-en', label: 'Section 1 Heading (EN)', group: 'Sections' },
+            { id: 's1-heading-si', label: 'Section 1 Heading (SI)', group: 'Sections' },
+            { id: 's2-heading-en', label: 'Section 2 Heading (EN)', group: 'Sections' },
+            { id: 's2-heading-si', label: 'Section 2 Heading (SI)', group: 'Sections' }
+        ]
     },
     {
         id: 'easter-sunday-attacks-suresh-sallay',
@@ -5873,6 +5963,71 @@ function renderDetailView(id) {
         emptyWarning.style.display = 'block';
     } else {
         emptyWarning.style.display = 'none';
+    }
+
+    // Render CMS Content Overrides
+    const cmsSection = document.getElementById('cms-overrides-section');
+    const cmsContainer = document.getElementById('cms-fields-container');
+    if (dossier.cmsFields && dossier.cmsFields.length > 0) {
+        cmsSection.style.display = 'block';
+        let html = '';
+        let currentGroup = '';
+
+        // Try to load existing overrides
+        const slug = dossier.slug || dossier.id;
+        fetch(`/dossiers/${slug}/_cms-overrides.json?cb=${Date.now()}`)
+            .then(r => r.ok ? r.json() : {})
+            .catch(() => ({}))
+            .then(overrides => {
+                dossier.cmsFields.forEach(field => {
+                    if (field.group !== currentGroup) {
+                        currentGroup = field.group;
+                        html += `<div class="cms-field-group-label">${field.group}</div>`;
+                    }
+                    const existingVal = overrides[field.id] || '';
+                    const placeholder = existingVal ? '' : 'No override — using HTML default';
+                    if (field.multiline) {
+                        html += `<div class="cms-field-row">
+                            <label>${field.label}</label>
+                            <textarea data-cms-field="${field.id}" placeholder="${placeholder}">${existingVal}</textarea>
+                            <div class="cms-field-id">${field.id}</div>
+                        </div>`;
+                    } else {
+                        html += `<div class="cms-field-row">
+                            <label>${field.label}</label>
+                            <input type="text" data-cms-field="${field.id}" value="${existingVal}" placeholder="${placeholder}" />
+                            <div class="cms-field-id">${field.id}</div>
+                        </div>`;
+                    }
+                });
+                cmsContainer.innerHTML = html;
+            });
+
+        // Save button
+        document.getElementById('cms-save-overrides').onclick = function() {
+            const result = {};
+            cmsContainer.querySelectorAll('[data-cms-field]').forEach(el => {
+                const val = el.value.trim();
+                if (val) result[el.dataset.cmsField] = val;
+            });
+            const json = JSON.stringify(result, null, 2);
+            navigator.clipboard.writeText(json).then(() => {
+                const status = document.getElementById('cms-save-status');
+                status.textContent = Object.keys(result).length > 0
+                    ? `Copied ${Object.keys(result).length} override(s) to clipboard — commit to dossiers/${slug}/_cms-overrides.json`
+                    : 'No overrides to copy (all fields empty)';
+                status.style.display = 'block';
+                setTimeout(() => { status.style.display = 'none'; }, 5000);
+            });
+        };
+
+        // Open CMS Editor button
+        document.getElementById('cms-open-editor').onclick = function() {
+            window.open(`https://analyst.rizrazak.com/dossiers/${slug}/index.html?admin`, '_blank');
+        };
+    } else {
+        cmsSection.style.display = 'none';
+        cmsContainer.innerHTML = '';
     }
 
     // Set linked dossiers
