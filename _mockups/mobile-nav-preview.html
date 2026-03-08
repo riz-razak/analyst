@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Nav Preview — Dossier Hamburger Menu</title>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --nav-bg: rgba(13,17,23,0.92);
+  --border-color: rgba(255,255,255,0.06);
+  --text-muted: #8b949e;
+  --accent-gold: #ffd700;
+  --accent-red: #ff3a3a;
+  --accent-cyan: #00d4ff;
+}
+body { background: var(--bg-primary); color: #e6edf3; font-family: 'Inter', -apple-system, sans-serif; }
+
+/* ── PREVIEW FRAME (simulates phone) ── */
+.phone-frame {
+  width: 390px;
+  height: 844px;
+  margin: 40px auto;
+  border: 3px solid #374151;
+  border-radius: 40px;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-primary);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.phone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 30px;
+  background: #000;
+  border-radius: 0 0 20px 20px;
+  z-index: 200;
+}
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding-top: 30px;
+}
+
+/* ── NAV BAR (MOBILE) ── */
+.nav-container {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 16px;
+}
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+}
+.nav-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent-red);
+  font-family: monospace;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: var(--text-muted);
+  border-radius: 6px;
+  text-decoration: none;
+}
+.nav-theme-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  width: 30px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── HAMBURGER BUTTON ── */
+.hamburger {
+  width: 34px;
+  height: 34px;
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0;
+  transition: all 0.3s;
+}
+.hamburger span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: var(--text-muted);
+  border-radius: 1px;
+  transition: all 0.3s;
+}
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(3px, 3px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(3px, -3px); }
+.hamburger.open { border-color: var(--accent-gold); }
+.hamburger.open span { background: var(--accent-gold); }
+
+/* ── DROPDOWN MENU ── */
+.nav-dropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(22,27,34,0.98);
+  border-top: 1px solid transparent;
+}
+.nav-dropdown.open {
+  max-height: 600px;
+  border-top-color: var(--border-color);
+}
+.nav-dropdown-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 8px;
+}
+.nav-dropdown a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-dropdown a:hover, .nav-dropdown a.active {
+  color: var(--accent-gold);
+  background: rgba(255,215,0,0.06);
+}
+.nav-dropdown a .nav-num {
+  font-family: monospace;
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.2);
+  min-width: 18px;
+}
+
+/* ── FAKE CONTENT ── */
+.hero-mini {
+  padding: 40px 20px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+.hero-mini h1 { font-size: 1.4rem; color: #fff; margin-bottom: 8px; }
+.hero-mini p { font-size: 0.75rem; color: var(--text-muted); }
+.section-placeholder {
+  padding: 40px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+.section-placeholder h2 { font-size: 1rem; color: var(--accent-gold); margin-bottom: 8px; }
+.section-placeholder p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; }
+
+/* ── SIDE-BY-SIDE COMPARISON ── */
+.comparison {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+.comp-label {
+  text-align: center;
+  font-family: monospace;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 16px 0;
+  font-weight: 700;
+}
+.comp-label.before { color: var(--accent-red); }
+.comp-label.after { color: #22c55e; }
+.comp-note {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding: 6px 0;
+  font-style: italic;
+}
+
+/* ── BEFORE FRAME (current broken state) ── */
+.phone-frame.before .nav-container {
+  padding: 6px 16px;
+}
+.before-nav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  padding-left: 98px;
+  padding-right: 44px;
+}
+.before-nav-inner .nav-link {
+  padding: 6px 8px;
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+.before-nav-inner .nav-link.active {
+  color: var(--accent-gold);
+  border-bottom-color: var(--accent-gold);
+}
+.before-socials {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 2px;
+}
+.before-theme {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ── page heading ── */
+h1.page-title {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #fff;
+  margin: 60px 20px 10px;
+  font-family: monospace;
+  letter-spacing: 3px;
+}
+h1.page-title span { color: var(--accent-red); }
+.page-sub {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 50px;
+}
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Mobile Nav <span>Preview</span></h1>
+<p class="page-sub">Side-by-side comparison: Current vs Proposed hamburger menu</p>
+
+<div class="comparison">
+
+<!-- ══ BEFORE ══ -->
+<div>
+  <div class="comp-label before">✗ CURRENT (BROKEN)</div>
+  <div class="comp-note">14 links overflow, social icons overlap text</div>
+  <div class="phone-frame before" style="transform:scale(0.85);transform-origin:top center;">
+    <div class="phone-notch"></div>
+    <div class="phone-screen">
+      <nav class="nav-container">
+        <div class="before-nav-inner">
+          <div class="before-socials">
+            <span class="nav-social-link">f</span>
+            <span class="nav-social-link">ig</span>
+            <span class="nav-social-link">tt</span>
+          </div>
+          <a href="#" class="nav-link active">The Match</a>
+          <a href="#" class="nav-link">The Mafia</a>
+          <a href="#" class="nav-link">Conspiracy Board</a>
+          <a href="#" class="nav-link">Power Network</a>
+          <a href="#" class="nav-link">Elitism Paradox</a>
+          <a href="#" class="nav-link">Fan Toxicity</a>
+          <a href="#" class="nav-link">Player Crisis</a>
+          <a href="#" class="nav-link">NPP & Reform</a>
+          <a href="#" class="nav-link">Restructuring</a>
+          <a href="#" class="nav-link">Game Theory</a>
+          <a href="#" class="nav-link">Skills Gap</a>
+          <a href="#" class="nav-link">BCCI/IPL Axis</a>
+          <a href="#" class="nav-link">Calendar Crisis</a>
+          <a href="#" class="nav-link">Hidden Insights</a>
+          <div class="before-theme"><button class="nav-theme-btn">🌙</button></div>
+        </div>
+      </nav>
+      <div class="hero-mini">
+        <h1>The Death of Sri Lankan Cricket</h1>
+        <p>Content hidden behind 5 rows of nav links...</p>
+      </div>
+      <div class="section-placeholder">
+        <h2>01 — The Match</h2>
+        <p>Content barely visible. Nav takes up ~40% of the viewport.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AFTER ══ -->
+<div>
+  <div class="comp-label after">✓ PROPOSED (HAMBURGER)</div>
+  <div class="comp-note">Click ☰ to toggle — clean, compact, 2-column grid</div>
+  <div class="phone-frame" style="transform:scale(0.85);transform-origin:top center;">
+    <div class="phone-notch"></div>
+    <div class="phone-screen">
+      <nav class="nav-container">
+        <div class="nav-bar">
+          <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+          </button>
+          <div class="nav-title">SLC Dossier</div>
+          <div class="nav-right">
+            <span class="nav-social-link" style="font-size:0.7rem;color:#8b949e;">f</span>
+            <span class="nav-social-link" style="font-size:0.7rem;color:#8b949e;">ig</span>
+            <span class="nav-social-link" style="font-size:0.7rem;color:#8b949e;">tt</span>
+            <button class="nav-theme-btn">🌙</button>
+          </div>
+        </div>
+        <div class="nav-dropdown" id="nav-dropdown">
+          <div class="nav-dropdown-inner">
+            <a href="#" class="active" onclick="toggleMenu()"><span class="nav-num">01</span>The Match</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">02</span>The Mafia</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">03</span>Conspiracy</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">04</span>Power Net</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">05</span>Elitism</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">06</span>Fan Toxicity</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">07</span>Player Crisis</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">08</span>NPP Reform</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">09</span>Restructure</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">10</span>Game Theory</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">11</span>Skills Gap</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">12</span>BCCI/IPL</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">13</span>Calendar</a>
+            <a href="#" onclick="toggleMenu()"><span class="nav-num">14</span>Hidden</a>
+          </div>
+        </div>
+      </nav>
+      <div class="hero-mini">
+        <h1>The Death of Sri Lankan Cricket</h1>
+        <p>Full viewport for content. Nav is just one clean row.</p>
+      </div>
+      <div class="section-placeholder">
+        <h2>01 — The Match</h2>
+        <p>Much more content visible. The hamburger menu slides down when tapped, showing a compact 2-column grid of all 14 sections with numbered labels.</p>
+      </div>
+      <div class="section-placeholder">
+        <h2>02 — The Mafia</h2>
+        <p>Even more content fits on screen without the nav hogging space.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById('hamburger').classList.toggle('open');
+  document.getElementById('nav-dropdown').classList.toggle('open');
+}
+</script>
+
+</body>
+</html>

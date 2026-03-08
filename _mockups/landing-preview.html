@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riz Razak — Preview</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; overflow-x:hidden; background:#1a2a1a; min-height:100vh; cursor:default; }
+
+  .scene { position:fixed; inset:0; overflow:hidden; }
+
+  /* SKY */
+  .sky { position:absolute; top:0; left:0; width:100%; height:55%;
+    background:linear-gradient(180deg, #c8d8e4 0%, #d8e2ea 15%, #e4ecf0 30%, #edf2f0 45%, #f0f2ec 60%, #e8ece4 75%, #dae4d8 100%); }
+
+  /* HAZE */
+  .haze { position:absolute; width:100%; height:100%; pointer-events:none; }
+  .haze-1 { background:radial-gradient(ellipse 120% 40% at 30% 55%, rgba(200,215,200,0.5) 0%, transparent 70%); }
+  .haze-2 { background:radial-gradient(ellipse 100% 35% at 70% 50%, rgba(190,210,200,0.4) 0%, transparent 65%); }
+  .haze-3 { background:radial-gradient(ellipse 80% 25% at 50% 58%, rgba(210,220,210,0.35) 0%, transparent 60%); animation:haze-drift 30s ease-in-out infinite; }
+  @keyframes haze-drift { 0%,100%{transform:translateX(0);opacity:0.35} 50%{transform:translateX(30px);opacity:0.5} }
+
+  /* CLOUDS */
+  .clouds { position:absolute; top:0; left:0; width:100%; height:40%; }
+  .cloud { position:absolute; filter:blur(2px); opacity:0; animation:cloud-life linear infinite; }
+  .cloud svg { width:100%; height:100%; }
+  .cloud-a { top:5%; width:350px; animation-duration:90s; }
+  .cloud-b { top:10%; width:250px; animation-duration:110s; animation-delay:-35s; }
+  .cloud-c { top:2%; width:300px; animation-duration:100s; animation-delay:-60s; }
+  .cloud-d { top:15%; width:180px; animation-duration:120s; animation-delay:-80s; }
+  @keyframes cloud-life { 0%{transform:translateX(-400px);opacity:0} 5%{opacity:0.25} 50%{opacity:0.35} 95%{opacity:0.2} 100%{transform:translateX(calc(100vw + 400px));opacity:0} }
+
+  /* MOUNTAINS */
+  .mountains { position:absolute; bottom:30%; left:-10%; width:120%; height:40%; }
+  .mountain-layer { position:absolute; bottom:0; left:0; width:100%; }
+  .mtn-far { height:100%; opacity:0.4; }
+  .mtn-far svg { width:100%; height:100%; }
+  .mtn-mid { height:80%; opacity:0.55; }
+  .mtn-mid svg { width:100%; height:100%; }
+  .mtn-near { height:65%; opacity:0.7; }
+  .mtn-near svg { width:100%; height:100%; }
+
+  /* FOREST */
+  .forest { position:absolute; bottom:0; left:-5%; width:110%; height:55%; }
+  .trees-deep { position:absolute; bottom:20%; left:0; width:100%; height:35%; opacity:0.5; }
+  .trees-mid { position:absolute; bottom:10%; left:0; width:100%; height:40%; opacity:0.7; }
+  .trees-near { position:absolute; bottom:0; left:0; width:100%; height:45%; opacity:0.85; }
+
+  /* GROUND */
+  .forest-floor { position:absolute; bottom:0; left:-5%; width:110%; height:22%;
+    background:linear-gradient(180deg, rgba(45,75,40,0) 0%, rgba(45,75,40,0.6) 15%, #2d5028 30%, #264822 50%, #1f3d1c 70%, #1a3518 100%); }
+  .moss { position:absolute; border-radius:50%; opacity:0.3; }
+  .moss-1 { bottom:2%; left:10%; width:180px; height:40px; background:radial-gradient(ellipse, #4a8a3a, transparent); }
+  .moss-2 { bottom:5%; left:35%; width:120px; height:30px; background:radial-gradient(ellipse, #3a7a2a, transparent); }
+  .moss-3 { bottom:1%; left:60%; width:200px; height:45px; background:radial-gradient(ellipse, #4a8a3a, transparent); }
+  .moss-4 { bottom:4%; left:80%; width:140px; height:35px; background:radial-gradient(ellipse, #3a7a2a, transparent); }
+
+  /* MIST */
+  .mist-layer { position:absolute; left:-20%; width:140%; height:15%; opacity:0; filter:blur(8px);
+    background:linear-gradient(90deg, transparent 0%, rgba(200,215,200,0.3) 20%, rgba(210,225,210,0.5) 40%, rgba(200,215,200,0.4) 60%, rgba(190,210,195,0.3) 80%, transparent 100%); }
+  .mist-1 { bottom:28%; animation:mist-roll 25s ease-in-out infinite; }
+  .mist-2 { bottom:22%; animation:mist-roll 35s ease-in-out infinite 10s; }
+  .mist-3 { bottom:35%; height:10%; animation:mist-roll 40s ease-in-out infinite 5s; }
+  @keyframes mist-roll { 0%{transform:translateX(-15%);opacity:0} 15%{opacity:0.4} 50%{transform:translateX(10%);opacity:0.6} 85%{opacity:0.3} 100%{transform:translateX(-15%);opacity:0} }
+
+  /* LIGHT RAYS */
+  .light-rays { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; overflow:hidden; }
+  .ray { position:absolute; top:-10%; width:3px; height:70%;
+    background:linear-gradient(180deg, rgba(255,250,220,0) 0%, rgba(255,250,220,0.08) 20%, rgba(255,250,220,0.15) 50%, rgba(255,250,220,0.08) 80%, rgba(255,250,220,0) 100%);
+    transform-origin:top center; animation:ray-shimmer 8s ease-in-out infinite; }
+  .ray-1 { left:20%; transform:rotate(8deg); width:4px; }
+  .ray-2 { left:35%; transform:rotate(3deg); width:2px; animation-delay:2s; }
+  .ray-3 { left:55%; transform:rotate(-5deg); width:5px; animation-delay:4s; }
+  .ray-4 { left:72%; transform:rotate(-10deg); width:3px; animation-delay:1s; }
+  .ray-5 { left:45%; transform:rotate(1deg); width:2px; animation-delay:6s; }
+  @keyframes ray-shimmer { 0%,100%{opacity:0.3} 50%{opacity:0.8} }
+
+  /* FIREFLIES */
+  .firefly { position:absolute; width:4px; height:4px; border-radius:50%;
+    background:rgba(200,230,150,0.7); box-shadow:0 0 8px 2px rgba(200,230,150,0.4);
+    animation:firefly-float linear infinite; }
+  .ff-1 { bottom:30%; left:15%; animation-duration:12s; }
+  .ff-2 { bottom:25%; left:40%; animation-duration:15s; animation-delay:-5s; width:3px; height:3px; }
+  .ff-3 { bottom:35%; left:65%; animation-duration:18s; animation-delay:-8s; }
+  .ff-4 { bottom:20%; left:80%; animation-duration:14s; animation-delay:-3s; width:3px; height:3px; }
+  .ff-5 { bottom:32%; left:50%; animation-duration:16s; animation-delay:-11s; }
+  .ff-6 { bottom:28%; left:25%; animation-duration:20s; animation-delay:-7s; width:2px; height:2px; }
+  .ff-7 { bottom:38%; left:72%; animation-duration:13s; animation-delay:-2s; }
+  @keyframes firefly-float {
+    0%{transform:translate(0,0) scale(1);opacity:0} 10%{opacity:0.8}
+    25%{transform:translate(20px,-30px) scale(1.2)} 50%{transform:translate(-10px,-50px) scale(0.8);opacity:0.5}
+    75%{transform:translate(30px,-20px) scale(1.1);opacity:0.9} 90%{opacity:0.6}
+    100%{transform:translate(0,0) scale(1);opacity:0} }
+
+  /* LEAVES */
+  .leaf { position:absolute; top:-5%; opacity:0; animation:leaf-fall linear infinite; }
+  .leaf svg { width:100%; height:100%; }
+  .leaf-1 { left:20%; width:16px; animation-duration:18s; }
+  .leaf-2 { left:45%; width:12px; animation-duration:22s; animation-delay:-6s; }
+  .leaf-3 { left:70%; width:14px; animation-duration:20s; animation-delay:-12s; }
+  .leaf-4 { left:35%; width:10px; animation-duration:25s; animation-delay:-18s; }
+  .leaf-5 { left:85%; width:13px; animation-duration:19s; animation-delay:-4s; }
+  @keyframes leaf-fall {
+    0%{transform:translate(0,0) rotate(0deg);opacity:0} 5%{opacity:0.6}
+    25%{transform:translate(40px,25vh) rotate(90deg)} 50%{transform:translate(-20px,50vh) rotate(200deg);opacity:0.5}
+    75%{transform:translate(30px,75vh) rotate(300deg);opacity:0.3}
+    100%{transform:translate(10px,105vh) rotate(400deg);opacity:0} }
+
+  /* CHARACTERS */
+  .character { position:absolute; image-rendering:auto; }
+
+  .spirit-tree { bottom:42%; left:12%; width:45px; height:55px; z-index:15; animation:spirit-sway 4s ease-in-out infinite; }
+  @keyframes spirit-sway { 0%,100%{transform:translateY(0) rotate(-2deg)} 50%{transform:translateY(-5px) rotate(2deg)} }
+
+  .elephant-walk { bottom:16%; left:30%; width:80px; height:60px; z-index:14; animation:elephant-amble 24s ease-in-out infinite; }
+  @keyframes elephant-amble { 0%,100%{transform:translateX(0)} 50%{transform:translateX(80px)} }
+  .elephant-body-step { animation:step-bounce 1.2s ease-in-out infinite; }
+  @keyframes step-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+
+  .leopard-rest { bottom:22%; right:15%; width:65px; height:35px; z-index:14; animation:cat-breathe 3s ease-in-out infinite; }
+  @keyframes cat-breathe { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.03)} }
+
+  .peacock-strut { bottom:14%; right:35%; width:55px; height:55px; z-index:14; animation:peacock-walk 18s ease-in-out infinite; }
+  @keyframes peacock-walk {
+    0%,100%{transform:translateX(0) scaleX(1)} 45%{transform:translateX(-60px) scaleX(1)}
+    50%{transform:translateX(-60px) scaleX(-1)} 95%{transform:translateX(0) scaleX(-1)} }
+
+  .yaka-tree-left { bottom:30%; left:5%; width:38px; height:48px; z-index:16; animation:yaka-peek 10s ease-in-out infinite; }
+  @keyframes yaka-peek {
+    0%,100%{transform:translateX(-30px) rotate(0deg);opacity:0}
+    20%{transform:translateX(0px) rotate(-5deg);opacity:1} 30%{transform:translateX(5px) rotate(5deg);opacity:1}
+    40%{transform:translateX(3px) rotate(-8deg);opacity:1} 55%{transform:translateX(0px) rotate(0deg);opacity:1}
+    65%{transform:translateX(-30px) rotate(0deg);opacity:0} }
+
+  .yaka-scurry { bottom:8%; left:-80px; width:40px; height:45px; z-index:17; animation:scurry-forest 16s ease-in-out infinite 4s; }
+  @keyframes scurry-forest {
+    0%{left:-80px;bottom:8%} 10%{left:10%;bottom:9%} 20%{left:22%;bottom:7%}
+    25%{left:28%;bottom:12%} 30%{left:35%;bottom:8%} 40%{left:45%;bottom:8%}
+    45%{left:45%;bottom:8%} 55%{left:58%;bottom:9%} 65%{left:70%;bottom:7%}
+    75%{left:82%;bottom:11%} 80%{left:88%;bottom:8%}
+    95%{left:calc(100% + 40px);bottom:8%} 100%{left:calc(100% + 80px);bottom:8%} }
+  .yaka-bounce { animation:run-bounce 0.3s ease-in-out infinite; }
+  @keyframes run-bounce { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-8px) rotate(5deg)} }
+
+  .spirit-chase { bottom:8%; left:-60px; width:22px; height:28px; z-index:16; animation:scurry-forest 16s ease-in-out infinite 5.5s; }
+  .mini-bounce { animation:run-bounce 0.25s ease-in-out infinite; }
+
+  @keyframes blink-eyes { 0%,42%,58%,100%{transform:scaleY(1)} 50%{transform:scaleY(0.05)} }
+
+  /* CONTENT */
+  .content-layer { position:relative; z-index:30; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:2rem; pointer-events:none; }
+  .card {
+    background:rgba(240,245,238,0.65); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
+    border-radius:20px; padding:3rem 2.5rem; text-align:center; max-width:420px; width:100%;
+    pointer-events:auto; box-shadow:0 8px 40px rgba(30,60,20,0.15), 0 1px 3px rgba(0,0,0,0.05);
+    border:1px solid rgba(255,255,255,0.4); animation:card-in 1.2s ease-out 0.5s both; }
+  @keyframes card-in { from{opacity:0;transform:translateY(20px) scale(0.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+
+  .label { font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:#6a8060; margin-bottom:1rem; font-weight:500; }
+  .name { font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:600; color:#1a2a15; line-height:1.2; margin-bottom:0.5rem; }
+  .tagline { font-size:0.9rem; color:#4a6040; font-weight:300; margin-bottom:2rem; line-height:1.6; }
+  .cta { display:inline-block; font-size:0.82rem; color:#2a5020; text-decoration:none; padding:0.65rem 1.5rem;
+    border-radius:50px; border:1.5px solid rgba(42,80,32,0.25); background:rgba(42,80,32,0.05);
+    transition:all 0.3s ease; font-weight:500; letter-spacing:0.02em; }
+  .cta:hover { background:rgba(42,80,32,0.12); border-color:rgba(42,80,32,0.4); transform:translateY(-1px); box-shadow:0 4px 16px rgba(42,80,32,0.15); }
+
+  .social-icons { display:flex; gap:1.2rem; justify-content:center; margin-top:1.5rem; align-items:center; }
+  .social-icons a { color:rgba(60,90,50,0.5); transition:color 0.2s, transform 0.2s; display:flex; align-items:center; justify-content:center; }
+  .social-icons a:hover { color:#2a5020; transform:scale(1.15); }
+  .tiktok-badge { position:absolute; top:-4px; right:-8px; font-size:0.5rem; font-family:'Inter',sans-serif; color:rgba(60,90,50,0.5); font-weight:600; }
+
+  .parallax { transition:transform 0.12s ease-out; }
+</style>
+</head>
+<body>
+
+<div class="scene">
+
+  <!-- SKY -->
+  <div class="sky parallax" data-speed="0.005"></div>
+
+  <!-- HAZE -->
+  <div class="haze haze-1"></div>
+  <div class="haze haze-2"></div>
+  <div class="haze haze-3 parallax" data-speed="0.008"></div>
+
+  <!-- CLOUDS -->
+  <div class="clouds parallax" data-speed="0.01">
+    <div class="cloud cloud-a"><svg viewBox="0 0 350 100"><ellipse cx="175" cy="55" rx="160" ry="35" fill="white" opacity="0.7"/><ellipse cx="120" cy="45" rx="100" ry="40" fill="white" opacity="0.8"/><ellipse cx="240" cy="48" rx="90" ry="32" fill="white" opacity="0.75"/></svg></div>
+    <div class="cloud cloud-b"><svg viewBox="0 0 250 80"><ellipse cx="125" cy="45" rx="110" ry="28" fill="white" opacity="0.75"/><ellipse cx="80" cy="38" rx="70" ry="32" fill="white" opacity="0.8"/></svg></div>
+    <div class="cloud cloud-c"><svg viewBox="0 0 300 90"><ellipse cx="150" cy="50" rx="140" ry="32" fill="white" opacity="0.7"/><ellipse cx="100" cy="42" rx="90" ry="36" fill="white" opacity="0.8"/></svg></div>
+    <div class="cloud cloud-d"><svg viewBox="0 0 180 60"><ellipse cx="90" cy="35" rx="80" ry="22" fill="white" opacity="0.75"/><ellipse cx="60" cy="28" rx="55" ry="26" fill="white" opacity="0.8"/></svg></div>
+  </div>
+
+  <!-- MOUNTAINS -->
+  <div class="mountains parallax" data-speed="0.015">
+    <div class="mountain-layer mtn-far">
+      <svg viewBox="0 0 1200 400" preserveAspectRatio="none" width="100%" height="100%">
+        <defs><linearGradient id="mtnFar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a0b8a8" stop-opacity="0.5"/><stop offset="100%" stop-color="#8aaa90" stop-opacity="0.7"/></linearGradient></defs>
+        <path d="M0,400 L0,250 Q100,120 200,180 Q300,80 400,150 Q500,50 600,120 Q700,30 800,100 Q900,60 1000,140 Q1100,90 1200,180 L1200,400 Z" fill="url(#mtnFar)"/>
+      </svg>
+    </div>
+    <div class="mountain-layer mtn-mid">
+      <svg viewBox="0 0 1200 320" preserveAspectRatio="none" width="100%" height="100%">
+        <defs><linearGradient id="mtnMid" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6a9a68"/><stop offset="60%" stop-color="#5a8a58"/><stop offset="100%" stop-color="#4a7a48"/></linearGradient></defs>
+        <path d="M0,320 L0,200 Q80,100 180,160 Q280,60 380,120 Q500,40 620,110 Q740,30 850,90 Q960,50 1060,120 Q1140,80 1200,140 L1200,320 Z" fill="url(#mtnMid)"/>
+        <path d="M300,130 Q400,95 500,120" stroke="rgba(90,140,80,0.3)" stroke-width="1" fill="none"/>
+        <path d="M310,140 Q410,105 510,130" stroke="rgba(90,140,80,0.25)" stroke-width="1" fill="none"/>
+        <path d="M700,100 Q800,70 900,95" stroke="rgba(90,140,80,0.3)" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+    <div class="mountain-layer mtn-near">
+      <svg viewBox="0 0 1200 260" preserveAspectRatio="none" width="100%" height="100%">
+        <defs><linearGradient id="mtnNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a8040"/><stop offset="50%" stop-color="#3a7030"/><stop offset="100%" stop-color="#2d5a28"/></linearGradient></defs>
+        <path d="M0,260 L0,140 Q100,60 220,100 Q340,20 460,80 Q580,30 680,70 Q800,10 920,60 Q1020,25 1100,80 Q1160,50 1200,90 L1200,260 Z" fill="url(#mtnNear)"/>
+        <path d="M100,110 Q200,75 300,100" stroke="rgba(60,110,50,0.4)" stroke-width="1.5" fill="none"/>
+        <path d="M110,120 Q210,85 310,110" stroke="rgba(60,110,50,0.35)" stroke-width="1.5" fill="none"/>
+        <path d="M800,70 Q900,40 1000,65" stroke="rgba(60,110,50,0.4)" stroke-width="1.5" fill="none"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- FOREST -->
+  <div class="forest parallax" data-speed="0.025">
+    <div class="trees-deep">
+      <svg viewBox="0 0 1200 300" preserveAspectRatio="none" width="100%" height="100%">
+        <defs><linearGradient id="treeDeep" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a6a30"/><stop offset="100%" stop-color="#2a5a22"/></linearGradient></defs>
+        <ellipse cx="50" cy="180" rx="60" ry="120" fill="url(#treeDeep)"/><ellipse cx="150" cy="160" rx="55" ry="140" fill="url(#treeDeep)"/>
+        <ellipse cx="280" cy="170" rx="65" ry="130" fill="url(#treeDeep)"/><ellipse cx="400" cy="150" rx="70" ry="150" fill="url(#treeDeep)"/>
+        <ellipse cx="530" cy="165" rx="60" ry="135" fill="url(#treeDeep)"/><ellipse cx="650" cy="155" rx="55" ry="145" fill="url(#treeDeep)"/>
+        <ellipse cx="780" cy="175" rx="65" ry="125" fill="url(#treeDeep)"/><ellipse cx="900" cy="160" rx="70" ry="140" fill="url(#treeDeep)"/>
+        <ellipse cx="1030" cy="170" rx="60" ry="130" fill="url(#treeDeep)"/><ellipse cx="1150" cy="165" rx="55" ry="135" fill="url(#treeDeep)"/>
+      </svg>
+    </div>
+    <div class="trees-mid">
+      <svg viewBox="0 0 1200 350" preserveAspectRatio="none" width="100%" height="100%">
+        <defs><linearGradient id="treeMid" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#356530"/><stop offset="100%" stop-color="#254d20"/></linearGradient></defs>
+        <g><rect x="85" y="250" width="10" height="100" fill="#3a2a1a" opacity="0.5"/><ellipse cx="90" cy="200" rx="50" ry="100" fill="url(#treeMid)"/></g>
+        <g><rect x="235" y="220" width="12" height="130" fill="#3a2a1a" opacity="0.5"/><ellipse cx="240" cy="170" rx="55" ry="110" fill="url(#treeMid)"/></g>
+        <g><rect x="435" y="210" width="14" height="140" fill="#3a2a1a" opacity="0.5"/><ellipse cx="440" cy="160" rx="60" ry="120" fill="url(#treeMid)"/></g>
+        <g><rect x="615" y="230" width="11" height="120" fill="#3a2a1a" opacity="0.5"/><ellipse cx="620" cy="180" rx="50" ry="105" fill="url(#treeMid)"/></g>
+        <g><rect x="785" y="200" width="13" height="150" fill="#3a2a1a" opacity="0.5"/><ellipse cx="790" cy="155" rx="58" ry="115" fill="url(#treeMid)"/></g>
+        <g><rect x="975" y="225" width="11" height="125" fill="#3a2a1a" opacity="0.5"/><ellipse cx="980" cy="175" rx="52" ry="108" fill="url(#treeMid)"/></g>
+        <g><rect x="1125" y="240" width="10" height="110" fill="#3a2a1a" opacity="0.5"/><ellipse cx="1130" cy="195" rx="48" ry="95" fill="url(#treeMid)"/></g>
+      </svg>
+    </div>
+    <div class="trees-near">
+      <svg viewBox="0 0 1200 400" preserveAspectRatio="none" width="100%" height="100%">
+        <defs>
+          <linearGradient id="treeNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2d5828"/><stop offset="100%" stop-color="#1a3d18"/></linearGradient>
+          <linearGradient id="trunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3a2815"/><stop offset="50%" stop-color="#4a3820"/><stop offset="100%" stop-color="#3a2815"/></linearGradient>
+        </defs>
+        <rect x="40" y="120" width="20" height="280" fill="url(#trunk)"/><ellipse cx="50" cy="80" rx="70" ry="120" fill="url(#treeNear)"/>
+        <line x1="50" y1="160" x2="100" y2="140" stroke="#3a2815" stroke-width="5"/><line x1="50" y1="200" x2="10" y2="170" stroke="#3a2815" stroke-width="4"/>
+        <rect x="1110" y="100" width="22" height="300" fill="url(#trunk)"/><ellipse cx="1120" cy="60" rx="75" ry="130" fill="url(#treeNear)"/>
+        <line x1="1120" y1="150" x2="1070" y2="130" stroke="#3a2815" stroke-width="5"/><line x1="1120" y1="190" x2="1160" y2="165" stroke="#3a2815" stroke-width="4"/>
+        <rect x="340" y="180" width="15" height="220" fill="url(#trunk)" opacity="0.7"/><ellipse cx="347" cy="130" rx="55" ry="105" fill="url(#treeNear)" opacity="0.6"/>
+        <rect x="830" y="160" width="16" height="240" fill="url(#trunk)" opacity="0.7"/><ellipse cx="838" cy="110" rx="60" ry="115" fill="url(#treeNear)" opacity="0.6"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- FOREST FLOOR -->
+  <div class="forest-floor parallax" data-speed="0.035">
+    <div class="moss moss-1"></div><div class="moss moss-2"></div><div class="moss moss-3"></div><div class="moss moss-4"></div>
+  </div>
+
+  <!-- MIST -->
+  <div class="mist-layer mist-1"></div><div class="mist-layer mist-2"></div><div class="mist-layer mist-3"></div>
+
+  <!-- LIGHT RAYS -->
+  <div class="light-rays parallax" data-speed="0.012">
+    <div class="ray ray-1"></div><div class="ray ray-2"></div><div class="ray ray-3"></div><div class="ray ray-4"></div><div class="ray ray-5"></div>
+  </div>
+
+  <!-- FIREFLIES -->
+  <div class="firefly ff-1"></div><div class="firefly ff-2"></div><div class="firefly ff-3"></div>
+  <div class="firefly ff-4"></div><div class="firefly ff-5"></div><div class="firefly ff-6"></div><div class="firefly ff-7"></div>
+
+  <!-- LEAVES -->
+  <div class="leaf leaf-1"><svg viewBox="0 0 16 20"><path d="M8,0 Q14,5 12,12 Q10,18 8,20 Q6,18 4,12 Q2,5 8,0 Z" fill="#5a9a40" opacity="0.6"/></svg></div>
+  <div class="leaf leaf-2"><svg viewBox="0 0 16 20"><path d="M8,0 Q14,5 12,12 Q10,18 8,20 Q6,18 4,12 Q2,5 8,0 Z" fill="#8aaa50" opacity="0.5"/></svg></div>
+  <div class="leaf leaf-3"><svg viewBox="0 0 16 20"><path d="M8,0 Q14,5 12,12 Q10,18 8,20 Q6,18 4,12 Q2,5 8,0 Z" fill="#c8a040" opacity="0.5"/></svg></div>
+  <div class="leaf leaf-4"><svg viewBox="0 0 16 20"><path d="M8,0 Q14,5 12,12 Q10,18 8,20 Q6,18 4,12 Q2,5 8,0 Z" fill="#5a9a40" opacity="0.4"/></svg></div>
+  <div class="leaf leaf-5"><svg viewBox="0 0 16 20"><path d="M8,0 Q14,5 12,12 Q10,18 8,20 Q6,18 4,12 Q2,5 8,0 Z" fill="#8aaa50" opacity="0.4"/></svg></div>
+
+  <!-- ═══ CHARACTERS ═══ -->
+
+  <!-- Forest spirit on branch -->
+  <div class="character spirit-tree parallax" data-speed="0.03">
+    <svg width="45" height="55" viewBox="0 0 45 55" fill="none">
+      <defs><radialGradient id="spiritGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#e8f5d5" stop-opacity="1"/><stop offset="70%" stop-color="#d0e8b8" stop-opacity="0.8"/><stop offset="100%" stop-color="#b8d8a0" stop-opacity="0"/></radialGradient></defs>
+      <ellipse cx="22" cy="32" rx="22" ry="22" fill="url(#spiritGlow)" opacity="0.4"/>
+      <ellipse cx="22" cy="35" rx="14" ry="14" fill="#e4f0d0" stroke="#a8c890" stroke-width="1.2"/>
+      <circle cx="22" cy="26" r="2.5" fill="#d4956a"/><circle cx="22" cy="26" r="1" fill="#e8b080"/>
+      <ellipse cx="16" cy="33" rx="3.5" ry="3" fill="white"/><circle cx="17" cy="33.5" r="2" fill="#2a3a20"/><circle cx="18" cy="32.8" r="0.8" fill="white"/>
+      <ellipse cx="28" cy="33" rx="3.5" ry="3" fill="white"/><circle cx="27" cy="33.5" r="2" fill="#2a3a20"/><circle cx="28" cy="32.8" r="0.8" fill="white"/>
+      <path d="M17 39 Q22 43 27 39" stroke="#4a6a38" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="13" cy="37" rx="2.5" ry="1.5" fill="#d4956a" opacity="0.25"/><ellipse cx="31" cy="37" rx="2.5" ry="1.5" fill="#d4956a" opacity="0.25"/>
+      <path d="M6 28 Q2 18 12 22" fill="#7ab860" stroke="#5a9840" stroke-width="0.8"/><path d="M38 28 Q42 18 32 22" fill="#7ab860" stroke="#5a9840" stroke-width="0.8"/>
+      <path d="M22 20 Q22 10 27 7" stroke="#5a9840" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <path d="M27 7 Q30 5 28 9 Q26 12 24 10 Q22 8 27 7 Z" fill="#7ab860"/>
+      <ellipse cx="16" cy="48" rx="4" ry="2.5" fill="#d8e8c0" stroke="#b0c898" stroke-width="0.5"/><ellipse cx="28" cy="48" rx="4" ry="2.5" fill="#d8e8c0" stroke="#b0c898" stroke-width="0.5"/>
+    </svg>
+  </div>
+
+  <!-- Elephant -->
+  <div class="character elephant-walk parallax" data-speed="0.028">
+    <div class="elephant-body-step">
+      <svg width="80" height="60" viewBox="0 0 80 60" fill="none">
+        <defs><linearGradient id="elephantBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b8c4d0"/><stop offset="100%" stop-color="#98a8b8"/></linearGradient></defs>
+        <ellipse cx="40" cy="56" rx="30" ry="4" fill="rgba(0,0,0,0.08)"/>
+        <ellipse cx="38" cy="32" rx="24" ry="18" fill="url(#elephantBody)" stroke="#8898a8" stroke-width="1"/>
+        <circle cx="60" cy="22" r="14" fill="#b0bcc8" stroke="#8898a8" stroke-width="1"/>
+        <ellipse cx="55" cy="16" rx="10" ry="12" fill="#a0b0c0" stroke="#8898a8" stroke-width="0.8"/><ellipse cx="55" cy="16" rx="6" ry="8" fill="#c0c8d4" opacity="0.5"/>
+        <ellipse cx="64" cy="20" rx="3.5" ry="3" fill="white"/><circle cx="65" cy="20.5" r="2" fill="#1a2a30"/><circle cx="66" cy="19.8" r="0.8" fill="white"/>
+        <ellipse cx="68" cy="25" rx="3" ry="1.8" fill="#d0909a" opacity="0.25"/>
+        <circle cx="62" cy="13" r="2" fill="#d4956a"/><circle cx="62" cy="13" r="0.8" fill="#e8b080"/>
+        <path d="M72 26 Q78 34 74 42 Q72 48 66 46" stroke="#8898a8" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <path d="M70 28 L73 33" stroke="#f0ece0" stroke-width="2" stroke-linecap="round"/>
+        <rect x="22" y="44" width="7" height="12" rx="3.5" fill="#a0b0c0"/><rect x="34" y="45" width="7" height="12" rx="3.5" fill="#a0b0c0"/><rect x="46" y="44" width="7" height="12" rx="3.5" fill="#a0b0c0"/>
+        <path d="M14 30 Q6 36 8 44" stroke="#8898a8" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="8" cy="45" rx="2.5" ry="2" fill="#a0b0c0"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Peacock -->
+  <div class="character peacock-strut parallax" data-speed="0.03">
+    <svg width="55" height="55" viewBox="0 0 55 55" fill="none">
+      <defs><radialGradient id="eyespot" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#40c0a0"/><stop offset="50%" stop-color="#2080a0"/><stop offset="100%" stop-color="#1a5a70" stop-opacity="0.6"/></radialGradient></defs>
+      <path d="M27 28 L5 3" stroke="#2a8a7a" stroke-width="1.5" opacity="0.5"/><path d="M27 28 L15 0" stroke="#2a8a7a" stroke-width="1.5" opacity="0.55"/>
+      <path d="M27 28 L27 -2" stroke="#3a9a8a" stroke-width="1.5" opacity="0.6"/><path d="M27 28 L39 0" stroke="#2a8a7a" stroke-width="1.5" opacity="0.55"/><path d="M27 28 L49 3" stroke="#2a8a7a" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="5" cy="3" r="3.5" fill="url(#eyespot)"/><circle cx="15" cy="0" r="3.5" fill="url(#eyespot)"/><circle cx="27" cy="-2" r="4" fill="url(#eyespot)"/>
+      <circle cx="39" cy="0" r="3.5" fill="url(#eyespot)"/><circle cx="49" cy="3" r="3.5" fill="url(#eyespot)"/>
+      <ellipse cx="27" cy="38" rx="9" ry="12" fill="#1a7a6a" stroke="#0a5a4a" stroke-width="0.8"/>
+      <circle cx="27" cy="24" r="6" fill="#2a9a88"/><ellipse cx="30" cy="23" rx="2" ry="2.2" fill="white"/><circle cx="30.5" cy="23.2" r="1.2" fill="#0a2a20"/><circle cx="31" cy="22.5" r="0.5" fill="white"/>
+      <path d="M33 24 L37 23 L33 25.5" fill="#d4a050"/>
+      <line x1="25" y1="18" x2="23" y2="13" stroke="#2a9a88" stroke-width="1"/><line x1="27" y1="18" x2="27" y2="12" stroke="#2a9a88" stroke-width="1"/><line x1="29" y1="18.5" x2="31" y2="13.5" stroke="#2a9a88" stroke-width="1"/>
+      <circle cx="23" cy="12.5" r="2" fill="#40c0a0"/><circle cx="27" cy="11.5" r="2" fill="#40c0a0"/><circle cx="31" cy="13" r="2" fill="#40c0a0"/>
+      <line x1="24" y1="49" x2="21" y2="55" stroke="#c87850" stroke-width="1.5"/><line x1="30" y1="49" x2="33" y2="55" stroke="#c87850" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <!-- Leopard -->
+  <div class="character leopard-rest parallax" data-speed="0.032">
+    <svg width="65" height="35" viewBox="0 0 65 35" fill="none">
+      <defs><linearGradient id="leopardFur" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8d8a0"/><stop offset="100%" stop-color="#d8c890"/></linearGradient></defs>
+      <ellipse cx="32" cy="33" rx="25" ry="3" fill="rgba(0,0,0,0.06)"/>
+      <ellipse cx="30" cy="18" rx="20" ry="10" fill="url(#leopardFur)" stroke="#c0b070" stroke-width="0.8"/>
+      <circle cx="20" cy="15" r="2" fill="#b89850" opacity="0.5"/><circle cx="28" cy="12" r="1.5" fill="#b89850" opacity="0.4"/><circle cx="36" cy="14" r="1.8" fill="#b89850" opacity="0.5"/>
+      <circle cx="50" cy="13" r="8" fill="url(#leopardFur)" stroke="#c0b070" stroke-width="0.8"/>
+      <path d="M44 6 L42 1 L46 4.5" fill="#e8d8a0" stroke="#c0b070" stroke-width="0.6"/><path d="M56 6 L58 1 L54 4.5" fill="#e8d8a0" stroke="#c0b070" stroke-width="0.6"/>
+      <ellipse cx="47" cy="12" rx="2" ry="2.5" fill="#7aaa50"/><ellipse cx="47" cy="12" rx="0.7" ry="2.5" fill="#2a3a20"/>
+      <ellipse cx="53" cy="12" rx="2" ry="2.5" fill="#7aaa50"/><ellipse cx="53" cy="12" rx="0.7" ry="2.5" fill="#2a3a20"/>
+      <ellipse cx="50" cy="15.5" rx="1.2" ry="0.8" fill="#d4956a"/>
+      <circle cx="50" cy="8" r="1.2" fill="#d4956a" opacity="0.5"/>
+      <ellipse cx="14" cy="26" rx="5" ry="3" fill="#dcc890"/>
+      <path d="M10 16 Q2 12 4 6 Q6 2 10 5" stroke="#c8b878" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- Baby yaka peeking -->
+  <div class="character yaka-tree-left">
+    <svg width="38" height="48" viewBox="0 0 38 48" fill="none">
+      <ellipse cx="19" cy="34" rx="11" ry="13" fill="#e0d0e8" stroke="#c0a8d0" stroke-width="1"/>
+      <path d="M7 16 Q3 6 12 11" fill="#7a5a8a" opacity="0.8"/><path d="M12 12 Q8 1 18 7" fill="#8a6a9a" opacity="0.85"/>
+      <path d="M18 10 Q18 0 24 5" fill="#7a5a8a" opacity="0.8"/><path d="M24 12 Q28 3 30 12" fill="#8a6a9a" opacity="0.85"/><path d="M29 16 Q34 8 31 16" fill="#7a5a8a" opacity="0.8"/>
+      <circle cx="19" cy="21" r="10" fill="#e8daf0"/>
+      <g style="animation:blink-eyes 5s ease-in-out infinite;">
+        <ellipse cx="14" cy="20" rx="4" ry="3.5" fill="white" stroke="#8a6a9a" stroke-width="0.5"/><circle cx="15" cy="20.5" r="2.5" fill="#4a2a5a"/><circle cx="16" cy="19.5" r="1" fill="white"/>
+        <ellipse cx="24" cy="20" rx="4" ry="3.5" fill="white" stroke="#8a6a9a" stroke-width="0.5"/><circle cx="23" cy="20.5" r="2.5" fill="#4a2a5a"/><circle cx="24" cy="19.5" r="1" fill="white"/>
+      </g>
+      <path d="M14 26 Q19 30 24 26" stroke="#5a3a6a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <rect x="16" y="26" width="1.8" height="2.5" rx="0.7" fill="white"/><rect x="21" y="26" width="1.8" height="2.5" rx="0.7" fill="white"/>
+      <ellipse cx="10" cy="23" rx="2.5" ry="1.5" fill="#d0909a" opacity="0.3"/><ellipse cx="28" cy="23" rx="2.5" ry="1.5" fill="#d0909a" opacity="0.3"/>
+      <circle cx="4" cy="28" r="4" fill="#e0d0e8" stroke="#c0a8d0" stroke-width="0.8"/><circle cx="34" cy="28" r="4" fill="#e0d0e8" stroke="#c0a8d0" stroke-width="0.8"/>
+      <circle cx="19" cy="13" r="1.8" fill="#d4956a"/><circle cx="19" cy="13" r="0.7" fill="#e8b080"/>
+    </svg>
+  </div>
+
+  <!-- Running yaka -->
+  <div class="character yaka-scurry">
+    <div class="yaka-bounce">
+      <svg width="40" height="45" viewBox="0 0 40 45" fill="none">
+        <ellipse cx="20" cy="25" rx="10" ry="11" fill="#f0e0d0" stroke="#d0b8a0" stroke-width="0.8" transform="rotate(-12 20 25)"/>
+        <path d="M10 10 Q2 2 7 7" stroke="#9a7050" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M13 7 Q5 -2 10 4" stroke="#a88060" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M17 5 Q11 -3 15 3" stroke="#9a7050" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="22" cy="15" r="9" fill="#f5ead8"/>
+        <ellipse cx="19" cy="14" rx="3.2" ry="3" fill="white" stroke="#9a7050" stroke-width="0.5"/><circle cx="20" cy="14.5" r="2" fill="#5a3020"/><circle cx="21" cy="13.5" r="0.8" fill="white"/>
+        <ellipse cx="27" cy="13" rx="3.2" ry="3" fill="white" stroke="#9a7050" stroke-width="0.5"/><circle cx="26" cy="13.5" r="2" fill="#5a3020"/><circle cx="27" cy="12.5" r="0.8" fill="white"/>
+        <ellipse cx="24" cy="19" rx="3" ry="2.5" fill="#5a3020" opacity="0.6"/><path d="M22 18 Q24 16.5 26 18" fill="white" opacity="0.9"/>
+        <circle cx="23" cy="8.5" r="1.3" fill="#d4956a"/>
+        <line x1="13" y1="22" x2="5" y2="17" stroke="#edd0b8" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="28" y1="27" x2="36" y2="22" stroke="#edd0b8" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="15" y1="34" x2="8" y2="42" stroke="#edd0b8" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="23" y1="34" x2="30" y2="42" stroke="#edd0b8" stroke-width="3.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Tiny spirit chasing -->
+  <div class="character spirit-chase">
+    <div class="mini-bounce">
+      <svg width="22" height="28" viewBox="0 0 22 28" fill="none">
+        <ellipse cx="11" cy="18" rx="8" ry="8" fill="#e4f5d5" stroke="#a8d890" stroke-width="0.8"/>
+        <circle cx="8" cy="17" r="2" fill="#2a3a20"/><circle cx="9" cy="16.5" r="0.7" fill="white"/>
+        <circle cx="14" cy="17" r="2" fill="#2a3a20"/><circle cx="15" cy="16.5" r="0.7" fill="white"/>
+        <ellipse cx="11" cy="21" rx="2" ry="1.2" fill="#4a6a38" opacity="0.4"/>
+        <path d="M11 10 Q11 4 14 2" stroke="#5a9840" stroke-width="1.2" fill="none"/><circle cx="15" cy="2" r="2.2" fill="#7ab860"/>
+        <ellipse cx="7" cy="26" rx="3" ry="1.5" fill="#d8ecc0"/><ellipse cx="15" cy="26" rx="3" ry="1.5" fill="#d8ecc0"/>
+      </svg>
+    </div>
+  </div>
+
+</div>
+
+<!-- CONTENT -->
+<div class="content-layer">
+  <div class="card">
+    <div class="label">Coming Soon</div>
+    <h1 class="name">Riz Razak</h1>
+    <p class="tagline">Personal site under construction.</p>
+    <a href="https://analyst.rizrazak.com/" class="cta" target="_blank" rel="noopener">
+      For now, enjoy the deep analysis &rarr; analyst.rizrazak.com
+    </a>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/riz.life.crisis/" target="_blank" rel="noopener" title="Facebook">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/riz_razak_" target="_blank" rel="noopener" title="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@riz.razak" target="_blank" rel="noopener" title="TikTok">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.98a8.21 8.21 0 0 0 4.76 1.52V7.05a4.84 4.84 0 0 1-1-.36z"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@rizrazak_" target="_blank" rel="noopener" title="TikTok 2" style="position:relative;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.98a8.21 8.21 0 0 0 4.76 1.52V7.05a4.84 4.84 0 0 1-1-.36z"/></svg>
+        <span class="tiktok-badge">2</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const layers = document.querySelectorAll('.parallax');
+  let mx=0.5,my=0.5,cx=0.5,cy=0.5;
+  document.addEventListener('mousemove',e=>{mx=e.clientX/window.innerWidth;my=e.clientY/window.innerHeight;});
+  (function animate(){
+    cx+=(mx-cx)*0.04; cy+=(my-cy)*0.04;
+    layers.forEach(l=>{const s=parseFloat(l.dataset.speed)||0.02;l.style.transform=`translate(${(cx-0.5)*s*1200}px,${(cy-0.5)*s*700}px)`;});
+    requestAnimationFrame(animate);
+  })();
+</script>
+
+</body>
+</html>

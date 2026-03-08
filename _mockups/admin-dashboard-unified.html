@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unified Control Panel — Riz Razak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root {
+  --bg:       #080b10;
+  --surface:  #0d1117;
+  --card:     #0f1520;
+  --border:   #1a2235;
+  --border2:  #232f45;
+  --red:      #dc2626;
+  --red-dim:  rgba(220,38,38,.12);
+  --gold:     #d97706;
+  --gold-dim: rgba(217,119,6,.1);
+  --green:    #059669;
+  --green-dim:rgba(5,150,105,.1);
+  --blue:     #2563eb;
+  --blue-dim: rgba(37,99,235,.1);
+  --purple:   #7c3aed;
+  --purp-dim: rgba(124,58,237,.12);
+  --teal:     #0d9488;
+  --teal-dim: rgba(13,148,136,.12);
+  --text:     #e8eaf2;
+  --muted:    #5a6480;
+  --muted2:   #8899b8;
+  --accent:   #1e2d4a;
+  --nav-w:    230px;
+  --top-h:    56px;
+}
+
+html{scroll-behavior:smooth;}
+body{background:var(--bg);font-family:'Space Grotesk',sans-serif;color:var(--text);min-height:100vh;display:flex;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--nav-w);background:var(--surface);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:200;overflow-y:auto;
+}
+.sidebar-brand{padding:18px 16px 14px;border-bottom:1px solid var(--border);}
+.brand-wordmark{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;color:var(--text);display:block;line-height:1;}
+.brand-sub{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;display:flex;align-items:center;gap:6px;}
+.brand-dot{width:6px;height:6px;background:var(--green);border-radius:50%;box-shadow:0 0 6px var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* Site switcher */
+.site-switcher{padding:10px 10px 4px;}
+.site-tab{
+  display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;cursor:pointer;
+  font-size:.75rem;font-weight:600;color:var(--muted2);transition:all .15s;margin-bottom:2px;
+  border:1px solid transparent;
+}
+.site-tab:hover{background:var(--accent);color:var(--text);}
+.site-tab.active{background:var(--accent);color:var(--text);border-color:var(--border2);}
+.site-tab.active .site-dot{box-shadow:0 0 6px currentColor;}
+.site-icon{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:.7rem;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-weight:700;}
+.si-analyst{background:rgba(220,38,38,.2);color:#f87171;}
+.si-riz{background:rgba(37,99,235,.2);color:#60a5fa;}
+.si-kunatu{background:rgba(13,148,136,.2);color:#2dd4bf;}
+.si-yan{background:rgba(124,58,237,.2);color:#a78bfa;}
+.si-private{background:rgba(217,119,6,.2);color:#fbbf24;}
+.site-dot{width:5px;height:5px;border-radius:50%;background:currentColor;margin-left:auto;flex-shrink:0;}
+.private-lock{margin-left:auto;font-size:.6rem;opacity:.5;}
+
+/* Divider */
+.nav-div{height:1px;background:var(--border);margin:8px 10px;}
+
+.nav-section{padding:10px 10px 4px;}
+.nav-label{font-family:'JetBrains Mono',monospace;font-size:.47rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:0 8px;margin-bottom:4px;}
+.nav-item{
+  display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:6px;cursor:pointer;
+  font-size:.75rem;font-weight:500;color:var(--muted2);transition:all .15s;margin-bottom:2px;
+  text-decoration:none;position:relative;
+}
+.nav-item:hover{background:var(--accent);color:var(--text);}
+.nav-item.active{background:var(--red-dim);color:var(--text);}
+.nav-item.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:2px;background:var(--red);border-radius:0 2px 2px 0;}
+.nav-item.private-nav.active{background:var(--gold-dim);}
+.nav-item.private-nav.active::before{background:var(--gold);}
+.nav-icon{font-size:.9rem;width:16px;text-align:center;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:.46rem;font-weight:700;padding:2px 6px;border-radius:10px;font-family:'JetBrains Mono',monospace;}
+.nav-badge.gold{background:var(--gold);}
+.nav-badge.blue{background:var(--blue);}
+
+.sidebar-footer{margin-top:auto;padding:12px 10px;border-top:1px solid var(--border);}
+.user-pill{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;cursor:pointer;}
+.user-pill:hover{background:var(--accent);}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1e3a5f,#2563eb);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:#fff;flex-shrink:0;}
+.user-name{font-size:.73rem;font-weight:600;color:var(--text);}
+.user-role{font-size:.52rem;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.5px;}
+
+/* ── TOPBAR ── */
+.topbar{
+  position:fixed;top:0;left:var(--nav-w);right:0;height:var(--top-h);
+  background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 26px;z-index:100;
+}
+.topbar-left{display:flex;align-items:center;gap:12px;}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2.5px;color:var(--text);}
+.page-site-badge{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:3px;color:#fff;}
+.badge-analyst{background:rgba(220,38,38,.6);}
+.badge-riz{background:rgba(37,99,235,.6);}
+.badge-kunatu{background:rgba(13,148,136,.6);}
+.badge-yan{background:rgba(124,58,237,.6);}
+.badge-private{background:rgba(217,119,6,.6);}
+.badge-all{background:rgba(255,255,255,.1);color:var(--muted2);}
+.breadcrumb{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--muted);letter-spacing:1px;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.topbar-btn{background:transparent;border:1px solid var(--border2);color:var(--muted2);font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:1px;text-transform:uppercase;padding:7px 13px;border-radius:5px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px;}
+.topbar-btn:hover{border-color:var(--red);color:var(--text);}
+.topbar-btn.primary{background:var(--red);border-color:var(--red);color:#fff;}
+.topbar-btn.primary:hover{background:#b91c1c;}
+.topbar-btn.gold{background:var(--gold);border-color:var(--gold);color:#fff;}
+.topbar-btn.gold:hover{background:#b45309;}
+.notif-dot{width:7px;height:7px;background:var(--red);border-radius:50%;box-shadow:0 0 5px var(--red);}
+
+/* ── AUTH GATE ── */
+.auth-gate{
+  position:fixed;inset:0;background:rgba(8,11,16,.92);backdrop-filter:blur(8px);
+  z-index:500;display:flex;align-items:center;justify-content:center;
+}
+.auth-box{background:var(--surface);border:1px solid var(--border2);border-top:2px solid var(--gold);border-radius:12px;padding:36px 40px;width:360px;text-align:center;}
+.auth-icon{font-size:2rem;margin-bottom:16px;opacity:.7;}
+.auth-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--text);margin-bottom:6px;}
+.auth-sub{font-size:.7rem;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+.auth-input{width:100%;background:var(--card);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:.85rem;padding:11px 14px;outline:none;margin-bottom:12px;transition:border-color .15s;}
+.auth-input:focus{border-color:var(--gold);}
+.auth-btn{width:100%;padding:12px;background:var(--gold);border:none;border-radius:6px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;cursor:pointer;transition:background .15s;margin-bottom:10px;}
+.auth-btn:hover{background:#b45309;}
+.auth-cancel{font-size:.62rem;color:var(--muted);cursor:pointer;text-transform:uppercase;font-family:'JetBrains Mono',monospace;letter-spacing:1px;}
+.auth-cancel:hover{color:var(--text);}
+.totp-row{display:flex;gap:8px;margin-bottom:12px;}
+.totp-input{flex:1;background:var(--card);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:1.1rem;padding:10px;outline:none;text-align:center;letter-spacing:4px;}
+.totp-input:focus{border-color:var(--gold);}
+
+/* ── MAIN ── */
+.main{margin-left:var(--nav-w);margin-top:var(--top-h);flex:1;padding:26px 30px 80px;min-height:calc(100vh - var(--top-h));}
+.view{display:none;}
+.view.active{display:block;}
+
+/* ── ALERT BANNER ── */
+.alert-banner{background:var(--gold-dim);border:1px solid rgba(217,119,6,.3);border-radius:6px;padding:11px 16px;display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.alert-banner.red{background:var(--red-dim);border-color:rgba(220,38,38,.3);}
+.alert-banner.blue{background:var(--blue-dim);border-color:rgba(37,99,235,.3);}
+.ab-icon{font-size:1rem;flex-shrink:0;}
+.ab-text{font-size:.72rem;color:#fbbf24;line-height:1.5;flex:1;}
+.ab-text.red{color:#f87171;}
+.ab-text.blue{color:#93c5fd;}
+.ab-text strong{color:#fde68a;}
+.ab-text.red strong{color:#fca5a5;}
+.ab-text.blue strong{color:#bfdbfe;}
+
+/* ── STAT ROW ── */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.stat-row-5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-top:2px solid var(--red);border-radius:8px;padding:16px 18px;position:relative;overflow:hidden;}
+.stat-card.green{border-top-color:var(--green);}
+.stat-card.gold{border-top-color:var(--gold);}
+.stat-card.blue{border-top-color:var(--blue);}
+.stat-card.purple{border-top-color:var(--purple);}
+.stat-card.teal{border-top-color:var(--teal);}
+.sc-label{font-family:'JetBrains Mono',monospace;font-size:.48rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:7px;}
+.sc-val{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--text);line-height:1;letter-spacing:1px;}
+.sc-sub{font-size:.56rem;color:var(--muted2);margin-top:4px;display:flex;align-items:center;gap:5px;}
+.sc-trend.up{color:var(--green);font-weight:700;}
+.sc-trend.down{color:var(--red);font-weight:700;}
+.sc-site{font-size:.46rem;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;text-transform:uppercase;padding:1px 5px;border-radius:2px;background:var(--accent);}
+
+/* ── GRID LAYOUTS ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;}
+.wide-narrow{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px;}
+.narrow-wide{display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-bottom:20px;}
+
+/* ── CARD ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:0;}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);}
+.card-title{font-family:'JetBrains Mono',monospace;font-size:.54rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted2);}
+.card-body{padding:16px;}
+.card-action{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:1px;color:var(--muted);cursor:pointer;background:none;border:none;text-transform:uppercase;transition:color .15s;}
+.card-action:hover{color:var(--text);}
+
+/* ── SITE CARD ── */
+.site-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.site-card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.3);}
+.site-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.site-card.analyst::before{background:var(--red);}
+.site-card.riz::before{background:var(--blue);}
+.site-card.kunatu::before{background:var(--teal);}
+.site-card.yan::before{background:var(--purple);}
+.site-card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.site-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.site-card-info{flex:1;}
+.site-card-name{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:2px;}
+.site-card-url{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:.5px;}
+.site-card-status{display:flex;align-items:center;gap:6px;margin-bottom:12px;}
+.site-status-dot{width:6px;height:6px;border-radius:50%;}
+.site-status-dot.live{background:var(--green);box-shadow:0 0 6px var(--green);}
+.site-status-dot.building{background:var(--gold);box-shadow:0 0 6px var(--gold);}
+.site-status-dot.down{background:var(--red);box-shadow:0 0 6px var(--red);}
+.site-status-text{font-size:.6rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;}
+.site-card-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.site-meta-item{background:var(--surface);border-radius:5px;padding:7px 9px;}
+.smi-label{font-family:'JetBrains Mono',monospace;font-size:.44rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.smi-val{font-size:.75rem;font-weight:600;color:var(--text);}
+.site-card-actions{display:flex;gap:8px;margin-top:14px;}
+
+/* ── TABLE ── */
+.dt{width:100%;border-collapse:collapse;}
+.dt th{font-family:'JetBrains Mono',monospace;font-size:.48rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);text-align:left;padding:9px 13px;border-bottom:1px solid var(--border);white-space:nowrap;}
+.dt td{font-size:.73rem;color:var(--muted2);padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.dt tr:last-child td{border-bottom:none;}
+.dt tr:hover td{background:rgba(255,255,255,.015);}
+.dt td.strong{color:var(--text);font-weight:600;}
+.dt td.mono{font-family:'JetBrains Mono',monospace;font-size:.62rem;}
+
+/* ── PILLS ── */
+.pill{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:.46rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 7px;border-radius:3px;}
+.pill-pub{background:rgba(5,150,105,.2);color:#34d399;}
+.pill-hid{background:rgba(217,119,6,.2);color:#fbbf24;}
+.pill-draft{background:rgba(90,100,128,.2);color:var(--muted2);}
+.pill-live{background:rgba(5,150,105,.2);color:#34d399;}
+.pill-wip{background:rgba(124,58,237,.2);color:#a78bfa;}
+.pill-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+
+/* ── BUTTONS ── */
+.act-btn{background:none;border:1px solid var(--border2);color:var(--muted2);font-size:.58rem;padding:4px 10px;border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;text-transform:uppercase;transition:all .15s;}
+.act-btn:hover{border-color:var(--text);color:var(--text);}
+.act-btn.pub{border-color:rgba(5,150,105,.5);color:#34d399;}
+.act-btn.pub:hover{background:rgba(5,150,105,.15);}
+.act-btn.del{border-color:rgba(220,38,38,.4);color:#f87171;}
+.act-btn.del:hover{background:var(--red-dim);}
+.row-actions{display:flex;align-items:center;gap:7px;}
+
+/* ── TAG ── */
+.tag{display:inline-block;background:var(--accent);color:var(--muted2);font-size:.5rem;padding:2px 7px;border-radius:3px;margin:2px 2px 0 0;font-family:'JetBrains Mono',monospace;}
+
+/* ── ACTIVITY ── */
+.activity-list{display:flex;flex-direction:column;}
+.act-item{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid var(--border);}
+.act-item:last-child{border-bottom:none;}
+.act-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;margin-top:1px;}
+.act-icon.view{background:var(--blue-dim);}
+.act-icon.pub{background:var(--green-dim);}
+.act-icon.edit{background:var(--gold-dim);}
+.act-icon.comm{background:var(--purp-dim);}
+.act-icon.deploy{background:var(--teal-dim);}
+.act-body{flex:1;}
+.act-text{font-size:.7rem;color:var(--text);line-height:1.45;}
+.act-text .slug{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--muted2);}
+.act-time{font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--muted);margin-top:3px;}
+.act-site{font-family:'JetBrains Mono',monospace;font-size:.44rem;padding:1px 5px;border-radius:2px;color:#fff;margin-left:6px;}
+
+/* ── PRIVATE SECTION STYLES ── */
+.private-header{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:var(--gold-dim);border:1px solid rgba(217,119,6,.3);
+  border-radius:8px;margin-bottom:20px;
+}
+.private-label{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--gold);}
+.private-sublabel{font-size:.62rem;color:rgba(217,119,6,.7);font-family:'JetBrains Mono',monospace;}
+
+/* ── NOTES / JOURNAL ── */
+.note-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:6px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all .15s;}
+.note-card:hover{border-color:rgba(217,119,6,.5);background:rgba(217,119,6,.04);}
+.note-title{font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:4px;}
+.note-preview{font-size:.68rem;color:var(--muted2);line-height:1.5;margin-bottom:6px;}
+.note-meta{font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--muted);display:flex;gap:12px;}
+.note-tag{display:inline-block;background:var(--gold-dim);color:var(--gold);font-size:.44rem;padding:1px 6px;border-radius:2px;margin-left:6px;font-family:'JetBrains Mono',monospace;}
+
+/* ── PERSONAL STATS ── */
+.personal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+
+/* ── SEARCH ── */
+.search-input{background:var(--card);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:.78rem;padding:9px 13px;outline:none;transition:border-color .15s;width:100%;}
+.search-input:focus{border-color:var(--blue);}
+.search-input::placeholder{color:var(--muted);}
+
+/* ── TOGGLE ── */
+.toggle{position:relative;width:34px;height:19px;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--border2);border-radius:10px;transition:.2s;}
+.toggle input:checked+.toggle-slider{background:var(--green);}
+.toggle-slider::before{content:'';position:absolute;width:13px;height:13px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s;}
+.toggle input:checked+.toggle-slider::before{transform:translateX(15px);}
+
+/* ── DEPLOY STATUS ── */
+.deploy-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.deploy-row:last-child{border-bottom:none;}
+.deploy-site-name{font-size:.72rem;font-weight:600;color:var(--text);width:130px;flex-shrink:0;}
+.deploy-branch{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--muted);width:60px;}
+.prog-track{flex:1;height:4px;background:var(--border2);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:2px;transition:width .5s;}
+.prog-fill.green{background:var(--green);}
+.prog-fill.gold{background:var(--gold);}
+.prog-fill.red{background:var(--red);}
+.deploy-status{font-family:'JetBrains Mono',monospace;font-size:.5rem;width:80px;text-align:right;flex-shrink:0;}
+.deploy-status.ok{color:var(--green);}
+.deploy-status.warn{color:var(--gold);}
+
+/* ── BAR CHART ── */
+.bar-chart{display:flex;flex-direction:column;gap:9px;}
+.bar-row{display:flex;align-items:center;gap:10px;}
+.bar-label{font-size:.6rem;color:var(--muted2);width:150px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{flex:1;height:5px;background:var(--border2);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;background:var(--red);transition:width .6s ease;}
+.bar-fill.green{background:var(--green);}
+.bar-fill.gold{background:var(--gold);}
+.bar-fill.blue{background:var(--blue);}
+.bar-fill.teal{background:var(--teal);}
+.bar-fill.purple{background:var(--purple);}
+.bar-val{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--muted2);width:38px;text-align:right;flex-shrink:0;}
+
+/* ── SEO ── */
+.seo-items{display:flex;flex-direction:column;gap:7px;}
+.seo-item{display:flex;align-items:center;gap:9px;padding:7px;border-radius:5px;}
+.seo-item:hover{background:var(--accent);}
+.seo-ck{width:14px;height:14px;border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.48rem;}
+.seo-ck.pass{background:var(--green-dim);color:var(--green);}
+.seo-ck.fail{background:var(--red-dim);color:var(--red);}
+.seo-ck.warn{background:var(--gold-dim);color:var(--gold);}
+.seo-text{font-size:.68rem;color:var(--muted2);flex:1;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:22px;right:26px;background:var(--surface);border:1px solid var(--border2);border-left:3px solid var(--green);border-radius:6px;padding:11px 16px;font-size:.72rem;color:var(--text);z-index:999;display:flex;align-items:center;gap:9px;transform:translateY(80px);opacity:0;transition:all .3s ease;box-shadow:0 8px 24px rgba(0,0,0,.5);max-width:340px;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.error{border-left-color:var(--red);}
+.toast.gold{border-left-color:var(--gold);}
+
+/* ── DETAIL PANEL ── */
+.detail-panel{display:none;position:fixed;top:var(--top-h);right:0;bottom:0;width:380px;background:var(--surface);border-left:1px solid var(--border);z-index:150;overflow-y:auto;animation:slideIn .2s ease;}
+.detail-panel.open{display:block;}
+@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+.dp-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.dp-title{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:2px;}
+.dp-close{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:2px 6px;border-radius:3px;}
+.dp-close:hover{color:var(--text);background:var(--accent);}
+.dp-body{padding:16px 18px;}
+.dp-sect{margin-bottom:16px;}
+.dp-label{font-family:'JetBrains Mono',monospace;font-size:.46rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.dp-val{font-size:.78rem;color:var(--text);line-height:1.5;}
+
+/* ── THUMBNAIL GRID ── */
+.view-toggle{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border2);border-radius:6px;padding:3px;}
+.vt-btn{padding:5px 10px;border-radius:4px;cursor:pointer;border:none;background:none;color:var(--muted2);font-size:.7rem;transition:all .15s;display:flex;align-items:center;gap:5px;}
+.vt-btn.active{background:var(--accent);color:var(--text);}
+.vt-btn:hover{color:var(--text);}
+
+.thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.thumb-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;position:relative;}
+.thumb-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,0,0,.4);}
+.thumb-card.orphan{border-color:rgba(217,119,6,.3);}
+.thumb-img{width:100%;height:160px;object-fit:cover;display:block;background:var(--surface);}
+.thumb-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,var(--surface),var(--accent));display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.62rem;font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase;position:relative;overflow:hidden;}
+.thumb-img-placeholder::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(255,255,255,.015) 8px,rgba(255,255,255,.015) 9px);}
+.thumb-status-bar{position:absolute;top:10px;left:10px;display:flex;gap:6px;}
+.thumb-fb{position:absolute;top:10px;right:10px;background:rgba(24,119,242,.9);color:#fff;border-radius:4px;padding:3px 7px;font-size:.48rem;font-family:'JetBrains Mono',monospace;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:4px;backdrop-filter:blur(4px);}
+.thumb-no-fb{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.5);color:var(--muted);border-radius:4px;padding:3px 7px;font-size:.45rem;font-family:'JetBrains Mono',monospace;letter-spacing:.5px;backdrop-filter:blur(4px);}
+.thumb-body{padding:12px 14px;}
+.thumb-title{font-size:.78rem;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.thumb-slug{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--muted);margin-bottom:8px;}
+.thumb-tags{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px;}
+.thumb-actions{display:flex;gap:6px;}
+
+/* ── FACEBOOK VIDEO PANEL ── */
+.fb-panel{display:none;position:fixed;top:var(--top-h);right:0;bottom:0;width:420px;background:var(--surface);border-left:1px solid var(--border);z-index:150;overflow-y:auto;animation:slideIn .2s ease;}
+.fb-panel.open{display:block;}
+.fb-head{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.fb-title-text{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;color:var(--text);}
+.fb-close{background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:2px 6px;border-radius:3px;}
+.fb-close:hover{color:var(--text);background:var(--accent);}
+.fb-body{padding:16px 18px;}
+.fb-embed-wrap{width:100%;background:var(--card);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:16px;min-height:200px;display:flex;align-items:center;justify-content:center;}
+.fb-embed-wrap iframe{width:100%;border:none;display:block;}
+.fb-no-video{padding:30px;text-align:center;color:var(--muted);font-size:.7rem;line-height:1.7;}
+.fb-url-input{width:100%;background:var(--card);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:9px 12px;outline:none;margin-bottom:10px;}
+.fb-url-input:focus{border-color:#1877f2;}
+.fb-save-btn{background:#1877f2;border:none;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:1.5px;padding:9px 18px;border-radius:5px;cursor:pointer;transition:background .15s;}
+.fb-save-btn:hover{background:#1565c0;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  :root{--nav-w:0px;}
+  .sidebar{display:none;}
+  .stat-row{grid-template-columns:1fr 1fr;}
+  .stat-row-5{grid-template-columns:1fr 1fr;}
+  .two-col,.three-col,.wide-narrow,.narrow-wide{grid-template-columns:1fr;}
+  .personal-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-wordmark">RIZ RAZAK</span>
+    <span class="brand-sub"><span class="brand-dot"></span>Unified Control Panel</span>
+  </div>
+
+  <!-- Site switcher -->
+  <div class="site-switcher">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.46rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:0 8px;margin-bottom:6px;">Sites &amp; Apps</div>
+    <div class="site-tab active" onclick="setSite('all')">
+      <span class="site-icon" style="background:rgba(255,255,255,.05);color:var(--muted2);">◈</span>
+      All Platforms
+      <span class="site-dot" style="color:var(--muted2)"></span>
+    </div>
+    <div class="site-tab" onclick="setSite('analyst')">
+      <span class="site-icon si-analyst">A</span>
+      analyst.rizrazak.com
+      <span class="site-dot" style="color:#f87171;"></span>
+    </div>
+    <div class="site-tab" onclick="setSite('riz')">
+      <span class="site-icon si-riz">R</span>
+      rizrazak.com
+      <span class="site-dot" style="color:#60a5fa;"></span>
+    </div>
+    <div class="site-tab" onclick="setSite('kunatu')">
+      <span class="site-icon si-kunatu">K</span>
+      Kunatu App
+      <span class="site-dot" style="color:#2dd4bf;"></span>
+    </div>
+    <div class="site-tab" onclick="setSite('yan')">
+      <span class="site-icon si-yan">Y</span>
+      Waren Yan
+      <span class="site-dot" style="color:#a78bfa;"></span>
+    </div>
+  </div>
+
+  <div class="nav-div"></div>
+
+  <!-- Global nav -->
+  <nav class="nav-section">
+    <div class="nav-label">Overview</div>
+    <a class="nav-item active" onclick="switchView('overview')">
+      <span class="nav-icon">◈</span>Dashboard
+    </a>
+    <a class="nav-item" onclick="switchView('deploy')">
+      <span class="nav-icon">↑</span>Deploy Status
+    </a>
+  </nav>
+
+  <nav class="nav-section">
+    <div class="nav-label">Analyst</div>
+    <a class="nav-item" onclick="switchView('dossiers')">
+      <span class="nav-icon">▤</span>Dossiers
+      <span class="nav-badge gold">2</span>
+    </a>
+    <a class="nav-item" onclick="switchView('seo')">
+      <span class="nav-icon">⬡</span>SEO Health
+    </a>
+    <a class="nav-item" onclick="switchView('comments')">
+      <span class="nav-icon">◻</span>Comments
+      <span class="nav-badge">4</span>
+    </a>
+  </nav>
+
+  <nav class="nav-section">
+    <div class="nav-label">Apps</div>
+    <a class="nav-item" onclick="switchView('kunatu')">
+      <span class="nav-icon">☁</span>Kunatu
+      <span class="nav-badge blue" style="background:var(--teal);">WIP</span>
+    </a>
+    <a class="nav-item" onclick="switchView('yan')">
+      <span class="nav-icon">⬡</span>Waren Yan
+      <span class="nav-badge blue">WIP</span>
+    </a>
+  </nav>
+
+  <div class="nav-div"></div>
+
+  <!-- Private section -->
+  <nav class="nav-section">
+    <div class="nav-label" style="color:var(--gold);opacity:.7;">🔒 Private</div>
+    <a class="nav-item private-nav" onclick="triggerAuth('notes')">
+      <span class="nav-icon">◧</span>Notes &amp; Research
+      <span class="private-lock">🔒</span>
+    </a>
+    <a class="nav-item private-nav" onclick="triggerAuth('finances')">
+      <span class="nav-icon">◈</span>Finances
+      <span class="private-lock">🔒</span>
+    </a>
+    <a class="nav-item private-nav" onclick="triggerAuth('tasks')">
+      <span class="nav-icon">✓</span>Tasks &amp; Goals
+      <span class="private-lock">🔒</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-pill">
+      <div class="user-avatar">RR</div>
+      <div>
+        <div class="user-name">Riz Razak</div>
+        <div class="user-role">Owner · All access</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══ TOPBAR ═══ -->
+<header class="topbar">
+  <div class="topbar-left">
+    <span class="page-title" id="topbar-title">Dashboard</span>
+    <span class="page-site-badge badge-all" id="topbar-badge">All Platforms</span>
+    <span class="breadcrumb" id="topbar-bc">admin.rizrazak.com</span>
+  </div>
+  <div class="topbar-right">
+    <button class="topbar-btn" onclick="showToast('Refreshing all platform data…')">↻ Refresh</button>
+    <button class="topbar-btn primary" onclick="showToast('Deploying all sites…')">↑ Deploy All</button>
+    <div class="notif-dot" title="Items need attention"></div>
+  </div>
+</header>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+
+  <!-- ─── OVERVIEW ─── -->
+  <div class="view active" id="view-overview">
+
+    <div class="alert-banner">
+      <span class="ab-icon">⚠</span>
+      <div class="ab-text"><strong>2 orphaned dossiers</strong> on analyst-site not in registry · <strong>4 comments</strong> pending moderation</div>
+      <button class="act-btn" onclick="switchView('dossiers')">Review →</button>
+    </div>
+
+    <!-- Per-site cards -->
+    <div class="two-col" style="margin-bottom:24px;">
+      <div class="site-card analyst" onclick="setSite('analyst');switchView('dossiers')">
+        <div class="site-card-top">
+          <div class="site-card-icon si-analyst" style="width:36px;height:36px;border-radius:8px;">A</div>
+          <div class="site-card-info">
+            <div class="site-card-name">analyst.rizrazak.com</div>
+            <div class="site-card-url">Investigative Dossier Platform</div>
+          </div>
+        </div>
+        <div class="site-card-status">
+          <div class="site-status-dot live"></div>
+          <div class="site-status-text">Live · GitHub Pages · Last deploy 3 days ago</div>
+        </div>
+        <div class="site-card-meta">
+          <div class="site-meta-item"><div class="smi-label">Dossiers</div><div class="smi-val">6 total</div></div>
+          <div class="site-meta-item"><div class="smi-label">Published</div><div class="smi-val">2 live</div></div>
+          <div class="site-meta-item"><div class="smi-label">Comments</div><div class="smi-val" style="color:var(--gold)">4 pending</div></div>
+          <div class="site-meta-item"><div class="smi-label">SEO Score</div><div class="smi-val" style="color:var(--gold)">75/100</div></div>
+        </div>
+      </div>
+
+      <div class="site-card riz" onclick="setSite('riz')">
+        <div class="site-card-top">
+          <div class="site-card-icon si-riz" style="width:36px;height:36px;border-radius:8px;">R</div>
+          <div class="site-card-info">
+            <div class="site-card-name">rizrazak.com</div>
+            <div class="site-card-url">Personal Portfolio &amp; Site</div>
+          </div>
+        </div>
+        <div class="site-card-status">
+          <div class="site-status-dot live"></div>
+          <div class="site-status-text">Live · GitHub Pages · Vite SPA</div>
+        </div>
+        <div class="site-card-meta">
+          <div class="site-meta-item"><div class="smi-label">Type</div><div class="smi-val">Portfolio</div></div>
+          <div class="site-meta-item"><div class="smi-label">Drafts</div><div class="smi-val">— in _drafts/</div></div>
+          <div class="site-meta-item"><div class="smi-label">Build</div><div class="smi-val" style="color:var(--green)">Passing</div></div>
+          <div class="site-meta-item"><div class="smi-label">Last push</div><div class="smi-val">—</div></div>
+        </div>
+      </div>
+
+      <div class="site-card kunatu" onclick="switchView('kunatu')">
+        <div class="site-card-top">
+          <div class="site-card-icon si-kunatu" style="width:36px;height:36px;border-radius:8px;">K</div>
+          <div class="site-card-info">
+            <div class="site-card-name">Kunatu</div>
+            <div class="site-card-url">Sri Lanka Weather App · Next.js</div>
+          </div>
+        </div>
+        <div class="site-card-status">
+          <div class="site-status-dot building"></div>
+          <div class="site-status-text">In development · Not deployed</div>
+        </div>
+        <div class="site-card-meta">
+          <div class="site-meta-item"><div class="smi-label">Stack</div><div class="smi-val">Next.js</div></div>
+          <div class="site-meta-item"><div class="smi-label">Status</div><div class="smi-val" style="color:var(--purple)">WIP</div></div>
+          <div class="site-meta-item"><div class="smi-label">Docs</div><div class="smi-val">Proposal ✓</div></div>
+          <div class="site-meta-item"><div class="smi-label">Deploy</div><div class="smi-val" style="color:var(--muted)">Not set</div></div>
+        </div>
+      </div>
+
+      <div class="site-card yan" onclick="switchView('yan')">
+        <div class="site-card-top">
+          <div class="site-card-icon si-yan" style="width:36px;height:36px;border-radius:8px;">Y</div>
+          <div class="site-card-info">
+            <div class="site-card-name">Waren Yan</div>
+            <div class="site-card-url">Firebase App · In Development</div>
+          </div>
+        </div>
+        <div class="site-card-status">
+          <div class="site-status-dot building"></div>
+          <div class="site-status-text">In development · Firebase project</div>
+        </div>
+        <div class="site-card-meta">
+          <div class="site-meta-item"><div class="smi-label">Stack</div><div class="smi-val">Firebase</div></div>
+          <div class="site-meta-item"><div class="smi-label">Status</div><div class="smi-val" style="color:var(--purple)">WIP</div></div>
+          <div class="site-meta-item"><div class="smi-label">Business Plan</div><div class="smi-val">✓ Done</div></div>
+          <div class="site-meta-item"><div class="smi-label">Deploy</div><div class="smi-val" style="color:var(--muted)">Not set</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wide-narrow">
+      <!-- Activity -->
+      <div class="card">
+        <div class="card-head"><span class="card-title">Activity · All Platforms</span><button class="card-action">View all</button></div>
+        <div class="card-body" style="padding:0 16px;">
+          <div class="activity-list">
+            <div class="act-item">
+              <div class="act-icon pub">↑</div>
+              <div class="act-body">
+                <div class="act-text">Pushed <span class="slug">SEO.md + Admin Dashboard preview</span><span class="act-site badge-analyst">analyst</span></div>
+                <div class="act-time">Today · just now</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-icon pub">✓</div>
+              <div class="act-body">
+                <div class="act-text"><span class="slug">caravan-fresh</span> set to published<span class="act-site badge-analyst">analyst</span></div>
+                <div class="act-time">Today · 14:22</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-icon edit">✎</div>
+              <div class="act-body">
+                <div class="act-text">HashRouter → BrowserRouter migration, URL cleanup<span class="act-site badge-analyst">analyst</span></div>
+                <div class="act-time">3 days ago</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-icon view">⬡</div>
+              <div class="act-body">
+                <div class="act-text">New folder detected: <span class="slug">sri-lanka-hormuz-crisis</span><span class="act-site badge-analyst">analyst</span></div>
+                <div class="act-time">5 days ago</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-icon deploy">↑</div>
+              <div class="act-body">
+                <div class="act-text">Folder restructure — numbered top-level dirs, NAMING-CONVENTION.md<span class="act-site badge-all">all</span></div>
+                <div class="act-time">7 days ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Needs attention -->
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card">
+          <div class="card-head"><span class="card-title">Needs Attention</span></div>
+          <div class="card-body" style="padding:10px 16px;">
+            <div class="seo-items">
+              <div class="seo-item" onclick="switchView('dossiers')">
+                <div class="seo-ck warn">!</div>
+                <div class="seo-text">2 orphaned dossiers unregistered</div>
+                <button class="card-action" style="font-size:.46rem;">Fix →</button>
+              </div>
+              <div class="seo-item" onclick="switchView('comments')">
+                <div class="seo-ck warn">!</div>
+                <div class="seo-text">4 comments await moderation</div>
+                <button class="card-action" style="font-size:.46rem;">Review →</button>
+              </div>
+              <div class="seo-item" onclick="switchView('seo')">
+                <div class="seo-ck fail">✗</div>
+                <div class="seo-text">sitemap.xml is outdated</div>
+                <button class="card-action" style="font-size:.46rem;">Update →</button>
+              </div>
+              <div class="seo-item" onclick="switchView('kunatu')">
+                <div class="seo-ck warn">!</div>
+                <div class="seo-text">Kunatu has no deploy target set</div>
+              </div>
+              <div class="seo-item">
+                <div class="seo-ck pass">✓</div>
+                <div class="seo-text">analyst-site build passing</div>
+              </div>
+              <div class="seo-item">
+                <div class="seo-ck pass">✓</div>
+                <div class="seo-text">rizrazak.com live</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">Quick Deploy</span></div>
+          <div class="card-body">
+            <div class="deploy-row">
+              <span class="deploy-site-name" style="font-size:.68rem;display:flex;align-items:center;gap:6px;"><span style="color:#f87171;font-size:.7rem;">A</span> analyst-site</span>
+              <span class="deploy-branch">main</span>
+              <div class="prog-track"><div class="prog-fill green" style="width:100%"></div></div>
+              <span class="deploy-status ok">✓ live</span>
+            </div>
+            <div class="deploy-row">
+              <span class="deploy-site-name" style="font-size:.68rem;display:flex;align-items:center;gap:6px;"><span style="color:#60a5fa;font-size:.7rem;">R</span> rizrazak-site</span>
+              <span class="deploy-branch">main</span>
+              <div class="prog-track"><div class="prog-fill green" style="width:100%"></div></div>
+              <span class="deploy-status ok">✓ live</span>
+            </div>
+            <div class="deploy-row">
+              <span class="deploy-site-name" style="font-size:.68rem;display:flex;align-items:center;gap:6px;"><span style="color:#2dd4bf;font-size:.7rem;">K</span> kunatu-app</span>
+              <span class="deploy-branch">main</span>
+              <div class="prog-track"><div class="prog-fill gold" style="width:40%"></div></div>
+              <span class="deploy-status warn">⚠ no target</span>
+            </div>
+            <div class="deploy-row">
+              <span class="deploy-site-name" style="font-size:.68rem;display:flex;align-items:center;gap:6px;"><span style="color:#a78bfa;font-size:.7rem;">Y</span> waren-yan</span>
+              <span class="deploy-branch">main</span>
+              <div class="prog-track"><div class="prog-fill gold" style="width:30%"></div></div>
+              <span class="deploy-status warn">⚠ wip</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DEPLOY STATUS ─── -->
+  <div class="view" id="view-deploy">
+    <div class="stat-row">
+      <div class="stat-card green"><div class="sc-label">Sites Live</div><div class="sc-val">2</div><div class="sc-sub">analyst + rizrazak</div></div>
+      <div class="stat-card gold"><div class="sc-label">In Development</div><div class="sc-val">2</div><div class="sc-sub">kunatu + yan</div></div>
+      <div class="stat-card blue"><div class="sc-label">Last Deploy</div><div class="sc-val">3d</div><div class="sc-sub">analyst-site · main</div></div>
+      <div class="stat-card"><div class="sc-label">CI/CD</div><div class="sc-val">GH</div><div class="sc-sub">GitHub Actions · Pages</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><span class="card-title">All Platforms · Deploy Status</span></div>
+      <table class="dt">
+        <thead><tr><th>Platform</th><th>Repo</th><th>Branch</th><th>Deploy Target</th><th>CI/CD</th><th>Status</th><th>Last Deploy</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:8px;"><span class="site-icon si-analyst" style="width:20px;height:20px;border-radius:4px;font-size:.55rem;">A</span><span class="strong">analyst-site</span></div></td>
+            <td class="mono">riz-razak/analyst</td>
+            <td class="mono">main</td>
+            <td>GitHub Pages</td>
+            <td>GitHub Actions</td>
+            <td><span class="pill pill-live"><span class="pill-dot"></span>Live</span></td>
+            <td>3 days ago</td>
+            <td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Deploying analyst-site…')">Deploy</button><button class="act-btn" onclick="showToast('Opened analyst.rizrazak.com')">View ↗</button></div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:8px;"><span class="site-icon si-riz" style="width:20px;height:20px;border-radius:4px;font-size:.55rem;">R</span><span class="strong">rizrazak-site</span></div></td>
+            <td class="mono">riz-razak/rizrazak</td>
+            <td class="mono">main</td>
+            <td>GitHub Pages</td>
+            <td>GitHub Actions</td>
+            <td><span class="pill pill-live"><span class="pill-dot"></span>Live</span></td>
+            <td>—</td>
+            <td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Deploying rizrazak-site…')">Deploy</button><button class="act-btn" onclick="showToast('Opened rizrazak.com')">View ↗</button></div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:8px;"><span class="site-icon si-kunatu" style="width:20px;height:20px;border-radius:4px;font-size:.55rem;">K</span><span class="strong">kunatu-app</span></div></td>
+            <td class="mono">riz-razak/kunatu</td>
+            <td class="mono">main</td>
+            <td style="color:var(--gold);">Not set</td>
+            <td style="color:var(--muted);">—</td>
+            <td><span class="pill pill-wip"><span class="pill-dot"></span>WIP</span></td>
+            <td>Never</td>
+            <td><div class="row-actions"><button class="act-btn" onclick="showToast('Set deploy target for Kunatu first', true)">Configure</button></div></td>
+          </tr>
+          <tr>
+            <td><div style="display:flex;align-items:center;gap:8px;"><span class="site-icon si-yan" style="width:20px;height:20px;border-radius:4px;font-size:.55rem;">Y</span><span class="strong">waren-yan</span></div></td>
+            <td class="mono">riz-razak/waren-yan</td>
+            <td class="mono">main</td>
+            <td>Firebase Hosting</td>
+            <td style="color:var(--muted);">Manual</td>
+            <td><span class="pill pill-wip"><span class="pill-dot"></span>WIP</span></td>
+            <td>Never</td>
+            <td><div class="row-actions"><button class="act-btn" onclick="showToast('firebase deploy from project root', false)">Deploy cmd</button></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── DOSSIERS ─── -->
+  <div class="view" id="view-dossiers">
+    <div class="alert-banner">
+      <span class="ab-icon">⚠</span>
+      <div class="ab-text"><strong>mp-accountability</strong> and <strong>sri-lanka-hormuz-crisis</strong> exist in /public/dossiers/ but are not in dossiers.json. Register them to manage visibility.</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+      <input class="search-input" style="max-width:280px;" placeholder="Search dossiers…" oninput="filterDossiers(this.value)">
+      <div style="display:flex;gap:6px;">
+        <button class="act-btn" id="filter-all-d" onclick="setDossierFilter('all')" style="border-color:var(--red);color:var(--red);">All</button>
+        <button class="act-btn" id="filter-pub-d" onclick="setDossierFilter('published')">Published</button>
+        <button class="act-btn" id="filter-hid-d" onclick="setDossierFilter('hidden')">Hidden</button>
+        <button class="act-btn" id="filter-orp-d" onclick="setDossierFilter('orphan')">Orphans</button>
+      </div>
+      <div style="margin-left:auto;">
+        <div class="view-toggle">
+          <button class="vt-btn active" id="vt-grid" onclick="setDossierView('grid')">⊞ Grid</button>
+          <button class="vt-btn" id="vt-table" onclick="setDossierView('table')">≡ Table</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRID VIEW -->
+    <div id="dossier-grid" class="thumb-grid">
+
+      <div class="thumb-card" data-status="hidden" data-slug="iran-us-israel-war">
+        <div style="position:relative;">
+          <img class="thumb-img" src="/images/thumbnails/iran-us-israel-war.jpg" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="">
+          <div class="thumb-img-placeholder" style="display:none;">No thumbnail</div>
+          <div class="thumb-status-bar"><span class="pill pill-hid" style="font-size:.44rem;"><span class="pill-dot"></span>Hidden</span></div>
+          <div class="thumb-fb" onclick="openFbPanel('iran-us-israel-war', null, event)">▶ FB Video</div>
+        </div>
+        <div class="thumb-body">
+          <div class="thumb-title">The War That Changed Everything: Iran, Israel &amp; the Unravelling of American Power</div>
+          <div class="thumb-slug">iran-us-israel-war · 14 sections · 2026-03-06</div>
+          <div class="thumb-tags"><span class="tag">Geopolitics</span><span class="tag">War</span><span class="tag">Game Theory</span></div>
+          <div class="thumb-actions">
+            <button class="act-btn pub" style="flex:1;" onclick="showToast('Publishing iran-us-israel-war…')">Publish</button>
+            <button class="act-btn" onclick="openFbPanel('iran-us-israel-war', null, event)">FB ▶</button>
+            <button class="act-btn">⋯</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumb-card" data-status="published" data-slug="caravan-fresh">
+        <div style="position:relative;">
+          <div class="thumb-img-placeholder">No thumbnail · caravan-fresh</div>
+          <div class="thumb-status-bar"><span class="pill pill-pub" style="font-size:.44rem;"><span class="pill-dot"></span>Published</span></div>
+          <div class="thumb-no-fb">No FB video</div>
+        </div>
+        <div class="thumb-body">
+          <div class="thumb-title">The Caravan Fresh Chicken Cheese Bomb: A Consumer Advocacy Case Study</div>
+          <div class="thumb-slug">caravan-fresh · 8 sections · 2026-03-04</div>
+          <div class="thumb-tags"><span class="tag">Consumer Rights</span><span class="tag">Food Safety</span></div>
+          <div class="thumb-actions">
+            <button class="act-btn del" style="flex:1;" onclick="showToast('caravan-fresh → hidden', true)">Hide</button>
+            <button class="act-btn" onclick="openFbPanel('caravan-fresh', null, event)">+ FB</button>
+            <button class="act-btn">⋯</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumb-card" data-status="hidden" data-slug="easter-sunday-attacks-suresh-sallay">
+        <div style="position:relative;">
+          <div class="thumb-img-placeholder">No thumbnail</div>
+          <div class="thumb-status-bar"><span class="pill pill-hid" style="font-size:.44rem;"><span class="pill-dot"></span>Hidden</span></div>
+          <div class="thumb-no-fb">No FB video</div>
+        </div>
+        <div class="thumb-body">
+          <div class="thumb-title">The Arrest of Suresh Sallay: Easter Sunday Attacks Political Dossier</div>
+          <div class="thumb-slug">easter-sunday-attacks-suresh-sallay · 14 sections · 2026-02-26</div>
+          <div class="thumb-tags"><span class="tag">Terrorism</span><span class="tag">Intelligence</span></div>
+          <div class="thumb-actions">
+            <button class="act-btn pub" style="flex:1;" onclick="showToast('Publishing easter-sunday…')">Publish</button>
+            <button class="act-btn" onclick="openFbPanel('easter-sunday-attacks-suresh-sallay', null, event)">+ FB</button>
+            <button class="act-btn">⋯</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumb-card" data-status="published" data-slug="sri-lanka-cricket-corruption">
+        <div style="position:relative;">
+          <div class="thumb-img-placeholder">No thumbnail · cricket</div>
+          <div class="thumb-status-bar"><span class="pill pill-pub" style="font-size:.44rem;"><span class="pill-dot"></span>Published</span></div>
+          <div class="thumb-no-fb">No FB video</div>
+        </div>
+        <div class="thumb-body">
+          <div class="thumb-title">The Death of Sri Lankan Cricket: Politics, Mafia &amp; The Road to Ruin</div>
+          <div class="thumb-slug">sri-lanka-cricket-corruption · 14 sections · 2026-02-27</div>
+          <div class="thumb-tags"><span class="tag">Cricket</span><span class="tag">Corruption</span></div>
+          <div class="thumb-actions">
+            <button class="act-btn del" style="flex:1;" onclick="showToast('cricket → hidden', true)">Hide</button>
+            <button class="act-btn" onclick="openFbPanel('sri-lanka-cricket-corruption', null, event)">+ FB</button>
+            <button class="act-btn">⋯</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumb-card orphan" data-status="orphan" data-slug="mp-accountability">
+        <div style="position:relative;">
+          <div class="thumb-img-placeholder" style="background:linear-gradient(135deg,rgba(217,119,6,.1),rgba(217,119,6,.05));">Unregistered orphan</div>
+          <div class="thumb-status-bar"><span class="pill pill-draft" style="font-size:.44rem;"><span class="pill-dot"></span>Orphan</span></div>
+        </div>
+        <div class="thumb-body">
+          <div class="thumb-title" style="color:var(--gold);">MP Accountability ⚠</div>
+          <div class="thumb-slug">mp-accountability · Not in registry</div>
+          <div class="thumb-tags"><span style="font-size:.52rem;color:var(--muted);">No metadata yet</span></div>
+          <div class="thumb-actions">
+            <button class="act-btn pub" style="flex:1;" onclick="showToast('Registered mp-accountability as hidden')">Register</button>
+            <button class="act-btn del" onclick="showToast('Deleted mp-accountability', true)">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="thumb-card orphan" data-status="orphan" data-slug="sri-lanka-hormuz-crisis">
+        <div style="position:relative;">
+          <div class="thumb-img-placeholder" style="background:linear-gradient(135deg,rgba(217,119,6,.1),rgba(217,119,6,.05));">Unregistered orphan</div>
+          <div class="thumb-status-bar"><span class="pill pill-draft" style="font-size:.44rem;"><span class="pill-dot"></span>Orphan</span></div>
+        </div>
+        <div class="thumb-body">
+          <div class="thumb-title" style="color:var(--gold);">Sri Lanka Hormuz Crisis ⚠</div>
+          <div class="thumb-slug">sri-lanka-hormuz-crisis · Not in registry</div>
+          <div class="thumb-tags"><span style="font-size:.52rem;color:var(--muted);">No metadata yet</span></div>
+          <div class="thumb-actions">
+            <button class="act-btn pub" style="flex:1;" onclick="showToast('Registered sri-lanka-hormuz-crisis as hidden')">Register</button>
+            <button class="act-btn del" onclick="showToast('Deleted sri-lanka-hormuz-crisis', true)">Delete</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TABLE VIEW (hidden by default) -->
+    <div id="dossier-table-wrap" style="display:none;">
+      <div class="card">
+        <table class="dt" id="dossier-full-table">
+          <thead><tr><th>Thumbnail</th><th>Title</th><th>Slug</th><th>Date</th><th>Status</th><th>FB Video</th><th>Sections</th><th>Actions</th></tr></thead>
+          <tbody>
+            <tr data-status="hidden">
+              <td><img src="/images/thumbnails/iran-us-israel-war.jpg" style="width:64px;height:40px;object-fit:cover;border-radius:3px;background:var(--surface);" onerror="this.src='';this.style.background='var(--accent)';" alt=""></td>
+              <td class="strong" style="max-width:220px;">The War That Changed Everything</td>
+              <td class="mono">iran-us-israel-war</td>
+              <td>2026-03-06</td>
+              <td><span class="pill pill-hid"><span class="pill-dot"></span>Hidden</span></td>
+              <td><button class="act-btn" style="font-size:.48rem;border-color:rgba(24,119,242,.5);color:#60a5fa;" onclick="openFbPanel('iran-us-israel-war',null,event)">▶ Add FB</button></td>
+              <td>14</td>
+              <td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Publishing…')">Publish</button><button class="act-btn del">Archive</button></div></td>
+            </tr>
+            <tr data-status="published">
+              <td><div style="width:64px;height:40px;background:var(--accent);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.5rem;color:var(--muted);">No img</div></td>
+              <td class="strong" style="max-width:220px;">Caravan Fresh Chicken Cheese Bomb</td>
+              <td class="mono">caravan-fresh</td>
+              <td>2026-03-04</td>
+              <td><span class="pill pill-pub"><span class="pill-dot"></span>Published</span></td>
+              <td><button class="act-btn" style="font-size:.48rem;" onclick="openFbPanel('caravan-fresh',null,event)">+ Add FB</button></td>
+              <td>8</td>
+              <td><div class="row-actions"><button class="act-btn del" onclick="showToast('→ hidden', true)">Hide</button></div></td>
+            </tr>
+            <tr data-status="hidden">
+              <td><div style="width:64px;height:40px;background:var(--accent);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.5rem;color:var(--muted);">No img</div></td>
+              <td class="strong" style="max-width:220px;">The Arrest of Suresh Sallay</td>
+              <td class="mono">easter-sunday-attacks-suresh-sallay</td>
+              <td>2026-02-26</td>
+              <td><span class="pill pill-hid"><span class="pill-dot"></span>Hidden</span></td>
+              <td><button class="act-btn" style="font-size:.48rem;" onclick="openFbPanel('easter-sunday-attacks-suresh-sallay',null,event)">+ Add FB</button></td>
+              <td>14</td>
+              <td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Publishing…')">Publish</button><button class="act-btn del">Archive</button></div></td>
+            </tr>
+            <tr data-status="published">
+              <td><div style="width:64px;height:40px;background:var(--accent);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.5rem;color:var(--muted);">No img</div></td>
+              <td class="strong" style="max-width:220px;">The Death of Sri Lankan Cricket</td>
+              <td class="mono">sri-lanka-cricket-corruption</td>
+              <td>2026-02-27</td>
+              <td><span class="pill pill-pub"><span class="pill-dot"></span>Published</span></td>
+              <td><button class="act-btn" style="font-size:.48rem;" onclick="openFbPanel('sri-lanka-cricket-corruption',null,event)">+ Add FB</button></td>
+              <td>14</td>
+              <td><div class="row-actions"><button class="act-btn del" onclick="showToast('→ hidden', true)">Hide</button></div></td>
+            </tr>
+            <tr data-status="orphan" style="background:rgba(217,119,6,.03);">
+              <td><div style="width:64px;height:40px;background:rgba(217,119,6,.1);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.6rem;">⚠</div></td>
+              <td class="strong" style="color:var(--gold);">MP Accountability</td>
+              <td class="mono" style="color:var(--gold);">mp-accountability</td>
+              <td>—</td>
+              <td><span class="pill pill-draft"><span class="pill-dot"></span>Orphan</span></td>
+              <td><span style="color:var(--muted);font-size:.55rem;">—</span></td>
+              <td>—</td>
+              <td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Registered mp-accountability')">Register</button><button class="act-btn del">Delete</button></div></td>
+            </tr>
+            <tr data-status="orphan" style="background:rgba(217,119,6,.03);">
+              <td><div style="width:64px;height:40px;background:rgba(217,119,6,.1);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.6rem;">⚠</div></td>
+              <td class="strong" style="color:var(--gold);">Sri Lanka Hormuz Crisis</td>
+              <td class="mono" style="color:var(--gold);">sri-lanka-hormuz-crisis</td>
+              <td>—</td>
+              <td><span class="pill pill-draft"><span class="pill-dot"></span>Orphan</span></td>
+              <td><span style="color:var(--muted);font-size:.55rem;">—</span></td>
+              <td>—</td>
+              <td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Registered sri-lanka-hormuz-crisis')">Register</button><button class="act-btn del">Delete</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SEO ─── -->
+  <div class="view" id="view-seo">
+    <div class="three-col">
+      <div class="card">
+        <div class="card-head"><span class="card-title">analyst-site SEO</span></div>
+        <div class="card-body">
+          <div style="text-align:center;margin-bottom:14px;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--gold);">75</div>
+            <div style="font-size:.6rem;color:var(--muted);">/ 100 · Good</div>
+          </div>
+          <div class="seo-items">
+            <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">Article JSON-LD on all dossiers</div></div>
+            <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">Open Graph + Twitter Card</div></div>
+            <div class="seo-item"><div class="seo-ck warn">!</div><div class="seo-text">sitemap.xml outdated</div></div>
+            <div class="seo-item"><div class="seo-ck fail">✗</div><div class="seo-text">Search Console not submitted</div></div>
+            <div class="seo-item"><div class="seo-ck fail">✗</div><div class="seo-text">BreadcrumbList schema missing</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">rizrazak.com SEO</span></div>
+        <div class="card-body">
+          <div style="text-align:center;margin-bottom:14px;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--muted);">—</div>
+            <div style="font-size:.6rem;color:var(--muted);">Not audited</div>
+          </div>
+          <div class="seo-items">
+            <div class="seo-item"><div class="seo-ck warn">!</div><div class="seo-text">No audit run yet</div></div>
+            <div class="seo-item"><div class="seo-ck warn">!</div><div class="seo-text">Check Person schema (portfolio)</div></div>
+            <div class="seo-item"><div class="seo-ck warn">!</div><div class="seo-text">Verify canonical URLs</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Top Priority Actions</span></div>
+        <div class="card-body">
+          <div class="seo-items">
+            <div class="seo-item"><div class="seo-ck fail">1</div><div class="seo-text">Submit analyst-site to Google Search Console</div></div>
+            <div class="seo-item"><div class="seo-ck fail">2</div><div class="seo-text">Regenerate sitemap.xml with all published dossiers</div></div>
+            <div class="seo-item"><div class="seo-ck warn">3</div><div class="seo-text">Add OG image to easter-sunday dossier</div></div>
+            <div class="seo-item"><div class="seo-ck warn">4</div><div class="seo-text">Add BreadcrumbList schema to dossier pages</div></div>
+            <div class="seo-item"><div class="seo-ck warn">5</div><div class="seo-text">Internal linking between related dossiers</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── COMMENTS ─── -->
+  <div class="view" id="view-comments">
+    <div class="alert-banner" style="background:var(--purp-dim);border-color:rgba(124,58,237,.3);">
+      <span class="ab-icon">◻</span>
+      <div class="ab-text" style="color:#c4b5fd;"><strong style="color:#ddd6fe;">4 comments</strong> pending on caravan-fresh.</div>
+      <button class="act-btn" onclick="approveAll()">Approve All →</button>
+    </div>
+    <div class="card">
+      <table class="dt" id="comments-table">
+        <thead><tr><th>Author</th><th>Comment</th><th>Dossier</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody id="comment-rows">
+          <tr><td class="strong">Malith S.</td><td style="max-width:280px;">This is exactly what mainstream media won't cover. The geocoded map is brilliant.</td><td class="mono">caravan-fresh</td><td>2 hrs ago</td><td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Comment approved')">Approve</button><button class="act-btn del" onclick="showToast('Comment deleted', true)">Delete</button></div></td></tr>
+          <tr><td class="strong">Nuwanthi P.</td><td style="max-width:280px;">Shared this with 3 journalists. Is there a Sinhala version?</td><td class="mono">caravan-fresh</td><td>5 hrs ago</td><td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Comment approved')">Approve</button><button class="act-btn del" onclick="showToast('Comment deleted', true)">Delete</button></div></td></tr>
+          <tr><td class="strong">Diaspora Reader</td><td style="max-width:280px;">Reading from London. This level of analysis doesn't exist for SL anywhere else.</td><td class="mono">caravan-fresh</td><td>1 day ago</td><td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Comment approved')">Approve</button><button class="act-btn del" onclick="showToast('Comment deleted', true)">Delete</button></div></td></tr>
+          <tr><td class="strong">Anonymous</td><td style="max-width:280px;">When is the cricket dossier getting a Sinhala translation?</td><td class="mono">sri-lanka-cricket-corruption</td><td>2 days ago</td><td><div class="row-actions"><button class="act-btn pub" onclick="showToast('Comment approved')">Approve</button><button class="act-btn del" onclick="showToast('Comment deleted', true)">Delete</button></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ─── KUNATU ─── -->
+  <div class="view" id="view-kunatu">
+    <div class="alert-banner blue">
+      <span class="ab-icon">☁</span>
+      <div class="ab-text blue"><strong>Kunatu</strong> is a Sri Lanka weather app built with Next.js. Currently in development — no deploy target set yet.</div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-head"><span class="card-title">Project Status</span></div>
+        <div class="card-body">
+          <div class="seo-items">
+            <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">Project proposal written (KUNATU_PROJECT_PROPOSAL.md)</div></div>
+            <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">Weather guide &amp; advisory document complete</div></div>
+            <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">Next.js app scaffolded (kunatu-app/)</div></div>
+            <div class="seo-item"><div class="seo-ck warn">!</div><div class="seo-text">Deploy target not configured (Vercel recommended for Next.js)</div></div>
+            <div class="seo-item"><div class="seo-ck fail">✗</div><div class="seo-text">Not yet live</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Recommended Next Steps</span></div>
+        <div class="card-body">
+          <div class="seo-items">
+            <div class="seo-item"><div class="seo-ck warn">1</div><div class="seo-text">Connect repo to Vercel for zero-config Next.js deploys</div></div>
+            <div class="seo-item"><div class="seo-ck warn">2</div><div class="seo-text">Set up weather API key (Open-Meteo is free + no key required)</div></div>
+            <div class="seo-item"><div class="seo-ck warn">3</div><div class="seo-text">Register a domain or use kunatu.rizrazak.com subdomain</div></div>
+            <div class="seo-item"><div class="seo-ck warn">4</div><div class="seo-text">Push to GitHub if not already in version control</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="card-title">Stack</span></div>
+      <div class="card-body">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <span class="tag" style="background:var(--teal-dim);color:var(--teal);font-size:.65rem;padding:4px 10px;">Next.js</span>
+          <span class="tag" style="font-size:.65rem;padding:4px 10px;">TypeScript</span>
+          <span class="tag" style="font-size:.65rem;padding:4px 10px;">Tailwind CSS</span>
+          <span class="tag" style="font-size:.65rem;padding:4px 10px;">Weather API</span>
+          <span class="tag" style="font-size:.65rem;padding:4px 10px;">Sri Lanka</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── YAN ─── -->
+  <div class="view" id="view-yan">
+    <div class="alert-banner" style="background:var(--purp-dim);border-color:rgba(124,58,237,.3);">
+      <span class="ab-icon">⬡</span>
+      <div class="ab-text" style="color:#c4b5fd;"><strong style="color:#ddd6fe;">Waren Yan</strong> is a Firebase app in active development. Business plan is complete.</div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-head"><span class="card-title">Project Status</span></div>
+        <div class="card-body">
+          <div class="seo-items">
+            <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">Business plan written (BUSINESS_PLAN.md)</div></div>
+            <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">Firebase project scaffolded (WarenYan/)</div></div>
+            <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">Service worker registered (sw.js)</div></div>
+            <div class="seo-item"><div class="seo-ck warn">!</div><div class="seo-text">Firebase deploy not run yet (firebase-debug.log present)</div></div>
+            <div class="seo-item"><div class="seo-ck fail">✗</div><div class="seo-text">Not yet live</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Stack</span></div>
+        <div class="card-body" style="padding-bottom:12px;">
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+            <span class="tag" style="background:var(--purp-dim);color:#a78bfa;font-size:.65rem;padding:4px 10px;">Firebase</span>
+            <span class="tag" style="font-size:.65rem;padding:4px 10px;">Next.js</span>
+            <span class="tag" style="font-size:.65rem;padding:4px 10px;">TypeScript</span>
+            <span class="tag" style="font-size:.65rem;padding:4px 10px;">Tailwind</span>
+            <span class="tag" style="font-size:.65rem;padding:4px 10px;">PWA</span>
+          </div>
+          <div class="sc-label" style="margin-bottom:6px;">Deploy command</div>
+          <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#86efac;">firebase deploy --project waren-yan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PRIVATE: NOTES ─── -->
+  <div class="view" id="view-notes">
+    <div class="private-header">
+      <span style="font-size:1.2rem;">🔒</span>
+      <div>
+        <div class="private-label">Private Notes &amp; Research</div>
+        <div class="private-sublabel">Only visible to you · Supabase auth · Session active</div>
+      </div>
+      <button class="act-btn" style="margin-left:auto;" onclick="showToast('New note created')">+ New Note</button>
+    </div>
+
+    <div class="wide-narrow">
+      <div>
+        <div class="note-card">
+          <div class="note-title">01. Research / Personal — Synthesis</div>
+          <div class="note-preview">Working notes on the cooperative economy framework. Cross-referencing Bookchin municipalism with Sri Lankan Pradeshiya Sabha structure and existing shramadana traditions…</div>
+          <div class="note-meta"><span>2026-03-05</span><span>Personal</span><span class="note-tag">Research</span><span class="note-tag">Strategy</span></div>
+        </div>
+        <div class="note-card">
+          <div class="note-title">Iran-US-Israel War — Unpublished observations</div>
+          <div class="note-preview">Raw notes before dossier synthesis. Sri Lanka's SLPA exposure to Hormuz traffic. Estimated 23% of petroleum imports at risk. Sampur LNG terminal timeline…</div>
+          <div class="note-meta"><span>2026-03-04</span><span>Political</span><span class="note-tag">Geopolitics</span></div>
+        </div>
+        <div class="note-card">
+          <div class="note-title">Platform strategy — next 6 months</div>
+          <div class="note-preview">Revenue model thinking: voluntary subscriptions, cooperative membership model, sponsored investigations (donor-funded, not advertiser-funded). STRATEGY.md needs update…</div>
+          <div class="note-meta"><span>2026-03-01</span><span>Personal</span><span class="note-tag">Strategy</span></div>
+        </div>
+        <div class="note-card">
+          <div class="note-title">MP Accountability — pre-publication checklist</div>
+          <div class="note-preview">Legal review pending. Source verification: 3 of 4 sources double-checked. One anonymous source — need corroboration before publish. Defamation risk: medium…</div>
+          <div class="note-meta"><span>2026-02-28</span><span>Political</span><span class="note-tag">Legal</span><span class="note-tag">Draft</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card">
+          <div class="card-head"><span class="card-title">By Type</span></div>
+          <div class="card-body">
+            <div class="bar-chart">
+              <div class="bar-row"><span class="bar-label">Political Research</span><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><span class="bar-val">12</span></div>
+              <div class="bar-row"><span class="bar-label">Personal / Strategy</span><div class="bar-track"><div class="bar-fill blue" style="width:60%"></div></div><span class="bar-val">7</span></div>
+              <div class="bar-row"><span class="bar-label">Draft / Pre-pub</span><div class="bar-track"><div class="bar-fill gold" style="width:35%"></div></div><span class="bar-val">4</span></div>
+              <div class="bar-row"><span class="bar-label">Legal / Source notes</span><div class="bar-track"><div class="bar-fill purple" style="width:20%"></div></div><span class="bar-val">2</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Source Files</span></div>
+          <div class="card-body">
+            <div class="seo-items">
+              <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">01. Research / Political / 2026/ (12 files)</div></div>
+              <div class="seo-item"><div class="seo-ck pass">✓</div><div class="seo-text">01. Research / Personal / (7 files)</div></div>
+              <div class="seo-item"><div class="seo-ck warn">!</div><div class="seo-text">NAMING-CONVENTION.md — review pending</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PRIVATE: FINANCES ─── -->
+  <div class="view" id="view-finances">
+    <div class="private-header">
+      <span style="font-size:1.2rem;">🔒</span>
+      <div>
+        <div class="private-label">Finances</div>
+        <div class="private-sublabel">Only visible to you · Supabase auth</div>
+      </div>
+    </div>
+    <div class="card" style="padding:40px;text-align:center;">
+      <div style="font-size:2rem;margin-bottom:12px;opacity:.3;">◈</div>
+      <div style="font-size:.8rem;color:var(--muted);margin-bottom:8px;">Finance tracking not yet connected.</div>
+      <div style="font-size:.68rem;color:var(--muted);line-height:1.7;max-width:400px;margin:0 auto;">Connect a data source — a spreadsheet, accounting tool, or manual entry — to track platform revenue, expenses, and cooperative membership income here.</div>
+    </div>
+  </div>
+
+  <!-- ─── PRIVATE: TASKS ─── -->
+  <div class="view" id="view-tasks">
+    <div class="private-header">
+      <span style="font-size:1.2rem;">🔒</span>
+      <div>
+        <div class="private-label">Tasks &amp; Goals</div>
+        <div class="private-sublabel">Only visible to you · Supabase auth</div>
+      </div>
+      <button class="act-btn" style="margin-left:auto;" onclick="showToast('New task created')">+ Task</button>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-head"><span class="card-title">This Week</span></div>
+        <div class="card-body" style="padding:8px 16px;">
+          <div class="activity-list">
+            <div class="act-item"><div class="act-icon pub">✓</div><div class="act-body"><div class="act-text">Deploy admin dashboard unified preview</div><div class="act-time">Done · Today</div></div></div>
+            <div class="act-item"><div class="act-icon pub">✓</div><div class="act-body"><div class="act-text">Write SEO.md strategy document</div><div class="act-time">Done · Today</div></div></div>
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Submit analyst-site to Google Search Console</div><div class="act-time">Pending · P0</div></div></div>
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Register 2 orphaned dossiers in dossiers.json</div><div class="act-time">Pending · P0</div></div></div>
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Approve 4 pending comments on caravan-fresh</div><div class="act-time">Pending</div></div></div>
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Regenerate sitemap.xml</div><div class="act-time">Pending · P0</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-title">Backlog</span></div>
+        <div class="card-body" style="padding:8px 16px;">
+          <div class="activity-list">
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Publish iran-us-israel-war dossier</div><div class="act-time">Content · analyst-site</div></div></div>
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Publish easter-sunday-attacks dossier</div><div class="act-time">Content · analyst-site</div></div></div>
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Add OG image to easter-sunday dossier</div><div class="act-time">SEO · P1</div></div></div>
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Set up Kunatu deploy on Vercel</div><div class="act-time">Apps</div></div></div>
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Run first firebase deploy for Waren Yan</div><div class="act-time">Apps</div></div></div>
+            <div class="act-item"><div class="act-icon edit">○</div><div class="act-body"><div class="act-text">Apply to Google News Publisher Center</div><div class="act-time">SEO · P2</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ─── FACEBOOK VIDEO PANEL ─── -->
+<div class="fb-panel" id="fb-panel">
+  <div class="fb-head">
+    <span class="fb-title-text" id="fb-panel-title">FACEBOOK VIDEO</span>
+    <button class="fb-close" onclick="closeFbPanel()">✕</button>
+  </div>
+  <div class="fb-body">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--muted);margin-bottom:12px;letter-spacing:1px;text-transform:uppercase;" id="fb-panel-slug"></div>
+
+    <!-- Embed area -->
+    <div class="fb-embed-wrap" id="fb-embed-area">
+      <div class="fb-no-video" id="fb-no-video">
+        <div style="font-size:1.5rem;margin-bottom:10px;opacity:.3;">▶</div>
+        <div style="font-weight:600;color:var(--muted2);margin-bottom:6px;">No Facebook video linked</div>
+        <div>Paste a Facebook video or post URL below to link it to this dossier. It will be displayed as a social proof embed.</div>
+      </div>
+      <iframe id="fb-iframe" src="" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" style="display:none;height:320px;"></iframe>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <div class="dp-label" style="margin-bottom:6px;">Facebook Video / Post URL</div>
+      <input class="fb-url-input" id="fb-url-input" type="url" placeholder="https://www.facebook.com/watch/?v=123456789 or https://fb.watch/…">
+      <div style="font-size:.56rem;color:var(--muted);margin-top:5px;line-height:1.6;">Paste any Facebook video URL, post URL, or fb.watch short link. The embed will be automatically generated and saved to dossiers.json as <code style="font-family:'JetBrains Mono',monospace;font-size:.55rem;background:var(--accent);padding:1px 5px;border-radius:2px;">facebookVideoUrl</code>.</div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-bottom:20px;">
+      <button class="fb-save-btn" onclick="saveFbUrl()">Save &amp; Embed</button>
+      <button class="act-btn" onclick="previewFbUrl()">Preview</button>
+      <button class="act-btn del" onclick="removeFbUrl()">Remove</button>
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid #1877f2;border-radius:5px;padding:12px 14px;">
+      <div class="dp-label" style="margin-bottom:6px;">How this works</div>
+      <div style="font-size:.67rem;color:var(--muted2);line-height:1.7;">
+        Once saved, the Facebook video will appear as a pinned embed at the top of the dossier page — above the main content, below the header. It serves as social proof (view count, shares) and a teaser for visitors who came from social media. The embed respects Facebook's native player controls.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── AUTH GATE ─── -->
+<div class="auth-gate" id="auth-gate" style="display:none;">
+  <div class="auth-box">
+    <div class="auth-icon">🔒</div>
+    <div class="auth-title">Private Access</div>
+    <div class="auth-sub" id="auth-desc">This section is private. Enter your TOTP code from your authenticator app to continue.</div>
+    <div class="totp-row">
+      <input class="totp-input" id="totp-input" type="text" maxlength="6" placeholder="000000" oninput="checkTotp(this)">
+    </div>
+    <button class="auth-btn" onclick="authSubmit()">Verify &amp; Enter</button>
+    <div class="auth-cancel" onclick="cancelAuth()">Cancel</div>
+  </div>
+</div>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast"><span id="toast-icon">✓</span><span id="toast-msg">Done</span></div>
+
+<script>
+let pendingView = null;
+let toastTimer;
+let authed = false; // In real implementation: check Supabase session
+
+function showToast(msg, isError = false, isGold = false) {
+  const t = document.getElementById('toast');
+  t.className = 'toast' + (isError ? ' error' : isGold ? ' gold' : '');
+  document.getElementById('toast-icon').textContent = isError ? '⚠' : '✓';
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+const viewMeta = {
+  overview:  ['Dashboard',        'badge-all',     'All Platforms'],
+  deploy:    ['Deploy Status',    'badge-all',     'CI/CD · All Sites'],
+  dossiers:  ['Dossiers',         'badge-analyst', 'analyst.rizrazak.com'],
+  seo:       ['SEO Health',       'badge-analyst', 'Search Optimisation'],
+  comments:  ['Comments',         'badge-analyst', 'Moderation Queue'],
+  kunatu:    ['Kunatu App',       'badge-kunatu',  'Next.js · Sri Lanka Weather'],
+  yan:       ['Waren Yan',        'badge-yan',     'Firebase App'],
+  notes:     ['Notes & Research', 'badge-private', 'Private · Auth required'],
+  finances:  ['Finances',         'badge-private', 'Private · Auth required'],
+  tasks:     ['Tasks & Goals',    'badge-private', 'Private · Auth required'],
+};
+
+function switchView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById('view-' + name);
+  if (el) el.classList.add('active');
+  const [title, badge, bc] = viewMeta[name] || ['Dashboard', 'badge-all', ''];
+  document.getElementById('topbar-title').textContent = title;
+  document.getElementById('topbar-badge').className = 'page-site-badge ' + badge;
+  document.getElementById('topbar-badge').textContent = badge === 'badge-all' ? 'All Platforms' : badge === 'badge-private' ? 'Private' : badge.replace('badge-', '');
+  document.getElementById('topbar-bc').textContent = bc;
+  document.querySelectorAll('.nav-item').forEach(item => {
+    const fn = item.getAttribute('onclick') || '';
+    if (fn.includes(`'${name}'`)) item.classList.add('active');
+  });
+}
+
+function setSite(site) {
+  document.querySelectorAll('.site-tab').forEach(t => t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  const map = {analyst:'dossiers', riz:'overview', kunatu:'kunatu', yan:'yan', all:'overview'};
+  switchView(map[site] || 'overview');
+}
+
+function triggerAuth(target) {
+  pendingView = target;
+  if (authed) { switchView(target); return; }
+  document.getElementById('auth-desc').textContent = 'This section is private. Enter your 6-digit TOTP code from your authenticator app.';
+  document.getElementById('totp-input').value = '';
+  document.getElementById('auth-gate').style.display = 'flex';
+  setTimeout(() => document.getElementById('totp-input').focus(), 100);
+}
+
+function checkTotp(el) {
+  el.value = el.value.replace(/\D/g, '');
+  if (el.value.length === 6) authSubmit();
+}
+
+function authSubmit() {
+  const code = document.getElementById('totp-input').value;
+  if (code.length < 6) { showToast('Enter 6-digit code', true); return; }
+  // Demo: any 6-digit code works in the prototype
+  authed = true;
+  document.getElementById('auth-gate').style.display = 'none';
+  showToast('Access granted · Session active', false, true);
+  if (pendingView) { switchView(pendingView); pendingView = null; }
+}
+
+function cancelAuth() {
+  document.getElementById('auth-gate').style.display = 'none';
+  pendingView = null;
+}
+
+function approveAll() {
+  showToast('All 4 comments approved');
+  document.getElementById('comment-rows').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:28px;color:var(--muted);font-size:.7rem;font-family:JetBrains Mono,monospace;">No pending comments</td></tr>';
+  document.querySelector('.alert-banner').style.display='none';
+}
+
+// ── DOSSIER VIEW TOGGLE ──
+function setDossierView(mode) {
+  const grid = document.getElementById('dossier-grid');
+  const table = document.getElementById('dossier-table-wrap');
+  document.getElementById('vt-grid').classList.toggle('active', mode === 'grid');
+  document.getElementById('vt-table').classList.toggle('active', mode === 'table');
+  grid.style.display = mode === 'grid' ? 'grid' : 'none';
+  table.style.display = mode === 'table' ? 'block' : 'none';
+}
+
+function setDossierFilter(f) {
+  ['all','pub','hid','orp'].forEach(x => {
+    const el = document.getElementById('filter-'+x+'-d');
+    if (el) el.style.borderColor = '';
+    if (el) el.style.color = '';
+  });
+  const active = document.getElementById('filter-'+f.substring(0,3)+'-d') || document.getElementById('filter-all-d');
+  if (active) { active.style.borderColor = 'var(--red)'; active.style.color = 'var(--red)'; }
+  // Filter grid cards
+  document.querySelectorAll('#dossier-grid .thumb-card').forEach(c => {
+    const s = c.getAttribute('data-status');
+    c.style.display = (f === 'all' || s === f) ? '' : 'none';
+  });
+  // Filter table rows
+  document.querySelectorAll('#dossier-full-table tbody tr').forEach(r => {
+    const s = r.getAttribute('data-status');
+    r.style.display = (f === 'all' || s === f) ? '' : 'none';
+  });
+}
+
+function filterDossiers(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('#dossier-grid .thumb-card').forEach(c => {
+    c.style.display = c.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+  document.querySelectorAll('#dossier-full-table tbody tr').forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ── FACEBOOK VIDEO PANEL ──
+let currentFbSlug = null;
+// In a real implementation this would read from dossiers.json
+const fbVideos = {
+  'iran-us-israel-war': null,  // no FB video yet — demo
+  'caravan-fresh': null,
+  'easter-sunday-attacks-suresh-sallay': null,
+  'sri-lanka-cricket-corruption': null,
+};
+
+function openFbPanel(slug, videoUrl, e) {
+  if (e) e.stopPropagation();
+  currentFbSlug = slug;
+  document.getElementById('fb-panel-title').textContent = slug.toUpperCase().replace(/-/g,' ').substring(0,24) + '…';
+  document.getElementById('fb-panel-slug').textContent = slug;
+  const url = videoUrl || fbVideos[slug];
+  const input = document.getElementById('fb-url-input');
+  input.value = url || '';
+  renderFbEmbed(url);
+  document.getElementById('fb-panel').classList.add('open');
+}
+
+function closeFbPanel() {
+  document.getElementById('fb-panel').classList.remove('open');
+  currentFbSlug = null;
+}
+
+function getFbEmbedUrl(rawUrl) {
+  if (!rawUrl) return null;
+  // Normalize fb.watch → facebook.com embed
+  // Facebook embed URL format: https://www.facebook.com/plugins/video.php?href=ENCODED_URL
+  try {
+    const encoded = encodeURIComponent(rawUrl);
+    return `https://www.facebook.com/plugins/video.php?href=${encoded}&show_text=false&width=380&height=200&appId`;
+  } catch { return null; }
+}
+
+function renderFbEmbed(url) {
+  const noVid = document.getElementById('fb-no-video');
+  const iframe = document.getElementById('fb-iframe');
+  const embedUrl = getFbEmbedUrl(url);
+  if (embedUrl && url) {
+    noVid.style.display = 'none';
+    iframe.style.display = 'block';
+    iframe.src = embedUrl;
+  } else {
+    noVid.style.display = 'block';
+    iframe.style.display = 'none';
+    iframe.src = '';
+  }
+}
+
+function previewFbUrl() {
+  const url = document.getElementById('fb-url-input').value.trim();
+  if (!url) { showToast('Paste a Facebook URL first', true); return; }
+  renderFbEmbed(url);
+}
+
+function saveFbUrl() {
+  const url = document.getElementById('fb-url-input').value.trim();
+  if (!url) { showToast('Paste a Facebook URL first', true); return; }
+  if (currentFbSlug) fbVideos[currentFbSlug] = url;
+  renderFbEmbed(url);
+  // Update the FB badge on the card
+  const card = document.querySelector(`[data-slug="${currentFbSlug}"]`);
+  if (card) {
+    const noBadge = card.querySelector('.thumb-no-fb');
+    if (noBadge) { noBadge.className = 'thumb-fb'; noBadge.textContent = '▶ FB Video'; noBadge.onclick = (ev) => openFbPanel(currentFbSlug, url, ev); }
+  }
+  showToast(`FB video saved to ${currentFbSlug} · Update dossiers.json to persist`, false, true);
+}
+
+function removeFbUrl() {
+  if (currentFbSlug) fbVideos[currentFbSlug] = null;
+  document.getElementById('fb-url-input').value = '';
+  renderFbEmbed(null);
+  showToast(`FB video removed from ${currentFbSlug}`, true);
+}
+
+// Init
+switchView('overview');
+</script>
+</body>
+</html>

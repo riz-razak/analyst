@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics Dashboard — analyst.rizrazak.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#0a0e14;--card:#0d1117;--border:#1f2937;--red:#dc2626;--gold:#d97706;--green:#059669;--blue:#1d4ed8;--text:#f9fafb;--muted:#6b7280;--accent:#374151;}
+body{background:var(--bg);font-family:'JetBrains Mono',monospace;color:var(--text);min-height:100vh;}
+/* TOPBAR */
+.topbar{background:var(--card);border-bottom:2px solid var(--red);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--text);}
+.topbar-badge{font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;background:var(--red);color:#fff;padding:3px 10px;border-radius:2px;}
+.back-btn{color:var(--muted);font-size:0.65rem;text-decoration:none;letter-spacing:1px;text-transform:uppercase;border:1px solid var(--border);padding:5px 12px;border-radius:3px;transition:all .2s;}
+.back-btn:hover{color:var(--text);border-color:var(--accent);}
+/* MAIN */
+.main{max-width:1300px;margin:0 auto;padding:32px 32px 80px;}
+/* SECTION */
+.sect-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;color:var(--text);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.sect{margin-bottom:40px;}
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:32px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--red);border-radius:4px;padding:18px 20px;}
+.stat-card.green{border-top-color:var(--green);}
+.stat-card.gold{border-top-color:var(--gold);}
+.stat-card.blue{border-top-color:var(--blue);}
+.sc-label{font-size:0.55rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:6px;}
+.sc-val{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:1px;color:var(--text);}
+.sc-sub{font-size:0.55rem;color:var(--muted);margin-top:3px;}
+/* COUNTER EMBEDS */
+.counter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:24px;}
+.counter-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:16px 20px;}
+.counter-card-title{font-size:0.58rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px;}
+.counter-badge{display:flex;align-items:center;gap:10px;}
+.counter-badge img{height:20px;border-radius:2px;}
+.counter-url{font-size:0.6rem;color:var(--muted);margin-top:6px;word-break:break-all;}
+/* COMMENTS TABLE */
+.ct{width:100%;border-collapse:collapse;}
+.ct th{font-size:0.55rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);}
+.ct td{font-size:0.72rem;color:#d1d5db;padding:10px 12px;border-bottom:1px solid #111;vertical-align:top;word-break:break-word;max-width:300px;}
+.ct tr:hover td{background:rgba(255,255,255,0.02);}
+.ct td:first-child{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--text);white-space:nowrap;}
+.pill{display:inline-block;font-size:0.48rem;padding:2px 6px;border-radius:2px;letter-spacing:.5px;text-transform:uppercase;font-weight:700;}
+.pill-new{background:#065f46;color:#a7f3d0;}
+.pill-ip{background:#1e40af;color:#bfdbfe;}
+/* SETUP GUIDE */
+.setup-box{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:4px;padding:20px 24px;}
+.setup-step{display:flex;gap:14px;padding:10px 0;border-bottom:1px dashed var(--border);}
+.setup-step:last-child{border-bottom:none;}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--gold);flex-shrink:0;line-height:1;}
+.step-title{font-size:0.78rem;color:var(--text);font-weight:600;margin-bottom:3px;}
+.step-body{font-size:0.68rem;color:var(--muted);line-height:1.6;}
+.step-code{background:#0a0e14;border:1px solid var(--border);border-radius:3px;padding:6px 10px;font-size:0.65rem;color:#86efac;margin-top:5px;display:block;word-break:break-all;}
+/* LEGAL BOX */
+.legal-box{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:4px;padding:20px 24px;}
+.legal-item{display:flex;gap:10px;margin-bottom:14px;}
+.legal-item:last-child{margin-bottom:0;}
+.legal-icon{flex-shrink:0;font-size:1.1rem;}
+.legal-title{font-size:0.78rem;color:var(--text);font-weight:600;margin-bottom:2px;}
+.legal-body{font-size:0.68rem;color:var(--muted);line-height:1.65;}
+.legal-body strong{color:#fbbf24;}
+/* REFRESH */
+.refresh-btn{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;text-transform:uppercase;padding:6px 14px;border-radius:3px;cursor:pointer;transition:all .2s;margin-left:auto;display:block;margin-bottom:14px;}
+.refresh-btn:hover{border-color:var(--accent);color:var(--text);}
+.empty-row td{text-align:center;color:var(--muted);font-size:0.65rem;padding:24px;}
+@media(max-width:768px){.main{padding:24px 16px 60px;}.topbar{padding:12px 16px;}.stat-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a class="back-btn" href="kalathma-scandal.html">← Case File</a>
+    <span class="topbar-title">Analytics Dashboard</span>
+    <span class="topbar-badge">Private</span>
+  </div>
+  <div style="font-size:0.58rem;color:var(--muted);letter-spacing:1px;">analyst.rizrazak.com · Last refreshed: <span id="last-refresh">—</span></div>
+</div>
+
+<div class="main">
+
+  <!-- ── LIVE STATS ── -->
+  <div class="sect">
+    <div class="sect-title">Live Stats</div>
+    <div class="stat-grid">
+      <div class="stat-card green">
+        <div class="sc-label">Comments (Session)</div>
+        <div class="sc-val" id="total-comments">0</div>
+        <div class="sc-sub">Stored locally this device</div>
+      </div>
+      <div class="stat-card gold">
+        <div class="sc-label">Unique IPs Logged</div>
+        <div class="sc-val" id="unique-ips">0</div>
+        <div class="sc-sub">From comment submissions</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="sc-label">Visitors Today</div>
+        <div class="sc-val" id="dash-today">—</div>
+        <div class="sc-sub">via hits.seeyoufarm.com</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Total Visits</div>
+        <div class="sc-val" id="dash-total">—</div>
+        <div class="sc-sub">Kalathma scandal page</div>
+      </div>
+    </div>
+
+    <!-- COUNTER EMBEDS -->
+    <div class="counter-grid">
+      <div class="counter-card">
+        <div class="counter-card-title">Kalathma Scandal Page — Visit Counter</div>
+        <div class="counter-badge">
+          <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fanalyst.rizrazak.com%2Fdossiers%2Fsri-lanka-cricket-corruption%2Fkalathma-scandal.html&count_bg=%23dc2626&title_bg=%230d1117&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=true" alt="Visits">
+          <span style="font-size:0.6rem;color:var(--muted);">Increments on each page view</span>
+        </div>
+        <div class="counter-url">analyst.rizrazak.com/…/kalathma-scandal.html</div>
+      </div>
+      <div class="counter-card">
+        <div class="counter-card-title">Power Network Board — Visit Counter</div>
+        <div class="counter-badge">
+          <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fanalyst.rizrazak.com%2Fdossiers%2Fsri-lanka-cricket-corruption%2Fpower-network.html&count_bg=%23dc2626&title_bg=%230d1117&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=true" alt="Visits">
+          <span style="font-size:0.6rem;color:var(--muted);">Increments on each page view</span>
+        </div>
+        <div class="counter-url">analyst.rizrazak.com/…/power-network.html</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── COMMENTS LOG ── -->
+  <div class="sect">
+    <div class="sect-title">Comments Log — With IP Records</div>
+    <button class="refresh-btn" onclick="loadDashboard()">↻ Refresh</button>
+    <table class="ct">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Comment</th>
+          <th>IP Address</th>
+          <th>Location</th>
+          <th>Timestamp</th>
+          <th>User Agent</th>
+        </tr>
+      </thead>
+      <tbody id="comments-tbody">
+        <tr class="empty-row"><td colspan="6">No comments yet.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── SETUP GUIDE ── -->
+  <div class="sect">
+    <div class="sect-title">Production Setup Guide</div>
+    <div class="setup-box">
+      <div class="setup-step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Formspree — Email Alerts per Comment</div>
+          <div class="step-body">Create a free account at formspree.io. Create a new form. Copy your Form ID (e.g. xrgjabc). Paste it into kalathma-scandal.html replacing <code>YOUR_FORMSPREE_ID</code>. You'll get an email for every comment with full IP, geo, user agent, and text. Free tier = 50/month, paid = unlimited.</div>
+          <span class="step-code">const FORMSPREE_ID = 'xrgjabc'; // ← your ID here</span>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Supabase — Persistent Comment Storage</div>
+          <div class="step-body">Create free account at supabase.com. Create new project. In Table Editor, create table: comments(id uuid, text text, ip text, ua text, geo text, page text, ts timestamptz, approved bool). Enable Row Level Security. Allow insert for anon. Copy Project URL + anon key.</div>
+          <span class="step-code">const SUPABASE_URL = 'https://xxxx.supabase.co';<br>const SUPABASE_KEY = 'eyJh...';</span>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Plausible Analytics — Privacy-First Traffic (Recommended)</div>
+          <div class="step-body">Plausible.io — $9/month. No cookies. GDPR-compliant. Shows real-time visitor count, referrers, pages. Much better than Google Analytics. Add one script tag to all pages. Dashboard at plausible.io/analyst.rizrazak.com.</div>
+          <span class="step-code">&lt;script defer data-domain="analyst.rizrazak.com" src="https://plausible.io/js/plausible.js"&gt;&lt;/script&gt;</span>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Cloudflare — Free Tier Analytics (Already Using CF?)</div>
+          <div class="step-body">If you route analyst.rizrazak.com through Cloudflare (via GoDaddy DNS → Cloudflare), you get free analytics: unique visitors, bandwidth, threats blocked, top pages. No script needed — works at the DNS level. Go to dash.cloudflare.com → your domain → Analytics.</div>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="step-num">5</div>
+        <div>
+          <div class="step-title">hCaptcha — Stronger Bot Protection (Optional)</div>
+          <div class="step-body">Currently using honeypot + rate limiting. For stronger protection, add hCaptcha (free). Create account at hcaptcha.com. Get site key. Add widget to comment form. Free tier available. More accessible than reCAPTCHA.</div>
+          <span class="step-code">&lt;script src="https://js.hcaptcha.com/1/api.js" async defer&gt;&lt;/script&gt;<br>&lt;div class="h-captcha" data-sitekey="YOUR_SITE_KEY"&gt;&lt;/div&gt;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LEGAL EXPOSURE BRIEF ── -->
+  <div class="sect">
+    <div class="sect-title">⚖️ Your Legal Exposure — Brief</div>
+    <div class="legal-box">
+      <div class="legal-item">
+        <span class="legal-icon">🚨</span>
+        <div>
+          <div class="legal-title">Defamation — Highest Risk</div>
+          <div class="legal-body">Publishing unverified allegations about named individuals is actionable under Sri Lanka's civil defamation law. <strong>Burden of proof is on you</strong> — you must prove truth, not they must prove falsity. Label everything ALLEGED/UNVERIFIED. Give subjects right of reply. Document your sources privately.</div>
+        </div>
+      </div>
+      <div class="legal-item">
+        <span class="legal-icon">👧</span>
+        <div>
+          <div class="legal-title">Minor Identification (Kalathma) — Legal Complexity</div>
+          <div class="legal-body">If Kalathma is genuinely a minor, Sri Lanka's Children and Young Persons Ordinance restricts publishing identifying information about them in legal/quasi-legal contexts. <strong>However</strong>: framing her sympathetically (victim of suppression) is defensible. Best practice: refer to her by TikTok handle only, no photo, note "understood to be a minor." The moral high ground actually strengthens your story.</div>
+        </div>
+      </div>
+      <div class="legal-item">
+        <span class="legal-icon">🌐</span>
+        <div>
+          <div class="legal-title">US Hosting (GitHub Pages) — Protective</div>
+          <div class="legal-body">GitHub's servers are in the US. Under <strong>NY Times v. Sullivan</strong> (US defamation law), public figures must prove <em>actual malice</em> — knowledge of falsity or reckless disregard for truth. This is a very high bar. SLC officials are public figures. The US standard strongly protects investigative journalism. But Sri Lankan courts may still issue domestic orders.</div>
+        </div>
+      </div>
+      <div class="legal-item">
+        <span class="legal-icon">💬</span>
+        <div>
+          <div class="legal-title">Comments Section — Platform Liability</div>
+          <div class="legal-body">As operator of the site, you have partial protection as a platform (analogous to Section 230 in the US) if you didn't write the comments. But if you <strong>knowingly leave up defamatory comments</strong>, you lose that protection. IP logging shows good faith. Moderate actively. Add clear terms before submission. Consider requiring comments to be approved before display.</div>
+        </div>
+      </div>
+      <div class="legal-item">
+        <span class="legal-icon">🔒</span>
+        <div>
+          <div class="legal-title">IP Logging — Legal & Prudent</div>
+          <div class="legal-body">Logging IPs for legal compliance is lawful in most jurisdictions. <strong>GDPR note</strong>: IPs are personal data under GDPR. If EU users access your site, you need a minimal privacy notice. Consider hashing IPs after 30 days. Tell users clearly that IPs are logged (you've already done this in the terms text) — that's good practice.</div>
+        </div>
+      </div>
+      <div class="legal-item">
+        <span class="legal-icon">💡</span>
+        <div>
+          <div class="legal-title">Practical Protection — Do This</div>
+          <div class="legal-body"><strong>(1)</strong> Never publish anything you don't have ≥2 independent sources for. <strong>(2)</strong> Keep a private sources log (separate from this site). <strong>(3)</strong> Always label allegations correctly. <strong>(4)</strong> Consider anonymous domain registration via a privacy registrar. <strong>(5)</strong> Route through Cloudflare — their TOS protects you from trivial DDoS attacks. <strong>(6)</strong> Biggest risk is not losing a case — it's legal costs from fighting even a weak claim. A legal fund / anonymous structure helps.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function loadDashboard(){
+  document.getElementById('last-refresh').textContent = new Date().toLocaleTimeString();
+
+  // Load comments from localStorage
+  let comments = [];
+  try{ comments = JSON.parse(localStorage.getItem('slc_comments_v1')||'[]'); }catch(e){}
+
+  document.getElementById('total-comments').textContent = comments.length;
+
+  // Unique IPs
+  const ips = new Set(comments.map(c=>c.ip).filter(ip=>ip&&ip!=='unknown'));
+  document.getElementById('unique-ips').textContent = ips.size;
+
+  // Render table
+  const tbody = document.getElementById('comments-tbody');
+  tbody.innerHTML='';
+  if(comments.length===0){
+    tbody.innerHTML='<tr class="empty-row"><td colspan="6">No comments submitted yet.</td></tr>';
+    return;
+  }
+  comments.forEach(c=>{
+    const tr=document.createElement('tr');
+    const d=new Date(c.ts);
+    tr.innerHTML=`
+      <td><span class="pill pill-new">${escHtml(c.id||'—')}</span></td>
+      <td>${escHtml((c.text||'').slice(0,200))}</td>
+      <td><span class="pill pill-ip">${escHtml(c.ip||'—')}</span></td>
+      <td>${escHtml(c.geo||'—')}</td>
+      <td>${d.toLocaleString('en-GB')}</td>
+      <td style="font-size:0.55rem;color:#4b5563;">${escHtml((c.ua||'—').slice(0,80))}…</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Load hit counter
+  const url=encodeURIComponent('https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html');
+  fetch('https://hits.seeyoufarm.com/api/count/incr/badge.svg?url='+url)
+    .then(r=>r.text()).then(svg=>{
+      const nums=svg.match(/>(\d+)</g);
+      if(nums&&nums.length>=2){
+        document.getElementById('dash-today').textContent=nums[nums.length-2].replace(/[><]/g,'');
+        document.getElementById('dash-total').textContent=nums[nums.length-1].replace(/[><]/g,'');
+      }
+    }).catch(()=>{});
+}
+
+loadDashboard();
+setInterval(loadDashboard, 30000); // auto-refresh every 30s
+</script>
+</body>
+</html>

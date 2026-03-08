@@ -59,81 +59,6 @@ body{background:#1a1a1a;font-family:'Inter',sans-serif;color:var(--ink);min-heig
 #unlock-btn.unlocked{background:#059669;border-color:#059669;color:#fff;}
 #unlock-btn.unlocked:hover{background:#047857;}
 
-
-/* ── LANGUAGE TOGGLE ── */
-#lang-toggle{
-  background:transparent;border:1px solid #374151;color:#9ca3af;
-  font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;
-  padding:5px 12px;border-radius:3px;cursor:pointer;transition:all .2s;
-}
-#lang-toggle:hover{background:#1f2937;border-color:#6b7280;color:#fff;}
-#lang-toggle.si-active{border-color:#fbbf24;color:#fbbf24;}
-
-
-/* ── ToS LIABILITY MODAL ── */
-#tos-modal{
-  display:none;position:fixed;inset:0;z-index:2000;
-  background:rgba(0,0,0,0.9);backdrop-filter:blur(6px);
-  align-items:center;justify-content:center;
-}
-#tos-modal.show{display:flex;}
-.tos-box{
-  background:#0d1117;border:1px solid #374151;border-top:3px solid #d97706;
-  border-radius:6px;padding:32px 36px;width:min(480px,90vw);max-height:80vh;overflow-y:auto;
-  box-shadow:0 25px 80px rgba(0,0,0,0.8);
-}
-.tos-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#fbbf24;letter-spacing:2px;margin-bottom:4px;}
-.tos-subtitle{font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:#6b7280;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:20px;}
-.tos-body{font-family:'Inter',sans-serif;font-size:0.8rem;color:#9ca3af;line-height:1.7;margin-bottom:20px;}
-.tos-body strong{color:#d1d5db;}
-.tos-body ul{padding-left:18px;margin:8px 0;}
-.tos-body li{margin-bottom:6px;}
-.tos-confirm{
-  width:100%;background:#d97706;color:#fff;border:none;
-  font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;
-  text-transform:uppercase;padding:12px;border-radius:3px;cursor:pointer;transition:all .2s;
-  margin-bottom:8px;
-}
-.tos-confirm:hover{background:#b45309;}
-.tos-decline{
-  width:100%;background:transparent;border:1px solid #374151;color:#6b7280;
-  font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;
-  text-transform:uppercase;padding:8px;border-radius:3px;cursor:pointer;transition:all .2s;
-}
-.tos-decline:hover{border-color:#6b7280;color:#9ca3af;}
-.tos-seal{
-  margin-top:16px;padding:10px 14px;
-  background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.2);border-radius:3px;
-  font-family:'JetBrains Mono',monospace;font-size:0.55rem;color:#92400e;
-  text-transform:uppercase;letter-spacing:1px;text-align:center;
-}
-/* ── GDPR CONSENT BANNER ── */
-#gdpr-banner{
-  position:fixed;bottom:0;left:0;right:0;z-index:1500;
-  background:#0d1117;border-top:2px solid #374151;
-  padding:14px 40px;display:flex;align-items:center;justify-content:space-between;
-  gap:20px;flex-wrap:wrap;
-  box-shadow:0 -4px 20px rgba(0,0,0,0.5);
-  font-family:'Inter',sans-serif;
-}
-#gdpr-banner.hidden{display:none;}
-.gdpr-text{font-size:0.75rem;color:#9ca3af;flex:1;min-width:200px;}
-.gdpr-text a{color:#fbbf24;text-decoration:none;}
-.gdpr-text a:hover{text-decoration:underline;}
-.gdpr-btns{display:flex;gap:8px;flex-shrink:0;}
-.gdpr-accept{
-  background:#22c55e;color:#fff;border:none;
-  font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;
-  text-transform:uppercase;padding:8px 16px;border-radius:3px;cursor:pointer;transition:all .2s;
-}
-.gdpr-accept:hover{background:#16a34a;}
-.gdpr-decline{
-  background:transparent;border:1px solid #374151;color:#6b7280;
-  font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;
-  text-transform:uppercase;padding:8px 16px;border-radius:3px;cursor:pointer;transition:all .2s;
-}
-.gdpr-decline:hover{border-color:#6b7280;color:#9ca3af;}
-
 /* ── LOCK MODAL ── */
 #lock-modal{
   display:none;position:fixed;inset:0;z-index:1000;
@@ -586,97 +511,6 @@ body.private-unlocked .locked-placeholder{display:none;}
   .stats-bar{padding:8px 20px;}
 }
 </style>
-
-  <!-- ═══ Analytics: GA4 + Microsoft Clarity ═══
-       GDPR-aware: skips tracking if user explicitly declined consent.
-       To update IDs: replace values in analytics.html → Analytics tab,
-       or edit GA4_ID / CLARITY_ID directly in inject_analytics.py and re-run.
-       GA4 Measurement ID : G-SCKES76007
-       Clarity Project ID  : vomuhyeriq
-  -->
-  <script>
-    (function(){
-      try {
-        var c = JSON.parse(localStorage.getItem('gdpr_consent_v1') || 'null');
-        if (c && c.accepted === false) return; // user declined — skip analytics
-      } catch(e) {}
-      // ── Google Analytics 4 ───────────────────────────────────────────────
-      var _ga = document.createElement('script');
-      _ga.async = true;
-      _ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-SCKES76007';
-      document.head.appendChild(_ga);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
-      window.gtag = gtag;
-      gtag('js', new Date());
-      gtag('config', 'G-SCKES76007', {
-        'anonymize_ip': true,      // GDPR best-practice
-        'send_page_view': true
-      });
-      // ── Microsoft Clarity ────────────────────────────────────────────────
-      (function(c,l,a,r,i,t,y){
-        c[a] = c[a] || function(){ (c[a].q = c[a].q || []).push(arguments) };
-        t = l.createElement(r); t.async = 1;
-        t.src = 'https://www.clarity.ms/tag/' + i;
-        y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t,y);
-      })(window, document, 'clarity', 'script', 'vomuhyeriq');
-    })();
-  </script>
-  <!-- ═══ End Analytics ═══ -->
-  <!-- analytics-events-module -->
-  <script src="../_analytics_events.js" defer></script>
-<!-- ═══ JSON-LD Structured Data ═══ -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "NewsArticle",
-  "headline": "The Kalathma Scandal: When Cricket's Elite Silenced a Teenager",
-  "description": "How Sri Lankan cricket's establishment used legal threats against a teenager who exposed misconduct — a case study in institutional power.",
-  "datePublished": "2026-02-01",
-  "dateModified": "2026-03-01",
-  "url": "https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Riz Razak",
-    "url": "https://rizrazak.com"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "analyst.rizrazak.com",
-    "url": "https://analyst.rizrazak.com",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://analyst.rizrazak.com/images/logo.png"
-    }
-  },
-  "keywords": [
-    "Kalathma",
-    "KalathmaGate",
-    "Sri Lanka Cricket",
-    "accountability",
-    "youth"
-  ],
-  "inLanguage": [
-    "en",
-    "si"
-  ],
-  "isAccessibleForFree": true,
-  "isPartOf": {
-    "@type": "WebSite",
-    "name": "analyst.rizrazak.com",
-    "url": "https://analyst.rizrazak.com"
-  }
-}
-</script>
-<!-- ═══ End JSON-LD ═══ -->
-<!-- rss-autodiscovery -->
-<link rel="alternate" type="application/rss+xml" title="analyst.rizrazak.com — Investigative Dossiers" href="https://analyst.rizrazak.com/feed.xml" />
-    <!-- Umami Analytics -->
-    <script defer src="https://umami-analytics-plum-theta.vercel.app/script.js" data-website-id="c092a262-c652-46b8-a06b-a07a18e67b25"></script>
 </head>
 <body>
 
@@ -697,26 +531,25 @@ body.private-unlocked .locked-placeholder{display:none;}
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="topbar-left">
-    <a class="back-btn" href="power-network.html"><span data-en="← Board" data-si="← මණ්ඩලය">← Board</span></a>
-    <span class="topbar-title"><span data-en="Case File: The Conduct Files" data-si="නඩු ගොනුව: හැසිරීම් ගොනු">Case File: The Conduct Files</span></span>
-    <span class="topbar-badge"><span data-en="Restricted" data-si="සීමා කර ඇත">Restricted</span></span>
+    <a class="back-btn" href="power-network.html">← Board</a>
+    <span class="topbar-title">Case File: The Conduct Files</span>
+    <span class="topbar-badge">Restricted</span>
   </div>
   <div class="topbar-right">
-    <button id="lang-toggle" onclick="toggleLang()"><span id="lang-label">EN | සිං</span></button>
-    <button id="unlock-btn" onclick="openModal()"><span data-en="🔒 Private View" data-si="🔒 පෞද්ගලික දසුන">🔒 Private View</span></button>
-    <div class="classified-stamp"><span data-en="UNVERIFIED" data-si="සත්‍යාපනය නොකළ">UNVERIFIED</span></div>
+    <button id="unlock-btn" onclick="openModal()">🔒 Private View</button>
+    <div class="classified-stamp">UNVERIFIED</div>
   </div>
 </div>
 
 <!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stat-item"><span class="stat-live"></span><span class="stat-label"><span data-en="Visitors today" data-si="අද අමුත්තන්">Visitors today</span></span><span class="stat-val" id="visit-count">—</span></div>
+  <div class="stat-item"><span class="stat-live"></span><span class="stat-label">Visitors today</span><span class="stat-val" id="visit-count">—</span></div>
   <span class="stat-sep">·</span>
-  <div class="stat-item"><span class="stat-label"><span data-en="Total visits" data-si="මුළු පැමිණීම්">Total visits</span></span><span class="stat-val" id="visit-total">—</span></div>
+  <div class="stat-item"><span class="stat-label">Total visits</span><span class="stat-val" id="visit-total">—</span></div>
   <span class="stat-sep">·</span>
-  <div class="stat-item"><span class="stat-label"><span data-en="Comments" data-si="අදහස්">Comments</span></span><span class="stat-val" id="comment-count-bar">0</span></div>
+  <div class="stat-item"><span class="stat-label">Comments</span><span class="stat-val" id="comment-count-bar">0</span></div>
   <span class="stat-sep">·</span>
-  <div class="stat-item"><span class="stat-label"><span data-en="Status" data-si="තත්ත්වය">Status</span></span><span class="stat-val" style="color:#22c55e;font-size:0.7rem;">LIVE</span></div>
+  <div class="stat-item"><span class="stat-label">Status</span><span class="stat-val" style="color:#22c55e;font-size:0.7rem;">LIVE</span></div>
 </div>
 
 <div class="wrapper">
@@ -736,15 +569,15 @@ body.private-unlocked .locked-placeholder{display:none;}
 
   <!-- ══ KALATHMAGATE NOTICE ══ -->
   <div class="kg-notice">
-    <div class="kg-eyebrow"><span data-en="⚡ The story they tried to erase" data-si="⚡ ඔවුන් මකා දැමීමට උත්සාහ කළ කතාව">⚡ The story they tried to erase</span></div>
+    <div class="kg-eyebrow">⚡ The story they tried to erase</div>
     <div class="kg-title">#KalathmaGate</div>
     <div class="kg-body">
-      In early 2023, a <strong>young Sri Lankan TikTok creator — then just 17 years old, a teenager</strong> — posted a video simply asking her followers to share celebrity stories. What followed was a national reckoning: <em>2 million views. 20,000+ comments.</em> Allegations poured in — covering sexual misconduct, religious cult influence, substance abuse, and infidelity — all directed at Sri Lanka Cricket's players and administration.<br><br>
+      In early 2023, a <strong>young Sri Lankan TikTok creator — understood to be a minor</strong> — posted a video simply asking her followers to share celebrity stories. What followed was a national reckoning: <em>2 million views. 20,000+ comments.</em> Allegations poured in — covering sexual misconduct, religious cult influence, substance abuse, and infidelity — all directed at Sri Lanka Cricket's players and administration.<br><br>
       The response from Sri Lanka's powerful wasn't accountability. <strong>It was lawyers.</strong> Legal threats were mobilised. The comments were scrubbed. The video came down. A teenager issued a public apology to people old enough to be her parents. The players kept their contracts, their salaries, their blue caps.<br><br>
-      The elite deployed defamation law — a mechanism built for corporations and public figures — against a <strong>teenager with a phone and a TikTok account</strong> <em>(Kalathma has since turned 18, in November 2025)</em>. Not one person named in the 20,000 comments addressed the substance of what was said. <em>That tells you everything.</em>
+      The elite deployed defamation law — a mechanism built for corporations and public figures — against a <strong>minor with a phone and a TikTok account</strong>. Not one person named in the 20,000 comments addressed the substance of what was said. <em>That tells you everything.</em>
     </div>
     <div class="kg-meta">
-      <span class="kg-tag kg-tag-red">Teenager Targeted by Legal Threats</span>
+      <span class="kg-tag kg-tag-red">Minor Targeted by Legal Threats</span>
       <span class="kg-tag kg-tag-red">Video Suppressed</span>
       <span class="kg-tag kg-tag-gold">2M+ Views · 20K+ Comments</span>
       <span class="kg-tag kg-tag-gold">TikTok · 2023</span>
@@ -755,13 +588,13 @@ body.private-unlocked .locked-placeholder{display:none;}
   <!-- NAV -->
   <div class="section-nav">
     <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#4b5563;text-transform:uppercase;letter-spacing:1px;padding:5px 0;">Jump to:</span>
-    <a href="#born-again" class="nav-link"><span data-en="Born Again Sect" data-si="නැවත ඉපදුණු නිකාය">Born Again Sect</span></a>
-    <a href="#dm-scandal" class="nav-link"><span data-en="The DM Scandal" data-si="DM අපකීර්තිය">The DM Scandal</span></a>
-    <a href="#confirmed-cases" class="nav-link"><span data-en="Confirmed Cases" data-si="තහවුරු නඩු">Confirmed Cases</span></a>
-    <a href="#kalathmagate" class="nav-link"><span data-en="KalathmaGate" data-si="කළාත්මගේට්">KalathmaGate</span></a>
-    <a href="#timeline" class="nav-link"><span data-en="Timeline" data-si="කාලරේඛාව">Timeline</span></a>
-    <a href="#substance" class="nav-link private-nav"><span data-en="🔒 Substance Abuse" data-si="🔒 මත්ද්‍රව්‍ය අනිසි භාවිතය">🔒 Substance Abuse</span></a>
-    <a href="#private-dm" class="nav-link private-nav"><span data-en="🔒 Private DMs" data-si="🔒 පෞද්ගලික DMs">🔒 Private DMs</span></a>
+    <a href="#born-again" class="nav-link">Born Again Sect</a>
+    <a href="#dm-scandal" class="nav-link">The DM Scandal</a>
+    <a href="#confirmed-cases" class="nav-link">Confirmed Cases</a>
+    <a href="#kalathmagate" class="nav-link">KalathmaGate</a>
+    <a href="#timeline" class="nav-link">Timeline</a>
+    <a href="#substance" class="nav-link private-nav">🔒 Substance Abuse</a>
+    <a href="#private-dm" class="nav-link private-nav">🔒 Private DMs</a>
   </div>
 
   <!-- DISCLAIMER -->
@@ -1338,42 +1171,6 @@ body.private-unlocked .locked-placeholder{display:none;}
 
 </div>
 
-
-<!-- ══ ToS LIABILITY TRANSFER MODAL ══ -->
-<div id="tos-modal">
-  <div class="tos-box">
-    <div class="tos-title">⚖️ Before You Comment</div>
-    <div class="tos-subtitle">analyst.rizrazak.com · Comment Terms of Use</div>
-    <div class="tos-body">
-      <p>By posting a comment on this page, you agree to the following:</p>
-      <ul>
-        <li><strong>You are solely responsible</strong> for the content of your comment. This platform and its operators accept no liability for user-submitted content.</li>
-        <li><strong>Your IP address, user agent, and submission timestamp are logged</strong> and may be disclosed to law enforcement or legal counsel if required to defend against or pursue legal proceedings.</li>
-        <li><strong>Knowingly false statements</strong> about named individuals may constitute defamation under applicable law. You post at your own legal risk.</li>
-        <li><strong>All comments are held in a moderation queue</strong> and will not appear publicly until reviewed and approved by the site administrator.</li>
-        <li>This site is hosted in the United States and governed by US law, including First Amendment protections for commentary on matters of public interest. Sri Lankan courts have no jurisdiction over this platform.</li>
-        <li>By accepting, you confirm you are 18 years of age or older.</li>
-      </ul>
-      <p>Your acceptance of these terms is logged with your IP, timestamp, and session ID for our legal records.</p>
-    </div>
-    <button class="tos-confirm" onclick="acceptTos()">✓ I Accept — Post My Comment</button>
-    <button class="tos-decline" onclick="closeTos()">Cancel</button>
-    <div class="tos-seal">📋 Acceptance logged · IP recorded · Jurisdiction: United States</div>
-  </div>
-</div>
-
-<!-- ══ GDPR CONSENT BANNER ══ -->
-<div id="gdpr-banner">
-  <div class="gdpr-text">
-    🔒 <strong>Privacy notice:</strong> This site logs visitor IPs and metadata strictly for legal compliance and protection against defamation claims. No data is sold or shared with third parties. IP addresses are hashed after 90 days. By continuing to use this site you acknowledge this use.
-    <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a>
-  </div>
-  <div class="gdpr-btns">
-    <button class="gdpr-accept" onclick="gdprAccept()">Understood</button>
-    <button class="gdpr-decline" onclick="gdprDecline()">Decline Analytics</button>
-  </div>
-</div>
-
 <!-- ══ FLOATING COMMENTS BUTTON ══ -->
 <button id="comments-fab" onclick="toggleComments()" title="Community Comments">
   💬
@@ -1403,8 +1200,8 @@ body.private-unlocked .locked-placeholder{display:none;}
     <!-- HONEYPOT — bots fill this, humans don't -->
     <input type="text" class="hp-field" id="hp-name" name="website" tabindex="-1" autocomplete="off">
     <div class="cp-actions">
-      <div class="cp-anon-note"><span data-en="Anonymous · Your IP is logged for legal protection only." data-si="නිර්නාමික · ඔබගේ IP ලිපිනය නීතිමය ආරක්ෂාව සඳහා පමණක් ලොග් කර ඇත.">Anonymous · Your IP is logged for legal protection only.</span></div>
-      <button class="cp-submit" id="cp-btn" onclick="requestPost()"><span data-en="Post →" data-si="ඉදිරිපත් කරන්න →">Post →</span</button>
+      <div class="cp-anon-note">Anonymous · Your IP is logged for legal protection only.</div>
+      <button class="cp-submit" id="cp-btn" onclick="submitComment()">Post →</button>
     </div>
     <div class="cp-status" id="cp-status"></div>
     <div class="cp-terms">Comments are moderated. This site records IP, user agent, and timestamp for every submission. Knowingly false statements about named individuals may constitute defamation under Sri Lanka civil law. Posts are reviewed before display.</div>
@@ -1497,132 +1294,46 @@ document.getElementById('lock-modal').addEventListener('click',function(e){
     });
 })();
 
-
-// ══════════════════════════════════════════
-// GDPR CONSENT SYSTEM
-// ══════════════════════════════════════════
-const GDPR_KEY = 'gdpr_consent_v1';
-
-function checkGdpr(){
-  const consent = localStorage.getItem(GDPR_KEY);
-  if(!consent){
-    document.getElementById('gdpr-banner').classList.remove('hidden');
-    return false;
-  }
-  return JSON.parse(consent).accepted;
-}
-
-function gdprAccept(){
-  localStorage.setItem(GDPR_KEY, JSON.stringify({
-    accepted: true, ts: Date.now(), version: '1.0'
-  }));
-  document.getElementById('gdpr-banner').classList.add('hidden');
-  // Now safe to fetch IP
-  fetchUserIP();
-}
-
-function gdprDecline(){
-  localStorage.setItem(GDPR_KEY, JSON.stringify({
-    accepted: false, ts: Date.now(), version: '1.0'
-  }));
-  document.getElementById('gdpr-banner').classList.add('hidden');
-  userIP = 'DECLINED';
-  userGeo = 'DECLINED';
-}
-
-// Simple hash for IP anonymisation (after 90 days, replace raw IP with hash)
-function hashStr(str){
-  let h = 0x811c9dc5;
-  for(let i=0;i<str.length;i++){
-    h ^= str.charCodeAt(i);
-    h = (h*0x01000193)>>>0;
-  }
-  return h.toString(16).padStart(8,'0');
-}
-
-// ══════════════════════════════════════════
-// ToS LIABILITY TRANSFER SYSTEM
-// ══════════════════════════════════════════
-const TOS_KEY = 'tos_accepted_v1';
-let pendingPostAfterTos = false;
-
-function requestPost(){
-  // Check if ToS already accepted
-  const existing = localStorage.getItem(TOS_KEY);
-  if(existing){
-    submitComment();
-    return;
-  }
-  // Show ToS modal
-  pendingPostAfterTos = true;
-  document.getElementById('tos-modal').classList.add('show');
-}
-
-function acceptTos(){
-  // Log acceptance with IP + timestamp
-  const acceptance = {
-    ts: Date.now(),
-    ip: userIP,
-    ua: navigator.userAgent.slice(0,80),
-    version: '1.0',
-    page: window.location.href
-  };
-  localStorage.setItem(TOS_KEY, JSON.stringify(acceptance));
-  document.getElementById('tos-modal').classList.remove('show');
-  if(pendingPostAfterTos){
-    pendingPostAfterTos = false;
-    submitComment();
-  }
-}
-
-function closeTos(){
-  document.getElementById('tos-modal').classList.remove('show');
-  pendingPostAfterTos = false;
-}
-
 // ══════════════════════════════════════════
 // COMMENTS SYSTEM
-// Storage: localStorage + Formspree notifications
-// Approval: comments default to status:'pending'
-// Admin approves via analytics.html dashboard
+// Storage: localStorage (demo). For production, replace
+// saveComment/loadComments with Supabase calls.
 //
-// PRODUCTION UPGRADE PATH:
-//   → Supabase: supabase.com (free tier)
-//   → Create table: comments(id, text, ts, ip_hash, ua, geo, page, status, flagged)
-//   → Add RLS: only authenticated admin can UPDATE status
+// SUPABASE SETUP (when ready):
+//   1. Create account at supabase.com (free)
+//   2. Create table: comments(id, text, timestamp, ip, ua, page, approved)
+//   3. Replace SUPABASE_URL and SUPABASE_KEY below
+//   4. Uncomment the Supabase save/load functions
 // ══════════════════════════════════════════
-const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
+// const SUPABASE_URL = 'https://YOUR_PROJECT.supabase.co';
+// const SUPABASE_KEY = 'YOUR_ANON_KEY';
+
+// For Formspree email notifications:
+// 1. Create form at formspree.io (free tier = 50 submissions/mo)
+// 2. Replace FORMSPREE_ID below with your form ID
+const FORMSPREE_ID = 'YOUR_FORMSPREE_ID'; // e.g. 'xrgjabc'
+
 const PAGE_KEY = 'slc_comments_v1';
 let panelOpen = false;
 let userIP = 'unknown';
 let userGeo = '';
 
-function fetchUserIP(){
-  fetch('https://api.ipify.org?format=json')
-    .then(r=>r.json())
-    .then(d=>{
-      userIP = d.ip;
-      // Also get geo
-      return fetch('https://ipapi.co/json/');
-    })
-    .then(r=>r.json())
-    .then(d=>{ userGeo = (d.city||'')+(d.country_name?', '+d.country_name:''); })
-    .catch(()=>{ userGeo=''; });
-}
+// Get visitor IP on load
+fetch('https://api.ipify.org?format=json')
+  .then(r=>r.json())
+  .then(d=>{ userIP = d.ip; })
+  .catch(()=>{ userIP='hidden'; });
 
-// Load IP on start (only if GDPR consent given)
-(function(){
-  const consent = localStorage.getItem(GDPR_KEY);
-  if(consent && JSON.parse(consent).accepted){
-    fetchUserIP();
-  }
-})();
+// Also get geo for admin context
+fetch('https://ipapi.co/json/')
+  .then(r=>r.json())
+  .then(d=>{ userGeo = (d.city||'')+(d.country_name?', '+d.country_name:''); })
+  .catch(()=>{});
 
 function loadComments(){
   try{ return JSON.parse(localStorage.getItem(PAGE_KEY)||'[]'); }
   catch(e){ return []; }
 }
-
 function saveComment(c){
   const arr = loadComments();
   arr.unshift(c);
@@ -1630,35 +1341,20 @@ function saveComment(c){
 }
 
 function renderComments(){
-  const allComments = loadComments();
-  // PUBLIC VIEW: only show approved comments
-  const approved = allComments.filter(c => c.status === 'approved');
-  const pending = allComments.filter(c => c.status === 'pending');
+  const comments = loadComments();
   const feed = document.getElementById('cp-feed');
   const empty = document.getElementById('cp-empty');
+  const count = comments.length;
+  document.getElementById('fab-count').textContent = count;
+  document.getElementById('comment-count-bar').textContent = count;
 
-  // Update counts
-  document.getElementById('fab-count').textContent = allComments.length;
-  document.getElementById('comment-count-bar').textContent = allComments.length;
-
-  // Clear existing bubbles
-  feed.querySelectorAll('.comment-bubble,.comment-pending-notice').forEach(el=>el.remove());
-
-  if(approved.length === 0){
-    empty.style.display='flex';
-    if(pending.length > 0){
-      const notice = document.createElement('div');
-      notice.className='comment-pending-notice';
-      notice.style.cssText='text-align:center;padding:16px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:#4b5563;text-transform:uppercase;letter-spacing:1px;';
-      notice.textContent = `${pending.length} comment${pending.length>1?'s':''} awaiting moderation.`;
-      feed.appendChild(notice);
-    }
-    return;
-  }
-
+  if(count===0){ empty.style.display='flex'; return; }
   empty.style.display='none';
 
-  approved.forEach(c=>{
+  const existing = feed.querySelectorAll('.comment-bubble');
+  existing.forEach(el=>el.remove());
+
+  comments.forEach(c=>{
     const div = document.createElement('div');
     div.className='comment-bubble';
     const d = new Date(c.ts);
@@ -1669,18 +1365,10 @@ function renderComments(){
         <span class="bubble-time">${timeStr}</span>
       </div>
       <div class="bubble-text">${escHtml(c.text)}</div>
-      <div class="bubble-flag">📍 ${escHtml(c.geo||'Unknown location')}</div>
+      <div class="bubble-flag">📍 Submitted from ${escHtml(c.geo||'Unknown location')} · ID:${c.id}</div>
     `;
     feed.appendChild(div);
   });
-
-  if(pending.length > 0){
-    const notice = document.createElement('div');
-    notice.className='comment-pending-notice';
-    notice.style.cssText='text-align:center;padding:12px;font-family:JetBrains Mono,monospace;font-size:0.55rem;color:#374151;border-top:1px solid #e5e7eb;margin-top:8px;';
-    notice.textContent = `+ ${pending.length} comment${pending.length>1?'s':''} pending moderation`;
-    feed.appendChild(notice);
-  }
 }
 
 function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
@@ -1691,6 +1379,7 @@ function toggleComments(){
   if(panelOpen) renderComments();
 }
 
+// Rate limiting: max 3 comments per 15 mins from same session
 function checkRateLimit(){
   const key='slc_rl';
   const now = Date.now();
@@ -1707,6 +1396,7 @@ async function submitComment(){
   const status = document.getElementById('cp-status');
   const btn = document.getElementById('cp-btn');
 
+  // Bot check: honeypot
   if(honeypot){ return; }
 
   if(!text || text.length < 10){
@@ -1719,47 +1409,37 @@ async function submitComment(){
   }
 
   btn.disabled = true;
-  status.textContent = 'Submitting...';
+  status.textContent = 'Posting...';
   status.className = 'cp-status';
 
   const id = Math.random().toString(36).slice(2,8).toUpperCase();
-  // Hash IP for GDPR storage (keep raw IP only for 90 days, then replace with hash)
-  const ipHash = hashStr(userIP + 'salt_slc_2026');
-  
   const comment = {
-    id,
-    text,
+    id, text,
     ts: Date.now(),
-    ip: userIP,          // raw IP — admin only, hash after 90 days
-    ip_hash: ipHash,     // permanent anonymised identifier
+    ip: userIP,
     ua: navigator.userAgent.slice(0,120),
     geo: userGeo,
-    page: window.location.href,
-    status: 'pending',   // ← PENDING until admin approves
-    flagged: false,
-    tos_accepted: true,
-    tos_ts: JSON.parse(localStorage.getItem(TOS_KEY)||'{}').ts || Date.now()
+    page: window.location.href
   };
 
+  // Save locally
   saveComment(comment);
 
-  // Email notification via Formspree
+  // Notify via Formspree (replace FORMSPREE_ID with yours)
   if(FORMSPREE_ID !== 'YOUR_FORMSPREE_ID'){
     try{
       await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method:'POST',
         headers:{'Content-Type':'application/json','Accept':'application/json'},
         body: JSON.stringify({
-          _subject: `[KalathmaGate] New comment pending — ID:${id}`,
+          _subject: `[KalathmaGate Comment] ID:${id}`,
           comment_id: id,
           comment_text: text,
           visitor_ip: userIP,
-          ip_hash: ipHash,
           visitor_geo: userGeo,
           user_agent: navigator.userAgent,
           page: window.location.href,
-          timestamp: new Date().toISOString(),
-          approve_url: `analyst.rizrazak.com/dossiers/sri-lanka-cricket-corruption/analytics.html`
+          timestamp: new Date().toISOString()
         })
       });
     } catch(e){}
@@ -1767,129 +1447,13 @@ async function submitComment(){
 
   document.getElementById('cp-text').value='';
   renderComments();
-  status.textContent = '✓ Submitted. Your comment is awaiting moderation.';
+  status.textContent = '✓ Posted anonymously. Thank you.';
   status.className='cp-status';
   btn.disabled = false;
 }
 
-// ── INIT ──
+// Init
 renderComments();
-// Show GDPR banner if no consent recorded
-document.addEventListener('DOMContentLoaded',function(){
-  const consent = localStorage.getItem(GDPR_KEY);
-  if(!consent){
-    document.getElementById('gdpr-banner').classList.remove('hidden');
-  } else {
-    document.getElementById('gdpr-banner').classList.add('hidden');
-  }
-  // Restore lang
-  if(currentLang === 'si') applyLang('si');
-});
-
-
-// ── TRANSLATION DICTIONARY (Google Translate verified) ──
-const TRANSLATIONS = {
-  en: {
-    'board': '← Board',
-    'title': 'Case File: The Conduct Files',
-    'restricted': 'Restricted',
-    'private-view': '🔒 Private View',
-    'unverified': 'UNVERIFIED',
-    'visitors-today': 'Visitors today',
-    'total-visits': 'Total visits',
-    'comments': 'Comments',
-    'status': 'Status',
-    'live': 'LIVE',
-    'born-again': 'Born Again Sect',
-    'dm-scandal': 'The DM Scandal',
-    'confirmed': 'Confirmed Cases',
-    'kalathmagate': 'KalathmaGate',
-    'timeline': 'Timeline',
-    'substance': '🔒 Substance Abuse',
-    'private-dms': '🔒 Private DMs',
-    'story-erased': '⚡ The story they tried to erase',
-    'jump-to': 'Jump to:',
-    'comment-flood': 'KalathmaGate — The Comment Flood',
-    'cover-up': 'The Cover-Up Culture',
-    'institutional': 'Institutional Pattern',
-    'post-btn': 'Post →',
-    'anon-note': 'Anonymous · Your IP is logged for legal protection only.',
-    'teenager-targeted': 'Teenager Targeted by Legal Threats',
-    'video-suppressed': 'Video Suppressed',
-    'slc-no-response': 'SLC Never Responded to Substance',
-  },
-  si: {
-    'board': '← මණ්ඩලය',
-    'title': 'නඩු ගොනුව: හැසිරීම් ගොනු',
-    'restricted': 'සීමා කර ඇත',
-    'private-view': '🔒 පෞද්ගලික දසුන',
-    'unverified': 'සත්‍යාපනය නොකළ',
-    'visitors-today': 'අද අමුත්තන්',
-    'total-visits': 'මුළු පැමිණීම්',
-    'comments': 'අදහස්',
-    'status': 'තත්ත්වය',
-    'live': 'සජීවී',
-    'born-again': 'නැවත ඉපදුණු නිකාය',
-    'dm-scandal': 'DM අපකීර්තිය',
-    'confirmed': 'තහවුරු කළ නඩු',
-    'kalathmagate': 'කළාත්මගේට්',
-    'timeline': 'කාලරේඛාව',
-    'substance': '🔒 මත්ද්‍රව්‍ය අනිසි භාවිතය',
-    'private-dms': '🔒 පෞද්ගලික DMs',
-    'story-erased': '⚡ ඔවුන් මකා දැමීමට උත්සාහ කළ කතාව',
-    'jump-to': 'වෙත පනින්න:',
-    'comment-flood': 'කළාත්මගේට් — අදහස් ගංවතුර',
-    'cover-up': 'ආවරණය කරන සංස්කෘතිය',
-    'institutional': 'ආයතනික රටාව',
-    'post-btn': 'ඉදිරිපත් කරන්න →',
-    'anon-note': 'නිර්නාමික · ඔබගේ IP ලිපිනය නීතිමය ආරක්ෂාව සඳහා පමණක් ලොග් කර ඇත.',
-    'teenager-targeted': 'නීතිමය තර්ජන මගින් ඉලක්ක කරගත් යෞවනයා',
-    'video-suppressed': 'වීඩියෝව යටපත් කර ඇත',
-    'slc-no-response': 'SLC කිසිදා ද්‍රව්‍යයට ප්‍රතිචාර නොදැක්වීය',
-  }
-};
-
-// ══════════════════════════════════════════
-// SINHALA / ENGLISH LANGUAGE TOGGLE (i18n)
-// ══════════════════════════════════════════
-let currentLang = localStorage.getItem('kal-lang') || 'en';
-
-function applyLang(lang){
-  currentLang = lang;
-  localStorage.setItem('kal-lang', lang);
-  const toggle = document.getElementById('lang-toggle');
-  const label = document.getElementById('lang-label');
-  if(lang === 'si'){
-    toggle.classList.add('si-active');
-    label.textContent = 'සිං | EN';
-    document.documentElement.lang = 'si';
-  } else {
-    toggle.classList.remove('si-active');
-    label.textContent = 'EN | සිං';
-    document.documentElement.lang = 'en';
-  }
-  // Switch all [data-en] / [data-si] spans
-  document.querySelectorAll('[data-en]').forEach(el => {
-    el.textContent = lang === 'si' ? (el.dataset.si || el.dataset.en) : el.dataset.en;
-  });
-  // Also handle elements with data-si only
-  document.querySelectorAll('[data-si]:not([data-en])').forEach(el => {
-    if(lang === 'si') el.style.display = '';
-    else el.style.display = 'none';
-  });
-}
-
-function toggleLang(){
-  applyLang(currentLang === 'en' ? 'si' : 'en');
-}
-
-// Init on load
-document.addEventListener('DOMContentLoaded', function(){
-  if(currentLang === 'si') applyLang('si');
-});
-
 </script>
-<!-- newsletter-signup -->
-<script src="../_newsletter.js" defer></script>
 </body>
 </html>

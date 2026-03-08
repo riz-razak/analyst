@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riz Razak — Landing</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    background: #e8f0e8;
+    min-height: 100vh;
+    cursor: default;
+  }
+
+  /* ══════════════════════════════════════
+     SKY
+  ══════════════════════════════════════ */
+  .sky {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(180deg,
+      #b8d4e8 0%,
+      #d4e4ef 25%,
+      #e8eff5 45%,
+      #f0efe8 65%,
+      #e8f0e8 80%
+    );
+    z-index: 0;
+  }
+
+  /* Clouds */
+  .cloud {
+    position: fixed;
+    opacity: 0.5;
+    z-index: 1;
+  }
+  .cloud svg { width: 100%; height: 100%; }
+  .cloud-1 { top: 6%; left: -10%; width: 280px; animation: drift-cloud 80s linear infinite; }
+  .cloud-2 { top: 12%; left: 30%; width: 200px; animation: drift-cloud 100s linear infinite; animation-delay: -30s; opacity: 0.35; }
+  .cloud-3 { top: 3%; left: 60%; width: 240px; animation: drift-cloud 90s linear infinite; animation-delay: -55s; opacity: 0.4; }
+  .cloud-4 { top: 18%; left: 10%; width: 160px; animation: drift-cloud 110s linear infinite; animation-delay: -70s; opacity: 0.3; }
+
+  @keyframes drift-cloud {
+    from { transform: translateX(-300px); }
+    to   { transform: translateX(calc(100vw + 300px)); }
+  }
+
+  /* ══════════════════════════════════════
+     LANDSCAPE — Rolling meadow hills
+  ══════════════════════════════════════ */
+  .landscape {
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 55vh;
+    z-index: 2;
+  }
+
+  /* Far hills */
+  .hills-far {
+    position: absolute; bottom: 15vh; left: -5%; width: 110%;
+    height: 25vh;
+    background:
+      radial-gradient(ellipse 50% 100% at 20% 100%, #9ab89a 0%, transparent 70%),
+      radial-gradient(ellipse 40% 100% at 55% 100%, #8aad8a 0%, transparent 70%),
+      radial-gradient(ellipse 45% 100% at 85% 100%, #92b592 0%, transparent 70%);
+    opacity: 0.6;
+  }
+
+  /* Mid hills */
+  .hills-mid {
+    position: absolute; bottom: 5vh; left: -5%; width: 110%;
+    height: 22vh;
+    background:
+      radial-gradient(ellipse 55% 100% at 15% 100%, #7aaa6a 0%, transparent 65%),
+      radial-gradient(ellipse 50% 100% at 50% 100%, #6d9e5d 0%, transparent 65%),
+      radial-gradient(ellipse 45% 100% at 80% 100%, #74a564 0%, transparent 65%);
+    opacity: 0.75;
+  }
+
+  /* Near ground */
+  .ground {
+    position: absolute; bottom: 0; left: -5%; width: 110%;
+    height: 18vh;
+    background: linear-gradient(180deg, #5a9a45 0%, #4a8a38 40%, #3d7a2d 100%);
+    border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+  }
+
+  /* Grass tufts */
+  .grass-layer {
+    position: absolute; bottom: 16vh; left: 0; width: 100%; height: 6vh;
+    z-index: 3;
+  }
+
+  .grass-tuft {
+    position: absolute;
+    bottom: 0;
+  }
+
+  /* Tiny wildflowers scattered in the grass */
+  .wildflower {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    z-index: 3;
+  }
+  .wf-1 { bottom: 17vh; left: 12%; background: #e8a0b0; animation: sway-flower 3s ease-in-out infinite; }
+  .wf-2 { bottom: 18vh; left: 28%; background: #f0c878; animation: sway-flower 3.5s ease-in-out infinite 0.5s; }
+  .wf-3 { bottom: 16.5vh; left: 45%; background: #e8a0b0; animation: sway-flower 2.8s ease-in-out infinite 1s; width:5px;height:5px; }
+  .wf-4 { bottom: 19vh; left: 62%; background: #c8a0e0; animation: sway-flower 3.2s ease-in-out infinite 0.3s; }
+  .wf-5 { bottom: 17.5vh; left: 78%; background: #f0c878; animation: sway-flower 3s ease-in-out infinite 1.5s; width:7px;height:7px; }
+  .wf-6 { bottom: 18.5vh; left: 90%; background: #e8a0b0; animation: sway-flower 3.4s ease-in-out infinite 0.8s; }
+
+  @keyframes sway-flower {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(2px, -1px) rotate(5deg); }
+  }
+
+  /* ══════════════════════════════════════
+     CHARACTERS
+  ══════════════════════════════════════ */
+
+  /* --- Forest Spirit (Kodama × Sri Lankan) --- */
+  .forest-spirit {
+    position: fixed;
+    z-index: 10;
+  }
+
+  /* Spirit 1: sits on left hill, bobs happily */
+  .spirit-sit-left {
+    bottom: 22vh; left: 14%;
+    animation: spirit-bob 3s ease-in-out infinite;
+  }
+
+  /* Spirit 2: sits on right hill */
+  .spirit-sit-right {
+    bottom: 24vh; right: 18%;
+    animation: spirit-bob 3.5s ease-in-out infinite 0.8s;
+  }
+
+  /* Spirit 3: small one following the scurrying yaka */
+  .spirit-follow {
+    bottom: 6vh; left: -40px;
+    animation: scurry-across 18s ease-in-out infinite 2s;
+  }
+
+  @keyframes spirit-bob {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    30% { transform: translateY(-8px) rotate(2deg); }
+    60% { transform: translateY(-3px) rotate(-1deg); }
+  }
+
+  /* --- Elephant Spirit --- */
+  .elephant-spirit {
+    position: fixed;
+    bottom: 19vh; left: 38%;
+    z-index: 9;
+    animation: elephant-walk 20s ease-in-out infinite;
+  }
+
+  @keyframes elephant-walk {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(30px); }
+    50% { transform: translateX(60px); }
+    75% { transform: translateX(30px); }
+    100% { transform: translateX(0); }
+  }
+
+  .elephant-body { animation: elephant-step 1.5s ease-in-out infinite; }
+  @keyframes elephant-step {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+  }
+
+  .trunk { animation: trunk-swing 2.5s ease-in-out infinite; transform-origin: top center; }
+  @keyframes trunk-swing {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(8deg); }
+  }
+
+  .elephant-tail { animation: tail-wag 1.8s ease-in-out infinite; transform-origin: top center; }
+  @keyframes tail-wag {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(10deg); }
+  }
+
+  /* --- Peacock Spirit --- */
+  .peacock-spirit {
+    position: fixed;
+    bottom: 21vh; right: 28%;
+    z-index: 9;
+  }
+
+  .peacock-fan {
+    animation: fan-breathe 4s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  @keyframes fan-breathe {
+    0%, 100% { transform: scaleX(1) scaleY(1); }
+    50% { transform: scaleX(1.15) scaleY(1.08); }
+  }
+
+  .peacock-head { animation: peacock-look 5s ease-in-out infinite; transform-origin: bottom center; }
+  @keyframes peacock-look {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(8deg); }
+    70% { transform: rotate(-5deg); }
+  }
+
+  /* --- Leopard Spirit --- */
+  .leopard-spirit {
+    position: fixed;
+    bottom: 17vh; right: 10%;
+    z-index: 8;
+    animation: leopard-slink 16s ease-in-out infinite;
+  }
+
+  @keyframes leopard-slink {
+    0%, 100% { transform: translateX(0) scaleX(1); }
+    20% { transform: translateX(-40px) scaleX(1); }
+    45% { transform: translateX(-80px) scaleX(1); }
+    50% { transform: translateX(-80px) scaleX(-1); }
+    75% { transform: translateX(-30px) scaleX(-1); }
+    95% { transform: translateX(0) scaleX(-1); }
+    100% { transform: translateX(0) scaleX(1); }
+  }
+
+  .leopard-tail-anim { animation: cat-tail 2s ease-in-out infinite; transform-origin: left center; }
+  @keyframes cat-tail {
+    0%, 100% { transform: rotate(-10deg); }
+    50% { transform: rotate(15deg); }
+  }
+
+  .leopard-body-bounce { animation: cat-step 0.8s ease-in-out infinite; }
+  @keyframes cat-step {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-1.5px); }
+  }
+
+  /* --- Baby Yaka --- */
+
+  /* Yaka 1: Peeks from behind left hill */
+  .yaka-peek-left {
+    position: fixed;
+    bottom: 25vh; left: 0;
+    z-index: 11;
+    animation: yaka-peek-l 8s ease-in-out infinite;
+  }
+  @keyframes yaka-peek-l {
+    0%, 100% { transform: translateX(-35px) rotate(0deg); }
+    15% { transform: translateX(0px) rotate(-5deg); }
+    25% { transform: translateX(5px) rotate(3deg); }
+    35% { transform: translateX(5px) rotate(-8deg); }
+    45% { transform: translateX(0px) rotate(0deg); }
+    55% { transform: translateX(-35px) rotate(0deg); }
+  }
+
+  /* Yaka 2: Peeks from right */
+  .yaka-peek-right {
+    position: fixed;
+    bottom: 28vh; right: 0;
+    z-index: 11;
+    animation: yaka-peek-r 10s ease-in-out infinite 3s;
+  }
+  @keyframes yaka-peek-r {
+    0%, 100% { transform: translateX(35px) rotate(0deg); }
+    15% { transform: translateX(0px) rotate(5deg); }
+    25% { transform: translateX(-5px) rotate(-3deg); }
+    35% { transform: translateX(-5px) rotate(8deg); }
+    50% { transform: translateX(0px) rotate(0deg); }
+    60% { transform: translateX(35px) rotate(0deg); }
+  }
+
+  /* Yaka 3: Scurries across the meadow */
+  .yaka-scurry {
+    position: fixed;
+    bottom: 10vh; left: -60px;
+    z-index: 12;
+    animation: scurry-across 14s ease-in-out infinite 5s;
+  }
+
+  @keyframes scurry-across {
+    0%   { left: -60px;  bottom: 10vh; }
+    5%   { left: 5%;     bottom: 11vh; }
+    15%  { left: 15%;    bottom: 9vh; }
+    20%  { left: 22%;    bottom: 12vh; }  /* jumps up */
+    25%  { left: 28%;    bottom: 9vh; }
+    35%  { left: 40%;    bottom: 10vh; }
+    40%  { left: 45%;    bottom: 10vh; }  /* pause — looks around */
+    45%  { left: 45%;    bottom: 10vh; }
+    55%  { left: 58%;    bottom: 11vh; }
+    65%  { left: 72%;    bottom: 9vh; }
+    70%  { left: 78%;    bottom: 13vh; }  /* another jump */
+    75%  { left: 82%;    bottom: 10vh; }
+    85%  { left: 92%;    bottom: 10vh; }
+    95%  { left: calc(100% + 20px); bottom: 10vh; }
+    100% { left: calc(100% + 60px); bottom: 10vh; }
+  }
+
+  .yaka-run-bounce {
+    animation: yaka-bounce 0.35s ease-in-out infinite;
+  }
+  @keyframes yaka-bounce {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  .yaka-hair-fly {
+    animation: hair-wild 0.4s ease-in-out infinite;
+  }
+  @keyframes hair-wild {
+    0%, 100% { transform: rotate(-5deg) translateX(2px); }
+    50% { transform: rotate(5deg) translateX(-2px); }
+  }
+
+  .yaka-arms-run {
+    animation: arms-pump 0.35s ease-in-out infinite;
+  }
+  @keyframes arms-pump {
+    0%, 100% { transform: rotate(-15deg); }
+    50% { transform: rotate(15deg); }
+  }
+
+  /* Yaka peeking eyes blink */
+  .yaka-blink {
+    animation: blink-eyes 4s ease-in-out infinite;
+  }
+  @keyframes blink-eyes {
+    0%, 45%, 55%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.1); }
+  }
+
+  /* --- Butterfly --- */
+  .butterfly {
+    position: fixed;
+    z-index: 15;
+    animation: flutter-path 12s ease-in-out infinite;
+  }
+  .butterfly-1 {
+    top: 30%; left: 20%;
+    animation: flutter-1 16s ease-in-out infinite;
+  }
+  .butterfly-2 {
+    top: 45%; right: 25%;
+    animation: flutter-2 20s ease-in-out infinite 4s;
+  }
+
+  @keyframes flutter-1 {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    15%  { transform: translate(60px, -40px) rotate(10deg); }
+    30%  { transform: translate(120px, -20px) rotate(-5deg); }
+    50%  { transform: translate(80px, -70px) rotate(8deg); }
+    70%  { transform: translate(30px, -30px) rotate(-10deg); }
+    85%  { transform: translate(-20px, -10px) rotate(5deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+  @keyframes flutter-2 {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    20%  { transform: translate(-50px, -30px) rotate(-8deg); }
+    40%  { transform: translate(-90px, 10px) rotate(6deg); }
+    60%  { transform: translate(-40px, -50px) rotate(-4deg); }
+    80%  { transform: translate(10px, -20px) rotate(8deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+  }
+
+  .wing-flap {
+    animation: flap 0.3s ease-in-out infinite;
+  }
+  @keyframes flap {
+    0%, 100% { transform: scaleX(1); }
+    50% { transform: scaleX(0.3); }
+  }
+
+  /* ══════════════════════════════════════
+     CONTENT CARD
+  ══════════════════════════════════════ */
+  .content-layer {
+    position: relative;
+    z-index: 20;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    pointer-events: none;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+    max-width: 440px;
+    width: 100%;
+    pointer-events: auto;
+    box-shadow:
+      0 8px 32px rgba(60, 100, 40, 0.12),
+      0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid rgba(255,255,255,0.6);
+    animation: card-in 1s ease-out 0.3s both;
+  }
+
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8a9a7a;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #2a3a20;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+    color: #6a7a5a;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .cta {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: #4a7a3a;
+    text-decoration: none;
+    padding: 0.7rem 1.6rem;
+    border-radius: 50px;
+    border: 1.5px solid rgba(74, 122, 58, 0.3);
+    background: rgba(74, 122, 58, 0.06);
+    transition: all 0.3s ease;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .cta:hover {
+    background: rgba(74, 122, 58, 0.12);
+    border-color: rgba(74, 122, 58, 0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74, 122, 58, 0.15);
+  }
+
+  /* ══════════════════════════════════════
+     PARALLAX
+  ══════════════════════════════════════ */
+  .parallax-layer { transition: transform 0.15s ease-out; }
+
+</style>
+</head>
+<body>
+
+<!-- SKY -->
+<div class="sky parallax-layer" data-speed="0.01"></div>
+
+<!-- CLOUDS -->
+<div class="cloud cloud-1 parallax-layer" data-speed="0.02">
+  <svg viewBox="0 0 280 80" fill="none"><ellipse cx="140" cy="50" rx="130" ry="30" fill="white" opacity="0.8"/><ellipse cx="100" cy="40" rx="80" ry="35" fill="white" opacity="0.9"/><ellipse cx="180" cy="42" rx="70" ry="28" fill="white" opacity="0.85"/></svg>
+</div>
+<div class="cloud cloud-2 parallax-layer" data-speed="0.015">
+  <svg viewBox="0 0 200 60" fill="none"><ellipse cx="100" cy="35" rx="90" ry="22" fill="white" opacity="0.85"/><ellipse cx="70" cy="28" rx="60" ry="25" fill="white" opacity="0.9"/><ellipse cx="140" cy="30" rx="50" ry="20" fill="white"/></svg>
+</div>
+<div class="cloud cloud-3 parallax-layer" data-speed="0.025">
+  <svg viewBox="0 0 240 70" fill="none"><ellipse cx="120" cy="40" rx="110" ry="28" fill="white" opacity="0.8"/><ellipse cx="80" cy="35" rx="70" ry="30" fill="white" opacity="0.9"/><ellipse cx="170" cy="36" rx="60" ry="24" fill="white"/></svg>
+</div>
+<div class="cloud cloud-4 parallax-layer" data-speed="0.018">
+  <svg viewBox="0 0 160 50" fill="none"><ellipse cx="80" cy="30" rx="70" ry="20" fill="white" opacity="0.85"/><ellipse cx="55" cy="25" rx="50" ry="22" fill="white" opacity="0.9"/></svg>
+</div>
+
+<!-- LANDSCAPE -->
+<div class="landscape parallax-layer" data-speed="0.03">
+  <div class="hills-far"></div>
+  <div class="hills-mid"></div>
+  <div class="ground"></div>
+</div>
+
+<!-- Wildflowers -->
+<div class="wildflower wf-1"></div>
+<div class="wildflower wf-2"></div>
+<div class="wildflower wf-3"></div>
+<div class="wildflower wf-4"></div>
+<div class="wildflower wf-5"></div>
+<div class="wildflower wf-6"></div>
+
+<!-- ══════════════════════════════════════
+     CHARACTERS
+══════════════════════════════════════ -->
+
+<!-- FOREST SPIRIT 1 — sitting on left hill, bobbing -->
+<div class="forest-spirit spirit-sit-left parallax-layer" data-speed="0.035">
+  <svg width="36" height="44" viewBox="0 0 36 44" fill="none">
+    <!-- body blob -->
+    <ellipse cx="18" cy="30" rx="14" ry="14" fill="#e8f0d8" stroke="#b8d0a0" stroke-width="1"/>
+    <!-- kolam dot forehead -->
+    <circle cx="18" cy="22" r="2" fill="#d4956a"/>
+    <!-- eyes — big and happy -->
+    <circle cx="13" cy="27" r="2.5" fill="#2a3a20"/>
+    <circle cx="23" cy="27" r="2.5" fill="#2a3a20"/>
+    <circle cx="14" cy="26.5" r="1" fill="white"/>
+    <circle cx="24" cy="26.5" r="1" fill="white"/>
+    <!-- little smile -->
+    <path d="M14 32 Q18 36 22 32" stroke="#2a3a20" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <!-- leaf ear left -->
+    <path d="M6 20 Q4 12 10 16" fill="#8ab870" stroke="#6a9a50" stroke-width="0.5"/>
+    <!-- leaf ear right -->
+    <path d="M30 20 Q32 12 26 16" fill="#8ab870" stroke="#6a9a50" stroke-width="0.5"/>
+    <!-- sprout on top -->
+    <path d="M18 16 Q18 8 22 6" stroke="#6a9a50" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="23" cy="6" rx="4" ry="2.5" fill="#8ab870" transform="rotate(-15 23 6)"/>
+    <!-- tiny feet -->
+    <ellipse cx="12" cy="42" rx="4" ry="2.5" fill="#d8e8c8"/>
+    <ellipse cx="24" cy="42" rx="4" ry="2.5" fill="#d8e8c8"/>
+  </svg>
+</div>
+
+<!-- FOREST SPIRIT 2 — sitting on right hill -->
+<div class="forest-spirit spirit-sit-right parallax-layer" data-speed="0.04">
+  <svg width="28" height="36" viewBox="0 0 28 36" fill="none">
+    <ellipse cx="14" cy="24" rx="11" ry="11" fill="#f0f5e0" stroke="#c0d8a0" stroke-width="1"/>
+    <circle cx="14" cy="18" r="1.5" fill="#c87850"/>
+    <circle cx="10" cy="22" r="2" fill="#2a3a20"/>
+    <circle cx="18" cy="22" r="2" fill="#2a3a20"/>
+    <circle cx="11" cy="21.5" r="0.8" fill="white"/>
+    <circle cx="19" cy="21.5" r="0.8" fill="white"/>
+    <!-- O mouth — surprised/curious -->
+    <ellipse cx="14" cy="27" rx="2" ry="1.5" fill="#2a3a20" opacity="0.6"/>
+    <path d="M5 17 Q3 10 8 13" fill="#90c070"/>
+    <path d="M23 17 Q25 10 20 13" fill="#90c070"/>
+    <path d="M14 13 Q14 6 17 4" stroke="#6a9a50" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <circle cx="18" cy="4" r="2.5" fill="#90c070"/>
+    <ellipse cx="9" cy="34" rx="3.5" ry="2" fill="#e0ecd0"/>
+    <ellipse cx="19" cy="34" rx="3.5" ry="2" fill="#e0ecd0"/>
+  </svg>
+</div>
+
+<!-- FOREST SPIRIT 3 — tiny one chasing after the yaka -->
+<div class="forest-spirit spirit-follow parallax-layer" data-speed="0.035">
+  <svg width="18" height="22" viewBox="0 0 18 22" fill="none">
+    <ellipse cx="9" cy="14" rx="7" ry="7" fill="#e8f5d5" stroke="#b8d8a0" stroke-width="0.8"/>
+    <circle cx="7" cy="13" r="1.5" fill="#2a3a20"/>
+    <circle cx="11" cy="13" r="1.5" fill="#2a3a20"/>
+    <circle cx="7.5" cy="12.5" r="0.6" fill="white"/>
+    <circle cx="11.5" cy="12.5" r="0.6" fill="white"/>
+    <!-- running open mouth -->
+    <ellipse cx="9" cy="16.5" rx="1.5" ry="1" fill="#2a3a20" opacity="0.5"/>
+    <path d="M9 7 Q9 3 11 2" stroke="#6a9a50" stroke-width="0.8" fill="none"/>
+    <circle cx="12" cy="2" r="1.8" fill="#8ab870"/>
+    <ellipse cx="6" cy="21" rx="2.5" ry="1.5" fill="#dae8c8"/>
+    <ellipse cx="12" cy="21" rx="2.5" ry="1.5" fill="#dae8c8"/>
+  </svg>
+</div>
+
+<!-- ELEPHANT SPIRIT — ambling through the meadow -->
+<div class="elephant-spirit parallax-layer" data-speed="0.032">
+  <svg width="70" height="55" viewBox="0 0 70 55" fill="none">
+    <g class="elephant-body">
+      <!-- body -->
+      <ellipse cx="35" cy="32" rx="22" ry="16" fill="#c8d0d8" stroke="#a0aab4" stroke-width="1"/>
+      <!-- head -->
+      <circle cx="54" cy="24" r="12" fill="#c8d0d8" stroke="#a0aab4" stroke-width="1"/>
+      <!-- ear -->
+      <ellipse cx="50" cy="18" rx="8" ry="10" fill="#b8c4d0" stroke="#a0aab4" stroke-width="0.8"/>
+      <!-- eye — big kawaii -->
+      <circle cx="58" cy="22" r="3" fill="#2a3a30"/>
+      <circle cx="59.5" cy="21" r="1.2" fill="white"/>
+      <!-- happy blush -->
+      <ellipse cx="62" cy="26" rx="2.5" ry="1.5" fill="#e0a0a0" opacity="0.4"/>
+      <!-- tiny tusk -->
+      <path d="M62 28 L64 32" stroke="#f0ece0" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- kolam dot -->
+      <circle cx="56" cy="16" r="1.5" fill="#d4956a"/>
+    </g>
+    <!-- trunk -->
+    <g class="trunk">
+      <path d="M64 28 Q68 34 66 40 Q64 44 60 43" stroke="#a0aab4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </g>
+    <!-- legs -->
+    <rect x="22" y="42" width="6" height="10" rx="3" fill="#b8c4d0"/>
+    <rect x="32" y="43" width="6" height="10" rx="3" fill="#b8c4d0"/>
+    <rect x="42" y="42" width="6" height="10" rx="3" fill="#b8c4d0"/>
+    <!-- tail -->
+    <g class="elephant-tail">
+      <path d="M14 30 Q8 34 10 40" stroke="#a0aab4" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="10" cy="41" r="2" fill="#b8c4d0"/>
+    </g>
+  </svg>
+</div>
+
+<!-- PEACOCK SPIRIT -->
+<div class="peacock-spirit parallax-layer" data-speed="0.038">
+  <svg width="60" height="55" viewBox="0 0 60 55" fill="none">
+    <!-- fan tail -->
+    <g class="peacock-fan">
+      <path d="M30 30 L10 5" stroke="#3a9a8a" stroke-width="1.5" opacity="0.6"/>
+      <path d="M30 30 L18 2" stroke="#3a9a8a" stroke-width="1.5" opacity="0.6"/>
+      <path d="M30 30 L30 0" stroke="#4aaa9a" stroke-width="1.5" opacity="0.7"/>
+      <path d="M30 30 L42 2" stroke="#3a9a8a" stroke-width="1.5" opacity="0.6"/>
+      <path d="M30 30 L50 5" stroke="#3a9a8a" stroke-width="1.5" opacity="0.6"/>
+      <!-- eye spots -->
+      <circle cx="10" cy="5" r="3" fill="#2080a0" opacity="0.6"/>
+      <circle cx="10" cy="5" r="1.5" fill="#40c0a0" opacity="0.8"/>
+      <circle cx="18" cy="2" r="3" fill="#2080a0" opacity="0.6"/>
+      <circle cx="18" cy="2" r="1.5" fill="#40c0a0" opacity="0.8"/>
+      <circle cx="30" cy="0" r="3.5" fill="#2080a0" opacity="0.6"/>
+      <circle cx="30" cy="0" r="1.8" fill="#40c0a0" opacity="0.8"/>
+      <circle cx="42" cy="2" r="3" fill="#2080a0" opacity="0.6"/>
+      <circle cx="42" cy="2" r="1.5" fill="#40c0a0" opacity="0.8"/>
+      <circle cx="50" cy="5" r="3" fill="#2080a0" opacity="0.6"/>
+      <circle cx="50" cy="5" r="1.5" fill="#40c0a0" opacity="0.8"/>
+    </g>
+    <!-- body -->
+    <ellipse cx="30" cy="38" rx="8" ry="10" fill="#2a8a7a" stroke="#1a6a5a" stroke-width="0.8"/>
+    <!-- head -->
+    <g class="peacock-head">
+      <circle cx="30" cy="26" r="5" fill="#3a9a8a"/>
+      <!-- eye -->
+      <circle cx="33" cy="25" r="1.8" fill="#1a2a20"/>
+      <circle cx="33.8" cy="24.5" r="0.7" fill="white"/>
+      <!-- beak -->
+      <path d="M35 26 L38 25.5 L35 27" fill="#d4a050"/>
+      <!-- crown -->
+      <line x1="29" y1="21" x2="28" y2="17" stroke="#3a9a8a" stroke-width="1"/>
+      <line x1="31" y1="21" x2="31" y2="16.5" stroke="#3a9a8a" stroke-width="1"/>
+      <line x1="33" y1="21.5" x2="34" y2="17.5" stroke="#3a9a8a" stroke-width="1"/>
+      <circle cx="28" cy="16.5" r="1.5" fill="#40c0a0"/>
+      <circle cx="31" cy="16" r="1.5" fill="#40c0a0"/>
+      <circle cx="34" cy="17" r="1.5" fill="#40c0a0"/>
+    </g>
+    <!-- legs -->
+    <line x1="27" y1="47" x2="25" y2="53" stroke="#d4956a" stroke-width="1.5"/>
+    <line x1="33" y1="47" x2="35" y2="53" stroke="#d4956a" stroke-width="1.5"/>
+  </svg>
+</div>
+
+<!-- LEOPARD SPIRIT — slinking through grass -->
+<div class="leopard-spirit parallax-layer" data-speed="0.033">
+  <svg width="55" height="30" viewBox="0 0 55 30" fill="none">
+    <g class="leopard-body-bounce">
+      <!-- body -->
+      <ellipse cx="28" cy="16" rx="18" ry="8" fill="#e8d8a0" stroke="#c8b878" stroke-width="0.8"/>
+      <!-- spots -->
+      <circle cx="20" cy="14" r="1.5" fill="#b89850" opacity="0.6"/>
+      <circle cx="26" cy="11" r="1.2" fill="#b89850" opacity="0.5"/>
+      <circle cx="33" cy="13" r="1.5" fill="#b89850" opacity="0.6"/>
+      <circle cx="28" cy="18" r="1" fill="#b89850" opacity="0.5"/>
+      <circle cx="22" cy="19" r="1.2" fill="#b89850" opacity="0.5"/>
+      <circle cx="36" cy="17" r="1" fill="#b89850" opacity="0.4"/>
+      <!-- head -->
+      <circle cx="46" cy="12" r="7" fill="#e8d8a0" stroke="#c8b878" stroke-width="0.8"/>
+      <!-- ears -->
+      <path d="M42 6 L40 2 L44 5" fill="#e8d8a0" stroke="#c8b878" stroke-width="0.6"/>
+      <path d="M50 6 L52 2 L48 5" fill="#e8d8a0" stroke="#c8b878" stroke-width="0.6"/>
+      <path d="M42.5 5.5 L41 3 L43.5 5" fill="#d4a080" opacity="0.5"/>
+      <path d="M49.5 5.5 L51 3 L48.5 5" fill="#d4a080" opacity="0.5"/>
+      <!-- cat eyes -->
+      <ellipse cx="44" cy="11" rx="1.5" ry="2" fill="#5a8a40"/>
+      <ellipse cx="44" cy="11" rx="0.6" ry="2" fill="#2a3a20"/>
+      <ellipse cx="49" cy="11" rx="1.5" ry="2" fill="#5a8a40"/>
+      <ellipse cx="49" cy="11" rx="0.6" ry="2" fill="#2a3a20"/>
+      <!-- nose + whiskers -->
+      <ellipse cx="46.5" cy="14" rx="1" ry="0.7" fill="#d4956a"/>
+      <line x1="42" y1="13" x2="38" y2="12" stroke="#c8b878" stroke-width="0.4" opacity="0.5"/>
+      <line x1="42" y1="14.5" x2="38" y2="15" stroke="#c8b878" stroke-width="0.4" opacity="0.5"/>
+      <line x1="51" y1="13" x2="55" y2="12" stroke="#c8b878" stroke-width="0.4" opacity="0.5"/>
+      <line x1="51" y1="14.5" x2="55" y2="15" stroke="#c8b878" stroke-width="0.4" opacity="0.5"/>
+      <!-- kolam dot -->
+      <circle cx="46.5" cy="8" r="1" fill="#d4956a" opacity="0.6"/>
+      <!-- legs -->
+      <rect x="16" y="22" width="4" height="6" rx="2" fill="#e0d098"/>
+      <rect x="24" y="22" width="4" height="6" rx="2" fill="#e0d098"/>
+      <rect x="32" y="22" width="4" height="6" rx="2" fill="#e0d098"/>
+      <rect x="40" y="22" width="4" height="6" rx="2" fill="#e0d098"/>
+    </g>
+    <!-- tail -->
+    <g class="leopard-tail-anim">
+      <path d="M10 14 Q4 10 2 16 Q0 22 6 20" stroke="#c8b878" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </g>
+  </svg>
+</div>
+
+<!-- BABY YAKA 1 — peeks from left -->
+<div class="yaka-peek-left">
+  <svg width="40" height="50" viewBox="0 0 40 50" fill="none">
+    <!-- body -->
+    <ellipse cx="20" cy="35" rx="12" ry="14" fill="#e0d0e8" stroke="#c0a8d0" stroke-width="1"/>
+    <!-- wild hair -->
+    <path d="M8 18 Q6 8 14 12" fill="#8a6a9a"/>
+    <path d="M14 14 Q12 4 20 8" fill="#9a7aaa"/>
+    <path d="M20 12 Q22 2 26 8" fill="#8a6a9a"/>
+    <path d="M26 14 Q30 6 32 14" fill="#9a7aaa"/>
+    <path d="M30 18 Q34 10 32 18" fill="#8a6a9a"/>
+    <!-- face -->
+    <circle cx="20" cy="22" r="10" fill="#e8daf0"/>
+    <!-- big excited eyes -->
+    <g class="yaka-blink">
+      <circle cx="16" cy="21" r="3.5" fill="white" stroke="#8a6a9a" stroke-width="0.5"/>
+      <circle cx="16" cy="21.5" r="2.2" fill="#4a2a5a"/>
+      <circle cx="17" cy="20.5" r="0.8" fill="white"/>
+      <circle cx="24" cy="21" r="3.5" fill="white" stroke="#8a6a9a" stroke-width="0.5"/>
+      <circle cx="24" cy="21.5" r="2.2" fill="#4a2a5a"/>
+      <circle cx="25" cy="20.5" r="0.8" fill="white"/>
+    </g>
+    <!-- mischievous grin -->
+    <path d="M15 27 Q20 31 25 27" stroke="#6a4a7a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <!-- tiny fangs -->
+    <rect x="17" y="27" width="1.5" height="2" rx="0.5" fill="white"/>
+    <rect x="22" y="27" width="1.5" height="2" rx="0.5" fill="white"/>
+    <!-- hands peeking -->
+    <circle cx="6" cy="30" r="3.5" fill="#e0d0e8" stroke="#c0a8d0" stroke-width="0.8"/>
+    <circle cx="34" cy="30" r="3.5" fill="#e0d0e8" stroke="#c0a8d0" stroke-width="0.8"/>
+    <!-- kolam forehead dot -->
+    <circle cx="20" cy="15" r="1.5" fill="#d4956a"/>
+  </svg>
+</div>
+
+<!-- BABY YAKA 2 — peeks from right (mirrored) -->
+<div class="yaka-peek-right">
+  <svg width="38" height="45" viewBox="0 0 38 45" fill="none" style="transform: scaleX(-1)">
+    <ellipse cx="19" cy="32" rx="10" ry="12" fill="#d8e0d0" stroke="#b0c0a0" stroke-width="1"/>
+    <path d="M8 16 Q6 7 13 11" fill="#6a8a5a"/>
+    <path d="M13 12 Q12 3 19 7" fill="#7a9a6a"/>
+    <path d="M19 10 Q22 2 25 7" fill="#6a8a5a"/>
+    <path d="M25 13 Q28 5 30 13" fill="#7a9a6a"/>
+    <circle cx="19" cy="20" r="9" fill="#e0e8d8"/>
+    <g class="yaka-blink">
+      <circle cx="15" cy="19" r="3" fill="white" stroke="#6a8a5a" stroke-width="0.5"/>
+      <circle cx="15" cy="19.5" r="1.8" fill="#2a4a20"/>
+      <circle cx="16" cy="18.8" r="0.7" fill="white"/>
+      <circle cx="23" cy="19" r="3" fill="white" stroke="#6a8a5a" stroke-width="0.5"/>
+      <circle cx="23" cy="19.5" r="1.8" fill="#2a4a20"/>
+      <circle cx="24" cy="18.8" r="0.7" fill="white"/>
+    </g>
+    <!-- tongue sticking out -->
+    <path d="M16 24 Q19 28 22 24" stroke="#5a7a4a" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <ellipse cx="19" cy="25.5" rx="2" ry="1.2" fill="#e0a0a0"/>
+    <circle cx="6" cy="28" r="3" fill="#d8e0d0" stroke="#b0c0a0" stroke-width="0.8"/>
+    <circle cx="32" cy="28" r="3" fill="#d8e0d0" stroke="#b0c0a0" stroke-width="0.8"/>
+    <circle cx="19" cy="13" r="1.3" fill="#d4956a"/>
+  </svg>
+</div>
+
+<!-- BABY YAKA 3 — scurries across the meadow! -->
+<div class="yaka-scurry">
+  <div class="yaka-run-bounce">
+    <svg width="35" height="40" viewBox="0 0 35 40" fill="none">
+      <!-- body leaning forward (running) -->
+      <ellipse cx="18" cy="22" rx="9" ry="10" fill="#f0e0d0" stroke="#d0b8a0" stroke-width="0.8" transform="rotate(-15 18 22)"/>
+      <!-- hair flying back -->
+      <g class="yaka-hair-fly">
+        <path d="M10 10 Q4 4 8 8" stroke="#a07050" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M12 8 Q6 0 10 5" stroke="#b08060" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M16 7 Q10 -1 14 4" stroke="#a07050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M20 8 Q16 1 18 5" stroke="#b08060" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- face -->
+      <circle cx="20" cy="15" r="8" fill="#f5ead8"/>
+      <!-- big excited running eyes -->
+      <circle cx="18" cy="14" r="2.8" fill="white" stroke="#a07050" stroke-width="0.5"/>
+      <circle cx="18" cy="14.5" r="1.8" fill="#5a3020"/>
+      <circle cx="19" cy="13.5" r="0.7" fill="white"/>
+      <circle cx="24" cy="13" r="2.8" fill="white" stroke="#a07050" stroke-width="0.5"/>
+      <circle cx="24" cy="13.5" r="1.8" fill="#5a3020"/>
+      <circle cx="25" cy="12.5" r="0.7" fill="white"/>
+      <!-- open excited mouth -->
+      <ellipse cx="22" cy="19" rx="2.5" ry="2" fill="#5a3020" opacity="0.7"/>
+      <path d="M20.5 18.5 Q22 17 23.5 18.5" fill="white"/>
+      <!-- kolam dot -->
+      <circle cx="21" cy="9" r="1.2" fill="#d4956a"/>
+      <!-- arms pumping -->
+      <g class="yaka-arms-run">
+        <line x1="12" y1="20" x2="5" y2="16" stroke="#e8d0b8" stroke-width="3" stroke-linecap="round"/>
+        <line x1="25" y1="24" x2="32" y2="20" stroke="#e8d0b8" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <!-- running legs -->
+      <line x1="14" y1="30" x2="8" y2="38" stroke="#e8d0b8" stroke-width="3" stroke-linecap="round"/>
+      <line x1="20" y1="30" x2="26" y2="38" stroke="#e8d0b8" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  </div>
+</div>
+
+<!-- BUTTERFLIES -->
+<div class="butterfly butterfly-1 parallax-layer" data-speed="0.05">
+  <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+    <g class="wing-flap">
+      <ellipse cx="6" cy="6" rx="5" ry="4" fill="#e8a0c0" opacity="0.7"/>
+      <ellipse cx="14" cy="6" rx="5" ry="4" fill="#e8a0c0" opacity="0.7"/>
+      <ellipse cx="6" cy="11" rx="3.5" ry="3" fill="#d890b0" opacity="0.6"/>
+      <ellipse cx="14" cy="11" rx="3.5" ry="3" fill="#d890b0" opacity="0.6"/>
+    </g>
+    <line x1="10" y1="3" x2="10" y2="14" stroke="#8a5a6a" stroke-width="0.8"/>
+  </svg>
+</div>
+
+<div class="butterfly butterfly-2 parallax-layer" data-speed="0.045">
+  <svg width="16" height="14" viewBox="0 0 16 14" fill="none">
+    <g class="wing-flap" style="animation-delay: 0.15s">
+      <ellipse cx="5" cy="5" rx="4" ry="3.5" fill="#a0c8e0" opacity="0.7"/>
+      <ellipse cx="11" cy="5" rx="4" ry="3.5" fill="#a0c8e0" opacity="0.7"/>
+      <ellipse cx="5" cy="9.5" rx="3" ry="2.5" fill="#88b8d0" opacity="0.6"/>
+      <ellipse cx="11" cy="9.5" rx="3" ry="2.5" fill="#88b8d0" opacity="0.6"/>
+    </g>
+    <line x1="8" y1="2.5" x2="8" y2="12" stroke="#5a7a8a" stroke-width="0.7"/>
+  </svg>
+</div>
+
+<!-- ══════════════════════════════════════
+     CONTENT
+══════════════════════════════════════ -->
+<div class="content-layer">
+  <div class="card">
+    <div class="label">Coming Soon</div>
+    <h1 class="name">Riz Razak</h1>
+    <p class="tagline">Personal site under construction.</p>
+    <a href="https://analyst.rizrazak.com/" class="cta" target="_blank" rel="noopener">
+      For now, enjoy the deep analysis &rarr; analyst.rizrazak.com
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PARALLAX SCRIPT
+══════════════════════════════════════ -->
+<script>
+  const layers = document.querySelectorAll('.parallax-layer');
+  let mouseX = 0.5, mouseY = 0.5;
+  let currentX = 0.5, currentY = 0.5;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX / window.innerWidth;
+    mouseY = e.clientY / window.innerHeight;
+  });
+
+  function animate() {
+    currentX += (mouseX - currentX) * 0.05;
+    currentY += (mouseY - currentY) * 0.05;
+
+    layers.forEach(layer => {
+      const speed = parseFloat(layer.dataset.speed) || 0.02;
+      const x = (currentX - 0.5) * speed * 1000;
+      const y = (currentY - 0.5) * speed * 600;
+      layer.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+</body>
+</html>

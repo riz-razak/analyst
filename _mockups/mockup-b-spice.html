@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup B — Spice Wave</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #FFFBF5;
+    --text: #1E1209;
+    --text-soft: #5C4A3A;
+    --text-muted: #B0A090;
+    --saffron: #E8960A;
+    --cinnamon: #C07830;
+    --teal: #2CA8A0;
+    --plum: #9B5DE5;
+  }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── Animated gradient border at top ─── */
+  .top-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--saffron), var(--cinnamon), var(--plum), var(--teal), var(--saffron));
+    background-size: 300% 100%;
+    animation: gradientFlow 8s linear infinite;
+  }
+
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+
+  /* ─── Floating waves ─── */
+  .waves {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.06;
+  }
+
+  .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+  }
+
+  .wave-1 { animation: waveMove 12s linear infinite; }
+  .wave-2 { animation: waveMove 16s linear infinite reverse; opacity: 0.6; }
+
+  @keyframes waveMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ─── Corner ornaments (kolam-inspired) ─── */
+  .ornament {
+    position: fixed;
+    pointer-events: none;
+    opacity: 0.06;
+    z-index: 0;
+  }
+  .ornament-tl { top: 20px; left: 20px; }
+  .ornament-br { bottom: 20px; right: 20px; transform: rotate(180deg); }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bobFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* ─── Layout ─── */
+  .container {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  /* Spinning ornament above name */
+  .mandala {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.7s ease-out, spin 30s linear infinite;
+    opacity: 0.18;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--cinnamon);
+    margin-bottom: 1rem;
+    animation: fadeInUp 0.7s ease-out 0.05s both;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    color: var(--text);
+    animation: fadeInUp 0.7s ease-out 0.1s both;
+  }
+
+  .name-underline {
+    width: 80px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--saffron), var(--cinnamon));
+    margin: 0 auto 1.8rem;
+    animation: fadeInUp 0.7s ease-out 0.15s both;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--text-soft);
+    max-width: 380px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.7s ease-out 0.2s both;
+  }
+
+  .cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    animation: fadeInUp 0.7s ease-out 0.3s both;
+  }
+
+  .cta {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 32px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, var(--saffron), var(--cinnamon));
+    box-shadow: 0 4px 16px rgba(232, 150, 10, 0.2);
+    transition: all 0.3s ease;
+    animation: bobFloat 4s ease-in-out infinite;
+  }
+  .cta:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 28px rgba(232, 150, 10, 0.3);
+  }
+
+  .cta-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .footer {
+    margin-top: 4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    animation: fadeInUp 0.7s ease-out 0.4s both;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<!-- Kolam-inspired corner ornaments -->
+<svg class="ornament ornament-tl" width="80" height="80" viewBox="0 0 80 80">
+  <g fill="none" stroke="#C07830" stroke-width="1">
+    <path d="M5 5 Q40 5 40 40 Q40 5 75 5" />
+    <path d="M5 5 Q5 40 40 40 Q5 40 5 75" />
+    <circle cx="40" cy="40" r="6" />
+    <circle cx="40" cy="40" r="2" fill="#C07830" opacity="0.3"/>
+    <circle cx="15" cy="15" r="3" />
+    <circle cx="65" cy="15" r="3" />
+    <circle cx="15" cy="65" r="3" />
+  </g>
+</svg>
+
+<svg class="ornament ornament-br" width="80" height="80" viewBox="0 0 80 80">
+  <g fill="none" stroke="#C07830" stroke-width="1">
+    <path d="M5 5 Q40 5 40 40 Q40 5 75 5" />
+    <path d="M5 5 Q5 40 40 40 Q5 40 5 75" />
+    <circle cx="40" cy="40" r="6" />
+    <circle cx="40" cy="40" r="2" fill="#C07830" opacity="0.3"/>
+    <circle cx="15" cy="15" r="3" />
+    <circle cx="65" cy="15" r="3" />
+    <circle cx="15" cy="65" r="3" />
+  </g>
+</svg>
+
+<!-- Ocean waves at bottom -->
+<div class="waves">
+  <svg class="wave wave-1" viewBox="0 0 1440 120" preserveAspectRatio="none">
+    <path d="M0,60 C240,120 480,0 720,60 C960,120 1200,0 1440,60 C1680,120 1920,0 2160,60 C2400,120 2640,0 2880,60 L2880,120 L0,120 Z" fill="#2CA8A0"/>
+  </svg>
+  <svg class="wave wave-2" viewBox="0 0 1440 120" preserveAspectRatio="none">
+    <path d="M0,80 C360,20 720,100 1080,40 C1440,80 1800,20 2160,80 C2520,20 2880,100 2880,80 L2880,120 L0,120 Z" fill="#E8960A"/>
+  </svg>
+</div>
+
+<!-- Mandala ornament -->
+<svg class="mandala" viewBox="0 0 48 48">
+  <g fill="none" stroke="#C07830" stroke-width="0.8">
+    <circle cx="24" cy="24" r="20"/>
+    <circle cx="24" cy="24" r="14"/>
+    <circle cx="24" cy="24" r="7"/>
+    <line x1="24" y1="4" x2="24" y2="44"/>
+    <line x1="4" y1="24" x2="44" y2="24"/>
+    <line x1="9" y1="9" x2="39" y2="39"/>
+    <line x1="39" y1="9" x2="9" y2="39"/>
+    <circle cx="24" cy="4" r="2" fill="#C07830" opacity="0.3"/>
+    <circle cx="24" cy="44" r="2" fill="#C07830" opacity="0.3"/>
+    <circle cx="4" cy="24" r="2" fill="#C07830" opacity="0.3"/>
+    <circle cx="44" cy="24" r="2" fill="#C07830" opacity="0.3"/>
+  </g>
+</svg>
+
+<div class="container">
+  <p class="tag">Coming Soon</p>
+  <h1>Riz Razak</h1>
+  <div class="name-underline"></div>
+  <p class="subtitle">Something interesting is brewing.</p>
+  <div class="cta-group">
+    <a href="https://analyst.rizrazak.com/" class="cta">Explore the Deep Analysis &rarr;</a>
+    <span class="cta-sub">analyst.rizrazak.com</span>
+  </div>
+  <p class="footer">&copy; 2026 Riz Razak</p>
+</div>
+
+</body>
+</html>
