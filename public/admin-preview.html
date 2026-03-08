@@ -5105,6 +5105,34 @@ const roadmapData = {
                 { text: 'Legal boundary testing strategy with pre-positioned counsel', status: 'todo' },
             ]
         },
+        {
+            id: 'w10', name: 'Distribution & Community', priority: 'high', phases: [1, 2, 3],
+            timeline: 'Weeks 4–16', color: '#059669',
+            tasks: [
+                { text: 'Launch WhatsApp Channel for dossier broadcast', status: 'todo' },
+                { text: 'WhatsApp Communities (topic-specific groups)', status: 'todo' },
+                { text: 'Digest format: auto-generated 5-point summaries for messaging', status: 'todo' },
+                { text: 'Encrypted tip line via WhatsApp', status: 'todo' },
+                { text: 'Platform-adaptive distribution adapters (Telegram, Signal)', status: 'todo' },
+                { text: 'Herald agent: automated multilingual distribution (EN/SI/TA)', status: 'todo' },
+                { text: 'Community membership + contributor pipeline', status: 'todo' },
+                { text: 'South Asian journalism network outreach', status: 'todo' },
+            ]
+        },
+        {
+            id: 'w11', name: 'Business Dev & Sustainability', priority: 'high', phases: [1, 2, 3, 4],
+            timeline: 'Weeks 4–24', color: '#7C3AED',
+            tasks: [
+                { text: 'Grant/fellowship applications (press freedom, innovation funds)', status: 'todo' },
+                { text: 'Venture agent prototype: opportunity scanning + financial modelling', status: 'todo' },
+                { text: 'Premium dossier subscription model design', status: 'todo' },
+                { text: 'Data & Intelligence Reports for institutional clients', status: 'todo' },
+                { text: 'Accountability-as-a-Service: license quality scoring + JAS', status: 'todo' },
+                { text: 'Community membership tiers with benefits', status: 'todo' },
+                { text: '3-year strategic plan + enterprise architecture', status: 'todo' },
+                { text: 'Exit prevention: structural safeguards against hostile acquisition', status: 'todo' },
+            ]
+        },
     ],
     milestones: [
         { date: 'Week 1', text: 'CMS cache fix deployed + sort controls live', done: true },
@@ -5114,15 +5142,14 @@ const roadmapData = {
         { date: 'Week 2', text: 'Thumbnail generation prototype (Gemini API)', done: false },
         { date: 'Week 3', text: 'Quality scoring engine + escalation chain designed', done: false },
         { date: 'Week 3', text: 'Comments system architecture complete', done: false },
-        { date: 'Week 3', text: 'User profile schema + 2FA flow designed', done: false },
-        { date: 'Week 4', text: 'Journalistic Accountability Standard v1.0 drafted', done: false },
-        { date: 'Week 4', text: 'Notion project board linked to admin', done: false },
+        { date: 'Week 4', text: 'WhatsApp Channel launched + grant applications begun', done: false },
         { date: 'Week 4', text: 'Phase 1 complete — Foundation', done: false },
-        { date: 'Week 6', text: 'Intelligence agent architecture designed', done: false },
+        { date: 'Week 6', text: 'Intelligence + Legal agent architecture designed', done: false },
         { date: 'Week 8', text: 'Phase 2 complete — Hardening', done: false },
-        { date: 'Week 12', text: 'Sentinel + Oracle agents deployed', done: false },
+        { date: 'Week 12', text: 'Sentinel + Oracle + Advocate agents deployed', done: false },
         { date: 'Week 16', text: 'Phase 3 complete — Intelligence', done: false },
-        { date: 'Week 24', text: 'Phase 4 complete — Autonomy', done: false },
+        { date: 'Week 20', text: 'C-Suite Swarm v1: all 8 agents in concert', done: false },
+        { date: 'Week 24', text: 'Phase 4 complete — Autonomy + Self-Sustainability', done: false },
     ]
 };
 
@@ -5141,7 +5168,7 @@ function rmRender() {
         <div class="rm-summary-card"><div class="num" style="color:#10B981">${doneTasks}</div><div class="lbl">Tasks Complete</div></div>
         <div class="rm-summary-card"><div class="num" style="color:#F59E0B">${inProgress}</div><div class="lbl">In Progress</div></div>
         <div class="rm-summary-card"><div class="num" style="color:#6B7280">${totalTasks - doneTasks - inProgress}</div><div class="lbl">Remaining</div></div>
-        <div class="rm-summary-card"><div class="num">9</div><div class="lbl">Workstreams</div></div>
+        <div class="rm-summary-card"><div class="num">11</div><div class="lbl">Workstreams</div></div>
         <div class="rm-summary-card"><div class="num">24</div><div class="lbl">Weeks Total</div></div>
     `;
 
