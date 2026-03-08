@@ -18,6 +18,13 @@
   X-Robots-Tag: noindex, nofollow
   Cache-Control: no-store, no-cache
 
+/admin-preview.html
+  Cache-Control: no-store, no-cache, must-revalidate
+  X-Robots-Tag: noindex, nofollow
+
+/dossiers/*/_cms-overrides.json
+  Cache-Control: no-store, no-cache, must-revalidate
+
 /login.html
   Cache-Control: no-store, no-cache
 
