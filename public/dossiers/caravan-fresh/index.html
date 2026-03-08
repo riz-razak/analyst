@@ -995,6 +995,142 @@
 <link rel="alternate" type="application/rss+xml" title="analyst.rizrazak.com — Investigative Dossiers" href="https://analyst.rizrazak.com/feed.xml" />
     <!-- Umami Analytics -->
     <script defer src="https://umami-analytics-plum-theta.vercel.app/script.js" data-website-id="c092a262-c652-46b8-a06b-a07a18e67b25"></script>
+
+    <!-- CMS Hydration + Admin Overlay -->
+    <script>(function() {
+        const CMS_SLUG = 'caravan-fresh';
+        const ADMIN_PW = 'Analyst@2026!';
+
+        // ── HYDRATION ──────────────────────────────────────────────
+        // Load content overrides from JSON patch file (non-blocking)
+        fetch('/dossiers/' + CMS_SLUG + '/_cms-overrides.json?cb=' + Date.now())
+            .then(function(r) { return r.ok ? r.json() : {}; })
+            .catch(function() { return {}; })
+            .then(function(overrides) {
+                Object.keys(overrides).forEach(function(id) {
+                    var val = overrides[id];
+                    document.querySelectorAll('[data-cms-id="' + id + '"]').forEach(function(el) {
+                        if (el.dataset.cmsType === 'image') { el.src = val; }
+                        else { el.textContent = val; }
+                    });
+                });
+            });
+
+        // ── ADMIN OVERLAY (activated by ?admin in URL) ────────────
+        if (!location.search.includes('admin')) return;
+
+        var savedPw = sessionStorage.getItem('cms-auth-' + CMS_SLUG);
+        if (savedPw !== ADMIN_PW) {
+            document.addEventListener('DOMContentLoaded', function() { showPwGate(); });
+            return;
+        }
+        document.addEventListener('DOMContentLoaded', function() { activateCmsMode(); });
+
+        function showPwGate() {
+            var ov = document.createElement('div');
+            ov.id = 'cms-pw-overlay';
+            ov.innerHTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Inter,sans-serif;">' +
+                '<div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:40px;width:360px;text-align:center;">' +
+                '<div style="font-size:22px;font-weight:700;color:#e0e0e0;margin-bottom:6px;">CMS Admin</div>' +
+                '<div style="font-size:13px;color:#a0a0a8;margin-bottom:24px;font-family:monospace;">' + CMS_SLUG + '</div>' +
+                '<input id="cms-pw-input" type="password" placeholder="Password" style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#e0e0e0;font-size:14px;margin-bottom:12px;box-sizing:border-box;" />' +
+                '<button id="cms-pw-btn" style="width:100%;padding:12px;background:#2d7a3e;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Enter</button>' +
+                '<div id="cms-pw-err" style="color:#ff6b6b;font-size:13px;margin-top:10px;display:none;">Incorrect password</div>' +
+                '</div></div>';
+            document.body.appendChild(ov);
+            document.getElementById('cms-pw-input').focus();
+            document.getElementById('cms-pw-btn').addEventListener('click', function() {
+                var pw = document.getElementById('cms-pw-input').value;
+                if (pw === ADMIN_PW) {
+                    sessionStorage.setItem('cms-auth-' + CMS_SLUG, pw);
+                    ov.remove();
+                    activateCmsMode();
+                } else {
+                    document.getElementById('cms-pw-err').style.display = 'block';
+                    document.getElementById('cms-pw-input').focus();
+                }
+            });
+            document.getElementById('cms-pw-input').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') document.getElementById('cms-pw-btn').click();
+            });
+        }
+
+        function activateCmsMode() {
+            // Store originals and highlight editable elements
+            document.querySelectorAll('[data-cms-id]').forEach(function(el) {
+                el.dataset.cmsOriginal = el.dataset.cmsType === 'image' ? el.src : el.textContent;
+                el.style.outline = '2px dashed rgba(45,122,62,0.55)';
+                el.style.cursor = 'pointer';
+                el.style.borderRadius = '3px';
+                el.title = 'Edit: ' + el.dataset.cmsId;
+                el.addEventListener('click', function(e) { e.stopPropagation(); openEditor(el); });
+            });
+
+            // Floating toolbar
+            var tb = document.createElement('div');
+            tb.id = 'cms-toolbar';
+            tb.innerHTML = '<div style="position:fixed;bottom:24px;right:24px;z-index:9999;background:#12121f;border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 18px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,0.6);font-family:Inter,sans-serif;">' +
+                '<span style="font-size:12px;color:#4ade80;font-weight:600;">● CMS</span>' +
+                '<span style="font-size:12px;color:#a0a0a8;font-family:monospace;">' + CMS_SLUG + '</span>' +
+                '<button id="cms-export-btn" style="padding:7px 14px;background:#2d7a3e;color:white;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;">Export JSON</button>' +
+                '<button id="cms-exit-btn" style="padding:7px 14px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.14);border-radius:7px;font-size:12px;cursor:pointer;">Exit</button>' +
+                '</div>';
+            document.body.appendChild(tb);
+
+            document.getElementById('cms-export-btn').addEventListener('click', function() {
+                var result = {};
+                document.querySelectorAll('[data-cms-id]').forEach(function(el) {
+                    var id = el.dataset.cmsId;
+                    var val = el.dataset.cmsType === 'image' ? el.src : el.textContent.trim();
+                    if (val !== (el.dataset.cmsOriginal || '').trim()) result[id] = val;
+                });
+                if (Object.keys(result).length === 0) {
+                    alert('No changes detected yet.\n\nClick any highlighted element to edit it.');
+                    return;
+                }
+                var json = JSON.stringify(result, null, 2);
+                navigator.clipboard.writeText(json).then(function() {
+                    alert('Overrides JSON copied to clipboard!\n\nCommit this content to:\ndossiers/' + CMS_SLUG + '/_cms-overrides.json\n\n(Replace the file contents entirely.)');
+                }).catch(function() {
+                    prompt('Copy this JSON and commit to dossiers/' + CMS_SLUG + '/_cms-overrides.json:', json);
+                });
+            });
+
+            document.getElementById('cms-exit-btn').addEventListener('click', function() {
+                if (confirm('Exit CMS mode? Any unapplied changes will be lost.')) {
+                    location.href = location.pathname;
+                }
+            });
+        }
+
+        function openEditor(el) {
+            var existing = document.getElementById('cms-editor-panel');
+            if (existing) existing.remove();
+            var isImage = el.dataset.cmsType === 'image';
+            var current = isImage ? el.src : el.textContent;
+            var panel = document.createElement('div');
+            panel.id = 'cms-editor-panel';
+            panel.innerHTML = '<div style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:99998;background:#1a1a2e;border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:24px;width:500px;max-width:92vw;box-shadow:0 16px 48px rgba(0,0,0,0.75);font-family:Inter,sans-serif;">' +
+                '<div style="font-size:12px;color:#a0a0a8;margin-bottom:10px;">Editing: <code style="color:#4ade80;background:rgba(74,222,128,0.1);padding:2px 6px;border-radius:4px;">' + el.dataset.cmsId + '</code></div>' +
+                '<textarea id="cms-editor-input" rows="4" style="width:100%;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#e0e0e0;font-size:14px;resize:vertical;font-family:inherit;box-sizing:border-box;"></textarea>' +
+                '<div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;">' +
+                '<button id="cms-editor-cancel" style="padding:8px 16px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.15);border-radius:8px;font-size:13px;cursor:pointer;">Cancel</button>' +
+                '<button id="cms-editor-save" style="padding:8px 16px;background:#2d7a3e;color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;">Apply</button>' +
+                '</div></div>';
+            document.body.appendChild(panel);
+            document.getElementById('cms-editor-input').value = current;
+            document.getElementById('cms-editor-input').focus();
+            document.getElementById('cms-editor-save').addEventListener('click', function() {
+                var val = document.getElementById('cms-editor-input').value;
+                if (isImage) { el.src = val; } else { el.textContent = val; }
+                panel.remove();
+            });
+            document.getElementById('cms-editor-cancel').addEventListener('click', function() { panel.remove(); });
+            document.addEventListener('keydown', function escHandler(e) {
+                if (e.key === 'Escape') { panel.remove(); document.removeEventListener('keydown', escHandler); }
+            });
+        }
+    })();</script>
 </head>
 <body data-lang-active="si">
 
@@ -1059,11 +1195,11 @@
         <div class="badge" data-lang="si">පාරිභෝගික පර්යේෂණ ලේඛනය</div>
         <div class="badge" data-lang="en">Consumer Research Document</div>
 
-        <h1 data-lang="si">කැරවන් ෆ්‍රෙෂ් "Chicken Cheese Bomb" සිද්ධිය</h1>
-        <h1 data-lang="en">The Caravan Fresh "Chicken Cheese Bomb" Incident</h1>
+        <h1 data-lang="si" data-cms-id="hero-title-si">කැරවන් ෆ්‍රෙෂ් "Chicken Cheese Bomb" සිද්ධිය</h1>
+        <h1 data-lang="en" data-cms-id="hero-title-en">The Caravan Fresh "Chicken Cheese Bomb" Incident</h1>
 
-        <p class="hero-subtitle" data-lang="si">Caravan Fresh විසින් බෝම්බ emoji සහ යුද්ධය ගැන සිහිපත් කරන සිංහල වචන භාවිතා කරමින් බේකරි delivery නිෂ්පාදනයක දැන්වීමක් publish කළ අතර, එය පාරිභෝගිකයින් සහ යුද්ධයෙන් පීඩාවට පත් අය අතර දැඩි කෝපයක් ඇති කළේය.</p>
-        <p class="hero-subtitle" data-lang="en">
+        <p class="hero-subtitle" data-lang="si" data-cms-id="hero-subtitle-si">Caravan Fresh විසින් බෝම්බ emoji සහ යුද්ධය ගැන සිහිපත් කරන සිංහල වචන භාවිතා කරමින් බේකරි delivery නිෂ්පාදනයක දැන්වීමක් publish කළ අතර, එය පාරිභෝගිකයින් සහ යුද්ධයෙන් පීඩාවට පත් අය අතර දැඩි කෝපයක් ඇති කළේය.</p>
+        <p class="hero-subtitle" data-lang="en" data-cms-id="hero-subtitle-en">
             Caravan Fresh published a bakery delivery product ad using bomb emojis and Sinhala text that evoked the ongoing US/Israeli bombing of Gaza — where schoolgirls and children were being killed — while also reopening old wounds from Sri Lanka's own civil wars. The post triggered widespread criticism over the casual use of bombing imagery in commercial marketing.
         </p>
 
@@ -1071,12 +1207,12 @@
             <div class="meta-item">
                 <span class="meta-label" data-lang="si">දිනය:</span>
                 <span class="meta-label" data-lang="en">Date:</span>
-                <span>2026 මාර්තු 3</span>
+                <span data-cms-id="meta-date">2026 මාර්තු 3</span>
             </div>
             <div class="meta-item">
                 <span data-lang="si">කියවීමේ වේලාව:</span>
                 <span data-lang="en">Read time:</span>
-                <span>8 මිනිත්තු</span>
+                <span data-cms-id="meta-readtime">8 මිනිත්තු</span>
             </div>
             <div class="meta-item">
                 <span data-lang="si">කර්තෘ:</span>
@@ -1099,25 +1235,25 @@
         <div class="stat">
             <span class="stat-label" data-lang="si">Reactions:</span>
             <span class="stat-label" data-lang="en">Reactions:</span>
-            <span class="stat-value">3,800+</span>
+            <span class="stat-value" data-cms-id="stat-reactions">3,800+</span>
         </div>
         <div class="stat">
             <span class="stat-label" data-lang="si">Comments:</span>
             <span class="stat-label" data-lang="en">Comments:</span>
-            <span class="stat-value">218+</span>
+            <span class="stat-value" data-cms-id="stat-comments">218+</span>
         </div>
         <div class="stat">
             <span class="stat-label" data-lang="si">බලපෑමට ලක් වූ අලෙවිසැල්:</span>
             <span class="stat-label" data-lang="en">Outlets affected:</span>
-            <span class="stat-value">70</span>
+            <span class="stat-value" data-cms-id="stat-outlets">70</span>
         </div>
     </div>
 
     <!-- Section 1: The Incident -->
     <section id="incident" class="section">
         <div class="section-number">01 —</div>
-        <h2 data-lang="si">සිද්ධිය</h2>
-        <h2 data-lang="en">The Incident</h2>
+        <h2 data-lang="si" data-cms-id="s1-heading-si">සිද්ධිය</h2>
+        <h2 data-lang="en" data-cms-id="s1-heading-en">The Incident</h2>
 
         <p data-lang="si">Caravan Fresh විසින් "Chicken Cheese Bomb" නමින් බේකරි delivery නිෂ්පාදනයක් සඳහා දැන්වීමක් publish කළේය. එම post එකේ බෝම්බ emoji සහ සන්නද්ධ ගැටුම් හා බෝම්බ හැලීම් සෘජුවම සඳහන් කරන සිංහල වචන අඩංගු විය.</p>
         <p data-lang="en">
@@ -1133,22 +1269,22 @@
             <div class="card stat-card">
                 <div class="stat-card-label" data-lang="si">Reactions</div>
                 <div class="stat-card-label" data-lang="en">Reactions</div>
-                <div class="stat-card-value red">3,800+</div>
+                <div class="stat-card-value red" data-cms-id="card-reactions">3,800+</div>
             </div>
             <div class="card stat-card">
                 <div class="stat-card-label" data-lang="si">Comments</div>
                 <div class="stat-card-label" data-lang="en">Comments</div>
-                <div class="stat-card-value red">218+</div>
+                <div class="stat-card-value red" data-cms-id="card-comments">218+</div>
             </div>
             <div class="card stat-card">
                 <div class="stat-card-label" data-lang="si">Post එක තිබූ කාලය</div>
                 <div class="stat-card-label" data-lang="en">Post Duration</div>
-                <div class="stat-card-value amber">17+ පැයි</div>
+                <div class="stat-card-value amber" data-cms-id="card-duration">17+ පැයි</div>
             </div>
             <div class="card stat-card">
                 <div class="stat-card-label" data-lang="si">බලපෑමට ලක් වූ අලෙවිසැල්</div>
                 <div class="stat-card-label" data-lang="en">Outlets Affected</div>
-                <div class="stat-card-value">70</div>
+                <div class="stat-card-value" data-cms-id="card-outlets">70</div>
             </div>
         </div>
     </section>
@@ -1156,8 +1292,8 @@
     <!-- Section 2: Timeline -->
     <section id="timeline" class="section">
         <div class="section-number">02 —</div>
-        <h2 data-lang="si">කාලරේඛාව</h2>
-        <h2 data-lang="en">Timeline</h2>
+        <h2 data-lang="si" data-cms-id="s2-heading-si">කාලරේඛාව</h2>
+        <h2 data-lang="en" data-cms-id="s2-heading-en">Timeline</h2>
 
         <p data-lang="si" style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1.5rem;">සාක්ෂි මූලාශ්‍ර බැලීමට සහ fact-check කිරීමට ඕනෑම සිදුවීමක් click කරන්න</p>
         <p data-lang="en" style="font-size:13px;color:var(--color-text-secondary);margin-bottom:1.5rem;">Click any event to view evidence sources and fact-check</p>
