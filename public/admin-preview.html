@@ -5074,6 +5074,37 @@ const roadmapData = {
                 { text: 'Monthly strategic assessment template', status: 'todo' },
             ]
         },
+        {
+            id: 'w8', name: 'Accountability & Quality Assurance', priority: 'crit', phases: [1, 2, 3],
+            timeline: 'Weeks 2–12', color: '#B91C1C',
+            tasks: [
+                { text: 'Design AI quality scoring dimensions (source, confidence, fairness, legal, impact)', status: 'todo' },
+                { text: 'Build escalation chain: Green ≥80% → Amber → Red → Critical <40%', status: 'todo' },
+                { text: 'Architect comments system (IP-anchored anon + pseudonymous + verified)', status: 'todo' },
+                { text: 'State actor defence: IP hashing, salt rotation, Tor-friendly', status: 'todo' },
+                { text: 'Correction & apology workflow with public score history', status: 'todo' },
+                { text: 'User review & community rating system', status: 'todo' },
+                { text: 'Draft Journalistic Accountability Standard (JAS) v1.0', status: 'todo' },
+                { text: 'JAS algorithm checks & balances — CPA reviews for overreach', status: 'todo' },
+                { text: 'Legal compliance: Sri Lankan ICCPR, Computer Crimes Act, international standards', status: 'todo' },
+            ]
+        },
+        {
+            id: 'w9', name: 'Intelligence & Threat Assessment', priority: 'high', phases: [2, 3, 4],
+            timeline: 'Weeks 6–24', color: '#1E3A5F',
+            tasks: [
+                { text: 'Design intelligence agent architecture (Sentinel, Oracle, Compass, Mirror)', status: 'todo' },
+                { text: 'Sentinel: threat monitoring (legal, social, infrastructure probes)', status: 'todo' },
+                { text: 'Oracle: global context tracking for active investigations', status: 'todo' },
+                { text: 'Compass: tech horizon scanning + Founder weekly briefing', status: 'todo' },
+                { text: 'Mirror: internal audit (quality metrics, team health)', status: 'todo' },
+                { text: 'Pre-publication threat assessment framework', status: 'todo' },
+                { text: 'Threat profiles + case studies of targeted outlets', status: 'todo' },
+                { text: 'Employee threat briefings + digital hygiene training', status: 'todo' },
+                { text: 'Power structure mapping + systemic analysis tools', status: 'todo' },
+                { text: 'Legal boundary testing strategy with pre-positioned counsel', status: 'todo' },
+            ]
+        },
     ],
     milestones: [
         { date: 'Week 1', text: 'CMS cache fix deployed + sort controls live', done: true },
@@ -5081,11 +5112,15 @@ const roadmapData = {
         { date: 'Week 1', text: 'Roadmap view added to admin dashboard', done: true },
         { date: 'Week 2', text: 'CMS fields live on ALL dossier pages', done: false, current: true },
         { date: 'Week 2', text: 'Thumbnail generation prototype (Gemini API)', done: false },
+        { date: 'Week 3', text: 'Quality scoring engine + escalation chain designed', done: false },
+        { date: 'Week 3', text: 'Comments system architecture complete', done: false },
         { date: 'Week 3', text: 'User profile schema + 2FA flow designed', done: false },
-        { date: 'Week 3', text: 'API key vault UI in admin panel', done: false },
+        { date: 'Week 4', text: 'Journalistic Accountability Standard v1.0 drafted', done: false },
         { date: 'Week 4', text: 'Notion project board linked to admin', done: false },
         { date: 'Week 4', text: 'Phase 1 complete — Foundation', done: false },
+        { date: 'Week 6', text: 'Intelligence agent architecture designed', done: false },
         { date: 'Week 8', text: 'Phase 2 complete — Hardening', done: false },
+        { date: 'Week 12', text: 'Sentinel + Oracle agents deployed', done: false },
         { date: 'Week 16', text: 'Phase 3 complete — Intelligence', done: false },
         { date: 'Week 24', text: 'Phase 4 complete — Autonomy', done: false },
     ]
@@ -5106,7 +5141,7 @@ function rmRender() {
         <div class="rm-summary-card"><div class="num" style="color:#10B981">${doneTasks}</div><div class="lbl">Tasks Complete</div></div>
         <div class="rm-summary-card"><div class="num" style="color:#F59E0B">${inProgress}</div><div class="lbl">In Progress</div></div>
         <div class="rm-summary-card"><div class="num" style="color:#6B7280">${totalTasks - doneTasks - inProgress}</div><div class="lbl">Remaining</div></div>
-        <div class="rm-summary-card"><div class="num">7</div><div class="lbl">Workstreams</div></div>
+        <div class="rm-summary-card"><div class="num">9</div><div class="lbl">Workstreams</div></div>
         <div class="rm-summary-card"><div class="num">24</div><div class="lbl">Weeks Total</div></div>
     `;
 
