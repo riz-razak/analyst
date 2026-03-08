@@ -23,13 +23,97 @@
     <link rel="alternate" type="application/rss+xml" title="analyst.rizrazak.com — Investigative Dossiers" href="https://analyst.rizrazak.com/feed.xml" />
     <!-- Umami Analytics -->
     <script defer src="https://umami-analytics-plum-theta.vercel.app/script.js" data-website-id="c092a262-c652-46b8-a06b-a07a18e67b25"></script>
+
+    <!-- CMS Hydration + Admin Overlay -->
+    <script>(function() {
+        var CMS_SLUG = 'iran-us-israel-war';
+        var ADMIN_PW = 'Analyst@2026!';
+        fetch('/dossiers/' + CMS_SLUG + '/_cms-overrides.json?cb=' + Date.now())
+            .then(function(r) { return r.ok ? r.json() : {}; })
+            .catch(function() { return {}; })
+            .then(function(overrides) {
+                Object.keys(overrides).forEach(function(id) {
+                    var val = overrides[id];
+                    document.querySelectorAll('[data-cms-id="' + id + '"]').forEach(function(el) {
+                        if (el.dataset.cmsType === 'image') { el.src = val; }
+                        else { el.textContent = val; }
+                    });
+                });
+            });
+        if (!location.search.includes('admin')) return;
+        var savedPw = sessionStorage.getItem('cms-auth-' + CMS_SLUG);
+        if (savedPw !== ADMIN_PW) {
+            document.addEventListener('DOMContentLoaded', function() { showPwGate(); });
+            return;
+        }
+        document.addEventListener('DOMContentLoaded', function() { activateCmsMode(); });
+        function showPwGate() {
+            var ov = document.createElement('div');
+            ov.innerHTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;"><div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:40px;width:360px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#e0e0e0;margin-bottom:6px;">CMS Admin</div><div style="font-size:13px;color:#a0a0a8;margin-bottom:24px;font-family:monospace;">' + CMS_SLUG + '</div><input id="cms-pw-input" type="password" placeholder="Password" style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#e0e0e0;font-size:14px;margin-bottom:12px;box-sizing:border-box;" /><button id="cms-pw-btn" style="width:100%;padding:12px;background:#2d7a3e;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Enter</button><div id="cms-pw-err" style="color:#ff6b6b;font-size:13px;margin-top:10px;display:none;">Incorrect password</div></div></div>';
+            document.body.appendChild(ov);
+            document.getElementById('cms-pw-input').focus();
+            document.getElementById('cms-pw-btn').onclick = function() {
+                if (document.getElementById('cms-pw-input').value === ADMIN_PW) {
+                    sessionStorage.setItem('cms-auth-' + CMS_SLUG, ADMIN_PW);
+                    ov.remove(); activateCmsMode();
+                } else { document.getElementById('cms-pw-err').style.display = 'block'; }
+            };
+            document.getElementById('cms-pw-input').onkeydown = function(e) { if (e.key === 'Enter') document.getElementById('cms-pw-btn').click(); };
+        }
+        function activateCmsMode() {
+            document.querySelectorAll('[data-cms-id]').forEach(function(el) {
+                el.dataset.cmsOriginal = el.dataset.cmsType === 'image' ? el.src : el.textContent;
+                el.style.outline = '2px dashed rgba(45,122,62,0.55)';
+                el.style.cursor = 'pointer';
+                el.style.borderRadius = '3px';
+                el.title = 'Edit: ' + el.dataset.cmsId;
+                el.addEventListener('click', function(e) { e.stopPropagation(); openEditor(el); });
+            });
+            var tb = document.createElement('div');
+            tb.innerHTML = '<div style="position:fixed;bottom:24px;right:24px;z-index:9999;background:#12121f;border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 18px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,0.6);font-family:system-ui,sans-serif;"><span style="font-size:12px;color:#4ade80;font-weight:600;">● CMS</span><span style="font-size:12px;color:#a0a0a8;font-family:monospace;">' + CMS_SLUG + '</span><button id="cms-export-btn" style="padding:7px 14px;background:#2d7a3e;color:white;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;">Export JSON</button><button id="cms-exit-btn" style="padding:7px 14px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.14);border-radius:7px;font-size:12px;cursor:pointer;">Exit</button></div>';
+            document.body.appendChild(tb);
+            document.getElementById('cms-export-btn').onclick = function() {
+                var result = {};
+                document.querySelectorAll('[data-cms-id]').forEach(function(el) {
+                    var id = el.dataset.cmsId;
+                    var val = el.dataset.cmsType === 'image' ? el.src : el.textContent.trim();
+                    if (val !== (el.dataset.cmsOriginal || '').trim()) result[id] = val;
+                });
+                if (!Object.keys(result).length) { alert('No changes yet. Click any highlighted element to edit.'); return; }
+                var json = JSON.stringify(result, null, 2);
+                navigator.clipboard.writeText(json).then(function() { alert('Copied ' + Object.keys(result).length + ' change(s) to clipboard.\n\nPaste into _cms-overrides.json'); });
+            };
+            document.getElementById('cms-exit-btn').onclick = function() { location.href = location.pathname; };
+        }
+        function openEditor(el) {
+            var old = document.getElementById('cms-editor-modal');
+            if (old) old.remove();
+            var isImg = el.dataset.cmsType === 'image';
+            var currentVal = isImg ? el.src : el.textContent;
+            var m = document.createElement('div');
+            m.id = 'cms-editor-modal';
+            m.innerHTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99998;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;"><div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.14);border-radius:14px;padding:32px;width:500px;max-width:90vw;"><div style="font-size:14px;font-weight:600;color:#e0e0e0;margin-bottom:4px;">Editing</div><div style="font-size:12px;color:#4ade80;font-family:monospace;margin-bottom:16px;">' + el.dataset.cmsId + '</div><textarea id="cms-edit-val" style="width:100%;min-height:100px;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#e0e0e0;font-size:14px;resize:vertical;box-sizing:border-box;font-family:inherit;">' + currentVal.replace(/</g,'&lt;') + '</textarea><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end;"><button id="cms-edit-cancel" style="padding:8px 16px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.14);border-radius:8px;cursor:pointer;font-size:13px;">Cancel</button><button id="cms-edit-save" style="padding:8px 16px;background:#2d7a3e;color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">Save</button></div></div></div>';
+            document.body.appendChild(m);
+            document.getElementById('cms-edit-val').focus();
+            document.getElementById('cms-edit-cancel').onclick = function() { m.remove(); };
+            document.getElementById('cms-edit-save').onclick = function() {
+                var newVal = document.getElementById('cms-edit-val').value;
+                if (isImg) { el.src = newVal; } else { el.textContent = newVal; }
+                el.style.outline = '2px solid #4ade80';
+                setTimeout(function() { el.style.outline = '2px dashed rgba(45,122,62,0.55)'; }, 1500);
+                m.remove();
+            };
+            m.querySelector('div > div').onclick = function(e) { e.stopPropagation(); };
+            m.onclick = function() { m.remove(); };
+        }
+    })();</script>
 </head>
 <body>
 
 <!-- ==================== DISCLAIMER MODAL ==================== -->
 <div id="disclaimerModal" class="disclaimer-modal">
     <div class="disclaimer-content">
-        <h2>Disclaimer / වියාචනය</h2>
+        <h2 data-cms-id="disclaimer-title">Disclaimer / වියාචනය</h2>
         <p class="subtitle">Please read before proceeding / කරුණාකර ඉදිරියට යාමට පෙර කියවන්න</p>
 
         <div class="disclaimer-section">
@@ -87,14 +171,14 @@
 
 <!-- ==================== HERO ==================== -->
 <section class="hero" id="hero">
-    <div class="badge" data-lang="si">භූ-දේශපාලන පර්යේෂණ ලේඛනය</div>
-    <div class="badge" data-lang="en">Geopolitical Research Dossier</div>
+    <div class="badge" data-lang="si" data-cms-id="hero-badge-si">භූ-දේශපාලන පර්යේෂණ ලේඛනය</div>
+    <div class="badge" data-lang="en" data-cms-id="hero-badge-en">Geopolitical Research Dossier</div>
 
-    <h1 data-lang="si">සියල්ල වෙනස් කළ යුද්ධය</h1>
-    <h1 data-lang="en">The War That Changed Everything</h1>
+    <h1 data-lang="si" data-cms-id="hero-h1-si">සියල්ල වෙනස් කළ යුද්ධය</h1>
+    <h1 data-lang="en" data-cms-id="hero-h1-en">The War That Changed Everything</h1>
 
-    <p class="hero-subtitle" data-lang="si">2026 පෙබරවාරි ඊරාන-ඇමරිකා-ඊශ්‍රායල ගැටුමේ බහු-විෂයාන්තර විශ්ලේෂණයක් — භූ-දේශපාලනය, ක්‍රීඩා න්‍යාය, දේවධර්මය, මනෝවිද්‍යාව සහ ඉතිහාසය හරහා — ශ්‍රී ලංකාවේ උපායමාර්ගික ස්ථානය, තාක්ෂණ ඔලිගාර්කි ප්‍රතිපෝෂණ පුඩුව සහ සියල්ල වෙනස් කළ හැකි වසර 10-15 කවුළුව කෙරෙහි විශේෂ අවධානයක් යොමු කරමින්.</p>
-    <p class="hero-subtitle" data-lang="en">A multi-disciplinary analysis of the February 2026 Iran-US-Israel conflict — through geopolitics, game theory, theology, psychology, and history — with dedicated focus on Sri Lanka's strategic position, the tech oligarchy feedback loop, and the 10-15 year window that could change everything.</p>
+    <p class="hero-subtitle" data-lang="si" data-cms-id="hero-subtitle-si">2026 පෙබරවාරි ඊරාන-ඇමරිකා-ඊශ්‍රායල ගැටුමේ බහු-විෂයාන්තර විශ්ලේෂණයක් — භූ-දේශපාලනය, ක්‍රීඩා න්‍යාය, දේවධර්මය, මනෝවිද්‍යාව සහ ඉතිහාසය හරහා — ශ්‍රී ලංකාවේ උපායමාර්ගික ස්ථානය, තාක්ෂණ ඔලිගාර්කි ප්‍රතිපෝෂණ පුඩුව සහ සියල්ල වෙනස් කළ හැකි වසර 10-15 කවුළුව කෙරෙහි විශේෂ අවධානයක් යොමු කරමින්.</p>
+    <p class="hero-subtitle" data-lang="en" data-cms-id="hero-subtitle-en">A multi-disciplinary analysis of the February 2026 Iran-US-Israel conflict — through geopolitics, game theory, theology, psychology, and history — with dedicated focus on Sri Lanka's strategic position, the tech oligarchy feedback loop, and the 10-15 year window that could change everything.</p>
 
     <div class="hero-meta">
         <div><span data-lang="si">දිනය:</span><span data-lang="en">Date:</span> <span data-lang="si">2026 මාර්තු 6</span><span data-lang="en">March 6, 2026</span></div>
@@ -129,11 +213,11 @@
 
 <!-- ===================== SECTION 01 — THE WAR ===================== -->
 <section id="section-01" data-nav-label="THE WAR">
-    <div class="section-label" data-lang="si">01 — යුද්ධය</div>
-    <div class="section-label" data-lang="en">01 — THE WAR</div>
+    <div class="section-label" data-lang="si" data-cms-id="s1-label-si">01 — යුද්ධය</div>
+    <div class="section-label" data-lang="en" data-cms-id="s1-label-en">01 — THE WAR</div>
 
-    <h2 data-lang="si">Operation Epic Fury: සතියක යුද්ධයක්</h2>
-    <h2 data-lang="en">Operation Epic Fury: A War in Seven Days</h2>
+    <h2 data-lang="si" data-cms-id="s1-h2-si">Operation Epic Fury: සතියක යුද්ධයක්</h2>
+    <h2 data-lang="en" data-cms-id="s1-h2-en">Operation Epic Fury: A War in Seven Days</h2>
 
     <p data-lang="si">2026 පෙබරවාරි 28 වැනිදා, එක්සත් ජනපදය 2003 ඉරාකයෙන් පසු විශාලතම මිලිටරි මෙහෙයුම දියත් කළේය. Operation Epic Fury — ඊරානයේ න්‍යෂ්ටික යටිතල පහසුකම්, ගුවන් ආරක්ෂණ පද්ධති සහ මිලිටරි ධාරිතාව ඉලක්ක කරගත් සම්බන්ධීකරණ ප්‍රහාරයකි. ඊශ්‍රායලය මුල සිටම සම්පූර්ණ හවුල්කරුවෙකි. දින හතක් තුළ, මැද පෙරදිග සදාකාලිකවම වෙනස් විය.</p>
     <p data-lang="en">On February 28, 2026, the United States launched its largest military operation since Iraq 2003. Operation Epic Fury — a coordinated strike campaign targeting Iran's nuclear infrastructure, air defense systems, and military capacity. Israel was a full partner from the outset. In seven days, the Middle East changed forever.</p>
@@ -191,11 +275,11 @@
 
 <!-- ===================== SECTION 02 — SCENARIO ANALYSIS ===================== -->
 <section id="section-02" data-nav-label="SCENARIO ANALYSIS">
-    <div class="section-label" data-lang="si">02 — අවස්ථා විශ්ලේෂණය</div>
-    <div class="section-label" data-lang="en">02 — SCENARIO ANALYSIS</div>
+    <div class="section-label" data-lang="si" data-cms-id="s2-label-si">02 — අවස්ථා විශ්ලේෂණය</div>
+    <div class="section-label" data-lang="en" data-cms-id="s2-label-en">02 — SCENARIO ANALYSIS</div>
 
-    <h2 data-lang="si">අවස්ථා විශ්ලේෂණය: ඉදිරියේ ඇත්තේ කුමක්ද?</h2>
-    <h2 data-lang="en">Scenario Analysis: What Lies Ahead?</h2>
+    <h2 data-lang="si" data-cms-id="s2-h2-si">අවස්ථා විශ්ලේෂණය: ඉදිරියේ ඇත්තේ කුමක්ද?</h2>
+    <h2 data-lang="en" data-cms-id="s2-h2-en">Scenario Analysis: What Lies Ahead?</h2>
 
     <p data-lang="si">ක්‍රීඩා න්‍යාය, ඓතිහාසික රටා ගැලපීම සහ ක්‍රියාකාරී-දිරිගැන්වීම් සිතියම්ගත කිරීම භාවිතා කරමින්, අපි ඉදිරි මාස 12 සඳහා සම්භාවිතා ගස් ගොඩනඟමු. මූලික යෙදවුම්: ක්‍රියාකාරීන් 9 දෙනෙකුගේ දිරිගැන්වීම්, සීමාවන් සහ රතු රේඛා.</p>
     <p data-lang="en">Using game theory, historical pattern matching, and actor-incentive mapping, we construct probability trees for the next 12 months. The fundamental inputs: the incentives, constraints, and red lines of 9 key actors.</p>
@@ -278,11 +362,11 @@
 
 <!-- ===================== SECTION 03 — SRI LANKA GAMBITS ===================== -->
 <section id="section-03" data-nav-label="SRI LANKA GAMBITS">
-    <div class="section-label" data-lang="si">03 — ශ්‍රී ලංකා උපාය</div>
-    <div class="section-label" data-lang="en">03 — SRI LANKA GAMBITS</div>
+    <div class="section-label" data-lang="si" data-cms-id="s3-label-si">03 — ශ්‍රී ලංකා උපාය</div>
+    <div class="section-label" data-lang="en" data-cms-id="s3-label-en">03 — SRI LANKA GAMBITS</div>
 
-    <h2 data-lang="si">ශ්‍රී ලංකාවේ උපායමාර්ගික අවස්ථාව</h2>
-    <h2 data-lang="en">Sri Lanka's Strategic Opportunity</h2>
+    <h2 data-lang="si" data-cms-id="s3-h2-si">ශ්‍රී ලංකාවේ උපායමාර්ගික අවස්ථාව</h2>
+    <h2 data-lang="en" data-cms-id="s3-h2-en">Sri Lanka's Strategic Opportunity</h2>
 
     <p data-lang="si">ශ්‍රී ලංකාව — අන්තර්ජාලයෙන් හුදෙකලා, මුහුදු මාර්ග මත යැපෙන, ප්‍රේෂණ වලට බැඳුණු — යුද්ධයේ වින්දිතයෙකු මෙන්ම විභව ප්‍රතිලාභකරුවෙකු ද වේ. ඉන්දියන් සාගරයේ මධ්‍යයේ, බැංකොක් සිට ඩුබායි දක්වා නැව් මාර්ග මත පිහිටා ඇති මෙම දිවයින, මහා බල තරඟයේ උත්තෝලනය සපයයි — නිවැරදි පියවර ගන්නේ නම්.</p>
     <p data-lang="en">Sri Lanka — internet-isolated, sea-lane dependent, remittance-bound — is both a potential victim and potential beneficiary of this war. Situated in the middle of the Indian Ocean, astride shipping routes from Bangkok to Dubai, the island provides leverage in the great power competition — if it plays its cards right.</p>

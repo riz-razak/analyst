@@ -258,14 +258,97 @@
 <link rel="alternate" type="application/rss+xml" title="analyst.rizrazak.com — Investigative Dossiers" href="https://analyst.rizrazak.com/feed.xml" />
     <!-- Umami Analytics -->
     <script defer src="https://umami-analytics-plum-theta.vercel.app/script.js" data-website-id="c092a262-c652-46b8-a06b-a07a18e67b25"></script>
+    <!-- CMS Hydration + Admin Overlay -->
+    <script>(function() {
+        var CMS_SLUG = 'easter-sunday-attacks-suresh-sallay';
+        var ADMIN_PW = 'Analyst@2026!';
+        fetch('/dossiers/' + CMS_SLUG + '/_cms-overrides.json?cb=' + Date.now())
+            .then(function(r) { return r.ok ? r.json() : {}; })
+            .catch(function() { return {}; })
+            .then(function(overrides) {
+                Object.keys(overrides).forEach(function(id) {
+                    var val = overrides[id];
+                    document.querySelectorAll('[data-cms-id="' + id + '"]').forEach(function(el) {
+                        if (el.dataset.cmsType === 'image') { el.src = val; }
+                        else { el.textContent = val; }
+                    });
+                });
+            });
+        if (!location.search.includes('admin')) return;
+        var savedPw = sessionStorage.getItem('cms-auth-' + CMS_SLUG);
+        if (savedPw !== ADMIN_PW) {
+            document.addEventListener('DOMContentLoaded', function() { showPwGate(); });
+            return;
+        }
+        document.addEventListener('DOMContentLoaded', function() { activateCmsMode(); });
+        function showPwGate() {
+            var ov = document.createElement('div');
+            ov.innerHTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;"><div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:40px;width:360px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#e0e0e0;margin-bottom:6px;">CMS Admin</div><div style="font-size:13px;color:#a0a0a8;margin-bottom:24px;font-family:monospace;">' + CMS_SLUG + '</div><input id="cms-pw-input" type="password" placeholder="Password" style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#e0e0e0;font-size:14px;margin-bottom:12px;box-sizing:border-box;" /><button id="cms-pw-btn" style="width:100%;padding:12px;background:#2d7a3e;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Enter</button><div id="cms-pw-err" style="color:#ff6b6b;font-size:13px;margin-top:10px;display:none;">Incorrect password</div></div></div>';
+            document.body.appendChild(ov);
+            document.getElementById('cms-pw-input').focus();
+            document.getElementById('cms-pw-btn').onclick = function() {
+                if (document.getElementById('cms-pw-input').value === ADMIN_PW) {
+                    sessionStorage.setItem('cms-auth-' + CMS_SLUG, ADMIN_PW);
+                    ov.remove(); activateCmsMode();
+                } else { document.getElementById('cms-pw-err').style.display = 'block'; }
+            };
+            document.getElementById('cms-pw-input').onkeydown = function(e) { if (e.key === 'Enter') document.getElementById('cms-pw-btn').click(); };
+        }
+        function activateCmsMode() {
+            document.querySelectorAll('[data-cms-id]').forEach(function(el) {
+                el.dataset.cmsOriginal = el.dataset.cmsType === 'image' ? el.src : el.textContent;
+                el.style.outline = '2px dashed rgba(45,122,62,0.55)';
+                el.style.cursor = 'pointer';
+                el.style.borderRadius = '3px';
+                el.title = 'Edit: ' + el.dataset.cmsId;
+                el.addEventListener('click', function(e) { e.stopPropagation(); openEditor(el); });
+            });
+            var tb = document.createElement('div');
+            tb.innerHTML = '<div style="position:fixed;bottom:24px;right:24px;z-index:9999;background:#12121f;border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 18px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,0.6);font-family:system-ui,sans-serif;"><span style="font-size:12px;color:#4ade80;font-weight:600;">● CMS</span><span style="font-size:12px;color:#a0a0a8;font-family:monospace;">' + CMS_SLUG + '</span><button id="cms-export-btn" style="padding:7px 14px;background:#2d7a3e;color:white;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;">Export JSON</button><button id="cms-exit-btn" style="padding:7px 14px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.14);border-radius:7px;font-size:12px;cursor:pointer;">Exit</button></div>';
+            document.body.appendChild(tb);
+            document.getElementById('cms-export-btn').onclick = function() {
+                var result = {};
+                document.querySelectorAll('[data-cms-id]').forEach(function(el) {
+                    var id = el.dataset.cmsId;
+                    var val = el.dataset.cmsType === 'image' ? el.src : el.textContent.trim();
+                    if (val !== (el.dataset.cmsOriginal || '').trim()) result[id] = val;
+                });
+                if (!Object.keys(result).length) { alert('No changes yet. Click any highlighted element to edit.'); return; }
+                var json = JSON.stringify(result, null, 2);
+                navigator.clipboard.writeText(json).then(function() { alert('Copied ' + Object.keys(result).length + ' change(s) to clipboard.\n\nPaste into _cms-overrides.json'); });
+            };
+            document.getElementById('cms-exit-btn').onclick = function() { location.href = location.pathname; };
+        }
+        function openEditor(el) {
+            var old = document.getElementById('cms-editor-modal');
+            if (old) old.remove();
+            var isImg = el.dataset.cmsType === 'image';
+            var currentVal = isImg ? el.src : el.textContent;
+            var m = document.createElement('div');
+            m.id = 'cms-editor-modal';
+            m.innerHTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99998;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;"><div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.14);border-radius:14px;padding:32px;width:500px;max-width:90vw;"><div style="font-size:14px;font-weight:600;color:#e0e0e0;margin-bottom:4px;">Editing</div><div style="font-size:12px;color:#4ade80;font-family:monospace;margin-bottom:16px;">' + el.dataset.cmsId + '</div><textarea id="cms-edit-val" style="width:100%;min-height:100px;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#e0e0e0;font-size:14px;resize:vertical;box-sizing:border-box;font-family:inherit;">' + currentVal.replace(/</g,'&lt;') + '</textarea><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end;"><button id="cms-edit-cancel" style="padding:8px 16px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.14);border-radius:8px;cursor:pointer;font-size:13px;">Cancel</button><button id="cms-edit-save" style="padding:8px 16px;background:#2d7a3e;color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">Save</button></div></div></div>';
+            document.body.appendChild(m);
+            document.getElementById('cms-edit-val').focus();
+            document.getElementById('cms-edit-cancel').onclick = function() { m.remove(); };
+            document.getElementById('cms-edit-save').onclick = function() {
+                var newVal = document.getElementById('cms-edit-val').value;
+                if (isImg) { el.src = newVal; } else { el.textContent = newVal; }
+                el.style.outline = '2px solid #4ade80';
+                setTimeout(function() { el.style.outline = '2px dashed rgba(45,122,62,0.55)'; }, 1500);
+                m.remove();
+            };
+            m.querySelector('div > div').onclick = function(e) { e.stopPropagation(); };
+            m.onclick = function() { m.remove(); };
+        }
+    })();</script>
 </head>
 <body>
 
 <section class="hero">
   <div class="hero-content">
     <div class="hero-badge">Deep Dives &mdash; analyst.rizrazak.com</div>
-    <h1>The Sallay Arrest &amp; the Easter Sunday Conspiracy</h1>
-    <p class="hero-subtitle">How Sri Lanka's intelligence apparatus allegedly orchestrated the deadliest terrorist attack in the nation's history to engineer a presidential election &mdash; and why a dawn arrest on 26 February 2026 may finally crack the case open.</p>
+    <h1 data-cms-id="hero-title">The Sallay Arrest &amp; the Easter Sunday Conspiracy</h1>
+    <p class="hero-subtitle" data-cms-id="hero-subtitle">How Sri Lanka's intelligence apparatus allegedly orchestrated the deadliest terrorist attack in the nation's history to engineer a presidential election &mdash; and why a dawn arrest on 26 February 2026 may finally crack the case open.</p>
     <div class="hero-meta">
       <span>25&ndash;26 February 2026</span>
       <span>|</span>
@@ -309,21 +392,21 @@
 
 <!-- S1: ARREST -->
 <section class="section" id="arrest">
-  <div class="section-header fade-in"><div class="section-number">Section 01</div><h2>The Arrest That Shook Sri Lanka</h2><p class="section-lead">At dawn on 26 February 2026, CID officers arrested the man at the centre of the darkest conspiracy in Sri Lankan history.</p></div>
+  <div class="section-header fade-in"><div class="section-number">Section 01</div><h2 data-cms-id="s1-title">The Arrest That Shook Sri Lanka</h2><p class="section-lead">At dawn on 26 February 2026, CID officers arrested the man at the centre of the darkest conspiracy in Sri Lankan history.</p></div>
   <div class="alert-callout fade-in"><div class="label">Breaking &mdash; 26 February 2026</div><p>Retired Major General Suresh Sallay was arrested at his residence in Peliyagoda by the CID. He is being held under the Prevention of Terrorism Act (PTA) on charges of <strong>conspiracy and aiding and abetting the Easter Sunday attacks</strong>. Under the PTA, he may be detained for up to 90 days without being produced before a court.</p></div>
   <div class="analysis-block fade-in"><h3>Why This Matters</h3><p>This is the single most high-profile arrest in seven years of investigation into the 2019 Easter Sunday bombings that killed 269 people, including 45 foreigners. The arrest comes just before the seventh anniversary and fulfils a central campaign promise of President Anura Kumara Dissanayake. Sallay is not peripheral &mdash; he is the former Director of the State Intelligence Service and the man whom whistleblowers allege personally met the bombers and permitted the attack to proceed.</p></div>
 </section>
 
 <!-- S2: WHO IS SALLAY -->
 <section class="section" id="sallay">
-  <div class="section-header fade-in"><div class="section-number">Section 02</div><h2>Who Is Suresh Sallay?</h2><p class="section-lead">A career military intelligence officer who rose to lead Sri Lanka's premier spy agency &mdash; and now stands accused of conspiracy in mass murder.</p></div>
+  <div class="section-header fade-in"><div class="section-number">Section 02</div><h2 data-cms-id="s2-title">Who Is Suresh Sallay?</h2><p class="section-lead">A career military intelligence officer who rose to lead Sri Lanka's premier spy agency &mdash; and now stands accused of conspiracy in mass murder.</p></div>
   <div class="analysis-block fade-in"><h3>Career Profile</h3><p>Sallay served in the Directorate of Military Intelligence (DMI) during and after Sri Lanka's civil war. He was employed in the unit that originally funded the NTJ &mdash; confirmed by a former NTJ member and admitted by the government. After Gotabaya Rajapaksa won the presidency in November 2019, Sallay was promoted to SIS Director. Dismissed by President Dissanayake in October 2024. Previously removed from a posting for alleged links to military-backed gangs in Jaffna.</p></div>
   <div class="insight-callout fade-in"><div class="label">The Core Allegation</div><p>Channel 4's 2023 documentary cited whistleblower Hanzeer Azad Maulana, who alleged he brokered a 2018 meeting between NTJ members and Sallay at Pillayan's direction. Maulana claims Sallay said "creating national insecurity was the only way to return the Rajapaksa family to power." After seeing CCTV of the bombers, Maulana says he recognised them from the meeting. Sallay categorically denies all allegations.</p></div>
 </section>
 
 <!-- S3: ZAHRAN DEEP DIVE -->
 <section class="section" id="zahran">
-  <div class="section-header fade-in"><div class="section-number">Section 03</div><h2>Zahran Hashim: The Full Story</h2><p class="section-lead">From a poor boy in Kattankudy to the mastermind of Sri Lanka's worst atrocity &mdash; and the deeply troubling questions about who was pulling his strings.</p></div>
+  <div class="section-header fade-in"><div class="section-number">Section 03</div><h2 data-cms-id="s3-title">Zahran Hashim: The Full Story</h2><p class="section-lead">From a poor boy in Kattankudy to the mastermind of Sri Lanka's worst atrocity &mdash; and the deeply troubling questions about who was pulling his strings.</p></div>
 
   <div class="analysis-block fade-in"><h3>Early Life &amp; Family</h3><p>Mohammed Zahran Hashim was born into a poor Muslim family in Kattankudy, Batticaloa district. His father sold food packets on the street and reportedly engaged in petty theft, earning the nickname 'Kallan Hashim'. The family placed their hopes on Zahran, who joined the Jamiathul Falah Arabic College at age 12. For three years he memorised the Quran with remarkable aptitude, but by 15 was arguing his teachers were "too liberal." He was expelled in 2007 for insubordination and radical views.</p></div>
 
@@ -380,14 +463,14 @@
 
 <!-- S4: NTJ -->
 <section class="section" id="ntj">
-  <div class="section-header fade-in"><div class="section-number">Section 04</div><h2>NTJ Origins &amp; the Thowheed Movement</h2><p class="section-lead">Tracing the ideological pipeline from Saudi Wahhabism through the SLTJ to the NTJ's murderous endgame.</p></div>
+  <div class="section-header fade-in"><div class="section-number">Section 04</div><h2 data-cms-id="s4-title">NTJ Origins &amp; the Thowheed Movement</h2><p class="section-lead">Tracing the ideological pipeline from Saudi Wahhabism through the SLTJ to the NTJ's murderous endgame.</p></div>
   <div class="analysis-block fade-in"><h3>Ideological Roots</h3><p>The NTJ emerged from the broader Thowheed movement, influenced by Saudi Wahhabism. The parent SLTJ was not violent but created the ideological substrate for radical offshoots. Kattankudy &mdash; with its high concentration of madrassas and a historically marginalised Muslim community &mdash; became the epicentre.</p></div>
   <div class="analysis-block fade-in"><h3>The ISIS Connection</h3><p>ISIS claimed responsibility via Amaq two days after the attacks. Zahran pledged allegiance to al-Baghdadi and attempted to establish "Willayath-As-Seylani" as an IS province. However, investigators found no direct foreign operational link. The FBI noted the attackers were "members and supporters of ISIS" who created "ISIS in Sri Lanka," but operational planning was domestic. Contacts with IS followers in Tamil Nadu and Kerala provided ideological reinforcement. Naufer Moulavi reportedly brokered the ISIS connection.</p></div>
 </section>
 
 <!-- S5: TIMELINE -->
 <section class="section" id="timeline">
-  <div class="section-header fade-in"><div class="section-number">Section 05</div><h2>The Critical Timeline: 2014&ndash;2026</h2><p class="section-lead">Every key event in the chain from NTJ's founding to Sallay's arrest.</p></div>
+  <div class="section-header fade-in"><div class="section-number">Section 05</div><h2 data-cms-id="s5-title">The Critical Timeline: 2014&ndash;2026</h2><p class="section-lead">Every key event in the chain from NTJ's founding to Sallay's arrest.</p></div>
   <div class="timeline fade-in">
     <div class="timeline-item"><div class="year">~2012&ndash;14</div><h4>NTJ Founded</h4><p>Zahran forms NTJ in Kattankudy after splitting from Darul Athar/SLTJ.</p></div>
     <div class="timeline-item"><div class="year">2016</div><h4>Violent extremism escalation</h4><p>Jihadi preaching. Muslim orgs complain. TID seeks ban; AG fails to act.</p></div>
@@ -414,7 +497,7 @@
 
 <!-- S6: CONSPIRACY -->
 <section class="section" id="conspiracy">
-  <div class="section-header fade-in"><div class="section-number">Section 06</div><h2>The Conspiracy Allegations</h2><p class="section-lead">The circumstantial case that intelligence elements allowed or facilitated the attacks to engineer a presidential election.</p></div>
+  <div class="section-header fade-in"><div class="section-number">Section 06</div><h2 data-cms-id="s6-title">The Conspiracy Allegations</h2><p class="section-lead">The circumstantial case that intelligence elements allowed or facilitated the attacks to engineer a presidential election.</p></div>
   <div class="analysis-block fade-in"><h3>The Evidence Chain</h3>
     <table class="evidence-table">
       <tr><th>Evidence</th><th>Status</th><th>Significance</th></tr>
@@ -436,7 +519,7 @@
 
 <!-- S7: CONSPIRACY BOARD -->
 <section class="section" id="board">
-  <div class="section-header fade-in"><div class="section-number">Section 07</div><h2>The Conspiracy Board</h2><p class="section-lead">30+ actors across 8 factions, mapped by power dynamics.</p></div>
+  <div class="section-header fade-in"><div class="section-number">Section 07</div><h2 data-cms-id="s7-title">The Conspiracy Board</h2><p class="section-lead">30+ actors across 8 factions, mapped by power dynamics.</p></div>
   <div class="conspiracy-board fade-in">
     <div class="board-title">Easter Sunday Attacks &mdash; Player Map &amp; Connection Registry</div>
     <div class="board-nodes">

@@ -1657,17 +1657,100 @@
 <link rel="alternate" type="application/rss+xml" title="analyst.rizrazak.com — Investigative Dossiers" href="https://analyst.rizrazak.com/feed.xml" />
     <!-- Umami Analytics -->
     <script defer src="https://umami-analytics-plum-theta.vercel.app/script.js" data-website-id="c092a262-c652-46b8-a06b-a07a18e67b25"></script>
+    <!-- CMS Hydration + Admin Overlay -->
+    <script>(function() {
+        var CMS_SLUG = 'sri-lanka-cricket-corruption';
+        var ADMIN_PW = 'Analyst@2026!';
+        fetch('/dossiers/' + CMS_SLUG + '/_cms-overrides.json?cb=' + Date.now())
+            .then(function(r) { return r.ok ? r.json() : {}; })
+            .catch(function() { return {}; })
+            .then(function(overrides) {
+                Object.keys(overrides).forEach(function(id) {
+                    var val = overrides[id];
+                    document.querySelectorAll('[data-cms-id="' + id + '"]').forEach(function(el) {
+                        if (el.dataset.cmsType === 'image') { el.src = val; }
+                        else { el.textContent = val; }
+                    });
+                });
+            });
+        if (!location.search.includes('admin')) return;
+        var savedPw = sessionStorage.getItem('cms-auth-' + CMS_SLUG);
+        if (savedPw !== ADMIN_PW) {
+            document.addEventListener('DOMContentLoaded', function() { showPwGate(); });
+            return;
+        }
+        document.addEventListener('DOMContentLoaded', function() { activateCmsMode(); });
+        function showPwGate() {
+            var ov = document.createElement('div');
+            ov.innerHTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;"><div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:40px;width:360px;text-align:center;"><div style="font-size:22px;font-weight:700;color:#e0e0e0;margin-bottom:6px;">CMS Admin</div><div style="font-size:13px;color:#a0a0a8;margin-bottom:24px;font-family:monospace;">' + CMS_SLUG + '</div><input id="cms-pw-input" type="password" placeholder="Password" style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#e0e0e0;font-size:14px;margin-bottom:12px;box-sizing:border-box;" /><button id="cms-pw-btn" style="width:100%;padding:12px;background:#2d7a3e;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Enter</button><div id="cms-pw-err" style="color:#ff6b6b;font-size:13px;margin-top:10px;display:none;">Incorrect password</div></div></div>';
+            document.body.appendChild(ov);
+            document.getElementById('cms-pw-input').focus();
+            document.getElementById('cms-pw-btn').onclick = function() {
+                if (document.getElementById('cms-pw-input').value === ADMIN_PW) {
+                    sessionStorage.setItem('cms-auth-' + CMS_SLUG, ADMIN_PW);
+                    ov.remove(); activateCmsMode();
+                } else { document.getElementById('cms-pw-err').style.display = 'block'; }
+            };
+            document.getElementById('cms-pw-input').onkeydown = function(e) { if (e.key === 'Enter') document.getElementById('cms-pw-btn').click(); };
+        }
+        function activateCmsMode() {
+            document.querySelectorAll('[data-cms-id]').forEach(function(el) {
+                el.dataset.cmsOriginal = el.dataset.cmsType === 'image' ? el.src : el.textContent;
+                el.style.outline = '2px dashed rgba(45,122,62,0.55)';
+                el.style.cursor = 'pointer';
+                el.style.borderRadius = '3px';
+                el.title = 'Edit: ' + el.dataset.cmsId;
+                el.addEventListener('click', function(e) { e.stopPropagation(); openEditor(el); });
+            });
+            var tb = document.createElement('div');
+            tb.innerHTML = '<div style="position:fixed;bottom:24px;right:24px;z-index:9999;background:#12121f;border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 18px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,0.6);font-family:system-ui,sans-serif;"><span style="font-size:12px;color:#4ade80;font-weight:600;">● CMS</span><span style="font-size:12px;color:#a0a0a8;font-family:monospace;">' + CMS_SLUG + '</span><button id="cms-export-btn" style="padding:7px 14px;background:#2d7a3e;color:white;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;">Export JSON</button><button id="cms-exit-btn" style="padding:7px 14px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.14);border-radius:7px;font-size:12px;cursor:pointer;">Exit</button></div>';
+            document.body.appendChild(tb);
+            document.getElementById('cms-export-btn').onclick = function() {
+                var result = {};
+                document.querySelectorAll('[data-cms-id]').forEach(function(el) {
+                    var id = el.dataset.cmsId;
+                    var val = el.dataset.cmsType === 'image' ? el.src : el.textContent.trim();
+                    if (val !== (el.dataset.cmsOriginal || '').trim()) result[id] = val;
+                });
+                if (!Object.keys(result).length) { alert('No changes yet. Click any highlighted element to edit.'); return; }
+                var json = JSON.stringify(result, null, 2);
+                navigator.clipboard.writeText(json).then(function() { alert('Copied ' + Object.keys(result).length + ' change(s) to clipboard.\n\nPaste into _cms-overrides.json'); });
+            };
+            document.getElementById('cms-exit-btn').onclick = function() { location.href = location.pathname; };
+        }
+        function openEditor(el) {
+            var old = document.getElementById('cms-editor-modal');
+            if (old) old.remove();
+            var isImg = el.dataset.cmsType === 'image';
+            var currentVal = isImg ? el.src : el.textContent;
+            var m = document.createElement('div');
+            m.id = 'cms-editor-modal';
+            m.innerHTML = '<div style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:99998;display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;"><div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.14);border-radius:14px;padding:32px;width:500px;max-width:90vw;"><div style="font-size:14px;font-weight:600;color:#e0e0e0;margin-bottom:4px;">Editing</div><div style="font-size:12px;color:#4ade80;font-family:monospace;margin-bottom:16px;">' + el.dataset.cmsId + '</div><textarea id="cms-edit-val" style="width:100%;min-height:100px;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#e0e0e0;font-size:14px;resize:vertical;box-sizing:border-box;font-family:inherit;">' + currentVal.replace(/</g,'&lt;') + '</textarea><div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end;"><button id="cms-edit-cancel" style="padding:8px 16px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.14);border-radius:8px;cursor:pointer;font-size:13px;">Cancel</button><button id="cms-edit-save" style="padding:8px 16px;background:#2d7a3e;color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;">Save</button></div></div></div>';
+            document.body.appendChild(m);
+            document.getElementById('cms-edit-val').focus();
+            document.getElementById('cms-edit-cancel').onclick = function() { m.remove(); };
+            document.getElementById('cms-edit-save').onclick = function() {
+                var newVal = document.getElementById('cms-edit-val').value;
+                if (isImg) { el.src = newVal; } else { el.textContent = newVal; }
+                el.style.outline = '2px solid #4ade80';
+                setTimeout(function() { el.style.outline = '2px dashed rgba(45,122,62,0.55)'; }, 1500);
+                m.remove();
+            };
+            m.querySelector('div > div').onclick = function(e) { e.stopPropagation(); };
+            m.onclick = function() { m.remove(); };
+        }
+    })();</script>
 </head>
 <body>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-badge"><span data-en="Political Research Dossier" data-si="දේශපාලන පර්යේෂණ ලේඛනය">Political Research Dossier</span></div>
-    <h1><span data-en="The Death of Sri Lankan Cricket" data-si="ශ්‍රී ලංකා ක්‍රිකට් ක්‍රීඩාවේ මළගම">The Death of Sri Lankan Cricket</span></h1>
-    <p class="hero-subtitle"><span data-en="How political patronage, a &quot;cricket mafia&quot;, toxic fan culture, and systemic institutional rot destroyed a once-proud cricketing nation — and why the new government appears powerless to fix it." data-si="දේශපාලන අනුග්‍රහය, &quot;ක්‍රිකට් මාෆියාවක්&quot;, විෂ සහිත රසික සංස්කෘතිය සහ පද්ධතිමය ආයතනික කුණුවීම, වරක් ආඩම්බර ක්‍රිකට් ජාතියක් විනාශ කළ ආකාරය - සහ නව රජය එය නිවැරදි කිරීමට බල රහිත බව පෙනෙන්නේ මන්ද යන්නයි.">How political patronage, a "cricket mafia", toxic fan culture, and systemic institutional rot destroyed a once-proud cricketing nation — and why the new government appears powerless to fix it.</span></p>
+    <div class="hero-badge" data-cms-id="hero-badge-en"><span data-en="Political Research Dossier" data-si="දේශපාලන පර්යේෂණ ලේඛනය">Political Research Dossier</span></div>
+    <h1 data-cms-id="hero-h1-en"><span data-en="The Death of Sri Lankan Cricket" data-si="ශ්‍රී ලංකා ක්‍රිකට් ක්‍රීඩාවේ මළගම">The Death of Sri Lankan Cricket</span></h1>
+    <p class="hero-subtitle" data-cms-id="hero-subtitle-en"><span data-en="How political patronage, a &quot;cricket mafia&quot;, toxic fan culture, and systemic institutional rot destroyed a once-proud cricketing nation — and why the new government appears powerless to fix it." data-si="දේශපාලන අනුග්‍රහය, &quot;ක්‍රිකට් මාෆියාවක්&quot;, විෂ සහිත රසික සංස්කෘතිය සහ පද්ධතිමය ආයතනික කුණුවීම, වරක් ආඩම්බර ක්‍රිකට් ජාතියක් විනාශ කළ ආකාරය - සහ නව රජය එය නිවැරදි කිරීමට බල රහිත බව පෙනෙන්නේ මන්ද යන්නයි.">How political patronage, a "cricket mafia", toxic fan culture, and systemic institutional rot destroyed a once-proud cricketing nation — and why the new government appears powerless to fix it.</span></p>
     <div class="hero-meta">
-      <span data-en="February 27, 2026" data-si="2026 පෙබරවාරි 27">February 27, 2026</span>
+      <span data-cms-id="hero-date-en" data-en="February 27, 2026" data-si="2026 පෙබරවාරි 27">February 27, 2026</span>
       <span>|</span>
       <span data-en="T20 World Cup 2026 — Super 8s Elimination" data-si="2026 T20 ලෝක කුසලානය — සුපිරි 8 වටයේ පරාජය">T20 World Cup 2026 — Super 8s Elimination</span>
       <span>|</span>
@@ -1749,8 +1832,8 @@
 <!-- SECTION 1: THE MATCH -->
 <section class="section fade-in" id="match">
   <div class="section-header">
-    <div class="section-number"><span data-en="01 — The Catalyst" data-si="01 — උත්ප්‍රේරකය">01 — The Catalyst</span></div>
-    <h2><span data-en="A Familiar Collapse on Home Soil" data-si="ගෙදර බිමක හුරුපුරුදු කඩා වැටීමක්">A Familiar Collapse on Home Soil</span></h2>
+    <div class="section-number" data-cms-id="s1-label-en"><span data-en="01 — The Catalyst" data-si="01 — උත්ප්‍රේරකය">01 — The Catalyst</span></div>
+    <h2 data-cms-id="s1-h2-en"><span data-en="A Familiar Collapse on Home Soil" data-si="ගෙදර බිමක හුරුපුරුදු කඩා වැටීමක්">A Familiar Collapse on Home Soil</span></h2>
     <p class="section-lead"><span data-en="Sri Lanka's elimination from their own World Cup wasn't just a bad day — it was the logical conclusion of a decade of institutional decay." data-si="ශ්‍රී ලංකාව තමන්ගේම ලෝක කුසලානයෙන් ඉවත් වීම නරක දවසක් පමණක් නොවේ - එය දශකයක ආයතනික පරිහානියේ තාර්කික අවසානය ද විය.">Sri Lanka's elimination from their own World Cup wasn't just a bad day — it was the logical conclusion of a decade of institutional decay.</span></p>
   </div>
 
@@ -1793,8 +1876,8 @@
 <!-- SECTION 2: THE MAFIA -->
 <section class="section fade-in" id="mafia">
   <div class="section-header">
-    <div class="section-number"><span data-en="02 — The Cricket Mafia" data-si="02 — ක්‍රිකට් මාෆියාව">02 — The Cricket Mafia</span></div>
-    <h2><span data-en="How SLC Became the Most Corrupt Board in World Cricket" data-si="ශ්‍රී ලංකා ක්‍රිකට් ආයතනය ලෝක ක්‍රිකට් ඉතිහාසයේ දූෂිතම මණ්ඩලය බවට පත් වූ ආකාරය">How SLC Became the Most Corrupt Board in World Cricket</span></h2>
+    <div class="section-number" data-cms-id="s2-label-en"><span data-en="02 — The Cricket Mafia" data-si="02 — ක්‍රිකට් මාෆියාව">02 — The Cricket Mafia</span></div>
+    <h2 data-cms-id="s2-h2-en"><span data-en="How SLC Became the Most Corrupt Board in World Cricket" data-si="ශ්‍රී ලංකා ක්‍රිකට් ආයතනය ලෝක ක්‍රිකට් ඉතිහාසයේ දූෂිතම මණ්ඩලය බවට පත් වූ ආකාරය">How SLC Became the Most Corrupt Board in World Cricket</span></h2>
     <p class="section-lead"><span data-en="The ICC's own anti-corruption chief stated that Sri Lanka has &quot;more corruption investigations than anywhere else.&quot; A permanent ICC Anti-Corruption Unit office was established in Colombo — the only country to receive this level of scrutiny." data-si="ICC දූෂණ විරෝධී ප්‍රධානියාම ප්‍රකාශ කළේ ශ්‍රී ලංකාවේ &quot;වෙනත් ඕනෑම තැනකට වඩා දූෂණ විමර්ශන වැඩි&quot; බවයි. මෙම මට්ටමේ පරීක්ෂාවට ලක් වූ එකම රට වන කොළඹ දී ස්ථිර ICC දූෂණ විරෝධී ඒකක කාර්යාලයක් ස්ථාපිත කරන ලදී.">The ICC's own anti-corruption chief stated that Sri Lanka has "more corruption investigations than anywhere else." A permanent ICC Anti-Corruption Unit office was established in Colombo — the only country to receive this level of scrutiny.</span></p>
   </div>
 
@@ -1885,8 +1968,8 @@
 <!-- SECTION 3: CONSPIRACY BOARD -->
 <section class="section fade-in" id="board">
   <div class="section-header">
-    <div class="section-number"><span data-en="03 — The Power Map" data-si="03 — බල සිතියම">03 — The Power Map</span></div>
-    <h2><span data-en="Stakeholder Conspiracy Board" data-si="කොටස්කරුවන්ගේ කුමන්ත්‍රණ මණ්ඩලය">Stakeholder Conspiracy Board</span></h2>
+    <div class="section-number" data-cms-id="s3-label-en"><span data-en="03 — The Power Map" data-si="03 — බල සිතියම">03 — The Power Map</span></div>
+    <h2 data-cms-id="s3-h2-en"><span data-en="Stakeholder Conspiracy Board" data-si="කොටස්කරුවන්ගේ කුමන්ත්‍රණ මණ්ඩලය">Stakeholder Conspiracy Board</span></h2>
     <p class="section-lead"><span data-en="A mapping of the key players, power dynamics, and interconnections that define Sri Lanka Cricket&apos;s governance crisis. The board below summarises the primary stakeholders — for the full" data-si="ශ්‍රී ලංකා ක්‍රිකට් ආයතනයේ පාලන අර්බුදය නිර්වචනය කරන ප්‍රධාන ක්‍රීඩකයින්, බල ගතිකය සහ අන්තර් සම්බන්ධතා සිතියම්ගත කිරීම. පහත මණ්ඩලය ප්‍රාථමික කොටස්කරුවන් සාරාංශ කරයි - සම්පූර්ණයෙන්">A mapping of the key players, power dynamics, and interconnections that define Sri Lanka Cricket's governance crisis. The board below summarises the primary stakeholders — for the full</span> <a href="power-network.html" class="dossier-inline-link">interactive power network diagram</a> <span data-en="including financial flows and cross-institutional links, see the standalone analysis." data-si="මූල්‍ය ප්‍රවාහ සහ ආයතන අතර සම්බන්ධතා ඇතුළුව, ස්වාධීන විශ්ලේෂණය බලන්න.">including financial flows and cross-institutional links, see the standalone analysis.</span></p>
   </div>
 
@@ -2052,8 +2135,8 @@
 <!-- SECTION 4: POWER NETWORK -->
 <section class="section fade-in" id="powernetwork">
   <div class="section-header">
-    <div class="section-number"><span data-en="04 — The Power Network" data-si="04 — විදුලිබල ජාලය">04 — The Power Network</span></div>
-    <h2><span data-en="SLC Political & Financial Network Map" data-si="ශ්‍රී ලංකා ක්‍රිකට් ආයතනයේ දේශපාලන සහ මූල්‍ය ජාල සිතියම">SLC Political & Financial Network Map</span></h2>
+    <div class="section-number" data-cms-id="s4-label-en"><span data-en="04 — The Power Network" data-si="04 — විදුලිබල ජාලය">04 — The Power Network</span></div>
+    <h2 data-cms-id="s4-h2-en"><span data-en="SLC Political & Financial Network Map" data-si="ශ්‍රී ලංකා ක්‍රිකට් ආයතනයේ දේශපාලන සහ මූල්‍ය ජාල සිතියම">SLC Political & Financial Network Map</span></h2>
     <p class="section-lead"><span data-en="An interactive diagram of the patronage flows, political family trees, financial linkages, and cross-institutional capture that has kept the same network in control of Sri Lankan cricket since the 1990s. Use the full-page view for maximum detail." data-si="1990 ගණන්වල සිට ශ්‍රී ලංකා ක්‍රිකට් ක්‍රීඩාව පාලනය කිරීමේ එකම ජාලයක් පවත්වා ගෙන යන අනුග්‍රාහක ප්‍රවාහයන්, දේශපාලන පවුල් ගස්, මූල්‍ය සම්බන්ධතා සහ අන්තර් ආයතනික ග්‍රහණයන් පිළිබඳ අන්තර්ක්‍රියාකාරී රූප සටහනක්. උපරිම විස්තර සඳහා සම්පූර්ණ පිටු දර්ශනය භාවිතා කරන්න.">An interactive diagram of the patronage flows, political family trees, financial linkages, and cross-institutional capture that has kept the same network in control of Sri Lankan cricket since the 1990s. Use the full-page view for maximum detail.</span></p>
   </div>
 
@@ -2076,8 +2159,8 @@
 <!-- SECTION 5: THE BETTING WEB -->
 <section class="section fade-in" id="betting">
   <div class="section-header">
-    <div class="section-number"><span data-en="05 — The Betting Web" data-si="05 — ඔට්ටු ඇල්ලීමේ ජාලය">05 — The Betting Web</span></div>
-    <h2><span data-en="How an International Criminal Betting Network Embedded Itself in Sri Lankan Cricket" data-si="ජාත්‍යන්තර අපරාධ ඔට්ටු ඇල්ලීමේ ජාලයක් ශ්‍රී ලංකා ක්‍රිකට් තුළ කාවැද්දුණු ආකාරය">How an International Criminal Betting Network Embedded Itself in Sri Lankan Cricket</span></h2>
+    <div class="section-number" data-cms-id="s5-label-en"><span data-en="05 — The Betting Web" data-si="05 — ඔට්ටු ඇල්ලීමේ ජාලය">05 — The Betting Web</span></div>
+    <h2 data-cms-id="s5-h2-en"><span data-en="How an International Criminal Betting Network Embedded Itself in Sri Lankan Cricket" data-si="ජාත්‍යන්තර අපරාධ ඔට්ටු ඇල්ලීමේ ජාලයක් ශ්‍රී ලංකා ක්‍රිකට් තුළ කාවැද්දුණු ආකාරය">How an International Criminal Betting Network Embedded Itself in Sri Lankan Cricket</span></h2>
     <p class="section-lead"><span data-en="Online betting is illegal in Sri Lanka. Yet in 2023, every LPL franchise carried the logo of an offshore betting operator. According to investigations by the Molfar Institute, InformNapalm, India's Enforcement Directorate, and parliamentary disclosures, many of these operators trace back to a single network — 1xBet — described by Byline Times as 'the Wagner Group of sports betting.' That network's presence in Sri Lanka extends beyond jersey logos. Its sub-brand Melbet currently advertises on ThePapare, a cricket media platform owned by Dialog Axiata — the same company that holds the ICC broadcast rights and sponsors the national team." data-si="මාර්ගගත ඔට්ටු ඇල්ලීම ශ්‍රී ලංකාවේ නීති විරෝධී ය. එහෙත් 2023 දී, සෑම LPL ෆ්‍රැන්චයිසයකම වෙරළබඩ ඔට්ටු ඇල්ලීමේ ක්‍රියාකරුවෙකුගේ ලාංඡනය තිබිණි. මොල්ෆාර් ආයතනය, ඉන්ෆෝම්නපාම්, ඉන්දියාවේ බලාත්මක කිරීමේ අධ්‍යක්ෂ කාර්යාලය සහ පාර්ලිමේන්තු හෙළිදරව් කිරීම් විසින් සිදු කරන ලද විමර්ශන වලට අනුව, මෙම ක්‍රියාකරුවන්ගෙන් බොහෝ දෙනෙක් එක ජාලයකට — 1xBet — ලුහුබැඳ ගමන් කරයි, එය බයිලයින් ටයිම්ස් විසින් 'ක්‍රීඩා ඔට්ටු ඇල්ලීමේ වැග්නර් කණ්ඩායම' ලෙස විස්තර කරන ලදී. එම ජාලයේ ශ්‍රී ලංකාවේ පැවැත්ම ජර්සි ලාංඡන ඉක්මවා දිවයි. එහි උප වෙළඳ නාමය Melbet දැනට ThePapare හිදී වෙළඳ දැන්වීම් පළ කරයි — Dialog Axiata සතු ක්‍රිකට් මාධ්‍ය වේදිකාවක්, එනම් ICC විකාශන අයිතිය දරන සහ ජාතික කණ්ඩායමට අනුග්‍රාහකත්වය දරන එකම සමාගමයි.">Online betting is illegal in Sri Lanka. Yet in 2023, every LPL franchise carried the logo of an offshore betting operator. According to investigations by the Molfar Institute, InformNapalm, India's Enforcement Directorate, and parliamentary disclosures, many of these operators trace back to a single network — 1xBet — described by Byline Times as 'the Wagner Group of sports betting.' That network's presence in Sri Lanka extends beyond jersey logos. Its sub-brand Melbet currently advertises on ThePapare, a cricket media platform owned by Dialog Axiata — the same company that holds the ICC broadcast rights and sponsors the national team.</span></p>
   </div>
 
@@ -2169,8 +2252,8 @@
 <!-- SECTION 6: ELITISM PARADOX -->
 <section class="section fade-in" id="elitism">
   <div class="section-header">
-    <div class="section-number"><span data-en="06 — The Elitism Paradox" data-si="06 — එලිටිස්ම් විරුද්ධාභාසය">06 — The Elitism Paradox</span></div>
-    <h2><span data-en="When Democratisation Killed the &quot;Cricketing Brain&quot;" data-si="ප්‍රජාතන්ත්‍රීකරණය &quot;ක්‍රිකට් මොළය&quot; මරා දැමූ විට">When Democratisation Killed the "Cricketing Brain"</span></h2>
+    <div class="section-number" data-cms-id="s6-label-en"><span data-en="06 — The Elitism Paradox" data-si="06 — එලිටිස්ම් විරුද්ධාභාසය">06 — The Elitism Paradox</span></div>
+    <h2 data-cms-id="s6-h2-en"><span data-en="When Democratisation Killed the &quot;Cricketing Brain&quot;" data-si="ප්‍රජාතන්ත්‍රීකරණය &quot;ක්‍රිකට් මොළය&quot; මරා දැමූ විට">When Democratisation Killed the "Cricketing Brain"</span></h2>
     <p class="section-lead"><span data-en="The uncomfortable argument: Sri Lanka's golden era was produced by an elite school system that bred not just cricketers, but thinkers. The democratisation of cricket widened access but may have eroded the intellectual infrastructure that produced legends." data-si="අපහසු තර්කය: ශ්‍රී ලංකාවේ ස්වර්ණමය යුගය බිහි වූයේ ක්‍රිකට් ක්‍රීඩකයින් පමණක් නොව චින්තකයින් ද බිහි කළ ප්‍රභූ පාසල් පද්ධතියකිනි. ක්‍රිකට් ප්‍රජාතන්ත්‍රීයකරණය ප්‍රවේශය පුළුල් කළ නමුත් පුරාවෘත්තයන් බිහි කළ බුද්ධිමය යටිතල පහසුකම් ඛාදනය වන්නට ඇත.">The uncomfortable argument: Sri Lanka's golden era was produced by an elite school system that bred not just cricketers, but thinkers. The democratisation of cricket widened access but may have eroded the intellectual infrastructure that produced legends.</span></p>
   </div>
 
@@ -2203,8 +2286,8 @@
 <!-- SECTION 5: FAN TOXICITY -->
 <section class="section fade-in" id="social">
   <div class="section-header">
-    <div class="section-number"><span data-en="07 — The Social Media Vortex" data-si="07 — සමාජ මාධ්‍ය සුළි සුළඟ">07 — The Social Media Vortex</span></div>
-    <h2><span data-en="The Hype-Pressure-Disappointment Death Spiral" data-si="අතිශයෝක්තිය-පීඩනය-බලාපොරොත්තු සුන්වීම මරණ සර්පිලාකාරය">The Hype-Pressure-Disappointment Death Spiral</span></h2>
+    <div class="section-number" data-cms-id="s7-label-en"><span data-en="07 — The Social Media Vortex" data-si="07 — සමාජ මාධ්‍ය සුළි සුළඟ">07 — The Social Media Vortex</span></div>
+    <h2 data-cms-id="s7-h2-en"><span data-en="The Hype-Pressure-Disappointment Death Spiral" data-si="අතිශයෝක්තිය-පීඩනය-බලාපොරොත්තු සුන්වීම මරණ සර්පිලාකාරය">The Hype-Pressure-Disappointment Death Spiral</span></h2>
     <p class="section-lead"><span data-en="Sri Lankan cricket fans don't just watch cricket — they weaponise it. Social media has turned every match into a referendum on national pride, and every loss into a trigger for collective abuse." data-si="ශ්‍රී ලංකාවේ ක්‍රිකට් ලෝලීන් ක්‍රිකට් නැරඹීම පමණක් නොවේ - ඔවුන් එය ආයුධයක් ලෙස භාවිතා කරයි. සමාජ මාධ්‍ය සෑම තරඟයක්ම ජාතික අභිමානය පිළිබඳ ජනමත විචාරණයක් බවටත්, සෑම පරාජයක්ම සාමූහික අපයෝජනය සඳහා ප්‍රේරකයක් බවටත් පත් කර තිබේ.">Sri Lankan cricket fans don't just watch cricket — they weaponise it. Social media has turned every match into a referendum on national pride, and every loss into a trigger for collective abuse.</span></p>
   </div>
 
@@ -2283,8 +2366,8 @@
 <!-- SECTION 6: PLAYER CRISIS -->
 <section class="section fade-in" id="players">
   <div class="section-header">
-    <div class="section-number"><span data-en="08 — The Player Crisis" data-si="08 — ක්‍රීඩක අර්බුදය">08 — The Player Crisis</span></div>
-    <h2><span data-en="Form, Dedication & The Hollowing Out" data-si="ස්වරූපය, කැපවීම සහ හිස්බව">Form, Dedication & The Hollowing Out</span></h2>
+    <div class="section-number" data-cms-id="s8-label-en"><span data-en="08 — The Player Crisis" data-si="08 — ක්‍රීඩක අර්බුදය">08 — The Player Crisis</span></div>
+    <h2 data-cms-id="s8-h2-en"><span data-en="Form, Dedication & The Hollowing Out" data-si="ස්වරූපය, කැපවීම සහ හිස්බව">Form, Dedication & The Hollowing Out</span></h2>
     <p class="section-lead"><span data-en="Looking beyond the surface: why a squad with IPL-level talent collapses in national colours. Off-field conduct and institutional cover-up add another dimension — documented in the " data-si="මතුපිටින් ඔබ්බට බැලීම: IPL මට්ටමේ දක්ෂතා ඇති කණ්ඩායමක් ජාතික වර්ණවලින් බිඳ වැටෙන්නේ ඇයි. පිටියෙන් පිටත හැසිරීම සහ ආයතනික ආවරණය තවත් මානයක් එක් කරයි - ලේඛනගත කර ඇත">Looking beyond the surface: why a squad with IPL-level talent collapses in national colours. Off-field conduct and institutional cover-up add another dimension — documented in the </span><a href="kalathma-scandal.html" class="dossier-inline-link"><span data-en="Conduct Files case dossier" data-si="හැසිරීම් ගොනු නඩු ලේඛනය">Conduct Files case dossier</span></a><span data-en="." data-si=".">.</span></p>
   </div>
 
@@ -2317,8 +2400,8 @@
 <!-- SECTION 7: NPP & REFORM -->
 <section class="section fade-in" id="npp">
   <div class="section-header">
-    <div class="section-number"><span data-en="09 — The NPP Paradox" data-si="09 — NPP විරුද්ධාභාසය">09 — The NPP Paradox</span></div>
-    <h2><span data-en="Why the &quot;Anti-Corruption&quot; Government Can't Fix Cricket" data-si="&quot;දූෂණ විරෝධී&quot; රජයට ක්‍රිකට් නිවැරදි කළ නොහැක්කේ ඇයි?">Why the "Anti-Corruption" Government Can't Fix Cricket</span></h2>
+    <div class="section-number" data-cms-id="s9-label-en"><span data-en="09 — The NPP Paradox" data-si="09 — NPP විරුද්ධාභාසය">09 — The NPP Paradox</span></div>
+    <h2 data-cms-id="s9-h2-en"><span data-en="Why the &quot;Anti-Corruption&quot; Government Can't Fix Cricket" data-si="&quot;දූෂණ විරෝධී&quot; රජයට ක්‍රිකට් නිවැරදි කළ නොහැක්කේ ඇයි?">Why the "Anti-Corruption" Government Can't Fix Cricket</span></h2>
     <p class="section-lead"><span data-en="The NPP (Anura Kumara Dissanayake) came to power on a wave of anti-corruption sentiment. They were vocal critics of the SLC system — from opposition benches. In power, they&apos;ve done nothing." data-si="ජාතික ජන බලවේගය (අනුර කුමාර දිසානායක) බලයට පත් වූයේ දූෂණ විරෝධී හැඟීම් රැල්ලක් මත ය. ඔවුන් විපක්ෂයේ සිට ශ්‍රී ලංකා ක්‍රිකට් ක්‍රමයේ වාචික විවේචකයින් විය. බලයේ සිටියදී ඔවුන් කිසිවක් කර නැත.">The NPP (Anura Kumara Dissanayake) came to power on a wave of anti-corruption sentiment. They were vocal critics of the SLC system — from opposition benches. In power, they've done nothing.</span></p>
   </div>
 
@@ -2346,8 +2429,8 @@
 <!-- SECTION 8: RESTRUCTURING OPTIONS -->
 <section class="section fade-in" id="restructure">
   <div class="section-header">
-    <div class="section-number"><span data-en="10 — Breaking the Deadlock" data-si="10 — අවහිරතා බිඳ දැමීම">10 — Breaking the Deadlock</span></div>
-    <h2><span data-en="Restructuring Options & How to Navigate the ICC" data-si="ප්‍රතිව්‍යුහගත කිරීමේ විකල්ප සහ ICC හි සැරිසැරීම කරන්නේ කෙසේද">Restructuring Options & How to Navigate the ICC</span></h2>
+    <div class="section-number" data-cms-id="s10-label-en"><span data-en="10 — Breaking the Deadlock" data-si="10 — අවහිරතා බිඳ දැමීම">10 — Breaking the Deadlock</span></div>
+    <h2 data-cms-id="s10-h2-en"><span data-en="Restructuring Options & How to Navigate the ICC" data-si="ප්‍රතිව්‍යුහගත කිරීමේ විකල්ප සහ ICC හි සැරිසැරීම කරන්නේ කෙසේද">Restructuring Options & How to Navigate the ICC</span></h2>
     <p class="section-lead"><span data-en="If the NPP government had the political will, how could they &quot;defeat&quot; the mafia hold without triggering ICC sanctions? A strategic playbook." data-si="NPP රජයට දේශපාලනික කැමැත්තක් තිබුණා නම්, ICC සම්බාධක පැනවීමකින් තොරව මාෆියා පාලනය &quot;පරාජය&quot; කරන්නේ කෙසේද? උපායමාර්ගික ක්‍රීඩා පොතක්.">If the NPP government had the political will, how could they "defeat" the mafia hold without triggering ICC sanctions? A strategic playbook.</span></p>
   </div>
 
@@ -2425,8 +2508,8 @@
 <!-- SECTION 9: GAME THEORY -->
 <section class="section fade-in" id="gametheory">
   <div class="section-header">
-    <div class="section-number"><span data-en="11 — Game Theory Analysis" data-si="11 — ක්‍රීඩා න්‍යාය විශ්ලේෂණය">11 — Game Theory Analysis</span></div>
-    <h2><span data-en="Strategic Scenario Modelling" data-si="උපායමාර්ගික අවස්ථා ආකෘති නිර්මාණය">Strategic Scenario Modelling</span></h2>
+    <div class="section-number" data-cms-id="s11-label-en"><span data-en="11 — Game Theory Analysis" data-si="11 — ක්‍රීඩා න්‍යාය විශ්ලේෂණය">11 — Game Theory Analysis</span></div>
+    <h2 data-cms-id="s11-h2-en"><span data-en="Strategic Scenario Modelling" data-si="උපායමාර්ගික අවස්ථා ආකෘති නිර්මාණය">Strategic Scenario Modelling</span></h2>
     <p class="section-lead"><span data-en="Analysing the reform options through a game theory lens: payoffs, risks, and Nash equilibria for key stakeholders." data-si="ක්‍රීඩා න්‍යාය කාචයක් හරහා ප්‍රතිසංස්කරණ විකල්ප විශ්ලේෂණය කිරීම: ප්‍රධාන කොටස්කරුවන් සඳහා ප්‍රතිලාභ, අවදානම් සහ නැෂ් සමතුලිතතාවය.">Analysing the reform options through a game theory lens: payoffs, risks, and Nash equilibria for key stakeholders.</span></p>
   </div>
 
@@ -2518,8 +2601,8 @@
 <!-- SECTION 10: SKILLS GAP & ANALYTICS -->
 <section class="section fade-in" id="skills">
   <div class="section-header">
-    <div class="section-number"><span data-en="12 — The Skills Gap & Analytics Deficit" data-si="12 — කුසලතා පරතරය සහ විශ්ලේෂණ හිඟය">12 — The Skills Gap & Analytics Deficit</span></div>
-    <h2><span data-en="Fielding, Patience, Game-Reading & The Data Desert" data-si="පන්දු රැකීම, ඉවසීම, ක්‍රීඩා කියවීම සහ දත්ත කාන්තාරය">Fielding, Patience, Game-Reading & The Data Desert</span></h2>
+    <div class="section-number" data-cms-id="s12-label-en"><span data-en="12 — The Skills Gap & Analytics Deficit" data-si="12 — කුසලතා පරතරය සහ විශ්ලේෂණ හිඟය">12 — The Skills Gap & Analytics Deficit</span></div>
+    <h2 data-cms-id="s12-h2-en"><span data-en="Fielding, Patience, Game-Reading & The Data Desert" data-si="පන්දු රැකීම, ඉවසීම, ක්‍රීඩා කියවීම සහ දත්ත කාන්තාරය">Fielding, Patience, Game-Reading & The Data Desert</span></h2>
     <p class="section-lead"><span data-en="Sri Lanka recently hired India's former fielding coach R. Sridhar for a 10-day program. Australia has permanent analytics departments with real-time data. That gap tells the entire story." data-si="ශ්‍රී ලංකාව මෑතකදී ඉන්දියාවේ හිටපු පන්දු රැකීමේ පුහුණුකරු ආර්. ශ්‍රීධර් මහතා දින 10 ක වැඩසටහනක් සඳහා බඳවා ගත්තා. ඕස්ට්‍රේලියාවේ තත්‍ය කාලීන දත්ත සහිත ස්ථිර විශ්ලේෂණ දෙපාර්තමේන්තු තිබෙනවා. ඒ පරතරය මුළු කතාවම කියනවා.">Sri Lanka recently hired India's former fielding coach R. Sridhar for a 10-day program. Australia has permanent analytics departments with real-time data. That gap tells the entire story.</span></p>
   </div>
 
@@ -2571,8 +2654,8 @@
 <!-- SECTION 11: BCCI/IPL AXIS -->
 <section class="section fade-in" id="bcci">
   <div class="section-header">
-    <div class="section-number"><span data-en="13 — The BCCI/IPL Axis" data-si="13 — BCCI/IPL අක්ෂය">13 — The BCCI/IPL Axis</span></div>
-    <h2><span data-en="India's Gravitational Pull & The Small Nation Trap" data-si="ඉන්දියාවේ ගුරුත්වාකර්ෂණ ඇදීම සහ කුඩා ජාතියේ උගුල">India's Gravitational Pull & The Small Nation Trap</span></h2>
+    <div class="section-number" data-cms-id="s13-label-en"><span data-en="13 — The BCCI/IPL Axis" data-si="13 — BCCI/IPL අක්ෂය">13 — The BCCI/IPL Axis</span></div>
+    <h2 data-cms-id="s13-h2-en"><span data-en="India's Gravitational Pull & The Small Nation Trap" data-si="ඉන්දියාවේ ගුරුත්වාකර්ෂණ ඇදීම සහ කුඩා ජාතියේ උගුල">India's Gravitational Pull & The Small Nation Trap</span></h2>
     <p class="section-lead"><span data-en="India is &quot;the sun, and the remainder are merely planets in its orbit.&quot; For a small nation like Sri Lanka, the IPL is simultaneously the best development opportunity and the greatest existential threat." data-si="ඉන්දියාව &quot;සූර්යයා වන අතර, ඉතිරිය එහි කක්ෂයේ ග්‍රහලෝක පමණි.&quot; ශ්‍රී ලංකාව වැනි කුඩා ජාතියකට, IPL එකවර හොඳම සංවර්ධන අවස්ථාව සහ විශාලතම පැවැත්මේ තර්ජනය යන දෙකම වේ.">India is "the sun, and the remainder are merely planets in its orbit." For a small nation like Sri Lanka, the IPL is simultaneously the best development opportunity and the greatest existential threat.</span></p>
   </div>
 
@@ -2634,8 +2717,8 @@
 <!-- SECTION 12: CALENDAR CRISIS -->
 <section class="section fade-in" id="calendar">
   <div class="section-header">
-    <div class="section-number"><span data-en="14 — The Calendar Crisis" data-si="14 — දින දර්ශන අර්බුදය">14 — The Calendar Crisis</span></div>
-    <h2><span data-en="The Slow Death of Sri Lankan Test Cricket" data-si="ශ්‍රී ලංකා ටෙස්ට් ක්‍රිකට් ක්‍රීඩාවේ මන්දගාමී මරණය">The Slow Death of Sri Lankan Test Cricket</span></h2>
+    <div class="section-number" data-cms-id="s14-label-en"><span data-en="14 — The Calendar Crisis" data-si="14 — දින දර්ශන අර්බුදය">14 — The Calendar Crisis</span></div>
+    <h2 data-cms-id="s14-h2-en"><span data-en="The Slow Death of Sri Lankan Test Cricket" data-si="ශ්‍රී ලංකා ටෙස්ට් ක්‍රිකට් ක්‍රීඩාවේ මන්දගාමී මරණය">The Slow Death of Sri Lankan Test Cricket</span></h2>
     <p class="section-lead"><span data-en="Sri Lanka played as few as 4 Tests in a recent year. Australia plays 12-15 annually. This isn't a scheduling quirk — it's a structural dismantling of the format that builds the skills Sri Lanka most desperately needs." data-si="ශ්‍රී ලංකාව මෑත වසරකදී ක්‍රීඩා කළේ ටෙස්ට් තරග 4ක් වැනි සුළු සංඛ්‍යාවකි. ඕස්ට්‍රේලියාව වාර්ෂිකව තරග 12-15ක් ක්‍රීඩා කරයි. මෙය කාලසටහන්ගත කිරීමේ අමුතු දෙයක් නොවේ - එය ශ්‍රී ලංකාවට වඩාත්ම අවශ්‍ය කුසලතා ගොඩනඟන ආකෘතියේ ව්‍යුහාත්මක බිඳවැටීමකි.">Sri Lanka played as few as 4 Tests in a recent year. Australia plays 12-15 annually. This isn't a scheduling quirk — it's a structural dismantling of the format that builds the skills Sri Lanka most desperately needs.</span></p>
   </div>
 
@@ -2672,8 +2755,8 @@
 <!-- SECTION 13: HIDDEN INSIGHTS -->
 <section class="section fade-in" id="hidden">
   <div class="section-header">
-    <div class="section-number"><span data-en="15 — The Undiscussed" data-si="15 — සාකච්ඡා නොකළ">15 — The Undiscussed</span></div>
-    <h2><span data-en="Insights Nobody Talks About" data-si="කිසිවෙකු කතා නොකරන තීක්ෂ්ණ බුද්ධිය">Insights Nobody Talks About</span></h2>
+    <div class="section-number" data-cms-id="s15-label-en"><span data-en="15 — The Undiscussed" data-si="15 — සාකච්ඡා නොකළ">15 — The Undiscussed</span></div>
+    <h2 data-cms-id="s15-h2-en"><span data-en="Insights Nobody Talks About" data-si="කිසිවෙකු කතා නොකරන තීක්ෂ්ණ බුද්ධිය">Insights Nobody Talks About</span></h2>
     <p class="section-lead"><span data-en="The conversations that don't make it into mainstream cricket analysis — the structural, cultural, and geopolitical factors that shape Sri Lanka's cricket crisis." data-si="ප්‍රධාන ධාරාවේ ක්‍රිකට් විශ්ලේෂණයට ඇතුළත් නොවන සංවාද - ශ්‍රී ලංකාවේ ක්‍රිකට් අර්බුදය හැඩගස්වන ව්‍යුහාත්මක, සංස්කෘතික සහ භූ දේශපාලනික සාධක.">The conversations that don't make it into mainstream cricket analysis — the structural, cultural, and geopolitical factors that shape Sri Lanka's cricket crisis.</span></p>
   </div>
 
