@@ -197,6 +197,26 @@ footer{text-align:center;padding:32px 20px;font-size:11px;color:var(--text-muted
 /* Embedded in iframe */
 .embedded .lang-toggle{top:8px;right:8px}
 .embedded .hero{padding:48px 0 24px}
+
+/* Embedded in iframe */
+.embedded .lang-toggle{display:none!important}
+
+/* Live Pledges Feed */
+.pledge-feed{padding:24px 0 8px}
+.pledge-feed-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.pledge-feed-title{font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.04em;display:flex;align-items:center;gap:6px}
+.pledge-feed-title .feed-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s ease infinite}
+.pledge-feed-count{font-size:12px;color:var(--text-muted)}
+.pledge-feed-list{max-height:180px;overflow-y:auto;border:1px solid var(--border-light);border-radius:var(--radius);background:var(--bg-card)}
+.pledge-feed-list::-webkit-scrollbar{width:4px}
+.pledge-feed-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.pledge-feed-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border-light);font-size:13px;animation:feedSlideIn 0.4s ease}
+.pledge-feed-item:last-child{border-bottom:none}
+.pledge-feed-name{font-weight:500;color:var(--text)}
+.pledge-feed-amount{font-weight:700;color:var(--accent)}
+.pledge-feed-time{font-size:11px;color:var(--text-muted);margin-left:8px}
+.pledge-feed-empty{padding:20px;text-align:center;color:var(--text-muted);font-size:13px}
+@keyframes feedSlideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
@@ -372,6 +392,19 @@ footer{text-align:center;padding:32px 20px;font-size:11px;color:var(--text-muted
       </div>
     </div>
   </section>
+
+  <!-- Live Pledges Feed -->
+  <section class="pledge-feed" id="pledge-feed">
+    <div class="pledge-feed-header">
+      <a href="#" onclick="event.preventDefault();document.querySelector('.hero-badge').scrollIntoView({behavior:'smooth'})" style="text-decoration:none">
+        <div class="pledge-feed-title"><span class="feed-dot"></span> <span class="en">Recent Pledges</span><span class="si">රෑත පොරොන්දු</span></div>
+      </a>
+      <div class="pledge-feed-count" id="feed-count"></div>
+    </div>
+    <div class="pledge-feed-list" id="pledge-feed-list">
+      <div class="pledge-feed-empty"><span class="en">Be the first to pledge!</span><span class="si">පළමුව පොරොන්දු වන්න!</span></div>
+    </div>
+  </section>
 </div>
 </div><!-- /public-view -->
 
@@ -435,6 +468,15 @@ try { const saved = localStorage.getItem('pledge_lang'); if (saved) setLang(save
 // Detect if embedded in iframe
 if (window !== window.top) { document.body.classList.add('embedded'); }
 
+// Set language: URL param > saved > default
+(function() {
+  const params = new URLSearchParams(location.search);
+  const urlLang = params.get('lang');
+  if (urlLang === 'si' || urlLang === 'en') { setLang(urlLang); return; }
+  try { const saved = localStorage.getItem('pledge_lang'); if (saved) setLang(saved); } catch(e) {}
+})();
+
+
 // ==========================================
 // PledgeDB
 // ==========================================
@@ -486,6 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('pw-input').focus();
   } else {
     updateTracker(true);
+    renderPledgeFeed();
   }
 });
 
@@ -641,6 +684,7 @@ function submitPledge() {
   PledgeDB.add(pledgeData);
   document.getElementById('success-overlay').classList.add('show');
   updateTracker(false);
+  renderPledgeFeed();
 
   // Fire-and-forget confirmation email (non-blocking)
   sendConfirmationEmail(pledgeData);
@@ -731,6 +775,44 @@ function clearAllPledges() {
   }
 }
 
+// Live Pledges Feed
+// ==========================================
+function renderPledgeFeed() {
+  const list = document.getElementById('pledge-feed-list');
+  const count = document.getElementById('feed-count');
+  if (!list) return;
+  const pledges = PledgeDB.getAll();
+  const lang = document.documentElement.getAttribute('data-lang') || 'en';
+  if (pledges.length === 0) {
+    list.innerHTML = '<div class="pledge-feed-empty"><span class="en">Be the first to pledge!</span><span class="si">\u0DB4\u0DC5\u0DB8\u0DD4\u0DC0 \u0DB4\u0DDC\u0DBB\u0DDC\u0DB1\u0DCA\u0DAF\u0DD4 \u0DC0\u0DB1\u0DCA\u0DB1!</span></div>';
+    if (count) count.textContent = '';
+    return;
+  }
+  if (count) count.textContent = pledges.length + (lang === 'si' ? ' \u0DB4\u0DDC\u0DBB\u0DDC\u0DB1\u0DCA\u0DAF\u0DD4' : ' pledges');
+  const sorted = pledges.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  list.innerHTML = sorted.map(p => {
+    const firstName = p.firstName || p.name?.split(' ')[0] || 'Anonymous';
+    const lastInit = p.lastName ? p.lastName.charAt(0) + '.' : '';
+    const displayName = firstName + (lastInit ? ' ' + lastInit : '');
+    const symbol = p.currency === 'LKR' ? 'Rs.' : '$';
+    const timeAgo = getTimeAgo(p.timestamp, lang);
+    return '<div class="pledge-feed-item"><span class="pledge-feed-name">' + displayName + '</span><span><span class="pledge-feed-amount">' + symbol + p.amount + (p.type === 'monthly' ? (lang === 'si' ? '/\u0DB8\u0DC3\u0D9A\u0DA7' : '/mo') : '') + '</span><span class="pledge-feed-time">' + timeAgo + '</span></span></div>';
+  }).join('');
+}
+
+function getTimeAgo(timestamp, lang) {
+  const now = new Date();
+  const then = new Date(timestamp);
+  const diff = Math.floor((now - then) / 1000);
+  if (diff < 60) return lang === 'si' ? '\u0DAF\u0DD0\u0DB1\u0DCA' : 'just now';
+  if (diff < 3600) { const m = Math.floor(diff / 60); return m + (lang === 'si' ? ' \u0DB8\u0DD2\u0DB1\u0DD2. \u0DB4\u0DD9\u0DBB' : 'm ago'); }
+  if (diff < 86400) { const h = Math.floor(diff / 3600); return h + (lang === 'si' ? ' \u0DB4\u0DD0\u0DBA \u0DB4\u0DD9\u0DBB' : 'h ago'); }
+  const d = Math.floor(diff / 86400);
+  return d + (lang === 'si' ? ' \u0DAF\u0DD2\u0DB1 \u0DB4\u0DD9\u0DBB' : 'd ago');
+}
+
+// ==========================================
+// ==========================================
 // ==========================================
 // Confirmation Email
 // ==========================================
