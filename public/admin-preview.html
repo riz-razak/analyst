@@ -548,6 +548,45 @@
         color: white;
     }
 
+    /* Sort select in toolbar */
+    .sort-select {
+        padding: 8px 12px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        color: var(--text-primary);
+        background-color: var(--bg-main);
+        cursor: pointer;
+        transition: border-color 0.2s;
+    }
+    .sort-select:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(27, 77, 46, 0.1);
+    }
+
+    /* Sortable table headers */
+    .sortable-th {
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+    }
+    .sortable-th:hover {
+        background-color: rgba(27, 77, 46, 0.05);
+    }
+    .sort-indicator {
+        display: inline-block;
+        margin-left: 4px;
+        opacity: 0.35;
+        font-size: 11px;
+        transition: opacity 0.15s;
+    }
+    .sortable-th.sort-active .sort-indicator {
+        opacity: 1;
+        color: var(--color-primary);
+    }
+
     .btn-primary {
         padding: 10px 20px;
         background-color: var(--color-primary);
@@ -1991,6 +2030,14 @@
             <button class="filter-tab" data-filter="orphan">Orphans</button>
         </div>
         <div class="view-controls">
+            <select class="sort-select" id="dossier-sort" title="Sort by">
+                <option value="date-desc">Date ↓ (newest)</option>
+                <option value="date-asc">Date ↑ (oldest)</option>
+                <option value="title-asc">Title A–Z</option>
+                <option value="title-desc">Title Z–A</option>
+                <option value="status-asc">Status</option>
+                <option value="sections-desc">Sections ↓</option>
+            </select>
             <div class="view-toggle">
                 <button class="view-toggle-btn" data-view="grid">Grid</button>
                 <button class="view-toggle-btn active" data-view="table">Table</button>
@@ -2011,11 +2058,11 @@
                 <thead>
                     <tr>
                         <th style="width: 60px;">Thumbnail</th>
-                        <th style="width: auto;">Title</th>
+                        <th class="sortable-th" data-sort="title" style="width: auto;">Title <span class="sort-indicator">↕</span></th>
                         <th style="width: 150px;">Slug</th>
-                        <th style="width: 100px;">Date</th>
-                        <th style="width: 80px;">Status</th>
-                        <th style="width: 80px;">Sections</th>
+                        <th class="sortable-th" data-sort="date" style="width: 100px;">Date <span class="sort-indicator">↓</span></th>
+                        <th class="sortable-th" data-sort="status" style="width: 80px;">Status <span class="sort-indicator">↕</span></th>
+                        <th class="sortable-th" data-sort="sections" style="width: 80px;">Sections <span class="sort-indicator">↕</span></th>
                         <th style="width: 80px;">Video</th>
                         <th style="width: 100px;">Actions</th>
                     </tr>
@@ -5576,7 +5623,9 @@ Object.assign(appState, {
     currentDossierId: null,
     viewMode: 'table',
     filterMode: 'all',
-    searchQuery: ''
+    searchQuery: '',
+    sortField: 'date',
+    sortDir: 'desc'
 });
 
 // ========================================
@@ -5624,8 +5673,9 @@ function getStatusLabel(status) {
 function filterDossiers() {
     const searchQuery = appState.searchQuery.toLowerCase();
     const filterMode = appState.filterMode;
+    const { sortField, sortDir } = appState;
 
-    return dossiersData.filter(dossier => {
+    const filtered = dossiersData.filter(dossier => {
         // Filter by search
         const matchesSearch = dossier.title.toLowerCase().includes(searchQuery) ||
             dossier.slug.toLowerCase().includes(searchQuery) ||
@@ -5641,6 +5691,33 @@ function filterDossiers() {
 
         return false;
     });
+
+    // Sort
+    filtered.sort((a, b) => {
+        let aVal, bVal;
+        if (sortField === 'date') {
+            aVal = new Date(a.date).getTime();
+            bVal = new Date(b.date).getTime();
+        } else if (sortField === 'title') {
+            aVal = a.title.toLowerCase();
+            bVal = b.title.toLowerCase();
+        } else if (sortField === 'status') {
+            const order = { published: 0, hidden: 1, draft: 2, orphan: 3 };
+            aVal = order[a.status] ?? 99;
+            bVal = order[b.status] ?? 99;
+        } else if (sortField === 'sections') {
+            aVal = a.sections;
+            bVal = b.sections;
+        } else {
+            aVal = a[sortField];
+            bVal = b[sortField];
+        }
+        if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
+        if (aVal > bVal) return sortDir === 'asc' ? 1 : -1;
+        return 0;
+    });
+
+    return filtered;
 }
 
 // ========================================
@@ -5863,6 +5940,44 @@ function handleCardMenu(id) {
 }
 
 // ========================================
+// SORT HELPERS
+// ========================================
+
+function renderCurrentView() {
+    if (appState.viewMode === 'grid') {
+        renderGridView();
+    } else {
+        renderTableView();
+    }
+}
+
+function updateSortHeaders() {
+    document.querySelectorAll('.sortable-th').forEach(th => {
+        const field = th.dataset.sort;
+        const isActive = field === appState.sortField;
+        th.classList.toggle('sort-active', isActive);
+        const indicator = th.querySelector('.sort-indicator');
+        if (indicator) {
+            if (!isActive) {
+                indicator.textContent = '↕';
+            } else {
+                indicator.textContent = appState.sortDir === 'asc' ? '↑' : '↓';
+            }
+        }
+    });
+    // Sync the sort select
+    const sel = document.getElementById('dossier-sort');
+    if (sel) sel.value = `${appState.sortField}-${appState.sortDir}`;
+}
+
+function applySortAndRender(field, dir) {
+    appState.sortField = field;
+    appState.sortDir = dir;
+    updateSortHeaders();
+    renderCurrentView();
+}
+
+// ========================================
 // TOOLBAR & FILTER HANDLERS
 // ========================================
 
@@ -5906,6 +6021,27 @@ function setupToolbar() {
             } else {
                 renderTableView();
             }
+        });
+    });
+
+    // Sort select
+    document.getElementById('dossier-sort').addEventListener('change', (e) => {
+        const [field, dir] = e.target.value.split('-');
+        applySortAndRender(field, dir);
+    });
+
+    // Sortable column headers
+    document.querySelectorAll('.sortable-th').forEach(th => {
+        th.addEventListener('click', () => {
+            const field = th.dataset.sort;
+            // Toggle direction if same field, else default to desc for date/sections, asc for title/status
+            let dir;
+            if (appState.sortField === field) {
+                dir = appState.sortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                dir = (field === 'title' || field === 'status') ? 'asc' : 'desc';
+            }
+            applySortAndRender(field, dir);
         });
     });
 
@@ -6075,10 +6211,12 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         if (typeof setupToolbar === 'function') setupToolbar();
         if (typeof setupDetailView === 'function') setupDetailView();
+        if (typeof updateSortHeaders === 'function') updateSortHeaders();
     });
 } else {
     if (typeof setupToolbar === 'function') setupToolbar();
     if (typeof setupDetailView === 'function') setupDetailView();
+    if (typeof updateSortHeaders === 'function') updateSortHeaders();
 }</script>
 </body>
 </html>
