@@ -144,6 +144,10 @@
 
         .nav-item-label {
             flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
         }
 
         .nav-item-badge {
@@ -160,25 +164,63 @@
         .nav-submenu {
             display: none;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
             margin-top: 4px;
             padding-left: 8px;
             border-left: 1px solid var(--border-color);
             margin-left: 17px;
+            max-height: 320px;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .nav-submenu.active {
             display: flex;
         }
 
+        .nav-submenu-search {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: var(--bg-sidebar);
+            padding: 4px 0 6px;
+        }
+
+        .nav-submenu-search input {
+            width: 100%;
+            padding: 5px 8px 5px 26px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 11px;
+            font-family: 'Inter', sans-serif;
+            background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='none' stroke='%239CA3AF' stroke-width='1.5'%3E%3Ccircle cx='7' cy='7' r='4.5'/%3E%3Cline x1='10.2' y1='10.2' x2='14' y2='14'/%3E%3C/svg%3E") 8px center no-repeat;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .nav-submenu-search input:focus {
+            border-color: var(--color-primary);
+        }
+
+        .nav-submenu-search input::placeholder {
+            color: var(--text-light);
+        }
+
         .nav-item.submenu-item {
             height: 32px;
             font-size: 13px;
             padding-left: 12px;
+            flex-shrink: 0;
         }
 
         .nav-item.submenu-item .nav-item-icon {
             font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .nav-item.submenu-item.hidden-by-filter {
+            display: none !important;
         }
 
         .sidebar-spacer {
@@ -587,56 +629,101 @@
         color: var(--color-primary);
     }
 
-    /* CMS Override fields */
+    /* CMS Override fields — redesigned for clarity */
+    #cms-overrides-section {
+        border: 2px solid #059669 !important;
+        border-radius: 12px !important;
+        background: linear-gradient(to bottom, #ECFDF5, #fff 60px) !important;
+        position: relative;
+    }
+    #cms-overrides-section::before {
+        content: '✏️';
+        position: absolute;
+        top: -14px;
+        left: 20px;
+        background: #fff;
+        padding: 0 8px;
+        font-size: 18px;
+    }
     .cms-field-group-label {
-        font-size: 11px;
-        font-weight: 600;
+        font-size: 12px;
+        font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--text-light);
-        margin-top: 16px;
-        margin-bottom: 8px;
-        padding-bottom: 4px;
-        border-bottom: 1px solid var(--border-color);
+        letter-spacing: 0.08em;
+        color: #1B4D2E;
+        margin-top: 24px;
+        margin-bottom: 12px;
+        padding: 6px 12px;
+        background: #ECFDF5;
+        border-radius: 6px;
+        border-left: 3px solid #059669;
     }
     .cms-field-group-label:first-child { margin-top: 0; }
     .cms-field-row {
-        margin-bottom: 10px;
+        margin-bottom: 14px;
+        padding-left: 12px;
+        border-left: 2px solid transparent;
+        transition: border-color 0.2s;
+    }
+    .cms-field-row:hover {
+        border-left-color: #059669;
     }
     .cms-field-row label {
-        display: block;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--text-secondary);
-        margin-bottom: 3px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 5px;
+    }
+    .cms-field-row label::before {
+        content: '›';
+        color: #059669;
+        font-weight: 800;
+        font-size: 16px;
     }
     .cms-field-row input,
     .cms-field-row textarea {
         width: 100%;
-        padding: 8px 10px;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-sm);
+        padding: 10px 12px;
+        border: 1.5px solid #D1D5DB;
+        border-radius: 8px;
         font-family: 'Inter', sans-serif;
-        font-size: 13px;
+        font-size: 13.5px;
         color: var(--text-primary);
-        transition: border-color 0.2s;
+        background: #fff;
+        transition: all 0.2s;
         box-sizing: border-box;
+    }
+    .cms-field-row input::placeholder,
+    .cms-field-row textarea::placeholder {
+        color: #C4C9CF;
+        font-style: italic;
+        font-size: 12.5px;
     }
     .cms-field-row input:focus,
     .cms-field-row textarea:focus {
         outline: none;
-        border-color: var(--color-primary);
-        box-shadow: 0 0 0 3px rgba(27, 77, 46, 0.08);
+        border-color: #059669;
+        box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.12);
+        background: #FAFFFE;
     }
     .cms-field-row textarea {
         resize: vertical;
-        min-height: 60px;
+        min-height: 70px;
     }
     .cms-field-row .cms-field-id {
         font-size: 10px;
         font-family: 'JetBrains Mono', monospace;
         color: #9CA3AF;
-        margin-top: 2px;
+        margin-top: 3px;
+        padding-left: 2px;
+    }
+    .cms-field-row input:not(:placeholder-shown),
+    .cms-field-row textarea:not(:placeholder-shown) {
+        border-color: #059669;
+        background: #F0FDF9;
     }
 
     .btn-primary {
@@ -1738,37 +1825,13 @@
                             <line x1="5" y1="11" x2="9" y2="11"/>
                         </svg>
                     </div>
-                    <div class="nav-item-label">Dossiers<span class="nav-item-badge">2</span></div>
+                    <div class="nav-item-label">Dossiers<span class="nav-item-badge" id="dossier-count-badge">7</span></div>
                 </a>
                 <div class="nav-submenu" id="dossiers-menu">
-                    <a href="#/dossiers/womens-day-betrayal" class="nav-item submenu-item" data-nav="dossier-detail">
-                        <div class="nav-item-icon"><svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg></div>
-                        <div class="nav-item-label">Women's Day Betrayal</div>
-                    </a>
-                    <a href="#/dossiers/iran-us-israel-war" class="nav-item submenu-item" data-nav="dossier-detail">
-                        <div class="nav-item-icon"><svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg></div>
-                        <div class="nav-item-label">Iran-US-Israel War</div>
-                    </a>
-                    <a href="#/dossiers/caravan-fresh" class="nav-item submenu-item" data-nav="dossier-detail">
-                        <div class="nav-item-icon"><svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg></div>
-                        <div class="nav-item-label">Caravan Fresh</div>
-                    </a>
-                    <a href="#/dossiers/easter-sunday-attacks-suresh-sallay" class="nav-item submenu-item" data-nav="dossier-detail">
-                        <div class="nav-item-icon"><svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg></div>
-                        <div class="nav-item-label">Easter Sunday Attacks</div>
-                    </a>
-                    <a href="#/dossiers/sri-lanka-cricket-corruption" class="nav-item submenu-item" data-nav="dossier-detail">
-                        <div class="nav-item-icon"><svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg></div>
-                        <div class="nav-item-label">Cricket Corruption</div>
-                    </a>
-                    <a href="#/dossiers/sri-lanka-hormuz-crisis" class="nav-item submenu-item" data-nav="dossier-detail">
-                        <div class="nav-item-icon"><svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg></div>
-                        <div class="nav-item-label">Hormuz Crisis</div>
-                    </a>
-                    <a href="#/dossiers/mp-accountability" class="nav-item submenu-item" data-nav="dossier-detail">
-                        <div class="nav-item-icon"><svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg></div>
-                        <div class="nav-item-label">MP Accountability</div>
-                    </a>
+                    <div class="nav-submenu-search">
+                        <input type="text" id="sidebar-dossier-search" placeholder="Filter dossiers…" autocomplete="off" />
+                    </div>
+                    <!-- Dynamically populated from dossiersData -->
                 </div>
                 <a href="#/seo" class="nav-item" data-nav="seo">
                     <div class="nav-item-icon">
@@ -2260,19 +2323,25 @@
 
             <!-- CMS Content Overrides Section -->
             <div class="detail-section" id="cms-overrides-section" style="display: none;">
-                <label class="detail-section-title" style="display: flex; align-items: center; gap: 8px;">
-                    CMS Content Overrides
-                    <span style="font-size: 11px; background: #ECFDF5; color: #059669; padding: 2px 8px; border-radius: 99px; font-weight: 600;">Live</span>
+                <label class="detail-section-title" style="display: flex; align-items: center; gap: 8px; font-size: 15px;">
+                    Edit Page Content
+                    <span style="font-size: 11px; background: #059669; color: #fff; padding: 3px 10px; border-radius: 99px; font-weight: 600; letter-spacing: 0.5px;">LIVE CMS</span>
                 </label>
-                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 16px;">
-                    Edit values below to override live page content without touching the HTML file. Changes apply when saved to the overrides JSON.
+                <div style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.5;">
+                    Change any text on the live page without editing HTML. Type a value to override the default — leave blank to keep the original.
                 </div>
+                <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+                    <button class="btn-primary" id="cms-open-editor" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11.5 1.5l3 3L5 14H2v-3z"/><path d="M9.5 3.5l3 3"/></svg>
+                        Open Visual Editor ↗
+                    </button>
+                </div>
+                <div style="font-size: 11px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #059669;">Field-by-field overrides</div>
                 <div id="cms-fields-container">
                     <!-- Fields rendered by JS -->
                 </div>
-                <div style="display: flex; gap: 8px; margin-top: 16px;">
-                    <button class="btn-primary" id="cms-save-overrides" style="flex: 1;">Copy Overrides JSON</button>
-                    <button class="btn-ghost" id="cms-open-editor" style="flex: 1;">Open CMS Editor ↗</button>
+                <div style="display: flex; gap: 8px; margin-top: 20px;">
+                    <button class="btn-primary" id="cms-save-overrides" style="flex: 1;">📋 Copy Changes as JSON</button>
                 </div>
                 <div id="cms-save-status" style="font-size: 12px; color: #059669; text-align: center; margin-top: 8px; display: none;"></div>
             </div>
@@ -5107,12 +5176,14 @@ const roadmapData = {
             ]
         },
         {
-            id: 'w10', name: 'Distribution & Community', priority: 'high', phases: [1, 2, 3],
-            timeline: 'Weeks 4–16', color: '#059669',
+            id: 'w10', name: 'Distribution & Community', priority: 'crit', phases: [1, 2, 3],
+            timeline: 'Weeks 1–16 (WA core: Weeks 1–4)', color: '#059669',
             tasks: [
-                { text: 'Launch WhatsApp Channel for dossier broadcast', status: 'todo' },
-                { text: 'WhatsApp Communities (topic-specific groups)', status: 'todo' },
-                { text: 'Digest format: auto-generated 5-point summaries for messaging', status: 'todo' },
+                { text: 'WhatsApp Channel creation + branding (broadcast)', status: 'todo' },
+                { text: 'WhatsApp Community architecture (topic groups, rules)', status: 'todo' },
+                { text: 'First dossier distributed via WA Channel', status: 'todo' },
+                { text: 'WA digest format: 5-point bilingual summaries (EN/SI)', status: 'todo' },
+                { text: 'WA link preview optimisation for all dossiers', status: 'done' },
                 { text: 'Encrypted tip line via WhatsApp', status: 'todo' },
                 { text: 'Platform-adaptive distribution adapters (Telegram, Signal)', status: 'todo' },
                 { text: 'Herald agent: automated multilingual distribution (EN/SI/TA)', status: 'todo' },
@@ -5139,11 +5210,13 @@ const roadmapData = {
         { date: 'Week 1', text: 'CMS cache fix deployed + sort controls live', done: true },
         { date: 'Week 1', text: 'OG social preview optimised for WhatsApp', done: true },
         { date: 'Week 1', text: 'Roadmap view added to admin dashboard', done: true },
-        { date: 'Week 2', text: 'CMS fields live on ALL dossier pages', done: false, current: true },
+        { date: 'Week 2', text: 'CMS fields live on ALL dossier pages', done: true },
+        { date: 'Week 2', text: 'WhatsApp Channel + Community architecture designed', done: false, current: true },
         { date: 'Week 2', text: 'Thumbnail generation prototype (Gemini API)', done: false },
+        { date: 'Week 3', text: 'WhatsApp Channel launched + first dossier distributed', done: false },
         { date: 'Week 3', text: 'Quality scoring engine + escalation chain designed', done: false },
         { date: 'Week 3', text: 'Comments system architecture complete', done: false },
-        { date: 'Week 4', text: 'WhatsApp Channel launched + grant applications begun', done: false },
+        { date: 'Week 4', text: 'WA Communities live + grant applications begun', done: false },
         { date: 'Week 4', text: 'Phase 1 complete — Foundation', done: false },
         { date: 'Week 6', text: 'Intelligence + Legal agent architecture designed', done: false },
         { date: 'Week 8', text: 'Phase 2 complete — Hardening', done: false },
@@ -6499,28 +6572,45 @@ function renderDetailView(id) {
                 cmsContainer.innerHTML = html;
             });
 
-        // Save button
-        document.getElementById('cms-save-overrides').onclick = function() {
-            const result = {};
-            cmsContainer.querySelectorAll('[data-cms-field]').forEach(el => {
-                const val = el.value.trim();
+        // Save button — remove old handler first, then bind fresh
+        var saveBtn = document.getElementById('cms-save-overrides');
+        var openBtn = document.getElementById('cms-open-editor');
+        var cmsSaveSlug = slug; // closure capture
+
+        // Clone and replace to remove any stale listeners
+        var newSaveBtn = saveBtn.cloneNode(true);
+        saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+        var newOpenBtn = openBtn.cloneNode(true);
+        openBtn.parentNode.replaceChild(newOpenBtn, openBtn);
+
+        newSaveBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var result = {};
+            cmsContainer.querySelectorAll('[data-cms-field]').forEach(function(el) {
+                var val = el.value.trim();
                 if (val) result[el.dataset.cmsField] = val;
             });
-            const json = JSON.stringify(result, null, 2);
-            navigator.clipboard.writeText(json).then(() => {
-                const status = document.getElementById('cms-save-status');
+            var json = JSON.stringify(result, null, 2);
+            navigator.clipboard.writeText(json).then(function() {
+                var status = document.getElementById('cms-save-status');
                 status.textContent = Object.keys(result).length > 0
-                    ? `Copied ${Object.keys(result).length} override(s) to clipboard — commit to dossiers/${slug}/_cms-overrides.json`
+                    ? 'Copied ' + Object.keys(result).length + ' override(s) to clipboard — commit to dossiers/' + cmsSaveSlug + '/_cms-overrides.json'
                     : 'No overrides to copy (all fields empty)';
                 status.style.display = 'block';
-                setTimeout(() => { status.style.display = 'none'; }, 5000);
+                setTimeout(function() { status.style.display = 'none'; }, 5000);
+            }).catch(function() {
+                // Fallback: show JSON in a prompt
+                prompt('Copy this JSON to _cms-overrides.json:', json);
             });
-        };
+        });
 
         // Open CMS Editor button
-        document.getElementById('cms-open-editor').onclick = function() {
-            window.open(`https://analyst.rizrazak.com/dossiers/${slug}/index.html?admin`, '_blank');
-        };
+        newOpenBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.open('https://analyst.rizrazak.com/dossiers/' + cmsSaveSlug + '/index.html?admin', '_blank');
+        });
     } else {
         cmsSection.style.display = 'none';
         cmsContainer.innerHTML = '';
@@ -6846,6 +6936,82 @@ function setupDetailView() {
 }
 
 // ========================================
+// DYNAMIC SIDEBAR DOSSIER LIST
+// ========================================
+
+function renderSidebarDossiers() {
+    const menu = document.getElementById('dossiers-menu');
+    if (!menu || typeof dossiersData === 'undefined') return;
+
+    // Keep the search box, clear the rest
+    const searchDiv = menu.querySelector('.nav-submenu-search');
+    const items = menu.querySelectorAll('.submenu-item');
+    items.forEach(item => item.remove());
+
+    // Build links from dossiersData
+    const dotSvg = '<svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg>';
+
+    // Sort: published first, then by title
+    const sorted = [...dossiersData].sort((a, b) => {
+        if (a.status === 'published' && b.status !== 'published') return -1;
+        if (a.status !== 'published' && b.status === 'published') return 1;
+        return a.title.localeCompare(b.title);
+    });
+
+    sorted.forEach(d => {
+        const a = document.createElement('a');
+        a.href = '#/dossiers/' + d.id;
+        a.className = 'nav-item submenu-item';
+        a.dataset.nav = 'dossier-detail';
+        a.title = d.title + (d.status !== 'published' ? ' (' + d.status + ')' : '');
+        a.innerHTML = '<div class="nav-item-icon">' + dotSvg + '</div>'
+            + '<div class="nav-item-label">' + d.title.replace(/</g, '&lt;') + '</div>';
+
+        // Dim non-published
+        if (d.status !== 'published') {
+            a.style.opacity = '0.55';
+        }
+
+        menu.appendChild(a);
+
+        // Add click handler for routing
+        a.addEventListener('click', function(e) {
+            window.location.hash = this.getAttribute('href');
+            if (window.innerWidth <= 768) window.closeSidebar();
+        });
+    });
+
+    // Update badge count
+    const badge = document.getElementById('dossier-count-badge');
+    if (badge) badge.textContent = dossiersData.length;
+}
+
+function setupDossierSearch() {
+    const searchInput = document.getElementById('sidebar-dossier-search');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', function() {
+        const q = this.value.toLowerCase().trim();
+        const items = document.querySelectorAll('#dossiers-menu .submenu-item');
+        items.forEach(item => {
+            const label = item.querySelector('.nav-item-label');
+            if (!label) return;
+            const text = label.textContent.toLowerCase();
+            if (!q || text.includes(q)) {
+                item.classList.remove('hidden-by-filter');
+            } else {
+                item.classList.add('hidden-by-filter');
+            }
+        });
+    });
+
+    // Prevent Enter from triggering nav
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') e.preventDefault();
+    });
+}
+
+// ========================================
 // ROUTER INTEGRATION
 // ========================================
 
@@ -6863,11 +7029,15 @@ if (document.readyState === 'loading') {
         if (typeof setupToolbar === 'function') setupToolbar();
         if (typeof setupDetailView === 'function') setupDetailView();
         if (typeof updateSortHeaders === 'function') updateSortHeaders();
+        renderSidebarDossiers();
+        setupDossierSearch();
     });
 } else {
     if (typeof setupToolbar === 'function') setupToolbar();
     if (typeof setupDetailView === 'function') setupDetailView();
     if (typeof updateSortHeaders === 'function') updateSortHeaders();
+    renderSidebarDossiers();
+    setupDossierSearch();
 }</script>
 </body>
 </html>
