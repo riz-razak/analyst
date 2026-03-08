@@ -1714,6 +1714,16 @@
                     </div>
                     <div class="nav-item-label">Analytics</div>
                 </a>
+                <a href="#/roadmap" class="nav-item" data-nav="roadmap">
+                    <div class="nav-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 3h4l2 2h6v8H2V3z"/>
+                            <line x1="6" y1="8" x2="12" y2="8"/>
+                            <line x1="6" y1="11" x2="10" y2="11"/>
+                        </svg>
+                    </div>
+                    <div class="nav-item-label">Roadmap</div>
+                </a>
             </div>
 
             <!-- Analyst Section -->
@@ -4900,6 +4910,296 @@
     </script>
 </div>
 
+<!-- ═══════════════ ROADMAP VIEW ═══════════════ -->
+<div class="view" id="view-roadmap">
+<style>
+.rm-grid{display:grid;gap:16px}
+.rm-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.rm-phase-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.rm-phase-tab{padding:6px 14px;border-radius:6px;border:1px solid var(--border);background:white;cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+.rm-phase-tab:hover{border-color:var(--accent)}
+.rm-phase-tab.active{background:var(--navy);color:white;border-color:var(--navy)}
+.rm-progress-row{display:grid;grid-template-columns:140px 1fr 60px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0}
+.rm-progress-row:last-child{border-bottom:none}
+.rm-bar-bg{height:10px;background:#E5E7EB;border-radius:5px;overflow:hidden}
+.rm-bar-fill{height:100%;border-radius:5px;transition:width .4s ease}
+.rm-ws-card{background:white;border:1px solid var(--border);border-radius:10px;padding:20px;transition:box-shadow .15s}
+.rm-ws-card:hover{box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.rm-ws-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.rm-crit{background:#FEE2E2;color:#991B1B}.rm-high{background:#FEF3C7;color:#92400E}.rm-med{background:#DCFCE7;color:#166534}
+.rm-task-list{list-style:none;padding:0;margin:10px 0 0}
+.rm-task{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:13px;border-bottom:1px solid #f8f8f8}
+.rm-task:last-child{border-bottom:none}
+.rm-check{width:18px;height:18px;border-radius:4px;border:2px solid #D1D5DB;cursor:pointer;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.rm-check.done{background:#10B981;border-color:#10B981;color:white}
+.rm-check.in-progress{background:#F59E0B;border-color:#F59E0B;color:white}
+.rm-task-text.done{text-decoration:line-through;opacity:0.5}
+.rm-summary-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.rm-summary-card{background:white;border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+.rm-summary-card .num{font-size:28px;font-weight:700;color:var(--navy)}
+.rm-summary-card .lbl{font-size:12px;color:var(--muted);margin-top:4px}
+.rm-timeline{position:relative;padding-left:24px}
+.rm-timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:#E5E7EB}
+.rm-tl-item{position:relative;padding:12px 0 12px 16px;font-size:13px}
+.rm-tl-item::before{content:'';position:absolute;left:-20px;top:17px;width:12px;height:12px;border-radius:50%;border:2px solid var(--navy);background:white}
+.rm-tl-item.done::before{background:#10B981;border-color:#10B981}
+.rm-tl-item.current::before{background:#F59E0B;border-color:#F59E0B}
+.rm-tl-date{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase}
+</style>
+
+<div class="rm-grid" style="gap:20px;">
+    <!-- Summary Cards -->
+    <div class="rm-summary-cards" id="rm-summary-cards"></div>
+
+    <!-- Phase Tabs + Overall Progress -->
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:20px;">
+        <div class="rm-header" style="margin-bottom:16px;">
+            <h3 style="margin:0;font-size:16px;color:var(--navy);">Workstream Progress</h3>
+            <div class="rm-phase-tabs">
+                <button class="rm-phase-tab active" data-phase="all" onclick="rmFilterPhase('all',this)">All</button>
+                <button class="rm-phase-tab" data-phase="1" onclick="rmFilterPhase('1',this)">Phase 1</button>
+                <button class="rm-phase-tab" data-phase="2" onclick="rmFilterPhase('2',this)">Phase 2</button>
+                <button class="rm-phase-tab" data-phase="3" onclick="rmFilterPhase('3',this)">Phase 3</button>
+                <button class="rm-phase-tab" data-phase="4" onclick="rmFilterPhase('4',this)">Phase 4</button>
+            </div>
+        </div>
+        <div id="rm-progress-bars"></div>
+    </div>
+
+    <!-- Workstream Detail Cards -->
+    <div id="rm-workstream-cards" style="display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));"></div>
+
+    <!-- Implementation Timeline -->
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:20px;">
+        <h3 style="margin:0 0 16px;font-size:16px;color:var(--navy);">Implementation Timeline</h3>
+        <div class="rm-timeline" id="rm-timeline"></div>
+    </div>
+</div>
+
+<script>
+// ═══════════════ ROADMAP DATA ═══════════════
+const roadmapData = {
+    workstreams: [
+        {
+            id: 'w1', name: 'CMS & Content Pipeline', priority: 'crit', phases: [1],
+            timeline: 'Weeks 1–4', color: '#E85D26',
+            tasks: [
+                { text: 'Fix CDN cache headers for admin panel', status: 'done' },
+                { text: 'Add CMS overrides section to caravan-fresh', status: 'done' },
+                { text: 'Add cmsFields to ALL dossier entries', status: 'in-progress' },
+                { text: 'Inject hydration script + data-cms-id into all dossier HTML pages', status: 'in-progress' },
+                { text: 'Build server-side write endpoint (Cloudflare Function) for _cms-overrides.json', status: 'todo' },
+                { text: 'Image override support (hero images, illustrations)', status: 'todo' },
+                { text: 'YouTube thumbnail pipeline with Gemini API', status: 'todo' },
+                { text: 'Thumbnail review/regenerate/accept UI in admin panel', status: 'todo' },
+                { text: 'Vertical + square format export for social media', status: 'todo' },
+            ]
+        },
+        {
+            id: 'w2', name: 'Security Architecture', priority: 'crit', phases: [1, 2],
+            timeline: 'Weeks 1–6', color: '#DC2626',
+            tasks: [
+                { text: 'Supabase JWT + AAL2 TOTP auth (already live)', status: 'done' },
+                { text: 'Security headers in _headers file', status: 'done' },
+                { text: 'Threat model documentation', status: 'todo' },
+                { text: 'Argon2id password policy + HaveIBeenPwned check', status: 'todo' },
+                { text: 'Device trust fingerprinting', status: 'todo' },
+                { text: 'Session anomaly detection + auto-revocation', status: 'todo' },
+                { text: 'Defence philosophy vault (encrypted, founder-only)', status: 'todo' },
+                { text: 'CSP headers + input sanitisation hardening', status: 'todo' },
+            ]
+        },
+        {
+            id: 'w3', name: 'User & Access Management', priority: 'high', phases: [1, 2],
+            timeline: 'Weeks 2–6', color: '#F59E0B',
+            tasks: [
+                { text: 'User profile schema design', status: 'todo' },
+                { text: 'Email verification flow', status: 'todo' },
+                { text: 'Role hierarchy (Founder → Trustee → Admin → Editor → Contributor → Reader)', status: 'todo' },
+                { text: 'Mandatory TOTP for Admin+ roles', status: 'todo' },
+                { text: 'API key vault UI in admin panel (admin-only)', status: 'todo' },
+                { text: 'Key rotation reminders + audit trail', status: 'todo' },
+            ]
+        },
+        {
+            id: 'w4', name: 'Core Philosophy Algorithm', priority: 'high', phases: [2, 3],
+            timeline: 'Weeks 4–12', color: '#8B5CF6',
+            tasks: [
+                { text: 'Define immutable founding principles', status: 'todo' },
+                { text: 'Design cryptographic vault (Safe Wrapper)', status: 'todo' },
+                { text: 'Founder access: 2FA + hardware key + passphrase', status: 'todo' },
+                { text: 'Tamper detection with multi-location hash storage', status: 'todo' },
+                { text: 'CPA decision logging system', status: 'todo' },
+                { text: 'Trustee board governance model', status: 'todo' },
+                { text: 'Succession protocol design', status: 'todo' },
+            ]
+        },
+        {
+            id: 'w5', name: 'Autonomous AI Agent', priority: 'med', phases: [3, 4],
+            timeline: 'Weeks 6–20', color: '#0D9488',
+            tasks: [
+                { text: 'Claude API integration (free tier)', status: 'todo' },
+                { text: 'Tier 1: Observer — monitor site health, report issues', status: 'todo' },
+                { text: 'Tier 2: Assistant — CMS management, thumbnail generation', status: 'todo' },
+                { text: 'Tier 3: Operator — deploy updates, infrastructure management', status: 'todo' },
+                { text: 'Admin panel kanban board for agent tasks', status: 'todo' },
+                { text: 'Admin panel chat window with agent', status: 'todo' },
+                { text: 'Vector memory system for institutional knowledge', status: 'todo' },
+                { text: 'Self-learning loop: Observe → Analyse → Propose → Execute → Reflect', status: 'todo' },
+            ]
+        },
+        {
+            id: 'w6', name: 'Infrastructure & Self-Hosting', priority: 'med', phases: [3, 4],
+            timeline: 'Weeks 8–24', color: '#6366F1',
+            tasks: [
+                { text: 'Research M5 Ultra Mac Studio availability + pricing', status: 'todo' },
+                { text: 'Base OS + Docker + core services setup', status: 'todo' },
+                { text: 'Caddy reverse proxy with auto-HTTPS', status: 'todo' },
+                { text: 'Self-hosted Supabase migration', status: 'todo' },
+                { text: 'Ollama / llama.cpp local LLM runtime', status: 'todo' },
+                { text: 'Grafana + Prometheus monitoring', status: 'todo' },
+                { text: 'Encrypted backups to B2/Glacier via restic', status: 'todo' },
+                { text: 'DNS switch with Cloudflare CDN/DDoS shield', status: 'todo' },
+            ]
+        },
+        {
+            id: 'w7', name: 'Project Governance', priority: 'high', phases: [1],
+            timeline: 'Weeks 1–4', color: '#EC4899',
+            tasks: [
+                { text: 'Roadmap view in admin dashboard', status: 'done' },
+                { text: 'Notion project board setup (W1–W7)', status: 'todo' },
+                { text: 'Notion API sync to admin dashboard', status: 'todo' },
+                { text: 'Feature wishlist / voting system', status: 'todo' },
+                { text: 'Weekly auto-generated progress reports', status: 'todo' },
+                { text: 'Monthly strategic assessment template', status: 'todo' },
+            ]
+        },
+    ],
+    milestones: [
+        { date: 'Week 1', text: 'CMS cache fix deployed + sort controls live', done: true },
+        { date: 'Week 1', text: 'OG social preview optimised for WhatsApp', done: true },
+        { date: 'Week 1', text: 'Roadmap view added to admin dashboard', done: true },
+        { date: 'Week 2', text: 'CMS fields live on ALL dossier pages', done: false, current: true },
+        { date: 'Week 2', text: 'Thumbnail generation prototype (Gemini API)', done: false },
+        { date: 'Week 3', text: 'User profile schema + 2FA flow designed', done: false },
+        { date: 'Week 3', text: 'API key vault UI in admin panel', done: false },
+        { date: 'Week 4', text: 'Notion project board linked to admin', done: false },
+        { date: 'Week 4', text: 'Phase 1 complete — Foundation', done: false },
+        { date: 'Week 8', text: 'Phase 2 complete — Hardening', done: false },
+        { date: 'Week 16', text: 'Phase 3 complete — Intelligence', done: false },
+        { date: 'Week 24', text: 'Phase 4 complete — Autonomy', done: false },
+    ]
+};
+
+function rmRender() {
+    const ws = roadmapData.workstreams;
+    const ms = roadmapData.milestones;
+
+    // Summary cards
+    const totalTasks = ws.reduce((s, w) => s + w.tasks.length, 0);
+    const doneTasks = ws.reduce((s, w) => s + w.tasks.filter(t => t.status === 'done').length, 0);
+    const inProgress = ws.reduce((s, w) => s + w.tasks.filter(t => t.status === 'in-progress').length, 0);
+    const overallPct = Math.round((doneTasks / totalTasks) * 100);
+
+    document.getElementById('rm-summary-cards').innerHTML = `
+        <div class="rm-summary-card"><div class="num">${overallPct}%</div><div class="lbl">Overall Progress</div></div>
+        <div class="rm-summary-card"><div class="num" style="color:#10B981">${doneTasks}</div><div class="lbl">Tasks Complete</div></div>
+        <div class="rm-summary-card"><div class="num" style="color:#F59E0B">${inProgress}</div><div class="lbl">In Progress</div></div>
+        <div class="rm-summary-card"><div class="num" style="color:#6B7280">${totalTasks - doneTasks - inProgress}</div><div class="lbl">Remaining</div></div>
+        <div class="rm-summary-card"><div class="num">7</div><div class="lbl">Workstreams</div></div>
+        <div class="rm-summary-card"><div class="num">24</div><div class="lbl">Weeks Total</div></div>
+    `;
+
+    // Progress bars
+    let barsHtml = '';
+    ws.forEach(w => {
+        const done = w.tasks.filter(t => t.status === 'done').length;
+        const ip = w.tasks.filter(t => t.status === 'in-progress').length;
+        const pct = Math.round(((done + ip * 0.5) / w.tasks.length) * 100);
+        barsHtml += `<div class="rm-progress-row" data-phases="${w.phases.join(',')}">
+            <div style="font-size:13px;font-weight:600;color:${w.color}">${w.id.toUpperCase()}</div>
+            <div class="rm-bar-bg"><div class="rm-bar-fill" style="width:${pct}%;background:${w.color}"></div></div>
+            <div style="font-size:13px;font-weight:600;color:var(--muted)">${pct}%</div>
+        </div>`;
+    });
+    document.getElementById('rm-progress-bars').innerHTML = barsHtml;
+
+    // Workstream cards
+    let cardsHtml = '';
+    ws.forEach(w => {
+        const prClass = w.priority === 'crit' ? 'rm-crit' : w.priority === 'high' ? 'rm-high' : 'rm-med';
+        const prLabel = w.priority === 'crit' ? 'Critical' : w.priority === 'high' ? 'High' : 'Medium';
+        const done = w.tasks.filter(t => t.status === 'done').length;
+        let tasksHtml = '';
+        w.tasks.forEach((t, i) => {
+            const checkClass = t.status === 'done' ? 'done' : t.status === 'in-progress' ? 'in-progress' : '';
+            const textClass = t.status === 'done' ? 'done' : '';
+            const icon = t.status === 'done' ? '✓' : t.status === 'in-progress' ? '◐' : '';
+            tasksHtml += `<li class="rm-task">
+                <div class="rm-check ${checkClass}" onclick="rmToggleTask('${w.id}',${i})">${icon}</div>
+                <span class="rm-task-text ${textClass}">${t.text}</span>
+            </li>`;
+        });
+        cardsHtml += `<div class="rm-ws-card" data-phases="${w.phases.join(',')}">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <div>
+                    <span style="font-weight:700;color:${w.color};font-size:12px;text-transform:uppercase;letter-spacing:0.5px">${w.id.toUpperCase()}</span>
+                    <h4 style="margin:2px 0 0;font-size:15px;color:var(--navy)">${w.name}</h4>
+                </div>
+                <span class="rm-ws-badge ${prClass}">${prLabel}</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:8px">${w.timeline} · ${done}/${w.tasks.length} done</div>
+            <ul class="rm-task-list">${tasksHtml}</ul>
+        </div>`;
+    });
+    document.getElementById('rm-workstream-cards').innerHTML = cardsHtml;
+
+    // Timeline
+    let tlHtml = '';
+    ms.forEach(m => {
+        const cls = m.done ? 'done' : m.current ? 'current' : '';
+        tlHtml += `<div class="rm-tl-item ${cls}">
+            <div class="rm-tl-date">${m.date}</div>
+            <div>${m.text}</div>
+        </div>`;
+    });
+    document.getElementById('rm-timeline').innerHTML = tlHtml;
+}
+
+function rmToggleTask(wsId, taskIdx) {
+    const ws = roadmapData.workstreams.find(w => w.id === wsId);
+    if (!ws) return;
+    const t = ws.tasks[taskIdx];
+    if (t.status === 'todo') t.status = 'in-progress';
+    else if (t.status === 'in-progress') t.status = 'done';
+    else t.status = 'todo';
+    rmRender();
+}
+
+function rmFilterPhase(phase, btn) {
+    document.querySelectorAll('.rm-phase-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('[data-phases]').forEach(el => {
+        if (phase === 'all') { el.style.display = ''; return; }
+        el.style.display = el.dataset.phases.includes(phase) ? '' : 'none';
+    });
+}
+
+// Render on navigation
+const _origNav = navigateToRoute;
+const _patchedNav = function(hash) {
+    _origNav(hash);
+    if (hash === '#/roadmap') rmRender();
+};
+// We'll call rmRender when the view becomes visible
+const rmObserver = new MutationObserver(() => {
+    const rmView = document.getElementById('view-roadmap');
+    if (rmView && rmView.classList.contains('active')) rmRender();
+});
+rmObserver.observe(document.querySelector('.views-container') || document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+</script>
+</div>
+
 <div class="view" id="view-settings">
     <div style="display: grid; grid-template-columns: 200px 1fr; gap: 24px;">
         <!-- Left Navigation -->
@@ -5277,6 +5577,7 @@
             '/apps': { view: 'apps', title: 'Apps', private: false },
             '/apps/:id': { view: 'app-detail', title: 'App', private: false },
             '/settings': { view: 'settings', title: 'Settings', private: false },
+            '/roadmap': { view: 'roadmap', title: 'Roadmap', private: false },
             '/private/notes': { view: 'private-notes', title: 'Private Notes', private: true },
             '/private/tasks': { view: 'private-tasks', title: 'Private Tasks', private: true }
         };
@@ -5477,6 +5778,9 @@
             }
             if (routeInfo.view === 'dossier-detail' && routeInfo.id && typeof renderDetailView === 'function') {
                 renderDetailView(routeInfo.id);
+            }
+            if (routeInfo.view === 'roadmap' && typeof rmRender === 'function') {
+                rmRender();
             }
         }
 
