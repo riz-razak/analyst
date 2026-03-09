@@ -88,22 +88,11 @@ jobs:
           echo "Deploying Worker: $WORKER_NAME"
           echo "Using KV namespaces: SESSION_STORE=$SESSION_KV_ID, DRAFT_STORE=$DRAFT_KV_ID"
 
-          # Create metadata JSON with template and sed replacement
+          # Build metadata JSON inline — part name "worker.js" must match main_module
           echo "Creating metadata JSON..." >&2
-          # Build metadata JSON (no heredoc to avoid indentation issues)
-          python3 -c "
-import json, sys
-meta = {
-  'main_module': 'worker.js',
-  'bindings': [
-    {'type': 'kv_namespace', 'name': 'SESSION_STORE', 'namespace_id': sys.argv[1]},
-    {'type': 'kv_namespace', 'name': 'DRAFT_STORE',   'namespace_id': sys.argv[2]}
-  ]
-}
-print(json.dumps(meta, indent=2))
-" "$SESSION_KV_ID" "$DRAFT_KV_ID" > /tmp/metadata.json
-          echo "Metadata JSON:" >&2
-          cat /tmp/metadata.json >&2
+          printf '{"main_module":"worker.js","bindings":[{"type":"kv_namespace","name":"SESSION_STORE","namespace_id":"%s"},{"type":"kv_namespace","name":"DRAFT_STORE","namespace_id":"%s"}]}' \
+            "$SESSION_KV_ID" "$DRAFT_KV_ID" > /tmp/metadata.json
+          echo "Metadata: $(cat /tmp/metadata.json)" >&2
           echo "Metadata JSON created successfully" >&2
 
           # Deploy to Cloudflare Workers with multipart form
