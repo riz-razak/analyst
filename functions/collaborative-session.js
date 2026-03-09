@@ -38,6 +38,12 @@ export default {
         return handleDraft(request, env);
       } else if (path === '/api/session/publish') {
         return handlePublish(request, env, ctx);
+      } else if (path === '/api/submissions/submit') {
+        return handleSubmission(request, env);
+      } else if (path === '/api/submissions/list') {
+        return handleListSubmissions(request, env);
+      } else if (path === '/api/submissions/review') {
+        return handleReviewSubmission(request, env);
       }
 
       return new Response(JSON.stringify({ error: 'Not Found' }), {
@@ -424,6 +430,241 @@ async function handlePublish(request, env, ctx) {
 
   return new Response(JSON.stringify({ success: true, published }), {
     headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EVIDENCE SUBMISSIONS — Public crowdsourced evidence intake
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * SUBMIT EVIDENCE (Public — no auth required)
+ * Accepts crowdsourced evidence submissions from the dossier front-end.
+ * Rate-limited by IP (5 per hour).
+ */
+async function handleSubmission(request, env) {
+  if (request.method !== 'POST') {
+    return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
+  }
+
+  const body = await request.json();
+  const {
+    dossierId,
+    submitterName,
+    submitterEmail,
+    submitterRelation,
+    evidenceType,
+    evidenceDescription,
+    evidenceUrl,
+    howToIntegrate,
+    permissions,
+    declaration,
+  } = body;
+
+  // Validate required fields
+  if (!dossierId || !submitterName || !submitterEmail || !evidenceDescription || !declaration) {
+    return corsResponse(
+      JSON.stringify({ error: 'Missing required fields: name, email, description, and declaration are mandatory' }),
+      400
+    );
+  }
+
+  if (!permissions || !permissions.useInDossier) {
+    return corsResponse(
+      JSON.stringify({ error: 'You must grant permission for evidence to be used in the dossier' }),
+      400
+    );
+  }
+
+  // Rate limiting: 5 submissions per IP per hour
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  const rateKey = `rate:submission:${ip}`;
+  const rateData = await env.SESSION_STORE.get(rateKey, 'json');
+
+  if (rateData && rateData.count >= 5) {
+    return corsResponse(
+      JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
+      429
+    );
+  }
+
+  // Update rate counter
+  const newRate = { count: (rateData ? rateData.count : 0) + 1, firstAt: rateData ? rateData.firstAt : Date.now() };
+  await env.SESSION_STORE.put(rateKey, JSON.stringify(newRate), { expirationTtl: 3600 });
+
+  // Generate submission ID
+  const submissionId = `sub_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`;
+
+  const submission = {
+    id: submissionId,
+    dossierId,
+    status: 'pending', // pending | under_review | accepted | rejected
+    submittedAt: Date.now(),
+    submittedFromIp: ip,
+
+    // Submitter info (for accountability)
+    submitter: {
+      name: submitterName,
+      email: submitterEmail,
+      relation: submitterRelation || 'not specified',
+    },
+
+    // Evidence details
+    evidence: {
+      type: evidenceType || 'general',
+      description: evidenceDescription,
+      url: evidenceUrl || null,
+      howToIntegrate: howToIntegrate || null,
+    },
+
+    // Permissions granted
+    permissions: {
+      useInDossier: !!permissions.useInDossier,
+      attributeName: !!permissions.attributeName,
+      contactForFollowUp: !!permissions.contactForFollowUp,
+    },
+
+    // Legal declaration
+    declaration: declaration,
+
+    // Review (filled in later by admin)
+    review: null,
+  };
+
+  // Store in KV under submission: prefix
+  const key = `submission:${dossierId}:${submissionId}`;
+  await env.DRAFT_STORE.put(key, JSON.stringify(submission), {
+    expirationTtl: 90 * 24 * 60 * 60, // 90 days
+  });
+
+  // Also maintain an index for listing
+  const indexKey = `submission-index:${dossierId}`;
+  const existingIndex = await env.DRAFT_STORE.get(indexKey, 'json') || [];
+  existingIndex.push({
+    id: submissionId,
+    submittedAt: submission.submittedAt,
+    status: 'pending',
+    submitterName: submitterName,
+    evidenceType: evidenceType || 'general',
+  });
+  await env.DRAFT_STORE.put(indexKey, JSON.stringify(existingIndex), {
+    expirationTtl: 90 * 24 * 60 * 60,
+  });
+
+  return corsResponse(JSON.stringify({
+    success: true,
+    submissionId,
+    message: 'Thank you. Your submission will be reviewed by the editorial team.',
+  }), 200);
+}
+
+/**
+ * LIST SUBMISSIONS (Admin — requires auth check upstream via middleware)
+ * Returns all submissions for a dossier
+ */
+async function handleListSubmissions(request, env) {
+  if (request.method !== 'GET') {
+    return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
+  }
+
+  const url = new URL(request.url);
+  const dossierId = url.searchParams.get('dossierId');
+  const status = url.searchParams.get('status'); // optional filter
+
+  if (!dossierId) {
+    return corsResponse(JSON.stringify({ error: 'Missing dossierId' }), 400);
+  }
+
+  const indexKey = `submission-index:${dossierId}`;
+  const index = await env.DRAFT_STORE.get(indexKey, 'json') || [];
+
+  // Filter by status if requested
+  const filtered = status ? index.filter(s => s.status === status) : index;
+
+  // For each entry, fetch the full submission
+  const submissions = [];
+  for (const entry of filtered.slice(-50)) { // Last 50
+    const key = `submission:${dossierId}:${entry.id}`;
+    const full = await env.DRAFT_STORE.get(key, 'json');
+    if (full) submissions.push(full);
+  }
+
+  return corsResponse(JSON.stringify({
+    total: index.length,
+    filtered: submissions.length,
+    submissions: submissions.reverse(), // Newest first
+  }), 200);
+}
+
+/**
+ * REVIEW SUBMISSION (Admin — requires auth)
+ * Accept, reject, or mark as under review
+ */
+async function handleReviewSubmission(request, env) {
+  if (request.method !== 'POST') {
+    return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
+  }
+
+  const { dossierId, submissionId, action, reviewNotes, reviewerEmail } = await request.json();
+
+  if (!dossierId || !submissionId || !action) {
+    return corsResponse(JSON.stringify({ error: 'Missing required fields' }), 400);
+  }
+
+  const validActions = ['under_review', 'accepted', 'rejected'];
+  if (!validActions.includes(action)) {
+    return corsResponse(
+      JSON.stringify({ error: `Invalid action. Must be one of: ${validActions.join(', ')}` }),
+      400
+    );
+  }
+
+  const key = `submission:${dossierId}:${submissionId}`;
+  const submission = await env.DRAFT_STORE.get(key, 'json');
+
+  if (!submission) {
+    return corsResponse(JSON.stringify({ error: 'Submission not found' }), 404);
+  }
+
+  // Update status and review
+  submission.status = action;
+  submission.review = {
+    action,
+    notes: reviewNotes || '',
+    reviewerEmail: reviewerEmail || 'admin',
+    reviewedAt: Date.now(),
+  };
+
+  await env.DRAFT_STORE.put(key, JSON.stringify(submission), {
+    expirationTtl: 90 * 24 * 60 * 60,
+  });
+
+  // Update index
+  const indexKey = `submission-index:${dossierId}`;
+  const index = await env.DRAFT_STORE.get(indexKey, 'json') || [];
+  const indexEntry = index.find(e => e.id === submissionId);
+  if (indexEntry) {
+    indexEntry.status = action;
+    await env.DRAFT_STORE.put(indexKey, JSON.stringify(index), {
+      expirationTtl: 90 * 24 * 60 * 60,
+    });
+  }
+
+  return corsResponse(JSON.stringify({ success: true, submission }), 200);
+}
+
+/**
+ * Helper: CORS-enabled JSON response
+ */
+function corsResponse(body, status) {
+  return new Response(body, {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
   });
 }
 

@@ -651,6 +651,7 @@ body.sinhala [lang-en-inline] { display: none; }
       <a href="#voices">Voices</a>
       <a href="#questions">Questions</a>
       <a href="#sources">Sources</a>
+      <a href="#submit-evidence" style="color:var(--gold);">Submit</a>
     </div>
     <button class="lang-btn" onclick="document.body.classList.toggle('sinhala')">සිං / EN</button>
   </div>
@@ -1171,6 +1172,184 @@ body.sinhala [lang-en-inline] { display: none; }
   </table>
   </div>
 </section>
+
+<div class="divider"></div>
+
+<!-- ===== EVIDENCE SUBMISSION ===== -->
+<section class="section" id="submit-evidence">
+  <div class="section-header">
+    <div class="section-label" lang-en>Contribute</div>
+    <h2 lang-en>Submit Evidence</h2>
+    <h2 lang-si class="si" style="display:none">සාක්ෂි ඉදිරිපත් කරන්න</h2>
+    <p class="section-desc" lang-en>Have relevant evidence? Help strengthen this dossier. All submissions are fully vetted before inclusion.</p>
+  </div>
+
+  <div id="submission-form-container" style="max-width: 640px; margin: 0 auto;">
+    <div style="background: var(--gold-light); border: 1px solid var(--gold); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; font-size: 0.85rem; line-height: 1.6;">
+      <strong>How this works:</strong> Your submission goes to the editorial team for review. We fully vet all evidence before integration. Your identity is kept confidential unless you grant explicit attribution permission. Submitting false evidence may carry legal consequences.
+    </div>
+
+    <form id="evidence-submission-form" style="display:flex; flex-direction:column; gap:18px;">
+      <!-- Submitter Identity -->
+      <fieldset style="border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px;">
+        <legend style="font-weight:700; font-size:0.9rem; color:var(--forest); padding:0 8px;">Your Details (for accountability — kept confidential)</legend>
+        <div style="display:flex; flex-direction:column; gap:12px; margin-top:8px;">
+          <div>
+            <label for="sub-name" style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Full Name *</label>
+            <input type="text" id="sub-name" required placeholder="Your full legal name" style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:0.9rem; font-family:var(--font-sans);">
+          </div>
+          <div>
+            <label for="sub-email" style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Email Address *</label>
+            <input type="email" id="sub-email" required placeholder="your@email.com" style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:0.9rem; font-family:var(--font-sans);">
+          </div>
+          <div>
+            <label for="sub-relation" style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Your relationship to the evidence</label>
+            <select id="sub-relation" style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:0.9rem; font-family:var(--font-sans); background:white;">
+              <option value="">Select...</option>
+              <option value="witness">Witness / firsthand account</option>
+              <option value="victim">Victim / survivor</option>
+              <option value="journalist">Journalist / researcher</option>
+              <option value="community">Community member with knowledge</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Evidence Details -->
+      <fieldset style="border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px;">
+        <legend style="font-weight:700; font-size:0.9rem; color:var(--forest); padding:0 8px;">Evidence Details</legend>
+        <div style="display:flex; flex-direction:column; gap:12px; margin-top:8px;">
+          <div>
+            <label for="sub-type" style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Type of Evidence</label>
+            <select id="sub-type" style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:0.9rem; font-family:var(--font-sans); background:white;">
+              <option value="screenshot">Screenshot / image</option>
+              <option value="video">Video recording</option>
+              <option value="document">Document / article</option>
+              <option value="testimony">Personal testimony</option>
+              <option value="social_media">Social media post / thread</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="sub-desc" style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Description of Evidence *</label>
+            <textarea id="sub-desc" required rows="4" placeholder="Describe what the evidence shows, when it dates from, and why it's relevant to this dossier..." style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:0.9rem; font-family:var(--font-sans); resize:vertical;"></textarea>
+          </div>
+          <div>
+            <label for="sub-url" style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Link to Evidence (URL)</label>
+            <input type="url" id="sub-url" placeholder="https://..." style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:0.9rem; font-family:var(--font-sans);">
+            <span style="font-size:0.75rem; color:var(--text-muted);">Facebook post, Google Drive link, news article, etc.</span>
+          </div>
+          <div>
+            <label for="sub-integrate" style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">How should this be integrated?</label>
+            <textarea id="sub-integrate" rows="2" placeholder="e.g., 'Add as new evidence card in the Evidence section' or 'Add to timeline under August 2021'" style="width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:0.9rem; font-family:var(--font-sans); resize:vertical;"></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Permissions -->
+      <fieldset style="border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px;">
+        <legend style="font-weight:700; font-size:0.9rem; color:var(--forest); padding:0 8px;">Permissions</legend>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px; font-size:0.85rem;">
+          <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="perm-use" required style="margin-top:3px;">
+            <span>I grant permission for this evidence to be used in this dossier. * <strong>(Required)</strong></span>
+          </label>
+          <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="perm-attribute">
+            <span>You may attribute this evidence to my name publicly.</span>
+          </label>
+          <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="perm-contact">
+            <span>You may contact me for follow-up questions or verification.</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <!-- Declaration -->
+      <fieldset style="border:1px solid var(--ember-light); border-radius:var(--radius); padding:16px 20px; background:var(--ember-light);">
+        <legend style="font-weight:700; font-size:0.9rem; color:var(--blood); padding:0 8px;">Declaration</legend>
+        <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer; font-size:0.85rem; margin-top:8px;">
+          <input type="checkbox" id="sub-declaration" required style="margin-top:3px;">
+          <span>I declare that the information I am providing is true and accurate to the best of my knowledge. I understand that submitting fabricated evidence may carry legal consequences. I accept that the editorial team will independently verify all submissions before inclusion. *</span>
+        </label>
+      </fieldset>
+
+      <!-- Submit -->
+      <button type="submit" id="sub-btn" style="background:var(--forest); color:white; border:none; padding:14px 28px; border-radius:var(--radius); font-size:1rem; font-weight:700; font-family:var(--font-sans); cursor:pointer; transition:background 0.2s;">
+        Submit Evidence for Review
+      </button>
+
+      <!-- Status messages -->
+      <div id="sub-status" style="display:none; padding:14px 18px; border-radius:var(--radius); font-size:0.9rem; text-align:center;"></div>
+    </form>
+  </div>
+</section>
+
+<script>
+(function() {
+  var form = document.getElementById('evidence-submission-form');
+  var btn = document.getElementById('sub-btn');
+  var status = document.getElementById('sub-status');
+  var API = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
+
+  if (!form) return;
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+    status.style.display = 'none';
+
+    var payload = {
+      dossierId: 'womens-day-betrayal',
+      submitterName: document.getElementById('sub-name').value.trim(),
+      submitterEmail: document.getElementById('sub-email').value.trim(),
+      submitterRelation: document.getElementById('sub-relation').value,
+      evidenceType: document.getElementById('sub-type').value,
+      evidenceDescription: document.getElementById('sub-desc').value.trim(),
+      evidenceUrl: document.getElementById('sub-url').value.trim() || null,
+      howToIntegrate: document.getElementById('sub-integrate').value.trim() || null,
+      permissions: {
+        useInDossier: document.getElementById('perm-use').checked,
+        attributeName: document.getElementById('perm-attribute').checked,
+        contactForFollowUp: document.getElementById('perm-contact').checked,
+      },
+      declaration: document.getElementById('sub-declaration').checked,
+    };
+
+    fetch(API + '/api/submissions/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+    .then(function(res) {
+      if (res.ok && res.data.success) {
+        status.style.display = 'block';
+        status.style.background = 'var(--sage-mist)';
+        status.style.border = '1px solid var(--sage)';
+        status.style.color = 'var(--forest-deep)';
+        status.textContent = 'Submission received (ID: ' + res.data.submissionId + '). Our editorial team will review it. Thank you.';
+        form.reset();
+      } else {
+        throw new Error(res.data.error || 'Submission failed');
+      }
+    })
+    .catch(function(err) {
+      status.style.display = 'block';
+      status.style.background = 'var(--ember-light)';
+      status.style.border = '1px solid var(--ember)';
+      status.style.color = 'var(--blood)';
+      status.textContent = 'Error: ' + err.message;
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.textContent = 'Submit Evidence for Review';
+    });
+  });
+})();
+</script>
 
 <div class="divider"></div>
 

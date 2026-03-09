@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submissions Review — Analyst Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f8fa;
+  --card: #ffffff;
+  --forest: #2d5a27;
+  --forest-light: #e8f0e2;
+  --amber: #d97706;
+  --amber-light: #fef3c7;
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+  --text: #111827;
+  --text-secondary: #6b7280;
+  --border: #e5e7eb;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header h1 { font-size: 1.1rem; font-weight: 700; }
+.header a { color: var(--forest); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+
+.toolbar {
+  padding: 16px 32px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.toolbar select, .toolbar input {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: white;
+}
+.stats {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.submissions-list {
+  padding: 0 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sub-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 24px;
+  transition: border-color 0.2s;
+}
+.sub-card:hover { border-color: var(--forest); }
+
+.sub-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.badge-pending { background: var(--amber-light); color: var(--amber); }
+.badge-review { background: var(--blue-light); color: var(--blue); }
+.badge-accepted { background: var(--forest-light); color: var(--forest); }
+.badge-rejected { background: var(--red-light); color: var(--red); }
+
+.sub-id { font-size: 0.75rem; color: var(--text-secondary); font-family: monospace; }
+.sub-date { font-size: 0.8rem; color: var(--text-secondary); margin-left: auto; }
+
+.sub-body { margin-bottom: 14px; }
+.sub-body h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+.sub-body p { font-size: 0.85rem; color: var(--text-secondary); }
+
+.sub-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.8rem;
+}
+.sub-meta-item { padding: 8px 12px; background: var(--bg); border-radius: 8px; }
+.sub-meta-item strong { display: block; font-size: 0.7rem; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.04em; margin-bottom: 2px; }
+
+.sub-perms {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.perm-tag {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.perm-yes { background: var(--forest-light); border-color: var(--forest); color: var(--forest); }
+.perm-no { background: var(--bg); color: var(--text-secondary); }
+
+.sub-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.sub-actions button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.sub-actions button:hover { opacity: 0.85; }
+.btn-accept { background: var(--forest); color: white; }
+.btn-reject { background: var(--red); color: white; }
+.btn-review { background: var(--blue); color: white; }
+
+.sub-actions textarea {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 36px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 32px;
+  color: var(--text-secondary);
+}
+.empty-state h2 { font-size: 1.1rem; margin-bottom: 8px; }
+
+.loading { text-align: center; padding: 60px; color: var(--text-secondary); }
+
+@media (max-width: 768px) {
+  .header, .toolbar, .submissions-list { padding-left: 16px; padding-right: 16px; }
+  .sub-meta { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Evidence Submissions Review</h1>
+  <div>
+    <a href="/admin-preview.html">← Back to CMS</a>
+  </div>
+</div>
+
+<div class="toolbar">
+  <label style="font-size:0.8rem; font-weight:600;">Dossier:</label>
+  <select id="dossier-select">
+    <option value="womens-day-betrayal" selected>Women's Day Betrayal</option>
+  </select>
+  <label style="font-size:0.8rem; font-weight:600;">Status:</label>
+  <select id="status-filter">
+    <option value="">All</option>
+    <option value="pending" selected>Pending</option>
+    <option value="under_review">Under Review</option>
+    <option value="accepted">Accepted</option>
+    <option value="rejected">Rejected</option>
+  </select>
+  <button onclick="loadSubmissions()" style="padding:8px 16px; background:var(--forest); color:white; border:none; border-radius:8px; font-size:0.8rem; font-weight:600; font-family:inherit; cursor:pointer;">Refresh</button>
+  <div class="stats" id="stats"></div>
+</div>
+
+<div id="submissions-container" class="submissions-list">
+  <div class="loading">Loading submissions...</div>
+</div>
+
+<script>
+var API = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
+
+function loadSubmissions() {
+  var dossierId = document.getElementById('dossier-select').value;
+  var status = document.getElementById('status-filter').value;
+  var container = document.getElementById('submissions-container');
+  container.innerHTML = '<div class="loading">Loading...</div>';
+
+  var url = API + '/api/submissions/list?dossierId=' + dossierId;
+  if (status) url += '&status=' + status;
+
+  fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      document.getElementById('stats').textContent = data.total + ' total · ' + data.filtered + ' shown';
+
+      if (!data.submissions || data.submissions.length === 0) {
+        container.innerHTML = '<div class="empty-state"><h2>No submissions found</h2><p>No evidence submissions match the current filter.</p></div>';
+        return;
+      }
+
+      container.innerHTML = data.submissions.map(renderCard).join('');
+    })
+    .catch(function(err) {
+      container.innerHTML = '<div class="empty-state"><h2>Error loading</h2><p>' + err.message + '</p></div>';
+    });
+}
+
+function renderCard(sub) {
+  var badgeClass = {
+    pending: 'badge-pending',
+    under_review: 'badge-review',
+    accepted: 'badge-accepted',
+    rejected: 'badge-rejected',
+  }[sub.status] || 'badge-pending';
+
+  var date = new Date(sub.submittedAt).toLocaleString();
+
+  return '<div class="sub-card" id="card-' + sub.id + '">'
+    + '<div class="sub-header">'
+    + '  <span class="badge ' + badgeClass + '">' + sub.status.replace('_', ' ') + '</span>'
+    + '  <span class="sub-id">' + sub.id + '</span>'
+    + '  <span class="sub-date">' + date + '</span>'
+    + '</div>'
+    + '<div class="sub-body">'
+    + '  <h3>' + escHtml(sub.submitter.name) + ' &mdash; ' + escHtml(sub.evidence.type) + '</h3>'
+    + '  <p>' + escHtml(sub.evidence.description) + '</p>'
+    + (sub.evidence.url ? '  <p style="margin-top:6px;"><a href="' + escHtml(sub.evidence.url) + '" target="_blank" style="color:var(--blue)">' + escHtml(sub.evidence.url) + '</a></p>' : '')
+    + (sub.evidence.howToIntegrate ? '  <p style="margin-top:6px; font-style:italic; color:var(--text-secondary)">Integration: ' + escHtml(sub.evidence.howToIntegrate) + '</p>' : '')
+    + '</div>'
+    + '<div class="sub-meta">'
+    + '  <div class="sub-meta-item"><strong>Email</strong>' + escHtml(sub.submitter.email) + '</div>'
+    + '  <div class="sub-meta-item"><strong>Relation</strong>' + escHtml(sub.submitter.relation) + '</div>'
+    + '  <div class="sub-meta-item"><strong>IP</strong>' + escHtml(sub.submittedFromIp) + '</div>'
+    + '</div>'
+    + '<div class="sub-perms">'
+    + '  <span class="perm-tag ' + (sub.permissions.useInDossier ? 'perm-yes' : 'perm-no') + '">Use in dossier: ' + (sub.permissions.useInDossier ? 'YES' : 'NO') + '</span>'
+    + '  <span class="perm-tag ' + (sub.permissions.attributeName ? 'perm-yes' : 'perm-no') + '">Public attribution: ' + (sub.permissions.attributeName ? 'YES' : 'NO') + '</span>'
+    + '  <span class="perm-tag ' + (sub.permissions.contactForFollowUp ? 'perm-yes' : 'perm-no') + '">Contact OK: ' + (sub.permissions.contactForFollowUp ? 'YES' : 'NO') + '</span>'
+    + '</div>'
+    + (sub.review ? '<div style="padding:10px 14px;background:var(--bg);border-radius:8px;margin-bottom:14px;font-size:0.8rem;"><strong>Review:</strong> ' + escHtml(sub.review.action) + ' by ' + escHtml(sub.review.reviewerEmail) + ' — ' + escHtml(sub.review.notes) + '</div>' : '')
+    + '<div class="sub-actions">'
+    + '  <textarea id="notes-' + sub.id + '" placeholder="Review notes..."></textarea>'
+    + '  <button class="btn-review" onclick="reviewSub(\'' + sub.id + '\', \'under_review\')">Review</button>'
+    + '  <button class="btn-accept" onclick="reviewSub(\'' + sub.id + '\', \'accepted\')">Accept</button>'
+    + '  <button class="btn-reject" onclick="reviewSub(\'' + sub.id + '\', \'rejected\')">Reject</button>'
+    + '</div>'
+    + '</div>';
+}
+
+function reviewSub(submissionId, action) {
+  var dossierId = document.getElementById('dossier-select').value;
+  var notes = document.getElementById('notes-' + submissionId).value;
+
+  fetch(API + '/api/submissions/review', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      dossierId: dossierId,
+      submissionId: submissionId,
+      action: action,
+      reviewNotes: notes,
+      reviewerEmail: 'admin',
+    }),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.success) {
+      loadSubmissions();
+    } else {
+      alert('Error: ' + (data.error || 'Unknown'));
+    }
+  })
+  .catch(function(err) { alert('Error: ' + err.message); });
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// Initial load
+loadSubmissions();
+
+// Auto-refresh on filter change
+document.getElementById('dossier-select').addEventListener('change', loadSubmissions);
+document.getElementById('status-filter').addEventListener('change', loadSubmissions);
+</script>
+</body>
+</html>
