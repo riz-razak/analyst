@@ -1,0 +1,104 @@
+name: Deploy Collaborative CMS Worker
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'functions/collaborative-session.js'
+      - 'wrangler.toml'
+      - '.github/workflows/deploy-worker.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy Worker & KV Namespaces
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Wrangler
+        run: npm install -g wrangler
+
+      - name: Create SESSION_STORE KV namespace (if not exists)
+        id: kv_session
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Try to create; if it already exists, list and find it
+          OUTPUT=$(wrangler kv namespace create "analyst-session-kv" 2>&1) || true
+          echo "$OUTPUT"
+          # Extract ID from creation output or list
+          if echo "$OUTPUT" | grep -q "id ="; then
+            ID=$(echo "$OUTPUT" | grep 'id =' | head -1 | sed 's/.*id = "\(.*\)".*/\1/')
+          else
+            ID=$(wrangler kv namespace list 2>/dev/null | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+for ns in data:
+    if ns['title'] == 'analyst-session-kv':
+        print(ns['id'])
+        break
+" 2>/dev/null || echo "")
+          fi
+          echo "SESSION_KV_ID=$ID" >> $GITHUB_OUTPUT
+          echo "Session KV ID: $ID"
+
+      - name: Create DRAFT_STORE KV namespace (if not exists)
+        id: kv_draft
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          OUTPUT=$(wrangler kv namespace create "analyst-draft-kv" 2>&1) || true
+          echo "$OUTPUT"
+          if echo "$OUTPUT" | grep -q "id ="; then
+            ID=$(echo "$OUTPUT" | grep 'id =' | head -1 | sed 's/.*id = "\(.*\)".*/\1/')
+          else
+            ID=$(wrangler kv namespace list 2>/dev/null | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+for ns in data:
+    if ns['title'] == 'analyst-draft-kv':
+        print(ns['id'])
+        break
+" 2>/dev/null || echo "")
+          fi
+          echo "DRAFT_KV_ID=$ID" >> $GITHUB_OUTPUT
+          echo "Draft KV ID: $ID"
+
+      - name: Update wrangler.toml with real KV IDs
+        run: |
+          SESSION_ID="${{ steps.kv_session.outputs.SESSION_KV_ID }}"
+          DRAFT_ID="${{ steps.kv_draft.outputs.DRAFT_KV_ID }}"
+          echo "Updating wrangler.toml: SESSION=$SESSION_ID DRAFT=$DRAFT_ID"
+          sed -i "s/analyst-session-kv-preview/$SESSION_ID/g" wrangler.toml
+          sed -i "s/analyst-draft-kv-preview/$DRAFT_ID/g" wrangler.toml
+          sed -i "s/\"analyst-session-kv\"/\"$SESSION_ID\"/g" wrangler.toml
+          sed -i "s/\"analyst-draft-kv\"/\"$DRAFT_ID\"/g" wrangler.toml
+          cat wrangler.toml
+
+      - name: Deploy Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          wrangler deploy functions/collaborative-session.js \
+            --name analyst-collaborative-cms \
+            --compatibility-date 2025-03-09 \
+            --var GITHUB_REPO:riz-razak/analyst \
+            --var GITHUB_BRANCH:main \
+            --var ENVIRONMENT:production \
+            --kv-namespace SESSION_STORE:${{ steps.kv_session.outputs.SESSION_KV_ID }} \
+            --kv-namespace DRAFT_STORE:${{ steps.kv_draft.outputs.DRAFT_KV_ID }}
+
+      - name: Verify deployment
+        run: |
+          echo "Worker deployed successfully!"
+          echo "Testing endpoint..."
+          curl -s "https://analyst-collaborative-cms.riz-1cb.workers.dev/api/session/status?articleId=test" | head -c 200
