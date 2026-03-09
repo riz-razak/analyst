@@ -28,7 +28,7 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
+        run: |-
           #!/bin/bash
           set -e
 
@@ -88,29 +88,29 @@ jobs:
           echo "Deploying Worker: $WORKER_NAME"
           echo "Using KV namespaces: SESSION_STORE=$SESSION_KV_ID, DRAFT_STORE=$DRAFT_KV_ID"
 
-          # Create the metadata JSON for KV bindings using printf
+          # Create metadata JSON with template and sed replacement
           echo "Creating metadata JSON..." >&2
-          cat > /tmp/metadata.json << 'METADATA'
-{
-  "main_module": "index.js",
-  "bindings": [
-    {
-      "type": "kv_namespace",
-      "name": "SESSION_STORE",
-      "namespace_id": "SESSION_KV_PLACEHOLDER"
-    },
-    {
-      "type": "kv_namespace",
-      "name": "DRAFT_STORE",
-      "namespace_id": "DRAFT_KV_PLACEHOLDER"
-    }
-  ]
-}
-METADATA
+          cat > /tmp/metadata.json << 'METADATA_EOF'
+          {
+            "main_module": "index.js",
+            "bindings": [
+              {
+                "type": "kv_namespace",
+                "name": "SESSION_STORE",
+                "namespace_id": "PLACEHOLDER_SESSION"
+              },
+              {
+                "type": "kv_namespace",
+                "name": "DRAFT_STORE",
+                "namespace_id": "PLACEHOLDER_DRAFT"
+              }
+            ]
+          }
+          METADATA_EOF
 
           # Replace placeholders with actual values
-          sed -i "s/SESSION_KV_PLACEHOLDER/$SESSION_KV_ID/g" /tmp/metadata.json
-          sed -i "s/DRAFT_KV_PLACEHOLDER/$DRAFT_KV_ID/g" /tmp/metadata.json
+          sed -i "s/PLACEHOLDER_SESSION/$SESSION_KV_ID/g" /tmp/metadata.json
+          sed -i "s/PLACEHOLDER_DRAFT/$DRAFT_KV_ID/g" /tmp/metadata.json
           echo "Metadata JSON created successfully" >&2
 
           # Deploy to Cloudflare Workers with multipart form
