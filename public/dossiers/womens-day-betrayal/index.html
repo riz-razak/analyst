@@ -508,6 +508,53 @@ body.sinhala [lang-en-inline] { display: none; }
 }
 .footer p { color: var(--text-muted); font-size: 0.8rem; max-width: 560px; margin: 0 auto 8px; }
 
+/* ===== SUBMIT MODAL ===== */
+.submit-modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9500;
+  background: rgba(26,58,21,0.88); backdrop-filter: blur(10px);
+  align-items: flex-start; justify-content: center;
+  padding: 20px; overflow-y: auto;
+}
+.submit-modal-overlay.open { display: flex; }
+.submit-modal {
+  max-width: 680px; width: 100%;
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg); border: 2px solid var(--sage-light);
+  margin: auto; position: relative;
+}
+.submit-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 32px 16px; border-bottom: 1px solid var(--border);
+}
+.submit-modal-header h2 {
+  font-family: var(--font-serif); font-size: 1.25rem; color: var(--forest-deep);
+}
+.submit-modal-close {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.5rem; color: var(--text-muted); line-height: 1;
+  padding: 4px 8px; border-radius: 6px; transition: background 0.2s;
+}
+.submit-modal-close:hover { background: var(--sage-mist); color: var(--forest); }
+.submit-modal-body { padding: 24px 32px 32px; }
+/* Submit CTA Block */
+.submit-cta-block {
+  max-width: 800px; margin: 48px auto 0;
+  background: var(--forest); border-radius: var(--radius-lg);
+  padding: 36px 40px; text-align: center;
+}
+.submit-cta-block h3 {
+  font-family: var(--font-serif); font-size: 1.4rem; color: #fff; margin-bottom: 10px;
+}
+.submit-cta-block p { color: rgba(255,255,255,0.78); font-size: 0.9rem; margin-bottom: 20px; }
+.submit-cta-btn {
+  display: inline-block; padding: 14px 36px;
+  background: var(--gold); color: var(--forest-deep);
+  border: none; border-radius: 10px; font-size: 1rem;
+  font-weight: 700; font-family: var(--font-sans); cursor: pointer;
+  transition: all 0.2s; text-decoration: none;
+}
+.submit-cta-btn:hover { background: #c99a00; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
   .section { padding: 48px 16px; }
@@ -651,7 +698,7 @@ body.sinhala [lang-en-inline] { display: none; }
       <a href="#voices">Voices</a>
       <a href="#questions">Questions</a>
       <a href="#sources">Sources</a>
-      <a href="#submit-evidence" style="color:var(--gold);">Submit</a>
+      <a href="#" onclick="document.getElementById('submit-modal').classList.add('open');return false;" style="color:var(--gold);">Submit</a>
     </div>
     <button class="lang-btn" onclick="document.body.classList.toggle('sinhala')">සිං / EN</button>
   </div>
@@ -684,6 +731,7 @@ body.sinhala [lang-en-inline] { display: none; }
     <h2 lang-en data-cms-id="s1-h2-en">The Incident</h2>
     <h2 lang-si class="si" style="display:none" data-cms-id="s1-h2-si">සිද්ධිය</h2>
     <p class="section-desc" lang-en data-cms-id="s1-desc-en">What happened on International Women's Day 2026</p>
+    <p class="section-desc si" lang-si style="display:none">2026 ජාත්‍යන්තර කාන්තා දිනයේ සිදු වූ දේ</p>
   </div>
 
   <div class="card-grid">
@@ -741,6 +789,7 @@ body.sinhala [lang-en-inline] { display: none; }
     <h2 lang-en data-cms-id="smoking-gun-title-en">The Smoking Gun: Multiple Women's Screenshot Evidence</h2>
     <h2 lang-si class="si" style="display:none" data-cms-id="smoking-gun-title-si">ප්‍රධාන සාක්ෂිය: කාන්තාවන් කිහිපදෙනෙකුගේ තිර රූප සාක්ෂි</h2>
     <p style="color: var(--text-secondary); margin-bottom: 20px; text-align: center; font-size: 0.95rem;" lang-en>Multiple women have independently released screenshot evidence. These are not anonymous rumours — they are documented, publicly posted, verifiable digital evidence from <strong>named individuals</strong>.</p>
+    <p class="si" style="color: var(--text-secondary); margin-bottom: 20px; text-align: center; font-size: 0.95rem; display:none;" lang-si>කාන්තාවන් කිහිප දෙනෙකු ස්වාධීනව තිරගත සාක්ෂි නිකුත් කර ඇත. මේවා නාමරහිත කටකතා නොවේ — <strong>නම් සහිත පුද්ගලයින්ගෙන්</strong> ලැබෙන ලේඛනගත, ප්‍රසිද්ධියේ පළ කරන ලද, සත්‍යාපනය කළ හැකි ඩිජිටල් සාක්ෂි.</p>
 
     <h3 class="evidence-label">🔥 Evidence A: Emy Vithanage (June 28, 2021)</h3>
     <div class="quote-block">
@@ -853,53 +902,63 @@ body.sinhala [lang-en-inline] { display: none; }
     <h2 lang-en data-cms-id="s2-h2-en">Timeline of Events</h2>
     <h2 lang-si class="si" style="display:none" data-cms-id="s2-h2-si">සිදුවීම් කාලරේඛාව</h2>
     <p class="section-desc" lang-en data-cms-id="s2-desc-en">From early allegations to the Women's Day incident</p>
+    <p class="section-desc si" lang-si style="display:none">මුල් චෝදනා සිට කාන්තා දිනයේ සිද්ධිය දක්වා</p>
   </div>
 
   <div class="timeline">
     <div class="tl-item">
       <div class="tl-date">Pre-2021</div>
-      <h3>Whispered Allegations & Facebook Controversies</h3>
+      <h3 lang-en>Whispered Allegations & Facebook Controversies</h3>
+      <h3 lang-si class="si" style="display:none">රහස් චෝදනා සහ ෆේස්බුක් ආරවුල්</h3>
       <p>Per Prabha Manuratne's account <a href="#ev-S3" class="ref-marker">[S3]</a>, Sumanasekara's "alleged behaviour has sparked controversy on Facebook" over multiple years, with "little action beyond that."</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">June 2021</div>
-      <h3>Sri Lanka's #MeToo Wave Begins</h3>
+      <h3 lang-en>Sri Lanka's #MeToo Wave Begins</h3>
+      <h3 lang-si class="si" style="display:none">ශ්‍රී ලංකාවේ #MeToo රළ ඇරඹෙයි</h3>
       <p>Women in Sri Lankan media began coming forward. Senior journalists joined discussions on redress mechanisms. <a href="https://www.aljazeera.com/news/2021/6/23/sri-lanka-metoo-newsrooms-women-journalists" target="_blank">Al Jazeera covered the movement</a> <a href="#src-S6" class="ref-marker">[S6]</a>.</p>
     </div>
     <div class="tl-item key">
       <div class="tl-date">June 28, 2021</div>
-      <h3>🔥 Emy Vithanage Releases Screenshot</h3>
+      <h3 lang-en>🔥 Emy Vithanage Releases Screenshot</h3>
+      <h3 lang-si class="si" style="display:none">🔥 ඉමී විතානගේ තිරගත රූ නිකුත් කරයි</h3>
       <p>Emy Vithanage publicly released a screenshot of an uninvited sex-chat initiated by Vangeesa Sumanasekara <a href="#ev-S3" class="ref-marker">[S3]</a>.</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">June 29, 2021</div>
-      <h3>Prabha Manuratne Publishes Condemnation</h3>
+      <h3 lang-en>Prabha Manuratne Publishes Condemnation</h3>
+      <h3 lang-si class="si" style="display:none">ප්‍රභා මනුරත්නේ හෙළිදරව්ව ප්‍රකාශ කරයි</h3>
       <p>Academic published a detailed article providing unconditional condemnation <a href="#ev-S3" class="ref-marker">[S3]</a>. <a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank">Read article</a>.</p>
     </div>
     <div class="tl-item key">
       <div class="tl-date">August 19, 2021</div>
-      <h3>🔥 Two Women Post Screenshot Evidence on Same Day</h3>
+      <h3 lang-en>🔥 Two Women Post Screenshot Evidence on Same Day</h3>
+      <h3 lang-si class="si" style="display:none">🔥 කාන්තාවන් දෙදෙනෙකු එකම දිනයේ තිරගත සාක්ෂි ප්‍රකාශ කරයි</h3>
       <p><strong>Vincika De Saram</strong> publicly posted screenshots of Messenger conversation showing explicit sexual messages, with a 21-second screen recording <a href="#ev-S8S9" class="ref-marker">[S8]</a>. On the same day, <strong>Sandali Costa</strong> independently shared her own Messenger screenshots (in Sinhala) documenting an identical pattern of unsolicited sexual contact <a href="#ev-S12" class="ref-marker">[S12]</a>. Two separate victims, one day, same perpetrator.</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">2021-2025</div>
-      <h3>Allegations Remain in Public Record</h3>
+      <h3 lang-en>Allegations Remain in Public Record</h3>
+      <h3 lang-si class="si" style="display:none">චෝදනා ප්‍රසිද්ධ වාර්තාවේ ඉතිරිවේ</h3>
       <p>No retraction, legal challenge, or exoneration known. Sumanasekara continued to contribute to <a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank">Groundviews</a> <a href="#src-S7" class="ref-marker">[S7]</a>.</p>
     </div>
     <div class="tl-item key">
       <div class="tl-date">March 8, 2026</div>
-      <h3>🔥 Observer Muse Platforms Sumanasekara on Women's Day</h3>
+      <h3 lang-en>🔥 Observer Muse Platforms Sumanasekara on Women's Day</h3>
+      <h3 lang-si class="si" style="display:none">🔥 කාන්තා දිනයේ Observer Muse සුමනසේකරට වේදිකාව ලබාදේ</h3>
       <p>Sunday Observer publishes Women's Day feature with Sumanasekara as "thinker" <a href="#ev-S2" class="ref-marker">[S2]</a>. <a href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank">View article</a>.</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">March 8, 2026 — Hours Later</div>
-      <h3>Immediate Public Backlash</h3>
+      <h3 lang-en>Immediate Public Backlash</h3>
+      <h3 lang-si class="si" style="display:none">ක්ෂණික ජනතා ප්‍රතිඝාතය</h3>
       <p>Melani Gunathilaka <a href="#src-S4" class="ref-marker">[S4]</a>, Vincika De Saram <a href="#ev-S8S9" class="ref-marker">[S9]</a>, Janindu de Zoysa, and others call it out. <a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank">View posts</a>.</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">March 8, 2026</div>
-      <h3>Prabha Manuratne: "At Least 2"</h3>
-      <p>The original whistleblower comments: <em>"not 'a man' it should be 'men'. There are at least 2 there."</em></p>
+      <h3 lang-en>Prabha Manuratne: "At Least 2"</h3>
+      <h3 lang-si class="si" style="display:none">ප්‍රභා මනුරත්නේ: "අවම වශයෙන් 2 දෙනෙකු"</h3>
+      <p>The original whistleblower comments: <em>"not 'a man' it should be 'men'. There are at least 2 there."</em> <a href="#src-S4" class="ref-marker">[S4]</a></p>
     </div>
   </div>
 </section>
@@ -913,6 +972,7 @@ body.sinhala [lang-en-inline] { display: none; }
     <h2 lang-en data-cms-id="s3-h2-en">Cast of Characters</h2>
     <h2 lang-si class="si" style="display:none" data-cms-id="s3-h2-si">චරිත මණ්ඩලය</h2>
     <p class="section-desc" lang-en data-cms-id="s3-desc-en">Key individuals and entities in this incident</p>
+    <p class="section-desc si" lang-si style="display:none">මෙම සිද්ධිය හා සම්බන්ධ ප්‍රධාන පුද්ගලයන් සහ ආයතන</p>
   </div>
 
   <div class="cast-grid">
@@ -1008,6 +1068,7 @@ body.sinhala [lang-en-inline] { display: none; }
     <h2 lang-en>Journalist Under Review: Anuradha Perera</h2>
     <h2 lang-si class="si" style="display:none">සමාලෝචනයට ලක්වන මාධ්‍යවේදී: අනුරාධා පෙරේරා</h2>
     <p class="section-desc" lang-en>Questions of editorial judgment and journalistic integrity</p>
+    <p class="section-desc si" lang-si style="display:none">කර්තෘ විනිශ්චය සහ මාධ්‍යවේදී සාරධර්ම පිළිබඳ ප්‍රශ්න</p>
   </div>
 
   <div class="profile-box">
@@ -1051,67 +1112,68 @@ body.sinhala [lang-en-inline] { display: none; }
     <h2 lang-en>Voice of the People</h2>
     <h2 lang-si class="si" style="display:none">ජනතාවගේ කටහඬ</h2>
     <p class="section-desc" lang-en>Documented public reactions — all from publicly visible posts</p>
+    <p class="section-desc si" lang-si style="display:none">ලේඛනගත මහජන ප්‍රතිචාර — ප්‍රසිද්ධිය දැකිය හැකි සියලු ලිපි වලින්</p>
   </div>
 
   <div class="voice-stack">
     <div class="voice-card highlight">
       <div class="voice-author victim">Vincika De Saram — Named Victim</div>
       <div class="voice-text">"Did You Think We Forgot who Vangeesa Sumanasekara is?? Anuradha Perera Sunday Observer for real? You created a platform for Vangeesa Sumanasekara on a women's day??? ...He is now a known sexual predator both online and offline. When a complaint was filed, he hid behind his father like a coward and later blamed it all on a 'mental condition'..."</div>
-      <div class="voice-meta">Facebook post — March 8, 2026 · 17+ reactions · 5 comments</div>
+      <div class="voice-meta">Facebook post — March 8, 2026 · 17+ reactions · 5 comments <a href="#src-S9" class="ref-marker">[S9]</a></div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Melani Gunathilaka</div>
       <div class="voice-text">"Sri Lankan media continuing the Epstein culture by featuring a man accused of sexual harassment on #InternationalWomensDay. What a shame!"</div>
-      <div class="voice-meta">Facebook post — March 8, 2026 · 18 reactions · 8 comments · 1 share</div>
+      <div class="voice-meta">Facebook post — March 8, 2026 · 18 reactions · 8 comments · 1 share <a href="#src-S4" class="ref-marker">[S4]</a></div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Janindu de Zoysa</div>
       <div class="voice-text">"Did you knowingly interview Vangeesa for a Women's Day feature despite his history of harassing women, or were you unaware of it?"</div>
-      <div class="voice-meta">Comment on Anuradha Perera's post — 6 reactions</div>
+      <div class="voice-meta">Comment on Anuradha Perera's post — 6 reactions <a href="#src-S1" class="ref-marker">[S1]</a></div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Prabha Manuratne</div>
       <div class="voice-text">"Not 'a man' it should be 'men'. There are at least 2 there."</div>
-      <div class="voice-meta">Comment on Melani's post</div>
+      <div class="voice-meta">Comment on Melani's post <a href="#src-S4" class="ref-marker">[S4]</a></div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Melani Gunathilaka (reply)</div>
       <div class="voice-text">"Oh, I was only aware of one. Would have been more fitting if the writer titled this article 'women's liberation through the eyes of men and abusers' in that case."</div>
-      <div class="voice-meta">Reply to Prabha Manuratne</div>
+      <div class="voice-meta">Reply to Prabha Manuratne <a href="#src-S4" class="ref-marker">[S4]</a></div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Minuri Perera</div>
       <div class="voice-text">"Let's learn about women's rights and respect for women from a certified sex offender 😂"</div>
-      <div class="voice-meta">Comment on Anuradha's post</div>
+      <div class="voice-meta">Comment on Anuradha's post <a href="#src-S1" class="ref-marker">[S1]</a></div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Ranjan Ranja</div>
       <div class="voice-text">"Epstein platform?"</div>
-      <div class="voice-meta">Comment on Anuradha's post</div>
+      <div class="voice-meta">Comment on Anuradha's post <a href="#src-S1" class="ref-marker">[S1]</a></div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Nadeesha Chandrasena</div>
       <div class="voice-text">"Happy Womanisers Day!"</div>
-      <div class="voice-meta">Comment on Melani's post · 4 reactions</div>
+      <div class="voice-meta">Comment on Melani's post · 4 reactions <a href="#src-S4" class="ref-marker">[S4]</a></div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Dhananjaya Pasan Wijesiri</div>
       <div class="voice-text">">Womens day >reads >Men"</div>
-      <div class="voice-meta">Comment on Melani's post</div>
+      <div class="voice-meta">Comment on Melani's post <a href="#src-S4" class="ref-marker">[S4]</a></div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Memeගේ</div>
       <div class="voice-text">"Leftist want Epsteinism to be part of the culture so its no longer a crime. When men, women, children even animal abuse become part of a culture no one really pays attention."</div>
-      <div class="voice-meta">Comment on Melani's post</div>
+      <div class="voice-meta">Comment on Melani's post <a href="#src-S4" class="ref-marker">[S4]</a></div>
     </div>
   </div>
 </section>
@@ -1125,6 +1187,7 @@ body.sinhala [lang-en-inline] { display: none; }
     <h2 lang-en>Unanswered Questions</h2>
     <h2 lang-si class="si" style="display:none">පිළිතුරු නොමැති ප්‍රශ්න</h2>
     <p class="section-desc" lang-en>Questions that demand answers from those responsible</p>
+    <p class="section-desc si" lang-si style="display:none">වගකිවයුතු අය පිළිතුරු දිය යුතු ප්‍රශ්න</p>
   </div>
 
   <div class="q-list">
@@ -1135,6 +1198,15 @@ body.sinhala [lang-en-inline] { display: none; }
     <div class="q-item">Will the <strong>Sunday Observer</strong> issue a correction, retraction, or public statement?</div>
     <div class="q-item">What accountability exists within <strong>Lake House</strong>, a state-owned corporation, for editorial failures that contradict the values their publication claims to celebrate?</div>
     <div class="q-item">Why has <strong>Anuradha Perera</strong> not responded to the direct question posed by Janindu de Zoysa?</div>
+  </div>
+
+  <!-- Submit CTA -->
+  <div class="submit-cta-block">
+    <h3 lang-en>Do You Have Evidence?</h3>
+    <h3 lang-si class="si" style="display:none">ඔබ සතුව සාක්ෂි තිබේද?</h3>
+    <p lang-en>Screenshots, documents, firsthand accounts — all submissions are confidentially reviewed before inclusion. Help strengthen the public record.</p>
+    <p lang-si class="si" style="display:none">තිරගත රූ, ලේඛන, ප්‍රත්‍යක්ෂ ගිණුම් — සියලු ඉදිරිපත් කිරීම් ඇතුළත් කිරීමට පෙර රහසිගතව සමාලෝචනය කෙරේ.</p>
+    <button class="submit-cta-btn" onclick="document.getElementById('submit-modal').classList.add('open')">Submit Evidence for Review →</button>
   </div>
 </section>
 
@@ -1147,6 +1219,7 @@ body.sinhala [lang-en-inline] { display: none; }
     <h2 lang-en>Source Index</h2>
     <h2 lang-si class="si" style="display:none">මූලාශ්‍ර දර්ශකය</h2>
     <p class="section-desc" lang-en>Every claim is backed by a publicly accessible source</p>
+    <p class="section-desc si" lang-si style="display:none">සෑම ප්‍රකාශයක්ම ප්‍රසිද්ධිය ලබා ගත හැකි මූලාශ්‍රයකින් සනාථ වේ</p>
   </div>
 
   <div style="overflow-x: auto;">
@@ -1170,22 +1243,19 @@ body.sinhala [lang-en-inline] { display: none; }
   </div>
 </section>
 
-<div class="divider"></div>
-
-<!-- ===== EVIDENCE SUBMISSION ===== -->
-<section class="section" id="submit-evidence">
-  <div class="section-header">
-    <div class="section-label" lang-en>Contribute</div>
-    <h2 lang-en>Submit Evidence</h2>
-    <h2 lang-si class="si" style="display:none">සාක්ෂි ඉදිරිපත් කරන්න</h2>
-    <p class="section-desc" lang-en>Have relevant evidence? Help strengthen this dossier. All submissions are fully vetted before inclusion.</p>
-  </div>
-
-  <div id="submission-form-container" style="max-width: 640px; margin: 0 auto;">
-    <div style="background: var(--gold-light); border: 1px solid var(--gold); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; font-size: 0.85rem; line-height: 1.6;">
-      <strong>How this works:</strong> Your submission goes to the editorial team for review. We fully vet all evidence before integration. Your identity is kept confidential unless you grant explicit attribution permission. Submitting false evidence may carry legal consequences.
+<!-- ===== EVIDENCE SUBMISSION MODAL ===== -->
+<div class="submit-modal-overlay" id="submit-modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="submit-modal">
+    <div class="submit-modal-header">
+      <h2>📋 Submit Evidence for Review</h2>
+      <button class="submit-modal-close" onclick="document.getElementById('submit-modal').classList.remove('open')" aria-label="Close">✕</button>
     </div>
+    <div class="submit-modal-body">
+      <div style="background: var(--gold-light); border: 1px solid var(--gold); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 22px; font-size: 0.85rem; line-height: 1.6;">
+        <strong>How this works:</strong> Your submission goes to the editorial team for review. We fully vet all evidence before integration. Your identity is kept confidential unless you grant explicit attribution permission. Submitting false evidence may carry legal consequences.
+      </div>
 
+  <div id="submission-form-container">
     <form id="evidence-submission-form" style="display:flex; flex-direction:column; gap:18px;">
       <!-- Submitter Identity -->
       <fieldset style="border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px;">
@@ -1281,7 +1351,9 @@ body.sinhala [lang-en-inline] { display: none; }
       <div id="sub-status" style="display:none; padding:14px 18px; border-radius:var(--radius); font-size:0.9rem; text-align:center;"></div>
     </form>
   </div>
-</section>
+    </div><!-- /.submit-modal-body -->
+  </div><!-- /.submit-modal -->
+</div><!-- /.submit-modal-overlay -->
 
 <script>
 (function() {
