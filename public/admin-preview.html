@@ -5836,17 +5836,13 @@ rmObserver.observe(document.querySelector('.views-container') || document.body, 
         }
 
         async function sendOtp() {
-            const token = getAdminBearer();
             setOtpDescription('Sending a code to <strong>riz@dgtl.lk</strong>…');
             document.getElementById('totp-verify-btn').disabled = true;
 
             try {
                 const resp = await fetch(OTP_WORKER + '/api/otp/send', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + (token || 'none'),
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                 });
                 const data = await resp.json();
                 if (resp.status === 429 && data.wait) {
@@ -5883,13 +5879,9 @@ rmObserver.observe(document.querySelector('.views-container') || document.body, 
             verifyBtn.textContent = 'Verifying…';
 
             try {
-                const token = getAdminBearer();
                 const resp = await fetch(OTP_WORKER + '/api/otp/verify', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + (token || 'none'),
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ code }),
                 });
                 const data = await resp.json();

@@ -524,30 +524,13 @@ const OTP_KV_KEY = 'admin-otp:current';
 /**
  * SEND OTP
  * POST /api/otp/send
- * Requires Authorization: Bearer <supabase-jwt>
- * Generates a 6-digit code, stores in KV (5 min), emails it via Resend.
+ * No auth required — email is hardcoded to OTP_ADMIN_EMAIL.
+ * Security is in the code itself (emailed to riz@dgtl.lk only).
+ * Rate-limited by 60s cooldown in KV.
  */
 async function handleOtpSend(request, env) {
   if (request.method !== 'POST') {
     return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
-  }
-
-  // Auth guard
-  const authHeader = request.headers.get('Authorization') || '';
-  if (!authHeader.startsWith('Bearer ') || authHeader.length < 20) {
-    return corsResponse(JSON.stringify({ error: 'Unauthorized' }), 401);
-  }
-
-  // Verify it's the admin token
-  try {
-    const parts = authHeader.slice(7).split('.');
-    if (parts.length < 2) throw new Error('bad jwt');
-    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
-    if (payload.email !== OTP_ADMIN_EMAIL) {
-      return corsResponse(JSON.stringify({ error: 'Unauthorized' }), 401);
-    }
-  } catch (e) {
-    return corsResponse(JSON.stringify({ error: 'Invalid token' }), 401);
   }
 
   // Cooldown check — don't resend within 60s
@@ -605,17 +588,12 @@ async function handleOtpSend(request, env) {
  * VERIFY OTP
  * POST /api/otp/verify
  * Body: { code: "123456" }
- * Requires Authorization: Bearer <supabase-jwt>
- * Returns { success: true } on match; deletes code after use.
+ * No Bearer auth — the 6-digit code is the credential.
+ * Returns { success: true } on match; deletes code after use (single-use).
  */
 async function handleOtpVerify(request, env) {
   if (request.method !== 'POST') {
     return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
-  }
-
-  const authHeader = request.headers.get('Authorization') || '';
-  if (!authHeader.startsWith('Bearer ') || authHeader.length < 20) {
-    return corsResponse(JSON.stringify({ error: 'Unauthorized' }), 401);
   }
 
   const body = await request.json();
