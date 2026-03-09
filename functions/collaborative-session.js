@@ -21,6 +21,28 @@ export default {
     }
 
     try {
+      // ── Dossier visibility gate (Worker Route on analyst.rizrazak.com) ──
+      // When a Worker Route is active for analyst.rizrazak.com/dossiers/*,
+      // this check intercepts dossier page requests at the edge.
+      // If the dossier is hidden in KV, return a 404 page.
+      // If visible (or not a dossier path), pass through to origin.
+      const host = url.hostname;
+      if (host !== 'analyst-collaborative-cms.riz-1cb.workers.dev' && path.startsWith('/dossiers/')) {
+        const slug = extractDossierSlug(path);
+        if (slug) {
+          const visMap = await env.SESSION_STORE.get(VISIBILITY_KV_KEY, 'json') || {};
+          const status = visMap[slug];
+          if (status && status !== 'published') {
+            return new Response(buildHiddenDossierPage(slug), {
+              status: 404,
+              headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' },
+            });
+          }
+        }
+        // Visible — pass through to origin (GitHub Pages)
+        return fetch(request);
+      }
+
       // Route handlers
       if (path === '/api/session/acquire-lock') {
         return handleAcquireLock(request, env);
@@ -856,6 +878,66 @@ async function handleVisibilityCheck(request, env) {
 
   // Hidden or draft — not visible
   return corsResponse(JSON.stringify({ visible: false, status }), 200);
+}
+
+/**
+ * Extract dossier slug from a path like /dossiers/womens-day-betrayal/
+ * Returns null for non-dossier paths or internal shared asset paths.
+ */
+function extractDossierSlug(path) {
+  const match = path.match(/^\/dossiers\/([a-z0-9][a-z0-9-]+[a-z0-9])\b/);
+  if (!match) return null;
+  const slug = match[1];
+  if (slug.startsWith('_')) return null;
+  return slug;
+}
+
+/**
+ * Branded 404 page for hidden dossiers (served at the edge)
+ */
+function buildHiddenDossierPage(slug) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dossier Unavailable — analyst.rizrazak.com</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #f8f8f5;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .container { max-width: 480px; text-align: center; }
+    .border-top { width: 60px; height: 3px; background: #2d5016; margin: 0 auto 32px; }
+    h1 { font-size: 28px; font-weight: 400; color: #111; margin-bottom: 16px; }
+    p { font-size: 15px; line-height: 1.7; color: #555; margin-bottom: 24px; }
+    .home-link {
+      display: inline-block; padding: 10px 24px;
+      background: #2d5016; color: #fff; text-decoration: none;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.05em; border-radius: 4px;
+    }
+    .home-link:hover { background: #1a3a0e; }
+    .ref { margin-top: 32px; font-size: 11px; color: #aaa; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="border-top"></div>
+    <h1>Dossier Unavailable</h1>
+    <p>This dossier has been temporarily removed from public access by the editorial team. It may be undergoing review, revision, or has been withdrawn.</p>
+    <a href="/" class="home-link">Return to analyst.rizrazak.com</a>
+    <div class="ref">${slug}</div>
+  </div>
+</body>
+</html>`;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
