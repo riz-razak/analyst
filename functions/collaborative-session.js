@@ -561,24 +561,44 @@ async function handleOtpSend(request, env) {
     return corsResponse(JSON.stringify({ success: true, dev: true }), 200);
   }
 
+  // Send directly via Resend API (bypasses FROM_ADDRESS which needs domain verification)
+  // Use onboarding@resend.dev until analyst.rizrazak.com is verified in Resend
+  const otpFrom = env.RESEND_FROM_ADDRESS || 'Analyst Admin <onboarding@resend.dev>';
   try {
-    await sendEmail(env, {
-      to: OTP_ADMIN_EMAIL,
-      subject: `Your Analyst admin code: ${code}`,
-      html: `
-        <div style="font-family:system-ui,sans-serif;max-width:400px;margin:0 auto;padding:32px 24px;">
-          <p style="color:#6b7280;font-size:13px;margin-bottom:8px;">Analyst Admin Panel</p>
-          <h2 style="font-size:24px;margin:0 0 24px;color:#1a1a1a;">Your verification code</h2>
-          <div style="background:#f0ece0;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px;">
-            <span style="font-size:36px;font-weight:700;letter-spacing:0.2em;color:#1a1a1a;font-family:monospace;">${code}</span>
-          </div>
-          <p style="color:#6b7280;font-size:13px;">This code expires in 5 minutes. If you didn't request this, you can safely ignore it.</p>
-        </div>`,
-      text: `Your Analyst admin verification code is: ${code}\n\nThis code expires in 5 minutes.`,
+    const emailResp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: otpFrom,
+        to: [OTP_ADMIN_EMAIL],
+        subject: `Your Analyst admin code: ${code}`,
+        html: `
+          <div style="font-family:system-ui,sans-serif;max-width:400px;margin:0 auto;padding:32px 24px;">
+            <p style="color:#6b7280;font-size:13px;margin-bottom:8px;">Analyst Admin Panel</p>
+            <h2 style="font-size:24px;margin:0 0 24px;color:#1a1a1a;">Your verification code</h2>
+            <div style="background:#f0ece0;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px;">
+              <span style="font-size:36px;font-weight:700;letter-spacing:0.2em;color:#1a1a1a;font-family:monospace;">${code}</span>
+            </div>
+            <p style="color:#6b7280;font-size:13px;">This code expires in 5 minutes. If you didn't request this, you can safely ignore it.</p>
+          </div>`,
+        text: `Your Analyst admin verification code is: ${code}\n\nThis code expires in 5 minutes.`,
+      }),
     });
+
+    if (!emailResp.ok) {
+      const errBody = await emailResp.text();
+      console.error('[otp] Resend API error:', emailResp.status, errBody);
+      throw new Error(`Resend ${emailResp.status}: ${errBody}`);
+    }
+
+    const emailResult = await emailResp.json();
+    console.log('[otp] Code sent to', OTP_ADMIN_EMAIL, '— email id:', emailResult.id);
   } catch (err) {
     console.error('[otp] Email send failed:', err.message);
-    return corsResponse(JSON.stringify({ error: 'Failed to send code — check RESEND_API_KEY' }), 502);
+    return corsResponse(JSON.stringify({ error: 'Failed to send code — email service error' }), 502);
   }
 
   return corsResponse(JSON.stringify({ success: true }), 200);
