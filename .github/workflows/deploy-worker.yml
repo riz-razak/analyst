@@ -103,7 +103,7 @@ jobs:
             "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/scripts/${WORKER_NAME}" \
             -H "Authorization: Bearer ${AUTH_TOKEN}" \
             -F "metadata=@/tmp/metadata.json;type=application/json" \
-            -F "worker.js=@functions/collaborative-session.js;type=application/javascript+module" \
+            -F "worker.js=@functions/collaborative-session.js;filename=worker.js;type=application/javascript+module" \
             > /tmp/deploy_http_code.txt 2>/tmp/curl_stderr.txt || curl_exit=$?
 
           http_code=$(cat /tmp/deploy_http_code.txt 2>/dev/null || echo "unknown")
