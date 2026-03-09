@@ -46,6 +46,10 @@ export default {
         return handleReviewSubmission(request, env, ctx);
       } else if (path === '/api/translate') {
         return handleTranslate(request, env);
+      } else if (path === '/api/otp/send') {
+        return handleOtpSend(request, env);
+      } else if (path === '/api/otp/verify') {
+        return handleOtpVerify(request, env);
       }
 
       return new Response(JSON.stringify({ error: 'Not Found' }), {
@@ -505,6 +509,142 @@ async function handlePublish(request, env, ctx) {
   return new Response(JSON.stringify({ success: true, published, commitUrl }), {
     headers: { 'Content-Type': 'application/json' },
   });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ADMIN OTP — Email one-time password for private notes section
+// Uses Resend (same RESEND_API_KEY) — 6-digit code, 5-min TTL in KV
+// ═══════════════════════════════════════════════════════════════════════════
+
+const OTP_ADMIN_EMAIL = 'riz@dgtl.lk';
+const OTP_TTL_SECONDS = 300; // 5 minutes
+const OTP_COOLDOWN_SECONDS = 60; // 1 minute between sends
+const OTP_KV_KEY = 'admin-otp:current';
+
+/**
+ * SEND OTP
+ * POST /api/otp/send
+ * Requires Authorization: Bearer <supabase-jwt>
+ * Generates a 6-digit code, stores in KV (5 min), emails it via Resend.
+ */
+async function handleOtpSend(request, env) {
+  if (request.method !== 'POST') {
+    return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
+  }
+
+  // Auth guard
+  const authHeader = request.headers.get('Authorization') || '';
+  if (!authHeader.startsWith('Bearer ') || authHeader.length < 20) {
+    return corsResponse(JSON.stringify({ error: 'Unauthorized' }), 401);
+  }
+
+  // Verify it's the admin token
+  try {
+    const parts = authHeader.slice(7).split('.');
+    if (parts.length < 2) throw new Error('bad jwt');
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+    if (payload.email !== OTP_ADMIN_EMAIL) {
+      return corsResponse(JSON.stringify({ error: 'Unauthorized' }), 401);
+    }
+  } catch (e) {
+    return corsResponse(JSON.stringify({ error: 'Invalid token' }), 401);
+  }
+
+  // Cooldown check — don't resend within 60s
+  const existing = await env.SESSION_STORE.get(OTP_KV_KEY, 'json');
+  if (existing) {
+    const age = (Date.now() - existing.createdAt) / 1000;
+    if (age < OTP_COOLDOWN_SECONDS) {
+      const wait = Math.ceil(OTP_COOLDOWN_SECONDS - age);
+      return corsResponse(
+        JSON.stringify({ error: `Please wait ${wait}s before requesting a new code`, wait }),
+        429
+      );
+    }
+  }
+
+  // Generate 6-digit code
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const record = { code, createdAt: Date.now() };
+
+  await env.SESSION_STORE.put(OTP_KV_KEY, JSON.stringify(record), {
+    expirationTtl: OTP_TTL_SECONDS,
+  });
+
+  // Send email via Resend
+  if (!env.RESEND_API_KEY) {
+    console.warn('[otp] RESEND_API_KEY not set — OTP code:', code);
+    // Dev fallback: still return success so UI works even without email
+    return corsResponse(JSON.stringify({ success: true, dev: true }), 200);
+  }
+
+  try {
+    await sendEmail(env, {
+      to: OTP_ADMIN_EMAIL,
+      subject: `Your Analyst admin code: ${code}`,
+      html: `
+        <div style="font-family:system-ui,sans-serif;max-width:400px;margin:0 auto;padding:32px 24px;">
+          <p style="color:#6b7280;font-size:13px;margin-bottom:8px;">Analyst Admin Panel</p>
+          <h2 style="font-size:24px;margin:0 0 24px;color:#1a1a1a;">Your verification code</h2>
+          <div style="background:#f0ece0;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px;">
+            <span style="font-size:36px;font-weight:700;letter-spacing:0.2em;color:#1a1a1a;font-family:monospace;">${code}</span>
+          </div>
+          <p style="color:#6b7280;font-size:13px;">This code expires in 5 minutes. If you didn't request this, you can safely ignore it.</p>
+        </div>`,
+      text: `Your Analyst admin verification code is: ${code}\n\nThis code expires in 5 minutes.`,
+    });
+  } catch (err) {
+    console.error('[otp] Email send failed:', err.message);
+    return corsResponse(JSON.stringify({ error: 'Failed to send code — check RESEND_API_KEY' }), 502);
+  }
+
+  return corsResponse(JSON.stringify({ success: true }), 200);
+}
+
+/**
+ * VERIFY OTP
+ * POST /api/otp/verify
+ * Body: { code: "123456" }
+ * Requires Authorization: Bearer <supabase-jwt>
+ * Returns { success: true } on match; deletes code after use.
+ */
+async function handleOtpVerify(request, env) {
+  if (request.method !== 'POST') {
+    return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
+  }
+
+  const authHeader = request.headers.get('Authorization') || '';
+  if (!authHeader.startsWith('Bearer ') || authHeader.length < 20) {
+    return corsResponse(JSON.stringify({ error: 'Unauthorized' }), 401);
+  }
+
+  const body = await request.json();
+  const { code } = body;
+
+  if (!code || !/^\d{6}$/.test(code)) {
+    return corsResponse(JSON.stringify({ error: 'Invalid code format' }), 400);
+  }
+
+  const record = await env.SESSION_STORE.get(OTP_KV_KEY, 'json');
+
+  if (!record) {
+    return corsResponse(JSON.stringify({ error: 'No active code — please request a new one' }), 404);
+  }
+
+  // Check expiry (belt-and-suspenders; KV TTL handles this too)
+  const age = (Date.now() - record.createdAt) / 1000;
+  if (age > OTP_TTL_SECONDS) {
+    await env.SESSION_STORE.delete(OTP_KV_KEY);
+    return corsResponse(JSON.stringify({ error: 'Code expired — please request a new one' }), 410);
+  }
+
+  if (record.code !== code) {
+    return corsResponse(JSON.stringify({ error: 'Incorrect code' }), 401);
+  }
+
+  // Correct — delete so it can't be reused
+  await env.SESSION_STORE.delete(OTP_KV_KEY);
+  return corsResponse(JSON.stringify({ success: true }), 200);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

@@ -5695,14 +5695,20 @@ rmObserver.observe(document.querySelector('.views-container') || document.body, 
         </div>
     </div>
 
-    <!-- TOTP Modal -->
+    <!-- OTP Modal -->
     <div class="modal-overlay" id="totp-modal">
         <div class="modal">
             <div class="modal-title">Enter Authentication Code</div>
-            <div class="modal-description">This section requires two-factor authentication. Enter your 6-digit code.</div>
+            <div class="modal-description" id="otp-description">Sending a code to <strong>riz@dgtl.lk</strong>…</div>
             <div class="totp-input-group" id="totp-inputs"></div>
-            <button class="button button-primary" id="totp-verify-btn">Verify</button>
+            <button class="button button-primary" id="totp-verify-btn" disabled>Verify</button>
             <div class="error-message" id="totp-error">Invalid code. Please try again.</div>
+            <div style="margin-top:14px;text-align:center;">
+                <button id="otp-resend-btn" style="background:none;border:none;color:var(--forest,#2d5a27);font-size:13px;cursor:pointer;text-decoration:underline;padding:4px 8px;" disabled>
+                    Resend code
+                </button>
+                <span id="otp-resend-countdown" style="font-size:12px;color:#9b8b6e;display:none;"></span>
+            </div>
         </div>
     </div>
 
@@ -5732,7 +5738,26 @@ rmObserver.observe(document.querySelector('.views-container') || document.body, 
             '/private/tasks': { view: 'private-tasks', title: 'Private Tasks', private: true }
         };
 
-        // Initialize TOTP Inputs
+        // ── OTP Config ──────────────────────────────────────────────────────
+        const OTP_WORKER = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
+        const SB_KEY = 'sb-ogunznqyfmxkmmwizpfy-auth-token';
+        const OTP_COOLDOWN = 60; // seconds
+        let otpResendTimer = null;
+
+        function getAdminBearer() {
+            try {
+                const raw = localStorage.getItem(SB_KEY);
+                if (!raw) return null;
+                const s = JSON.parse(raw);
+                const tok = s.access_token || (s.session && s.session.access_token);
+                if (!tok) return null;
+                const p = JSON.parse(atob(tok.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+                if (p.exp && Date.now()/1000 > p.exp) return null;
+                return tok;
+            } catch(e) { return null; }
+        }
+
+        // Initialize OTP digit inputs
         function initTotpInputs() {
             const container = document.getElementById('totp-inputs');
             container.innerHTML = '';
@@ -5754,80 +5779,169 @@ rmObserver.observe(document.querySelector('.views-container') || document.body, 
             const input = e.target;
             const value = input.value.replace(/[^0-9]/g, '');
             input.value = value;
-
-            if (value && input.nextElementSibling) {
-                input.nextElementSibling.focus();
-            }
-
-            // Clear error message when user types
+            if (value && input.nextElementSibling) input.nextElementSibling.focus();
             document.getElementById('totp-error').classList.remove('show');
             document.querySelectorAll('.totp-input').forEach(inp => inp.classList.remove('error'));
+            // Auto-verify when all 6 digits filled
+            if (getTotpValue().length === 6) verifyTotp();
         }
 
         function handleTotpKeydown(e) {
             if (e.key === 'Backspace' && !e.target.value && e.target.previousElementSibling) {
                 e.target.previousElementSibling.focus();
             }
+            if (e.key === 'Enter') verifyTotp();
         }
 
         function handleTotpPaste(e) {
             e.preventDefault();
-            const pastedData = e.clipboardData.getData('text');
-            const digits = pastedData.replace(/[^0-9]/g, '').slice(0, 6);
+            const digits = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 6);
             const inputs = document.querySelectorAll('.totp-input');
-
-            digits.split('').forEach((digit, idx) => {
-                if (inputs[idx]) {
-                    inputs[idx].value = digit;
-                }
-            });
-
-            if (digits.length === 6) {
-                verifyTotp();
-            } else if (inputs[digits.length]) {
-                inputs[digits.length].focus();
-            }
+            digits.split('').forEach((digit, idx) => { if (inputs[idx]) inputs[idx].value = digit; });
+            if (digits.length === 6) verifyTotp();
+            else if (inputs[digits.length]) inputs[digits.length].focus();
         }
 
         function getTotpValue() {
-            const inputs = document.querySelectorAll('.totp-input');
-            return Array.from(inputs).map(inp => inp.value).join('');
+            return Array.from(document.querySelectorAll('.totp-input')).map(inp => inp.value).join('');
         }
 
-        function verifyTotp() {
-            const code = getTotpValue();
+        function setOtpDescription(msg) {
+            const el = document.getElementById('otp-description');
+            if (el) el.innerHTML = msg;
+        }
 
+        function startResendCountdown() {
+            const btn = document.getElementById('otp-resend-btn');
+            const countdown = document.getElementById('otp-resend-countdown');
+            if (!btn || !countdown) return;
+            btn.disabled = true;
+            btn.style.display = 'none';
+            countdown.style.display = 'inline';
+            let secs = OTP_COOLDOWN;
+            countdown.textContent = `Resend in ${secs}s`;
+            if (otpResendTimer) clearInterval(otpResendTimer);
+            otpResendTimer = setInterval(() => {
+                secs--;
+                if (secs <= 0) {
+                    clearInterval(otpResendTimer);
+                    otpResendTimer = null;
+                    countdown.style.display = 'none';
+                    btn.style.display = 'inline';
+                    btn.disabled = false;
+                } else {
+                    countdown.textContent = `Resend in ${secs}s`;
+                }
+            }, 1000);
+        }
+
+        async function sendOtp() {
+            const token = getAdminBearer();
+            setOtpDescription('Sending a code to <strong>riz@dgtl.lk</strong>…');
+            document.getElementById('totp-verify-btn').disabled = true;
+
+            try {
+                const resp = await fetch(OTP_WORKER + '/api/otp/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + (token || 'none'),
+                    },
+                });
+                const data = await resp.json();
+                if (resp.status === 429 && data.wait) {
+                    setOtpDescription('Code already sent to <strong>riz@dgtl.lk</strong>. Check your inbox.');
+                    document.getElementById('totp-verify-btn').disabled = false;
+                    startResendCountdown();
+                    return;
+                }
+                if (!resp.ok) throw new Error(data.error || resp.status);
+                setOtpDescription('Code sent to <strong>riz@dgtl.lk</strong>. Valid for 5 minutes.');
+                document.getElementById('totp-verify-btn').disabled = false;
+                document.querySelector('.totp-input') && document.querySelector('.totp-input').focus();
+                startResendCountdown();
+            } catch(err) {
+                setOtpDescription('Could not send code: ' + err.message);
+                // Allow resend immediately on error
+                const btn = document.getElementById('otp-resend-btn');
+                if (btn) { btn.disabled = false; btn.style.display = 'inline'; }
+                const cd = document.getElementById('otp-resend-countdown');
+                if (cd) cd.style.display = 'none';
+            }
+        }
+
+        async function verifyTotp() {
+            const code = getTotpValue();
             if (code.length !== 6 || !/^\d{6}$/.test(code)) {
                 document.getElementById('totp-error').classList.add('show');
                 document.querySelectorAll('.totp-input').forEach(inp => inp.classList.add('error'));
                 return;
             }
 
-            // In prototype: any valid 6-digit code passes
-            appState.privateAuthed = true;
-            document.getElementById('totp-modal').classList.remove('active');
-            clearTotpInputs();
+            const verifyBtn = document.getElementById('totp-verify-btn');
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = 'Verifying…';
 
-            // Navigate to the pending private route
-            if (appState.pendingPrivateRoute) {
-                navigateToRoute(appState.pendingPrivateRoute);
-                appState.pendingPrivateRoute = null;
+            try {
+                const token = getAdminBearer();
+                const resp = await fetch(OTP_WORKER + '/api/otp/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + (token || 'none'),
+                    },
+                    body: JSON.stringify({ code }),
+                });
+                const data = await resp.json();
+
+                if (data.success) {
+                    appState.privateAuthed = true;
+                    document.getElementById('totp-modal').classList.remove('active');
+                    clearTotpInputs();
+                    if (otpResendTimer) { clearInterval(otpResendTimer); otpResendTimer = null; }
+                    if (appState.pendingPrivateRoute) {
+                        navigateToRoute(appState.pendingPrivateRoute);
+                        appState.pendingPrivateRoute = null;
+                    }
+                } else {
+                    const errMsg = data.error || 'Invalid code';
+                    document.getElementById('totp-error').textContent = errMsg;
+                    document.getElementById('totp-error').classList.add('show');
+                    document.querySelectorAll('.totp-input').forEach(inp => inp.classList.add('error'));
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = 'Verify';
+                }
+            } catch(err) {
+                document.getElementById('totp-error').textContent = 'Verification failed — please try again.';
+                document.getElementById('totp-error').classList.add('show');
+                verifyBtn.disabled = false;
+                verifyBtn.textContent = 'Verify';
             }
         }
 
         function clearTotpInputs() {
-            document.querySelectorAll('.totp-input').forEach(inp => {
-                inp.value = '';
-            });
+            document.querySelectorAll('.totp-input').forEach(inp => { inp.value = ''; });
             document.getElementById('totp-error').classList.remove('show');
+            document.getElementById('totp-error').textContent = 'Invalid code. Please try again.';
             document.querySelectorAll('.totp-input').forEach(inp => inp.classList.remove('error'));
+            const verifyBtn = document.getElementById('totp-verify-btn');
+            if (verifyBtn) { verifyBtn.disabled = false; verifyBtn.textContent = 'Verify'; }
         }
 
         function showTotpModal(targetRoute) {
             appState.pendingPrivateRoute = targetRoute;
             document.getElementById('totp-modal').classList.add('active');
             initTotpInputs();
-            document.querySelector('.totp-input').focus();
+            // Wire resend button
+            const resendBtn = document.getElementById('otp-resend-btn');
+            if (resendBtn) {
+                resendBtn.onclick = () => sendOtp();
+            }
+            // Wire verify button
+            const verifyBtn = document.getElementById('totp-verify-btn');
+            if (verifyBtn) verifyBtn.onclick = () => verifyTotp();
+            // Send the code immediately
+            sendOtp();
         }
 
         // Route Parsing
