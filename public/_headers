@@ -37,3 +37,9 @@
 
 /images/og-card.*
   Cache-Control: public, max-age=3600, must-revalidate
+
+/dossiers/*/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/dossiers/womens-day-betrayal/
+  Cache-Control: public, max-age=0, must-revalidate
