@@ -50,6 +50,10 @@ export default {
         return handleOtpSend(request, env);
       } else if (path === '/api/otp/verify') {
         return handleOtpVerify(request, env);
+      } else if (path === '/api/email-templates/preview') {
+        return handleEmailTemplatePreview(request, env);
+      } else if (path === '/api/email-templates/test') {
+        return handleEmailTemplateTest(request, env);
       }
 
       return new Response(JSON.stringify({ error: 'Not Found' }), {
@@ -643,6 +647,140 @@ async function handleOtpVerify(request, env) {
   // Correct — delete so it can't be reused
   await env.SESSION_STORE.delete(OTP_KV_KEY);
   return corsResponse(JSON.stringify({ success: true }), 200);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EMAIL TEMPLATE PREVIEW & TEST
+// Admin panel can preview rendered HTML and send test emails
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * GET /api/email-templates/preview?template=otp|confirmation|admin-notification|status-update
+ * Returns { html: "..." } with sample data filled in
+ */
+async function handleEmailTemplatePreview(request, env) {
+  if (request.method === 'OPTIONS') return corsResponse('', 204);
+
+  const url = new URL(request.url);
+  const tpl = url.searchParams.get('template');
+
+  const sampleHtml = renderSampleTemplate(tpl);
+  if (!sampleHtml) {
+    return corsResponse(JSON.stringify({ error: 'Unknown template: ' + tpl }), 400);
+  }
+
+  return corsResponse(JSON.stringify({ html: sampleHtml }), 200);
+}
+
+/**
+ * POST /api/email-templates/test
+ * Body: { template: "otp"|"confirmation"|"admin-notification"|"status-update" }
+ * Sends a real test email to OTP_ADMIN_EMAIL using the rendered sample template
+ */
+async function handleEmailTemplateTest(request, env) {
+  if (request.method === 'OPTIONS') return corsResponse('', 204);
+  if (request.method !== 'POST') {
+    return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
+  }
+
+  const body = await request.json();
+  const tpl = body.template;
+
+  const sampleHtml = renderSampleTemplate(tpl);
+  if (!sampleHtml) {
+    return corsResponse(JSON.stringify({ error: 'Unknown template: ' + tpl }), 400);
+  }
+
+  if (!env.RESEND_API_KEY) {
+    return corsResponse(JSON.stringify({ error: 'RESEND_API_KEY not configured' }), 500);
+  }
+
+  const subjectMap = {
+    'otp': '[TEST] Your Analyst admin code: 123456',
+    'confirmation': '[TEST] Submission Received — analyst.rizrazak.com',
+    'admin-notification': '[TEST] New Evidence Submission — Bamiyan',
+    'status-update': '[TEST] Submission Update — analyst.rizrazak.com',
+  };
+
+  const fromAddr = env.RESEND_FROM_ADDRESS || 'Analyst Admin <onboarding@resend.dev>';
+
+  try {
+    const resp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: fromAddr,
+        to: [OTP_ADMIN_EMAIL],
+        subject: subjectMap[tpl] || '[TEST] Email Template',
+        html: sampleHtml,
+      }),
+    });
+
+    if (!resp.ok) {
+      const errBody = await resp.text();
+      console.error('[email-test] Resend error:', resp.status, errBody);
+      return corsResponse(JSON.stringify({ error: 'Resend error: ' + resp.status }), 502);
+    }
+
+    const result = await resp.json();
+    return corsResponse(JSON.stringify({ success: true, emailId: result.id }), 200);
+  } catch (err) {
+    console.error('[email-test] Send failed:', err.message);
+    return corsResponse(JSON.stringify({ error: 'Failed to send — ' + err.message }), 502);
+  }
+}
+
+/**
+ * Renders a sample email template with placeholder data for preview/testing
+ */
+function renderSampleTemplate(tpl) {
+  switch (tpl) {
+    case 'otp':
+      return `<div style="font-family:system-ui,sans-serif;max-width:400px;margin:0 auto;padding:32px 24px;">
+        <p style="color:#6b7280;font-size:13px;margin-bottom:8px;">Analyst Admin Panel</p>
+        <h2 style="font-size:24px;margin:0 0 24px;color:#1a1a1a;">Your verification code</h2>
+        <div style="background:#f0ece0;border-radius:12px;padding:24px;text-align:center;margin-bottom:24px;">
+          <span style="font-size:36px;font-weight:700;letter-spacing:0.2em;color:#1a1a1a;font-family:monospace;">123456</span>
+        </div>
+        <p style="color:#6b7280;font-size:13px;">This code expires in 5 minutes. If you didn't request this, you can safely ignore it.</p>
+        <p style="color:#d97706;font-size:11px;margin-top:16px;padding-top:12px;border-top:1px solid #eee;">⚠ This is a test email — no real OTP was generated.</p>
+      </div>`;
+
+    case 'confirmation':
+      return buildConfirmationHtml(
+        'Jane Doe',
+        'SUB-TEST-20260310-ABCD',
+        'anatta-bamiyan',
+        { type: 'first-hand', description: 'Sample evidence description for preview purposes. This demonstrates how the submission confirmation email will appear to contributors who submit evidence through the public form.', file: { name: 'evidence-photo.jpg', sizeBytes: 245000, mimeType: 'image/jpeg' } },
+        { contactForFollowUp: true, attributeName: false }
+      );
+
+    case 'admin-notification':
+      return buildAdminNotificationHtml({
+        id: 'SUB-TEST-20260310-ABCD',
+        dossierId: 'anatta-bamiyan',
+        submittedAt: new Date().toISOString(),
+        submitter: { name: 'Jane Doe', email: 'jane@example.com', relation: 'Researcher' },
+        evidence: { type: 'first-hand', description: 'Sample evidence description for testing the admin notification template. This shows how new submission alerts look.', url: 'https://example.com/evidence', file: { name: 'evidence-photo.jpg', sizeBytes: 245000, mimeType: 'image/jpeg' }, howToIntegrate: 'Could be referenced in the Cultural Heritage section.' },
+        permissions: { contactForFollowUp: true, attributeName: false },
+        submittedFromIp: '127.0.0.1',
+      });
+
+    case 'status-update':
+      return buildStatusUpdateHtml(
+        'Jane Doe',
+        'SUB-TEST-20260310-ABCD',
+        'anatta-bamiyan',
+        'accepted',
+        'Excellent first-hand account. Will be integrated into the Cultural Heritage section of the dossier.'
+      );
+
+    default:
+      return null;
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

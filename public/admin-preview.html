@@ -5359,6 +5359,7 @@ rmObserver.observe(document.querySelector('.views-container') || document.body, 
                 <button class="settings-nav-btn" data-section="publishing" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Publishing</button>
                 <button class="settings-nav-btn" data-section="authentication" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Authentication</button>
                 <button class="settings-nav-btn" data-section="analytics" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Analytics</button>
+                <button class="settings-nav-btn" data-section="email-templates" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #6B7280; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Email Templates</button>
                 <button class="settings-nav-btn" data-section="danger-zone" style="text-align: left; padding: 10px 12px; border: none; background-color: transparent; color: #EF4444; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Danger Zone</button>
             </div>
         </div>
@@ -5459,6 +5460,137 @@ rmObserver.observe(document.querySelector('.views-container') || document.body, 
                 </div>
             </div>
 
+            <!-- Email Templates Section -->
+            <div class="settings-section" data-section="email-templates" style="display: none;">
+                <!-- Header -->
+                <div style="margin-bottom: 24px;">
+                    <div style="font-size: 16px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Email Templates</div>
+                    <div style="font-size: 13px; color: #6B7280;">Preview and test the automated emails sent by the platform. Templates are defined in the Worker and cannot be edited from the dashboard.</div>
+                </div>
+
+                <!-- Template Cards Grid -->
+                <div style="display: flex; flex-direction: column; gap: 16px;" id="email-templates-list">
+
+                    <!-- 1. OTP Verification -->
+                    <div class="card email-tpl-card" data-tpl="otp">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; background: #FEF3C7; color: #D97706;">
+                                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7.5" width="10" height="7" rx="1.5"/><path d="M5.5 7.5V5a2.5 2.5 0 015 0v2.5"/></svg>
+                                    </span>
+                                    <span style="font-size: 14px; font-weight: 600; color: #1F2937;">OTP Verification</span>
+                                </div>
+                                <div style="font-size: 12px; color: #6B7280; margin-bottom: 4px;">Sent to <strong>riz@dgtl.lk</strong> when admin requests a one-time code for Private Notes access.</div>
+                                <div style="font-size: 11px; color: #9CA3AF;">Subject: <em>Your Analyst admin code: ******</em></div>
+                            </div>
+                            <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                                <button onclick="previewEmailTemplate('otp')" style="padding: 6px 12px; background: transparent; color: #1B4D2E; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;">Preview</button>
+                                <button onclick="sendTestEmail('otp')" style="padding: 6px 12px; background: #1B4D2E; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;">Send Test</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Submission Confirmation -->
+                    <div class="card email-tpl-card" data-tpl="confirmation">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; background: #DCFCE7; color: #16A34A;">
+                                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8l3 3 5-6"/></svg>
+                                    </span>
+                                    <span style="font-size: 14px; font-weight: 600; color: #1F2937;">Submission Confirmation</span>
+                                </div>
+                                <div style="font-size: 12px; color: #6B7280; margin-bottom: 4px;">Sent to the submitter after they successfully submit evidence through the public form.</div>
+                                <div style="font-size: 11px; color: #9CA3AF;">Subject: <em>Submission Received — analyst.rizrazak.com</em></div>
+                            </div>
+                            <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                                <button onclick="previewEmailTemplate('confirmation')" style="padding: 6px 12px; background: transparent; color: #1B4D2E; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;">Preview</button>
+                                <button onclick="sendTestEmail('confirmation')" style="padding: 6px 12px; background: #1B4D2E; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;">Send Test</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Admin Notification -->
+                    <div class="card email-tpl-card" data-tpl="admin-notification">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; background: #FEE2E2; color: #DC2626;">
+                                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2L2 13h12L8 2z"/><path d="M8 7v3"/><circle cx="8" cy="11.5" r="0.5" fill="currentColor"/></svg>
+                                    </span>
+                                    <span style="font-size: 14px; font-weight: 600; color: #1F2937;">Admin Notification</span>
+                                </div>
+                                <div style="font-size: 12px; color: #6B7280; margin-bottom: 4px;">Sent to <strong>riz@dgtl.lk</strong> when a new evidence submission is received on any dossier.</div>
+                                <div style="font-size: 11px; color: #9CA3AF;">Subject: <em>[analyst] New Evidence Submission — {dossier}</em></div>
+                            </div>
+                            <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                                <button onclick="previewEmailTemplate('admin-notification')" style="padding: 6px 12px; background: transparent; color: #1B4D2E; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;">Preview</button>
+                                <button onclick="sendTestEmail('admin-notification')" style="padding: 6px 12px; background: #1B4D2E; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;">Send Test</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Status Update -->
+                    <div class="card email-tpl-card" data-tpl="status-update">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 6px; background: #E0E7FF; color: #4F46E5;">
+                                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3h12v10H2z"/><path d="M2 6h12"/></svg>
+                                    </span>
+                                    <span style="font-size: 14px; font-weight: 600; color: #1F2937;">Status Update</span>
+                                </div>
+                                <div style="font-size: 12px; color: #6B7280; margin-bottom: 4px;">Sent to the submitter when their evidence is accepted or rejected after review.</div>
+                                <div style="font-size: 11px; color: #9CA3AF;">Subject: <em>Submission Update — analyst.rizrazak.com</em></div>
+                            </div>
+                            <div style="display: flex; gap: 6px; flex-shrink: 0;">
+                                <button onclick="previewEmailTemplate('status-update')" style="padding: 6px 12px; background: transparent; color: #1B4D2E; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;">Preview</button>
+                                <button onclick="sendTestEmail('status-update')" style="padding: 6px 12px; background: #1B4D2E; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;">Send Test</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sender Info -->
+                <div class="card" style="margin-top: 24px; border-left: 3px solid #D97706;">
+                    <div style="display: flex; align-items: flex-start; gap: 12px;">
+                        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#D97706" stroke-width="1.5" style="flex-shrink: 0; margin-top: 2px;"><circle cx="8" cy="8" r="6.5"/><path d="M8 5v3.5"/><circle cx="8" cy="11" r="0.5" fill="#D97706"/></svg>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Sender Configuration</div>
+                            <div style="font-size: 12px; color: #6B7280; line-height: 1.7;">
+                                Currently sending from <code style="background: #F3F4F6; padding: 2px 6px; border-radius: 4px; font-size: 11px;">onboarding@resend.dev</code> (Resend default).<br>
+                                To use <code style="background: #F3F4F6; padding: 2px 6px; border-radius: 4px; font-size: 11px;">submissions@analyst.rizrazak.com</code>, verify the domain in <a href="https://resend.com/domains" target="_blank" style="color: #1B4D2E; text-decoration: underline;">Resend Dashboard</a>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email Preview Modal (rendered inline in an iframe) -->
+                <div id="email-preview-modal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+                    <div style="background:white; border-radius:12px; width:680px; max-width:95vw; max-height:90vh; display:flex; flex-direction:column; box-shadow:0 24px 48px rgba(0,0,0,0.2);">
+                        <div style="display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid #E5E7EB;">
+                            <div>
+                                <div style="font-size:14px; font-weight:600; color:#1F2937;" id="email-preview-title">Template Preview</div>
+                                <div style="font-size:12px; color:#6B7280;" id="email-preview-subject">Subject line</div>
+                            </div>
+                            <button onclick="closeEmailPreview()" style="background:none; border:none; cursor:pointer; padding:4px; color:#6B7280;">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 5l10 10M15 5L5 15"/></svg>
+                            </button>
+                        </div>
+                        <div style="flex:1; overflow:auto; padding:0;">
+                            <iframe id="email-preview-iframe" style="width:100%; height:520px; border:none;" sandbox="allow-same-origin"></iframe>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; gap:8px; padding:12px 20px; border-top:1px solid #E5E7EB;">
+                            <button onclick="closeEmailPreview()" style="padding:8px 16px; background:transparent; color:#6B7280; border:1px solid #D1D5DB; border-radius:6px; font-size:13px; cursor:pointer;">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toast for test email status -->
+                <div id="email-test-toast" style="display:none; position:fixed; bottom:24px; right:24px; z-index:1001; padding:12px 20px; border-radius:8px; font-size:13px; font-weight:500; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:opacity 0.3s;"></div>
+            </div>
+
             <!-- Danger Zone Section -->
             <div class="settings-section" data-section="danger-zone" style="display: none;">
                 <div class="card" style="border: 2px solid #EF4444;">
@@ -5525,8 +5657,98 @@ rmObserver.observe(document.querySelector('.views-container') || document.body, 
             const slider = checkbox.nextElementSibling;
             slider.style.backgroundColor = checkbox.checked ? '#10B981' : '#D1D5DB';
         });
-    
+
 })();
+
+// ── Email Template Preview & Test ──────────────────────────────────────────
+const EMAIL_TPL_WORKER = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
+
+function previewEmailTemplate(tplId) {
+    const modal = document.getElementById('email-preview-modal');
+    const iframe = document.getElementById('email-preview-iframe');
+    const titleEl = document.getElementById('email-preview-title');
+    const subjectEl = document.getElementById('email-preview-subject');
+
+    const meta = {
+        'otp':                { title: 'OTP Verification', subject: 'Your Analyst admin code: 123456' },
+        'confirmation':       { title: 'Submission Confirmation', subject: 'Submission Received — analyst.rizrazak.com' },
+        'admin-notification': { title: 'Admin Notification', subject: '[analyst] New Evidence Submission — Bamiyan' },
+        'status-update':      { title: 'Status Update (Accepted)', subject: 'Submission Update — analyst.rizrazak.com' },
+    };
+
+    const m = meta[tplId] || { title: tplId, subject: '' };
+    titleEl.textContent = m.title;
+    subjectEl.textContent = 'Subject: ' + m.subject;
+
+    // Fetch rendered HTML from Worker
+    iframe.srcdoc = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#9CA3AF;font-family:system-ui;">Loading preview…</div>';
+    modal.style.display = 'flex';
+
+    fetch(EMAIL_TPL_WORKER + '/api/email-templates/preview?template=' + encodeURIComponent(tplId))
+        .then(r => r.json())
+        .then(data => {
+            if (data.html) {
+                iframe.srcdoc = data.html;
+            } else {
+                iframe.srcdoc = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#EF4444;font-family:system-ui;">Error: ' + (data.error || 'unknown') + '</div>';
+            }
+        })
+        .catch(err => {
+            iframe.srcdoc = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#EF4444;font-family:system-ui;">Failed to load preview</div>';
+        });
+}
+
+function closeEmailPreview() {
+    document.getElementById('email-preview-modal').style.display = 'none';
+    document.getElementById('email-preview-iframe').srcdoc = '';
+}
+
+// Close on Escape or backdrop click
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeEmailPreview();
+});
+document.getElementById('email-preview-modal')?.addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeEmailPreview();
+});
+
+function sendTestEmail(tplId) {
+    const btn = document.querySelector(`.email-tpl-card[data-tpl="${tplId}"] button:last-child`);
+    const origText = btn?.textContent;
+    if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
+
+    fetch(EMAIL_TPL_WORKER + '/api/email-templates/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ template: tplId }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showEmailToast('Test email sent to riz@dgtl.lk', 'success');
+        } else {
+            showEmailToast(data.error || 'Failed to send test email', 'error');
+        }
+    })
+    .catch(() => {
+        showEmailToast('Network error — check console', 'error');
+    })
+    .finally(() => {
+        if (btn) { btn.textContent = origText; btn.disabled = false; }
+    });
+}
+
+function showEmailToast(msg, type) {
+    const toast = document.getElementById('email-test-toast');
+    toast.textContent = msg;
+    toast.style.display = 'block';
+    toast.style.opacity = '1';
+    toast.style.background = type === 'success' ? '#065F46' : '#991B1B';
+    toast.style.color = '#fff';
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => { toast.style.display = 'none'; }, 300);
+    }, 3500);
+}
 </script>
 </div>
 
