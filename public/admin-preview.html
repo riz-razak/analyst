@@ -6786,6 +6786,7 @@ function filterDossiers() {
 // ========================================
 
 function renderGridView() {
+    loadStatusOverrides();   // always re-apply saved overrides before rendering
     const grid = document.getElementById('dossiers-grid');
     const filteredDossiers = filterDossiers();
 
@@ -6842,6 +6843,7 @@ function renderGridView() {
 // ========================================
 
 function renderTableView() {
+    loadStatusOverrides();   // always re-apply saved overrides before rendering
     const tbody = document.getElementById('dossiers-table-body');
     const filteredDossiers = filterDossiers();
 
@@ -7066,15 +7068,19 @@ function toggleDossierStatus(id) {
     const dossier = dossiersData.find(d => d.id === id);
     if (!dossier) return;
 
-    const prev = dossier.status;
     if (dossier.status === 'published') {
         dossier.status = 'hidden';
     } else if (dossier.status === 'hidden' || dossier.status === 'draft') {
         dossier.status = 'published';
     }
 
-    // Persist to localStorage
-    saveStatusOverrides();
+    // Persist directly — write the new status straight to localStorage
+    try {
+        const raw = localStorage.getItem(STATUS_STORE_KEY);
+        const overrides = raw ? JSON.parse(raw) : {};
+        overrides[id] = dossier.status;
+        localStorage.setItem(STATUS_STORE_KEY, JSON.stringify(overrides));
+    } catch (e) { console.warn('[status] localStorage write failed:', e); }
 
     const label = dossier.status === 'published' ? 'Published' : 'Hidden';
     showToast(`"${dossier.title}" is now ${label}`);
@@ -7089,21 +7095,8 @@ function toggleDossierStatus(id) {
 // ── Visibility persistence (localStorage) ──────────────────────
 const STATUS_STORE_KEY = 'analyst_dossier_status_v1';
 
-function saveStatusOverrides() {
-    const overrides = {};
-    dossiersData.forEach(d => {
-        if (d._originalStatus && d.status !== d._originalStatus) {
-            overrides[d.id] = d.status;
-        }
-    });
-    localStorage.setItem(STATUS_STORE_KEY, JSON.stringify(overrides));
-}
-
 function loadStatusOverrides() {
-    // Always stamp _originalStatus so saveStatusOverrides can detect changes
-    dossiersData.forEach(d => {
-        if (!d._originalStatus) d._originalStatus = d.status;
-    });
+    // Apply any saved status overrides from localStorage onto dossiersData
     try {
         const raw = localStorage.getItem(STATUS_STORE_KEY);
         if (!raw) return;
