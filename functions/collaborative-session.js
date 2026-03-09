@@ -459,6 +459,7 @@ async function handleSubmission(request, env) {
     howToIntegrate,
     permissions,
     declaration,
+    evidenceFile, // optional: { name, base64, size, mimeType }
   } = body;
 
   // Validate required fields
@@ -515,6 +516,13 @@ async function handleSubmission(request, env) {
       description: evidenceDescription,
       url: evidenceUrl || null,
       howToIntegrate: howToIntegrate || null,
+      // Attached file (base64-encoded, max ~5MB after encoding)
+      file: evidenceFile ? {
+        name: String(evidenceFile.name || '').slice(0, 255),
+        mimeType: String(evidenceFile.mimeType || 'application/octet-stream').slice(0, 100),
+        sizeBytes: Number(evidenceFile.size) || 0,
+        base64: typeof evidenceFile.base64 === 'string' ? evidenceFile.base64.slice(0, 7_000_000) : null,
+      } : null,
     },
 
     // Permissions granted
