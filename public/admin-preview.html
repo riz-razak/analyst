@@ -6473,6 +6473,7 @@ function renderTableView() {
                     <div class="table-cell-actions">
                         <button class="btn-ghost" onclick="event.stopPropagation();handlePreview('${dossier.id}')">Preview</button>
                         <button class="btn-ghost" onclick="event.stopPropagation();window.location.hash='#/dossiers/${dossier.id}'">Edit</button>
+                        ${dossier.status !== 'orphan' ? `<button class="btn-ghost btn-status-toggle" onclick="event.stopPropagation();toggleDossierStatus('${dossier.id}')" title="${dossier.status === 'published' ? 'Hide this dossier' : 'Publish this dossier'}" style="color:${dossier.status === 'published' ? 'var(--color-warning,#F59E0B)' : 'var(--color-success,#10B981)'}">${dossier.status === 'published' ? 'Hide' : 'Publish'}</button>` : ''}
                     </div>
                 </td>
             </tr>
@@ -6663,17 +6664,51 @@ function toggleDossierStatus(id) {
     const dossier = dossiersData.find(d => d.id === id);
     if (!dossier) return;
 
+    const prev = dossier.status;
     if (dossier.status === 'published') {
         dossier.status = 'hidden';
-    } else if (dossier.status === 'hidden') {
+    } else if (dossier.status === 'hidden' || dossier.status === 'draft') {
         dossier.status = 'published';
     }
+
+    // Persist to localStorage
+    saveStatusOverrides();
+
+    const label = dossier.status === 'published' ? 'Published' : 'Hidden';
+    showToast(`"${dossier.title}" is now ${label}`);
 
     if (appState.viewMode === 'grid') {
         renderGridView();
     } else {
         renderTableView();
     }
+}
+
+// ── Visibility persistence (localStorage) ──────────────────────
+const STATUS_STORE_KEY = 'analyst_dossier_status_v1';
+
+function saveStatusOverrides() {
+    const overrides = {};
+    dossiersData.forEach(d => {
+        if (d._originalStatus && d.status !== d._originalStatus) {
+            overrides[d.id] = d.status;
+        }
+    });
+    localStorage.setItem(STATUS_STORE_KEY, JSON.stringify(overrides));
+}
+
+function loadStatusOverrides() {
+    try {
+        const raw = localStorage.getItem(STATUS_STORE_KEY);
+        if (!raw) return;
+        const overrides = JSON.parse(raw);
+        dossiersData.forEach(d => {
+            d._originalStatus = d.status;          // remember original
+            if (overrides[d.id] !== undefined) {
+                d.status = overrides[d.id];
+            }
+        });
+    } catch (e) { /* ignore malformed storage */ }
 }
 
 function handleCardMenu(id) {
@@ -6986,6 +7021,15 @@ function renderSidebarDossiers() {
     if (badge) badge.textContent = dossiersData.length;
 }
 
+// Call immediately since dossiersData is already defined above
+renderSidebarDossiers();
+
+// Re-apply active nav state to the dynamically rendered sidebar items
+if (window.location.hash) {
+    var currentRoute = parseRoute(window.location.hash);
+    if (currentRoute) updateActiveNav(window.location.hash, currentRoute);
+}
+
 function setupDossierSearch() {
     const searchInput = document.getElementById('sidebar-dossier-search');
     if (!searchInput) return;
@@ -7026,6 +7070,7 @@ function setupDossierSearch() {
 // Run setup functions on load (navigation handled by shell DOMContentLoaded)
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
+        loadStatusOverrides();   // apply any saved Hide/Publish changes
         if (typeof setupToolbar === 'function') setupToolbar();
         if (typeof setupDetailView === 'function') setupDetailView();
         if (typeof updateSortHeaders === 'function') updateSortHeaders();
@@ -7033,6 +7078,7 @@ if (document.readyState === 'loading') {
         setupDossierSearch();
     });
 } else {
+    loadStatusOverrides();       // apply any saved Hide/Publish changes
     if (typeof setupToolbar === 'function') setupToolbar();
     if (typeof setupDetailView === 'function') setupDetailView();
     if (typeof updateSortHeaders === 'function') updateSortHeaders();

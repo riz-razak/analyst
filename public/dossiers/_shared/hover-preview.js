@@ -17,7 +17,7 @@
     '</div>',
     '<div class="evp-meta">',
     '  <span id="evp-caption"></span>',
-    '  <span class="evp-hint">Hover to open →</span>',
+    '  <span class="evp-hint">Click to open source →</span>',
     '</div>'
   ].join('');
   document.body.appendChild(panel);
@@ -96,6 +96,11 @@
 
     clearTimeout(hideTimer);
     activeEl = triggerEl;
+
+    // Wire panel click → open source URL in new tab
+    const sourceUrl = card ? card.getAttribute('data-ev-url') : null;
+    panel.style.cursor = sourceUrl ? 'pointer' : 'default';
+    panel.onclick = sourceUrl ? function () { window.open(sourceUrl, '_blank', 'noopener'); } : null;
 
     evpImg.src = src;
     evpCaption.textContent = getCaption(card);

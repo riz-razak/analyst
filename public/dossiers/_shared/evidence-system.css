@@ -186,6 +186,12 @@
   pointer-events: auto;
   opacity: 1;
   transform: translateY(0) scale(1);
+  cursor: pointer;
+}
+
+#ev-preview-panel.ev-preview-visible:hover .evp-hint {
+  color: var(--forest, #2d5a27);
+  text-decoration: underline;
 }
 
 .evp-img-wrap {
