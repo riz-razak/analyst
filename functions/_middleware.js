@@ -29,6 +29,9 @@ const PUBLIC_PATHS = [
   '/auth/',
 ];
 
+// Worker URL for visibility checks
+const WORKER_URL = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
+
 export async function onRequest(context) {
   const { request, next, env } = context;
   const url = new URL(request.url);
@@ -37,6 +40,19 @@ export async function onRequest(context) {
   // Never gate public paths or static assets
   if (isPublicPath(path)) {
     return next();
+  }
+
+  // ── Dossier visibility check ──────────────────────────────────
+  // If this is a dossier page, check if it's hidden via the Worker
+  const dossierSlug = extractDossierSlug(path);
+  if (dossierSlug) {
+    const blocked = await isDossierHidden(dossierSlug);
+    if (blocked) {
+      return new Response(buildHiddenPage(dossierSlug), {
+        status: 404,
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+      });
+    }
   }
 
   // Check if this path is protected
@@ -159,4 +175,127 @@ function base64UrlDecode(str) {
     bytes[i] = binary.charCodeAt(i);
   }
   return bytes.buffer;
+}
+
+// ─── Dossier Visibility Helpers ──────────────────────────────────────────
+
+/**
+ * Extract dossier slug from a path like /dossiers/womens-day-betrayal/
+ * Returns null if the path isn't a dossier page.
+ */
+function extractDossierSlug(path) {
+  // Match /dossiers/{slug}/ or /dossiers/{slug}/anything.html
+  // Exclude shared assets: /dossiers/_shared/, /dossiers/_analytics_events.js
+  const match = path.match(/^\/dossiers\/([a-z0-9][a-z0-9-]+[a-z0-9])\b/);
+  if (!match) return null;
+  const slug = match[1];
+  // Skip internal shared paths
+  if (slug.startsWith('_')) return null;
+  return slug;
+}
+
+/**
+ * Check the Worker's visibility endpoint to see if a dossier is hidden.
+ * Uses Cloudflare Cache API for 60-second TTL to avoid hitting KV on every request.
+ */
+async function isDossierHidden(slug) {
+  try {
+    const checkUrl = `${WORKER_URL}/api/dossier/visibility/check?slug=${encodeURIComponent(slug)}`;
+
+    // Fetch from Worker (KV read is fast — ~1-2ms on Cloudflare edge)
+    const resp = await fetch(checkUrl, {
+      headers: { 'User-Agent': 'analyst-middleware/1.0' },
+      cf: { cacheTtl: 60 },  // Cloudflare edge cache for 60 seconds
+    });
+
+    if (!resp.ok) {
+      // On error, fail open (allow access)
+      console.warn('[visibility] Worker check failed:', resp.status);
+      return false;
+    }
+
+    const data = await resp.json();
+    return data.visible === false;
+  } catch (e) {
+    // On any error, fail open
+    console.warn('[visibility] Check error:', e.message);
+    return false;
+  }
+}
+
+/**
+ * Render a branded 404 page for hidden dossiers
+ */
+function buildHiddenPage(slug) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dossier Unavailable — analyst.rizrazak.com</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #f8f8f5;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .container {
+      max-width: 480px;
+      text-align: center;
+    }
+    .border-top {
+      width: 60px;
+      height: 3px;
+      background: #2d5016;
+      margin: 0 auto 32px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 400;
+      color: #111;
+      margin-bottom: 16px;
+    }
+    p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 24px;
+    }
+    .home-link {
+      display: inline-block;
+      padding: 10px 24px;
+      background: #2d5016;
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      border-radius: 4px;
+    }
+    .home-link:hover { background: #1a3a0e; }
+    .ref {
+      margin-top: 32px;
+      font-size: 11px;
+      color: #aaa;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="border-top"></div>
+    <h1>Dossier Unavailable</h1>
+    <p>This dossier has been temporarily removed from public access by the editorial team. It may be undergoing review, revision, or has been withdrawn.</p>
+    <a href="/" class="home-link">Return to analyst.rizrazak.com</a>
+    <div class="ref">${slug}</div>
+  </div>
+</body>
+</html>`;
 }

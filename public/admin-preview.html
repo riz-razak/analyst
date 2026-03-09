@@ -7068,45 +7068,86 @@ function toggleDossierStatus(id) {
     const dossier = dossiersData.find(d => d.id === id);
     if (!dossier) return;
 
-    if (dossier.status === 'published') {
-        dossier.status = 'hidden';
-    } else if (dossier.status === 'hidden' || dossier.status === 'draft') {
-        dossier.status = 'published';
-    }
+    const newStatus = dossier.status === 'published' ? 'hidden' : 'published';
 
-    // Persist directly — write the new status straight to localStorage
+    // Optimistic UI update
+    dossier.status = newStatus;
+    const label = newStatus === 'published' ? 'Published' : 'Hidden';
+
+    // Persist to localStorage (immediate UI persistence)
     try {
         const raw = localStorage.getItem(STATUS_STORE_KEY);
         const overrides = raw ? JSON.parse(raw) : {};
-        overrides[id] = dossier.status;
+        overrides[id] = newStatus;
         localStorage.setItem(STATUS_STORE_KEY, JSON.stringify(overrides));
     } catch (e) { console.warn('[status] localStorage write failed:', e); }
 
-    const label = dossier.status === 'published' ? 'Published' : 'Hidden';
-    showToast(`"${dossier.title}" is now ${label}`);
+    // Re-render immediately (optimistic)
+    if (appState.viewMode === 'grid') { renderGridView(); } else { renderTableView(); }
 
-    if (appState.viewMode === 'grid') {
-        renderGridView();
-    } else {
-        renderTableView();
-    }
+    // Persist to Worker KV (real access control)
+    fetch(VISIBILITY_WORKER + '/api/dossier/visibility', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: dossier.slug || id, status: newStatus }),
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            showToast(`"${dossier.title}" is now ${label} — takes effect within 60 seconds`);
+        } else {
+            showToast(`UI updated but server sync failed: ${data.error || 'unknown'}`);
+        }
+    })
+    .catch(err => {
+        showToast(`UI updated but server unreachable — will retry on next toggle`);
+        console.error('[visibility] Worker sync failed:', err);
+    });
 }
 
-// ── Visibility persistence (localStorage) ──────────────────────
+// ── Visibility persistence ──────────────────────────────────────
 const STATUS_STORE_KEY = 'analyst_dossier_status_v1';
+const VISIBILITY_WORKER = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
 
 function loadStatusOverrides() {
-    // Apply any saved status overrides from localStorage onto dossiersData
+    // Apply localStorage overrides first (instant, for UI)
     try {
         const raw = localStorage.getItem(STATUS_STORE_KEY);
-        if (!raw) return;
-        const overrides = JSON.parse(raw);
-        dossiersData.forEach(d => {
-            if (overrides[d.id] !== undefined) {
-                d.status = overrides[d.id];
-            }
-        });
+        if (raw) {
+            const overrides = JSON.parse(raw);
+            dossiersData.forEach(d => {
+                if (overrides[d.id] !== undefined) {
+                    d.status = overrides[d.id];
+                }
+            });
+        }
     } catch (e) { /* ignore malformed storage */ }
+
+    // Also fetch authoritative state from Worker KV (async, reconciles)
+    fetch(VISIBILITY_WORKER + '/api/dossier/visibility')
+        .then(r => r.json())
+        .then(serverMap => {
+            let changed = false;
+            dossiersData.forEach(d => {
+                const slug = d.slug || d.id;
+                if (serverMap[slug] && serverMap[slug] !== d.status && d.status !== 'orphan') {
+                    d.status = serverMap[slug];
+                    changed = true;
+                    // Sync localStorage too
+                    try {
+                        const raw = localStorage.getItem(STATUS_STORE_KEY);
+                        const overrides = raw ? JSON.parse(raw) : {};
+                        overrides[d.id] = serverMap[slug];
+                        localStorage.setItem(STATUS_STORE_KEY, JSON.stringify(overrides));
+                    } catch (e) { /* ignore */ }
+                }
+            });
+            if (changed) {
+                // Re-render if server state differed
+                if (appState.viewMode === 'grid') { renderGridView(); } else { renderTableView(); }
+            }
+        })
+        .catch(() => { /* offline — localStorage state is good enough */ });
 }
 
 function handleCardMenu(id) {

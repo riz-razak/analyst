@@ -54,6 +54,10 @@ export default {
         return handleEmailTemplatePreview(request, env);
       } else if (path === '/api/email-templates/test') {
         return handleEmailTemplateTest(request, env);
+      } else if (path === '/api/dossier/visibility') {
+        return handleDossierVisibility(request, env);
+      } else if (path === '/api/dossier/visibility/check') {
+        return handleVisibilityCheck(request, env);
       }
 
       return new Response(JSON.stringify({ error: 'Not Found' }), {
@@ -781,6 +785,77 @@ function renderSampleTemplate(tpl) {
     default:
       return null;
   }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DOSSIER VISIBILITY — KV-backed hide/publish for real access control
+// The middleware calls /api/dossier/visibility/check?slug=X on every dossier
+// page request to determine if the dossier should be blocked.
+// ═══════════════════════════════════════════════════════════════════════════
+
+const VISIBILITY_KV_KEY = 'dossier:visibility';
+
+/**
+ * GET  /api/dossier/visibility         → returns full visibility map
+ * POST /api/dossier/visibility         → sets visibility for a dossier
+ *   Body: { slug: "womens-day-betrayal", status: "hidden"|"published" }
+ */
+async function handleDossierVisibility(request, env) {
+  if (request.method === 'OPTIONS') return corsResponse('', 204);
+
+  if (request.method === 'GET') {
+    const map = await env.SESSION_STORE.get(VISIBILITY_KV_KEY, 'json') || {};
+    return corsResponse(JSON.stringify(map), 200);
+  }
+
+  if (request.method !== 'POST') {
+    return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
+  }
+
+  const body = await request.json();
+  const { slug, status } = body;
+
+  if (!slug || !status) {
+    return corsResponse(JSON.stringify({ error: 'slug and status required' }), 400);
+  }
+  if (!['published', 'hidden', 'draft'].includes(status)) {
+    return corsResponse(JSON.stringify({ error: 'status must be published, hidden, or draft' }), 400);
+  }
+
+  // Read current map, update, write back
+  const map = await env.SESSION_STORE.get(VISIBILITY_KV_KEY, 'json') || {};
+  map[slug] = status;
+  await env.SESSION_STORE.put(VISIBILITY_KV_KEY, JSON.stringify(map));
+
+  console.log(`[visibility] ${slug} → ${status}`);
+  return corsResponse(JSON.stringify({ success: true, slug, status }), 200);
+}
+
+/**
+ * GET /api/dossier/visibility/check?slug=womens-day-betrayal
+ * Fast endpoint for middleware to call. Returns:
+ *   { visible: true }  or  { visible: false, status: "hidden" }
+ */
+async function handleVisibilityCheck(request, env) {
+  if (request.method === 'OPTIONS') return corsResponse('', 204);
+
+  const url = new URL(request.url);
+  const slug = url.searchParams.get('slug');
+
+  if (!slug) {
+    return corsResponse(JSON.stringify({ visible: true }), 200);
+  }
+
+  const map = await env.SESSION_STORE.get(VISIBILITY_KV_KEY, 'json') || {};
+  const status = map[slug];
+
+  // If not in the map or explicitly published, it's visible
+  if (!status || status === 'published') {
+    return corsResponse(JSON.stringify({ visible: true }), 200);
+  }
+
+  // Hidden or draft — not visible
+  return corsResponse(JSON.stringify({ visible: false, status }), 200);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
