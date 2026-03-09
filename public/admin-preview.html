@@ -7100,12 +7100,15 @@ function saveStatusOverrides() {
 }
 
 function loadStatusOverrides() {
+    // Always stamp _originalStatus so saveStatusOverrides can detect changes
+    dossiersData.forEach(d => {
+        if (!d._originalStatus) d._originalStatus = d.status;
+    });
     try {
         const raw = localStorage.getItem(STATUS_STORE_KEY);
         if (!raw) return;
         const overrides = JSON.parse(raw);
         dossiersData.forEach(d => {
-            d._originalStatus = d.status;          // remember original
             if (overrides[d.id] !== undefined) {
                 d.status = overrides[d.id];
             }
@@ -7487,5 +7490,9 @@ if (document.readyState === 'loading') {
     renderSidebarDossiers();
     setupDossierSearch();
 }</script>
+
+<!-- Global toast notification -->
+<div id="toast" style="display:none; position:fixed; bottom:24px; right:24px; z-index:2000; padding:12px 20px; background:#1F2937; color:#fff; border-radius:8px; font-size:13px; font-weight:500; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:opacity 0.3s;"></div>
+
 </body>
 </html>
