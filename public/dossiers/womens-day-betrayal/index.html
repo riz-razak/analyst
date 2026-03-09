@@ -262,6 +262,42 @@ body.sinhala [lang-en-inline] { display: none; }
 .ec-tag.social { background: #fce7f3; color: #9d174d; }
 .ec-tag.testimony { background: #fef3c7; color: #92400e; }
 .ec-tag.primary { background: #d1fae5; color: #065f46; }
+.ec-tag.commentary { background: #e0f2fe; color: #0369a1; }
+.ec-tag.official { background: #e0e7ff; color: #3730a3; }
+.ec-tag.screenshot { background: #f3e8ff; color: #6b21a8; }
+.ec-tag.media { background: #fef9c3; color: #854d0e; }
+.ec-tag.document { background: #f1f5f9; color: #475569; }
+
+/* ===== INLINE REFERENCE MARKERS [SX] ===== */
+.ref-marker {
+  font-size: 0.75em; font-weight: 700;
+  color: var(--forest); text-decoration: none;
+  vertical-align: super; padding: 0 2px;
+  border-bottom: 1px dotted var(--forest);
+  cursor: pointer; transition: color 0.2s;
+}
+.ref-marker:hover { color: var(--ember); }
+
+/* ===== EVIDENCE VERDICT BADGES ===== */
+.ev-verdict {
+  display: inline-block; font-size: 0.6rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 2px 8px; border-radius: 3px; margin-left: 8px;
+  vertical-align: middle;
+}
+.ev-verdict.verified { background: #d1fae5; color: #065f46; }
+.ev-verdict.documented { background: #dbeafe; color: #1e40af; }
+.ev-verdict.alleged { background: #fef3c7; color: #92400e; }
+.ev-verdict.unverified { background: #fee2e2; color: #991b1b; }
+
+/* ===== EVIDENCE CARD NAVIGATION LINKS ===== */
+.ev-nav-link {
+  display: inline-block; margin-top: 8px; margin-right: 12px;
+  font-size: 0.7rem; color: var(--sage); text-decoration: none;
+  transition: color 0.2s;
+}
+.ev-nav-link:hover { color: var(--forest); }
+
 @media (max-width: 600px) {
   .evidence-card { padding: 12px 14px 10px; font-size: 0.8rem; }
 }
@@ -653,34 +689,38 @@ body.sinhala [lang-en-inline] { display: none; }
     <div class="card">
       <div class="card-icon card-icon-green">📰</div>
       <h3 lang-en data-cms-id="s1-card1-title">The Article</h3>
-      <p lang-en data-cms-id="s1-card1-body">On March 8, 2026, the <strong>Sunday Observer</strong>'s <strong>Observer MUSE</strong> supplement published a Women's Day feature titled <em>"One is not born, but rather becomes a woman"</em> — celebrating Simone de Beauvoir's feminist philosophy.</p>
+      <p lang-en data-cms-id="s1-card1-body">On March 8, 2026, the <strong>Sunday Observer</strong>'s <strong>Observer MUSE</strong> supplement published a Women's Day feature <a href="#ev-S2" class="ref-marker">[S2]</a> titled <em>"One is not born, but rather becomes a woman"</em> — celebrating Simone de Beauvoir's feminist philosophy.</p>
       <a class="src-link evidence-link" href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank"><span class="preview-dot"></span> View on Sunday Observer →</a>
-      <div class="evidence-card">
+      <div class="evidence-card" id="ev-S2">
         <span class="ec-badge">S2</span>
+        <span class="ev-verdict documented">DOCUMENTED</span>
         <div class="ec-source">Sunday Observer — Feature Article</div>
         <span class="ec-quote">"Vangeesa Sumanasekara's International Women's Day message" — a puff piece published on the same day victims were speaking out.</span>
         <span class="ec-meta">Sunday Observer &bull; March 8, 2026</span>
         <span class="ec-tag article">THE ARTICLE</span>
+        <a href="#src-S2" class="ev-nav-link">View in Source Index ↓</a>
       </div>
     </div>
 
     <div class="card">
       <div class="card-icon card-icon-red">👤</div>
       <h3 lang-en data-cms-id="s1-card2-title">The Platforming</h3>
-      <p lang-en data-cms-id="s1-card2-body">Among the featured "resource persons" was <strong>Vangeesa Sumanasekara</strong>, described as a <em>"thinker"</em> — a man with <strong>documented sexual harassment allegations</strong> dating to at least 2021, with screenshot evidence from multiple women.</p>
+      <p lang-en data-cms-id="s1-card2-body">Among the featured "resource persons" was <strong>Vangeesa Sumanasekara</strong>, described as a <em>"thinker"</em> <a href="#ev-S2" class="ref-marker">[S2]</a> — a man with <strong>documented sexual harassment allegations</strong> <a href="#ev-S3" class="ref-marker">[S3]</a> dating to at least 2021, with screenshot evidence from multiple women <a href="#ev-S8S9" class="ref-marker">[S8, S9]</a>.</p>
     </div>
 
     <div class="card">
       <div class="card-icon card-icon-gold">📢</div>
       <h3 lang-en data-cms-id="s1-card3-title">The Promotion</h3>
-      <p lang-en data-cms-id="s1-card3-body"><strong>Anuradha Perera</strong> shared the article on Facebook, tagging all resource persons including Vangeesa Sumanasekara, alongside Deepthi Kumara Gunarathne, Swarna Mallawarachchi, Prasanna Vithanage, and Dhananjaya Karunarathne.</p>
+      <p lang-en data-cms-id="s1-card3-body"><strong>Anuradha Perera</strong> shared the article on Facebook <a href="#ev-S1" class="ref-marker">[S1]</a>, tagging all resource persons including Vangeesa Sumanasekara, alongside Deepthi Kumara Gunarathne, Swarna Mallawarachchi, Prasanna Vithanage, and Dhananjaya Karunarathne.</p>
       <a class="src-link evidence-link" href="https://www.facebook.com/story.php?story_fbid=10239366361167514&id=1540883472" target="_blank"><span class="preview-dot"></span> View Facebook Post →</a>
-      <div class="evidence-card">
+      <div class="evidence-card" id="ev-S1">
         <span class="ec-badge">S1</span>
+        <span class="ev-verdict documented">DOCUMENTED</span>
         <div class="ec-source">Anuradha Perera — Facebook Post</div>
         <span class="ec-quote">Shared the Sunday Observer article, tagging all resource persons including Vangeesa Sumanasekara alongside prominent cultural figures.</span>
         <span class="ec-meta">Facebook &bull; March 8, 2026</span>
         <span class="ec-tag social">SOCIAL MEDIA</span>
+        <a href="#src-S1" class="ev-nav-link">View in Source Index ↓</a>
       </div>
     </div>
 
@@ -703,12 +743,12 @@ body.sinhala [lang-en-inline] { display: none; }
 
     <h3 class="evidence-label">🔥 Evidence A: Emy Vithanage (June 28, 2021)</h3>
     <div class="quote-block">
-      "On June 28th, Emy Vithanage released a screenshot of an uninvited sex-chat initiated by Vangeesa Sumanasekara. This has led to yet another round of discussion about his long-discussed abusive behavior towards women."
+      "On June 28th, Emy Vithanage released a screenshot of an uninvited sex-chat initiated by Vangeesa Sumanasekara. This has led to yet another round of discussion about his long-discussed abusive behavior towards women." <a href="#ev-S3" class="ref-marker">[S3]</a>
       <div class="quote-attr">— Prabha Manuratne, Academic & Author, June 29, 2021</div>
     </div>
 
     <h3 class="evidence-label">🔥 Evidence B: Vincika De Saram (August 19, 2021) — With Screenshots</h3>
-    <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9rem;">Vincika De Saram publicly posted screenshots of a Facebook Messenger conversation. The transcript:</p>
+    <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9rem;">Vincika De Saram publicly posted screenshots of a Facebook Messenger conversation <a href="#ev-S8S9" class="ref-marker">[S8]</a>. The transcript:</p>
 
     <div class="chat-transcript">
       <div class="chat-header">📱 Facebook Messenger — Vangeesa Sumanasekara → Vincika De Saram</div>
@@ -725,7 +765,7 @@ body.sinhala [lang-en-inline] { display: none; }
 
     <h3 class="evidence-label">🔥 Evidence C: Vincika De Saram's March 8, 2026 Callout</h3>
     <div class="quote-block">
-      "Did You Think We Forgot who Vangeesa Sumanasekara is?? Anuradha Perera Sunday Observer for real? You created a platform for Vangeesa Sumanasekara on a women's day??? Just a little reminder that he was unmasked not so long ago by women including myself and young female university students. He is now a known sexual predator both online and offline. When a complaint was filed, he hid behind his father like a coward and later blamed it all on a 'mental condition'..."
+      "Did You Think We Forgot who Vangeesa Sumanasekara is?? Anuradha Perera Sunday Observer for real? You created a platform for Vangeesa Sumanasekara on a women's day??? Just a little reminder that he was unmasked not so long ago by women including myself and young female university students. He is now a known sexual predator both online and offline. When a complaint was filed, he hid behind his father like a coward and later blamed it all on a 'mental condition'..." <a href="#ev-S8S9" class="ref-marker">[S9]</a>
       <div class="quote-attr">— Vincika De Saram, Facebook, March 8, 2026 · 17+ reactions · 5 comments</div>
     </div>
 
@@ -746,21 +786,25 @@ body.sinhala [lang-en-inline] { display: none; }
 
     <div style="margin-top: 24px; text-align: center;">
       <a class="src-link evidence-link" href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank"><span class="preview-dot"></span> Read: "Sexual Harassment and Violence" →</a>
-      <div class="evidence-card">
+      <div class="evidence-card" id="ev-S3">
         <span class="ec-badge">S3</span>
-        <div class="ec-source">Working PPS — WordPress Blog</div>
-        <span class="ec-quote">Detailed account of sexual harassment and violence within the poetry/literary community, naming specific incidents and patterns of behavior.</span>
+        <span class="ev-verdict verified">VERIFIED</span>
+        <div class="ec-source">Prabha Manuratne — Analytical Commentary</div>
+        <span class="ec-quote">Third-person analytical article by academic Prabha Manuratne documenting Sumanasekara's "alleged behaviour" and the literary community's failure to act, in the context of Sri Lanka's #MeToo movement.</span>
         <span class="ec-meta">Working PPS Blog &bull; June 29, 2021</span>
-        <span class="ec-tag testimony">TESTIMONY</span>
+        <span class="ec-tag commentary">COMMENTARY</span>
+        <a href="#src-S3" class="ev-nav-link">View in Source Index ↓</a>
       </div>
       <br>
       <a class="src-link evidence-link" href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank" style="margin-top: 8px;"><span class="preview-dot"></span> Vincika De Saram's posts →</a>
-      <div class="evidence-card">
+      <div class="evidence-card" id="ev-S8S9">
         <span class="ec-badge">S8/S9</span>
+        <span class="ev-verdict verified">VERIFIED</span>
         <div class="ec-source">Vincika De Saram — Facebook Posts</div>
         <span class="ec-quote">Public posts documenting personal experiences of harassment and the broader culture of silence protecting perpetrators in literary circles.</span>
-        <span class="ec-meta">Facebook &bull; Multiple dates, 2021–2025</span>
+        <span class="ec-meta">Facebook &bull; Multiple dates, 2021–2026</span>
         <span class="ec-tag primary">PRIMARY SOURCE</span>
+        <a href="#src-S8" class="ev-nav-link">View in Source Index ↓</a>
       </div>
     </div>
   </div>
@@ -781,42 +825,42 @@ body.sinhala [lang-en-inline] { display: none; }
     <div class="tl-item">
       <div class="tl-date">Pre-2021</div>
       <h3>Whispered Allegations & Facebook Controversies</h3>
-      <p>Per Prabha Manuratne's account, Sumanasekara's "alleged behaviour has sparked controversy on Facebook" over multiple years, with "little action beyond that."</p>
+      <p>Per Prabha Manuratne's account <a href="#ev-S3" class="ref-marker">[S3]</a>, Sumanasekara's "alleged behaviour has sparked controversy on Facebook" over multiple years, with "little action beyond that."</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">June 2021</div>
       <h3>Sri Lanka's #MeToo Wave Begins</h3>
-      <p>Women in Sri Lankan media began coming forward. Senior journalists joined discussions on redress mechanisms. <a href="https://www.aljazeera.com/news/2021/6/23/sri-lanka-metoo-newsrooms-women-journalists" target="_blank">Al Jazeera covered the movement</a>.</p>
+      <p>Women in Sri Lankan media began coming forward. Senior journalists joined discussions on redress mechanisms. <a href="https://www.aljazeera.com/news/2021/6/23/sri-lanka-metoo-newsrooms-women-journalists" target="_blank">Al Jazeera covered the movement</a> <a href="#src-S6" class="ref-marker">[S6]</a>.</p>
     </div>
     <div class="tl-item key">
       <div class="tl-date">June 28, 2021</div>
       <h3>🔥 Emy Vithanage Releases Screenshot</h3>
-      <p>Emy Vithanage publicly released a screenshot of an uninvited sex-chat initiated by Vangeesa Sumanasekara.</p>
+      <p>Emy Vithanage publicly released a screenshot of an uninvited sex-chat initiated by Vangeesa Sumanasekara <a href="#ev-S3" class="ref-marker">[S3]</a>.</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">June 29, 2021</div>
       <h3>Prabha Manuratne Publishes Condemnation</h3>
-      <p>Academic published a detailed article providing unconditional condemnation. <a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank">Read article</a>.</p>
+      <p>Academic published a detailed article providing unconditional condemnation <a href="#ev-S3" class="ref-marker">[S3]</a>. <a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank">Read article</a>.</p>
     </div>
     <div class="tl-item key">
       <div class="tl-date">August 19, 2021</div>
       <h3>🔥 Vincika De Saram Posts Screenshot Evidence</h3>
-      <p>Publicly posted screenshots of Messenger conversation showing explicit sexual messages.</p>
+      <p>Publicly posted screenshots of Messenger conversation showing explicit sexual messages <a href="#ev-S8S9" class="ref-marker">[S8]</a>.</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">2021-2025</div>
       <h3>Allegations Remain in Public Record</h3>
-      <p>No retraction, legal challenge, or exoneration known. Sumanasekara continued to contribute to <a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank">Groundviews</a>.</p>
+      <p>No retraction, legal challenge, or exoneration known. Sumanasekara continued to contribute to <a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank">Groundviews</a> <a href="#src-S7" class="ref-marker">[S7]</a>.</p>
     </div>
     <div class="tl-item key">
       <div class="tl-date">March 8, 2026</div>
       <h3>🔥 Observer Muse Platforms Sumanasekara on Women's Day</h3>
-      <p>Sunday Observer publishes Women's Day feature with Sumanasekara as "thinker." <a href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank">View article</a>.</p>
+      <p>Sunday Observer publishes Women's Day feature with Sumanasekara as "thinker" <a href="#ev-S2" class="ref-marker">[S2]</a>. <a href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank">View article</a>.</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">March 8, 2026 — Hours Later</div>
       <h3>Immediate Public Backlash</h3>
-      <p>Melani Gunathilaka, Vincika De Saram, Janindu de Zoysa, and others call it out. <a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank">View posts</a>.</p>
+      <p>Melani Gunathilaka <a href="#src-S4" class="ref-marker">[S4]</a>, Vincika De Saram <a href="#ev-S8S9" class="ref-marker">[S9]</a>, Janindu de Zoysa, and others call it out. <a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank">View posts</a>.</p>
     </div>
     <div class="tl-item">
       <div class="tl-date">March 8, 2026</div>
@@ -843,7 +887,7 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="cast-info">
         <span class="role-tag role-tag-accused">Accused</span>
         <h3>Vangeesa Sumanasekara</h3>
-        <p>"Thinker" and leftist public intellectual. Contributor to <a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank" style="color:var(--forest)">Groundviews</a>. Subject of sexual harassment allegations since 2021 with screenshot evidence from multiple women. Featured in the Women's Day article.</p>
+        <p>"Thinker" and leftist public intellectual. Contributor to <a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank" style="color:var(--forest)">Groundviews</a> <a href="#src-S7" class="ref-marker">[S7]</a>. Subject of sexual harassment allegations since 2021 <a href="#ev-S3" class="ref-marker">[S3]</a> with screenshot evidence from multiple women <a href="#ev-S8S9" class="ref-marker">[S8, S9]</a>. Featured in the Women's Day article <a href="#ev-S2" class="ref-marker">[S2]</a>.</p>
       </div>
     </div>
 
@@ -852,7 +896,7 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="cast-info">
         <span class="role-tag role-tag-journalist">Journalist</span>
         <h3>Anuradha Perera</h3>
-        <p>Author/promoter of the Observer Muse article. Shared the article on Facebook tagging Sumanasekara. <a href="https://www.facebook.com/anuradha.perera.7549" target="_blank" style="color:var(--forest)">Facebook</a> — lives in Boralesgamuwa, from Colombo.</p>
+        <p>Author/promoter of the Observer Muse article. Shared the article on Facebook <a href="#ev-S1" class="ref-marker">[S1]</a> tagging Sumanasekara. <a href="https://www.facebook.com/anuradha.perera.7549" target="_blank" style="color:var(--forest)">Facebook</a> <a href="#src-S5" class="ref-marker">[S5]</a> — lives in Boralesgamuwa, from Colombo.</p>
       </div>
     </div>
 
@@ -879,7 +923,7 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="cast-info">
         <span class="role-tag role-tag-whistleblower">Academic / Whistleblower</span>
         <h3>Prabha Manuratne</h3>
-        <p>Published detailed <a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank" style="color:var(--forest)">condemnation on June 29, 2021</a>. Also commented on the March 2026 backlash: <em>"There are at least 2 there."</em></p>
+        <p>Published detailed <a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank" style="color:var(--forest)">condemnation on June 29, 2021</a> <a href="#ev-S3" class="ref-marker">[S3]</a>. Also commented on the March 2026 backlash: <em>"There are at least 2 there."</em> <a href="#src-S4" class="ref-marker">[S4]</a></p>
       </div>
     </div>
 
@@ -888,7 +932,7 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="cast-info">
         <span class="role-tag role-tag-public">Public Accountability</span>
         <h3>Melani Gunathilaka</h3>
-        <p>Shared Anuradha's post calling it "Sri Lankan media continuing the Epstein culture." <a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank" style="color:var(--forest)">View post</a>.</p>
+        <p>Shared Anuradha's post calling it "Sri Lankan media continuing the Epstein culture." <a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank" style="color:var(--forest)">View post</a> <a href="#src-S4" class="ref-marker">[S4]</a>.</p>
       </div>
     </div>
 
@@ -942,11 +986,11 @@ body.sinhala [lang-en-inline] { display: none; }
 
     <div class="integrity-card">
       <h4>Was due diligence conducted?</h4>
-      <p>A basic search for "Vangeesa Sumanasekara" surfaces the sexual harassment allegations immediately. Either due diligence was not performed, or the allegations were knowingly disregarded.</p>
+      <p>A basic search for "Vangeesa Sumanasekara" surfaces the sexual harassment allegations immediately <a href="#ev-S3" class="ref-marker">[S3]</a>. Either due diligence was not performed, or the allegations were knowingly disregarded.</p>
     </div>
     <div class="integrity-card">
       <h4>Was there editorial oversight?</h4>
-      <p>The Sunday Observer is state-owned. Featuring an individual with documented harassment allegations in a Women's Day article raises questions about editorial review at Lake House.</p>
+      <p>The Sunday Observer is state-owned <a href="#src-S11" class="ref-marker">[S11]</a>. Featuring an individual with documented harassment allegations <a href="#ev-S3" class="ref-marker">[S3]</a> in a Women's Day article raises questions about editorial review at Lake House.</p>
     </div>
     <div class="integrity-card">
       <h4>Has there been a response?</h4>
@@ -1066,17 +1110,17 @@ body.sinhala [lang-en-inline] { display: none; }
   <table class="src-table">
     <thead><tr><th>#</th><th>Source</th><th>Type</th><th>Link</th></tr></thead>
     <tbody>
-      <tr><td>S1</td><td>Anuradha Perera's Facebook Post</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/story.php?story_fbid=10239366361167514&id=1540883472" target="_blank">facebook.com</a></td></tr>
-      <tr><td>S2</td><td>Sunday Observer Article</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank">sundayobserver.lk</a></td></tr>
-      <tr><td>S3</td><td>Prabha Manuratne — "Sexual Harassment and Violence"</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank">workingpps.wordpress.com</a></td></tr>
-      <tr><td>S4</td><td>Melani Gunathilaka's Facebook Post</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank">facebook.com</a></td></tr>
-      <tr><td>S5</td><td>Anuradha Perera — Facebook Profile</td><td><span class="src-badge src-secondary">Secondary</span></td><td><a href="https://www.facebook.com/anuradha.perera.7549/about" target="_blank">facebook.com</a></td></tr>
-      <tr><td>S6</td><td>Al Jazeera — Sri Lanka #MeToo (June 2021)</td><td><span class="src-badge src-context">Context</span></td><td><a href="https://www.aljazeera.com/news/2021/6/23/sri-lanka-metoo-newsrooms-women-journalists" target="_blank">aljazeera.com</a></td></tr>
-      <tr><td>S7</td><td>Groundviews — Sumanasekara Author Profile</td><td><span class="src-badge src-secondary">Secondary</span></td><td><a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank">groundviews.org</a></td></tr>
-      <tr><td>S8</td><td>Vincika De Saram — Screenshots (Aug 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank">facebook.com/search</a></td></tr>
-      <tr><td>S9</td><td>Vincika De Saram — March 2026 Callout</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank">facebook.com/search</a></td></tr>
-      <tr><td>S10</td><td>Bentha Max — Sinhala-language post (Dec 2023)</td><td><span class="src-badge src-secondary">Secondary</span></td><td><a href="https://www.facebook.com/search/posts/?q=%E0%B7%80%E0%B6%82%E0%B6%9C%E0%B7%93%E0%B7%82%20%E0%B7%83%E0%B7%94%E0%B6%B8%E0%B6%B1%E0%B7%83%E0%B7%9A%E0%B6%9A%E0%B6%BB" target="_blank">facebook.com/search</a></td></tr>
-      <tr><td>S11</td><td>Sunday Observer — Wikipedia</td><td><span class="src-badge src-context">Context</span></td><td><a href="https://en.wikipedia.org/wiki/Sunday_Observer_(Sri_Lanka)" target="_blank">wikipedia.org</a></td></tr>
+      <tr id="src-S1"><td>S1 <a href="#ev-S1" class="ev-nav-link" style="margin:0">↑</a></td><td>Anuradha Perera's Facebook Post</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/story.php?story_fbid=10239366361167514&id=1540883472" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S2"><td>S2 <a href="#ev-S2" class="ev-nav-link" style="margin:0">↑</a></td><td>Sunday Observer Article</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank">sundayobserver.lk</a></td></tr>
+      <tr id="src-S3"><td>S3 <a href="#ev-S3" class="ev-nav-link" style="margin:0">↑</a></td><td>Prabha Manuratne — "Sexual Harassment and Violence"</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank">workingpps.wordpress.com</a></td></tr>
+      <tr id="src-S4"><td>S4</td><td>Melani Gunathilaka's Facebook Post</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S5"><td>S5</td><td>Anuradha Perera — Facebook Profile</td><td><span class="src-badge src-secondary">Secondary</span></td><td><a href="https://www.facebook.com/anuradha.perera.7549/about" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S6"><td>S6</td><td>Al Jazeera — Sri Lanka #MeToo (June 2021)</td><td><span class="src-badge src-context">Context</span></td><td><a href="https://www.aljazeera.com/news/2021/6/23/sri-lanka-metoo-newsrooms-women-journalists" target="_blank">aljazeera.com</a></td></tr>
+      <tr id="src-S7"><td>S7</td><td>Groundviews — Sumanasekara Author Profile</td><td><span class="src-badge src-secondary">Secondary</span></td><td><a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank">groundviews.org</a></td></tr>
+      <tr id="src-S8"><td>S8 <a href="#ev-S8S9" class="ev-nav-link" style="margin:0">↑</a></td><td>Vincika De Saram — Screenshots (Aug 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank">facebook.com/search</a></td></tr>
+      <tr id="src-S9"><td>S9 <a href="#ev-S8S9" class="ev-nav-link" style="margin:0">↑</a></td><td>Vincika De Saram — March 2026 Callout</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/search/posts/?q=Vangeesa%20Sumanasekara%20women" target="_blank">facebook.com/search</a></td></tr>
+      <tr id="src-S10"><td>S10</td><td>Bentha Max — Sinhala-language post (Dec 2023)</td><td><span class="src-badge src-secondary">Secondary</span></td><td><a href="https://www.facebook.com/search/posts/?q=%E0%B7%80%E0%B6%82%E0%B6%9C%E0%B7%93%E0%B7%82%20%E0%B7%83%E0%B7%94%E0%B6%B8%E0%B6%B1%E0%B7%83%E0%B7%9A%E0%B6%9A%E0%B6%BB" target="_blank">facebook.com/search</a></td></tr>
+      <tr id="src-S11"><td>S11</td><td>Sunday Observer — Wikipedia</td><td><span class="src-badge src-context">Context</span></td><td><a href="https://en.wikipedia.org/wiki/Sunday_Observer_(Sri_Lanka)" target="_blank">wikipedia.org</a></td></tr>
     </tbody>
   </table>
   </div>

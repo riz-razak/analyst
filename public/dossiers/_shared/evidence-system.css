@@ -1,0 +1,97 @@
+/* ===================================================================
+   EVIDENCE SYSTEM — Shared across all dossiers
+   analyst.rizrazak.com
+   Last updated: 2026-03-09
+   =================================================================== */
+
+/* ===== EVIDENCE SOURCE CARDS (always visible inline) ===== */
+.evidence-link {
+  position: relative; cursor: pointer;
+  color: var(--forest, #2d5a27); text-decoration: underline;
+  text-decoration-style: dotted; text-underline-offset: 3px;
+}
+
+.evidence-card {
+  display: block; position: relative; z-index: 1;
+  width: 100%; max-width: 100%;
+  background: var(--sage-mist, #e8f0e2);
+  border-radius: 10px; box-shadow: none;
+  padding: 14px 18px 12px; margin-top: 12px;
+  border-left: 3px solid var(--forest, #2d5a27);
+  font-size: 0.85rem; line-height: 1.5;
+}
+
+.evidence-card .ec-badge {
+  display: inline-block; background: var(--forest, #2d5a27);
+  color: #fff; font-size: 0.7rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 4px; margin-right: 8px;
+  vertical-align: middle; letter-spacing: 0.5px;
+}
+
+.evidence-card .ec-source {
+  font-weight: 600; color: var(--forest, #2d5a27);
+  display: inline; vertical-align: middle;
+}
+
+.evidence-card .ec-quote {
+  display: block; margin-top: 8px;
+  color: #444; font-style: italic;
+}
+
+.evidence-card .ec-meta {
+  display: block; margin-top: 6px;
+  color: var(--text-muted, #888); font-size: 0.75rem;
+}
+
+.evidence-card .ec-tag {
+  display: inline-block; margin-top: 8px;
+  font-size: 0.65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1px;
+  padding: 2px 10px; border-radius: 3px;
+}
+
+/* ===== EVIDENCE CATEGORY TAGS ===== */
+.ec-tag.article     { background: #dbeafe; color: #1e40af; }
+.ec-tag.social      { background: #fce7f3; color: #9d174d; }
+.ec-tag.testimony   { background: #fef3c7; color: #92400e; }
+.ec-tag.primary     { background: #d1fae5; color: #065f46; }
+.ec-tag.commentary  { background: #e0f2fe; color: #0369a1; }
+.ec-tag.official    { background: #e0e7ff; color: #3730a3; }
+.ec-tag.screenshot  { background: #f3e8ff; color: #6b21a8; }
+.ec-tag.media       { background: #fef9c3; color: #854d0e; }
+.ec-tag.document    { background: #f1f5f9; color: #475569; }
+
+/* ===== INLINE REFERENCE MARKERS [SX] ===== */
+.ref-marker {
+  font-size: 0.75em; font-weight: 700;
+  color: var(--forest, #2d5a27); text-decoration: none;
+  vertical-align: super; padding: 0 2px;
+  border-bottom: 1px dotted var(--forest, #2d5a27);
+  cursor: pointer; transition: color 0.2s;
+}
+.ref-marker:hover { color: var(--ember, #c0392b); }
+
+/* ===== EVIDENCE VERDICT BADGES ===== */
+.ev-verdict {
+  display: inline-block; font-size: 0.6rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  padding: 2px 8px; border-radius: 3px; margin-left: 8px;
+  vertical-align: middle;
+}
+.ev-verdict.verified    { background: #d1fae5; color: #065f46; }
+.ev-verdict.documented  { background: #dbeafe; color: #1e40af; }
+.ev-verdict.alleged     { background: #fef3c7; color: #92400e; }
+.ev-verdict.unverified  { background: #fee2e2; color: #991b1b; }
+
+/* ===== EVIDENCE CARD NAVIGATION LINKS ===== */
+.ev-nav-link {
+  display: inline-block; margin-top: 8px; margin-right: 12px;
+  font-size: 0.7rem; color: var(--sage, #7da56d); text-decoration: none;
+  transition: color 0.2s;
+}
+.ev-nav-link:hover { color: var(--forest, #2d5a27); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .evidence-card { padding: 12px 14px 10px; font-size: 0.8rem; }
+}

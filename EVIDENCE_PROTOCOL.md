@@ -84,11 +84,27 @@ Each evidence item gets a **Source ID** (e.g., S1, S2, ...) and a **category tag
 | THE ARTICLE | `.ec-tag.article` | `#dbeafe` | `#1e40af` | Published news articles, features, editorials |
 | SOCIAL MEDIA | `.ec-tag.social` | `#fce7f3` | `#9d174d` | Facebook posts, tweets, Instagram, public shares |
 | TESTIMONY | `.ec-tag.testimony` | `#fef3c7` | `#92400e` | Blog posts, personal accounts, witness statements |
+| COMMENTARY | `.ec-tag.commentary` | `#e0f2fe` | `#0369a1` | Third-person analytical articles, opinion pieces, academic commentary |
 | PRIMARY SOURCE | `.ec-tag.primary` | `#d1fae5` | `#065f46` | Direct evidence from individuals involved |
 | OFFICIAL RECORD | `.ec-tag.official` | `#e0e7ff` | `#3730a3` | Government docs, court filings, official statements |
 | SCREENSHOT | `.ec-tag.screenshot` | `#f3e8ff` | `#6b21a8` | Captured screenshots of conversations, posts, pages |
 | VIDEO/AUDIO | `.ec-tag.media` | `#fef9c3` | `#854d0e` | Video clips, audio recordings, broadcasts |
 | DOCUMENT | `.ec-tag.document` | `#f1f5f9` | `#475569` | PDFs, letters, reports, internal documents |
+
+### 4.3 TESTIMONY vs COMMENTARY
+
+**TESTIMONY** is reserved for first-person accounts by victims or witnesses. **COMMENTARY** is for third-person analytical articles, opinion pieces, or academic writing about events. A journalist writing *about* allegations is commentary; a victim describing *their own experience* is testimony.
+
+### 4.4 Verdict Badges
+
+Every evidence card must carry a verdict badge indicating verification level:
+
+| Verdict | CSS Class | Background | Text Color | Meaning |
+|---------|-----------|------------|------------|---------|
+| VERIFIED | `.ev-verdict.verified` | `#d1fae5` | `#065f46` | Multiple independent sources confirm |
+| DOCUMENTED | `.ev-verdict.documented` | `#dbeafe` | `#1e40af` | Source exists and is accessible |
+| ALLEGED | `.ev-verdict.alleged` | `#fef3c7` | `#92400e` | Claim made but not independently confirmed |
+| UNVERIFIED | `.ev-verdict.unverified` | `#fee2e2` | `#991b1b` | Cannot currently verify |
 
 ### 4.3 Adding New Tags
 To add a new category tag, add CSS to the dossier's `<style>` block:
@@ -108,12 +124,14 @@ Evidence cards are **always-visible inline elements** that appear directly below
 <a class="src-link evidence-link" href="[SOURCE_URL]" target="_blank">
   <span class="preview-dot"></span> [LINK_TEXT] →
 </a>
-<div class="evidence-card">
+<div class="evidence-card" id="ev-[SOURCE_ID]">
   <span class="ec-badge">[SOURCE_ID]</span>
+  <span class="ev-verdict [VERDICT_CLASS]">[VERDICT_LABEL]</span>
   <div class="ec-source">[SOURCE_NAME] — [SOURCE_TYPE]</div>
   <span class="ec-quote">[KEY_QUOTE_OR_DESCRIPTION]</span>
   <span class="ec-meta">[PUBLICATION] &bull; [DATE]</span>
   <span class="ec-tag [CATEGORY_CLASS]">[TAG_LABEL]</span>
+  <a href="#src-[SOURCE_ID]" class="ev-nav-link">View in Source Index ↓</a>
 </div>
 ```
 
@@ -213,7 +231,7 @@ Every dossier must have a Source Index section with a table:
   <table class="src-table">
     <thead><tr><th>#</th><th>Source</th><th>Type</th><th>Link</th></tr></thead>
     <tbody>
-      <tr><td>S1</td><td>[Source Name]</td><td>[Type]</td><td><a href="[URL]">[Short Label]</a></td></tr>
+      <tr id="src-S1"><td>S1 <a href="#ev-S1" class="ev-nav-link" style="margin:0">↑</a></td><td>[Source Name]</td><td>[Type]</td><td><a href="[URL]">[Short Label]</a></td></tr>
       <!-- ... -->
     </tbody>
   </table>
@@ -374,3 +392,28 @@ Each dossier maintains its own evidence count. Track here:
 --radius-lg: 16px;     /* Large card radius */
 --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
 ```
+
+---
+
+## Appendix: Shared Module Files
+
+Evidence system CSS and JS are centralized for all dossiers:
+
+- **`public/dossiers/_shared/evidence-system.css`** — All evidence card styles, category tags, ref-markers, verdict badges, nav links
+- **`public/dossiers/_shared/evidence-system.js`** — Smooth scroll navigation, highlight animations, hash handling
+
+Include in any dossier:
+```html
+<link rel="stylesheet" href="../_shared/evidence-system.css">
+<script src="../_shared/evidence-system.js" defer></script>
+```
+
+---
+
+## Appendix: Cross-References
+
+This protocol works alongside:
+
+- **[ETHICS_PROTOCOL.md](ETHICS_PROTOCOL.md)** — Source protection, victim-centered reporting, censoring, legal compliance
+- **[STRATEGY.md](STRATEGY.md)** — Platform strategy, audience segmentation, theory of change, risk framework
+- **[PROJECT_TRACKER.md](PROJECT_TRACKER.md)** — Living session tracker and task management
