@@ -88,39 +88,51 @@ jobs:
           echo "Deploying Worker: $WORKER_NAME"
           echo "Using KV namespaces: SESSION_STORE=$SESSION_KV_ID, DRAFT_STORE=$DRAFT_KV_ID"
 
-          # Create the metadata JSON for KV bindings
-          cat > /tmp/metadata.json << EOF
-          {
-            "main_module": "index.js",
-            "bindings": [
-              {
-                "type": "kv_namespace",
-                "name": "SESSION_STORE",
-                "namespace_id": "$SESSION_KV_ID"
-              },
-              {
-                "type": "kv_namespace",
-                "name": "DRAFT_STORE",
-                "namespace_id": "$DRAFT_KV_ID"
-              }
-            ]
-          }
-          EOF
+          # Create the metadata JSON for KV bindings (using printf for cleaner output)
+          metadata_json=$(cat <<METADATA
+{
+  "main_module": "index.js",
+  "bindings": [
+    {
+      "type": "kv_namespace",
+      "name": "SESSION_STORE",
+      "namespace_id": "$SESSION_KV_ID"
+    },
+    {
+      "type": "kv_namespace",
+      "name": "DRAFT_STORE",
+      "namespace_id": "$DRAFT_KV_ID"
+    }
+  ]
+}
+METADATA
+)
+
+          # Save metadata to file
+          echo "$metadata_json" > /tmp/metadata.json
+          echo "Metadata JSON created successfully" >&2
 
           # Deploy to Cloudflare Workers with multipart form
-          deploy_response=$(curl -s -X PUT \
+          echo "Sending deployment request..." >&2
+          deploy_response=$(curl -s -w "\n%{http_code}" -X PUT \
             "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/scripts/${WORKER_NAME}" \
             -H "Authorization: Bearer ${AUTH_TOKEN}" \
             -F "metadata=<@/tmp/metadata.json" \
             -F "script=@functions/collaborative-session.js;type=application/javascript")
 
-          echo "Deploy response: $deploy_response"
+          # Extract HTTP code
+          http_code=$(echo "$deploy_response" | tail -n1)
+          body=$(echo "$deploy_response" | sed '$d')
 
-          if echo "$deploy_response" | grep -q '"success":true'; then
+          echo "HTTP Code: $http_code" >&2
+          echo "Deploy response: $body" >&2
+
+          if echo "$body" | grep -q '"success":true'; then
             echo "✓ Worker deployed successfully: $WORKER_NAME"
             echo "Worker URL: https://${WORKER_NAME}.riz-1cb.workers.dev"
           else
-            echo "Deployment failed. Response: $deploy_response"
+            echo "Deployment failed. HTTP Code: $http_code"
+            echo "Response: $body"
             exit 1
           fi
 
