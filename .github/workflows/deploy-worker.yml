@@ -96,27 +96,30 @@ jobs:
           echo "Metadata JSON created successfully" >&2
 
           # Deploy to Cloudflare Workers with multipart form
-          # - metadata part: @file uploads the file; type=application/json required by CF API
-          # - worker.js part name MUST match main_module in metadata
+          # Write curl output to file to avoid set -e killing the script on non-zero exit code
           echo "Sending deployment request..." >&2
-          deploy_response=$(curl -s -w "\n%{http_code}" -X PUT \
+          curl_exit=0
+          curl -s -o /tmp/deploy_body.txt -w "%{http_code}" -X PUT \
             "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/scripts/${WORKER_NAME}" \
             -H "Authorization: Bearer ${AUTH_TOKEN}" \
             -F "metadata=@/tmp/metadata.json;type=application/json" \
-            -F "worker.js=@functions/collaborative-session.js;type=application/javascript+module")
+            -F "worker.js=@functions/collaborative-session.js;type=application/javascript+module" \
+            > /tmp/deploy_http_code.txt 2>/tmp/curl_stderr.txt || curl_exit=$?
 
-          # Extract HTTP code
-          http_code=$(echo "$deploy_response" | tail -n1)
-          body=$(echo "$deploy_response" | sed '$d')
+          http_code=$(cat /tmp/deploy_http_code.txt 2>/dev/null || echo "unknown")
+          body=$(cat /tmp/deploy_body.txt 2>/dev/null || echo "")
+          curl_err=$(cat /tmp/curl_stderr.txt 2>/dev/null || echo "")
 
+          echo "Curl exit code: $curl_exit" >&2
           echo "HTTP Code: $http_code" >&2
           echo "Deploy response: $body" >&2
+          [ -n "$curl_err" ] && echo "Curl stderr: $curl_err" >&2
 
           if echo "$body" | grep -q '"success":true'; then
             echo "✓ Worker deployed successfully: $WORKER_NAME"
             echo "Worker URL: https://${WORKER_NAME}.riz-1cb.workers.dev"
           else
-            echo "Deployment failed. HTTP Code: $http_code"
+            echo "Deployment failed. Curl exit: $curl_exit, HTTP: $http_code"
             echo "Response: $body"
             exit 1
           fi
