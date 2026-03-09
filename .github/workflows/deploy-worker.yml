@@ -31,21 +31,55 @@ jobs:
         run: |
           #!/bin/bash
           set -e
-          
-          echo "Installing wrangler..."
-          npm install -g wrangler
-          
-          echo "Creating SESSION_STORE KV namespace..."
-          wrangler kv namespace create "analyst-session-kv" || echo "Namespace may already exist"
-          
-          echo "Creating DRAFT_STORE KV namespace..."
-          wrangler kv namespace create "analyst-draft-kv" || echo "Namespace may already exist"
-          
-          echo "Deploying Worker..."
-          wrangler deploy \
-            --name analyst-collaborative-cms \
-            --compatibility-date 2025-03-09 \
-            functions/collaborative-session.js
+
+          ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID}"
+          AUTH_TOKEN="${CLOUDFLARE_API_TOKEN}"
+          WORKER_NAME="analyst-collaborative-cms"
+
+          # Function to create KV namespace
+          create_kv_namespace() {
+            local namespace_name=$1
+            echo "Creating KV namespace: $namespace_name"
+
+            response=$(curl -s -X POST \
+              "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/storage/kv/namespaces" \
+              -H "Authorization: Bearer ${AUTH_TOKEN}" \
+              -H "Content-Type: application/json" \
+              -d "{\"title\": \"$namespace_name\"}")
+
+            # Check if namespace already exists or was created
+            if echo "$response" | grep -q '"success":true'; then
+              namespace_id=$(echo "$response" | grep -o '"id":"[^"]*"' | head -1 | cut -d'"' -f4)
+              echo "✓ Namespace created/exists: $namespace_name (ID: $namespace_id)"
+            else
+              echo "Response: $response"
+              echo "Note: Namespace may already exist, continuing..."
+            fi
+          }
+
+          # Create namespaces
+          create_kv_namespace "analyst-session-kv"
+          create_kv_namespace "analyst-draft-kv"
+
+          # Deploy Worker
+          echo "Deploying Worker: $WORKER_NAME"
+
+          # Read the worker script
+          WORKER_SCRIPT=$(cat functions/collaborative-session.js)
+
+          # Deploy to Cloudflare Workers
+          deploy_response=$(curl -s -X PUT \
+            "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/scripts/${WORKER_NAME}" \
+            -H "Authorization: Bearer ${AUTH_TOKEN}" \
+            -H "Content-Type: application/javascript" \
+            --data-binary "@functions/collaborative-session.js")
+
+          if echo "$deploy_response" | grep -q '"success":true'; then
+            echo "✓ Worker deployed successfully: $WORKER_NAME"
+          else
+            echo "Deployment response: $deploy_response"
+            exit 1
+          fi
 
       - name: Verify deployment
         run: |
