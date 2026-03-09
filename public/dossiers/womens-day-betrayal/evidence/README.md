@@ -13,7 +13,8 @@ availability and prevent evidence loss from platform takedowns.
 |------|--------|------|--------------|----------------|
 | vincika-messenger-1.jpg | a682aa04abaf6b6d98982a0e71d02535d4d394dc57e33e89ce4ae6c4cdf35f57 | — | COMPLETE | N/A |
 | vincika-messenger-2.jpg | 3436fca29ecd94a65f89b1215bc651741b83a09f44a6d5ad41e5a6f8293c73ef | — | COMPLETE | N/A |
-| vincika-screen-recording.mp3 | 1341588a153ba99eda5055688e01802a05441812cba12a84f4ccf7618ae72040 | 308K | COMPLETE | ⚠️ NOT REVIEWED — audio content pending verification |
+| vincika-screen-recording.mp4 | 38a314fe6e02d72fd48d89635586843291e8e407f3347ad35cc47e2891a3b2cb | 1.5M | COMPLETE | ⚠️ NOT REVIEWED — video content pending verification |
+| father-son-6.jpg | 48596e1400ae9631e9a2b444258efc01565d16581ebf97d6397d60c0c740a092 | 116K | COMPLETE | N/A |
 | sandali-messenger-1.jpg | bebb4d91b5025af5cfa038bc1cf4dc603dc0e6501124929b7417e235538a5ce5 | — | COMPLETE | N/A |
 | sandali-messenger-2.jpg | 9dfa71b989534178505019aa1849669fea69d5cf0ca51dab4ebe918a1c4705e9 | — | COMPLETE | N/A |
 | sandali-messenger-3.jpg | 1c9a0abe31a999ee9e9d5e2efde846b97022221e6bfa1fe410278ccf4af55f90 | — | COMPLETE | N/A |
@@ -41,11 +42,12 @@ availability and prevent evidence loss from platform takedowns.
 - Content: Continuation of same conversation; 23:04 timestamp
 - Sequence: "Not like this! I want to meet you first!" → "seriously! Are you kidding me? Why on earth would I want to meet you?" → "I don't know. I actually don't know how I met you 🙂" → "If you don't mind - tell me, how will you show me your pussy?" → "Wtf! Get lost psycho!" → "🙂 okay" → BLOCKED
 
-**vincika-screen-recording.mp3** — COMPLETE (file); ⚠️ AUDIO CONTENT NOT REVIEWED
-- File type confirmed: MPEG ADTS Layer III, 128kbps, 44.1kHz, Stereo
-- Duration: ~19 seconds at 128kbps
-- Received as: "Vincika De Saram-Vagneesa screen rec.mp3"
-- Audio content: NOT yet reviewed. Do not describe or quote audio in dossier until reviewed.
+**vincika-screen-recording.mp4** — COMPLETE (file); ⚠️ VIDEO CONTENT NOT REVIEWED
+- File type confirmed: ISO Media, MP4 Base Media v1 [ISO 14496-12:2003]
+- Size: 1.5MB
+- Originally named .mp3 — confirmed to be a video file via `file` command; renamed to .mp4
+- Received as: "Vincika De Saram-Vagneesa screen rec.mp3" → renamed to vincika-screen-recording.mp4
+- Video content: NOT yet reviewed. Do not describe or quote content in dossier until reviewed.
 
 ---
 
@@ -102,13 +104,30 @@ availability and prevent evidence loss from platform takedowns.
 
 ---
 
+---
+
+### Subject Identity Context [UNVERIFIED]
+
+**father-son-6.jpg** — COMPLETE (file); ⚠️ IDENTITY UNVERIFIED
+- File type confirmed: JPEG image, JFIF 1.01, 800×500px, 96 DPI
+- Size: 116KB
+- Content: Composite side-by-side photo. Left: older man (white shirt, short beard). Right: younger man with full beard, appears to be at a press event or public forum.
+- Source: Provided by editor with reference to Facebook (https://www.facebook.com/share/p/1c9TYyse2Z/) and maruwaxx WordPress (2021 post)
+- Identity claim: Editor asserts this is Vangeesa Sumanasekara (right) and his father (left)
+- Status: UNVERIFIED — identity cannot be independently confirmed from image alone without captions or corroborating sources
+- Web research note: "Gamini Sumanasekara" identified in web searches as a veteran journalist and State Literary Advisory Board member in Sri Lanka — possible match for father, but NOT confirmed
+- Do NOT identify persons in dossier until identity is independently confirmed with a primary source (e.g., caption, family confirmation, official document)
+
+---
+
 ## Outstanding Evidence Gaps
 
 - [ ] Madhubhashini R. Rathnayaka full comment (partial screenshot)
 - [ ] Geethika Dharmasinghe full post (truncated at "See more")
-- [ ] vincika-screen-recording.mp3 — audio content review needed
+- [ ] vincika-screen-recording.mp4 — video content review needed
 - [ ] Sandali Costa messenger screenshots — professional Sinhala translation needed
-- [ ] Identity of the "father" referenced in Vincika's callout — not yet confirmed in evidence
+- [ ] Identity of the "father" in father-son-6.jpg — must be independently confirmed before naming in dossier
+- [ ] Facebook source for father-son-6.jpg (https://www.facebook.com/share/p/1c9TYyse2Z/) — not yet accessible/archived
 
 ## Capture Dates
 Received: 2026-03-09
