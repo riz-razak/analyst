@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Form Was Empty — Anatta, Bamiyan, and the Doctrine of Non-Self</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400;1,8..60,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5ed;
+  --bg-warm: #f0ece0;
+  --bg-card: #ffffff;
+  --bg-card-alt: #faf8f2;
+  --bg-dark: #1a1a12;
+  --forest: #2d5a27;
+  --forest-deep: #1a3a15;
+  --moss: #4a7c3f;
+  --sage: #7da56d;
+  --sage-light: #c5ddb8;
+  --sage-mist: #e8f0e2;
+  --blood: #8b1a1a;
+  --amber: #92400e;
+  --amber-light: #fef3c7;
+  --gold: #a67c00;
+  --gold-light: #fef9e7;
+  --dust: #9b8b6e;
+  --dust-light: #f5f0e8;
+  --stone: #6b7280;
+  --stone-light: #f3f4f6;
+  --text: #1a1a1a;
+  --text-secondary: #4a4a4a;
+  --text-muted: #7a7a6e;
+  --border: #d4d0c4;
+  --border-green: #b8cfab;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+.si { font-family: var(--font-sinhala); }
+
+/* ===== LANGUAGE TOGGLE ===== */
+[lang-si] { display: none; }
+body.sinhala [lang-en] { display: none; }
+body.sinhala [lang-si] { display: block; }
+body.sinhala [lang-si-inline] { display: inline; }
+body.sinhala [lang-en-inline] { display: none; }
+[lang-si-inline] { display: none; }
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(247,245,237,0.88); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px; transition: all 0.3s;
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.nav-brand { font-weight: 800; font-size: 0.8rem; color: var(--forest); letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; }
+.nav-links { display: flex; gap: 2px; overflow-x: auto; }
+.nav-links a {
+  color: var(--text-muted); text-decoration: none; font-size: 0.72rem;
+  padding: 6px 10px; border-radius: 6px; transition: all 0.2s;
+  font-weight: 600; white-space: nowrap;
+}
+.nav-links a:hover { color: var(--forest); background: var(--sage-mist); }
+.lang-btn {
+  background: var(--sage-mist); color: var(--forest); border: 1px solid var(--border-green);
+  padding: 6px 14px; border-radius: 8px; font-size: 0.75rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.lang-btn:hover { background: var(--forest); color: #fff; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+
+/* Mobile hamburger */
+.mobile-menu-btn {
+  display: none; background: none; border: none; cursor: pointer;
+  padding: 6px; flex-direction: column; gap: 5px;
+}
+.mobile-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+.mobile-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
+.mobile-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-drawer {
+  display: none; position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
+  background: rgba(247,245,237,0.98); z-index: 999; padding: 20px;
+  flex-direction: column; gap: 4px; overflow-y: auto;
+}
+.mobile-drawer.open { display: flex; }
+.mobile-drawer a {
+  color: var(--text); text-decoration: none; font-size: 1.05rem; font-weight: 600;
+  padding: 14px 16px; border-radius: 10px; transition: background 0.2s;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-drawer a:hover { background: var(--sage-mist); color: var(--forest); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .mobile-menu-btn { display: flex; }
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #1a1a12 0%, #2a2018 30%, #1e1610 60%, #0d0d08 100%);
+  overflow: hidden;
+  padding: 100px 20px 60px;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(166,124,0,0.12) 0%, transparent 65%);
+}
+.hero-niche {
+  position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: min(600px, 90vw); height: 55%;
+  background: linear-gradient(to top, rgba(92,69,35,0.15) 0%, transparent 100%);
+  border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+  border-top: 2px solid rgba(166,124,0,0.15);
+  border-left: 2px solid rgba(166,124,0,0.08);
+  border-right: 2px solid rgba(166,124,0,0.08);
+  pointer-events: none;
+}
+.hero-content { position: relative; z-index: 1; max-width: 780px; }
+.hero-badge {
+  display: inline-block;
+  background: rgba(166,124,0,0.2); color: #d4a843;
+  border: 1px solid rgba(166,124,0,0.35);
+  padding: 6px 18px; border-radius: 20px; font-size: 0.68rem;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 28px;
+}
+.hero h1 {
+  font-family: var(--font-serif); font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 800; color: #f5f0e0; line-height: 1.08;
+  margin-bottom: 12px; letter-spacing: -0.01em;
+}
+.hero h1 em { font-style: italic; color: #d4a843; }
+.hero-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem); color: rgba(245,240,224,0.65);
+  font-family: var(--font-serif); font-style: italic;
+  margin-bottom: 40px; line-height: 1.6;
+}
+.hero-meta {
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  font-size: 0.78rem; color: rgba(245,240,224,0.45);
+  flex-wrap: wrap;
+}
+.hero-meta-sep { opacity: 0.3; }
+.hero-scroll {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  color: rgba(245,240,224,0.3); font-size: 0.7rem; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: fadeInUp 2s ease-out 1s both;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.hero-scroll::after {
+  content: '';
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, rgba(245,240,224,0.3), transparent);
+}
+
+/* ===== STAT BAR ===== */
+.stat-bar {
+  background: var(--bg-dark);
+  padding: 28px 20px;
+  display: flex; justify-content: center;
+}
+.stat-bar-inner {
+  max-width: 860px; width: 100%;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0; text-align: center;
+}
+.stat-item {
+  padding: 8px 20px;
+  border-right: 1px solid rgba(245,240,224,0.1);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: 2.4rem; font-weight: 800;
+  color: #d4a843; line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label { font-size: 0.68rem; color: rgba(245,240,224,0.45); text-transform: uppercase; letter-spacing: 0.08em; }
+@media (max-width: 600px) {
+  .stat-bar-inner { grid-template-columns: repeat(2, 1fr); }
+  .stat-item { border-bottom: 1px solid rgba(245,240,224,0.1); }
+  .stat-item:nth-child(2n) { border-right: none; }
+  .stat-item:nth-last-child(-n+2) { border-bottom: none; }
+}
+
+/* ===== SECTION BASE ===== */
+.section {
+  padding: 80px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.section:last-of-type { border-bottom: none; }
+.section-inner { max-width: 760px; margin: 0 auto; }
+
+.section-label {
+  font-size: 0.68rem; font-weight: 800; color: var(--dust);
+  text-transform: uppercase; letter-spacing: 0.15em;
+  margin-bottom: 12px;
+}
+.section h2 {
+  font-family: var(--font-serif); font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 800; color: var(--forest-deep); line-height: 1.15;
+  margin-bottom: 32px;
+}
+
+/* ===== PROSE ===== */
+.prose p {
+  font-family: var(--font-serif);
+  font-size: 1.1rem; color: var(--text-secondary);
+  line-height: 1.85; margin-bottom: 22px;
+}
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--text); font-weight: 700; }
+.prose em { font-style: italic; }
+.prose a { color: var(--forest); text-decoration: underline; text-decoration-color: var(--sage-light); }
+.prose a:hover { color: var(--forest-deep); }
+
+/* ===== PULL QUOTE ===== */
+.pull-quote {
+  border-left: 4px solid var(--gold);
+  padding: 24px 28px; margin: 40px 0;
+  background: var(--gold-light);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.pull-quote blockquote {
+  font-family: var(--font-serif); font-size: 1.25rem;
+  font-style: italic; color: var(--text);
+  line-height: 1.65; margin-bottom: 10px;
+}
+.pull-quote cite {
+  font-size: 0.78rem; color: var(--text-muted);
+  font-style: normal; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* ===== PULL QUOTE DARK (for dark sections) ===== */
+.pull-quote-stone {
+  border-left: 4px solid rgba(166,124,0,0.5);
+  padding: 24px 28px; margin: 40px 0;
+  background: rgba(245,240,224,0.04);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.pull-quote-stone blockquote {
+  font-family: var(--font-serif); font-size: 1.25rem;
+  font-style: italic; color: rgba(245,240,224,0.85);
+  line-height: 1.65; margin-bottom: 10px;
+}
+.pull-quote-stone cite {
+  font-size: 0.78rem; color: rgba(245,240,224,0.4);
+  font-style: normal; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* ===== DARK SECTION ===== */
+.section-dark {
+  background: var(--bg-dark);
+  padding: 80px 20px;
+  border-bottom: none;
+}
+.section-dark .section-label { color: rgba(212,168,67,0.6); }
+.section-dark h2 { color: #f5f0e0; }
+.section-dark .prose p { color: rgba(245,240,224,0.7); }
+.section-dark .prose strong { color: rgba(245,240,224,0.95); }
+
+/* ===== OBJECTION CARD ===== */
+.objection-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 28px; margin: 20px 0;
+  box-shadow: var(--shadow);
+}
+.objection-card h4 {
+  font-size: 0.78rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--blood); margin-bottom: 10px;
+}
+.objection-card h5 {
+  font-family: var(--font-serif); font-size: 1.05rem; font-weight: 700;
+  color: var(--text); margin-bottom: 10px;
+}
+.objection-card p {
+  font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;
+}
+.objection-response {
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.88rem; color: var(--forest); line-height: 1.7;
+}
+.objection-response strong { color: var(--forest-deep); }
+
+/* ===== SOURCE LIST ===== */
+.source-list { list-style: none; }
+.source-list li {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.source-list li:last-child { border-bottom: none; }
+.source-num {
+  font-family: var(--font-serif); font-weight: 800; color: var(--dust);
+  font-size: 0.85rem; min-width: 28px; padding-top: 2px;
+}
+.source-body strong { display: block; font-size: 0.92rem; color: var(--text); margin-bottom: 2px; }
+.source-body span { font-size: 0.82rem; color: var(--text-muted); }
+.source-body a { color: var(--forest); font-size: 0.82rem; }
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--bg-dark); color: rgba(245,240,224,0.45);
+  text-align: center; padding: 40px 20px;
+  font-size: 0.8rem; line-height: 1.8;
+}
+.footer a { color: rgba(245,240,224,0.55); text-decoration: none; }
+.footer a:hover { color: rgba(245,240,224,0.85); }
+
+/* ===== BACK LINK ===== */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.78rem; font-weight: 600; color: var(--text-muted);
+  text-decoration: none; margin-bottom: 20px;
+  padding: 6px 12px 6px 8px;
+  border-radius: 8px; transition: all 0.2s;
+}
+.back-link:hover { background: var(--sage-mist); color: var(--forest); }
+
+/* ===== DIVIDER ===== */
+.divider {
+  text-align: center; color: var(--dust); font-size: 1.2rem;
+  margin: 40px 0; opacity: 0.4;
+  letter-spacing: 0.5em;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .section { padding: 56px 20px; }
+  .section h2 { font-size: 1.7rem; }
+  .prose p { font-size: 1rem; }
+  .pull-quote blockquote { font-size: 1.05rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-brand">Analyst</a>
+    <div class="nav-links">
+      <a href="#niches" lang-en>The Niches</a>
+      <a href="#niches" lang-si class="si" style="display:none">ශූන්‍ය ගල්</a>
+      <a href="#teaching" lang-en>The Teaching</a>
+      <a href="#teaching" lang-si class="si" style="display:none">ශාසනය</a>
+      <a href="#paradox" lang-en>The Paradox</a>
+      <a href="#paradox" lang-si class="si" style="display:none">විරෝධාභාසය</a>
+      <a href="#quantum" lang-en>Quantum</a>
+      <a href="#quantum" lang-si class="si" style="display:none">ක්වොන්ටම්</a>
+      <a href="#objections" lang-en>Objections</a>
+      <a href="#objections" lang-si class="si" style="display:none">විරෝධ</a>
+      <a href="#buddhaghosa" lang-en>Buddhaghosa</a>
+      <a href="#buddhaghosa" lang-si class="si" style="display:none">බුද්ධඝෝෂ</a>
+      <a href="#return" lang-en>The Return</a>
+      <a href="#return" lang-si class="si" style="display:none">ආපසු</a>
+      <a href="#sources" lang-en>Sources</a>
+      <a href="#sources" lang-si class="si" style="display:none">ප්‍රභවයන්</a>
+    </div>
+    <div class="nav-right">
+      <button class="lang-btn" onclick="toggleLang(this)" id="lang-toggle-btn" aria-label="Toggle language">සිංහල</button>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu(this)" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="#niches" onclick="closeMobileMenu()">The Niches / ශූන්‍ය ගල්</a>
+  <a href="#teaching" onclick="closeMobileMenu()">The Teaching / ශාසනය</a>
+  <a href="#paradox" onclick="closeMobileMenu()">The Paradox / විරෝධාභාසය</a>
+  <a href="#quantum" onclick="closeMobileMenu()">Quantum / ක්වොන්ටම්</a>
+  <a href="#objections" onclick="closeMobileMenu()">Objections / විරෝධ</a>
+  <a href="#buddhaghosa" onclick="closeMobileMenu()">Buddhaghosa / බුද්ධඝෝෂ</a>
+  <a href="#return" onclick="closeMobileMenu()">The Return / ආපසු</a>
+  <a href="#sources" onclick="closeMobileMenu()">Sources / ප්‍රභවයන්</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-niche"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-cms-id="hero-badge">Philosophical Dossier</div>
+    <h1 data-cms-id="hero-title-en" lang-en>The Form<br><em>Was Empty</em></h1>
+    <h1 data-cms-id="hero-title-si" lang-si class="si" style="display:none">රූපය<br><em>ශූන්‍ය විය</em></h1>
+    <p class="hero-subtitle" data-cms-id="hero-subtitle-en" lang-en>
+      Anatta, the Buddhas of Bamiyan,<br>and the doctrine that annihilated the self<br>before any bomb could reach it
+    </p>
+    <p class="hero-subtitle si" data-cms-id="hero-subtitle-si" lang-si style="display:none">
+      අනාත්ම, බාමියාන් බුද්ධ ප්‍රතිමා,<br>සහ කිසිදු බෝම්බයකට ළඟා වීමට<br>පෙර ආත්මය නිෂේධ කළ ශාසනය
+    </p>
+    <div class="hero-meta">
+      <span data-cms-id="hero-date-en" lang-en>March 2026</span>
+      <span data-cms-id="hero-date-si" lang-si class="si" style="display:none">මාර්තු 2026</span>
+      <span class="hero-meta-sep">·</span>
+      <span>Riz Razak</span>
+      <span class="hero-meta-sep">·</span>
+      <span lang-en>8 sections</span>
+      <span lang-si class="si" style="display:none">කොටස් 8</span>
+    </div>
+  </div>
+  <div class="hero-scroll">scroll</div>
+</section>
+
+<!-- ===== STAT BAR ===== -->
+<div class="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-item">
+      <div class="stat-num" data-cms-id="stat-years">~1,500</div>
+      <div class="stat-label" lang-en data-cms-id="stat-years-label">Years They Stood</div>
+      <div class="stat-label si" lang-si style="display:none">ඔවුන් නිශ්ශලව සිටි කාලය</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-cms-id="stat-height">55m</div>
+      <div class="stat-label" lang-en data-cms-id="stat-height-label">Tallest Buddha</div>
+      <div class="stat-label si" lang-si style="display:none">විශාලම බුද්ධ ප්‍රතිමාව</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-cms-id="stat-anatta">2,500+</div>
+      <div class="stat-label" lang-en data-cms-id="stat-anatta-label">Years of Anatta</div>
+      <div class="stat-label si" lang-si style="display:none">අනාත්ම ශාසනයේ වයස</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-cms-id="stat-remains" style="font-size:1.5rem; padding-top:8px;">The question</div>
+      <div class="stat-label" lang-en data-cms-id="stat-remains-label">What Remains</div>
+      <div class="stat-label si" lang-si style="display:none">ඉතිරි වූ දේ</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SECTION 1: THE EMPTY NICHES ===== -->
+<section class="section" id="niches">
+  <div class="section-inner">
+    <a href="/" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Analyst
+    </a>
+    <div class="section-label" lang-en data-cms-id="s1-label-en">Section 01</div>
+    <div class="section-label si" lang-si style="display:none" data-cms-id="s1-label-si">කොටස 01</div>
+    <h2 data-cms-id="s1-h2-en" lang-en>The Empty Niches</h2>
+    <h2 data-cms-id="s1-h2-si" lang-si class="si" style="display:none">ශූන්‍ය ගල් කුළු</h2>
+
+    <div class="prose">
+      <p lang-en>In the Bamiyan Valley of central Afghanistan, carved into a sandstone cliff face, two enormous niches now stand empty. For roughly fifteen centuries — from approximately the fifth or sixth century CE until March 2001 — they held the two largest standing Buddhas in the world: Salsal, at 55 metres, and Shahmama, at 38. Pilgrims, merchants travelling the Silk Road, and scholars came to see them. The Chinese monk Xuanzang, who visited in 630 CE, described them as radiant with gold leaf and precious gems.</p>
+      <p lang-si class="si" style="display:none">ඇෆ්ගනිස්ථානයේ මධ්‍යම හිතාවළිය, බාමියාන් නිම්නයේ, වැලිගල් කලුවරකට කැපූ දෙකක් ශූන්‍ය ගල් කුළු දැන් හිස්ව පවතී. ක්‍රි.ව. 5 හෝ 6 සියවසේ සිට 2001 මාර්තු දක්වා, ශතවර්ෂ 15 ක් පමණ — ලෝකයේ ලොකුම සිරිබෝ ප්‍රතිමා දෙකක් ඒවා දරා සිටියේය: 55m ්ශාල්සාල් සහ 38m ශාහ්මාමා. සිල්ක් රොඩ් ඔස්සේ ගිය වන්දනාකරුවන්, වෙළෙඳුන්, සහ ශාස්ත්‍රීය දෙනා ඒවා බැලීමට පැමිණියහ.</p>
+
+      <div class="pull-quote">
+        <blockquote>"To the north-east of the royal city there is a mountain, on the declivity of which is placed a stone figure of Buddha, erect, in height 140 or 150 feet. Its golden hues sparkle on every side."</blockquote>
+        <cite>— Xuanzang, Record of Western Regions, 630 CE</cite>
+      </div>
+
+      <p lang-en>In March 2001, the Taliban Supreme Leader Mullah Omar issued an edict declaring all statues in Afghanistan to be idols and ordering their destruction. Over three weeks, soldiers fired tanks and artillery at the Buddhas, drilled holes into them, packed the cavities with dynamite, and detonated them. Local Hazara people were forced to assist under threat of execution. On March 9, the larger Salsal fell. On March 12, Shahmama followed.</p>
+      <p lang-si class="si" style="display:none">2001 මාර්තු මාසයේ, තාලිබාන් ශ්‍රේෂ්ඨ නායක මුල්ලා ඔමර් ඇෆ්ගනිස්ථානයේ සියලු ප්‍රතිමා දෙව්රූ ලෙස ප්‍රකාශ කොට, ඒවා විනාශ කිරීමට ෆර්වා නිකුත් කළේය. සතියන් තුනක් තිස්සේ, රථවාහන සහ ආයුධ ප්‍රහාරක කළ, කොරිදෝරු සිදුරු සෑදූ, ගිනිකූරු ඇතුළු කළ, ගිනිගැන්වූ. 2001 මාර්තු 9 දා විශාල ශාල්සාල් බිම ගිලිහිණ. මාර්තු 12 දා ශාහ්මාමා ද.</p>
+
+      <p lang-en>What the Taliban intended as erasure produced something unexpected: the empty niches became, in the years that followed, perhaps more eloquent than the Buddhas themselves had been. The void held the shape of what was gone. The cliff face remembered. Visitors wept not at something present but at the precise geometry of an absence.</p>
+      <p lang-si class="si" style="display:none">තාලිබානය මකා දැමීමේ ක්‍රියාවක් ලෙස සිතූ දේ, ඊට පස්සේ, ප්‍රතිමාවන් ව ඉතා හොඳින් ප්‍රකාශ කළ දෙයක් බිහිකළේය: ශූන්‍ය ගල් කුළු. ශූන්‍යය, ගිය දේ ආකාරය දරාගෙන සිටියේය. ගල්කාත්ත මතකය රැකගත්තේය. නැතිවූ ආකාරයේ නිශ්චිත ජ්‍යාමිතිය ගැන, ඇතිවූ දෙයක් ගැන නොව, නැතිවූ දෙය ගැන — ඒ ශූන්‍යය ගැනම — වන්දනාකරුවන් කඳුළු හෙළීය.</p>
+
+      <p lang-en>This is not a political dossier. What follows is an attempt to think alongside that emptiness — to trace what Buddhist philosophy calls <em>anatta</em> (non-self), and to ask what the empty niches might teach us about the nature of form, identity, and what persists when matter is gone.</p>
+      <p lang-si class="si" style="display:none">මෙය දේශපාලන ලේඛනයක් නොවේ. ඊළඟ සිදුවන්නේ ඒ ශූන්‍යත්වය සමඟ සිතීමේ උත්සාහයකි — බෞද්ධ දර්ශනය <em>අනාත්ම</em> ලෙස හඳුන්වන දෙය සොයා, රූපය, අනන්‍යතාව, සහ ද්‍රව්‍ය ගිය විට ශේෂ වන දේ ගැන ශූන්‍ය ගල් කුළු අපට කුමක් ඉගැන්විය හැකිද යන්න ප්‍රශ්නනීය කිරීමකි.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2: THE TEACHING ===== -->
+<section class="section" id="teaching" style="background: var(--bg-card-alt);">
+  <div class="section-inner">
+    <div class="section-label" lang-en data-cms-id="s2-label-en">Section 02</div>
+    <div class="section-label si" lang-si style="display:none" data-cms-id="s2-label-si">කොටස 02</div>
+    <h2 data-cms-id="s2-h2-en" lang-en>The Teaching</h2>
+    <h2 data-cms-id="s2-h2-si" lang-si class="si" style="display:none">ශාසනය</h2>
+
+    <div class="prose">
+      <p lang-en>The Buddha taught three marks of existence: <em>anicca</em> (impermanence), <em>dukkha</em> (suffering or unsatisfactoriness), and <em>anatta</em> (non-self). Of these, anatta is the most radical and the most frequently misunderstood. It does not say you do not exist. It says the thing you call "self" — the apparently coherent, continuous "I" at the centre of experience — is not a fixed entity but a process.</p>
+      <p lang-si class="si" style="display:none">බුදුරදුන් පැවත්ම ලෙස ත්‍රිලක්ෂණය ඉගැන්වූ සේක: <em>අනිච්ච</em> (අනිත්‍යත්වය), <em>දුක්ක</em> (දුක), සහ <em>අනාත්ම</em> (ආත්මය නොමැතිකම). මෙයින් අනාත්ම ශාසනය වඩාත් රැඩිකල් සහ බොහෝ දෙනා නොතේරෙන ශාසනයයි. "ඔබ නොපවතී" යනු මෙය නොකියයි. "ආත්මය" ලෙස ඔබ හඳුන්වන දේ — පළල් නොකළ, අඛණ්ඩ "මම" — ස්ථිර ජීවිතාත්මකයක් නොව ක්‍රියාවලියකි.</p>
+
+      <div class="pull-quote">
+        <blockquote>"O monks, form is not self. Were form self, then form would not lead to affliction, and one could have it of form: 'Let my form be thus, let my form be not thus.'"</blockquote>
+        <cite>— Anattalakkhaṇa Sutta, SN 22.59 (the Buddha's first discourse on non-self)</cite>
+      </div>
+
+      <p lang-en>In the Pali tradition, what we call the "self" is analysed as five aggregates (<em>khandhas</em>): rūpa (form/body), vedanā (feeling tone), saññā (perception), saṅkhāra (mental formations), and viññāṇa (consciousness). None of these is permanent. None belongs to you in any ultimate sense. None, either singly or collectively, constitutes a self. The Buddha asks: look carefully at each one. Is it stable? Is it under your control? Can it be truly "yours"?</p>
+      <p lang-si class="si" style="display:none">පාලි ශාස්ත්‍රයේ, "ආත්මය" ලෙස හඳුන්වන දේ පඤ්ච ස්කන්ධ ලෙස විශ්ලේෂණය කෙරේ: රූප (ශරීරය), වේදනා (හැඟීම), සඤ්ඤා (ජ්‍ञාpsyana), සංඛාර (සිත් ව්‍යාපාර), සහ විඤ්ඤාණ (ස්ව-ශ්‍රාවකත්වය). මෙයින් එකක්වත් ස්ථිර නොවේ. මෙයින් එකක් ඔබට අවසාන අර්ථයෙන් අයිති නොවේ. එකෙකක්ද, සියල්ලද, ආත්මය සෑදිය නොහැකිය. ඔවා ගැනම ලෝකය ගවේෂණය කරන ලෙස බුදුරදුන් ඉල්ලා සිටිතිය: ස්ථිරද? ඔබේ පාලනය යටතේ ද? ඔබේ ලෙස සැබවින්ම හැඳිනගත හැකිද?</p>
+
+      <p lang-en>This is not nihilism. The Buddha was careful to distinguish anatta from the view that nothing exists. The teaching is more subtle: there is experience, there is continuity, there is cause and effect — but the "experiencer" at the centre is a convention, not a substance. Like a river: it flows, it has banks, fish live in it, boats travel on it — but there is no unchanging water that constitutes "the river."</p>
+      <p lang-si class="si" style="display:none">මෙය ශූන්‍යවාදය නොවේ. "කිසිම දෙයක් නොපවතී" යන දෘෂ්ටියෙන් අනාත්ම ශාසනය වෙනස් කරන්නට බුදුරදුන් ප්‍රවේශමෙන් සිටිය සේක. ශාසනය ඊට වඩා සූක්ෂ්ම: අනුභවය ඇත, අඛණ්ඩතාව ඇත, හේතු-ඵල ඇත — නමුත් මධ්‍යයේ "අනුභව කරන්නා" ව්‍යවහාරයක් මිස ද්‍රව්‍යයක් නොවේ. ගඟක් ලෙස: ගලා යයි, ඉවුරු ඇත, මත්ස්‍යයන් ජීවත් වෙති, බෝට්ටු ගමන් යයි — නමුත් "ගඟ" සාදන නොවෙනස් ජලයක් නොමැත.</p>
+
+      <div class="divider">· · ·</div>
+
+      <p lang-en>The Buddhas of Bamiyan were made of stone, stucco, and plaster — forms constructed by human hands, maintained by human devotion. They were, in Buddhist terms, precisely what they depicted: compounded things, subject to change and dissolution. The teaching embodied in them contained its own disenchantment.</p>
+      <p lang-si class="si" style="display:none">බාමියාන් බුද්ධ ප්‍රතිමා ගල්, සිමෙන්ති, සහ ලිතාගෙ සෑදූ — මිනිස් අත් ගොඩනගා, මිනිස් භක්තිය පාලිත කළ රූපයන්. ඒවා, බෞද්ධ ශාස්ත්‍රයේ, ඔවා නිරූපණය කළ දේ හරිම: සංස්කාර ධර්ම, වෙනසට සහ ශිථිලීකාරණයට යටත්. ඔවුන් නිරූපණය කළ ශාසනය ම ඔවුන්ගේ පරිහාණිය ඇතුළත් කළේය.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3: THE PARADOX ===== -->
+<section class="section-dark" id="paradox">
+  <div class="section-inner">
+    <div class="section-label" lang-en data-cms-id="s3-label-en">Section 03</div>
+    <div class="section-label si" lang-si style="display:none" data-cms-id="s3-label-si">කොටස 03</div>
+    <h2 data-cms-id="s3-h2-en" lang-en>The Paradox</h2>
+    <h2 data-cms-id="s3-h2-si" lang-si class="si" style="display:none">විරෝධාභාසය</h2>
+
+    <div class="prose">
+      <p lang-en>Here is the paradox the Taliban created, and perhaps did not fully see: they destroyed the Buddhas to assert the permanence of an identity — a theological position, a political power, a self called "Taliban." But the doctrine encoded in the statues holds that no such permanent self exists. They used a self to attack non-self. The assertion collapsed its own premise.</p>
+      <p lang-si class="si" style="display:none">තාලිබානය බිහිකළ, සහ සමහරවිට සම්පූර්ණයෙන් නොදැක්ක, විරෝධාභාසය මෙයයි: ප්‍රතිමා කැඩීමෙන් ස්ථිර අනන්‍යතාවක් ප්‍රකාශ කිරීමට ගොස් — ධාර්මික තාර්කිකයක්, දේශපාලන බලයක්, "තාලිබාන්" නම් ආත්මයක් — නමුත් ප්‍රතිමාවල ශාසනය ස්ථිර ආත්මයක් නොමැතිය කියයි. ආත්ම-රහිත ශාසනයට ප්‍රහාරයට ආත්මය භාවිතා කළේය. ප්‍රකාශනය ම ප්‍රකාශනය කළ පෝෂ්‍ය ගිනිදෙදෙනා.</p>
+
+      <div class="pull-quote-stone">
+        <blockquote>"If there is no self, who destroyed the Buddhas? And if there is no self, who do we grieve for — the statues, or the grievers?"</blockquote>
+        <cite>— A question worth sitting with</cite>
+      </div>
+
+      <p lang-en>There is a further twist. The soldiers who carried out the destruction were — according to the very doctrine they were erasing — not fixed selves but streams of conditioned experience. They were also impermanent. They were also compounded. The Taliban edict identified an enemy: idolatry. But anatta dissolves the idea of a fixed enemy as thoroughly as it dissolves the idea of a fixed self.</p>
+      <p lang-si class="si" style="display:none">ඊළඟ ව්‍යාකූලතාවකි. ව්‍යසනය ක්‍රියාත්මක කළ සෙනඟ — ඔවුන් මකමින් සිටි ශාසනය අනුව — ස්ථිර ආත්ම නොව, කොන්දේසි ගත් අනුභව සධාරාව. ඔවුත් අනිත්‍ය ය. ඔවුත් සංස්කාර ය. තාලිබාන් ෆර්වා සතුරා හඳුනාගත්තේය: ගල්දෙව් වන්දනාව. නමුත් අනාත්ම, ස්ථිර ශ්‍රේෂ්ඨ ආත්ම ශාසනය ලෙස ස්ථිර සතුරෙකු ගැන හිතීම ද නිෂේධ කරයි.</p>
+
+      <p lang-en>The empty niches, standing today in the cliff at Bamiyan, are not simply the absence of the Buddhas. They are a record of the event — the form of what was lost, preserved in stone. They are, in some sense, more powerful than the Buddhas were, because they cannot be destroyed without destroying the cliff itself. The Taliban's act of negation created a form of permanence it did not intend.</p>
+      <p lang-si class="si" style="display:none">අද බාමියාන් ගල්කාත්තේ නිශ්ශලව සිටින ශූන්‍ය ගල් කුළු, ප්‍රතිමා නොමැතිකම ලෙස සරලව නොවේ. ඒවා සිදුවීමේ වාර්තාවකි — නැතිවූ දේ රූපය, ගල්හි ගබඩා කළ. ඒවා, කිසියම් අර්ථයකින්, ප්‍රතිමාවන්ට වඩා බලවත්ය, ගල්කාත්ත විනාශ නොකළ ඒවා විනාශ කළ නොහැකිව. තාලිබාන්ගේ නිෂේධ ක්‍රියාව, ඒ ඉල්ලා නොසිටියත්, ස්ථිරකාරිත්වයක් ඇතිකළේය.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4: QUANTUM PHYSICS ===== -->
+<section class="section" id="quantum">
+  <div class="section-inner">
+    <div class="section-label" lang-en data-cms-id="s4-label-en">Section 04</div>
+    <div class="section-label si" lang-si style="display:none" data-cms-id="s4-label-si">කොටස 04</div>
+    <h2 data-cms-id="s4-h2-en" lang-en>Quantum Physics<br>and the Observer</h2>
+    <h2 data-cms-id="s4-h2-si" lang-si class="si" style="display:none">ක්වොන්ටම් භෞතික විද්‍යාව<br>සහ නිරීක්ෂකයා</h2>
+
+    <div class="prose">
+      <p lang-en>In 1927, Werner Heisenberg published his uncertainty principle: the more precisely you determine a particle's position, the less precisely you can know its momentum, and vice versa. This is not a limitation of instrumentation. It is a feature of reality at the quantum scale. The act of measurement — of observing — intervenes in what is observed. There is no clean separation between the knower and the known.</p>
+      <p lang-si class="si" style="display:none">1927 දී, Werner Heisenberg අනිශ්චිතත්ව මූලධර්මය ප්‍රකාශිත කළේය: ව්‍යාමාවෙකේ ස්ථාවරය ස්ථිරසාරව නිර්ණය කළ, අවේගය අඩු ස්ථිරතාවෙන් දැනගනු ලැබේ, සහ ඊට ප්‍රතිවිරුද්ධව ද. මෙය උපකරණ සීමාවක් නොවේ. ක්වොන්ටම් ප්‍රමාණයෙහිදී යතාර්ථයේ ලක්ෂණයකි. ළමා ව්‍යවහාරය — නිරීක්ෂකයේ — නිරීක්ෂිතයේ ඇතුළු වෙයි. දත්ත සහ දාන ය අතර පරිශ්‍රයක් නොමැත.</p>
+
+      <div class="pull-quote">
+        <blockquote>"The idea of an objective real world whose smallest parts exist objectively in the same sense as stones or trees exist, independently of whether or not we observe them… is impossible."</blockquote>
+        <cite>— Werner Heisenberg, Physics and Philosophy (1958)</cite>
+      </div>
+
+      <p lang-en>Niels Bohr, the architect of the Copenhagen interpretation of quantum mechanics, put it differently: a particle does not have a definite position or momentum until it is measured. Before measurement, it exists as a superposition of possibilities — a wave function that collapses into one actuality only upon observation. The observation does not merely reveal; it participates in making.</p>
+      <p lang-si class="si" style="display:none">ක්වොන්ටම් මිකෑනික්ස්ගේ කොපන්හේගන් අර්ථකථනයේ නිර්මාතෘ Niels Bohr, ඊට වෙනස් ලෙස කිව්වේය: ව්‍යාමාවෙකේ ස්ථිර ස්ථාවරයක් හෝ අවේගයක් මනිනු ලැබෙන තෙක් නොමැත. ළමා ව්‍යවහාරයට පෙර, ශක්‍යතාවලේ සුපිරිස්ථාපනයක් ලෙස, ශ්‍රේෂ්ඨ ව්‍යාකාරශ ශ්‍රිතය ලෙස නිරීක්ෂකයාගේ දැකීමෙන් ම ගිනිදිලියකට ස්ථාවර වෙයි. නිරීක්ෂකයා හුදෙක් හෙළිකිරීමට නොව, නිෂ්පාදනයටද සහභාගීවෙයි.</p>
+
+      <p lang-en>This converges, at the level of metaphor, with the Buddhist analysis of experience. Consciousness, in Buddhist phenomenology, is not a passive mirror of an independently existing world. It arises in dependence on contact — on the meeting of sense organ, sense object, and sense consciousness. There is no pre-contact "observer" standing apart from the observed. The observer is always already entangled in the observed.</p>
+      <p lang-si class="si" style="display:none">මෙය, ෝවාදාරයාගේ මට්ටමේ, බෞද්ධ අනුභව විශ්ලේෂණය සමඟ ඒකාබද්ධ වෙයි. ස්ව-ශ්‍රාවකත්වය, බෞද්ධ ශ්‍රේෂ්ඨ ශාස්ත්‍රයේ, ස්වාධීනව පවතින ලෝකයේ නිශ්ක්‍රිය දර්පණ නොවේ. ස්පර්ශයේ — ඉන්‍ද්‍රිය, ඉන්‍ද්‍රිය ස්ථාවරය, සහ ඉන්‍ද්‍රිය ස්ව-ශ්‍රාවකත්වය — සහ ස්පර්ශ කිරීම ලෙස ඊළඟ නිශ්ශලව ජීවත් නොවෙයි. ස්ව-ශ්‍රාවකත්වය සැමවිටම නිරීක්ෂිතය සමඟ ගිනිදිලිවී ඇත.</p>
+
+      <p lang-en>A caution: the quantum-Buddhism comparison is contested (see Section 5). The scales are radically different. Quantum effects occur at the subatomic level; they do not straightforwardly extrapolate to the scale of human consciousness. But as a philosophical resonance — two independent traditions pointing toward the entanglement of observer and observed, the non-independence of the self — it is difficult to dismiss entirely.</p>
+      <p lang-si class="si" style="display:none">ප්‍රවේශමෙන්: ක්වොන්ටම්-බෞද්ධ සංසන්දනය ප්‍රශ්නනීය ය (5 කොටස බලන්න). ප්‍රමාණ ඉතා වෙනස්. ක්වොන්ටම් බලපෑම් ප්‍රමාණාශ්‍රිත ස්ථාවරයේ ය; ඒවා ලේසියෙන් මිනිස් ස්ව-ශ්‍රාවකත්ව ප්‍රමාණයට ගිනිදිලි නොකරයි. නමුත් දාර්ශනික ප්‍රතිදේශකතාවක් ලෙස — ස්වාධීන ශාස්ත්‍රීය ධාරා දෙකක් නිරීක්ෂකයා සහ නිරීක්ෂිතයා ගිනිදිලිවීම, ආත්මයේ ස්වාධීනතාව නිෂේධ කිරීම — සම්පූර්ණයෙන් ප්‍රතික්ෂේප කිරීම දුෂ්කරය.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5: HONEST OBJECTIONS ===== -->
+<section class="section" id="objections" style="background: var(--bg-card-alt);">
+  <div class="section-inner">
+    <div class="section-label" lang-en data-cms-id="s5-label-en">Section 05</div>
+    <div class="section-label si" lang-si style="display:none" data-cms-id="s5-label-si">කොටස 05</div>
+    <h2 data-cms-id="s5-h2-en" lang-en>Honest Objections</h2>
+    <h2 data-cms-id="s5-h2-si" lang-si class="si" style="display:none">අවංක විරෝධ</h2>
+
+    <div class="prose">
+      <p lang-en>A dossier that does not steelman its objections is not a dossier — it is a brief. Three serious objections deserve direct engagement.</p>
+      <p lang-si class="si" style="display:none">ශ්‍රේෂ්ඨ ලේඛනයක් ශ්‍රේෂ්ඨ ලේඛනයකි — ශ්‍රේෂ්ඨ ලේඛනයකි. ශ්‍රේෂ්ඨ ලේඛනයකි. ශ්‍රේෂ්ඨ ලේඛනයකි.</p>
+    </div>
+
+    <div class="objection-card">
+      <h4>Objection 1</h4>
+      <h5 lang-en>The quantum-Buddhism comparison is pseudoscience</h5>
+      <h5 lang-si class="si" style="display:none">ක්වොන්ටම්-බෞද්ධ සංසන්දනය ව්‍යාජ විද්‍යාවකි</h5>
+      <p lang-en>Quantum mechanics operates at the subatomic scale. Human consciousness operates at scales many orders of magnitude larger, where quantum effects are negligible. Extracting spiritual lessons from quantum physics — as in the "quantum consciousness" literature — is widely criticised by physicists as a category error. The comparison works only as poetic metaphor, not as a causal or mechanistic claim.</p>
+      <p lang-si class="si" style="display:none">ක්වොන්ටම් මිකෑනික්ස් ප්‍රමාණාශ්‍රිත ස්ථාවරයේ ක්‍රිය කරයි. මිනිස් ස්ව-ශ්‍රාවකත්වය ඊට ළමා ව්‍යමාල වශයෙන් ළොකු ස්ථාවරවල ක්‍රිය කරයි. ක්වොන්ටම් භෞතික විද්‍යාවෙන් ධාර්මික පාඩම් ගැනීම — "ක්වොන්ටම් ස්ව-ශ්‍රාවකත්ව" ශාස්ත්‍රීය සාහිත්‍යයේ ජ්‍ාrakathat් — ශ්‍රේෂ්ඨ කාල්‍ය භ්‍රාන්තිය ලෙස ව්‍යාප්ත විද්‍යාඥ විවේචනයට ලක් ය.</p>
+      <div class="objection-response">
+        <strong>Response:</strong> Fair. The comparison here is explicitly metaphorical. No mechanistic claim is made. The resonance is philosophical — two independent traditions arriving at similar scepticism about the self-evidence of the observing subject. Whether that resonance is surprising, illuminating, or merely coincidental is for the reader to judge.
+      </div>
+    </div>
+
+    <div class="objection-card">
+      <h4>Objection 2</h4>
+      <h5 lang-en>Anatta is incompatible with moral responsibility</h5>
+      <h5 lang-si class="si" style="display:none">අනාත්ම ශාසනය සදාචාරාත්මක වගකීම සමඟ නොගැළපේ</h5>
+      <p lang-en>If there is no self, how can anyone be held accountable? If the Taliban soldier who pulled the trigger was not a fixed self but a stream of conditioned moments, does that dissolve his moral responsibility? The same question applies to any actor in any context: without a persistent self, there is no coherent subject to praise, punish, or blame.</p>
+      <p lang-si class="si" style="display:none">ආත්මයක් නොමැතිනම්, කෙනෙකු වගකිව යුත්තේ කෙසේ ද? ගිනිකාරය ඇදි ළමා ව්‍යතාලිබාන් සෙනෟ ස්ථිර ආත්මයක් නොව, කොන්දේසි ගත් අනුභව සධාරාවක් නම්, ඔහුගේ සදාචාරාත්මක වගකීම ශිථිල ද? ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+      <div class="objection-response">
+        <strong>Response:</strong> This is the sharpest objection, and Buddhist ethics takes it seriously. The answer is that moral responsibility does not require a metaphysical, soul-like self — it requires only causal continuity. The same stream of conditioned moments that performed the act is the stream that will experience its consequences. Karma is not a cosmic reward system delivered to a fixed soul; it is the causal shaping of an ongoing process by its own actions.
+      </div>
+    </div>
+
+    <div class="objection-card">
+      <h4>Objection 3</h4>
+      <h5 lang-en>The empty niches are a political problem, not a philosophical one</h5>
+      <h5 lang-si class="si" style="display:none">ශූන්‍ය ගල් කුළු දාර්ශනික ගැටළුවක් නොව දේශපාලන ගැටළුවකි</h5>
+      <p lang-en>People died building these statues. The Hazara community that lives in the Bamiyan Valley has faced centuries of persecution. Aestheticising the destruction as "philosophically interesting" risks aestheticising violence — treating as a teaching opportunity what was, in fact, a crime against cultural heritage and a warning to a persecuted people.</p>
+      <p lang-si class="si" style="display:none">ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+      <div class="objection-response">
+        <strong>Response:</strong> This objection is correct, and must not be dismissed. The destruction of the Buddhas of Bamiyan was a war crime under international law. The Hazara community's suffering is not a philosophical abstraction. This dossier does not seek to aestheticise that suffering — it seeks to think alongside it. The philosophical reading does not replace the political one. Both are necessary.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6: BUDDHAGHOSA ===== -->
+<section class="section" id="buddhaghosa">
+  <div class="section-inner">
+    <div class="section-label" lang-en data-cms-id="s6-label-en">Section 06</div>
+    <div class="section-label si" lang-si style="display:none" data-cms-id="s6-label-si">කොටස 06</div>
+    <h2 data-cms-id="s6-h2-en" lang-en>Buddhaghosa<br>and the Chariot</h2>
+    <h2 data-cms-id="s6-h2-si" lang-si class="si" style="display:none">බුද්ධඝෝෂ<br>සහ රථය</h2>
+
+    <div class="prose">
+      <p lang-en>Buddhaghosa — whose name means "Voice of the Buddha" — was a 5th-century Theravāda Buddhist commentator, believed to have been born in India and to have done his most important work in Sri Lanka, at the Mahāvihāra monastery in Anurādhapura. His masterwork, the <em>Visuddhimagga</em> (Path of Purification), written around 430 CE, is the most systematic account of the Theravāda meditation and philosophical tradition.</p>
+      <p lang-si class="si" style="display:none">බුද්ධඝෝෂ — "බුදු ශ්‍රී" යන නාමය ගෙන — ක්‍රි.ව. 5 සියවසේ ථේරවාද බෞද්ධ ශ්‍රේෂ්ඨ ව්‍යාඛ්‍යාකරුවෙකු, ශ්‍රී ලංකාවේ, අනුරාධපුර, මහාවිහාරයෙහි ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ක්‍රි.ව. 430 ළගදී ලිඛිත ඔහුගේ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ, <em>විශුද්ධිමාර්ගය</em>, ථේරවාද ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+
+      <div class="pull-quote">
+        <blockquote>"Just as the word 'chariot' is used when the parts are present, so 'being' is a common usage when the khandhas are present."</blockquote>
+        <cite>— Buddhaghosa, Visuddhimagga, XVIII (5th century CE)</cite>
+      </div>
+
+      <p lang-en>The chariot analogy — which Buddhaghosa develops from the earlier <em>Milindapañha</em> dialogue between King Milinda and the monk Nāgasena — is the most elegant formulation of anatta in classical literature. Ask: what is a chariot? Is it the wheels? No, you could have wheels without a chariot. The axle? The frame? The yoke? None of these alone is "the chariot." All of them together? But there is no additional "chariot" thing over and above the assembly of parts.</p>
+      <p lang-si class="si" style="display:none">රථ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ <em>මිලිංදපඤ්හ</em> ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ: ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ? ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ? ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ? ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ? ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ "ශ්‍රේෂ්ඨ" ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+
+      <p lang-en>The same analysis applies to the self. Is "you" your body? Your memories? Your emotions? Your values? None of these is stable or ultimately "yours." All of them together? But there is no additional self-thing above the aggregates — no driver separate from the driving, no soul that experiences the body, no unchanging witness to the changing flow of consciousness.</p>
+      <p lang-si class="si" style="display:none">ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. "ශ්‍රේෂ්ඨ" ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ? ශ්‍රේෂ්ඨ? ශ්‍රේෂ්ඨ? ශ්‍රේෂ්ඨ? ශ්‍රේෂ්ඨ? ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+
+      <p lang-en>Buddhaghosa did this work twelve centuries before Hume noted that he could find no impression of a continuous self in his own experience — only a bundle of perceptions. He did it fifteen centuries before neuroscience would arrive at analogous findings through brain imaging and split-brain research. The insight is not mystical. It is, at its core, an invitation to look carefully at what we actually find when we look for the self.</p>
+      <p lang-si class="si" style="display:none">Hume ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ, ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7: THE RETURN ===== -->
+<section class="section-dark" id="return">
+  <div class="section-inner">
+    <div class="section-label" lang-en data-cms-id="s7-label-en">Section 07</div>
+    <div class="section-label si" lang-si style="display:none" data-cms-id="s7-label-si">කොටස 07</div>
+    <h2 data-cms-id="s7-h2-en" lang-en>The Return</h2>
+    <h2 data-cms-id="s7-h2-si" lang-si class="si" style="display:none">ආපසු</h2>
+
+    <div class="prose">
+      <p lang-en>After the fall of the Taliban government in 2001, UNESCO led a series of international missions to Bamiyan. The rubble of the statues — tens of thousands of fragments — was carefully catalogued, and some of it stored in a warehouse at the base of the cliff. Over 50% of the fragments of the smaller Shahmama have been recovered. The question of reconstruction has been actively debated.</p>
+      <p lang-si class="si" style="display:none">2001 දී, ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+
+      <div class="pull-quote-stone">
+        <blockquote>"Rebuilding the Buddhas would replace a genuine void with a fake presence. The empty niches say more than any reconstruction could."</blockquote>
+        <cite>— Debated position among Afghan archaeologists and UNESCO advisors</cite>
+      </div>
+
+      <p lang-en>This debate is itself a philosophical problem. To rebuild is to claim that presence is more meaningful than absence — that what the statues meant is better conveyed by filling the niches than by leaving them empty. But the empty niches may have become, in the intervening years, more culturally significant than the statues were before their destruction. Grief and memory adhere differently to absences than to presences.</p>
+      <p lang-si class="si" style="display:none">ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+
+      <p lang-en>There is a third option: a German-Afghan project has proposed using 3D light projections to temporarily materialise the Buddhas in their niches on certain nights of the year. Presence without permanence. Form without stone. This too is, in its way, a Buddhist solution — impermanent, dependent on causes and conditions (electricity, weather, gatherers), dissolving with the morning light.</p>
+      <p lang-si class="si" style="display:none">ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ: ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ — ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+
+      <p lang-en>The Taliban returned to power in Afghanistan in August 2021. The niches remain empty. The Hazara community continues to face discrimination and violence. The philosophical question of what the emptiness means has not resolved the political question of who bears responsibility for the emptiness, or who must live in its shadow. Both questions remain open. Perhaps that is the most honest conclusion: the form was empty, and so is the answer.</p>
+      <p lang-si class="si" style="display:none">2021 ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ. ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ ශ්‍රේෂ්ඨ.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8: SOURCES ===== -->
+<section class="section" id="sources">
+  <div class="section-inner">
+    <div class="section-label" lang-en data-cms-id="s8-label-en">Section 08</div>
+    <div class="section-label si" lang-si style="display:none" data-cms-id="s8-label-si">කොටස 08</div>
+    <h2 data-cms-id="s8-h2-en" lang-en>Sources & Further Reading</h2>
+    <h2 data-cms-id="s8-h2-si" lang-si class="si" style="display:none">ප්‍රභවයන් සහ තවදුරටත් කියවීම</h2>
+
+    <ul class="source-list">
+      <li>
+        <span class="source-num">1</span>
+        <div class="source-body">
+          <strong>What the Buddha Taught</strong>
+          <span>Walpola Rahula — Grove Press, 1959 · The clearest introduction to core Buddhist doctrine in English</span>
+        </div>
+      </li>
+      <li>
+        <span class="source-num">2</span>
+        <div class="source-body">
+          <strong>Visuddhimagga (Path of Purification)</strong>
+          <span>Buddhaghosa (trans. Bhikkhu Ñāṇamoli) — BPS, 1956 · Definitive systematic account of Theravāda practice and philosophy</span>
+        </div>
+      </li>
+      <li>
+        <span class="source-num">3</span>
+        <div class="source-body">
+          <strong>The Buddhas of Bamiyan</strong>
+          <span>Llewelyn Morgan — Harvard University Press, 2012 · The most comprehensive scholarly account of the statues and their destruction</span>
+        </div>
+      </li>
+      <li>
+        <span class="source-num">4</span>
+        <div class="source-body">
+          <strong>Physics and Philosophy</strong>
+          <span>Werner Heisenberg — Harper & Row, 1958 · Heisenberg on the philosophical implications of quantum mechanics in his own words</span>
+        </div>
+      </li>
+      <li>
+        <span class="source-num">5</span>
+        <div class="source-body">
+          <strong>The Undivided Universe</strong>
+          <span>David Bohm & Basil Hiley — Routledge, 1993 · Bohm's implicate order and ontological interpretation of quantum theory</span>
+        </div>
+      </li>
+      <li>
+        <span class="source-num">6</span>
+        <div class="source-body">
+          <strong>Anattalakkhaṇa Sutta (SN 22.59)</strong>
+          <span>Pali Canon · The Buddha's first teaching on non-self — available in multiple translations via Access to Insight</span>
+          <br><a href="https://www.accesstoinsight.org/tipitaka/sn/sn22/sn22.059.than.html" target="_blank">accesstoinsight.org ↗</a>
+        </div>
+      </li>
+      <li>
+        <span class="source-num">7</span>
+        <div class="source-body">
+          <strong>Milindapañha (Questions of King Milinda)</strong>
+          <span>1st–2nd century CE · The chariot dialogue between Nāgasena and King Milinda — the clearest popular exposition of anatta</span>
+        </div>
+      </li>
+      <li>
+        <span class="source-num">8</span>
+        <div class="source-body">
+          <strong>UNESCO Bamiyan Documentation</strong>
+          <span>UNESCO World Heritage Centre · Ongoing reports on the Bamiyan Cultural Landscape conservation status</span>
+          <br><a href="https://whc.unesco.org/en/list/208" target="_blank">whc.unesco.org ↗</a>
+        </div>
+      </li>
+      <li>
+        <span class="source-num">9</span>
+        <div class="source-body">
+          <strong>Record of Western Regions (大唐西域記)</strong>
+          <span>Xuanzang (trans. Samuel Beal) — 630 CE · The Chinese monk's first-hand account of the Bamiyan Buddhas</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <p><a href="/">Analyst</a> · A dossier platform · 2026</p>
+  <p style="margin-top:8px;">This dossier is a philosophical essay, not a political statement.<br>All interpretations are the author's own.</p>
+</footer>
+
+<script>
+// Language toggle
+function toggleLang(btn) {
+  var body = document.body;
+  var isSinhala = body.classList.toggle('sinhala');
+  btn.textContent = isSinhala ? 'English' : 'සිංහල';
+  // Update html lang attribute
+  document.documentElement.lang = isSinhala ? 'si' : 'en';
+  // Persist preference
+  try { localStorage.setItem('lang', isSinhala ? 'si' : 'en'); } catch(e) {}
+}
+
+// Mobile menu
+function toggleMobileMenu(btn) {
+  btn.classList.toggle('open');
+  document.getElementById('mobile-drawer').classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.querySelector('.mobile-menu-btn').classList.remove('open');
+  document.getElementById('mobile-drawer').classList.remove('open');
+}
+
+// Restore language preference
+(function() {
+  try {
+    var lang = localStorage.getItem('lang');
+    if (lang === 'si') {
+      document.body.classList.add('sinhala');
+      document.getElementById('lang-toggle-btn').textContent = 'English';
+      document.documentElement.lang = 'si';
+    }
+  } catch(e) {}
+})();
+
+// Close mobile menu on resize
+window.addEventListener('resize', function() {
+  if (window.innerWidth > 768) closeMobileMenu();
+});
+</script>
+</body>
+</html>

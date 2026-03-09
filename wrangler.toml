@@ -31,6 +31,11 @@ ENVIRONMENT = "production"
 #   wrangler secret put RESEND_API_KEY --env production
 # Get your free API key at https://resend.com (3,000 emails/month free)
 # Also verify submissions@analyst.rizrazak.com in Resend dashboard
+#
+# NOTE: CMS publish-to-GitHub requires a fine-grained GitHub PAT:
+#   wrangler secret put GITHUB_TOKEN --env production
+# Create at https://github.com/settings/tokens (fine-grained)
+# Scopes needed: Contents (read & write) on riz-razak/analyst
 
 [env.development.vars]
 GITHUB_REPO = "riz-razak/analyst"

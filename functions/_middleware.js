@@ -14,6 +14,8 @@ const PROTECTED_PATHS = [
   '/dossiers/sri-lanka-cricket-corruption/sources.html',
   '/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html',
   '/profile.html',
+  '/admin-preview.html',
+  '/admin-submissions.html',
 ];
 
 // Prefix patterns that require authentication

@@ -407,28 +407,100 @@ async function handlePublish(request, env, ctx) {
     });
   }
 
-  // TODO: Commit to GitHub (requires GitHub API token)
-  // This will be handled by GitHub Actions workflow
+  // Commit to GitHub via Contents API
+  const githubRepo = env.GITHUB_REPO || 'riz-razak/analyst';
+  const githubBranch = env.GITHUB_BRANCH || 'main';
+  const githubToken = env.GITHUB_TOKEN;
 
-  // For now, mark as published in KV
+  if (!githubToken) {
+    return new Response(
+      JSON.stringify({ error: 'GITHUB_TOKEN secret not configured — cannot publish to GitHub' }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
+  // Target file: public/dossiers/{dossierId}/index.html
+  const filePath = `public/dossiers/${dossierId}/index.html`;
+  const apiBase = `https://api.github.com/repos/${githubRepo}/contents/${filePath}`;
+  const commitMessage = message || `chore(cms): publish ${dossierId} by ${lock.userEmail}`;
+
+  // Step 1 — fetch current file SHA (needed for updates, absent for new files)
+  let currentSha = null;
+  try {
+    const getResp = await fetch(`${apiBase}?ref=${githubBranch}`, {
+      headers: {
+        Authorization: `Bearer ${githubToken}`,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'analyst-cms-worker',
+      },
+    });
+    if (getResp.ok) {
+      const fileData = await getResp.json();
+      currentSha = fileData.sha;
+    }
+    // 404 = new file — currentSha stays null, GitHub will create it
+  } catch (_) {
+    // network error — proceed; GitHub will reject on conflict if file exists
+  }
+
+  // Step 2 — base64-encode the HTML content (btoa + URI-encode for full Unicode safety)
+  const contentBase64 = btoa(unescape(encodeURIComponent(draft.content)));
+
+  // Step 3 — PUT to GitHub Contents API
+  const putBody = {
+    message: commitMessage,
+    content: contentBase64,
+    branch: githubBranch,
+    committer: {
+      name: 'Analyst CMS',
+      email: 'cms@analyst.rizrazak.com',
+    },
+  };
+  if (currentSha) putBody.sha = currentSha;
+
+  const putResp = await fetch(apiBase, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${githubToken}`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'User-Agent': 'analyst-cms-worker',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(putBody),
+  });
+
+  if (!putResp.ok) {
+    const errBody = await putResp.text();
+    return new Response(
+      JSON.stringify({ error: `GitHub API error (${putResp.status})`, detail: errBody }),
+      { status: 502, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
+  const putData = await putResp.json();
+  const commitUrl = putData.commit?.html_url || null;
+
+  // Mark as published in KV for local status tracking
   const publishedKey = `published:${dossierId}`;
   const published = {
     ...draft,
     publishedAt: Date.now(),
-    message: message || `Publish by ${lock.userEmail}`,
+    message: commitMessage,
+    commitUrl,
+    commitSha: putData.commit?.sha,
   };
 
   await env.DRAFT_STORE.put(publishedKey, JSON.stringify(published), {
     expirationTtl: 30 * 24 * 60 * 60, // 30 days
   });
 
-  // Clear draft
+  // Clear draft and release lock
   await env.DRAFT_STORE.delete(draftKey);
-
-  // Release lock after publish
   await env.SESSION_STORE.delete(lockKey);
 
-  return new Response(JSON.stringify({ success: true, published }), {
+  return new Response(JSON.stringify({ success: true, published, commitUrl }), {
     headers: { 'Content-Type': 'application/json' },
   });
 }
