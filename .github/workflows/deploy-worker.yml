@@ -115,7 +115,7 @@ jobs:
           echo "Deploy response: $body" >&2
           [ -n "$curl_err" ] && echo "Curl stderr: $curl_err" >&2
 
-          if echo "$body" | grep -q '"success":true'; then
+          if echo "$body" | grep -q '"success": *true'; then
             echo "✓ Worker deployed successfully: $WORKER_NAME"
             echo "Worker URL: https://${WORKER_NAME}.riz-1cb.workers.dev"
           else
