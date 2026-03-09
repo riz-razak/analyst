@@ -555,27 +555,196 @@ body.sinhala [lang-en-inline] { display: none; }
 }
 .submit-cta-btn:hover { background: #c99a00; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
 
+/* ===== MOBILE HAMBURGER MENU ===== */
+.mobile-menu-btn {
+  display: none; background: none; border: none; cursor: pointer;
+  padding: 8px; margin-left: 8px; position: relative;
+  width: 36px; height: 36px; border-radius: 8px;
+  transition: background 0.2s;
+}
+.mobile-menu-btn:hover { background: var(--sage-mist); }
+.mobile-menu-btn span {
+  display: block; width: 20px; height: 2px; background: var(--forest);
+  margin: 4px auto; transition: all 0.3s; border-radius: 2px;
+}
+.mobile-menu-btn.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+.mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
+.mobile-menu-btn.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+.mobile-nav-drawer {
+  display: none; position: fixed; top: 56px; left: 0; right: 0;
+  background: rgba(247,245,237,0.97); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); z-index: 999;
+  padding: 12px 16px 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  max-height: calc(100vh - 56px); overflow-y: auto;
+}
+.mobile-nav-drawer.open { display: block; }
+.mobile-nav-drawer a {
+  display: block; padding: 14px 16px; color: var(--text);
+  text-decoration: none; font-size: 0.92rem; font-weight: 600;
+  border-radius: 10px; transition: background 0.2s;
+  min-height: 48px; display: flex; align-items: center;
+}
+.mobile-nav-drawer a:hover, .mobile-nav-drawer a:active {
+  background: var(--sage-mist); color: var(--forest);
+}
+
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
-  .section { padding: 48px 16px; }
-  .card-grid { grid-template-columns: 1fr; }
-  .cast-grid { grid-template-columns: 1fr; }
-  .smoking-gun { padding: 36px 20px; margin: 48px 16px; }
-  .profile-box { padding: 28px 20px; margin: 32px 16px 0; }
-  .profile-top { flex-direction: column; align-items: center; text-align: center; }
-  .hero { padding: 80px 16px 48px; }
-  .hero-stats { gap: 20px; }
-  .navbar { padding: 0 12px; }
-  .nav-links a { font-size: 0.65rem; padding: 4px 6px; }
-  .key-reveal-grid { grid-template-columns: 1fr; }
-  .src-table { font-size: 0.78rem; }
-  .src-table th, .src-table td { padding: 8px; }
-  .cast-card { flex-direction: column; align-items: center; text-align: center; }
-  .chat-transcript { font-size: 0.78rem; padding: 16px; }
-}
-@media (max-width: 480px) {
+  /* --- Navigation --- */
   .nav-links { display: none; }
-  .hero h1 { font-size: 1.6rem; }
+  .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+  .navbar { padding: 0 12px; }
+  .nav-inner { height: 52px; }
+
+  /* --- Hero --- */
+  .hero { padding: 72px 16px 40px; min-height: auto; min-height: auto; }
+  .hero-badge { font-size: 0.62rem; padding: 6px 14px; margin-bottom: 20px; }
+  .hero h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 14px; }
+  .hero h1 .accent { display: inline; }
+  .hero h1 span[style*="font-size:0.65em"] { font-size: 0.72em !important; }
+  .hero .subtitle { font-size: 0.88rem; line-height: 1.7; margin-bottom: 28px; }
+  .hero-stats { gap: 16px; justify-content: center; }
+  .stat-value { font-size: 1.6rem; }
+  .stat-label { font-size: 0.62rem; }
+
+  /* --- Sections --- */
+  .section { padding: 40px 16px; }
+  .section h2 { font-size: 1.3rem; }
+  .section-desc { font-size: 0.88rem; }
+  .section-header { margin-bottom: 32px; }
+
+  /* --- Cards --- */
+  .card-grid { grid-template-columns: 1fr; gap: 14px; }
+  .card { padding: 22px 18px; }
+  .card:hover { transform: none; } /* disable hover lift on mobile */
+  .card h3 { font-size: 0.95rem; }
+  .card p { font-size: 0.85rem; }
+
+  /* --- Evidence Cards --- */
+  .evidence-card { padding: 12px 14px 10px; font-size: 0.82rem; margin-top: 10px; }
+  .evidence-card .ec-badge { font-size: 0.65rem; padding: 2px 6px; }
+  .evidence-card .ec-quote { font-size: 0.8rem; }
+  .evidence-card .ec-meta { font-size: 0.7rem; }
+  .ev-verdict { font-size: 0.55rem; padding: 1px 6px; }
+  .ev-nav-link { font-size: 0.65rem; }
+
+  /* --- Smoking Gun --- */
+  .smoking-gun { padding: 32px 16px; margin: 32px 0; border-radius: 14px; }
+  .smoking-gun h2 { font-size: 1.15rem; }
+  .smoking-gun::before { font-size: 1.6rem; top: -14px; }
+  .quote-block { padding: 16px 14px; font-size: 0.88rem; line-height: 1.7; margin: 16px 0; }
+  .quote-attr { font-size: 0.75rem; }
+  .evidence-label { font-size: 0.95rem; margin: 22px 0 10px; }
+
+  /* --- Chat Transcript --- */
+  .chat-transcript { padding: 14px 12px; font-size: 0.78rem; overflow-x: auto; }
+  .chat-transcript .chat-header { font-size: 0.68rem; }
+  .chat-msg { margin-bottom: 8px; line-height: 1.6; }
+  .chat-msg .sender { font-size: 0.76rem; display: block; margin-bottom: 2px; }
+
+  /* --- Key Reveals --- */
+  .key-reveal-grid { grid-template-columns: 1fr; gap: 10px; }
+  .key-reveal { padding: 14px; }
+  .key-reveal strong { font-size: 0.82rem; }
+  .key-reveal span { font-size: 0.78rem; }
+
+  /* --- Timeline (vertical, mobile-optimized) --- */
+  .timeline { padding-left: 28px; margin-top: 24px; }
+  .timeline::before { left: 10px; }
+  .tl-item { padding: 0 0 28px 24px; }
+  .tl-item::before { left: -24px; top: 5px; width: 10px; height: 10px; }
+  .tl-item.key::before { width: 14px; height: 14px; left: -26px; top: 3px; }
+  .tl-date { font-size: 0.68rem; margin-bottom: 4px; }
+  .tl-item h3 { font-size: 0.92rem; margin-bottom: 4px; line-height: 1.4; }
+  .tl-item p { font-size: 0.82rem; line-height: 1.6; }
+
+  /* --- Cast of Characters --- */
+  .cast-grid { grid-template-columns: 1fr; gap: 12px; }
+  .cast-card {
+    flex-direction: row; align-items: flex-start; text-align: left;
+    padding: 18px 16px; gap: 12px;
+  }
+  .cast-card:hover { transform: none; }
+  .avatar { width: 42px; height: 42px; font-size: 0.8rem; }
+  .cast-card h3 { font-size: 0.88rem; }
+  .cast-card p { font-size: 0.78rem; line-height: 1.6; }
+
+  /* --- Journalist Profile --- */
+  .profile-box { padding: 24px 16px; margin: 24px 0 0; border-radius: 14px; }
+  .profile-top { flex-direction: column; align-items: center; text-align: center; gap: 16px; }
+  .profile-avatar-lg { width: 56px; height: 56px; font-size: 1.3rem; }
+  .profile-top h3 { font-size: 1.1rem; }
+  .profile-details { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .profile-detail { padding: 10px; }
+  .profile-detail .dl { font-size: 0.6rem; }
+  .profile-detail .dv { font-size: 0.82rem; }
+  .integrity-card { padding: 16px 14px; margin-top: 10px; }
+  .integrity-card h4 { font-size: 0.82rem; }
+  .integrity-card p { font-size: 0.8rem; line-height: 1.6; }
+
+  /* --- Voice of the People --- */
+  .voice-stack { gap: 10px; margin-top: 24px; }
+  .voice-card { padding: 14px 16px; }
+  .voice-card:hover { transform: none; }
+  .voice-author { font-size: 0.8rem; }
+  .voice-text { font-size: 0.85rem; line-height: 1.65; }
+  .voice-meta { font-size: 0.68rem; }
+
+  /* --- Questions --- */
+  .q-list { margin-top: 24px; }
+  .q-item { padding: 16px 14px 16px 48px; font-size: 0.85rem; margin-bottom: 8px; }
+  .q-item::before { left: 14px; top: 16px; width: 24px; height: 24px; font-size: 0.7rem; }
+
+  /* --- Source Table (horizontal scroll) --- */
+  .src-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px -16px 0; padding: 0 16px; }
+  .src-table { font-size: 0.75rem; min-width: 580px; }
+  .src-table th, .src-table td { padding: 8px 10px; white-space: nowrap; }
+  .src-table td:nth-child(3), .src-table td:nth-child(4) { white-space: normal; word-break: break-word; }
+
+  /* --- Submit CTA --- */
+  .submit-cta-block { padding: 28px 20px; margin: 32px 0 0; border-radius: 14px; }
+  .submit-cta-block h3 { font-size: 1.15rem; }
+  .submit-cta-block p { font-size: 0.85rem; }
+  .submit-cta-btn { padding: 12px 28px; font-size: 0.92rem; }
+
+  /* --- Submit Modal --- */
+  .submit-modal { border-radius: 14px; margin: 16px; }
+  .submit-modal-header { padding: 20px 20px 14px; }
+  .submit-modal-header h2 { font-size: 1.1rem; }
+  .submit-modal-body { padding: 16px 20px 24px; }
+
+  /* --- Footer --- */
+  .footer { padding: 36px 16px; margin-top: 40px; }
+  .footer p { font-size: 0.75rem; }
+
+  /* --- Disclaimer --- */
+  .disclaimer-box { padding: 28px 20px; }
+  .disclaimer-box h2 { font-size: 1.2rem; }
+  .disclaimer-box p { font-size: 0.85rem; }
+  .disclaimer-tags { gap: 6px; }
+  .btn-accept { padding: 12px 28px; font-size: 0.88rem; width: 100%; text-align: center; }
+
+  /* --- Dividers --- */
+  .divider { margin: 0; }
+
+  /* --- Ref markers (larger tap targets) --- */
+  .ref-marker { padding: 2px 4px; font-size: 0.7em; }
+
+  /* --- Source links (larger tap targets) --- */
+  .src-link { padding: 8px 0; font-size: 0.8rem; min-height: 44px; display: inline-flex; align-items: center; }
+}
+
+/* --- Extra small phones --- */
+@media (max-width: 380px) {
+  .hero h1 { font-size: 1.3rem; }
+  .hero .subtitle { font-size: 0.82rem; }
+  .hero-stats { flex-direction: column; gap: 12px; align-items: center; }
+  .stat { display: flex; gap: 8px; align-items: baseline; }
+  .stat-value { font-size: 1.4rem; }
+  .profile-details { grid-template-columns: 1fr; }
+  .smoking-gun { padding: 28px 14px; }
+  .cast-card { padding: 14px 12px; }
 }
 </style>
     <!-- CMS Hydration + Admin Overlay -->
@@ -703,13 +872,28 @@ body.sinhala [lang-en-inline] { display: none; }
       <a href="#" onclick="document.getElementById('submit-modal').classList.add('open');return false;" style="color:var(--gold);">Submit</a>
     </div>
     <button class="lang-btn" onclick="document.body.classList.toggle('sinhala')">සිං / EN</button>
+    <button class="mobile-menu-btn" onclick="this.classList.toggle('open');document.getElementById('mobile-drawer').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+<div class="mobile-nav-drawer" id="mobile-drawer">
+  <a href="#incident" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">The Incident</a>
+  <a href="#evidence" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Evidence</a>
+  <a href="#timeline" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Timeline</a>
+  <a href="#cast" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Cast</a>
+  <a href="#profile" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Profile</a>
+  <a href="#voices" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Voices</a>
+  <a href="#questions" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Questions</a>
+  <a href="#sources" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Sources</a>
+  <a href="evidence/" target="_blank" style="color:var(--sage);">📁 Evidence Files</a>
+  <a href="#" onclick="document.getElementById('submit-modal').classList.add('open');document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open');return false;" style="color:var(--gold);">Submit Evidence</a>
+</div>
 
 <!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-content">
-    <div class="hero-badge" data-cms-id="hero-badge">🔴 Live — March 8, 2026</div>
+    <div class="hero-badge" data-cms-id="hero-badge">🔴 Live — Updated March 9, 2026</div>
     <h1 lang-en data-cms-id="hero-title-en">Happy <span class="accent">Womaniser</span> Day!<br><span style="font-size:0.65em; font-weight:400; opacity:0.85;">How a State Newspaper Platformed an Alleged Sexual Predator to Celebrate Feminism</span></h1>
     <h1 lang-si class="si" style="display:none" data-cms-id="hero-title-si">සතුටු <span class="accent">කාන්තා</span> දිනයක්!<br><span style="font-size:0.65em; font-weight:400; opacity:0.85;">රාජ්‍ය පුවත්පතක් ස්ත්‍රීවාදය සැමරීමට ලිංගික අපචාරකරුවෙකු වේදිකාගත කළ ආකාරය</span></h1>
     <p class="subtitle" lang-en data-cms-id="hero-subtitle-en">On International Women's Day 2026, the Sunday Observer's Observer MUSE supplement published a feature celebrating Simone de Beauvoir's feminist philosophy — and chose a man with documented sexual harassment allegations as a "key resource person." Multiple women have publicly posted screenshot evidence of his uninvited sexual messages. This is that story.</p>
@@ -740,7 +924,9 @@ body.sinhala [lang-en-inline] { display: none; }
     <div class="card">
       <div class="card-icon card-icon-green">📰</div>
       <h3 lang-en data-cms-id="s1-card1-title">The Article</h3>
+      <h3 lang-si class="si" style="display:none" data-cms-id="s1-card1-title-si">ලිපිය</h3>
       <p lang-en data-cms-id="s1-card1-body">On March 8, 2026, the <strong>Sunday Observer</strong>'s <strong>Observer MUSE</strong> supplement published a Women's Day feature <a href="#ev-S2" class="ref-marker">[S2]</a> titled <em>"One is not born, but rather becomes a woman"</em> — celebrating Simone de Beauvoir's feminist philosophy.</p>
+      <p lang-si class="si" style="display:none" data-cms-id="s1-card1-body-si">2026 මාර්තු 8 වෙනිදා, <strong>Sunday Observer</strong> හි <strong>Observer MUSE</strong> දර්ශන ප්‍රකාශනය කාන්තා දිනයට සමර්පිත ලිපිය <a href="#ev-S2" class="ref-marker">[S2]</a> ප්‍රකාශ කළේ, <em>"ජීවිතයක නඳ නිසා බරින්නේ නැතුවෙත් වෙතින්හු"</em> යන ශිර්ෂකය සිමෝන් ද බුවෝවර්ගේ ස්ත්‍රීවාදී දර්ශනය සගින් වෙමින්.</p>
       <a class="src-link evidence-link" href="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/" target="_blank"><span class="preview-dot"></span> View on Sunday Observer →</a>
       <div class="evidence-card" id="ev-S2" data-ev-img-url="https://www.sundayobserver.lk/wp-content/uploads/2026/03/sma-03-08-pg04-05-kwm.jpg" data-ev-caption="Sunday Observer · March 8, 2026" data-ev-url="https://www.sundayobserver.lk/2026/03/08/youth-observer/73386/one-is-not-born-but-rather-becomes-a-woman/">
         <span class="ec-badge">S2</span>
@@ -756,13 +942,17 @@ body.sinhala [lang-en-inline] { display: none; }
     <div class="card">
       <div class="card-icon card-icon-red">👤</div>
       <h3 lang-en data-cms-id="s1-card2-title">The Platforming</h3>
+      <h3 lang-si class="si" style="display:none" data-cms-id="s1-card2-title-si">වේදිකා ලබාදීම</h3>
       <p lang-en data-cms-id="s1-card2-body">Among the featured "resource persons" was <strong>Vangeesa Sumanasekara</strong>, described as a <em>"thinker"</em> <a href="#ev-S2" class="ref-marker">[S2]</a> — a man with <strong>documented sexual harassment allegations</strong> <a href="#ev-S3" class="ref-marker">[S3]</a> dating to at least 2021, with screenshot evidence from multiple women <a href="#ev-S8S9" class="ref-marker">[S8, S9]</a>.</p>
+      <p lang-si class="si" style="display:none" data-cms-id="s1-card2-body-si">ඉදිරිපත් කළ "සම්පත් පුද්ගලයින්" අතර සිටි <strong>වංගීස සුමනසේකර</strong>, "චින්තකයෙකු" ලෙස හැඳින්වූ අතර <a href="#ev-S2" class="ref-marker">[S2]</a> — <strong>ලේඛනගත ලිංගික හිංසනය පිළිබඳ චෝදනා</strong> <a href="#ev-S3" class="ref-marker">[S3]</a> අවම වශයෙන් 2021 සිටම ඇති, කාන්තා කිහිපදෙනගෙන් තිරගත සාක්ෂි <a href="#ev-S8S9" class="ref-marker">[S8, S9]</a>.</p>
     </div>
 
     <div class="card">
       <div class="card-icon card-icon-gold">📢</div>
       <h3 lang-en data-cms-id="s1-card3-title">The Promotion</h3>
+      <h3 lang-si class="si" style="display:none" data-cms-id="s1-card3-title-si">ප්‍රචාරණය</h3>
       <p lang-en data-cms-id="s1-card3-body"><strong>Anuradha Perera</strong> shared the article on Facebook <a href="#ev-S1" class="ref-marker">[S1]</a>, tagging all resource persons including Vangeesa Sumanasekara, alongside Deepthi Kumara Gunarathne, Swarna Mallawarachchi, Prasanna Vithanage, and Dhananjaya Karunarathne.</p>
+      <p lang-si class="si" style="display:none" data-cms-id="s1-card3-body-si"><strong>අනුරාධා පෙරේරා</strong> ෆේස්බුක් හි ලිපිය බෙදාගත් අතර <a href="#ev-S1" class="ref-marker">[S1]</a> සියලු සම්පත් පුද්ගලයින් ටැග් කළ අතර Vangeesa Sumanasekara, Deepthi Kumara Gunarathne, Swarna Mallawarachchi, Prasanna Vithanage සහ Dhananjaya Karunarathne ඇතුළුව.</p>
       <a class="src-link evidence-link" href="https://www.facebook.com/story.php?story_fbid=10239366361167514&id=1540883472" target="_blank"><span class="preview-dot"></span> View Facebook Post →</a>
       <div class="evidence-card" id="ev-S1" data-ev-img-var="EV_S1_IMG" data-ev-caption="Anuradha Perera · Facebook · March 8, 2026" data-ev-url="https://www.facebook.com/story.php?story_fbid=10239366361167514&id=1540883472">
         <span class="ec-badge">S1</span>
@@ -778,7 +968,9 @@ body.sinhala [lang-en-inline] { display: none; }
     <div class="card">
       <div class="card-icon card-icon-green">🤔</div>
       <h3 lang-en data-cms-id="s1-card4-title">The Contradiction</h3>
+      <h3 lang-si class="si" style="display:none" data-cms-id="s1-card4-title-si">ප්‍රතිවිරෝධය</h3>
       <p lang-en data-cms-id="s1-card4-body">A Women's Day article invoking de Beauvoir's feminist philosophy chose to celebrate an individual with documented harassment allegations against women. The irony is not incidental — it is structural.</p>
+      <p lang-si class="si" style="display:none" data-cms-id="s1-card4-body-si">ද බුවෝවර්ගේ ස්ත්‍රීවාදී දර්ශනය ඉදිරිපත් කරමින් කාන්තා දිනයට සමර්පිත ලිපිය, කාන්තාවන්ට එරෙහි ලේඛනගත හිංසනය පිළිබඳ චෝදනා ඇති පුද්ගලයෙකු සගින් කිරීමට තෝරා ගත්තේය. එම උපහාසය අවස්ථාසාධක නොවේ — එය ව්‍යුහගත ය.</p>
     </div>
   </div>
 </section>
@@ -794,16 +986,24 @@ body.sinhala [lang-en-inline] { display: none; }
     <p class="si" style="color: var(--text-secondary); margin-bottom: 20px; text-align: center; font-size: 0.95rem; display:none;" lang-si>කාන්තාවන් කිහිප දෙනෙකු ස්වාධීනව තිරගත සාක්ෂි නිකුත් කර ඇත. මේවා නාමරහිත කටකතා නොවේ — <strong>නම් සහිත පුද්ගලයින්ගෙන්</strong> ලැබෙන ලේඛනගත, ප්‍රසිද්ධියේ පළ කරන ලද, සත්‍යාපනය කළ හැකි ඩිජිටල් සාක්ෂි.</p>
 
     <h3 class="evidence-label">🔥 Evidence A: Emy Vithanage (June 28, 2021)</h3>
+    <h3 class="evidence-label si" style="display:none">🔥 සාක්ෂිය A: ඉමී විතානගේ (2021 ජුනි 28)</h3>
     <div class="quote-block">
       "On June 28th, Emy Vithanage released a screenshot of an uninvited sex-chat initiated by Vangeesa Sumanasekara. This has led to yet another round of discussion about his long-discussed abusive behavior towards women." <a href="#ev-S3" class="ref-marker">[S3]</a>
       <div class="quote-attr">— Prabha Manuratne, Academic & Author, June 29, 2021</div>
     </div>
+    <div class="quote-block si" style="display:none">
+      "ජුනි 28 වෙනිදා, ඉමී විතානගේ, වංගීස සුමනසේකර ඇරඹු අන්‍යෝන්‍ය ලිංගික කතාබහෙහි තිරගත රූවක් නිකුත් කළ බවයි. මෙම සිදුවීම ඔහුගේ දිගු කාලීනව සාකච්ඡා වූ කාන්තාවන්ට එරෙහි දුඩුමාර හැසිරීම ගැන තවත් සාකච්ඡාවකට සුවිසල් කර තිබේ." <a href="#ev-S3" class="ref-marker">[S3]</a>
+      <div class="quote-attr">— ප්‍රභා මනුරත්නේ, ශාස්ත්‍රඥ සහ ලේඛක, ජුනි 29, 2021</div>
+    </div>
 
     <h3 class="evidence-label">🔥 Evidence B: Vincika De Saram (August 19, 2021) — With Screenshots</h3>
+    <h3 class="evidence-label si" style="display:none">🔥 සාක්ෂිය B: විඥිකා ද සාරම් (2021 අගෝස්තු 19) — තිරගත රූ සමඟ</h3>
     <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9rem;">Vincika De Saram publicly posted screenshots of a Facebook Messenger conversation <a href="#ev-S8S9" class="ref-marker">[S8]</a>. The transcript:</p>
+    <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9rem; display:none;" class="si">විඥිකා ද සාරම් Facebook Messenger සංවාදයේ තිරගත රූ ප්‍රසිද්ධියේ පළ කර ඇත <a href="#ev-S8S9" class="ref-marker">[S8]</a>. ලිපිනිර්මාණයි:</p>
 
     <div class="chat-transcript">
       <div class="chat-header">📱 Facebook Messenger — Vangeesa Sumanasekara → Vincika De Saram</div>
+      <div class="chat-header si" style="display:none">📱 Facebook Messenger — Vangeesa Sumanasekara → Vincika De Saram</div>
       <div class="chat-msg"><span class="sender sender-accused">Vangeesa Sumanasekara:</span> "show your stuff"</div>
       <div class="chat-msg"><span class="sender sender-victim">Vincika De Saram:</span> "show my what???"</div>
       <div class="chat-msg"><span class="sender sender-accused">Vangeesa Sumanasekara:</span> "Not like this! I want to meet you first!"</div>
@@ -813,6 +1013,7 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="chat-msg"><span class="sender sender-victim">Vincika De Saram:</span> "Wtf! Get out psycho!"</div>
       <div class="chat-msg"><span class="sender sender-accused">Vangeesa Sumanasekara:</span> "🙂 okay"</div>
       <div style="color: var(--text-muted); margin-top: 10px; font-style: italic; font-family: var(--font-sans); font-size: 0.8rem;">— Vincika then blocked Vangeesa Sumanasekara's Facebook account</div>
+      <div style="color: var(--text-muted); margin-top: 10px; font-style: italic; font-family: var(--font-sans); font-size: 0.8rem; display:none;" class="si">— විඥිකා පසුව වංගීස සුමනසේකරගේ Facebook ගිණුම බ්ලොක් කළ බවයි</div>
     </div>
 
     <h3 class="evidence-label">🔥 Evidence C: Vincika De Saram's March 8, 2026 Callout</h3>
@@ -826,13 +1027,25 @@ body.sinhala [lang-en-inline] { display: none; }
         <strong>Multiple victims</strong>
         <span>"women including myself and young female university students"</span>
       </div>
+      <div class="key-reveal si" style="display:none">
+        <strong>ගොදුරු බහුවචනයෙන්</strong>
+        <span>"ම සහ තරුණ කාන්තා විශ්ව විද්‍යාල සිසුන් ඇතුළු කාන්තාවන්"</span>
+      </div>
       <div class="key-reveal">
         <strong>Formal complaint filed</strong>
         <span>"When a complaint was filed, he hid behind his father"</span>
       </div>
+      <div class="key-reveal si" style="display:none">
+        <strong>නිල පැමිණිල්ල ගිණුම් කරණු ලැබීම</strong>
+        <span>"පැමිණිල්ලක් ගිණුම් කරණු ලැබුණේ, ඔහු පියාගේ සෙවනෙහි සැඟව ගිණ"</span>
+      </div>
       <div class="key-reveal">
         <strong>Mental health excuse</strong>
         <span>"later blamed it all on a 'mental condition'"</span>
+      </div>
+      <div class="key-reveal si" style="display:none">
+        <strong>මানසික සෞඛ්‍ය සඳහන්</strong>
+        <span>"පසුව සියල්ල 'මානසික තත්ත්වයට' නිදොස් කිරීම"</span>
       </div>
       <div class="key-reveal" style="border-color: var(--blood); background: var(--ember-light);">
         <strong style="color:var(--blood);" lang-en>⚠️ Alleged: Sheltered behind his father</strong>
@@ -850,20 +1063,34 @@ body.sinhala [lang-en-inline] { display: none; }
     </div>
 
     <h3 class="evidence-label">🔥 Evidence D: Sandali Costa — Second Victim (August 19, 2021)</h3>
+    <h3 class="evidence-label si" style="display:none">🔥 සාක්ෂිය D: සන්දාලී කෝස්ටා — දෙවන ගොදුරු (2021 අගෝස්තු 19)</h3>
     <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9rem;">On the same day as Vincika De Saram's post, <strong>Sandali Costa</strong> independently shared her own Facebook Messenger screenshots <a href="#ev-S12" class="ref-marker">[S12]</a> documenting unsolicited sexual messages from Vangeesa Sumanasekara. The conversation is in Sinhala.</p>
+    <p style="color: var(--text-secondary); margin-bottom: 12px; font-size: 0.9rem; display:none;" class="si">විඥිකා ද සාරම්ගේ ලිපිය ඉවත් කිරීමේ දිනටම, <strong>සන්දාලී කෝස්ටා</strong> ස්වාධීනව තමාගේ Facebook Messenger තිරගත රූ බෙදා ගත් අතර <a href="#ev-S12" class="ref-marker">[S12]</a>, වංගීස සුමනසේකරගෙන් අසොයුතු ලිංගික පණිවිඩ ලේඛනගත කරමින්. සංවාදය සිංහලෙන් ඉදිරිපත් කරණු ලැබීම.</p>
 
     <div class="key-reveal-grid">
       <div class="key-reveal">
         <strong>Independent corroboration</strong>
         <span>Two victims, same day, same pattern — posted independently</span>
       </div>
+      <div class="key-reveal si" style="display:none">
+        <strong>ස්වාධීන සනාථතා</strong>
+        <span>ගොදුරු දෙදෙනෙකු, එකම දිනයේ, එකම ඉපදිම — ස්වාධීනව පළ කිරීම</span>
+      </div>
       <div class="key-reveal">
         <strong>Bilingual pattern</strong>
         <span>Sumanasekara targeted women in both English and Sinhala conversations</span>
       </div>
+      <div class="key-reveal si" style="display:none">
+        <strong>ද්වි-භාෂාවග ඉපදිම</strong>
+        <span>සුමනසේකර ඉංග්‍රීසි සහ සිංහල සංවාදයෙන්ම කාන්තාවන්ට ඉලක්ක කර ඉදිරිපත් කිරීම</span>
+      </div>
       <div class="key-reveal">
         <strong>Significant public response</strong>
         <span>93 reactions · 77 comments · 14 shares</span>
+      </div>
+      <div class="key-reveal si" style="display:none">
+        <strong>සැලකිය යුතු ජනතා ප්‍රතිචාරය</strong>
+        <span>প්‍රතිචාර 93 · සටහන් 77 · බෙදා ගැනීම 14</span>
       </div>
     </div>
 
@@ -1020,6 +1247,7 @@ body.sinhala [lang-en-inline] { display: none; }
         <span class="role-tag role-tag-accused">Accused</span>
         <h3>Vangeesa Sumanasekara</h3>
         <p>"Thinker" and leftist public intellectual. Writer, translator, film critic. Contributor to <a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank" style="color:var(--forest)">Groundviews</a> <a href="#src-S7" class="ref-marker">[S7]</a>. Subject of sexual harassment allegations since 2021 <a href="#ev-S3" class="ref-marker">[S3]</a> with screenshot evidence from multiple women <a href="#ev-S8S9" class="ref-marker">[S8, S9]</a>. Featured in the Women's Day article <a href="#ev-S2" class="ref-marker">[S2]</a>. Alleged to have sheltered behind a powerful father's influence when formal complaints were filed <a href="#ev-S8S9" class="ref-marker">[S9]</a>.</p>
+        <p lang-si class="si" style="display:none">"චින්තකයෙකු" සහ වාමාංශික ජනතා බුද්ධිමතුවරයෙකු. ලේඛක, පරිවර්තක, චිත්‍රපට විචාරක. <a href="https://groundviews.org/author/vangeesa-sumanasekara/" target="_blank" style="color:var(--forest)">Groundviews</a> දර්ශක <a href="#src-S7" class="ref-marker">[S7]</a>. 2021 සිටම ලිංගික හිංසනය පිළිබඳ චෝදනාවලට විෂයවු බුද්ධි <a href="#ev-S3" class="ref-marker">[S3]</a> බහුවචන කාන්තාවන්ගෙන් තිරගත සාක්ෂි ඇත <a href="#ev-S8S9" class="ref-marker">[S8, S9]</a>. කාන්තා දිනයේ ලිපිය සඳහා ඉදිරිපත් <a href="#ev-S2" class="ref-marker">[S2]</a>. නිල පැමිණිල්ල ගිණුම් කිරීමේ දී බලවත් පියාගේ බලපෑමට සෙවනෙහි ගිණීමට චෝදනා වූ බවයි <a href="#ev-S8S9" class="ref-marker">[S9]</a>.</p>
       </div>
     </div>
 
@@ -1029,6 +1257,7 @@ body.sinhala [lang-en-inline] { display: none; }
         <span class="role-tag role-tag-journalist">Journalist</span>
         <h3>Anuradha Perera</h3>
         <p>Author/promoter of the Observer Muse article. Shared the article on Facebook <a href="#ev-S1" class="ref-marker">[S1]</a> tagging Sumanasekara. <a href="https://www.facebook.com/anuradha.kodagoda.5" target="_blank" style="color:var(--forest)">Facebook</a> <a href="#src-S5" class="ref-marker">[S5]</a> — Colombo. On March 9, 2026, publicly defended the article and victim-blamed Vincika De Saram <a href="#ev-S13" class="ref-marker">[S13]</a>.</p>
+        <p lang-si class="si" style="display:none">Observer Muse ලිපිය කර්තෘ/ප්‍රචාරක. ෆේස්බුක් හි ලිපිය බෙදා ගත් අතර <a href="#ev-S1" class="ref-marker">[S1]</a> සුමනසේකර ටැග් කර ඇත. <a href="https://www.facebook.com/anuradha.kodagoda.5" target="_blank" style="color:var(--forest)">Facebook</a> <a href="#src-S5" class="ref-marker">[S5]</a> — කොළඹ. 2026 මාර්තු 9 වෙනිදා, ලිපිය ජනතා වෙතින් ආරක්ෂා කර විඥිකා ද සාරම් දොස් නැගීම <a href="#ev-S13" class="ref-marker">[S13]</a>.</p>
       </div>
     </div>
 
@@ -1038,6 +1267,7 @@ body.sinhala [lang-en-inline] { display: none; }
         <span class="role-tag role-tag-whistleblower">Whistleblower</span>
         <h3>Emy Vithanage</h3>
         <p>On June 28, 2021, released a screenshot of an uninvited sex-chat from Sumanasekara — the catalyst that brought allegations into the public record.</p>
+        <p lang-si class="si" style="display:none">2021 ජුනි 28 වෙනිදා, සුමනසේකරගෙන් අසිතුණු ලිංගික කතාබහෙහි තිරගත රූවක් නිකුත් කර ඇත — චෝදනා ප්‍රසිද්ධ වාර්තාවට පත් කරන ලද උත්තේජකය.</p>
       </div>
     </div>
 
@@ -1047,6 +1277,7 @@ body.sinhala [lang-en-inline] { display: none; }
         <span class="role-tag role-tag-whistleblower">Victim / Whistleblower</span>
         <h3>Vincika De Saram</h3>
         <p>Second known woman to publicly post screenshot evidence (Aug 19, 2021). On March 8, 2026, directly called out Anuradha Perera, revealed formal complaints were filed, and that university students were also targeted. <a href="#ev-S8S9" class="ref-marker">[S8]</a></p>
+        <p lang-si class="si" style="display:none">තිරගත සාක්ෂි ප්‍රසිද්ධියේ පළ කරන ලද දෙවන දන්න කාන්තාව (අගෝස්තු 19, 2021). 2026 මාර්තු 8 වෙනිදා, අනුරාධා පෙරේරා සরල ලෙස බටු කරතින්, නිල පැමිණිල්ල ගිණුම් කර ඇති බවට හෙළිදරව් කර ඇත, විශ්ව විද්‍යාල සිසුන්ද ඉලක්ක කර ඇති බවයි. <a href="#ev-S8S9" class="ref-marker">[S8]</a></p>
       </div>
     </div>
 
@@ -1056,6 +1287,7 @@ body.sinhala [lang-en-inline] { display: none; }
         <span class="role-tag role-tag-whistleblower">Victim / Whistleblower</span>
         <h3>Sandali Costa</h3>
         <p>Third known victim. Independently posted Messenger screenshots (in Sinhala) on the same day as Vincika De Saram (Aug 19, 2021), documenting unsolicited sexual messages from Vangeesa Sumanasekara. 93 reactions, 77 comments, 14 shares. <a href="#ev-S12" class="ref-marker">[S12]</a></p>
+        <p lang-si class="si" style="display:none">තෙවන දන්න ගොදුරු ලද්දා. විඥිකා ද සාරම්ට එකම දිනයේ (අගෝස්තු 19, 2021) ස්වාධීනව Messenger තිරගත රූ (සිංහලෙන්) පළ කරතින්, වංගීස සුමනසේකරගෙන් අසොයුතු ලිංගික පණිවිඩ ලේඛනගත කර ඇත. ප්‍රතිචාර 93, සටහන් 77, බෙදා ගැනීම 14. <a href="#ev-S12" class="ref-marker">[S12]</a></p>
       </div>
     </div>
 
@@ -1065,6 +1297,7 @@ body.sinhala [lang-en-inline] { display: none; }
         <span class="role-tag role-tag-whistleblower">Academic / Whistleblower</span>
         <h3>Prabha Manuratne</h3>
         <p>Published detailed <a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank" style="color:var(--forest)">condemnation on June 29, 2021</a> <a href="#ev-S3" class="ref-marker">[S3]</a>. Also commented on the March 2026 backlash: <em>"There are at least 2 there."</em> <a href="#src-S4" class="ref-marker">[S4]</a></p>
+        <p lang-si class="si" style="display:none">ජුනි 29, 2021 වෙනිදා සවිස්තරාත්මක <a href="https://workingpps.wordpress.com/2021/06/29/1836/" target="_blank" style="color:var(--forest)">හෙළිදරව්ව ප්‍රකාශ කර ඇත</a> <a href="#ev-S3" class="ref-marker">[S3]</a>. 2026 මාර්තු එතර ප්‍රතිඝාතය ගැන ද සටහන් කර ඇත: <em>"එහි අවම වශයෙන් 2 දෙනෙකු සිටිනවා."</em> <a href="#src-S4" class="ref-marker">[S4]</a></p>
       </div>
     </div>
 
@@ -1074,6 +1307,7 @@ body.sinhala [lang-en-inline] { display: none; }
         <span class="role-tag role-tag-public">Public Accountability</span>
         <h3>Melani Gunathilaka</h3>
         <p>Shared Anuradha's post calling it "Sri Lankan media continuing the Epstein culture." <a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank" style="color:var(--forest)">View post</a> <a href="#src-S4" class="ref-marker">[S4]</a>.</p>
+        <p lang-si class="si" style="display:none">අනුරාධාගේ ලිපිය බෙදා ගැනීම "ශ්‍රී ලාංකික මාධ්‍ය Epstein සංස්කෘතිය දිගටම කරගෙන යාම" ලෙස හැඳින්වෙයි. <a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank" style="color:var(--forest)">ලිපිය බලන්න</a> <a href="#src-S4" class="ref-marker">[S4]</a>.</p>
       </div>
     </div>
 
@@ -1083,6 +1317,7 @@ body.sinhala [lang-en-inline] { display: none; }
         <span class="role-tag role-tag-public">Public Accountability</span>
         <h3>Janindu de Zoysa</h3>
         <p>Directly questioned Anuradha Perera: <em>"Did you knowingly interview Vangeesa for a Women's Day feature despite his history of harassing women?"</em> (6 reactions)</p>
+        <p lang-si class="si" style="display:none">අනුරාධා පෙරේරා ඉතා සරල ලෙස ප්‍රශ්න කර ඇත: <em>"කාන්තාවන්ට හිංසනයේ ඉතිහාසය තිබුණද, ඔබ දැනසිටිය ද කාන්තා දිනයේ විශේෂ සාකච්ඡාව සඳහා Vangeesa සම්මතනය කිරීම?"</em> (ප්‍රතිචාර 6)</p>
       </div>
     </div>
 
@@ -1092,6 +1327,7 @@ body.sinhala [lang-en-inline] { display: none; }
         <span class="role-tag role-tag-publication">Publication</span>
         <h3>Sunday Observer / Observer MUSE</h3>
         <p>State-owned English newspaper by Associated Newspapers of Ceylon Ltd (Lake House). Sri Lanka's oldest English Sunday paper (est. 1928). <a href="https://www.sundayobserver.lk/" target="_blank" style="color:var(--forest)">sundayobserver.lk</a></p>
+        <p lang-si class="si" style="display:none">Associated Newspapers of Ceylon Ltd (Lake House) විසින් රාජ්‍ය ස්ථාපිත ඉංග්‍රීසි පුවත්පතක්. ශ්‍රී ලංකාවේ පැරණිතම ඉංග්‍රීසි ඉරිදා පුවත්පතක් (ස්ථාපිත. 1928). <a href="https://www.sundayobserver.lk/" target="_blank" style="color:var(--forest)">sundayobserver.lk</a></p>
       </div>
     </div>
   </div>
@@ -1189,96 +1425,112 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="voice-author victim">Vincika De Saram — Named Victim</div>
       <div class="voice-text">"Did You Think We Forgot who Vangeesa Sumanasekara is?? Anuradha Perera Sunday Observer for real? You created a platform for Vangeesa Sumanasekara on a women's day??? ...He is now a known sexual predator both online and offline. When a complaint was filed, he hid behind his father like a coward and later blamed it all on a 'mental condition'..."</div>
       <div class="voice-meta">Facebook post — March 8, 2026 · 17+ reactions · 5 comments <a href="#src-S9" class="ref-marker">[S9]</a></div>
+      <div class="voice-text si" style="display:none">"ඔබ විසින් Vangeesa Sumanasekara කවුද යන්න අමතක කර ගැනීදී? Anuradha Perera Sunday Observer සැබවින්ම? ඔබ කාන්තා දිනයේ Vangeesa Sumanasekara සඳහා වේදිකාව නිර්මාණ කිරීදී??? ...ඔහු දැන් ඉන්ටර්නෙට් සහ සෘඳි ශ්‍රේණිවලින් ශිෂ්ය ලිංගික අපරාධකරු ලෙස දන්නා බැවින්. පැමිණිල්ලක් ගිණුම් කරණු ලැබුණේ, ඔහු පිළිකෙව් ලෙස පියාගේ සෙවනෙහි සැඟව ගිණ සහ පසුව සියල්ල 'මානසික තත්ත්වයට' නිදොස් කිරීම..."</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Melani Gunathilaka</div>
       <div class="voice-text">"Sri Lankan media continuing the Epstein culture by featuring a man accused of sexual harassment on #InternationalWomensDay. What a shame!"</div>
       <div class="voice-meta">Facebook post — March 8, 2026 · 18 reactions · 8 comments · 1 share <a href="#src-S4" class="ref-marker">[S4]</a></div>
+      <div class="voice-text si" style="display:none">"ශ්‍රී ලාංකික මාධ්‍ය #ජාත්‍යන්තර කාන්තා දිනයේ ලිංගික හිංසනයට චෝදනා ලත් පුරුෂයෙකු ඉදිරිපත් කරමින් Epstein සංස්කෘතිය දිගටම කරගෙන යාම. කොතරම් ලැජ්ජාවක!"</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Janindu de Zoysa</div>
       <div class="voice-text">"Did you knowingly interview Vangeesa for a Women's Day feature despite his history of harassing women, or were you unaware of it?"</div>
       <div class="voice-meta">Comment on Anuradha Perera's post — 6 reactions <a href="#src-S1" class="ref-marker">[S1]</a></div>
+      <div class="voice-text si" style="display:none">"ඔබ කාන්තාවන්ට හිංසනයේ ඉතිහාසය තිබුණද, Vangeesa සඳහා කාන්තා දිනයේ විශේෂ සාකච්ඡාව ගැබ කිරීම දැනසිටිය ද, නැතිනම් අවබෝධ නොවෙයි ද?"</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Prabha Manuratne</div>
       <div class="voice-text">"Not 'a man' it should be 'men'. There are at least 2 there."</div>
       <div class="voice-meta">Comment on Melani's post <a href="#src-S4" class="ref-marker">[S4]</a></div>
+      <div class="voice-text si" style="display:none">"'ලේකමු පුද්ගලයෙකු' නොවිය යුතුවේ 'ලේකම්' විය යුතු. එහි අවම වශයෙන් 2 දෙනෙකු සිටිනවා."</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Melani Gunathilaka (reply)</div>
       <div class="voice-text">"Oh, I was only aware of one. Would have been more fitting if the writer titled this article 'women's liberation through the eyes of men and abusers' in that case."</div>
       <div class="voice-meta">Reply to Prabha Manuratne <a href="#src-S4" class="ref-marker">[S4]</a></div>
+      <div class="voice-text si" style="display:none">"ඔ, ම කිසිසේ එකක් ගැන දැනුවත් වුණේ. එම අවස්ථාවේ දී ලේඛකයා මෙම ලිපිය 'පුරුෂයින්ගේ සහ අපරාධකරුවරුන්ගේ ඇස් හරහා කාන්තා විමුක්තිය' ලෙස නම් කිරීම වඩ ගැලපුණු වෙයි."</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Minuri Perera</div>
       <div class="voice-text">"Let's learn about women's rights and respect for women from a certified sex offender 😂"</div>
       <div class="voice-meta">Comment on Anuradha's post <a href="#src-S1" class="ref-marker">[S1]</a></div>
+      <div class="voice-text si" style="display:none">"සහතිකරණ සිදුකරණ ලිංගික අපරාධකරුවෙකු ඉතුරුවෙතින් කාන්තා අයිතිවාසිකම් සහ කාන්තා ගරුත්ව අධ්‍යয়න කරමු 😂"</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Ranjan Ranja</div>
       <div class="voice-text">"Epstein platform?"</div>
       <div class="voice-meta">Comment on Anuradha's post <a href="#src-S1" class="ref-marker">[S1]</a></div>
+      <div class="voice-text si" style="display:none">"Epstein වේදිකාව?"</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Nadeesha Chandrasena</div>
       <div class="voice-text">"Happy Womanisers Day!"</div>
       <div class="voice-meta">Comment on Melani's post · 4 reactions <a href="#src-S4" class="ref-marker">[S4]</a></div>
+      <div class="voice-text si" style="display:none">"කාන්තා ශිෂ්ය දිනයක්!"</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Dhananjaya Pasan Wijesiri</div>
       <div class="voice-text">">Womens day >reads >Men"</div>
       <div class="voice-meta">Comment on Melani's post <a href="#src-S4" class="ref-marker">[S4]</a></div>
+      <div class="voice-text si" style="display:none">">කාන්තා දිනයි >කියවුණු >පුරුෂයින්"</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Memeගේ</div>
       <div class="voice-text">"Leftist want Epsteinism to be part of the culture so its no longer a crime. When men, women, children even animal abuse become part of a culture no one really pays attention."</div>
       <div class="voice-meta">Comment on Melani's post <a href="#src-S4" class="ref-marker">[S4]</a></div>
+      <div class="voice-text si" style="display:none">"වාමාංශිකයින් Epsteinism සංස්කෘතියේ කොටසක් වීමට අවශ්‍යවෙන අතර එය තවදුරටත් අපරාධයක් නොවේ. පුරුෂයින්, කාන්තාවන්, ළමුන් සෙවනටවත් සතුන් දුඩුමාර සංස්කෘතියේ කොටස වූ විට කිසිවකු ඇත්තටම අවධානය යොමු කරයි නැත."</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Caryil Tozer — responding to Anuradha</div>
       <div class="voice-text">"want to victimize the victim again? just so you can defend your ineptitude in doing proper research? We women are not impressed, taken that a woman dares to defend the indefensible. A simple 'oops that was a mistake' would have been much better"</div>
       <div class="voice-meta">Reply to Anuradha Perera's comment on Melani's post · 3 reactions <a href="#src-S14" class="ref-marker">[S14]</a></div>
+      <div class="voice-text si" style="display:none">"ගොදුරු ලද්දා නැවතත් අතරයි කිරීමට අවශ්‍යද? ශුද්ධ පර්යේෂණ කිරීමේ ඔබේ ඉක්මණුකම ආරක්ෂා කිරීමට පමණුද? අපි කාන්තාවන් බොහෝ වෙයිනි, එක් කාන්තාවක් අරක්ෂිතයි ආරක්ෂා කිරීමට සාहস කරයි ඔසි. සරල 'ඔ ඔබ වලස එක්ක වැරැද්දක්' ඉතා හොඳයි විය"</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Janindu de Zoysa — extended reply to Anuradha</div>
       <div class="voice-text">"He messaged you too. According to your comments: 'I know for a fact that Vangeesa was approaching not only one woman but many through social media; I, too, was one of them. However, I never got offended.' You knew about him, yet you gave him a space anyway. Your comments show that you don't understand sexual harassment... I find this very unethical and unprofessional."</div>
       <div class="voice-meta">Reply to Anuradha on her own post · Comment thread <a href="#src-S14" class="ref-marker">[S14]</a></div>
+      <div class="voice-text si" style="display:none">"ඔයා ටිකක් වලින් ඔහු පණිවිඩ කර ඇතත්. ඔබේ සටහන් අනුව: 'ම දනමි Vangeesa සෝෂල් මීඩියා හරහා කාන්තාවක් පමණක් නොව බොහෝ දෙනෙකු ඉදිරි ගිණ, ම ද ඔවුන්ගෙන් එකක්. නමුත්, ම කිසිසේ දුකැතිවී නොමැත.' ඔබ ඔහු ගැන දැනුවත් වුණත්, එසේ ගිණ ඔබ ඔහුට අවකාශයක් දුන්නත්. ඔබේ සටහන් ඉන්දිකා කරයි ඔබ ලිංගික හිංසනය නොතේරුම්ගන්නේ... ම එය අතිශයින් අසාරධර්ම සහ වෘත්තිමය නොවි ලෙස හඳුනාගනිමි."</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Sajini Wickramasinghe</div>
       <div class="voice-text">"Anuradha Perera stop everything else and read the section on sexual harassment in the Penal Code first"</div>
       <div class="voice-meta">Reply to Anuradha Perera on her own post <a href="#src-S13" class="ref-marker">[S13]</a></div>
+      <div class="voice-text si" style="display:none">"අනුරාධා පෙරේරා සර්ව අනෙකුත් අත්‍යවශ්‍ය සිටිමින් පළමුවෙන්ම සිවිල් නීතිය පොතෙහි ලිංගික හිංසනය පිළිබඳ කොටස කියවන්න"</div>
     </div>
 
     <div class="voice-card">
       <div class="voice-author">Sasanka Perera — political framing</div>
       <div class="voice-text">"Looks like the Observer and thereby the government have established a new parameter for celebrating International Women's Day. That is, at least a few commentators should be sexual predators. This inexcusable crap here sponsored by the government's own newspaper and a massive women's rally in Colombo with the participation of the President and elsewhere exposes the hypocrisy of some opinion-makers. I would be curious to know the take on this of the Prime Minister and Minister Paul-Raj both long-term vocal advocates of women's rights."</div>
       <div class="voice-meta">Comment on Melani's post <a href="#src-S14" class="ref-marker">[S14]</a></div>
+      <div class="voice-text si" style="display:none">"Observer සහ එයින් නිසා රජය ජාත්‍යන්තර කාන්තා දිනය සගින් කිරීමට නව පරාමිතිය ස්ථාපිත කර ඇතින් ඔසි. එනම්, අවම වශයෙන් කිසි දෙනෙකු කුතුහලකාරී විය යුතු. මෙම පිස්සුවු දේ රජයේ තමාගේ පුවත්පතින් අනුග්‍රහ ලබා සහ කොළඹ කාන්තා රැළිවලට ජනාධිපතිවරයාගේ සහභාගිතාවයි ප්‍රසිද්ධිවලට ගැබ සිටි ඇතීමෙන් සිතිමතින්කරුවරුන්ගේ ද්විත්ව ආස්ථාන හෙළිදරව් කරයි. ම අගමැතිවරයා සහ ඇමති Paul-Raj දිගුකාලීනව කාන්තා අයිතිවාසිකම්ගේ ශ්‍රිතකරු දෙන්නගේ මෙම ගැබ දැනගැනීමට කුතුහලකාරී වෙමි."</div>
     </div>
 
     <div class="voice-card" style="border-left-color: var(--blood); background: var(--ember-light);">
       <div class="voice-author" style="color:var(--blood);">⚠️ Anuradha Perera — The Journalist's Own Response</div>
       <div class="voice-text" style="font-size:0.88rem; line-height:1.7;">"Regarding the so-called woman harassment incident involving Vangeessa Sumanasekara from some time ago, I have had a different point of view from the beginning, and that's why I didn't want to get involved in that discussion. For me, that discussion was very 'childish,' as two adults were willingly having a conversation through an inbox, and the male was asking a very personal question that the other party could agree or disagree with and end the conversation as adults. If she got offended or shocked by the question he asked, she could have reacted the way she wanted and ended the story. Why did this woman play the victim role? Why did she consider it a violation of any of her rights? Since these two people were discussing willfully from the beginning, Vangeesa also has the right to ask any sort of question according to what is right in his thinking universe. If that is not right and sounds vulgar in the other person's universe, it should be communicated properly, whatever the language, and the conversation ended. For me, that's how I end things, and in my relationships with friends, there's room for positivity as well as their negativity. I don't expect people to be only positive." <span style="display:block; margin-top:8px;">"I am actually pleased that this situation caused the article to go viral and spark a discussion about its content. I stand by my editorial decisions and the platform provided to all our resource persons."</span></div>
       <div class="voice-meta">Public Facebook statement — March 9, 2026 · Anuradha Perera (Kodagoda) <a href="#src-S13" class="ref-marker">[S13]</a></div>
+      <div class="voice-text si" style="font-size:0.88rem; line-height:1.7; display:none;">"Vangeessa Sumanasekara සම්බන්ධයෙන් සිටින කාන්තා හිංසනයට සම්බන්ධව, ම ආරම්භයි සිටින වෙනස් දුරදර්ශනයක් තිබේ, එනිසා ම එම සාකච්ඡාවට සම්බන්ධ වීමට අවශ්‍ය නොවිණ. ම සඳහා එම සාකච්ඡාව ඉතාම ලමාකාර සිටින, පුරුෂ සහ කාන්තා දෙන්නා ස්වේච්ඡාවෙන් ගිණීම හරහා කතාබහ කර සිටින, සහ පුරුෂයා ඉතාම පෞද්ගලික ප්‍රශ්නයක් අසයි. එම සිතුවිල්ල ගෙන ලිපි දුකු බිම ගිණීම නිසා, Vangeesa ද ඉතිරි ප්‍රශ්නයක් අසන්න ඔහුගේ සිතුවිල්ල සිටින අයිතිවාසිකම්. එය නිවුස් නැතිනම් අසිතුණු සිටින, එම ඉතිරි සඳහා නිවුස් සඳහන්, සහ කතාබහ අවසන්. ම සඳහා, එසේ ම අවසන් කරමි, සහ ඉතිරි බැක ඉතිරි, ධනාත්මක සහ ඔවුන්ගේ ඔවුන්ගේ ඉතිරිට අවකාශයක් තිබේ. ම ධනාත්මක පමණුද අපේක්ෂා කරයි නැත."  <span style="display:block; margin-top:8px;">"ම ඇත්ත වශයෙන්ම එම ස්ථිතිය ලිපිය ව්‍යාප්ත කර ගිණීමට ප්‍රීතිය ඇත. ම ම කර්තෘ තීරණ සහ සියලු සම්පත් පුද්ගලයින්ට ලබා දුන්නෙති වේදිකා දිගටම ගිණීම."</span></div>
     </div>
 
     <div class="voice-card" style="border-left-color: var(--stone); background: #f5f5f5;">
       <div class="voice-author">Madhubhashini R. Rathnayaka — responding to Anuradha</div>
       <div class="voice-text">"Then, you have clearly misused your editorial power in a national newspaper by..." <em style="color:var(--blood); font-size:0.82rem;">[⚠️ Partial capture — screenshot cuts off here. Remainder of comment not yet retrieved. This card will be updated when the full text is confirmed.]</em></div>
       <div class="voice-meta">Comment on Anuradha's public statement post · March 9, 2026 <a href="#src-S13" class="ref-marker">[S13]</a></div>
+      <div class="voice-text si" style="display:none;">"එසේ නම්, ඔබ ජාතික පුවත්පතක ඔබේ කර්තෘ බලය පැහැදිලිවම අපචාර ඉතිරි..." <em style="color:var(--blood); font-size:0.82rem;">[⚠️ අර්ධ වටිනාකරණය — තිරගත රූ එහිදී නතර වේ. සටහනෙහි ඉතිරි කොටස තවමත් නොලබා ඇත. සම්පූර්ණ පෙළ සනාථ වූ විට මෙම කාඩ් ඉතිරි කරනු ඇත.]</em></div>
     </div>
   </div>
 </section>
@@ -1346,7 +1598,7 @@ body.sinhala [lang-en-inline] { display: none; }
     <p class="section-desc si" lang-si style="display:none">සෑම ප්‍රකාශයක්ම ප්‍රසිද්ධිය ලබා ගත හැකි මූලාශ්‍රයකින් සනාථ වේ</p>
   </div>
 
-  <div style="overflow-x: auto;">
+  <div class="src-table-wrap" style="overflow-x: auto;">
   <table class="src-table">
     <thead><tr><th>#</th><th>Source</th><th>Type</th><th>Link</th></tr></thead>
     <tbody>
@@ -1813,6 +2065,53 @@ window.EV_S8_IMG = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEB
 <script src="../_shared/evidence-system.js" defer></script>
 <script src="../_shared/hover-preview.js" defer></script>
 <script src="../_shared/video-evidence.js" defer></script>
+
+<!-- Mobile: tap-to-dismiss hover cards + close drawer on outside tap -->
+<script>
+(function() {
+  // Close mobile drawer when clicking outside
+  document.addEventListener('click', function(e) {
+    var drawer = document.getElementById('mobile-drawer');
+    var btn = document.querySelector('.mobile-menu-btn');
+    if (drawer && drawer.classList.contains('open') &&
+        !drawer.contains(e.target) && !btn.contains(e.target)) {
+      drawer.classList.remove('open');
+      btn.classList.remove('open');
+    }
+  });
+
+  // Tap-to-dismiss for evidence cards on mobile
+  // On mobile, evidence cards that appear on hover should be dismissable by tapping elsewhere
+  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.addEventListener('click', function(e) {
+      // If user taps on an evidence-link, toggle the associated evidence card
+      var link = e.target.closest('.evidence-link');
+      if (link) {
+        var card = link.querySelector('.evidence-card') || link.nextElementSibling;
+        if (card && card.classList.contains('evidence-card')) {
+          card.style.display = card.style.display === 'none' ? 'block' : (card.style.display === 'block' ? 'none' : 'block');
+          e.preventDefault();
+        }
+        return;
+      }
+      // If user taps on a ref-marker, smooth scroll (already handled) — let it through
+      if (e.target.classList && e.target.classList.contains('ref-marker')) return;
+      // If user taps outside any evidence card, collapse any expanded hover preview
+      if (!e.target.closest('.evidence-card') && !e.target.closest('.evidence-link')) {
+        // No action needed — evidence cards are always visible in current design
+      }
+    });
+  }
+
+  // Close mobile drawer on navigation (hash change)
+  window.addEventListener('hashchange', function() {
+    var drawer = document.getElementById('mobile-drawer');
+    var btn = document.querySelector('.mobile-menu-btn');
+    if (drawer) drawer.classList.remove('open');
+    if (btn) btn.classList.remove('open');
+  });
+})();
+</script>
 
 </body>
 </html>
