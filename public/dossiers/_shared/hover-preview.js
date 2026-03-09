@@ -13,6 +13,7 @@
   panel.innerHTML = [
     '<div class="evp-img-wrap">',
     '  <img id="evp-img" src="" alt="" loading="eager">',
+    '  <span id="evp-video-badge" class="evp-video-badge" style="display:none">VIDEO</span>',
     '  <div class="evp-img-error">Preview unavailable</div>',
     '</div>',
     '<div class="evp-meta">',
@@ -22,9 +23,10 @@
   ].join('');
   document.body.appendChild(panel);
 
-  const evpImg     = panel.querySelector('#evp-img');
-  const evpCaption = panel.querySelector('#evp-caption');
-  const evpError   = panel.querySelector('.evp-img-error');
+  const evpImg        = panel.querySelector('#evp-img');
+  const evpCaption    = panel.querySelector('#evp-caption');
+  const evpError      = panel.querySelector('.evp-img-error');
+  const evpVideoBadge = panel.querySelector('#evp-video-badge');
 
   let hideTimer = null;
   let activeEl  = null;
@@ -107,6 +109,10 @@
     evpError.style.display = 'none';
     evpImg.style.display   = 'block';
 
+    // Show VIDEO badge if evidence card has video data
+    var hasVideo = card && card.hasAttribute('data-ev-video-src');
+    evpVideoBadge.style.display = hasVideo ? 'inline-block' : 'none';
+
     evpImg.onerror = function () {
       evpImg.style.display   = 'none';
       evpError.style.display = 'flex';
@@ -164,7 +170,7 @@
 
     // ── Audit helper: window.evPreviewAudit() ──────────────────
     window.evPreviewAudit = function () {
-      const cards = ['ev-S2', 'ev-S1', 'ev-S3', 'ev-S8S9'];
+      const cards = ['ev-S2', 'ev-S1', 'ev-S3', 'ev-S8S9', 'ev-S12'];
       return cards.map(function (id) {
         const card = document.getElementById(id);
         const src  = getImgSrc(card);

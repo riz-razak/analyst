@@ -7,19 +7,10 @@ compatibility_date = "2025-03-09"
 routes = [
   { pattern = "analyst.rizrazak.com/*", zone_name = "rizrazak.com" }
 ]
-
-[[kv_namespaces]]
-binding = "SESSION_STORE"
-id = "analyst-session-kv"
-preview_id = "analyst-session-kv-preview"
-
-[[kv_namespaces]]
-binding = "DRAFT_STORE"
-id = "analyst-draft-kv"
-preview_id = "analyst-draft-kv-preview"
-
-[env.development]
-vars = { ENVIRONMENT = "development" }
+kv_namespaces = [
+  { binding = "SESSION_STORE", id = "edcba0db08ef42e9847b1a9c876eb5de", preview_id = "edcba0db08ef42e9847b1a9c876eb5de" },
+  { binding = "DRAFT_STORE", id = "11fe938b97104d39800a2aa3afe8d699", preview_id = "11fe938b97104d39800a2aa3afe8d699" }
+]
 
 [build]
 cwd = "."
