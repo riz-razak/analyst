@@ -91,7 +91,74 @@
 }
 .ev-nav-link:hover { color: var(--forest, #2d5a27); }
 
+/* ===== EVIDENCE THUMBNAIL — Source preview image ===== */
+
+/* Wrapper: sits between the header row and the quote/meta */
+.ev-thumb-wrap {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  margin: 10px 0 8px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--border, #d4d0c4);
+}
+
+.ev-thumb {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+/* On hover: subtle zoom + darken overlay appears */
+.ev-thumb-wrap:hover .ev-thumb {
+  transform: scale(1.04);
+}
+
+/* Overlay: "Open Source →" revealed on hover */
+.ev-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.ev-thumb-wrap:hover .ev-thumb-overlay,
+.ev-thumb-wrap:focus-within .ev-thumb-overlay {
+  opacity: 1;
+}
+
+.ev-thumb-overlay span {
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: rgba(45, 90, 39, 0.85);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Mobile: always show a faint overlay so users know it's tappable */
+@media (hover: none) {
+  .ev-thumb-overlay {
+    opacity: 0.7;
+    background: rgba(0,0,0,0.25);
+  }
+  .ev-thumb-overlay span {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+  }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 600px) {
   .evidence-card { padding: 12px 14px 10px; font-size: 0.8rem; }
+  .ev-thumb-wrap { height: 120px; }
 }

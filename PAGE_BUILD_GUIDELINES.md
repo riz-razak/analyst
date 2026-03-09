@@ -211,7 +211,91 @@ public/dossiers/
 
 ---
 
-## 8. Quick Checklist for New Dossier Pages
+## 8. Evidence Thumbnail Protocol
+
+Every evidence card MUST include a source preview thumbnail. This is the standard that applies to all dossiers once approved.
+
+### 8.1 Thumbnail Structure
+
+```html
+<div class="evidence-card" id="ev-SX">
+  <span class="ec-badge">SX</span>
+  <span class="ev-verdict [verdict]">[VERDICT]</span>
+
+  <!-- THUMBNAIL — required for every card -->
+  <a href="[SOURCE_URL]" target="_blank" rel="noopener" class="ev-thumb-wrap"
+     title="Open source: [description]">
+    <img class="ev-thumb" src="[IMAGE_SRC]"
+         alt="[Publication] — [Article title]" loading="lazy">
+    <div class="ev-thumb-overlay"><span>Open Source →</span></div>
+  </a>
+  <!-- /THUMBNAIL -->
+
+  <div class="ec-source">[Author] — [Type]</div>
+  <span class="ec-quote">[Quote]</span>
+  <span class="ec-meta">[Publication] • [Date]</span>
+  <span class="ec-tag [type]">[TAG]</span>
+  <a href="#src-SX" class="ev-nav-link">View in Source Index ↓</a>
+</div>
+```
+
+### 8.2 Image Source Decision Tree
+
+For each evidence card, choose the image source using this priority order:
+
+| Source Type | Image Strategy |
+|-------------|---------------|
+| News article (public URL) | Use direct `src="[article-image-url]"` — img tags are CORS-free |
+| Blog post (public URL) | Use direct `src="[article-image-url]"` from article's featured image |
+| Facebook post | Use PIL-generated placeholder (base64) — login-wall blocks external fetching |
+| Twitter/X post | Use PIL-generated placeholder (base64) |
+| PDF / Document | Use first-page screenshot (base64 via browser canvas capture) |
+| Screenshot evidence | Use the evidence screenshot itself (base64, cropped/blurred if sensitive) |
+
+### 8.3 PIL Placeholder Generation
+
+For social media sources (login-required), generate a placeholder thumbnail:
+
+```python
+from PIL import Image, ImageDraw, ImageFont
+import base64, io
+
+def create_social_placeholder(display_name, preview_text, date_str,
+                               platform="Facebook", accent="#1877F2"):
+    img = Image.new("RGB", (600, 340), "#f0f2f5")
+    draw = ImageDraw.Draw(img)
+    # Header bar
+    draw.rectangle([0, 0, 600, 60], fill=accent)
+    # ... (see scripts/gen_thumbnails.py for full implementation)
+    buf = io.BytesIO()
+    img.save(buf, "JPEG", quality=72)
+    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+```
+
+### 8.4 CSS (shared — already in `_shared/evidence-system.css`)
+
+The `.ev-thumb-wrap`, `.ev-thumb`, `.ev-thumb-overlay` classes handle:
+- 150px tall thumbnail strip inside the card
+- Hover: subtle zoom (scale 1.04) + dark overlay with "Open Source →" button
+- Mobile (`hover: none`): persistent faint overlay so tap affordance is clear
+- Lazy loading via `loading="lazy"` for performance
+
+### 8.5 Thumbnail Validation Checklist
+
+Before committing any dossier page:
+```
+[ ] Every evidence card has an ev-thumb-wrap block
+[ ] External image URLs tested to load (not 404)
+[ ] Base64 thumbnails are JPEG quality 72, max ~25KB per card
+[ ] alt text describes the source meaningfully
+[ ] Link href = the actual source URL (same as card's "Open source" link)
+[ ] Mobile view: thumbnails display correctly at 375px width
+[ ] Hover effect works on desktop
+```
+
+---
+
+## 9. Quick Checklist for New Dossier Pages
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -223,9 +307,11 @@ public/dossiers/
 │  4. Add disclaimer overlay (with bilingual text)         │
 │  5. Add Source Index table with anchor IDs               │
 │  6. Add evidence cards with verdict badges               │
-│  7. Add inline [SX] reference markers                    │
-│  8. Add bilingual text (lang-en / lang-si)              │
-│  9. Add data-cms-id to all editable elements             │
-│  10. Test: desktop, mobile (375px), smooth scroll        │
+│  7. Add evidence thumbnail to EVERY card (see §8)       │
+│  8. Add inline [SX] reference markers                    │
+│  9. Add bilingual text (lang-en / lang-si)              │
+│  10. Add data-cms-id to all editable elements            │
+│  11. Test: desktop, mobile (375px), smooth scroll        │
+│  12. Run thumbnail validation checklist (§8.5)           │
 └─────────────────────────────────────────────────────────┘
 ```
