@@ -27,6 +27,10 @@ rules = [
 GITHUB_REPO = "riz-razak/analyst"
 GITHUB_BRANCH = "main"
 ENVIRONMENT = "production"
+# NOTE: Email sending requires a Cloudflare secret (not stored in wrangler.toml):
+#   wrangler secret put RESEND_API_KEY --env production
+# Get your free API key at https://resend.com (3,000 emails/month free)
+# Also verify submissions@analyst.rizrazak.com in Resend dashboard
 
 [env.development.vars]
 GITHUB_REPO = "riz-razak/analyst"

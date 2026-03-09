@@ -39,11 +39,11 @@ export default {
       } else if (path === '/api/session/publish') {
         return handlePublish(request, env, ctx);
       } else if (path === '/api/submissions/submit') {
-        return handleSubmission(request, env);
+        return handleSubmission(request, env, ctx);
       } else if (path === '/api/submissions/list') {
         return handleListSubmissions(request, env);
       } else if (path === '/api/submissions/review') {
-        return handleReviewSubmission(request, env);
+        return handleReviewSubmission(request, env, ctx);
       }
 
       return new Response(JSON.stringify({ error: 'Not Found' }), {
@@ -442,7 +442,7 @@ async function handlePublish(request, env, ctx) {
  * Accepts crowdsourced evidence submissions from the dossier front-end.
  * Rate-limited by IP (5 per hour).
  */
-async function handleSubmission(request, env) {
+async function handleSubmission(request, env, ctx) {
   if (request.method !== 'POST') {
     return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
   }
@@ -559,10 +559,17 @@ async function handleSubmission(request, env) {
     expirationTtl: 90 * 24 * 60 * 60,
   });
 
+  // Fire emails in the background — does not block response
+  ctx.waitUntil(
+    sendSubmissionEmails(env, submission).catch(e =>
+      console.error('Submission email failed:', e.message)
+    )
+  );
+
   return corsResponse(JSON.stringify({
     success: true,
     submissionId,
-    message: 'Thank you. Your submission will be reviewed by the editorial team.',
+    message: 'Thank you. Your submission will be reviewed by the editorial team. A confirmation has been sent to your email.',
   }), 200);
 }
 
@@ -608,7 +615,7 @@ async function handleListSubmissions(request, env) {
  * REVIEW SUBMISSION (Admin — requires auth)
  * Accept, reject, or mark as under review
  */
-async function handleReviewSubmission(request, env) {
+async function handleReviewSubmission(request, env, ctx) {
   if (request.method !== 'POST') {
     return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
   }
@@ -658,7 +665,370 @@ async function handleReviewSubmission(request, env) {
     });
   }
 
+  // Notify submitter of decision (background, non-blocking)
+  if (submission.submitter && submission.submitter.email) {
+    ctx.waitUntil(
+      sendReviewStatusEmail(env, submission).catch(e =>
+        console.error('Review status email failed:', e.message)
+      )
+    );
+  }
+
   return corsResponse(JSON.stringify({ success: true, submission }), 200);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EMAIL — Automated confirmation and accountability flow
+// Requires RESEND_API_KEY Cloudflare secret: `wrangler secret put RESEND_API_KEY`
+// Free tier: 3,000 emails/month — https://resend.com
+// ═══════════════════════════════════════════════════════════════════════════
+
+const FROM_ADDRESS = 'Analyst Dossiers <submissions@analyst.rizrazak.com>';
+const ADMIN_EMAIL = 'riz@dgtl.lk';
+const SITE_URL = 'https://analyst.rizrazak.com';
+
+/**
+ * Send submission confirmation to submitter + admin notification
+ */
+async function sendSubmissionEmails(env, submission) {
+  const { id: submissionId, dossierId, submitter, evidence, permissions } = submission;
+  const { name, email, relation } = submitter;
+
+  await Promise.all([
+    // 1. Confirmation to submitter
+    sendEmail(env, {
+      to: email,
+      subject: `Submission confirmed — ${submissionId}`,
+      html: buildConfirmationHtml(name, submissionId, dossierId, evidence, permissions),
+      text: buildConfirmationText(name, submissionId, dossierId, evidence, permissions),
+    }),
+
+    // 2. Alert to admin
+    sendEmail(env, {
+      to: ADMIN_EMAIL,
+      subject: `[analyst] New submission — ${dossierId}`,
+      html: buildAdminNotificationHtml(submission),
+      text: buildAdminNotificationText(submission),
+    }),
+  ]);
+}
+
+/**
+ * Send status update to submitter when their submission is reviewed
+ */
+async function sendReviewStatusEmail(env, submission) {
+  const { id: submissionId, dossierId, submitter, review } = submission;
+  const { name, email } = submitter;
+  const { action, notes } = review;
+
+  await sendEmail(env, {
+    to: email,
+    subject: `Update on your submission — ${submissionId}`,
+    html: buildStatusUpdateHtml(name, submissionId, dossierId, action, notes),
+    text: buildStatusUpdateText(name, submissionId, dossierId, action, notes),
+  });
+}
+
+/**
+ * Low-level email sender via Resend API
+ */
+async function sendEmail(env, { to, subject, html, text }) {
+  if (!env.RESEND_API_KEY) {
+    console.warn('[email] RESEND_API_KEY not set — email not sent:', subject);
+    return;
+  }
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: FROM_ADDRESS,
+      to: Array.isArray(to) ? to : [to],
+      subject,
+      html,
+      text,
+    }),
+  });
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error(`Resend API error ${response.status}: ${err}`);
+  }
+
+  const result = await response.json();
+  console.log('[email] Sent:', subject, '→', to, '— id:', result.id);
+}
+
+// ─── Email template helpers ─────────────────────────────────────────────────
+
+function dossierLabel(dossierId) {
+  return dossierId
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function evidenceTypeSummary(evidence) {
+  const t = (evidence.type || 'general').replace(/-/g, ' ');
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
+// ─── Submitter confirmation ──────────────────────────────────────────────────
+
+function buildConfirmationHtml(name, submissionId, dossierId, evidence, permissions) {
+  const dossierName = dossierLabel(dossierId);
+  const dossierUrl = `${SITE_URL}/dossiers/${dossierId}/`;
+  const desc = String(evidence.description || '').slice(0, 300);
+  const canContact = permissions.contactForFollowUp;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f8f8f5;font-family:Georgia,serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f8f5;">
+<tr><td align="center" style="padding:40px 16px;">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;max-width:600px;width:100%;">
+  <tr><td style="border-top:3px solid #2d5016;padding:40px 40px 0;">
+    <p style="margin:0 0 28px;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#888;">analyst.rizrazak.com</p>
+    <h1 style="margin:0 0 6px;font-size:24px;font-weight:400;color:#111;">Submission Received</h1>
+    <p style="margin:0 0 32px;font-size:13px;color:#888;font-family:monospace;">Ref: ${submissionId}</p>
+
+    <p style="margin:0 0 16px;color:#333;line-height:1.7;">Dear ${escHtml(name)},</p>
+    <p style="margin:0 0 16px;color:#333;line-height:1.7;">
+      Your evidence submission for the <strong>${escHtml(dossierName)}</strong> dossier has been logged
+      and will be reviewed by the editorial team.
+    </p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f0;border-left:3px solid #2d5016;margin:24px 0;">
+      <tr><td style="padding:18px 22px;">
+        <p style="margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#888;">Evidence submitted</p>
+        <p style="margin:0 0 6px;font-size:14px;font-weight:700;color:#111;">${escHtml(evidenceTypeSummary({ type: evidence.type }))}</p>
+        <p style="margin:0;font-size:14px;color:#444;line-height:1.6;">${escHtml(desc)}${desc.length >= 300 ? '…' : ''}</p>
+      </td></tr>
+    </table>
+
+    <h2 style="font-size:15px;font-weight:700;color:#111;margin:32px 0 12px;">What happens next</h2>
+    <ol style="margin:0 0 24px;padding-left:22px;color:#444;line-height:1.8;">
+      <li>The editorial team will review your submission, typically within 48 hours.</li>
+      <li>All evidence is assessed against the site's <a href="${SITE_URL}/evidence-protocol" style="color:#2d5016;">Evidence Protocol</a> before integration.</li>
+      <li>${canContact
+        ? 'You have indicated that we may contact you for follow-up or verification. We may reach you at this address.'
+        : 'You have indicated you do not wish to be contacted for follow-up. If this changes, please email the editorial team directly.'}</li>
+    </ol>
+
+    ${evidence.file ? `<p style="font-size:13px;color:#555;margin:0 0 24px;">
+      📎 Attached file logged: <strong>${escHtml(evidence.file.name)}</strong>
+      (${Math.round((evidence.file.sizeBytes || 0) / 1024)} KB)
+    </p>` : ''}
+
+    <p style="font-size:13px;color:#333;line-height:1.7;margin:0 0 16px;">
+      Your identity and contact details are handled in accordance with the site's source protection
+      obligations and are not shared with third parties.
+    </p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e8e8e0;margin-top:32px;">
+      <tr><td style="padding:24px 0 40px;">
+        <p style="margin:0 0 6px;font-size:12px;color:#888;">Keep this reference number for any follow-up:</p>
+        <p style="margin:0 0 16px;font-size:13px;font-family:monospace;color:#2d5016;font-weight:700;">${submissionId}</p>
+        <p style="margin:0;font-size:12px;color:#aaa;">This is an automated message from analyst.rizrazak.com. Do not reply directly to this email.</p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`;
+}
+
+function buildConfirmationText(name, submissionId, dossierId, evidence, permissions) {
+  const dossierName = dossierLabel(dossierId);
+  const desc = String(evidence.description || '').slice(0, 300);
+  return `SUBMISSION RECEIVED — analyst.rizrazak.com
+Reference: ${submissionId}
+
+Dear ${name},
+
+Your evidence submission for the "${dossierName}" dossier has been logged and will be reviewed by the editorial team.
+
+EVIDENCE SUBMITTED
+Type: ${evidenceTypeSummary(evidence)}
+Description: ${desc}${desc.length >= 300 ? '...' : ''}
+${evidence.file ? `Attached file: ${evidence.file.name} (${Math.round((evidence.file.sizeBytes || 0) / 1024)} KB)` : ''}
+
+WHAT HAPPENS NEXT
+1. The editorial team will review your submission, typically within 48 hours.
+2. All evidence is assessed against the Evidence Protocol before integration.
+3. ${permissions.contactForFollowUp
+    ? 'You have permitted us to contact you for follow-up or verification.'
+    : 'You have indicated you do not wish to be contacted for follow-up.'}
+
+Your identity and contact details are handled per the site's source protection obligations.
+
+Keep this reference: ${submissionId}
+
+analyst.rizrazak.com — This is an automated message. Do not reply.`;
+}
+
+// ─── Admin notification ──────────────────────────────────────────────────────
+
+function buildAdminNotificationHtml(submission) {
+  const { id, dossierId, submittedAt, submitter, evidence, permissions } = submission;
+  const dossierName = dossierLabel(dossierId);
+  const dateStr = new Date(submittedAt).toUTCString();
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#f8f8f5;font-family:monospace;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f8f5;">
+<tr><td align="center" style="padding:40px 16px;">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;max-width:600px;width:100%;border-top:3px solid #c0392b;">
+  <tr><td style="padding:32px 40px;">
+    <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#c0392b;">analyst — New Evidence Submission</p>
+    <h1 style="margin:0 0 4px;font-size:20px;font-weight:700;color:#111;">${escHtml(dossierName)}</h1>
+    <p style="margin:0 0 28px;font-size:12px;color:#888;font-family:monospace;">${id}</p>
+
+    <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse;font-size:13px;margin-bottom:24px;">
+      <tr style="background:#f5f5f0;"><td style="padding:10px 12px;color:#888;width:140px;">Submitted</td><td style="padding:10px 12px;">${dateStr}</td></tr>
+      <tr><td style="padding:10px 12px;color:#888;border-top:1px solid #eee;">Name</td><td style="padding:10px 12px;border-top:1px solid #eee;"><strong>${escHtml(submitter.name)}</strong></td></tr>
+      <tr style="background:#f5f5f0;"><td style="padding:10px 12px;color:#888;">Email</td><td style="padding:10px 12px;"><a href="mailto:${escHtml(submitter.email)}" style="color:#2d5016;">${escHtml(submitter.email)}</a></td></tr>
+      <tr><td style="padding:10px 12px;color:#888;border-top:1px solid #eee;">Relation</td><td style="padding:10px 12px;border-top:1px solid #eee;">${escHtml(submitter.relation || 'not specified')}</td></tr>
+      <tr style="background:#f5f5f0;"><td style="padding:10px 12px;color:#888;">Evidence type</td><td style="padding:10px 12px;">${escHtml(evidence.type || 'general')}</td></tr>
+      <tr><td style="padding:10px 12px;color:#888;border-top:1px solid #eee;">File attached</td><td style="padding:10px 12px;border-top:1px solid #eee;">${evidence.file
+        ? `✅ ${escHtml(evidence.file.name)} — ${Math.round((evidence.file.sizeBytes || 0) / 1024)} KB (${escHtml(evidence.file.mimeType || '')})`
+        : '—'}</td></tr>
+      <tr style="background:#f5f5f0;"><td style="padding:10px 12px;color:#888;">Can contact</td><td style="padding:10px 12px;">${permissions.contactForFollowUp ? '✅ Yes' : '❌ No'}</td></tr>
+      <tr><td style="padding:10px 12px;color:#888;border-top:1px solid #eee;">Attribution</td><td style="padding:10px 12px;border-top:1px solid #eee;">${permissions.attributeName ? '✅ Name may be attributed' : '🔒 Anonymous'}</td></tr>
+    </table>
+
+    <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin:0 0 8px;">Description</p>
+    <div style="background:#f8f8f5;border:1px solid #e0e0d8;padding:16px;font-size:14px;color:#222;line-height:1.7;margin-bottom:20px;white-space:pre-wrap;">${escHtml(evidence.description || '')}</div>
+
+    ${evidence.url ? `<p style="font-size:13px;margin:0 0 16px;"><strong>URL provided:</strong> <a href="${escHtml(evidence.url)}" style="color:#2d5016;">${escHtml(evidence.url)}</a></p>` : ''}
+    ${evidence.howToIntegrate ? `<p style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin:16px 0 8px;">Integration notes</p><p style="font-size:13px;color:#333;line-height:1.7;margin:0 0 20px;">${escHtml(evidence.howToIntegrate)}</p>` : ''}
+
+    <p style="font-size:11px;color:#aaa;margin:24px 0 0;border-top:1px solid #eee;padding-top:16px;">
+      Submission ID: ${id}<br>
+      Dossier: ${dossierId}<br>
+      IP: ${escHtml(submission.submittedFromIp || 'unknown')}
+    </p>
+  </td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`;
+}
+
+function buildAdminNotificationText(submission) {
+  const { id, dossierId, submittedAt, submitter, evidence, permissions } = submission;
+  return `[analyst] NEW SUBMISSION — ${dossierId}
+${id}
+Submitted: ${new Date(submittedAt).toUTCString()}
+
+SUBMITTER
+Name:     ${submitter.name}
+Email:    ${submitter.email}
+Relation: ${submitter.relation || 'not specified'}
+Contact:  ${permissions.contactForFollowUp ? 'Yes' : 'No'}
+Attribute:${permissions.attributeName ? 'Yes' : 'No (anonymous)'}
+
+EVIDENCE
+Type: ${evidence.type || 'general'}
+File: ${evidence.file ? `${evidence.file.name} (${Math.round((evidence.file.sizeBytes || 0) / 1024)} KB)` : 'none'}
+URL:  ${evidence.url || 'none'}
+
+Description:
+${evidence.description || ''}
+
+${evidence.howToIntegrate ? `Integration notes:\n${evidence.howToIntegrate}\n` : ''}
+IP: ${submission.submittedFromIp || 'unknown'}`;
+}
+
+// ─── Status update (accepted / rejected) ────────────────────────────────────
+
+function buildStatusUpdateHtml(name, submissionId, dossierId, action, notes) {
+  const dossierName = dossierLabel(dossierId);
+  const isAccepted = action === 'accepted';
+  const statusColor = isAccepted ? '#2d5016' : '#888';
+  const statusLabel = isAccepted ? 'Accepted' : action === 'rejected' ? 'Not accepted' : 'Under review';
+
+  const bodyText = isAccepted
+    ? `Your submission has been accepted for integration into the <strong>${escHtml(dossierName)}</strong> dossier. The editorial team thanks you for your contribution.`
+    : action === 'rejected'
+    ? `After review, your submission was not incorporated into the <strong>${escHtml(dossierName)}</strong> dossier at this time. This may be due to evidential standards, duplication with existing material, or editorial scope — it is not a reflection on the importance of what you shared.`
+    : `Your submission is currently under active review by the editorial team.`;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#f8f8f5;font-family:Georgia,serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f8f5;">
+<tr><td align="center" style="padding:40px 16px;">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;max-width:600px;width:100%;border-top:3px solid ${statusColor};">
+  <tr><td style="padding:40px 40px 32px;">
+    <p style="margin:0 0 28px;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#888;">analyst.rizrazak.com</p>
+    <h1 style="margin:0 0 6px;font-size:22px;font-weight:400;color:#111;">Submission Update</h1>
+    <p style="margin:0 0 28px;font-size:13px;color:#888;font-family:monospace;">Ref: ${submissionId}</p>
+
+    <p style="margin:0 0 16px;color:#333;line-height:1.7;">Dear ${escHtml(name)},</p>
+    <p style="margin:0 0 24px;color:#333;line-height:1.7;">${bodyText}</p>
+
+    <div style="background:#f5f5f0;border-left:3px solid ${statusColor};padding:14px 20px;margin:0 0 24px;">
+      <span style="font-size:12px;text-transform:uppercase;letter-spacing:0.1em;color:#888;">Status: </span>
+      <strong style="color:${statusColor};">${statusLabel}</strong>
+    </div>
+
+    ${notes ? `<p style="font-size:14px;color:#444;line-height:1.7;font-style:italic;margin:0 0 24px;">"${escHtml(notes)}"</p>` : ''}
+
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:0;">
+      Thank you for contributing to independent accountability journalism.
+    </p>
+
+    <p style="font-size:12px;color:#aaa;margin:32px 0 0;border-top:1px solid #eee;padding-top:16px;">
+      Reference: ${submissionId} — analyst.rizrazak.com<br>
+      This is an automated message. Do not reply directly to this email.
+    </p>
+  </td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`;
+}
+
+function buildStatusUpdateText(name, submissionId, dossierId, action, notes) {
+  const dossierName = dossierLabel(dossierId);
+  const statusLabel = action === 'accepted' ? 'ACCEPTED' : action === 'rejected' ? 'NOT ACCEPTED' : 'UNDER REVIEW';
+  const bodyText = action === 'accepted'
+    ? `Your submission has been accepted for integration into the "${dossierName}" dossier.`
+    : action === 'rejected'
+    ? `After review, your submission was not incorporated into the "${dossierName}" dossier at this time.`
+    : `Your submission is currently under active review by the editorial team.`;
+
+  return `SUBMISSION UPDATE — analyst.rizrazak.com
+Reference: ${submissionId}
+Status: ${statusLabel}
+
+Dear ${name},
+
+${bodyText}
+${notes ? `\nReviewer notes: "${notes}"` : ''}
+
+Thank you for contributing to independent accountability journalism.
+
+analyst.rizrazak.com`;
+}
+
+// ─── Utility: HTML entity escaping ──────────────────────────────────────────
+
+function escHtml(str) {
+  return String(str || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 /**
