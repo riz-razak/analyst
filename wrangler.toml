@@ -1,0 +1,43 @@
+name = "analyst-collaborative-cms"
+type = "service"
+main = "functions/_middleware.js"
+compatibility_date = "2025-03-09"
+
+[env.production]
+routes = [
+  { pattern = "analyst.rizrazak.com/*", zone_name = "rizrazak.com" }
+]
+
+[[kv_namespaces]]
+binding = "SESSION_STORE"
+id = "analyst-session-kv"
+preview_id = "analyst-session-kv-preview"
+
+[[kv_namespaces]]
+binding = "DRAFT_STORE"
+id = "analyst-draft-kv"
+preview_id = "analyst-draft-kv-preview"
+
+[env.development]
+vars = { ENVIRONMENT = "development" }
+
+[build]
+cwd = "."
+command = "npm run build"
+watch_paths = ["src/**/*.jsx", "src/**/*.js"]
+
+[build.upload]
+main = "dist/index.js"
+rules = [
+  { type = "Text", globs = ["**/*.js", "**/*.json"] }
+]
+
+[env.production.vars]
+GITHUB_REPO = "riz-razak/analyst"
+GITHUB_BRANCH = "main"
+ENVIRONMENT = "production"
+
+[env.development.vars]
+GITHUB_REPO = "riz-razak/analyst"
+GITHUB_BRANCH = "develop"
+ENVIRONMENT = "development"
