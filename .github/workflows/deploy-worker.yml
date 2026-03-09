@@ -36,7 +36,7 @@ jobs:
           AUTH_TOKEN="${CLOUDFLARE_API_TOKEN}"
           WORKER_NAME="analyst-collaborative-cms"
 
-          # Function to create KV namespace
+          # Function to create or get KV namespace
           create_kv_namespace() {
             local namespace_name=$1
             echo "Creating KV namespace: $namespace_name"
@@ -47,37 +47,69 @@ jobs:
               -H "Content-Type: application/json" \
               -d "{\"title\": \"$namespace_name\"}")
 
-            # Check if namespace already exists or was created
+            # Check if namespace was created or already exists
             if echo "$response" | grep -q '"success":true'; then
-              namespace_id=$(echo "$response" | grep -o '"id":"[^"]*"' | head -1 | cut -d'"' -f4)
+              namespace_id=$(echo "$response" | python3 -c "import sys, json; print(json.load(sys.stdin)['result']['id'])" 2>/dev/null || echo "")
               echo "✓ Namespace created/exists: $namespace_name (ID: $namespace_id)"
+              echo "$namespace_id"
             else
               echo "Response: $response"
-              echo "Note: Namespace may already exist, continuing..."
+              # Try to list existing namespaces and find the one we want
+              list_response=$(curl -s -X GET \
+                "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/storage/kv/namespaces" \
+                -H "Authorization: Bearer ${AUTH_TOKEN}")
+              namespace_id=$(echo "$list_response" | python3 -c "import sys, json; namespaces = json.load(sys.stdin)['result']; matching = [ns['id'] for ns in namespaces if ns['title'] == '$namespace_name']; print(matching[0] if matching else '')" 2>/dev/null || echo "")
+              if [ ! -z "$namespace_id" ]; then
+                echo "✓ Found existing namespace: $namespace_name (ID: $namespace_id)"
+                echo "$namespace_id"
+              else
+                echo "✗ Could not create or find namespace: $namespace_name"
+                exit 1
+              fi
             fi
           }
 
-          # Create namespaces
-          create_kv_namespace "analyst-session-kv"
-          create_kv_namespace "analyst-draft-kv"
+          # Create namespaces and capture IDs
+          SESSION_KV_ID=$(create_kv_namespace "analyst-session-kv")
+          DRAFT_KV_ID=$(create_kv_namespace "analyst-draft-kv")
 
           # Deploy Worker
           echo "Deploying Worker: $WORKER_NAME"
+          echo "Using KV namespaces: SESSION_STORE=$SESSION_KV_ID, DRAFT_STORE=$DRAFT_KV_ID"
 
-          # Read the worker script
-          WORKER_SCRIPT=$(cat functions/collaborative-session.js)
+          # Create the metadata JSON for KV bindings
+          cat > /tmp/metadata.json << EOF
+          {
+            "main_module": "index.js",
+            "bindings": [
+              {
+                "type": "kv_namespace",
+                "name": "SESSION_STORE",
+                "namespace_id": "$SESSION_KV_ID"
+              },
+              {
+                "type": "kv_namespace",
+                "name": "DRAFT_STORE",
+                "namespace_id": "$DRAFT_KV_ID"
+              }
+            ]
+          }
+          EOF
 
-          # Deploy to Cloudflare Workers
+          # Deploy to Cloudflare Workers with multipart form
           deploy_response=$(curl -s -X PUT \
             "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/scripts/${WORKER_NAME}" \
             -H "Authorization: Bearer ${AUTH_TOKEN}" \
-            -H "Content-Type: application/javascript" \
-            --data-binary "@functions/collaborative-session.js")
+            -F "metadata=<@/tmp/metadata.json" \
+            -F "script=@functions/collaborative-session.js;type=application/javascript")
+
+          echo "Deploy response: $deploy_response"
 
           if echo "$deploy_response" | grep -q '"success":true'; then
             echo "✓ Worker deployed successfully: $WORKER_NAME"
+            echo "Worker URL: https://${WORKER_NAME}.riz-1cb.workers.dev"
           else
-            echo "Deployment response: $deploy_response"
+            echo "Deployment failed. Response: $deploy_response"
             exit 1
           fi
 
