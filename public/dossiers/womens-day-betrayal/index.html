@@ -1606,24 +1606,114 @@ body.sinhala [lang-en-inline] { display: none; }
 
 <div class="divider"></div>
 
-<!-- ===== COMMENTS ===== -->
+<!-- ===== COMMENTS (Supabase Magic-Link) ===== -->
+<style>
+/* ─── Comments system styles ─────────────────────────────────────────────── */
+.comments-auth { margin-bottom: 24px; }
+.comments-identity {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; background: var(--sage-mist); border-radius: var(--radius);
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+.comments-avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--forest);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.85rem; flex-shrink: 0;
+}
+.comments-avatar-sm { width: 28px; height: 28px; font-size: 0.72rem; }
+.comments-user-info { flex: 1; font-size: 0.85rem; }
+.comments-user-info strong { color: var(--forest-deep); }
+.comments-muted { color: var(--text-muted); font-size: 0.78rem; }
+.comments-signin { padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); }
+.comments-signin-prompt { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 12px; }
+.comments-input-row { display: flex; gap: 8px; }
+.comments-input {
+  flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: var(--font-sans); font-size: 0.88rem; background: var(--bg);
+  transition: border-color 0.2s;
+}
+.comments-input:focus { outline: none; border-color: var(--forest); }
+.comments-btn-primary {
+  padding: 10px 20px; background: var(--forest); color: #fff; border: none;
+  border-radius: 8px; font-family: var(--font-sans); font-size: 0.85rem;
+  font-weight: 600; cursor: pointer; transition: background 0.2s; white-space: nowrap;
+}
+.comments-btn-primary:hover { background: var(--forest-deep); }
+.comments-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.comments-btn-text {
+  background: none; border: none; color: var(--forest); font-size: 0.8rem;
+  cursor: pointer; font-family: var(--font-sans); text-decoration: underline;
+  padding: 4px 0;
+}
+.comments-btn-sm { font-size: 0.72rem; }
+.comments-status { font-size: 0.82rem; margin-top: 8px; min-height: 1.2em; }
+.comments-success { color: var(--forest); }
+.comments-error { color: var(--ember); }
+.comments-label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px; }
+.comments-name-prompt { margin-bottom: 16px; padding: 12px 16px; background: var(--gold-light); border-radius: 8px; }
+.comments-compose { margin-bottom: 20px; }
+.comments-compose-reply { margin-left: 40px; padding: 12px; background: var(--bg-card-alt); border-radius: 8px; margin-top: 8px; margin-bottom: 16px; }
+.comments-textarea {
+  width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px;
+  font-family: var(--font-sans); font-size: 0.88rem; background: var(--bg);
+  resize: vertical; min-height: 80px; transition: border-color 0.2s; line-height: 1.6;
+}
+body.sinhala .comments-textarea { font-family: var(--font-sinhala); }
+.comments-textarea:focus { outline: none; border-color: var(--forest); }
+.comments-compose-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.comments-char-count { font-size: 0.72rem; color: var(--text-muted); }
+
+/* Comment list */
+.comments-list { margin-bottom: 20px; }
+.comment {
+  padding: 16px 0; border-bottom: 1px solid var(--border);
+}
+.comment:last-child { border-bottom: none; }
+.comment-reply { padding-left: 40px; }
+.comment-pending { opacity: 0.7; }
+.comment-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.comment-meta { font-size: 0.82rem; }
+.comment-meta strong { color: var(--text); }
+.comment-body { font-size: 0.9rem; line-height: 1.7; color: var(--text-secondary); }
+body.sinhala .comment-body { font-family: var(--font-sinhala); }
+.comment-actions { margin-top: 6px; }
+.comment-badge { display: inline-block; padding: 1px 8px; border-radius: 8px; font-size: 0.65rem; font-weight: 600; margin-left: 8px; vertical-align: middle; }
+.comment-badge-pending { background: var(--gold-light); color: var(--gold); }
+.comments-empty { color: var(--text-muted); font-size: 0.88rem; padding: 24px 0; text-align: center; font-style: italic; }
+.comments-guidelines { font-size: 0.75rem; color: var(--text-muted); padding-top: 16px; border-top: 1px solid var(--border); margin-top: 8px; }
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+  .comments-input-row { flex-direction: column; }
+  .comments-btn-primary { width: 100%; }
+  .comment-reply { padding-left: 20px; }
+  .comments-compose-reply { margin-left: 20px; }
+}
+</style>
 <section class="section" id="comments" style="max-width: 860px; margin: 0 auto; padding: 40px 24px;">
   <div class="section-header" style="margin-bottom: 28px;">
     <div class="section-label" lang-en>Public Discussion</div>
     <div class="section-label si" lang-si style="display:none">මහජන සාකච්ඡාව</div>
     <h2 lang-en style="font-size: 1.5rem;">Comments</h2>
     <h2 lang-si class="si" style="display:none; font-size: 1.5rem;">අදහස්</h2>
-    <p class="section-desc" lang-en>Requires a GitHub account. Comments are moderated. No hate speech or harassment.</p>
-    <p class="section-desc si" lang-si style="display:none">GitHub ගිණුමක් අවශ්‍ය වේ. අදහස් ප්‍රතිශෝධනය කෙරේ. වෛරී කතාබහ හෝ හිංසනය ඉවසනු නොලැබේ.</p>
+    <p class="section-desc" lang-en>Sign in with your email. No accounts needed — just a magic link. Comments are moderated.</p>
+    <p class="section-desc si" lang-si style="display:none">ඔබේ ඊමේල් ලිපිනයෙන් පුරන්න. ගිණුම් අවශ්‍ය නැත — මැජික් සබැඳියක් පමණි. අදහස් ප්‍රතිශෝධනය කෙරේ.</p>
   </div>
-  <script src="https://utteranc.es/client.js"
-    repo="riz-razak/analyst"
-    issue-term="pathname"
-    label="dossier-comment"
-    theme="github-light"
-    crossorigin="anonymous"
-    async>
+  <div id="comments-root"></div>
+
+  <!-- Supabase SDK + Comments module -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    window.ANALYST_COMMENTS_CONFIG = {
+      supabaseUrl: 'SUPABASE_URL_HERE',
+      supabaseAnonKey: 'SUPABASE_ANON_KEY_HERE',
+      dossierId: 'womens-day-betrayal',
+      containerId: 'comments-root',
+      adminEmail: 'riz@dgtl.lk',
+      siteUrl: 'https://analyst.rizrazak.com'
+    };
   </script>
+  <script src="/js/comments.js"></script>
 </section>
 
 <div class="divider"></div>
