@@ -10,7 +10,7 @@
       "authors": ["Riz Razak"],
       "tags": ["Sexual Harassment", "Media Accountability", "Women's Rights", "Press Ethics", "Sri Lanka", "International Women's Day"],
       "thumbnailUrl": "/images/thumbnails/womens-day-betrayal.jpg",
-      "contentUrl": "/dossiers/womens-day-betrayal/index.html",
+      "contentUrl": "/womens-day-betrayal/index.html",
       "sections": 8,
       "features": ["Victim testimony compilation", "Media editorial failure analysis", "Institutional pattern mapping", "Facebook evidence preservation", "Sinhala translation", "Legal disclaimer"],
       "status": "published"
@@ -23,7 +23,7 @@
       "authors": ["Riz Razak"],
       "tags": ["Geopolitics", "War", "Sri Lanka", "Game Theory", "AI", "US Decline"],
       "thumbnailUrl": "/images/thumbnails/iran-us-israel-war.jpg",
-      "contentUrl": "/dossiers/iran-us-israel-war/index.html",
+      "contentUrl": "/iran-us-israel-war/index.html",
       "sections": 14,
       "features": [
         "Interactive Political Jenga Tower (D3.js)",
@@ -47,7 +47,7 @@
       "authors": ["Riz Razak"],
       "tags": ["Consumer Rights", "Food Safety", "Corporate Accountability", "Social Media", "Sri Lanka"],
       "thumbnailUrl": "/images/thumbnails/caravan-fresh.jpg",
-      "contentUrl": "/dossiers/caravan-fresh/index.html",
+      "contentUrl": "/caravan-fresh/index.html",
       "sections": 8,
       "features": ["69-outlet geocoded map", "Behavioral pattern analysis", "Timeline reconstruction", "Evidence preservation", "Sinhala translation", "Dark mode", "Legal disclaimer"],
       "status": "published"
@@ -60,7 +60,7 @@
       "authors": ["Riz Razak"],
       "tags": ["Terrorism", "Sri Lanka", "Politics", "Intelligence", "Religion", "Conspiracy"],
       "thumbnailUrl": "/images/thumbnails/easter-sunday-attacks-suresh-sallay.jpg",
-      "contentUrl": "/dossiers/easter-sunday-attacks-suresh-sallay/index.html",
+      "contentUrl": "/easter-sunday-attacks-suresh-sallay/index.html",
       "sections": 14,
       "features": ["Exhaustive conspiracy board", "Zahran Hashim deep dive", "Game theory analysis", "Timeline analysis", "Misinformation/disinformation audit", "Scenario modelling"],
       "status": "hidden"
@@ -73,7 +73,7 @@
       "authors": ["Riz Razak"],
       "tags": ["Cricket", "Corruption", "Sports", "Politics", "Sri Lanka"],
       "thumbnailUrl": "/images/thumbnails/sri-lanka-cricket-corruption.jpg",
-      "contentUrl": "/dossiers/sri-lanka-cricket-corruption/index.html",
+      "contentUrl": "/sri-lanka-cricket-corruption/index.html",
       "sections": 14,
       "features": ["Game theory analysis", "Conspiracy board", "Stakeholder mapping", "Interactive power network", "KalathmaGate conduct files", "Sinhala translation", "Comments moderation", "GDPR compliant"],
       "status": "published"

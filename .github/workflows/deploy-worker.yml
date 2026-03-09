@@ -134,7 +134,7 @@ jobs:
 
           AUTH_TOKEN="${CLOUDFLARE_API_TOKEN}"
           WORKER_NAME="analyst-collaborative-cms"
-          ROUTE_PATTERN="analyst.rizrazak.com/dossiers/*"
+          ROUTE_PATTERN="analyst.rizrazak.com/*"
 
           # Step 1: Get zone ID for rizrazak.com
           echo "Looking up zone ID for rizrazak.com..."
@@ -201,7 +201,7 @@ jobs:
       - name: Verify deployment
         run: |
           echo "Worker deployed to: https://analyst-collaborative-cms.riz-1cb.workers.dev/"
-          echo "Worker Route: analyst.rizrazak.com/dossiers/* → analyst-collaborative-cms"
+          echo "Worker Route: analyst.rizrazak.com/* → analyst-collaborative-cms"
           sleep 2
           curl -s "https://analyst-collaborative-cms.riz-1cb.workers.dev/api/session/status?articleId=test" | head -c 200 || echo "Testing endpoint"
           echo ""

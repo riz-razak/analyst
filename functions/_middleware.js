@@ -10,9 +10,9 @@
 
 // Paths that require authentication (AAL2)
 const PROTECTED_PATHS = [
-  '/dossiers/sri-lanka-cricket-corruption/analytics.html',
-  '/dossiers/sri-lanka-cricket-corruption/sources.html',
-  '/dossiers/sri-lanka-cricket-corruption/kalathma-scandal.html',
+  '/sri-lanka-cricket-corruption/analytics.html',
+  '/sri-lanka-cricket-corruption/sources.html',
+  '/sri-lanka-cricket-corruption/kalathma-scandal.html',
   '/profile.html',
   '/admin-preview.html',
   '/admin-submissions.html',
@@ -180,18 +180,24 @@ function base64UrlDecode(str) {
 // ─── Dossier Visibility Helpers ──────────────────────────────────────────
 
 /**
- * Extract dossier slug from a path like /dossiers/womens-day-betrayal/
+ * Extract dossier slug from a root-level path like /womens-day-betrayal/
  * Returns null if the path isn't a dossier page.
  */
 function extractDossierSlug(path) {
-  // Match /dossiers/{slug}/ or /dossiers/{slug}/anything.html
-  // Exclude shared assets: /dossiers/_shared/, /dossiers/_analytics_events.js
-  const match = path.match(/^\/dossiers\/([a-z0-9][a-z0-9-]+[a-z0-9])\b/);
+  // Skip known non-dossier paths
+  if (path === '/' || path.startsWith('/api/') || path.startsWith('/auth/') ||
+      path.startsWith('/admin') || path.startsWith('/js/') || path.startsWith('/images/') ||
+      path.startsWith('/data/') || path.startsWith('/_')) {
+    return null;
+  }
+  // Skip root-level files (login.html, profile.html, etc.)
+  if (/^\/[^/]+\.(html|xml|json|txt|css|js|png|jpg|svg|ico|pdf|webp|woff2?)$/i.test(path)) {
+    return null;
+  }
+  // Match: /slug or /slug/ or /slug/anything
+  const match = path.match(/^\/([a-z0-9][a-z0-9-]+[a-z0-9])\b/);
   if (!match) return null;
-  const slug = match[1];
-  // Skip internal shared paths
-  if (slug.startsWith('_')) return null;
-  return slug;
+  return match[1];
 }
 
 /**

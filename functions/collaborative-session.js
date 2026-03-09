@@ -21,13 +21,19 @@ export default {
     }
 
     try {
-      // ── Dossier visibility gate (Worker Route on analyst.rizrazak.com) ──
-      // When a Worker Route is active for analyst.rizrazak.com/dossiers/*,
-      // this check intercepts dossier page requests at the edge.
-      // If the dossier is hidden in KV, return a 404 page.
-      // If visible (or not a dossier path), pass through to origin.
+      // ── Dossier visibility gate (Worker Route on analyst.rizrazak.com/*) ──
+      // Dossiers live at root: /womens-day-betrayal/, /caravan-fresh/, etc.
+      // This checks the KV visibility map for hidden dossiers.
+      // For any non-API request on the main site, check and pass through.
       const host = url.hostname;
-      if (host !== 'analyst-collaborative-cms.riz-1cb.workers.dev' && path.startsWith('/dossiers/')) {
+      if (host !== 'analyst-collaborative-cms.riz-1cb.workers.dev') {
+        // 301 redirect old /dossiers/* URLs to new root-level paths
+        if (path.startsWith('/dossiers/')) {
+          const newPath = path.replace('/dossiers/', '/');
+          return Response.redirect(`${url.origin}${newPath}${url.search}`, 301);
+        }
+
+        // Extract potential dossier slug from root-level path: /slug/ or /slug/page.html
         const slug = extractDossierSlug(path);
         if (slug) {
           const visMap = await env.SESSION_STORE.get(VISIBILITY_KV_KEY, 'json') || {};
@@ -39,7 +45,7 @@ export default {
             });
           }
         }
-        // Visible — pass through to origin (GitHub Pages)
+        // Not a hidden dossier (or not a dossier at all) — pass through to origin
         return fetch(request);
       }
 
@@ -455,8 +461,8 @@ async function handlePublish(request, env, ctx) {
     );
   }
 
-  // Target file: public/dossiers/{dossierId}/index.html
-  const filePath = `public/dossiers/${dossierId}/index.html`;
+  // Target file: public/{dossierId}/index.html (dossiers at root level)
+  const filePath = `public/${dossierId}/index.html`;
   const apiBase = `https://api.github.com/repos/${githubRepo}/contents/${filePath}`;
   const commitMessage = message || `chore(cms): publish ${dossierId} by ${lock.userEmail}`;
 
@@ -881,15 +887,25 @@ async function handleVisibilityCheck(request, env) {
 }
 
 /**
- * Extract dossier slug from a path like /dossiers/womens-day-betrayal/
+ * Extract dossier slug from a root-level path like /womens-day-betrayal/
  * Returns null for non-dossier paths or internal shared asset paths.
  */
 function extractDossierSlug(path) {
-  const match = path.match(/^\/dossiers\/([a-z0-9][a-z0-9-]+[a-z0-9])\b/);
+  // Dossiers live at root: /slug/ or /slug/page.html
+  // Skip known non-dossier paths (static files, admin pages, API, etc.)
+  if (path === '/' || path.startsWith('/api/') || path.startsWith('/auth/') ||
+      path.startsWith('/admin') || path.startsWith('/js/') || path.startsWith('/images/') ||
+      path.startsWith('/data/') || path.startsWith('/_shared/') || path.startsWith('/_')) {
+    return null;
+  }
+  // Skip files at root level (login.html, profile.html, etc.)
+  if (/^\/[^/]+\.(html|xml|json|txt|css|js|png|jpg|svg|ico|pdf|webp|woff2?)$/i.test(path)) {
+    return null;
+  }
+  // Match: /slug or /slug/ or /slug/anything
+  const match = path.match(/^\/([a-z0-9][a-z0-9-]+[a-z0-9])\b/);
   if (!match) return null;
-  const slug = match[1];
-  if (slug.startsWith('_')) return null;
-  return slug;
+  return match[1];
 }
 
 /**
@@ -1408,7 +1424,7 @@ function evidenceTypeSummary(evidence) {
 
 function buildConfirmationHtml(name, submissionId, dossierId, evidence, permissions) {
   const dossierName = dossierLabel(dossierId);
-  const dossierUrl = `${SITE_URL}/dossiers/${dossierId}/`;
+  const dossierUrl = `${SITE_URL}/${dossierId}/`;
   const desc = String(evidence.description || '').slice(0, 300);
   const canContact = permissions.contactForFollowUp;
 

@@ -28,7 +28,7 @@
     <script>(function() {
         var CMS_SLUG = 'iran-us-israel-war';
         var ADMIN_PW = 'Analyst@2026!';
-        fetch('/dossiers/' + CMS_SLUG + '/_cms-overrides.json?cb=' + Date.now())
+        fetch('/' + CMS_SLUG + '/_cms-overrides.json?cb=' + Date.now())
             .then(function(r) { return r.ok ? r.json() : {}; })
             .catch(function() { return {}; })
             .then(function(overrides) {

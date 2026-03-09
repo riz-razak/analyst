@@ -751,7 +751,7 @@ body.sinhala [lang-en-inline] { display: none; }
     <script>(function() {
         var CMS_SLUG = 'womens-day-betrayal';
         var ADMIN_PW = 'Analyst@2026!';
-        fetch('/dossiers/' + CMS_SLUG + '/_cms-overrides.json?cb=' + Date.now())
+        fetch('/' + CMS_SLUG + '/_cms-overrides.json?cb=' + Date.now())
             .then(function(r) { return r.ok ? r.json() : {}; })
             .catch(function() { return {}; })
             .then(function(overrides) {

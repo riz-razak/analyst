@@ -168,7 +168,7 @@
   }
 
   async function sendMagicLink(email) {
-    const redirectTo = `${siteUrl}/dossiers/${dossierId}/`;
+    const redirectTo = `${siteUrl}/${dossierId}/`;
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {

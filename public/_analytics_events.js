@@ -186,7 +186,7 @@
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a[href]');
     if (a && a.hostname === location.hostname && a.pathname !== pagePath) {
-      var isDossierLink = a.pathname.includes('/dossiers/');
+      var isDossierLink = a.pathname.includes('/womens-day-betrayal/') || a.pathname.includes('/iran-us-israel-war/') || a.pathname.includes('/caravan-fresh/') || a.pathname.includes('/easter-sunday-attacks-suresh-sallay/') || a.pathname.includes('/sri-lanka-cricket-corruption/') || a.pathname.includes('/sri-lanka-hormuz-crisis/') || a.pathname.includes('/anatta-bamiyan/');
       if (isDossierLink) {
         track('cross_dossier_nav', { from: pagePath, to: a.pathname });
       }

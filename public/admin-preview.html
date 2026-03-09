@@ -2398,7 +2398,7 @@ anatta-bamiyan<!DOCTYPE html>
                     <div class="detail-info-text" style="margin-bottom: 12px;">
                         Live URL:
                     </div>
-                    <a href="#" class="detail-info-link" id="live-url">https://analyst.rizrazak.com/dossiers/[id]</a>
+                    <a href="#" class="detail-info-link" id="live-url">https://analyst.rizrazak.com/[id]</a>
                     <div class="detail-info-text" style="margin-top: 12px;">
                         <span class="pill status-pub">● Published</span>
                     </div>
@@ -6949,7 +6949,7 @@ function renderDetailView(id) {
 
         // Try to load existing overrides
         const slug = dossier.slug || dossier.id;
-        fetch(`/dossiers/${slug}/_cms-overrides.json?cb=${Date.now()}`)
+        fetch(`/${slug}/_cms-overrides.json?cb=${Date.now()}`)
             .then(r => r.ok ? r.json() : {})
             .catch(() => ({}))
             .then(overrides => {
@@ -7014,7 +7014,7 @@ function renderDetailView(id) {
         newOpenBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            window.open('https://analyst.rizrazak.com/dossiers/' + cmsSaveSlug + '/index.html?admin', '_blank');
+            window.open('https://analyst.rizrazak.com/' + cmsSaveSlug + '/index.html?admin', '_blank');
         });
     } else {
         cmsSection.style.display = 'none';
@@ -7039,8 +7039,8 @@ function renderDetailView(id) {
     }
 
     // Set live URL
-    document.getElementById('live-url').href = `https://analyst.rizrazak.com/dossiers/${id}/index.html`;
-    document.getElementById('live-url').textContent = `https://analyst.rizrazak.com/dossiers/${id}/index.html`;
+    document.getElementById('live-url').href = `https://analyst.rizrazak.com/${id}/index.html`;
+    document.getElementById('live-url').textContent = `https://analyst.rizrazak.com/${id}/index.html`;
 
     // Update panel dossier names
     document.getElementById('fb-panel-dossier').textContent = dossier.title;
@@ -7060,7 +7060,7 @@ function handlePreview(id) {
         return;
     }
 
-    const url = `https://analyst.rizrazak.com/dossiers/${id}/index.html`;
+    const url = `https://analyst.rizrazak.com/${id}/index.html`;
     window.open(url, '_blank');
 }
 
@@ -7304,7 +7304,7 @@ function setupDetailView() {
             return;
         }
 
-        const url = `https://analyst.rizrazak.com/dossiers/${appState.currentDossierId}/index.html`;
+        const url = `https://analyst.rizrazak.com/${appState.currentDossierId}/index.html`;
         window.open(url, '_blank');
     });
 
