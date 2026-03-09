@@ -1,5 +1,5 @@
 # analyst.rizrazak.com — Living Project Tracker
-**Last updated:** 2026-03-09 (session 3)
+**Last updated:** 2026-03-09 (session 4)
 **Managed by:** Claude (Cowork)
 **Repo:** `riz-razak/analyst` → GitHub Pages → `analyst.rizrazak.com`
 
@@ -24,8 +24,29 @@
 - [ ] **Women's Day Betrayal — Sinhala translations incomplete**
   - Most `lang-si` elements have `style="display:none"` and some are empty or missing
 
-- [ ] **Women's Day Betrayal — In-text S1–S11 source references**
-  - Source index table exists (S1–S11) but body text has no inline `[S1]` reference markers linked to the table
+- [x] **Women's Day Betrayal — In-text S1–S11 source references** *(2026-03-09)*
+  - Added inline `[SX]` markers throughout all body text sections
+  - Added anchor IDs to evidence cards and source index rows
+  - Bidirectional navigation: body text → evidence cards → source index → back
+
+- [ ] **Narrative Timeline Positioning Bar** — subtle temporal position indicator
+  - Shows reader's position in the narrative timeline as they scroll
+  - Significance labels on key moments, hover cards for context
+  - Toggle-off option in CMS (`data-cms-id` attribute for admin control)
+  - Reusable component: `_shared/narrative-timeline.css` + `_shared/narrative-timeline.js`
+  - Standard for all dossier storytelling
+
+- [ ] **Platform Category System** — Miyazaki green palette
+  - Categories (max 20, always consolidate): Policy & Law, Geopolitics & Breaking News, Philosophy, Social Commentary, AI & Tech, Anarchist Social-Capitalism, Corruption & Mismanagement, Not Too Serious, Social Change
+  - Color palette derived from central Miyazaki green (`--forest`)
+  - Category tags on dossier cards, section headers, navigation
+
+- [ ] **Comments System Overhaul (Phase 3)** — Supabase backend
+  - User accounts with email (required), display names, magic link auth
+  - Threaded comments with collapse/expand (max 3 levels)
+  - WhatsApp community prompt (placeholder link)
+  - Admin moderation, rate limiting, email notifications
+  - Deferred to dedicated session
 
 - [ ] **Caravan Fresh — Pledge portal iframe embed on main page**
   - Portal deployed ✅ — verify it's correctly embedded in the Caravan Fresh index.html iframe with `?lang=` param passing
@@ -57,9 +78,28 @@
   - Sage-mist background with forest-green left border accent
   - Committed: `"Make evidence source cards always visible inline"`
 
+- [x] **Evidence chain architecture + bidirectional linking** *(2026-03-09)*
+  - S3 reclassified from TESTIMONY to COMMENTARY (Prabha Manuratne's article is analytical, not personal testimony)
+  - Inline `[SX]` reference markers throughout all body sections
+  - Anchor IDs on evidence cards (`ev-S1`, `ev-S2`, etc.) and source index rows (`src-S1`, etc.)
+  - Verdict badges (VERIFIED/DOCUMENTED) on all evidence cards
+  - Bidirectional navigation links (markers → cards → index ↔ back)
+  - New CSS: `.ec-tag.commentary`, `.ref-marker`, `.ev-verdict`, `.ev-nav-link`
+  - Committed: `"Evidence chain architecture + ethics protocol"`
+
+- [x] **Ethics & Source Protection Protocol created** *(2026-03-09)*
+  - Source protection, victim-centered reporting, censoring protocol, digital security
+  - Comment moderation ethics, legal compliance checklist, corrections policy
+  - File: `ETHICS_PROTOCOL.md` in repo root
+
+- [x] **Shared evidence system modules created** *(2026-03-09)*
+  - `public/dossiers/_shared/evidence-system.css` — all evidence card styles, tags, badges
+  - `public/dossiers/_shared/evidence-system.js` — smooth scroll, highlight, hash navigation
+
 - [x] **Evidence Pipeline Protocol document created** *(2026-03-09)*
   - Full 10-stage pipeline: Capture → Verify → Classify → Format → Embed → Cite → Deploy
   - HTML/CSS templates, category tag system, naming conventions, checklists
+  - Updated: COMMENTARY tag, verdict system, shared module docs, cross-references
   - File: `EVIDENCE_PROTOCOL.md` in repo root
 
 - [x] **Women's Day Betrayal — Evidence hover preview cards (original, superseded)** *(2026-03-09)*
@@ -87,7 +127,9 @@
 | Caravan Fresh dossier | ✅ Live | `/dossiers/caravan-fresh/` |
 | Pledge portal | ✅ Live | `/dossiers/caravan-fresh/pledge-portal.html` |
 | Women's Day dossier | ✅ Live | `/dossiers/womens-day-betrayal/` — inline evidence cards + comments system |
-| Evidence Protocol | ✅ Created | `EVIDENCE_PROTOCOL.md` — full pipeline reference |
+| Evidence Protocol | ✅ Created | `EVIDENCE_PROTOCOL.md` — full pipeline reference with verdict system |
+| Ethics Protocol | ✅ Created | `ETHICS_PROTOCOL.md` — source protection, victim-centered reporting |
+| Shared Evidence System | ✅ Created | `_shared/evidence-system.css` + `_shared/evidence-system.js` |
 | Admin dashboard | 🔴 Not built | `admin-preview.html` is a mockup only |
 | Email worker | ✅ Cloudflare Worker | Pledge confirmation emails |
 | GitHub API write access | ❌ Not configured | Needed for CMS feature |

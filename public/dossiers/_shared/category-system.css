@@ -1,0 +1,167 @@
+/* ===================================================================
+   PLATFORM CATEGORY SYSTEM — Miyazaki Green Palette
+   analyst.rizrazak.com
+   Last updated: 2026-03-09
+
+   Max 20 categories. Always consolidate, never expand unnecessarily.
+   All colors derived from the central Miyazaki green (--forest: #2d5a27).
+   =================================================================== */
+
+/* ===== CATEGORY TAG BASE ===== */
+.cat-tag {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* ===== THE 9 CORE CATEGORIES ===== */
+/* Palette: each hue shifts from the Miyazaki green base,
+   maintaining organic, earthy, studio-ghibli-adjacent warmth */
+
+/* 1. Policy & Law — Deep forest authority */
+.cat-tag.policy-law {
+  background: #d1e7dd;
+  color: #1a3a15;
+}
+
+/* 2. Geopolitics & Breaking News — Urgent warm amber */
+.cat-tag.geopolitics {
+  background: #fef3c7;
+  color: #78570a;
+}
+
+/* 3. Philosophy — Contemplative sage */
+.cat-tag.philosophy {
+  background: #e8f0e2;
+  color: #3d6b35;
+}
+
+/* 4. Social Commentary — Warm earth tones */
+.cat-tag.social-commentary {
+  background: #f5ebe0;
+  color: #5c4033;
+}
+
+/* 5. AI & Tech — Cool moss-steel */
+.cat-tag.ai-tech {
+  background: #dbeafe;
+  color: #1e3a5f;
+}
+
+/* 6. Anarchist Social-Capitalism — Bold revolutionary green-gold */
+.cat-tag.anarchist-social-capitalism {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #a3cfbb;
+}
+
+/* 7. Corruption & Mismanagement — Blood-ember warning */
+.cat-tag.corruption {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* 8. Not Too Serious — Light, playful moss */
+.cat-tag.not-too-serious {
+  background: #f0f4e8;
+  color: #6b7c5a;
+}
+
+/* 9. Social Change — Hopeful spring green */
+.cat-tag.social-change {
+  background: #c8e6c9;
+  color: #1b5e20;
+}
+
+/* ===== RESERVED EXPANSION SLOTS (10-20) ===== */
+/* Use these when new categories are truly needed.
+   Always prefer consolidating into existing categories first. */
+
+/* 10. Media & Press — Ink grey */
+.cat-tag.media-press {
+  background: #e2e3e5;
+  color: #383d41;
+}
+
+/* 11. Economics & Trade — Gold-earth */
+.cat-tag.economics {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* 12. Human Rights — Deep empathy rose */
+.cat-tag.human-rights {
+  background: #fce4ec;
+  color: #880e4f;
+}
+
+/* 13. Environment — Verdant */
+.cat-tag.environment {
+  background: #e0f2f1;
+  color: #004d40;
+}
+
+/* 14. Culture & Identity — Warm terracotta */
+.cat-tag.culture-identity {
+  background: #fbe9e7;
+  color: #bf360c;
+}
+
+/* 15. Education — Calm blue-green */
+.cat-tag.education {
+  background: #e0f7fa;
+  color: #006064;
+}
+
+/* Slots 16-20 reserved — define only when needed */
+
+/* ===== CATEGORY BADGE (for dossier cards / headers) ===== */
+.cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Category dot indicator */
+.cat-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Color mapping for dots (matches tag backgrounds) */
+.cat-dot.policy-law          { background: #1a3a15; }
+.cat-dot.geopolitics          { background: #78570a; }
+.cat-dot.philosophy           { background: #3d6b35; }
+.cat-dot.social-commentary    { background: #5c4033; }
+.cat-dot.ai-tech              { background: #1e3a5f; }
+.cat-dot.anarchist-social-capitalism { background: #155724; }
+.cat-dot.corruption           { background: #721c24; }
+.cat-dot.not-too-serious      { background: #6b7c5a; }
+.cat-dot.social-change        { background: #1b5e20; }
+.cat-dot.media-press          { background: #383d41; }
+.cat-dot.economics            { background: #856404; }
+.cat-dot.human-rights         { background: #880e4f; }
+.cat-dot.environment          { background: #004d40; }
+.cat-dot.culture-identity     { background: #bf360c; }
+.cat-dot.education            { background: #006064; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .cat-tag {
+    font-size: 0.55rem;
+    padding: 2px 8px;
+  }
+}

@@ -1,0 +1,219 @@
+/* ===================================================================
+   NARRATIVE TIMELINE — Scroll-position temporal awareness bar
+   analyst.rizrazak.com
+   Last updated: 2026-03-09
+
+   A subtle, fixed bar that shows the reader's temporal position
+   within the narrative. Sections are mapped to time periods.
+   Hoverable significance markers provide context.
+   Toggle-off via CMS: data-cms-id="narrative-timeline-toggle"
+   =================================================================== */
+
+/* ===== CONTAINER ===== */
+.narrative-timeline {
+  position: fixed;
+  top: 56px; /* below navbar */
+  left: 0; right: 0;
+  z-index: 900;
+  height: 28px;
+  background: rgba(247, 245, 237, 0.92); /* --bg with transparency */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(212, 208, 196, 0.4);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+}
+
+/* Hidden state (CMS toggle or user toggle) */
+.narrative-timeline.hidden {
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
+/* ===== TRACK (the horizontal line) ===== */
+.nt-track {
+  position: relative;
+  flex: 1;
+  height: 2px;
+  background: var(--border, #d4d0c4);
+  border-radius: 1px;
+  margin: 0 12px;
+}
+
+/* Progress fill (shows current scroll position on timeline) */
+.nt-progress {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  background: var(--forest, #2d5a27);
+  border-radius: 1px;
+  width: 0%;
+  transition: width 0.15s ease-out;
+}
+
+/* Current position indicator */
+.nt-cursor {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px; height: 8px;
+  background: var(--forest, #2d5a27);
+  border: 2px solid var(--bg, #f7f5ed);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(45, 90, 39, 0.3);
+  transition: left 0.15s ease-out;
+  z-index: 3;
+}
+
+/* ===== DATE LABELS (start and end) ===== */
+.nt-date-start,
+.nt-date-end {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--text-muted, #7a7a6e);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* ===== SIGNIFICANCE MARKERS (dots on the timeline) ===== */
+.nt-marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--sage, #7da56d);
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.nt-marker:hover {
+  transform: translate(-50%, -50%) scale(1.6);
+  background: var(--forest, #2d5a27);
+}
+
+/* Key event markers (larger, different color) */
+.nt-marker.key {
+  width: 8px; height: 8px;
+  background: var(--ember, #c0392b);
+}
+.nt-marker.key:hover {
+  background: var(--blood, #8b1a1a);
+}
+
+/* ===== HOVER CARDS ===== */
+.nt-hover-card {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  background: var(--bg-card, #fff);
+  border: 1px solid var(--border, #d4d0c4);
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  width: max-content;
+  max-width: 240px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 10;
+}
+
+.nt-marker:hover .nt-hover-card {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nt-hover-card .nt-hc-date {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--forest, #2d5a27);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.nt-hover-card .nt-hc-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text, #1a1a1a);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.nt-hover-card .nt-hc-significance {
+  display: inline-block;
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+/* Significance levels */
+.nt-hc-significance.critical {
+  background: rgba(139, 26, 26, 0.1);
+  color: var(--blood, #8b1a1a);
+}
+.nt-hc-significance.important {
+  background: rgba(166, 124, 0, 0.1);
+  color: var(--gold, #a67c00);
+}
+.nt-hc-significance.context {
+  background: rgba(45, 90, 39, 0.1);
+  color: var(--forest, #2d5a27);
+}
+
+/* ===== TOGGLE BUTTON ===== */
+.nt-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px; height: 20px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted, #7a7a6e);
+  cursor: pointer;
+  font-size: 0.65rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+}
+.nt-toggle:hover { opacity: 1; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .narrative-timeline {
+    height: 24px;
+    padding: 0 12px;
+    top: 48px; /* smaller navbar on mobile */
+  }
+  .nt-date-start, .nt-date-end {
+    font-size: 0.5rem;
+  }
+  .nt-hover-card {
+    max-width: 180px;
+    padding: 8px 10px;
+  }
+  .nt-hover-card .nt-hc-title {
+    font-size: 0.7rem;
+  }
+}
+
+/* ===== PRINT: HIDE ===== */
+@media print {
+  .narrative-timeline { display: none; }
+}
