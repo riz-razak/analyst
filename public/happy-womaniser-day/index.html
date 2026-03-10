@@ -109,74 +109,126 @@ body.sinhala [lang-en-inline] { display: none !important; }
 }
 .btn-accept:hover { background: var(--forest-deep); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(45,90,39,0.3); }
 
-/* ===== NAVBAR ===== */
-.navbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  background: rgba(247,245,237,0.88); backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 20px; transition: all 0.3s;
-}
-.nav-inner {
-  max-width: 1100px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 56px;
-}
-.nav-brand { font-weight: 800; font-size: 0.8rem; color: var(--forest); letter-spacing: 0.1em; text-transform: uppercase; }
-.nav-links { display: flex; gap: 2px; overflow-x: auto; }
-.nav-links a {
-  color: var(--text-muted); text-decoration: none; font-size: 0.72rem;
-  padding: 6px 10px; border-radius: 6px; transition: all 0.2s;
-  font-weight: 600; white-space: nowrap;
-}
-.nav-links a:hover { color: var(--forest); background: var(--sage-mist); }
+/* ===== NAVBAR (hidden — sidenav takes over) ===== */
+.navbar { display: none; }
+.nav-inner { display: none; }
+.nav-brand { display: none; }
+.nav-links { display: none; }
+.nav-links a { display: none; }
 .lang-btn {
-  padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border-green);
-  background: var(--sage-mist); color: var(--forest); font-size: 0.7rem;
+  padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08); color: rgba(245,240,224,0.7); font-size: 0.7rem;
   font-weight: 700; cursor: pointer; font-family: var(--font-sinhala);
   transition: all 0.2s; margin-left: 8px;
 }
 .lang-btn:hover { background: var(--forest); color: #fff; }
 
 /* ===== HERO ===== */
+/* ===== HERO — DARK IMMERSIVE ===== */
 .hero {
-  min-height: 100vh; min-height: 100svh;
-  display: flex; flex-direction: column;
-  justify-content: center; align-items: center; text-align: center;
-  padding: 100px 20px 60px;
-  background: linear-gradient(170deg, var(--sage-mist) 0%, var(--bg) 40%, var(--bg-warm) 100%);
-  position: relative; overflow: hidden;
+  position: relative; min-height: 100vh; min-height: 100svh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  background: linear-gradient(135deg, #1a0d0d 0%, #2a1412 25%, #1e1210 55%, #0d0808 100%);
+  overflow: hidden;
+  padding: 80px 20px 60px;
 }
 .hero::before {
-  content: ''; position: absolute; top: -200px; right: -200px;
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(125,165,109,0.15) 0%, transparent 70%);
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(192,57,43,0.08) 0%, transparent 65%);
 }
-.hero-content { position: relative; z-index: 1; max-width: 800px; }
+/* Niche arch — like Bamiyan's empty alcove */
+.hero-niche {
+  position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: min(600px, 90vw); height: 55%;
+  background: linear-gradient(to top, rgba(139,26,26,0.08) 0%, transparent 100%);
+  border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+  border-top: 2px solid rgba(192,57,43,0.12);
+  border-left: 2px solid rgba(192,57,43,0.06);
+  border-right: 2px solid rgba(192,57,43,0.06);
+  pointer-events: none;
+}
+.hero-content { position: relative; z-index: 1; max-width: 780px; }
 .hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 20px; background: var(--ember); color: #fff;
-  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.12em; border-radius: 24px; margin-bottom: 28px;
+  display: inline-block;
+  background: rgba(192,57,43,0.2); color: #e8a89c;
+  border: 1px solid rgba(192,57,43,0.35);
+  padding: 6px 18px; border-radius: 20px; font-size: 0.68rem;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 28px;
 }
 .hero h1 {
-  font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.2rem);
-  font-weight: 800; line-height: 1.2; margin-bottom: 20px;
-  color: var(--forest-deep);
+  font-family: var(--font-serif); font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 800; color: #f5f0e0; line-height: 1.08;
+  margin-bottom: 12px; letter-spacing: -0.01em;
 }
 .hero h1 .accent { color: var(--ember); }
+.hero h1 em { font-style: italic; color: var(--ember); }
+.hero .hero-tagline {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  color: rgba(245,240,224,0.55); line-height: 1.5;
+  margin-bottom: 32px;
+}
 .hero .subtitle {
-  font-size: clamp(0.95rem, 2vw, 1.1rem); color: var(--text-secondary);
-  max-width: 640px; margin: 0 auto 36px; line-height: 1.8;
+  font-size: clamp(0.88rem, 1.6vw, 0.95rem);
+  color: rgba(245,240,224,0.4);
+  max-width: 600px; margin: 0 auto; line-height: 1.8;
 }
-.hero-stats {
-  display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+.hero-scroll {
+  cursor: pointer;
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  color: rgba(245,240,224,0.3); font-size: 0.7rem; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: fadeInUp 2s ease-out 1s both;
 }
-.stat { text-align: center; }
-.stat-value { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 800; color: var(--forest); }
-.stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+.hero-scroll::after {
+  content: '';
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, rgba(245,240,224,0.3), transparent);
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ===== STAT BAR ===== */
+.stat-bar {
+  background: #0d0808;
+  padding: 28px 20px;
+  display: flex; justify-content: center;
+}
+.stat-bar-inner {
+  display: flex; gap: 0; max-width: 800px; width: 100%;
+}
+.stat-bar-item {
+  flex: 1; text-align: center;
+  padding: 0 20px;
+  border-right: 1px solid rgba(245,240,224,0.08);
+}
+.stat-bar-item:last-child { border-right: none; }
+.stat-bar-value {
+  font-family: var(--font-serif); font-size: 1.8rem; font-weight: 800;
+  color: var(--ember); line-height: 1.2;
+}
+.stat-bar-label {
+  font-size: 0.62rem; color: rgba(245,240,224,0.35);
+  text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+}
+/* Legacy hero-stats fallback */
+.hero-stats { display: none; }
+.stat { display: none; }
 
 /* ===== SECTIONS ===== */
 .section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+/* Offset for LHS sidenav on desktop */
+@media (min-width: 1024px) {
+  .section { margin-left: calc(220px + 20px); margin-right: auto; max-width: 900px; }
+  .stat-bar { padding-left: 240px; }
+}
 .section-label {
   display: inline-block; font-size: 0.65rem; font-weight: 700;
   color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em;
@@ -629,13 +681,17 @@ body.sinhala [lang-en-inline] { display: none !important; }
   .nav-inner { height: 52px; }
 
   /* --- Hero --- */
-  .hero { padding: 72px 16px 40px; min-height: auto; min-height: auto; }
+  .hero { padding: 60px 16px 40px; min-height: 100vh; }
   .hero-badge { font-size: 0.62rem; padding: 6px 14px; margin-bottom: 20px; }
-  .hero h1 { font-size: 1.5rem; line-height: 1.3; margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(1.8rem, 8vw, 2.6rem); line-height: 1.12; margin-bottom: 10px; }
   .hero h1 .accent { display: inline; }
-  .hero h1 span[style*="font-size:0.65em"] { font-size: 0.72em !important; }
-  .hero .subtitle { font-size: 0.88rem; line-height: 1.7; margin-bottom: 28px; }
-  .hero-stats { gap: 16px; justify-content: center; }
+  .hero .hero-tagline { font-size: 0.9rem; margin-bottom: 24px; }
+  .hero .subtitle { font-size: 0.82rem; line-height: 1.7; }
+  .hero-epigraph { margin-top: 28px; padding: 18px 20px; }
+  .hero-epigraph blockquote { font-size: 0.85rem; }
+  .stat-bar-inner { flex-wrap: wrap; }
+  .stat-bar-item { flex: 1 1 45%; padding: 10px; }
+  .stat-bar-value { font-size: 1.4rem; }
   .stat-value { font-size: 1.6rem; }
   .stat-label { font-size: 0.62rem; }
 
@@ -782,9 +838,9 @@ body.sinhala [lang-en-inline] { display: none !important; }
 
 /* --- Extra small phones --- */
 @media (max-width: 380px) {
-  .hero h1 { font-size: 1.3rem; }
-  .hero .subtitle { font-size: 0.82rem; }
-  .hero-stats { flex-direction: column; gap: 12px; align-items: center; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero .subtitle { font-size: 0.78rem; }
+  .stat-bar-item { flex: 1 1 100%; }
   .stat { display: flex; gap: 8px; align-items: baseline; }
   .stat-value { font-size: 1.4rem; }
   .profile-details { grid-template-columns: 1fr; }
@@ -983,29 +1039,43 @@ body.sinhala [lang-en-inline] { display: none !important; }
   .diary-modal { padding: 24px 20px; }
 }
 
-/* ===== HERO EPIGRAPH (Utopia quote) ===== */
+/* ===== HERO EPIGRAPH (Utopia quote — inside dark hero) ===== */
 .hero-epigraph {
-  margin-top: 36px; max-width: 600px;
-  padding: 20px 28px; border-radius: var(--radius);
-  background: rgba(139,26,26,0.04);
-  border-left: 3px solid var(--ember);
+  margin: 40px auto 0; max-width: 560px;
+  padding: 24px 28px; border-radius: var(--radius);
+  background: rgba(192,57,43,0.06);
+  border-left: 3px solid rgba(192,57,43,0.4);
   text-align: left;
 }
 .hero-epigraph blockquote {
-  font-family: var(--font-sinhala); font-size: 0.92rem;
-  line-height: 1.9; color: var(--text); font-weight: 600;
+  font-family: var(--font-sinhala); font-size: 0.95rem;
+  line-height: 1.9; color: rgba(245,240,224,0.85); font-weight: 600;
   margin: 0;
 }
 .hero-epigraph .translation {
   display: block; margin-top: 8px;
-  font-family: var(--font-serif); font-size: 0.85rem;
-  color: var(--text-secondary); font-style: italic;
+  font-family: var(--font-serif); font-size: 0.88rem;
+  color: rgba(245,240,224,0.5); font-style: italic;
 }
 .hero-epigraph .epigraph-attr {
   display: block; margin-top: 10px;
   font-family: var(--font-sans); font-size: 0.72rem;
-  color: var(--text-muted); font-weight: 600;
+  color: rgba(245,240,224,0.3); font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* ===== FLOATING LANG TOGGLE ===== */
+.hero-lang-toggle {
+  position: fixed; top: 16px; right: 16px; z-index: 1001;
+}
+.hero-lang-toggle .lang-btn {
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(245,240,224,0.7);
+}
+.hero-lang-toggle .lang-btn:hover {
+  background: var(--forest); color: #fff;
+  border-color: var(--forest);
 }
 </style>
     <!-- CMS Hydration + Admin Overlay -->
@@ -1115,71 +1185,66 @@ body.sinhala [lang-en-inline] { display: none !important; }
   </div>
 </div>
 
-<!-- ===== NAVBAR ===== -->
-<nav class="navbar">
-  <div class="nav-inner">
-    <div class="nav-brand">📋 Dossier</div>
-    <div class="nav-links">
-      <a href="/" style="color:var(--text-muted); font-weight:500; letter-spacing:0;">← Dossiers</a>
-      <a href="#incident">Incident</a>
-      <a href="#evidence">Evidence</a>
-      <a href="#journal">Journal</a>
-      <a href="#timeline">Timeline</a>
-      <a href="#cast">Cast</a>
-      <a href="#journalist">Journalist</a>
-      <a href="#voices">Voices</a>
-      <a href="#questions">Questions</a>
-      <a href="#sources">Sources</a>
-      <a href="evidence/" target="_blank" style="color:var(--sage);">📁 Files</a>
-      <a href="#" onclick="document.getElementById('submit-modal').classList.add('open');return false;" style="color:var(--gold);">Submit</a>
-    </div>
-    <button class="lang-btn" onclick="document.body.classList.toggle('sinhala')">සිං / EN</button>
-    <button class="mobile-menu-btn" onclick="this.classList.toggle('open');document.getElementById('mobile-drawer').classList.toggle('open')" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-<div class="mobile-nav-drawer" id="mobile-drawer">
-  <a href="#incident" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">The Incident</a>
-  <a href="#evidence" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Evidence</a>
-  <a href="#journal" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Journal</a>
-  <a href="#timeline" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Timeline</a>
-  <a href="#cast" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Cast</a>
-  <a href="#profile" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Profile</a>
-  <a href="#voices" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Voices</a>
-  <a href="#questions" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Questions</a>
-  <a href="#sources" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Sources</a>
-  <a href="evidence/" target="_blank" style="color:var(--sage);">📁 Evidence Files</a>
-  <a href="#" onclick="document.getElementById('submit-modal').classList.add('open');document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open');return false;" style="color:var(--gold);">Submit Evidence</a>
+<!-- Floating language toggle -->
+<div class="hero-lang-toggle">
+  <button class="lang-btn" onclick="document.body.classList.toggle('sinhala')">සිං / EN</button>
 </div>
 
-<!-- ===== HERO ===== -->
+<!-- ===== HERO — DARK IMMERSIVE ===== -->
 <section class="hero">
+  <div class="hero-niche"></div>
   <div class="hero-content">
-    <div class="hero-badge" data-cms-id="hero-badge">🔴 Live — Updated March 9, 2026</div>
-    <h1 lang-en data-cms-id="hero-title-en">Happy <span class="accent">Womaniser</span> Day!<br><span style="font-size:0.65em; font-weight:400; opacity:0.85;">How a State Newspaper Platformed an Alleged Sexual Predator to Celebrate Feminism</span></h1>
-    <h1 lang-si class="si" style="display:none" data-cms-id="hero-title-si">මෙම ලේඛනය නිදහස් ප්‍රකාශනය සහ මහජන අවශ්‍යතා පිළිබඳ පුවත්පත් කලාව ක්‍රියාත්මක කරන අතර, රජය සතු ප්‍රකාශනයක <strong>කතුවැකි වගවීම</strong> පිළිබඳ ප්‍රශ්න මතු කරයි.</h1>
-    <p class="subtitle" lang-en data-cms-id="hero-subtitle-en">On International Women's Day 2026, the Sunday Observer's Observer MUSE supplement published a feature celebrating Simone de Beauvoir's feminist philosophy — and chose a man with documented sexual harassment allegations as a "key resource person." Multiple women have publicly posted screenshot evidence of his uninvited sexual messages. This is that story.</p>
-    <p class="subtitle si" lang-si style="display:none" data-cms-id="hero-subtitle-si">සුභ <span class="accent">කාන්තා</span> දිනයක් වේවා!<br> <span style="font-size:0.65em; font-weight:400; opacity:0.85;">රාජ්‍ය පුවත්පතක් ස්ත්‍රීවාදය සැමරීම සඳහා චෝදනා ලැබූ ලිංගික විලෝපිකයෙකු වේදිකා ගත කළ ආකාරය</span></p>
-    <div class="hero-stats">
-      <div class="stat"><div class="stat-value">10+</div><div class="stat-label" lang-en>Evidence Sources</div><div class="stat-label si" lang-si style="display:none">2026 ජාත්‍යන්තර කාන්තා දිනයේදී, ඉරිදා ඔබ්සර්වර් හි ඔබ්සර්වර් MUSE අතිරේකය සිමෝන් ද බියුවෝර්ගේ ස්ත්‍රීවාදී දර්ශනය සමරමින් විශේෂාංගයක් ප්‍රකාශයට පත් කළ අතර ලේඛනගත ලිංගික හිරිහැර චෝදනා ඇති පිරිමියෙකු &quot;ප්‍රධාන සම්පත්දායකයා&quot; ලෙස තෝරා ගත්තේය. ඔහුගේ අනාරාධිත ලිංගික පණිවිඩවල තිරපිටපත් සාක්ෂි බොහෝ කාන්තාවන් ප්‍රසිද්ධියේ පළ කර ඇත. මේ ඒ කතාවයි.</div></div>
-      <div class="stat"><div class="stat-value">5</div><div class="stat-label" lang-en>Years of Allegations</div><div class="stat-label si" lang-si style="display:none">චෝදනාවල වසර</div></div>
-      <div class="stat"><div class="stat-value">6+</div><div class="stat-label" lang-en>Public Callouts</div><div class="stat-label si" lang-si style="display:none">ප්‍රසිද්ධ ඇමතුම්</div></div>
-      <div class="stat"><div class="stat-value">2+</div><div class="stat-label" lang-en>Named Victims</div><div class="stat-label si" lang-si style="display:none">නම් කරන ලද වින්දිතයින්</div></div>
+    <div class="hero-badge" data-cms-id="hero-badge">Investigative Dossier</div>
+
+    <!-- Quote grabs attention first -->
+    <div class="hero-epigraph">
+      <blockquote lang-en>ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැකි නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!</blockquote>
+      <span class="translation" lang-en>"Because we cannot wait until your utopia arrives, what can be done in this moment's reality must be done!"</span>
+      <blockquote lang-si>ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැකි නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!</blockquote>
+      <span class="epigraph-attr" lang-en>— Vincika De Saram, August 24, 2021</span>
+      <span class="epigraph-attr" lang-si>— වින්සිකා ද සේරම්, 2021 අගෝස්තු 24</span>
     </div>
 
-    <!-- Hero Epigraph — Vincika's Utopia Quote -->
-    <div class="hero-epigraph">
-      <blockquote lang-en>ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැති නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!</blockquote>
-      <span class="translation" lang-en>"Because we cannot wait until your utopia arrives, what can be done in this moment's reality must be done!"</span>
-      <blockquote lang-si class="si" style="display:none">ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැති නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!</blockquote>
-      <span class="epigraph-attr" lang-en>— Vincika De Saram, August 24, 2021</span>
-      <span class="epigraph-attr si" lang-si style="display:none">— වින්සිකා ද සේරම්, 2021 අගෝස්තු 24</span>
-    </div>
+    <!-- Title -->
+    <h1 lang-en data-cms-id="hero-title-en">Happy<br><em>Womaniser</em> Day!</h1>
+    <h1 lang-si data-cms-id="hero-title-si">සුභ<br><em>කාන්තා ශිෂ්‍යයන්ගේ</em> දිනයක්!</h1>
+
+    <!-- Tagline -->
+    <p class="hero-tagline" lang-en>Performative Philosophers & Neofeminist Allies</p>
+    <p class="hero-tagline" lang-si>මවාපාන දාර්ශනිකයින් සහ නවස්ත්‍රීවාදී මිත්‍රයින්</p>
+
+    <!-- Description — pushed below, less focus -->
+    <p class="subtitle" lang-en data-cms-id="hero-subtitle-en">On International Women's Day 2026, a state-owned newspaper chose a man with documented sexual harassment allegations to celebrate Simone de Beauvoir's feminist philosophy. Multiple women had publicly posted screenshot evidence. This is that story.</p>
+    <p class="subtitle" lang-si data-cms-id="hero-subtitle-si">2026 ජාත්‍යන්තර කාන්තා දිනයේදී, රජයට අයත් පුවත්පතක් ලේඛනගත ලිංගික හිරිහැර චෝදනා ඇති පුරුෂයෙකු සිමෝන් ද බියුවෝර්ගේ ස්ත්‍රීවාදී දර්ශනය සැමරීමට තෝරා ගත්තේය. බහු කාන්තාවන් තිරපිටපත් සාක්ෂි ප්‍රසිද්ධියේ පළ කර තිබුණි. මේ ඒ කතාවයි.</p>
   </div>
+  <div class="hero-scroll" onclick="document.getElementById('stat-bar').scrollIntoView({behavior:'smooth'})">scroll</div>
 </section>
 
-<div class="divider"></div>
+<!-- Stat bar — dark, below hero -->
+<div class="stat-bar" id="stat-bar">
+  <div class="stat-bar-inner">
+    <div class="stat-bar-item">
+      <div class="stat-bar-value">27</div>
+      <div class="stat-bar-label" lang-en>Sources</div>
+      <div class="stat-bar-label" lang-si>මූලාශ්‍ර</div>
+    </div>
+    <div class="stat-bar-item">
+      <div class="stat-bar-value">5</div>
+      <div class="stat-bar-label" lang-en>Years of Allegations</div>
+      <div class="stat-bar-label" lang-si>චෝදනාවල වසර</div>
+    </div>
+    <div class="stat-bar-item">
+      <div class="stat-bar-value">10</div>
+      <div class="stat-bar-label" lang-en>Journal Entries</div>
+      <div class="stat-bar-label" lang-si>සටහන් ඇතුළත් කිරීම්</div>
+    </div>
+    <div class="stat-bar-item">
+      <div class="stat-bar-value">3+</div>
+      <div class="stat-bar-label" lang-en>Named Victims</div>
+      <div class="stat-bar-label" lang-si>නම් කරන ලද වින්දිතයින්</div>
+    </div>
+  </div>
+</div>
 
 <!-- ===== THE INCIDENT ===== -->
 <section class="section" id="incident" data-nav-label="The Incident">
@@ -1526,7 +1591,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
       <div class="diary-title" lang-en>Utopia</div>
       <div class="diary-title si" lang-si style="display:none">යුටෝපියාව</div>
       <div class="diary-excerpt" lang-en>"Because we cannot wait until your utopia arrives, what can be done in this moment's reality must be done!" — Pink background, Sinhala text. Comments from Madhubhashini, Prasanna Abeywickrama.</div>
-      <div class="diary-excerpt si" lang-si style="display:none">"ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැති නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!"</div>
+      <div class="diary-excerpt si" lang-si style="display:none">"ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැකි නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!"</div>
       <div class="diary-stats">
         <span class="diary-stat">Comments from academics</span>
       </div>
