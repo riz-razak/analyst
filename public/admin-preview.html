@@ -1732,6 +1732,9 @@ anatta-bamiyan<!DOCTYPE html>
         }
   </style>
 
+    <!-- Category System Styles -->
+    <link rel="stylesheet" href="_shared/category-system.css">
+
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="PLACEHOLDER_SEARCH_CONSOLE_ID">
 
@@ -6586,6 +6589,7 @@ const dossiersData = [
         author: 'Riz Razak',
         tags: ['buddhism', 'philosophy', 'afghanistan', 'anatta', 'quantum-physics'],
         description: 'A philosophical dossier tracing the Buddhist doctrine of non-self from the empty niches of Bamiyan through quantum physics to the digital age.',
+        category: 'philosophy',
         fbUrl: '',
         thumbnailUrl: '',
         hasContent: true,
@@ -6646,6 +6650,7 @@ const dossiersData = [
         author: 'Riz Razak',
         tags: ['sexual-harassment', 'media-accountability', 'womens-rights', 'press-ethics', 'sri-lanka'],
         description: 'An investigative dossier examining how the Sunday Observer\'s International Women\'s Day 2026 feature platformed Vangeesa Sumanasekara, a man facing multiple public sexual harassment allegations, as a champion of women\'s empowerment.',
+        category: 'social-commentary',
         fbUrl: '',
         thumbnailUrl: '/images/thumbnails/womens-day-betrayal.jpg',
         cmsFields: [
@@ -6682,6 +6687,7 @@ const dossiersData = [
         author: 'Riz Razak',
         tags: ['geopolitics', 'conflict', 'middle-east'],
         description: 'In-depth investigation into the escalating tensions between Iran, US, and Israel.',
+        category: 'geopolitics',
         fbUrl: '',
         thumbnailUrl: '',
         linkedTo: 'sri-lanka-hormuz-crisis',
@@ -6719,6 +6725,7 @@ const dossiersData = [
         author: 'Riz Razak',
         tags: ['business', 'investigation', 'sri-lanka'],
         description: 'Investigation into Caravan Fresh and supply chain issues.',
+        category: 'corruption',
         fbUrl: '',
         thumbnailUrl: '',
         cmsFields: [
@@ -6751,6 +6758,7 @@ const dossiersData = [
         author: 'Riz Razak',
         tags: ['sri-lanka', 'terrorism', 'investigation'],
         description: 'Detailed investigation into the 2019 Easter Sunday bombings in Sri Lanka.',
+        category: 'geopolitics',
         fbUrl: '',
         thumbnailUrl: '',
         cmsFields: [
@@ -6777,6 +6785,7 @@ const dossiersData = [
         author: 'Riz Razak',
         tags: ['cricket', 'corruption', 'sri-lanka'],
         description: 'Investigative series on match-fixing and corruption in Sri Lankan cricket.',
+        category: 'corruption',
         fbUrl: '',
         thumbnailUrl: '',
         cmsFields: [
@@ -6818,6 +6827,7 @@ const dossiersData = [
         author: 'Riz Razak',
         tags: ['geopolitics', 'sri-lanka', 'shipping'],
         description: 'Analysis of how the Hormuz strait crisis affects Sri Lanka.',
+        category: 'geopolitics',
         fbUrl: '',
         thumbnailUrl: '',
         hasContent: true,
@@ -6858,6 +6868,7 @@ const dossiersData = [
         author: 'Riz Razak',
         tags: ['accountability', 'parliament'],
         description: 'Tracking accountability of parliamentary members.',
+        category: 'corruption',
         fbUrl: '',
         thumbnailUrl: '',
         hasContent: false
@@ -6873,6 +6884,27 @@ Object.assign(appState, {
     sortField: 'date',
     sortDir: 'desc'
 });
+
+// ========================================
+// CATEGORY LABELS LOOKUP
+// ========================================
+const CATEGORY_LABELS = {
+  'policy-law': 'Policy & Law',
+  'geopolitics': 'Geopolitics',
+  'philosophy': 'Philosophy',
+  'social-commentary': 'Social Commentary',
+  'ai-tech': 'AI & Tech',
+  'anarchist-social-capitalism': 'Anarchist Social-Capitalism',
+  'corruption': 'Corruption',
+  'not-too-serious': 'Not Too Serious',
+  'social-change': 'Social Change',
+  'media-press': 'Media & Press',
+  'economics': 'Economics',
+  'human-rights': 'Human Rights',
+  'environment': 'Environment',
+  'culture-identity': 'Culture & Identity',
+  'education': 'Education'
+};
 
 // ========================================
 // UTILITY FUNCTIONS
@@ -6988,11 +7020,14 @@ function renderGridView() {
             badgeHtml = `<div class="card-badge warning">⚠ No content</div>`;
         }
 
+        const categoryLabel = CATEGORY_LABELS[dossier.category] || 'Uncategorized';
+
         return `
             <div class="dossier-card ${isEmpty ? 'empty' : ''}" data-id="${dossier.id}" data-status="${dossier.status}">
                 <div class="card-thumbnail-area">
                     ${dossier.thumbnailUrl ? `<img src="${dossier.thumbnailUrl}" alt="${dossier.title}" />` : `<div class="card-thumbnail-placeholder">${initials}</div>`}
                     <div class="card-status-pill"><span class="pill ${statusPill}">● ${getStatusLabel(dossier.status)}</span></div>
+                    ${dossier.category ? `<span class="cat-tag ${dossier.category}">${categoryLabel}</span>` : ''}
                     ${badgeHtml}
                 </div>
                 <div class="card-body">
@@ -7036,6 +7071,7 @@ function renderTableView() {
         const initials = getDossierInitials(dossier.title);
         const statusPill = getDossierStatusPill(dossier.status);
         const isEmpty = !dossier.hasContent && dossier.status === 'orphan';
+        const categoryLabel = CATEGORY_LABELS[dossier.category] || 'Uncategorized';
 
         let linkedBadge = '';
         if (dossier.linkedFrom) {
@@ -7052,6 +7088,7 @@ function renderTableView() {
                 <td>
                     <div class="table-cell-title">${dossier.title}</div>
                     ${isEmpty ? `<div style="font-size: 12px; color: var(--color-danger); margin-top: 4px; font-weight: 500;">⚠ No content — empty folder</div>` : linkedBadge}
+                    ${dossier.category ? `<span class="cat-tag ${dossier.category}" style="display: inline-block; margin-top: 4px;">${categoryLabel}</span>` : ''}
                 </td>
                 <td><div class="table-cell-slug">${dossier.slug}</div></td>
                 <td>${new Date(dossier.date).toLocaleDateString()}</td>
@@ -7892,11 +7929,15 @@ function renderCMSDossiersList() {
             statusColor = '#F59E0B';
         }
 
+        const categoryLabel = CATEGORY_LABELS[dossier.category] || 'Uncategorized';
+        const categoryBadge = dossier.category ? `<span class="cat-tag ${dossier.category}" style="margin-bottom: 12px;">${categoryLabel}</span>` : '';
+
         card.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
                 <h3 style="font-size: 14px; font-weight: 600; color: #1F2937; margin: 0; flex: 1;">${dossier.title}</h3>
                 <span style="background: ${statusColor}22; color: ${statusColor}; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap;">${visibilityStatus}</span>
             </div>
+            ${categoryBadge}
             <p style="font-size: 12px; color: #6B7280; margin: 0 0 12px 0; line-height: 1.4;">${dossier.description.substring(0, 100)}…</p>
             <div style="display: flex; gap: 8px; margin-top: 12px;">
                 <button onclick="window.location.hash='#/cms/dossiers/${dossier.id}'" style="flex: 1; padding: 8px 12px; background: #1B4D2E; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer;">Edit</button>

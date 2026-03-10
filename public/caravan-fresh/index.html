@@ -3109,5 +3109,73 @@ function closePledge(){
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closePledge()});
 </script>
+<!-- ===== NARRATIVE TIMELINE DATA ===== -->
+<script type="application/json" id="narrative-timeline-data">
+{
+  "startDate": "March 2026",
+  "endDate": "March 2026",
+  "events": [
+    {
+      "date": "March 2026",
+      "title": "Caravan Fresh publishes 'Chicken Cheese Bomb' advertisement",
+      "significance": "critical",
+      "sectionId": "incident",
+      "position": 0.0
+    },
+    {
+      "date": "Hour 1-3",
+      "title": "Public criticism begins across platforms",
+      "significance": "important",
+      "sectionId": "timeline",
+      "position": 0.15
+    },
+    {
+      "date": "Hour 3-5",
+      "title": "Critics blocked from official page",
+      "significance": "important",
+      "sectionId": "timeline",
+      "position": 0.3
+    },
+    {
+      "date": "Hour 5-8",
+      "title": "Post edited but not removed",
+      "significance": "context",
+      "sectionId": "timeline",
+      "position": 0.45
+    },
+    {
+      "date": "Hour 8-12",
+      "title": "Comment restrictions imposed",
+      "significance": "important",
+      "sectionId": "timeline",
+      "position": 0.6
+    },
+    {
+      "date": "Hour 17+",
+      "title": "Post finally removed after 17+ hours",
+      "significance": "critical",
+      "sectionId": "timeline",
+      "position": 0.8
+    },
+    {
+      "date": "Post-Removal",
+      "title": "Behavioral patterns of response analysis",
+      "significance": "important",
+      "sectionId": "patterns",
+      "position": 0.9
+    },
+    {
+      "date": "March 2026",
+      "title": "Food safety scandal context revealed",
+      "significance": "context",
+      "sectionId": "food-scandal",
+      "position": 0.95
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="../_shared/narrative-timeline.css">
+<link rel="stylesheet" href="../_shared/category-system.css">
+<script src="../_shared/narrative-timeline.js" defer></script>
 </body>
 </html>
