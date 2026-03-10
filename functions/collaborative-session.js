@@ -88,6 +88,13 @@ export default {
         return handleVisibilityCheck(request, env);
       }
 
+      // ── Infrastructure monitoring endpoints ──
+      else if (path === '/api/infra/health') {
+        return handleInfraHealth(request, env);
+      } else if (path === '/api/infra/proxy-check') {
+        return handleInfraProxyCheck(request, env);
+      }
+
       return new Response(JSON.stringify({ error: 'Not Found' }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' },
@@ -895,7 +902,8 @@ function extractDossierSlug(path) {
   // Skip known non-dossier paths (static files, admin pages, API, etc.)
   if (path === '/' || path.startsWith('/api/') || path.startsWith('/auth/') ||
       path.startsWith('/admin') || path.startsWith('/js/') || path.startsWith('/images/') ||
-      path.startsWith('/data/') || path.startsWith('/_shared/') || path.startsWith('/_')) {
+      path.startsWith('/data/') || path.startsWith('/_shared/') || path.startsWith('/_') ||
+      path.startsWith('/architecture-census')) {
     return null;
   }
   // Skip files at root level (login.html, profile.html, etc.)
@@ -1696,4 +1704,164 @@ function corsResponse(body, status) {
  */
 function generateSessionId() {
   return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// INFRASTRUCTURE MONITORING ENDPOINTS
+// ══════════════════════════════════════════════════════════════
+
+/**
+ * GET /api/infra/health
+ * Server-side health check of critical services.
+ * Returns aggregated status for all monitored services.
+ */
+async function handleInfraHealth(request, env) {
+  if (request.method !== 'GET') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  const checks = {};
+  const start = Date.now();
+
+  // 1. Cloudflare KV (SESSION_STORE)
+  try {
+    const testKey = '_infra_ping';
+    await env.SESSION_STORE.put(testKey, 'ok', { expirationTtl: 60 });
+    const val = await env.SESSION_STORE.get(testKey);
+    checks.kv_session = { status: val === 'ok' ? 'healthy' : 'degraded', latencyMs: Date.now() - start };
+  } catch (e) {
+    checks.kv_session = { status: 'down', error: e.message };
+  }
+
+  // 2. Cloudflare KV (DRAFT_STORE)
+  const kvDraftStart = Date.now();
+  try {
+    const testKey = '_infra_ping';
+    await env.DRAFT_STORE.put(testKey, 'ok', { expirationTtl: 60 });
+    const val = await env.DRAFT_STORE.get(testKey);
+    checks.kv_draft = { status: val === 'ok' ? 'healthy' : 'degraded', latencyMs: Date.now() - kvDraftStart };
+  } catch (e) {
+    checks.kv_draft = { status: 'down', error: e.message };
+  }
+
+  // 3. Supabase API
+  const supaStart = Date.now();
+  try {
+    const resp = await fetch('https://ogunznqyfmxkmmwizpfy.supabase.co/rest/v1/', {
+      headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM' },
+    });
+    checks.supabase = {
+      status: (resp.status === 200 || resp.status === 401) ? 'healthy' : 'degraded',
+      httpStatus: resp.status,
+      latencyMs: Date.now() - supaStart,
+    };
+  } catch (e) {
+    checks.supabase = { status: 'down', error: e.message, latencyMs: Date.now() - supaStart };
+  }
+
+  // 4. GitHub Pages (origin)
+  const ghStart = Date.now();
+  try {
+    const resp = await fetch('https://analyst.rizrazak.com/data/dossiers.json', {
+      headers: { 'User-Agent': 'analyst-infra-monitor/1.0' },
+    });
+    checks.github_pages = {
+      status: resp.status === 200 ? 'healthy' : 'degraded',
+      httpStatus: resp.status,
+      latencyMs: Date.now() - ghStart,
+    };
+  } catch (e) {
+    checks.github_pages = { status: 'down', error: e.message, latencyMs: Date.now() - ghStart };
+  }
+
+  // 5. Resend (email) — check if API key is configured
+  const hasResendKey = !!env.RESEND_API_KEY;
+  checks.resend = {
+    status: hasResendKey ? 'healthy' : 'not-configured',
+    configured: hasResendKey,
+  };
+
+  // 6. GitHub Token — check if configured
+  const hasGithubToken = !!env.GITHUB_TOKEN;
+  checks.github_token = {
+    status: hasGithubToken ? 'healthy' : 'not-configured',
+    configured: hasGithubToken,
+  };
+
+  // Compute overall status
+  const statuses = Object.values(checks).map(c => c.status);
+  const overall = statuses.includes('down') ? 'degraded'
+    : statuses.includes('degraded') ? 'degraded'
+    : 'healthy';
+
+  return jsonResponse({
+    overall,
+    checks,
+    checkedAt: new Date().toISOString(),
+    totalLatencyMs: Date.now() - start,
+  });
+}
+
+/**
+ * POST /api/infra/proxy-check
+ * Proxy health check for services that can't be reached from the browser (CORS).
+ * Body: { url, expectedStatus?, timeout? }
+ */
+async function handleInfraProxyCheck(request, env) {
+  if (request.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  try {
+    const { url: targetUrl, expectedStatus, timeout } = await request.json();
+
+    if (!targetUrl) {
+      return jsonResponse({ error: 'url is required' }, 400);
+    }
+
+    // Allowlist: only check known service domains
+    const allowed = [
+      'supabase.co', 'supabase.com',
+      'resend.com',
+      'api.mapbox.com',
+      'api.open-meteo.com',
+      'rizrazak.com', 'www.rizrazak.com',
+      'analyst.rizrazak.com',
+      'github.com', 'api.github.com',
+    ];
+
+    const parsed = new URL(targetUrl);
+    const isAllowed = allowed.some(d => parsed.hostname === d || parsed.hostname.endsWith('.' + d));
+    if (!isAllowed) {
+      return jsonResponse({ error: 'Domain not in allowlist' }, 403);
+    }
+
+    const controller = new AbortController();
+    const tm = setTimeout(() => controller.abort(), timeout || 8000);
+    const start = Date.now();
+
+    try {
+      const resp = await fetch(targetUrl, {
+        method: 'HEAD',
+        signal: controller.signal,
+        headers: { 'User-Agent': 'analyst-infra-monitor/1.0' },
+      });
+
+      clearTimeout(tm);
+      const latencyMs = Date.now() - start;
+      const expected = Array.isArray(expectedStatus) ? expectedStatus : [expectedStatus || 200];
+      const status = expected.includes(resp.status) ? 'healthy' : 'degraded';
+
+      return jsonResponse({ status, httpStatus: resp.status, latencyMs });
+    } catch (e) {
+      clearTimeout(tm);
+      return jsonResponse({
+        status: 'down',
+        error: e.name === 'AbortError' ? 'Timeout' : e.message,
+        latencyMs: Date.now() - start,
+      });
+    }
+  } catch (e) {
+    return jsonResponse({ error: e.message }, 400);
+  }
 }

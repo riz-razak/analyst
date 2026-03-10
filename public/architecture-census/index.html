@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infrastructure Monitor — The Analyst Platform</title>
+  <meta name="description" content="Live infrastructure monitoring dashboard for the DGTL ecosystem.">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1a1612;
+      --bg-card: #242019;
+      --bg-card-alt: #2a2520;
+      --border: #3a352c;
+      --text: #e8dcc8;
+      --text-muted: #9a8e7a;
+      --text-dim: #6d6356;
+      --accent: #6b7c52;
+      --accent-bright: #8fa868;
+      --danger: #c44;
+      --warning: #d4af37;
+      --success: #6b7c52;
+      --info: #5d8a9e;
+      --mono: 'JetBrains Mono', monospace;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', -apple-system, sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; }
+
+    /* ── Header ── */
+    .dash-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: var(--bg); z-index: 100;
+    }
+    .dash-header-left { display: flex; align-items: center; gap: 16px; }
+    .dash-logo { font-family: var(--mono); font-size: 11px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; }
+    .dash-title { font-family: var(--serif); font-size: 20px; font-weight: 700; }
+    .dash-header-right { display: flex; align-items: center; gap: 12px; }
+
+    .btn {
+      font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
+      padding: 8px 16px; border-radius: 6px; cursor: pointer; border: 1px solid var(--border);
+      background: var(--bg-card); color: var(--text-muted); transition: all 0.2s;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--text); }
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-primary:hover { background: var(--accent-bright); }
+
+    .notif-badge {
+      position: relative; cursor: pointer; padding: 8px; border-radius: 6px;
+      background: var(--bg-card); border: 1px solid var(--border);
+    }
+    .notif-badge:hover { border-color: var(--accent); }
+    .notif-badge svg { display: block; }
+    .notif-badge .count {
+      position: absolute; top: -4px; right: -4px;
+      background: var(--danger); color: #fff; font-size: 9px; font-weight: 700;
+      min-width: 16px; height: 16px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); padding: 0 4px;
+    }
+    .notif-badge .count:empty, .notif-badge .count[data-count="0"] { display: none; }
+
+    /* ── Status bar ── */
+    .status-bar {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px; padding: 24px;
+    }
+    .status-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px; text-align: center; transition: border-color 0.2s;
+    }
+    .status-card:hover { border-color: var(--accent); }
+    .status-card .value { font-family: var(--serif); font-size: 28px; font-weight: 700; }
+    .status-card .label { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-top: 4px; }
+    .status-card.healthy .value { color: var(--success); }
+    .status-card.degraded .value { color: var(--warning); }
+    .status-card.down .value { color: var(--danger); }
+    .status-card.info .value { color: var(--info); }
+
+    /* ── Section ── */
+    .section { padding: 0 24px 32px; }
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px;
+    }
+    .section-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+    .section h2 { font-family: var(--serif); font-weight: 700; font-size: 22px; margin-top: 4px; }
+
+    /* ── Service grid ── */
+    .service-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+    .service-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 20px; display: flex; gap: 12px; transition: border-color 0.2s;
+    }
+    .service-card:hover { border-color: var(--accent); }
+
+    .service-status-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 6px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .dot-healthy { background: var(--success); box-shadow: 0 0 6px rgba(107,124,82,0.5); }
+    .dot-degraded { background: var(--warning); box-shadow: 0 0 6px rgba(212,175,55,0.5); }
+    .dot-down { background: var(--danger); box-shadow: 0 0 6px rgba(204,68,68,0.5); }
+    .dot-unknown { background: var(--text-dim); }
+    .dot-checking { background: var(--info); animation: pulse 0.8s ease-in-out infinite; }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+    .service-info { flex: 1; min-width: 0; }
+    .service-name { font-weight: 600; font-size: 14px; color: var(--text); }
+    .service-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; line-height: 1.5; }
+    .service-meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .tag {
+      font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+      padding: 2px 7px; border-radius: 3px; border: 1px solid;
+    }
+    .tag-healthy { color: var(--success); border-color: rgba(107,124,82,0.3); background: rgba(107,124,82,0.1); }
+    .tag-degraded { color: var(--warning); border-color: rgba(212,175,55,0.3); background: rgba(212,175,55,0.1); }
+    .tag-down { color: var(--danger); border-color: rgba(204,68,68,0.3); background: rgba(204,68,68,0.1); }
+    .tag-free { color: var(--accent); border-color: rgba(107,124,82,0.2); background: rgba(107,124,82,0.08); }
+    .tag-pending { color: var(--warning); border-color: rgba(212,175,55,0.2); background: rgba(212,175,55,0.08); }
+    .tag-category { color: var(--info); border-color: rgba(93,138,158,0.3); background: rgba(93,138,158,0.08); }
+    .tag-latency { color: var(--text-dim); border-color: var(--border); background: transparent; }
+
+    .service-footer {
+      margin-top: 10px; display: flex; align-items: center; justify-content: space-between;
+      font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+    }
+    .service-footer a { color: var(--accent); text-decoration: none; }
+    .service-footer a:hover { color: var(--accent-bright); }
+
+    /* ── Alert list ── */
+    .alert-list { display: flex; flex-direction: column; gap: 8px; }
+    .alert-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; border-radius: 6px;
+      font-size: 13px; border: 1px solid;
+    }
+    .alert-critical { background: rgba(204,68,68,0.08); border-color: rgba(204,68,68,0.2); color: var(--danger); }
+    .alert-warning { background: rgba(212,175,55,0.08); border-color: rgba(212,175,55,0.2); color: var(--warning); }
+    .alert-info { background: rgba(93,138,158,0.08); border-color: rgba(93,138,158,0.2); color: var(--info); }
+
+    .alert-icon { flex-shrink: 0; }
+    .alert-content { flex: 1; }
+    .alert-action {
+      font-family: var(--mono); font-size: 10px; color: var(--accent); text-decoration: none;
+      border: 1px solid rgba(107,124,82,0.3); padding: 4px 10px; border-radius: 4px;
+    }
+    .alert-action:hover { background: rgba(107,124,82,0.15); }
+
+    /* ── Expiry timeline ── */
+    .expiry-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .expiry-table th {
+      text-align: left; font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-dim); padding: 10px 14px;
+      border-bottom: 2px solid var(--border);
+    }
+    .expiry-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: middle; }
+    .expiry-table td:first-child { color: var(--text); font-weight: 500; }
+    .expiry-table tr:hover td { background: rgba(107,124,82,0.04); }
+
+    /* ── Footer ── */
+    .dash-footer {
+      text-align: center; padding: 32px 24px; color: var(--text-dim);
+      font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+      border-top: 1px solid var(--border); margin-top: 32px;
+    }
+
+    /* ── Loading state ── */
+    .loading-shimmer {
+      background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-alt) 50%, var(--bg-card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .dash-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+      .status-bar { grid-template-columns: repeat(2, 1fr); }
+      .service-grid { grid-template-columns: 1fr; }
+      .section { padding: 0 16px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="dash-header">
+  <div class="dash-header-left">
+    <span class="dash-logo">Analyst</span>
+    <span class="dash-title">Infrastructure Monitor</span>
+  </div>
+  <div class="dash-header-right">
+    <span id="last-checked" style="font-family: var(--mono); font-size: 10px; color: var(--text-dim);"></span>
+    <button class="btn" id="btn-refresh" onclick="window._monitor?.refresh()">Refresh</button>
+    <div class="notif-badge" id="notif-toggle" onclick="window._monitor?.notifier.toggleDrawer()">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M14 6a5 5 0 0 0-10 0c0 5-2 7-2 7h14s-2-2-2-7"/>
+        <path d="M10.5 15a1.5 1.5 0 0 1-3 0"/>
+      </svg>
+      <span class="count" id="notif-count" data-count="0">0</span>
+    </div>
+  </div>
+</header>
+
+<!-- ── STATUS BAR ── -->
+<div class="status-bar" id="status-bar">
+  <div class="status-card healthy" id="stat-overall">
+    <div class="value" id="stat-overall-val">-</div>
+    <div class="label">Overall</div>
+  </div>
+  <div class="status-card healthy" id="stat-healthy">
+    <div class="value" id="stat-healthy-val">-</div>
+    <div class="label">Healthy</div>
+  </div>
+  <div class="status-card degraded" id="stat-degraded">
+    <div class="value" id="stat-degraded-val">-</div>
+    <div class="label">Degraded</div>
+  </div>
+  <div class="status-card down" id="stat-down">
+    <div class="value" id="stat-down-val">-</div>
+    <div class="label">Down</div>
+  </div>
+  <div class="status-card info" id="stat-alerts">
+    <div class="value" id="stat-alerts-val">-</div>
+    <div class="label">Alerts</div>
+  </div>
+  <div class="status-card" id="stat-services">
+    <div class="value" id="stat-services-val">-</div>
+    <div class="label">Services</div>
+  </div>
+</div>
+
+<!-- ── ALERTS ── -->
+<div class="section" id="alerts-section" style="display: none;">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Active Alerts</div>
+    </div>
+  </div>
+  <div class="alert-list" id="alert-list"></div>
+</div>
+
+<!-- ── SERVICES ── -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Services</div>
+      <h2>Live Status</h2>
+    </div>
+    <div style="display: flex; gap: 8px;" id="filter-tags"></div>
+  </div>
+  <div class="service-grid" id="service-grid">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- ── EXPIRY TRACKER ── -->
+<div class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Secrets &amp; Expiry</div>
+      <h2>Token &amp; Certificate Tracker</h2>
+    </div>
+  </div>
+  <table class="expiry-table" id="expiry-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Category</th>
+        <th>Expiry</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="expiry-tbody">
+      <!-- Populated by JS -->
+    </tbody>
+  </table>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="dash-footer">
+  Infrastructure Monitor v1.0 — analyst.rizrazak.com — Polling every 5 minutes
+</footer>
+
+<!-- ── MODULE LOADER ── -->
+<script type="module">
+  import { InfraMonitor } from '/js/infra/index.js';
+
+  const WORKER_URL = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
+
+  // Initialize monitor
+  const monitor = InfraMonitor.init({
+    workerUrl: WORKER_URL,
+    pollInterval: 300000, // 5 min
+  });
+
+  window._monitor = monitor;
+
+  // ── Render service cards ──────────────────────────────────
+  function renderServices() {
+    const grid = document.getElementById('service-grid');
+    const services = monitor.registry.getAll();
+
+    grid.innerHTML = services.map(s => {
+      const result = monitor.checker.getResult(s.id);
+      const status = result?.status || (s.status === 'not-configured' ? 'not-configured' : 'checking');
+      const dotClass = status === 'healthy' ? 'dot-healthy'
+        : status === 'degraded' ? 'dot-degraded'
+        : status === 'down' ? 'dot-down'
+        : status === 'checking' ? 'dot-checking'
+        : 'dot-unknown';
+
+      const statusTag = status === 'healthy' ? '<span class="tag tag-healthy">Healthy</span>'
+        : status === 'degraded' ? '<span class="tag tag-degraded">Degraded</span>'
+        : status === 'down' ? '<span class="tag tag-down">Down</span>'
+        : status === 'not-configured' ? '<span class="tag tag-pending">Not Configured</span>'
+        : '<span class="tag tag-latency">Checking...</span>';
+
+      const latencyTag = result?.latencyMs
+        ? `<span class="tag tag-latency">${result.latencyMs}ms</span>`
+        : '';
+
+      const tierTag = s.tier === 'free' ? '<span class="tag tag-free">Free</span>' : '';
+      const categoryTag = `<span class="tag tag-category">${s.category}</span>`;
+
+      return `
+        <div class="service-card" data-service="${s.id}" data-status="${status}">
+          <div class="service-status-dot ${dotClass}"></div>
+          <div class="service-info">
+            <div class="service-name">${esc(s.name)}</div>
+            <div class="service-desc">${esc(s.description)}</div>
+            <div class="service-meta">
+              ${statusTag}${latencyTag}${tierTag}${categoryTag}
+            </div>
+            ${s.limits?.label ? `<div class="service-footer">${esc(s.limits.label)}</div>` : ''}
+            <div class="service-footer">
+              <span>Setup: ${s.setupDate || 'n/a'}</span>
+              ${s.dashboard ? `<a href="${s.dashboard}" target="_blank" rel="noopener">Dashboard &rarr;</a>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ── Render status bar ─────────────────────────────────────
+  function renderStatusBar() {
+    const counts = monitor.checker.getStatusCounts();
+    const alertCounts = monitor.expiry.getAlertCounts();
+    const total = monitor.registry.getAll().length;
+
+    document.getElementById('stat-healthy-val').textContent = counts.healthy || 0;
+    document.getElementById('stat-degraded-val').textContent = counts.degraded || 0;
+    document.getElementById('stat-down-val').textContent = counts.down || 0;
+    document.getElementById('stat-alerts-val').textContent = alertCounts.total || 0;
+    document.getElementById('stat-services-val').textContent = total;
+
+    const overall = counts.down > 0 ? 'DOWN' : counts.degraded > 0 ? 'DEGRADED' : 'HEALTHY';
+    document.getElementById('stat-overall-val').textContent = overall;
+    const overallCard = document.getElementById('stat-overall');
+    overallCard.className = `status-card ${overall.toLowerCase()}`;
+  }
+
+  // ── Render alerts ─────────────────────────────────────────
+  function renderAlerts() {
+    const alerts = monitor.expiry.getAlerts();
+    const section = document.getElementById('alerts-section');
+    const list = document.getElementById('alert-list');
+
+    if (alerts.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    list.innerHTML = alerts.map(a => {
+      const levelClass = `alert-${a.level}`;
+      const icon = a.level === 'critical' ? '!!' : a.level === 'warning' ? '!' : 'i';
+      return `
+        <div class="alert-item ${levelClass}">
+          <div class="alert-icon" style="font-weight:700; font-family:var(--mono);">${icon}</div>
+          <div class="alert-content">${esc(a.message)}</div>
+          ${a.actionUrl ? `<a class="alert-action" href="${a.actionUrl}" target="_blank" rel="noopener">Open</a>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ── Render expiry table ───────────────────────────────────
+  function renderExpiry() {
+    const items = monitor.expiry.getTrackedItems();
+    const tbody = document.getElementById('expiry-tbody');
+
+    tbody.innerHTML = items.map(item => {
+      let expiryText = item.expiryDate || 'Unknown';
+      let statusTag = '';
+
+      if (item.autoRenew) {
+        statusTag = '<span class="tag tag-healthy">Auto-renew</span>';
+      } else if (!item.expiryDate) {
+        statusTag = '<span class="tag tag-pending">Verify</span>';
+      } else {
+        const days = Math.ceil((new Date(item.expiryDate).getTime() - Date.now()) / 86400000);
+        if (days < 0) statusTag = '<span class="tag tag-down">Expired</span>';
+        else if (days <= 7) statusTag = '<span class="tag tag-down">Critical</span>';
+        else if (days <= 30) statusTag = '<span class="tag tag-degraded">Warning</span>';
+        else statusTag = '<span class="tag tag-healthy">OK (' + days + 'd)</span>';
+      }
+
+      return `
+        <tr>
+          <td>${esc(item.name)}<br><span style="font-size:11px;color:var(--text-dim);">${esc(item.description || '')}</span></td>
+          <td><span class="tag tag-category">${item.category}</span></td>
+          <td style="font-family:var(--mono);font-size:12px;">${expiryText}</td>
+          <td>${statusTag}</td>
+          <td>${item.renewUrl ? `<a class="alert-action" href="${item.renewUrl}" target="_blank" rel="noopener">Manage</a>` : '-'}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // ── Update timestamp ──────────────────────────────────────
+  function updateTimestamp() {
+    document.getElementById('last-checked').textContent = 'Last check: ' + new Date().toLocaleTimeString();
+  }
+
+  // ── Wire events ───────────────────────────────────────────
+  monitor.checker.on('checkAll', () => {
+    renderServices();
+    renderStatusBar();
+    updateTimestamp();
+  });
+
+  monitor.checker.on('result', () => {
+    renderServices();
+    renderStatusBar();
+  });
+
+  monitor.notifier.on('count', count => {
+    const el = document.getElementById('notif-count');
+    el.textContent = count;
+    el.dataset.count = count;
+  });
+
+  // ── Utility ───────────────────────────────────────────────
+  function esc(str) {
+    const el = document.createElement('span');
+    el.textContent = str || '';
+    return el.innerHTML;
+  }
+
+  // ── Initial render ────────────────────────────────────────
+  renderServices();
+  renderStatusBar();
+  renderAlerts();
+  renderExpiry();
+  updateTimestamp();
+
+  // Also do a server-side health check via Worker
+  fetch(WORKER_URL + '/api/infra/health')
+    .then(r => r.json())
+    .then(data => {
+      console.log('[infra] Worker health check:', data);
+      // Update service cards with server-side data
+      Object.entries(data.checks || {}).forEach(([key, val]) => {
+        const card = document.querySelector(`[data-service]`);
+        // Server-side results are supplementary — browser checks are primary
+      });
+    })
+    .catch(err => console.warn('[infra] Worker health check failed:', err));
+</script>
+
+</body>
+</html>
