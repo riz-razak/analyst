@@ -1958,14 +1958,17 @@ async function handleGitHubFilePut(request, env) {
  * Supabase REST API calls for DGTL OS Phase 1
  */
 
+const KANBAN_SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
+const KANBAN_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+
 async function handleGetProjects(request, env) {
   if (request.method !== 'GET') {
     return jsonResponse({ error: 'Method not allowed' }, 405);
   }
 
   try {
-    const supabaseUrl = env.SUPABASE_URL;
-    const supabaseKey = env.SUPABASE_ANON_KEY;
+    const supabaseUrl = KANBAN_SUPABASE_URL;
+    const supabaseKey = KANBAN_SUPABASE_KEY;
 
     const resp = await fetch(
       `${supabaseUrl}/rest/v1/projects?select=*,boards(*)&order=created_at`,
@@ -1996,8 +1999,8 @@ async function handleGetProject(request, env, slug) {
   }
 
   try {
-    const supabaseUrl = env.SUPABASE_URL;
-    const supabaseKey = env.SUPABASE_ANON_KEY;
+    const supabaseUrl = KANBAN_SUPABASE_URL;
+    const supabaseKey = KANBAN_SUPABASE_KEY;
 
     const resp = await fetch(
       `${supabaseUrl}/rest/v1/projects?slug=eq.${slug}&select=*,boards(id,name,slug,position,description,board_columns(*,tasks(*)))`,
@@ -2032,8 +2035,8 @@ async function handleGetBoard(request, env, boardId) {
   }
 
   try {
-    const supabaseUrl = env.SUPABASE_URL;
-    const supabaseKey = env.SUPABASE_ANON_KEY;
+    const supabaseUrl = KANBAN_SUPABASE_URL;
+    const supabaseKey = KANBAN_SUPABASE_KEY;
 
     const resp = await fetch(
       `${supabaseUrl}/rest/v1/boards?id=eq.${boardId}&select=*,board_columns(id,name,color,position,wip_limit,tasks(id,title,description,priority,assignee_id,due_date,labels,position)),project_id(*,workspace_id)`,
@@ -2075,8 +2078,8 @@ async function handleCreateTask(request, env) {
       return jsonResponse({ error: 'board_id and title are required' }, 400);
     }
 
-    const supabaseUrl = env.SUPABASE_URL;
-    const supabaseKey = env.SUPABASE_ANON_KEY;
+    const supabaseUrl = KANBAN_SUPABASE_URL;
+    const supabaseKey = KANBAN_SUPABASE_KEY;
 
     // Get max position in column
     let position = 0;
@@ -2137,8 +2140,8 @@ async function handleUpdateTask(request, env, taskId) {
   try {
     const body = await request.json();
 
-    const supabaseUrl = env.SUPABASE_URL;
-    const supabaseKey = env.SUPABASE_ANON_KEY;
+    const supabaseUrl = KANBAN_SUPABASE_URL;
+    const supabaseKey = KANBAN_SUPABASE_KEY;
 
     const resp = await fetch(`${supabaseUrl}/rest/v1/tasks?id=eq.${taskId}`, {
       method: 'PATCH',
@@ -2177,8 +2180,8 @@ async function handleMoveTask(request, env, taskId) {
       return jsonResponse({ error: 'column_id and position are required' }, 400);
     }
 
-    const supabaseUrl = env.SUPABASE_URL;
-    const supabaseKey = env.SUPABASE_ANON_KEY;
+    const supabaseUrl = KANBAN_SUPABASE_URL;
+    const supabaseKey = KANBAN_SUPABASE_KEY;
 
     const resp = await fetch(`${supabaseUrl}/rest/v1/tasks?id=eq.${taskId}`, {
       method: 'PATCH',
@@ -2221,8 +2224,8 @@ async function handleAddColumn(request, env, boardId) {
       return jsonResponse({ error: 'name is required' }, 400);
     }
 
-    const supabaseUrl = env.SUPABASE_URL;
-    const supabaseKey = env.SUPABASE_ANON_KEY;
+    const supabaseUrl = KANBAN_SUPABASE_URL;
+    const supabaseKey = KANBAN_SUPABASE_KEY;
 
     // Get max position
     const posResp = await fetch(
