@@ -808,8 +808,8 @@ YOUR_SUPABASE_ANON_KEY
         </div>
     </div>
 
-    <!-- Supabase JS Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Supabase JS Library (async — not needed for standalone deployment) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" async></script>
 
     <script>
         // ============================================================================
@@ -1417,5 +1417,23 @@ YOUR_SUPABASE_ANON_KEY
 <link rel="stylesheet" href="../_shared/narrative-timeline.css">
 <link rel="stylesheet" href="../_shared/category-system.css">
 <script src="../_shared/narrative-timeline.js" defer></script>
+<script>
+// Failsafe: if main script failed (e.g. Supabase CDN blocked), show app directly
+window.addEventListener('load', function() {
+    var app = document.getElementById('appContainer');
+    if (app && !app.classList.contains('show')) {
+        app.classList.add('show');
+        try { if (typeof init === 'function') init(); } catch(e) {}
+    }
+});
+// Also try immediately in case load already fired
+setTimeout(function() {
+    var app = document.getElementById('appContainer');
+    if (app && !app.classList.contains('show')) {
+        app.classList.add('show');
+        try { if (typeof renderSidebar === 'function') renderSidebar(); } catch(e) {}
+    }
+}, 2000);
+</script>
 </body>
 </html>
