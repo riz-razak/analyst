@@ -65,12 +65,12 @@ body {
 .si { font-family: var(--font-sinhala); }
 
 /* ===== LANGUAGE TOGGLE ===== */
-[lang-si] { display: none; }
-body.sinhala [lang-en] { display: none; }
-body.sinhala [lang-si] { display: block; }
-body.sinhala [lang-si-inline] { display: inline; }
-body.sinhala [lang-en-inline] { display: none; }
-[lang-si-inline] { display: none; }
+[lang-si] { display: none !important; }
+body.sinhala [lang-en] { display: none !important; }
+body.sinhala [lang-si] { display: block !important; }
+body.sinhala [lang-si-inline] { display: inline !important; }
+body.sinhala [lang-en-inline] { display: none !important; }
+[lang-si-inline] { display: none !important; }
 
 /* ===== DISCLAIMER ===== */
 .disclaimer-overlay {
@@ -861,6 +861,152 @@ body.sinhala [lang-en-inline] { display: none; }
 .tl-item:nth-child(8) { transition-delay: 0.35s; }
 .tl-item:nth-child(9) { transition-delay: 0.4s; }
 .tl-item:nth-child(10) { transition-delay: 0.45s; }
+
+/* ===== VINCIKA DIARY / JOURNAL ===== */
+.diary-section {
+  background: linear-gradient(175deg, #fdf5f5 0%, var(--bg) 30%, #f8f5ef 100%);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.diary-epigraph {
+  max-width: 640px; margin: 0 auto 48px;
+  text-align: center; font-family: var(--font-serif);
+  font-size: 1.1rem; line-height: 1.9; font-style: italic;
+  color: var(--text-secondary); padding: 24px 0;
+  border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.diary-epigraph .attr { font-style: normal; font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; display: block; }
+.diary-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: 0; max-width: 720px; margin: 0 auto;
+  position: relative;
+}
+.diary-grid::before {
+  content: ''; position: absolute;
+  left: 23px; top: 0; bottom: 0;
+  width: 2px; background: linear-gradient(to bottom, var(--ember), var(--sage), var(--forest));
+  border-radius: 2px; opacity: 0.4;
+}
+.diary-entry {
+  position: relative; padding: 20px 24px 20px 56px;
+  border-bottom: 1px solid rgba(212,208,196,0.4);
+  transition: background 0.3s;
+  cursor: pointer;
+}
+.diary-entry:hover { background: rgba(232,240,226,0.3); }
+.diary-entry:last-child { border-bottom: none; }
+.diary-dot {
+  position: absolute; left: 16px; top: 28px;
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 3px solid var(--sage); background: var(--bg);
+  z-index: 1; transition: all 0.3s;
+}
+.diary-entry:hover .diary-dot { border-color: var(--ember); background: var(--ember-light); transform: scale(1.2); }
+.diary-entry.entry-major .diary-dot { border-color: var(--ember); background: var(--ember); }
+.diary-entry.entry-major .diary-dot::after {
+  content: ''; position: absolute; inset: -4px;
+  border-radius: 50%; border: 2px solid rgba(192,57,43,0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+.diary-date {
+  font-size: 0.68rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 4px;
+}
+.diary-title {
+  font-family: var(--font-serif); font-size: 1rem;
+  font-weight: 700; color: var(--forest-deep); line-height: 1.4;
+  margin-bottom: 6px;
+}
+.diary-entry.entry-major .diary-title { color: var(--blood); }
+.diary-excerpt {
+  font-family: var(--font-serif); font-size: 0.88rem;
+  color: var(--text-secondary); line-height: 1.7; font-style: italic;
+}
+.diary-stats {
+  display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap;
+}
+.diary-stat {
+  font-size: 0.68rem; font-weight: 600;
+  color: var(--text-muted); background: var(--bg-card);
+  padding: 2px 10px; border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.diary-stat.views { color: var(--ember); border-color: var(--ember); background: var(--ember-light); }
+.diary-link {
+  display: inline-block; margin-top: 6px;
+  font-size: 0.72rem; color: var(--sage); text-decoration: none;
+  font-weight: 600; transition: color 0.2s;
+}
+.diary-link:hover { color: var(--forest); }
+
+/* Diary modal/popup */
+.diary-modal-overlay {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(26,26,26,0.85); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.diary-modal-overlay.active { display: flex; }
+.diary-modal {
+  max-width: 640px; width: 100%; max-height: 80vh;
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  padding: 36px 32px; overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  position: relative;
+}
+.diary-modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 32px; height: 32px; border-radius: 50%;
+  border: none; background: var(--bg); cursor: pointer;
+  font-size: 1.1rem; color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.diary-modal-close:hover { background: var(--ember-light); color: var(--blood); }
+.diary-modal .diary-date { font-size: 0.75rem; margin-bottom: 8px; }
+.diary-modal .diary-title { font-size: 1.2rem; margin-bottom: 16px; }
+.diary-modal-body { font-family: var(--font-serif); font-size: 0.95rem; line-height: 1.85; color: var(--text-secondary); }
+.diary-modal-body .commentary {
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--border); font-style: italic;
+  color: var(--text-muted); font-size: 0.88rem;
+}
+.diary-modal-img {
+  width: 100%; border-radius: var(--radius); margin: 16px 0;
+  border: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .diary-grid::before { left: 15px; }
+  .diary-entry { padding: 16px 16px 16px 44px; }
+  .diary-dot { left: 8px; top: 24px; width: 14px; height: 14px; }
+  .diary-modal { padding: 24px 20px; }
+}
+
+/* ===== HERO EPIGRAPH (Utopia quote) ===== */
+.hero-epigraph {
+  margin-top: 36px; max-width: 600px;
+  padding: 20px 28px; border-radius: var(--radius);
+  background: rgba(139,26,26,0.04);
+  border-left: 3px solid var(--ember);
+  text-align: left;
+}
+.hero-epigraph blockquote {
+  font-family: var(--font-sinhala); font-size: 0.92rem;
+  line-height: 1.9; color: var(--text); font-weight: 600;
+  margin: 0;
+}
+.hero-epigraph .translation {
+  display: block; margin-top: 8px;
+  font-family: var(--font-serif); font-size: 0.85rem;
+  color: var(--text-secondary); font-style: italic;
+}
+.hero-epigraph .epigraph-attr {
+  display: block; margin-top: 10px;
+  font-family: var(--font-sans); font-size: 0.72rem;
+  color: var(--text-muted); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
 </style>
     <!-- CMS Hydration + Admin Overlay -->
     <script>(function() {
@@ -977,6 +1123,7 @@ body.sinhala [lang-en-inline] { display: none; }
       <a href="/" style="color:var(--text-muted); font-weight:500; letter-spacing:0;">← Dossiers</a>
       <a href="#incident">Incident</a>
       <a href="#evidence">Evidence</a>
+      <a href="#journal">Journal</a>
       <a href="#timeline">Timeline</a>
       <a href="#cast">Cast</a>
       <a href="#journalist">Journalist</a>
@@ -995,6 +1142,7 @@ body.sinhala [lang-en-inline] { display: none; }
 <div class="mobile-nav-drawer" id="mobile-drawer">
   <a href="#incident" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">The Incident</a>
   <a href="#evidence" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Evidence</a>
+  <a href="#journal" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Journal</a>
   <a href="#timeline" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Timeline</a>
   <a href="#cast" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Cast</a>
   <a href="#profile" onclick="document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open')">Profile</a>
@@ -1018,6 +1166,15 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="stat"><div class="stat-value">5</div><div class="stat-label" lang-en>Years of Allegations</div><div class="stat-label si" lang-si style="display:none">චෝදනාවල වසර</div></div>
       <div class="stat"><div class="stat-value">6+</div><div class="stat-label" lang-en>Public Callouts</div><div class="stat-label si" lang-si style="display:none">ප්‍රසිද්ධ ඇමතුම්</div></div>
       <div class="stat"><div class="stat-value">2+</div><div class="stat-label" lang-en>Named Victims</div><div class="stat-label si" lang-si style="display:none">නම් කරන ලද වින්දිතයින්</div></div>
+    </div>
+
+    <!-- Hero Epigraph — Vincika's Utopia Quote -->
+    <div class="hero-epigraph">
+      <blockquote lang-en>ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැති නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!</blockquote>
+      <span class="translation" lang-en>"Because we cannot wait until your utopia arrives, what can be done in this moment's reality must be done!"</span>
+      <blockquote lang-si class="si" style="display:none">ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැති නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!</blockquote>
+      <span class="epigraph-attr" lang-en>— Vincika De Saram, August 24, 2021</span>
+      <span class="epigraph-attr si" lang-si style="display:none">— වින්සිකා ද සේරම්, 2021 අගෝස්තු 24</span>
     </div>
   </div>
 </section>
@@ -1252,6 +1409,205 @@ body.sinhala [lang-en-inline] { display: none; }
 
 <div class="divider"></div>
 
+<!-- ===== VINCIKA'S JOURNAL ===== -->
+<section class="section diary-section" id="journal" data-nav-label="Vincika's Journal">
+  <div class="section-header">
+    <div class="section-label" lang-en>The Record</div>
+    <div class="section-label si" lang-si style="display:none">වාර්තාව</div>
+    <h2 lang-en>Vincika's Journal — Ten Days That Shook a Movement</h2>
+    <h2 lang-si class="si" style="display:none">වින්සිකාගේ සටහන් — ව්‍යාපාරයක් සෙලවූ දින දහය</h2>
+    <p class="section-desc" lang-en>Between August 19 and September 28, 2021, Vincika De Saram published ten consecutive posts naming Vangeesa Sumanasekara. Screenshots. Video. Poetry. A trilingual call to solidarity. Not one has been retracted. Not one has been legally challenged.</p>
+    <p class="section-desc si" lang-si style="display:none">2021 අගෝස්තු 19 සිට සැප්තැම්බර් 28 දක්වා, වින්සිකා ද සේරම් වංගීස සුමනසේකර නම් කරමින් අඛණ්ඩ පෝස්ට් දහයක් ප්‍රකාශයට පත් කළාය. තිරපිටපත්. වීඩියෝ. කවි. ත්‍රිභාෂා සහජීවන ඇරයුමක්. එකකුත් ඉල්ලා ගෙන නැත. එකකටවත් නීතිමය අභියෝග කර නැත.</p>
+  </div>
+
+  <div class="diary-epigraph">
+    <span lang-en>"There's really no such thing as the voiceless. There are only the deliberately silenced, or the preferably unheard."</span>
+    <span lang-si class="si" style="display:none">"හඬ නැතියන් කියලා ඇත්තටම දෙයක් නැහැ. තිබෙන්නේ හිතාමතාම නිහඬ කළ, නැත්නම් නොඇසුණොත් හොඳ යැයි සිතන අය පමණයි."</span>
+    <span class="attr" lang-en>— Arundhati Roy (shared by Vincika, August 22, 2021)</span>
+    <span class="attr si" lang-si style="display:none">— අරුන්ධති රෝයි (වින්සිකා විසින් බෙදාගත්, 2021 අගෝස්තු 22)</span>
+  </div>
+
+  <div class="diary-grid">
+
+    <!-- Entry 1: FIRST ACCUSATION -->
+    <div class="diary-entry entry-major" onclick="openDiaryModal(this)" data-url="https://www.facebook.com/vincika.desaram/posts/pfbid0McpM4JhKsGV7qKm4tMjL972yfAQ7tE4ydvQqTtfakpPLzSwencPWiiKMLVPTeBUcl">
+      <div class="diary-dot"></div>
+      <div class="diary-date">August 19, 2021 — Day One</div>
+      <div class="diary-title" lang-en>The First Accusation</div>
+      <div class="diary-title si" lang-si style="display:none">පළමු චෝදනාව</div>
+      <div class="diary-excerpt" lang-en>"Today, I'm going to expose a SEXUAL HARASSMENT attempt by the so called Activist VANGEESA SUMANASEKARA!" — with Messenger screenshots: "show your stuff," "show me your pussy."</div>
+      <div class="diary-excerpt si" lang-si style="display:none">"අද මම ඊනියා ක්‍රියාකාරී වංගීස සුමනසේකර විසින් කරන ලද ලිංගික හිරිහැර උත්සාහයක් හෙළි කිරීමට යනවා!" — Messenger තිරපිටපත් සමඟ.</div>
+      <div class="diary-stats">
+        <span class="diary-stat">116 reactions</span>
+        <span class="diary-stat">48 comments</span>
+        <span class="diary-stat">48 shares</span>
+      </div>
+      <a class="diary-link" href="#ev-S8S9">View evidence card ↓ [S8]</a>
+    </div>
+
+    <!-- Entry 2: VIDEO -->
+    <div class="diary-entry entry-major" onclick="openDiaryModal(this)" data-url="https://www.facebook.com/vincika.desaram/videos/4705450932848243/">
+      <div class="diary-dot"></div>
+      <div class="diary-date">August 20, 2021 — Day Two</div>
+      <div class="diary-title" lang-en>The Video</div>
+      <div class="diary-title si" lang-si style="display:none">වීඩියෝව</div>
+      <div class="diary-excerpt" lang-en>Sinhala-language video post directly naming Vangeesa Sumanasekara. Lakmali Hemachandra commented.</div>
+      <div class="diary-excerpt si" lang-si style="display:none">වංගීස සුමනසේකර සෘජුවම නම් කරමින් සිංහල භාෂා වීඩියෝ පෝස්ටුවක්. ලක්මලී හේමචන්ද්‍ර අදහස් දැක්වීය.</div>
+      <div class="diary-stats">
+        <span class="diary-stat">145 reactions</span>
+        <span class="diary-stat">54 comments</span>
+        <span class="diary-stat views">1.8K views</span>
+      </div>
+    </div>
+
+    <!-- Entry 3: ARUNDHATI ROY -->
+    <div class="diary-entry" onclick="openDiaryModal(this)" data-url="https://www.facebook.com/vincika.desaram/posts/pfbid0mduFYmjZzGVd48eNJAp4n6WyM9avaLfTAPZ2bxxvnaM1SMgnxw9r7sDQ6w7ckAJDl">
+      <div class="diary-dot"></div>
+      <div class="diary-date">August 22, 2021</div>
+      <div class="diary-title" lang-en>The Voiceless</div>
+      <div class="diary-title si" lang-si style="display:none">හඬ නැති අය</div>
+      <div class="diary-excerpt" lang-en>Detailed Sinhala narration of the harassment. Shared with an Arundhati Roy quote about the "deliberately silenced." Tagged Geethika, Madhubhashini, Lanka, Lakmali, Amali.</div>
+      <div class="diary-excerpt si" lang-si style="display:none">හිරිහැරයේ සවිස්තරාත්මක සිංහල ආඛ්‍යානය. "හිතාමතාම නිහඬ කළ" අය ගැන අරුන්ධති රෝයි උපුටා දැක්වීමක් සමඟ බෙදාගත්තේය.</div>
+      <div class="diary-stats">
+        <span class="diary-stat">135 reactions</span>
+        <span class="diary-stat">34 comments</span>
+        <span class="diary-stat">21 shares</span>
+      </div>
+    </div>
+
+    <!-- Entry 4: PERFORMATIVE PHILOSOPHERS -->
+    <div class="diary-entry" onclick="openDiaryModal(this)" data-url="https://www.facebook.com/vincika.desaram/posts/pfbid02WSuHZPkPZU77tY39AnW8rgdcj3ojxtx122iA9fGDR4zXhqjtzQGbrxKbb1yqkf5gl">
+      <div class="diary-dot"></div>
+      <div class="diary-date">August 22, 2021</div>
+      <div class="diary-title" lang-en>Performative Philosophers</div>
+      <div class="diary-title si" lang-si style="display:none">මවා පාන දාර්ශනිකයින්</div>
+      <div class="diary-excerpt" lang-en>"I talk Marx Kant Gramsci Badiou. I want to garb ur ass" — her image connected the philosophical persona to the predator. The intellectual mask and the hand beneath it.</div>
+      <div class="diary-excerpt si" lang-si style="display:none">"මම Marx Kant Gramsci Badiou කතා කරනවා. මට ඔයාගේ පිට්ටනිය අල්ලන්න ඕන" — ඇගේ රූපය දාර්ශනික පෞද්ගලිකත්වය සහ විලෝපිකයා සම්බන්ධ කළේය.</div>
+      <div class="diary-stats">
+        <span class="diary-stat">55 reactions</span>
+        <span class="diary-stat">10 comments</span>
+        <span class="diary-stat">5 shares</span>
+      </div>
+    </div>
+
+    <!-- Entry 5: #MeTooLK -->
+    <div class="diary-entry entry-major" onclick="openDiaryModal(this)" data-url="https://www.facebook.com/vincika.desaram/posts/pfbid0fWkTEThP6AepyXAYnX3xrQVA9Dqvs5CJE5zALWX4xZxJKZaS7eaKNLP8jdUdnfeQl">
+      <div class="diary-dot"></div>
+      <div class="diary-date">August 23, 2021 — Day Five</div>
+      <div class="diary-title" lang-en>#MeTooLK Is Born</div>
+      <div class="diary-title si" lang-si style="display:none">#MeTooLK උපත ලබයි</div>
+      <div class="diary-excerpt" lang-en>"I am posting this to state that I am a safe person to talk to." — Trilingual declaration in Sinhala, Tamil, and English. Four days after going public, she built a bridge for others.</div>
+      <div class="diary-excerpt si" lang-si style="display:none">"මම කතා කිරීමට ආරක්ෂිත පුද්ගලයෙකු බව ප්‍රකාශ කිරීමට මම මෙය පළ කරමි." — සිංහල, දෙමළ, ඉංග්‍රීසි ත්‍රිභාෂා ප්‍රකාශය. ප්‍රසිද්ධියට පත් වී දින හතරකින්, ඇය අන් අයට පාලමක් ඉදි කළාය.</div>
+      <div class="diary-stats">
+        <span class="diary-stat">54 reactions</span>
+        <span class="diary-stat">13 comments</span>
+        <span class="diary-stat">8 shares</span>
+      </div>
+    </div>
+
+    <!-- Entry 6: WARNING -->
+    <div class="diary-entry" onclick="openDiaryModal(this)" data-url="https://www.facebook.com/vincika.desaram/posts/pfbid02rt3skk8eE8tz8Sip6MWzZpVS5moFSGjZyqqiWYJPJf3AXQvhtiL2bn3LbEbKWVNvl">
+      <div class="diary-dot"></div>
+      <div class="diary-date">August 23, 2021</div>
+      <div class="diary-title" lang-en>The Warning</div>
+      <div class="diary-title si" lang-si style="display:none">අනතුරු ඇඟවීම</div>
+      <div class="diary-excerpt" lang-en>Tagged Geethika, Lakmali, Emy, Madhubhashini, Lanka, Amali. Image: "Be careful — Don't unzip your self for the cum words of crooks."</div>
+      <div class="diary-excerpt si" lang-si style="display:none">ගීතිකා, ලක්මලි, එමි, මධුභාෂිණී, ලංකා, අමාලි ටැග් කරන ලදි. "පරෙස්සම් වෙන්න" රූපය සමඟ.</div>
+      <div class="diary-stats">
+        <span class="diary-stat">46 reactions</span>
+        <span class="diary-stat">10 shares</span>
+      </div>
+    </div>
+
+    <!-- Entry 7: UTOPIA -->
+    <div class="diary-entry" onclick="openDiaryModal(this)" data-url="#">
+      <div class="diary-dot"></div>
+      <div class="diary-date">August 24, 2021</div>
+      <div class="diary-title" lang-en>Utopia</div>
+      <div class="diary-title si" lang-si style="display:none">යුටෝපියාව</div>
+      <div class="diary-excerpt" lang-en>"Because we cannot wait until your utopia arrives, what can be done in this moment's reality must be done!" — Pink background, Sinhala text. Comments from Madhubhashini, Prasanna Abeywickrama.</div>
+      <div class="diary-excerpt si" lang-si style="display:none">"ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැති නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!"</div>
+      <div class="diary-stats">
+        <span class="diary-stat">Comments from academics</span>
+      </div>
+    </div>
+
+    <!-- Entry 8: ACADEMIC HYPOCRISY -->
+    <div class="diary-entry" onclick="openDiaryModal(this)" data-url="https://www.facebook.com/vincika.desaram/posts/pfbid02pMi6EQRk3oBdfLdScGg48SwenXmYAKJKjmwiBipDXb8Nn589dz1EnKbjg1dF289vl">
+      <div class="diary-dot"></div>
+      <div class="diary-date">August 26, 2021</div>
+      <div class="diary-title" lang-en>Academic Hypocrisy</div>
+      <div class="diary-title si" lang-si style="display:none">අධ්‍යාපනික මුග්ධභාවය</div>
+      <div class="diary-excerpt" lang-en>Criticised "professors, philosophers" as hypocrites hiding behind institutional and intellectual frameworks. The shared content is no longer available — but the post remains.</div>
+      <div class="diary-excerpt si" lang-si style="display:none">"ආචාර්ය මහාචාර්ය දාර්ශනික" යනුවෙන් ආයතනික හා බුද්ධිමය රාමු පිටුපස සැඟවෙන දෙගිඩියාවාදීන් ලෙස විවේචනය කළේය.</div>
+      <div class="diary-stats">
+        <span class="diary-stat">28 reactions</span>
+        <span class="diary-stat">5 comments</span>
+      </div>
+    </div>
+
+    <!-- Entry 9: SHE IS ME -->
+    <div class="diary-entry" onclick="openDiaryModal(this)" data-url="#">
+      <div class="diary-dot"></div>
+      <div class="diary-date">August 27, 2021</div>
+      <div class="diary-title" lang-en>"She Is Me… I Am Her… Who Are You???"</div>
+      <div class="diary-title si" lang-si style="display:none">"ඇය මම… මම ඇය… ඔබ කවුද???"</div>
+      <div class="diary-excerpt" lang-en>English-language poem-manifesto about sexual violence. Direct reference to "being asked to show her stuff and pussy by a so called philosophical activist!!"</div>
+      <div class="diary-excerpt si" lang-si style="display:none">ලිංගික ප්‍රචණ්ඩත්වය පිළිබඳ ඉංග්‍රීසි කව-ප්‍රකාශය. "ඊනියා දාර්ශනික ක්‍රියාකාරිකයෙකු විසින් ඇගේ 'stuff' සහ 'pussy' පෙන්වන්නැයි ඉල්ලීම" පිළිබඳ සෘජු සඳහනක්.</div>
+      <div class="diary-stats">
+        <span class="diary-stat">Poem / Manifesto</span>
+      </div>
+    </div>
+
+    <!-- Entry 10: FINAL -->
+    <div class="diary-entry" onclick="openDiaryModal(this)" data-url="#">
+      <div class="diary-dot"></div>
+      <div class="diary-date">September 28, 2021 — One Month Later</div>
+      <div class="diary-title" lang-en>The Reckoning Continues</div>
+      <div class="diary-title si" lang-si style="display:none">ගණන් ගැනීම දිගටම</div>
+      <div class="diary-excerpt" lang-en>Sinhala post mentioning Lakmali, Geethika, Madhubhashini. Tagged Amali Wedagedara. The shared content is no longer available — but the record persists.</div>
+      <div class="diary-excerpt si" lang-si style="display:none">ලක්මලී, ගීතිකා, මධුභාෂිණී සඳහන් කරමින් සිංහල පෝස්ටුවක්. අමාලි වැඩගෙදර ටැග් කළේය. බෙදාගත් අන්තර්ගතය තවදුරටත් නොමැත — නමුත් වාර්තාව පවතී.</div>
+      <div class="diary-stats">
+        <span class="diary-stat">Shared content removed</span>
+      </div>
+    </div>
+
+  </div><!-- .diary-grid -->
+
+  <p style="max-width:640px; margin:32px auto 0; text-align:center; font-size:0.82rem; color:var(--text-muted); line-height:1.7;" lang-en>Ten posts. Forty days. Screenshots, video, poetry, trilingual solidarity calls. Not one retraction. Not one legal challenge. And four and a half years later, the Sunday Observer chose this man to speak about women.</p>
+  <p style="max-width:640px; margin:32px auto 0; text-align:center; font-size:0.82rem; color:var(--text-muted); line-height:1.7;" lang-si>පෝස්ට් දහයක්. දින හතළිහක්. තිරපිටපත්, වීඩියෝ, කවිත්වය, ත්‍රිභාෂා සහජීවන ඇරයුම්. එක ඉල්ලා ගැනීමක්වත් නැත. එක නීතිමය අභියෝගයක්වත් නැත. වසර හතරහමාරකට පසු, සන්ඩේ ඔබ්සර්වර් මෙම මිනිසා කාන්තාවන් ගැන කතා කිරීමට තෝරා ගත්තේය.</p>
+</section>
+
+<!-- Diary Modal -->
+<div class="diary-modal-overlay" id="diary-modal-overlay" onclick="if(event.target===this)closeDiaryModal()">
+  <div class="diary-modal" id="diary-modal">
+    <button class="diary-modal-close" onclick="closeDiaryModal()" aria-label="Close">✕</button>
+    <div id="diary-modal-content"></div>
+  </div>
+</div>
+<script>
+function openDiaryModal(el) {
+  var title = el.querySelector('.diary-title[lang-en]') ? el.querySelector('.diary-title[lang-en]').textContent : el.querySelector('.diary-title').textContent;
+  var date = el.querySelector('.diary-date').textContent;
+  var excerpt = el.querySelector('.diary-excerpt[lang-en]') ? el.querySelector('.diary-excerpt[lang-en]').textContent : el.querySelector('.diary-excerpt').textContent;
+  var url = el.getAttribute('data-url');
+  var html = '<div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-muted);margin-bottom:8px;">' + date + '</div>';
+  html += '<h3 style="font-family:var(--font-serif);font-size:1.3rem;color:var(--forest-deep);margin-bottom:16px;">' + title + '</h3>';
+  html += '<p style="font-family:var(--font-serif);font-size:0.95rem;line-height:1.8;color:var(--text-secondary);font-style:italic;">' + excerpt + '</p>';
+  if (url && url !== '#') {
+    html += '<a href="' + url + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:20px;padding:10px 20px;background:var(--forest);color:#fff;border-radius:8px;text-decoration:none;font-size:0.82rem;font-weight:600;">View Original Post →</a>';
+  }
+  document.getElementById('diary-modal-content').innerHTML = html;
+  document.getElementById('diary-modal-overlay').classList.add('active');
+}
+function closeDiaryModal() {
+  document.getElementById('diary-modal-overlay').classList.remove('active');
+}
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDiaryModal(); });
+</script>
+
+<div class="divider"></div>
+
 <!-- ===== TIMELINE ===== -->
 <section class="section" id="timeline" data-nav-label="Timeline">
   <div class="section-header">
@@ -1470,6 +1826,24 @@ body.sinhala [lang-en-inline] { display: none; }
     <p class="section-desc si" lang-si style="display:none">කතුවැකි විනිශ්චය සහ මාධ්‍ය අඛණ්ඩතාව පිළිබඳ ප්‍රශ්න</p>
   </div>
 
+  <!-- The Feminist Irony -->
+  <div style="max-width:720px; margin:0 auto 40px; display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:stretch;">
+    <div style="background:var(--sage-mist); border:1px solid var(--border-green); border-radius:var(--radius); padding:24px 20px; position:relative;">
+      <div style="font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--forest); margin-bottom:12px;" lang-en>The Article's Premise</div>
+      <div style="font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--forest); margin-bottom:12px;" lang-si>ලිපියේ පූර්වාදර්ශය</div>
+      <blockquote style="font-family:var(--font-serif); font-size:0.92rem; line-height:1.8; font-style:italic; color:var(--forest-deep); margin:0;" lang-en>"One is not born, but rather becomes, a woman."<span style="display:block; font-style:normal; font-size:0.75rem; color:var(--text-muted); margin-top:8px;">— Simone de Beauvoir, The Second Sex</span></blockquote>
+      <blockquote style="font-family:var(--font-serif); font-size:0.92rem; line-height:1.8; font-style:italic; color:var(--forest-deep); margin:0;" lang-si>"කාන්තාවක් ලෙස ඉපදෙන්නේ නැත, නමුත් කාන්තාවක් බවට පත්වේ."<span style="display:block; font-style:normal; font-size:0.75rem; color:var(--text-muted); margin-top:8px;">— සිමෝන් ද බියුවෝර්</span></blockquote>
+    </div>
+    <div style="background:var(--ember-light); border:1px solid rgba(192,57,43,0.2); border-radius:var(--radius); padding:24px 20px; position:relative;">
+      <div style="font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--blood); margin-bottom:12px;" lang-en>The Journalist's Response</div>
+      <div style="font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:var(--blood); margin-bottom:12px;" lang-si>මාධ්‍යවේදිනියගේ ප්‍රතිචාරය</div>
+      <blockquote style="font-family:var(--font-serif); font-size:0.92rem; line-height:1.8; font-style:italic; color:var(--blood); margin:0;" lang-en>"Why did this woman play the victim role?"<span style="display:block; font-style:normal; font-size:0.75rem; color:var(--text-muted); margin-top:8px;">— Anuradha Perera, March 9, 2026 <a href="#ev-S13" class="ref-marker">[S13]</a></span></blockquote>
+      <blockquote style="font-family:var(--font-serif); font-size:0.92rem; line-height:1.8; font-style:italic; color:var(--blood); margin:0;" lang-si>"මෙම කාන්තාව වින්දිතයාගේ භූමිකාව රඟපෑවේ ඇයි?"<span style="display:block; font-style:normal; font-size:0.75rem; color:var(--text-muted); margin-top:8px;">— අනුරාධා පෙරේරා, 2026 මාර්තු 9 <a href="#ev-S13" class="ref-marker">[S13]</a></span></blockquote>
+    </div>
+  </div>
+  <p style="max-width:640px; margin:-24px auto 40px; text-align:center; font-size:0.82rem; color:var(--text-muted); line-height:1.7; font-style:italic;" lang-en>An article celebrating the philosopher who said women are made, not born — featuring a man women say harassed them. And a journalist who, when confronted, asked why the woman didn't just accept it.</p>
+  <p style="max-width:640px; margin:-24px auto 40px; text-align:center; font-size:0.82rem; color:var(--text-muted); line-height:1.7; font-style:italic;" lang-si>කාන්තාවන් බිහි වන්නේ නැත, නිර්මාණය වන්නේය යැයි කී දාර්ශනිකයා සමරන ලිපියක් — කාන්තාවන් තමාට හිරිහැර කළ බව පවසන මිනිසෙකු ඇතුළත්ව. ඔහුට මුහුණ දුන් මාධ්‍යවේදිනිය, කාන්තාව ඇයි එය පිළිගත්තේ නැත්තේ දැයි ඇසුවාය.</p>
+
   <div class="profile-box">
     <div class="profile-top">
       <div class="profile-avatar-lg">AP</div>
@@ -1644,6 +2018,22 @@ body.sinhala [lang-en-inline] { display: none; }
       <div class="voice-text si" style="display:none">"Observer සහ එයින් නිසා රජය ජාත්‍යන්තර කාන්තා දිනය සගින් කිරීමට නව පරාමිතිය ස්ථාපිත කර ඇතින් ඔසි. එනම්, අවම වශයෙන් කිසි දෙනෙකු කුතුහලකාරී විය යුතු. මෙම පිස්සුවු දේ රජයේ තමාගේ පුවත්පතින් අනුග්‍රහ ලබා සහ කොළඹ කාන්තා රැළිවලට ජනාධිපතිවරයාගේ සහභාගිතාවයි ප්‍රසිද්ධිවලට ගැබ සිටි ඇතීමෙන් සිතිමතින්කරුවරුන්ගේ ද්විත්ව ආස්ථාන හෙළිදරව් කරයි. ම අගමැතිවරයා සහ ඇමති Paul-Raj දිගුකාලීනව කාන්තා අයිතිවාසිකම්ගේ ශ්‍රිතකරු දෙන්නගේ මෙම ගැබ දැනගැනීමට කුතුහලකාරී වෙමි."</div>
     </div>
 
+    <div class="voice-card highlight" style="border-left-color: #6b21a8;">
+      <div class="voice-author" style="color:#6b21a8;">Swasthika Arulingam — Human Rights Lawyer</div>
+      <div class="voice-text" lang-en>"I was the subject of severe sexual violence twice in my life." She survived, she wrote, "because when I told the story to my friends and sisters they believed me. They did not ask me silly questions like 'why didn't you go to the police?'" Of the journalist: "Instead of apologising the journalist started victim blaming... publicly interrogating my friend Vincika De Saram on 'the current status' of the police complaint." Her devastating closer: "Ironically Vangeesa Sumanasekera was asked to comment on the 'myth of free women: A critique of equality and agency'. I did not know whether to laugh or cry when I saw this."</div>
+      <div class="voice-text si" style="display:none">"මගේ ජීවිතයේ දෙවරක් මම දරුණු ලිංගික ප්‍රචණ්ඩත්වයට ලක් වුණා." ඇය බේරුණේ, ඇය ලිව්වේ, "මම මගේ මිත්‍රවරුන්ට සහ සහෝදරියන්ට කතාව කිව්වම ඔවුන් මාව විශ්වාස කළ නිසා. 'ඇයි පොලිසියට ගියේ නැත්තේ?' වගේ මෝඩ ප්‍රශ්න ඔවුන් ඇසුවේ නැහැ." මාධ්‍යවේදිනිය ගැන: "සමාව ඉල්ලීම වෙනුවට මාධ්‍යවේදිනිය වින්දිත දොස් පැවරීම ආරම්භ කළා... මගේ මිතුරු වින්සිකා ද සේරම්ව පොලිස් පැමිණිල්ලේ 'වත්මන් තත්ත්වය' ගැන ප්‍රසිද්ධියේ ප්‍රශ්න කළා."</div>
+      <div class="voice-meta" lang-en>Comment on Melani Gunathilaka's post — March 10, 2026 <a href="#src-S18" class="ref-marker">[S18]</a></div>
+      <div class="voice-meta si" lang-si style="display:none">මෙලනි ගුණතිලකගේ පෝස්ටුවේ අදහස — 2026 මාර්තු 10 <a href="#src-S18" class="ref-marker">[S18]</a></div>
+    </div>
+
+    <div class="voice-card" style="border-left-color: var(--gold);">
+      <div class="voice-author" style="color:var(--gold);">Sirimalee Liyanagama — Senior Journalist</div>
+      <div class="voice-text" lang-en>Senior Sri Lankan journalist shared Tharindu Uduwaragedara's note, referencing Vincika De Saram and Lakmali Hemachandra, critiquing performative civil society. Quoted Vincika: "Do you think we've forgotten who Vangeesa Sumanasekara is?"</div>
+      <div class="voice-text si" style="display:none">ජ්‍යේෂ්ඨ ශ්‍රී ලාංකික මාධ්‍යවේදිනිය තාරිඳු උඩුවරගෙදරගේ සටහන බෙදාගත්තා, වින්සිකා ද සේරම් සහ ලක්මලී හේමචන්ද්‍ර සඳහන් කරමින්, මවාපාන සිවිල් සමාජය විවේචනය කළාය.</div>
+      <div class="voice-meta" lang-en>Facebook post — March 11, 2026 <a href="#src-S17" class="ref-marker">[S17]</a></div>
+      <div class="voice-meta si" lang-si style="display:none">ෆේස්බුක් පෝස්ටුව — 2026 මාර්තු 11 <a href="#src-S17" class="ref-marker">[S17]</a></div>
+    </div>
+
     <div class="voice-card" style="border-left-color: var(--blood); background: var(--ember-light);">
       <div class="voice-author" style="color:var(--blood);">⚠️ Anuradha Perera — The Journalist's Own Response</div>
       <div class="voice-text" style="font-size:0.88rem; line-height:1.7;">"Regarding the so-called woman harassment incident involving Vangeessa Sumanasekara from some time ago, I have had a different point of view from the beginning, and that's why I didn't want to get involved in that discussion. For me, that discussion was very 'childish,' as two adults were willingly having a conversation through an inbox, and the male was asking a very personal question that the other party could agree or disagree with and end the conversation as adults. If she got offended or shocked by the question he asked, she could have reacted the way she wanted and ended the story. Why did this woman play the victim role? Why did she consider it a violation of any of her rights? Since these two people were discussing willfully from the beginning, Vangeesa also has the right to ask any sort of question according to what is right in his thinking universe. If that is not right and sounds vulgar in the other person's universe, it should be communicated properly, whatever the language, and the conversation ended. For me, that's how I end things, and in my relationships with friends, there's room for positivity as well as their negativity. I don't expect people to be only positive." <span style="display:block; margin-top:8px;">"I am actually pleased that this situation caused the article to go viral and spark a discussion about its content. I stand by my editorial decisions and the platform provided to all our resource persons."</span></div>
@@ -1743,6 +2133,17 @@ body.sinhala [lang-en-inline] { display: none; }
       <tr id="src-S14"><td>S14 <a href="#ev-S14" class="ev-nav-link" style="margin:0">↑</a></td><td>Anuradha Perera — Victim-Blaming Comment Thread (Melani's post + Own post)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank">facebook.com (Melani's post)</a></td></tr>
       <tr id="src-S15"><td>S15</td><td>Lakmali Hemachandra / Geethika Dharmasinghe — "A Serial Offender" (July 2021), amplified by Swasthika Arulingam</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/swasthika.arulingam/posts/pfbid0L5V1MkxnJNtHZmbzF9Li8CrdBLQVj5sfb1MmQhKpJGxeXpAnzCCFyVroRD2YeffFl" target="_blank">facebook.com (Swasthika repost)</a></td></tr>
       <tr id="src-S16"><td>S16</td><td>Maruwaxx Blog — Sext Evidence from Third Victim (July 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://maruwaxx.wordpress.com/2021/07/03/%E0%B7%80%E0%B6%82%E0%B6%9C%E0%B7%93%E0%B7%83-%E0%B7%83%E0%B7%94%E0%B6%B8%E0%B6%B1%E0%B7%83%E0%B7%9A%E0%B6%9A%E0%B6%BB%E0%B6%BA%E0%B6%B1%E0%B7%8A%E0%B6%9C%E0%B7%9A-%E0%B6%9A%E0%B7%94%E0%B6%AB%E0%B7%94/" target="_blank">maruwaxx.wordpress.com</a></td></tr>
+      <tr id="src-S17"><td>S17</td><td>Sirimalee Liyanagama — Senior Journalist Post (March 11, 2026)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/sirimalee.liyanagama/posts/pfbid02ZJMbwfp3suz4fPeDEFK2pZHc5HkRb5UrPvfktjune7w3ey2dxVWRycqXch6oREbSl" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S18"><td>S18</td><td>Swasthika Arulingam — Personal Testimony on Melani's Post (March 10, 2026)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid02Ls2H5p9YADjtYCsXVRf2QRwMguwvXu4VSK7puUeNYqcVYMApmE9RBtuBhiGoi5Ypl" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S19"><td>S19</td><td>Vincika De Saram — First Accusation Post (August 19, 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/vincika.desaram/posts/pfbid0McpM4JhKsGV7qKm4tMjL972yfAQ7tE4ydvQqTtfakpPLzSwencPWiiKMLVPTeBUcl" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S20"><td>S20</td><td>Vincika De Saram — Video Testimony (August 20, 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/vincika.desaram/videos/4705450932848243/" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S21"><td>S21</td><td>Vincika De Saram — Arundhati Roy / Detailed Narration (August 22, 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/vincika.desaram/posts/pfbid0mduFYmjZzGVd48eNJAp4n6WyM9avaLfTAPZ2bxxvnaM1SMgnxw9r7sDQ6w7ckAJDl" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S22"><td>S22</td><td>Vincika De Saram — "Performative Philosophers" (August 22, 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/vincika.desaram/posts/pfbid02WSuHZPkPZU77tY39AnW8rgdcj3ojxtx122iA9fGDR4zXhqjtzQGbrxKbb1yqkf5gl" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S23"><td>S23</td><td>Vincika De Saram — #MeTooLK Launch (August 23, 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/vincika.desaram/posts/pfbid0fWkTEThP6AepyXAYnX3xrQVA9Dqvs5CJE5zALWX4xZxJKZaS7eaKNLP8jdUdnfeQl" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S24"><td>S24</td><td>Vincika De Saram — Warning Post (August 23, 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/vincika.desaram/posts/pfbid02rt3skk8eE8tz8Sip6MWzZpVS5moFSGjZyqqiWYJPJf3AXQvhtiL2bn3LbEbKWVNvl" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S25"><td>S25</td><td>Vincika De Saram — "Utopia" Quote (August 24, 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><span style="color:var(--muted);font-size:0.85em;">Facebook · Screenshot captured</span></td></tr>
+      <tr id="src-S26"><td>S26</td><td>Vincika De Saram — Academic Hypocrisy (August 26, 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/vincika.desaram/posts/pfbid02pMi6EQRk3oBdfLdScGg48SwenXmYAKJKjmwiBipDXb8Nn589dz1EnKbjg1dF289vl" target="_blank">facebook.com</a></td></tr>
+      <tr id="src-S27"><td>S27</td><td>Vincika De Saram — "She Is Me" Poem-Manifesto (August 27, 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><span style="color:var(--muted);font-size:0.85em;">Facebook · Screenshot captured</span></td></tr>
     </tbody>
   </table>
   </div>
