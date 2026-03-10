@@ -728,10 +728,24 @@ body.sinhala [lang-en-inline] { display: none; }
   .q-item::before { left: 14px; top: 16px; width: 24px; height: 24px; font-size: 0.7rem; }
 
   /* --- Source Table (horizontal scroll) --- */
-  .src-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px -16px 0; padding: 0 16px; }
-  .src-table { font-size: 0.75rem; min-width: 580px; }
-  .src-table th, .src-table td { padding: 8px 10px; white-space: nowrap; }
-  .src-table td:nth-child(3), .src-table td:nth-child(4) { white-space: normal; word-break: break-word; }
+  /* Sources — stacked card layout on mobile */
+  .src-table-wrap { margin: 24px -16px 0; padding: 0 16px; overflow-x: visible; }
+  .src-table { font-size: 0.8rem; min-width: 0; }
+  .src-table thead { display: none; }
+  .src-table tbody tr {
+    display: block; padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .src-table td {
+    display: block; padding: 2px 0; border: none; white-space: normal; word-break: break-word;
+  }
+  .src-table td:first-child {
+    font-weight: 700; color: var(--forest); font-size: 0.72rem;
+    margin-bottom: 2px;
+  }
+  .src-table td:nth-child(2) { font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; }
+  .src-table td:nth-child(3) { margin-bottom: 4px; }
+  .src-table td:nth-child(4) { font-size: 0.78rem; }
 
   /* --- Submit CTA --- */
   .submit-cta-block { padding: 28px 20px; margin: 32px 0 0; border-radius: 14px; }
