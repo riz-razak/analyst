@@ -43,12 +43,21 @@
   - Category badges in admin panel: grid view, table view, CMS dossier manager
   - `dossiers.json` updated with `category` field for all dossiers
 
-- [ ] **Comments System Overhaul (Phase 3)** — Supabase backend
-  - User accounts with email (required), display names, magic link auth
-  - Threaded comments with collapse/expand (max 3 levels)
-  - WhatsApp community prompt (placeholder link)
-  - Admin moderation, rate limiting, email notifications
-  - Deferred to dedicated session
+- [x] **Comments System v3 — deployed** *(2026-03-11)*
+  - SQL: `comment_users`, `moderation_log`, `comment_notifications` tables + RLS + views
+  - Worker: `/api/comments/list`, `/create`, `/moderate`, `/pending` endpoints
+  - Frontend: `_shared/comments-v3.js` (487 lines) + `comments-v3.css` — FAB + slide-out panel
+  - Admin: moderation queue view `#/comments-mod` with approve/reject/flag
+  - Threading: 3 levels, collapse/expand, rate limiting (3 per 15min)
+  - Integrated on `sri-lanka-cricket-corruption` — remaining dossiers need rollout
+  - ⚠️ Requires: run `supabase/migrations/002_comments_phase3.sql` on Supabase
+
+- [ ] **DGTL OS Phase 1 — Kanban boards** *(2026-03-11, code complete)*
+  - SQL: `workspaces`, `projects`, `boards`, `board_columns`, `tasks`, `members`, `activity_log` tables
+  - Seed data: DGTL workspace, 3 projects (Analyst/WarenYan/Kunatu), 4 boards, default columns
+  - Worker: 7 endpoints — projects list/detail, boards detail, tasks CRUD, task move, add column
+  - Admin: Boards list `#/boards` + Kanban detail `#/boards/:id` with HTML5 drag-drop
+  - ⚠️ Requires: run `supabase/migrations/003_dgtl_os_phase1.sql` on Supabase
 
 - [x] **Caravan Fresh — Pledge portal iframe embed verified** *(2026-03-11)*
   - iframe loads `pledge-portal.html?lang=` with bilingual param passing ✅
