@@ -26,7 +26,7 @@ export default {
       // This checks the KV visibility map for hidden dossiers.
       // For any non-API request on the main site, check and pass through.
       const host = url.hostname;
-      if (host !== 'analyst-collaborative-cms.riz-1cb.workers.dev') {
+      if (host !== 'analyst-collaborative-cms.riz-1cb.workers.dev' && !path.startsWith('/api/')) {
         // 301 redirect old /dossiers/* URLs to new root-level paths
         if (path.startsWith('/dossiers/')) {
           const newPath = path.replace('/dossiers/', '/');
@@ -1762,7 +1762,7 @@ async function handleInfraHealth(request, env) {
   // 4. GitHub Pages (origin)
   const ghStart = Date.now();
   try {
-    const resp = await fetch('https://analyst.rizrazak.com/data/dossiers.json', {
+    const resp = await fetch('https://riz-razak.github.io/analyst/data/dossiers.json', {
       headers: { 'User-Agent': 'analyst-infra-monitor/1.0' },
     });
     checks.github_pages = {
