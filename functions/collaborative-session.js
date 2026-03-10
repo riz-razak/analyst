@@ -95,6 +95,39 @@ export default {
         }
       }
 
+      // ── Comments endpoints ──
+      else if (path === '/api/comments/list') {
+        return handleCommentsList(request, env);
+      } else if (path === '/api/comments/create') {
+        return handleCommentCreate(request, env);
+      } else if (path === '/api/comments/moderate') {
+        return handleCommentModerate(request, env);
+      } else if (path === '/api/comments/pending') {
+        return handleCommentsPending(request, env);
+      }
+
+      // ── Kanban API endpoints ──
+      else if (path === '/api/projects') {
+        return handleGetProjects(request, env);
+      } else if (path.match(/^\/api\/projects\/[^\/]+$/)) {
+        const slug = path.split('/')[3];
+        return handleGetProject(request, env, slug);
+      } else if (path.match(/^\/api\/boards\/[^\/]+$/)) {
+        const id = path.split('/')[3];
+        return handleGetBoard(request, env, id);
+      } else if (path === '/api/tasks/create') {
+        return handleCreateTask(request, env);
+      } else if (path.match(/^\/api\/tasks\/[^\/]+$/) && request.method === 'PUT') {
+        const id = path.split('/')[3];
+        return handleUpdateTask(request, env, id);
+      } else if (path.match(/^\/api\/tasks\/[^\/]+\/move$/)) {
+        const id = path.split('/')[3];
+        return handleMoveTask(request, env, id);
+      } else if (path.match(/^\/api\/boards\/[^\/]+\/columns$/) && request.method === 'POST') {
+        const boardId = path.split('/')[3];
+        return handleAddColumn(request, env, boardId);
+      }
+
       // ── Infrastructure monitoring endpoints ──
       else if (path === '/api/infra/health') {
         return handleInfraHealth(request, env);
@@ -1917,6 +1950,582 @@ async function handleGitHubFilePut(request, env) {
   } catch (error) {
     console.error('GitHub file put error:', error);
     return jsonResponse({ error: error.message }, 500);
+  }
+}
+
+/**
+ * KANBAN API HANDLERS
+ * Supabase REST API calls for DGTL OS Phase 1
+ */
+
+async function handleGetProjects(request, env) {
+  if (request.method !== 'GET') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  try {
+    const supabaseUrl = env.SUPABASE_URL;
+    const supabaseKey = env.SUPABASE_ANON_KEY;
+
+    const resp = await fetch(
+      `${supabaseUrl}/rest/v1/projects?select=*,boards(*)&order=created_at`,
+      {
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!resp.ok) {
+      return jsonResponse({ error: 'Failed to fetch projects' }, resp.status);
+    }
+
+    const data = await resp.json();
+    return jsonResponse(data);
+  } catch (error) {
+    console.error('Get projects error:', error);
+    return jsonResponse({ error: error.message }, 500);
+  }
+}
+
+async function handleGetProject(request, env, slug) {
+  if (request.method !== 'GET') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  try {
+    const supabaseUrl = env.SUPABASE_URL;
+    const supabaseKey = env.SUPABASE_ANON_KEY;
+
+    const resp = await fetch(
+      `${supabaseUrl}/rest/v1/projects?slug=eq.${slug}&select=*,boards(id,name,slug,position,description,board_columns(*,tasks(*)))`,
+      {
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!resp.ok) {
+      return jsonResponse({ error: 'Failed to fetch project' }, resp.status);
+    }
+
+    const data = await resp.json();
+    if (data.length === 0) {
+      return jsonResponse({ error: 'Project not found' }, 404);
+    }
+
+    return jsonResponse(data[0]);
+  } catch (error) {
+    console.error('Get project error:', error);
+    return jsonResponse({ error: error.message }, 500);
+  }
+}
+
+async function handleGetBoard(request, env, boardId) {
+  if (request.method !== 'GET') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  try {
+    const supabaseUrl = env.SUPABASE_URL;
+    const supabaseKey = env.SUPABASE_ANON_KEY;
+
+    const resp = await fetch(
+      `${supabaseUrl}/rest/v1/boards?id=eq.${boardId}&select=*,board_columns(id,name,color,position,wip_limit,tasks(id,title,description,priority,assignee_id,due_date,labels,position)),project_id(*,workspace_id)`,
+      {
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!resp.ok) {
+      return jsonResponse({ error: 'Failed to fetch board' }, resp.status);
+    }
+
+    const data = await resp.json();
+    if (data.length === 0) {
+      return jsonResponse({ error: 'Board not found' }, 404);
+    }
+
+    return jsonResponse(data[0]);
+  } catch (error) {
+    console.error('Get board error:', error);
+    return jsonResponse({ error: error.message }, 500);
+  }
+}
+
+async function handleCreateTask(request, env) {
+  if (request.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  try {
+    const body = await request.json();
+    const { board_id, column_id, title, description, priority, due_date, labels } = body;
+
+    if (!board_id || !title) {
+      return jsonResponse({ error: 'board_id and title are required' }, 400);
+    }
+
+    const supabaseUrl = env.SUPABASE_URL;
+    const supabaseKey = env.SUPABASE_ANON_KEY;
+
+    // Get max position in column
+    let position = 0;
+    if (column_id) {
+      const posResp = await fetch(
+        `${supabaseUrl}/rest/v1/tasks?column_id=eq.${column_id}&select=position&order=position.desc&limit=1`,
+        {
+          headers: {
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${supabaseKey}`,
+          },
+        }
+      );
+      if (posResp.ok) {
+        const tasks = await posResp.json();
+        position = tasks.length > 0 ? tasks[0].position + 1 : 0;
+      }
+    }
+
+    const resp = await fetch(`${supabaseUrl}/rest/v1/tasks`, {
+      method: 'POST',
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
+      },
+      body: JSON.stringify({
+        board_id,
+        column_id: column_id || null,
+        title,
+        description: description || null,
+        priority: priority || 'medium',
+        due_date: due_date || null,
+        labels: labels || [],
+        position,
+      }),
+    });
+
+    if (!resp.ok) {
+      const error = await resp.json();
+      return jsonResponse({ error: error.message || 'Failed to create task' }, resp.status);
+    }
+
+    const data = await resp.json();
+    return jsonResponse(data[0] || data, 201);
+  } catch (error) {
+    console.error('Create task error:', error);
+    return jsonResponse({ error: error.message }, 500);
+  }
+}
+
+async function handleUpdateTask(request, env, taskId) {
+  if (request.method !== 'PUT') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  try {
+    const body = await request.json();
+
+    const supabaseUrl = env.SUPABASE_URL;
+    const supabaseKey = env.SUPABASE_ANON_KEY;
+
+    const resp = await fetch(`${supabaseUrl}/rest/v1/tasks?id=eq.${taskId}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!resp.ok) {
+      const error = await resp.json();
+      return jsonResponse({ error: error.message || 'Failed to update task' }, resp.status);
+    }
+
+    const data = await resp.json();
+    return jsonResponse(data[0] || data);
+  } catch (error) {
+    console.error('Update task error:', error);
+    return jsonResponse({ error: error.message }, 500);
+  }
+}
+
+async function handleMoveTask(request, env, taskId) {
+  if (request.method !== 'PUT') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  try {
+    const body = await request.json();
+    const { column_id, position } = body;
+
+    if (column_id === undefined || position === undefined) {
+      return jsonResponse({ error: 'column_id and position are required' }, 400);
+    }
+
+    const supabaseUrl = env.SUPABASE_URL;
+    const supabaseKey = env.SUPABASE_ANON_KEY;
+
+    const resp = await fetch(`${supabaseUrl}/rest/v1/tasks?id=eq.${taskId}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
+      },
+      body: JSON.stringify({
+        column_id,
+        position,
+        updated_at: new Date().toISOString(),
+      }),
+    });
+
+    if (!resp.ok) {
+      const error = await resp.json();
+      return jsonResponse({ error: error.message || 'Failed to move task' }, resp.status);
+    }
+
+    const data = await resp.json();
+    return jsonResponse(data[0] || data);
+  } catch (error) {
+    console.error('Move task error:', error);
+    return jsonResponse({ error: error.message }, 500);
+  }
+}
+
+async function handleAddColumn(request, env, boardId) {
+  if (request.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  try {
+    const body = await request.json();
+    const { name, color } = body;
+
+    if (!name) {
+      return jsonResponse({ error: 'name is required' }, 400);
+    }
+
+    const supabaseUrl = env.SUPABASE_URL;
+    const supabaseKey = env.SUPABASE_ANON_KEY;
+
+    // Get max position
+    const posResp = await fetch(
+      `${supabaseUrl}/rest/v1/board_columns?board_id=eq.${boardId}&select=position&order=position.desc&limit=1`,
+      {
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+        },
+      }
+    );
+
+    let position = 0;
+    if (posResp.ok) {
+      const columns = await posResp.json();
+      position = columns.length > 0 ? columns[0].position + 1 : 0;
+    }
+
+    const resp = await fetch(`${supabaseUrl}/rest/v1/board_columns`, {
+      method: 'POST',
+      headers: {
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
+      },
+      body: JSON.stringify({
+        board_id: boardId,
+        name,
+        color: color || '#e5e7eb',
+        position,
+      }),
+    });
+
+    if (!resp.ok) {
+      const error = await resp.json();
+      return jsonResponse({ error: error.message || 'Failed to create column' }, resp.status);
+    }
+
+    const data = await resp.json();
+    return jsonResponse(data[0] || data, 201);
+  } catch (error) {
+    console.error('Add column error:', error);
+    return jsonResponse({ error: error.message }, 500);
+  }
+}
+
+/**
+ * COMMENTS: LIST
+ * GET /api/comments/list?dossier=X
+ * Fetch approved comments for a dossier
+ */
+async function handleCommentsList(request, env) {
+  if (request.method !== 'GET') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  const url = new URL(request.url);
+  const dossierId = url.searchParams.get('dossier');
+
+  if (!dossierId) {
+    return jsonResponse({ error: 'Missing dossier parameter' }, 400);
+  }
+
+  const SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+
+  try {
+    const resp = await fetch(
+      `${SUPABASE_URL}/rest/v1/comments?dossier_id=eq.${encodeURIComponent(dossierId)}&approved=eq.true&select=*&order=created_at.desc`,
+      {
+        method: 'GET',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (!resp.ok) {
+      return jsonResponse({ error: `Supabase error: ${resp.status}` }, resp.status);
+    }
+
+    const comments = await resp.json();
+    return jsonResponse({ success: true, comments });
+  } catch (e) {
+    return jsonResponse({ error: e.message }, 500);
+  }
+}
+
+/**
+ * COMMENTS: CREATE
+ * POST /api/comments/create
+ * Create a new comment
+ */
+async function handleCommentCreate(request, env) {
+  if (request.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return jsonResponse({ error: 'Invalid JSON' }, 400);
+  }
+
+  const { dossierId, parentId, authorName, authorEmail, commentText, level } = body;
+
+  if (!dossierId || !authorName || !authorEmail || !commentText) {
+    return jsonResponse({ error: 'Missing required fields' }, 400);
+  }
+
+  const SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+
+  try {
+    let commentUserId;
+
+    // Get or create comment_user
+    const userLookup = await fetch(
+      `${SUPABASE_URL}/rest/v1/comment_users?email=eq.${encodeURIComponent(authorEmail)}&select=id`,
+      {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+        },
+      }
+    );
+
+    if (userLookup.ok) {
+      const users = await userLookup.json();
+      if (users.length > 0) {
+        commentUserId = users[0].id;
+      } else {
+        const initials = authorName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        const createUserResp = await fetch(`${SUPABASE_URL}/rest/v1/comment_users`, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=representation',
+          },
+          body: JSON.stringify({
+            email: authorEmail,
+            display_name: authorName,
+            avatar_initials: initials,
+            role: 'user',
+          }),
+        });
+
+        if (createUserResp.ok) {
+          const newUser = await createUserResp.json();
+          commentUserId = newUser[0].id;
+        }
+      }
+    }
+
+    const createCommentData = {
+      dossier_id: dossierId,
+      parent_id: parentId || null,
+      author_email: authorEmail,
+      author_name: authorName,
+      body: commentText,
+      comment_user_id: commentUserId,
+      level: level || 1,
+      approved: false,
+      flagged: false,
+    };
+
+    const resp = await fetch(`${SUPABASE_URL}/rest/v1/comments`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
+      },
+      body: JSON.stringify(createCommentData),
+    });
+
+    if (!resp.ok) {
+      const error = await resp.text();
+      return jsonResponse({ error: `Failed to create comment: ${error}` }, resp.status);
+    }
+
+    const created = await resp.json();
+    return jsonResponse({ success: true, comment: created[0] }, 201);
+  } catch (e) {
+    return jsonResponse({ error: e.message }, 500);
+  }
+}
+
+/**
+ * COMMENTS: MODERATE
+ * POST /api/comments/moderate
+ * Approve/reject/flag comments (admin only)
+ */
+async function handleCommentModerate(request, env) {
+  if (request.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return jsonResponse({ error: 'Invalid JSON' }, 400);
+  }
+
+  const { commentId, action, reason, adminToken } = body;
+
+  if (!commentId || !action) {
+    return jsonResponse({ error: 'Missing commentId or action' }, 400);
+  }
+
+  const ADMIN_TOKEN = 'admin-token-placeholder';
+  if (adminToken !== ADMIN_TOKEN) {
+    return jsonResponse({ error: 'Unauthorized' }, 401);
+  }
+
+  const SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+
+  try {
+    let updateData = {};
+
+    if (action === 'approved') {
+      updateData = { approved: true, flagged: false };
+    } else if (action === 'rejected') {
+      updateData = { approved: false, flagged: false };
+    } else if (action === 'flagged') {
+      updateData = { flagged: true, flagged_reason: reason };
+    }
+
+    const resp = await fetch(
+      `${SUPABASE_URL}/rest/v1/comments?id=eq.${encodeURIComponent(commentId)}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation',
+        },
+        body: JSON.stringify(updateData),
+      }
+    );
+
+    if (!resp.ok) {
+      return jsonResponse({ error: `Moderation failed: ${resp.status}` }, resp.status);
+    }
+
+    const updated = await resp.json();
+    return jsonResponse({ success: true, comment: updated[0] });
+  } catch (e) {
+    return jsonResponse({ error: e.message }, 500);
+  }
+}
+
+/**
+ * COMMENTS: PENDING
+ * GET /api/comments/pending
+ * List pending comments (admin only)
+ */
+async function handleCommentsPending(request, env) {
+  if (request.method !== 'GET') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  const url = new URL(request.url);
+  const adminToken = url.searchParams.get('adminToken');
+
+  const ADMIN_TOKEN = 'admin-token-placeholder';
+  if (adminToken !== ADMIN_TOKEN) {
+    return jsonResponse({ error: 'Unauthorized' }, 401);
+  }
+
+  const SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+
+  try {
+    const resp = await fetch(
+      `${SUPABASE_URL}/rest/v1/pending_comments?select=*&order=created_at.asc`,
+      {
+        method: 'GET',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+        },
+      }
+    );
+
+    if (!resp.ok) {
+      return jsonResponse({ error: `Supabase error: ${resp.status}` }, resp.status);
+    }
+
+    const comments = await resp.json();
+    return jsonResponse({ success: true, comments });
+  } catch (e) {
+    return jsonResponse({ error: e.message }, 500);
   }
 }
 

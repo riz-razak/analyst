@@ -1815,6 +1815,10 @@ anatta-bamiyan<!DOCTYPE html>
                     </div>
                     <div class="nav-item-label">Roadmap</div>
                 </a>
+                <a href="#/boards" class="nav-item" data-nav="boards">
+                    <div class="nav-item-icon">📋</div>
+                    <div class="nav-item-label">Boards</div>
+                </a>
             </div>
 
             <!-- Analyst Section -->
@@ -1852,6 +1856,15 @@ anatta-bamiyan<!DOCTYPE html>
                         </svg>
                     </div>
                     <div class="nav-item-label">Comments<span class="nav-item-badge">4</span></div>
+                </a>
+                <a href="#/comments-mod" class="nav-item" data-nav="comments-mod">
+                    <div class="nav-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="8" cy="8" r="6.5"/>
+                            <path d="M5.5 8.5L7 10l3-4"/>
+                        </svg>
+                    </div>
+                    <div class="nav-item-label">Moderation Queue</div>
                 </a>
             </div>
 
@@ -5529,6 +5542,252 @@ rmObserver.observe(document.querySelector('.views-container') || document.body, 
 </script>
 </div>
 
+<!-- BOARDS LIST VIEW -->
+<div class="view" id="view-boards">
+<style>
+.kanban-container { display: flex; flex-direction: column; gap: 24px; }
+.project-selector { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+.project-selector select { padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-family: Inter; }
+.boards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.board-card { background: white; border: 1px solid #E5E7EB; border-radius: 8px; padding: 16px; cursor: pointer; transition: all 0.2s ease; }
+.board-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+.board-card-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px; }
+.board-card-title { font-size: 14px; font-weight: 600; color: #1F2937; }
+.board-card-stats { display: flex; gap: 12px; margin-top: 12px; font-size: 12px; color: #6B7280; }
+.create-board-btn { background: #1B4D2E; color: white; padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s ease; }
+.create-board-btn:hover { background: #2d5a27; }
+</style>
+
+<div class="kanban-container">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2 style="font-size: 20px; font-weight: 600; color: #1F2937; margin: 0;">Project Boards</h2>
+    <button class="create-board-btn" onclick="showCreateBoardForm()">+ New Board</button>
+  </div>
+
+  <div class="project-selector">
+    <label style="font-size: 13px; font-weight: 500; color: #6B7280;">Filter by project:</label>
+    <select id="project-filter" onchange="filterBoardsByProject()">
+      <option value="">All Projects</option>
+    </select>
+  </div>
+
+  <div class="boards-grid" id="boards-grid">
+    <div class="view-placeholder">Loading boards...</div>
+  </div>
+</div>
+
+<script>
+async function renderBoardsList() {
+  try {
+    const resp = await fetch('/api/projects');
+    const projects = await resp.json();
+
+    // Populate project filter
+    const filterSelect = document.getElementById('project-filter');
+    filterSelect.innerHTML = '<option value="">All Projects</option>';
+    projects.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.name;
+      filterSelect.appendChild(opt);
+    });
+
+    // Render boards grid
+    let allBoards = [];
+    projects.forEach(project => {
+      if (project.boards) {
+        allBoards = allBoards.concat(
+          project.boards.map(b => ({ ...b, project_name: project.name, project_id: project.id }))
+        );
+      }
+    });
+
+    const grid = document.getElementById('boards-grid');
+    if (allBoards.length === 0) {
+      grid.innerHTML = '<div class="view-placeholder" style="grid-column: 1/-1;">No boards yet. Create one to get started!</div>';
+      return;
+    }
+
+    grid.innerHTML = allBoards.map(board => `
+      <div class="board-card" onclick="window.location.hash='#/boards/${board.id}'">
+        <div class="board-card-header">
+          <div class="board-card-title">${board.name}</div>
+        </div>
+        <div style="font-size: 12px; color: #6B7280;">${board.project_name}</div>
+        <div class="board-card-stats">
+          <span>📋 ${(board.tasks || []).length} tasks</span>
+          <span>📅 ${new Date(board.created_at).toLocaleDateString()}</span>
+        </div>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error('Error rendering boards:', err);
+    document.getElementById('boards-grid').innerHTML = '<div class="view-placeholder">Error loading boards</div>';
+  }
+}
+
+function filterBoardsByProject() {
+  const projectId = document.getElementById('project-filter').value;
+  // Re-render with filter applied
+  renderBoardsList();
+}
+
+function showCreateBoardForm() {
+  alert('Create board form coming soon!');
+}
+
+// Render on view activation
+document.addEventListener('hashchange', () => {
+  if (window.location.hash === '#/boards' && typeof renderBoardsList === 'function') {
+    renderBoardsList();
+  }
+});
+</script>
+</div>
+
+<!-- BOARD DETAIL VIEW (KANBAN) -->
+<div class="view" id="view-board-detail" style="display: flex; flex-direction: column; gap: 0; overflow: hidden;">
+<style>
+.kanban-board { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+.kanban-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid #E5E7EB; flex-shrink: 0; }
+.kanban-header-title { font-size: 18px; font-weight: 600; color: #1F2937; }
+.kanban-columns-container { display: flex; gap: 16px; overflow-x: auto; padding: 16px 24px; flex: 1; }
+.kanban-column { flex: 0 0 280px; background: #f9fafb; border-radius: 8px; border: 1px solid #E5E7EB; display: flex; flex-direction: column; overflow: hidden; }
+.kanban-column-header { padding: 12px; border-bottom: 1px solid #E5E7EB; flex-shrink: 0; }
+.kanban-column-title { font-size: 13px; font-weight: 600; color: #1F2937; margin-bottom: 4px; }
+.kanban-column-meta { font-size: 11px; color: #6B7280; }
+.kanban-column-tasks { flex: 1; overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 8px; }
+.kanban-task { background: white; border: 1px solid #E5E7EB; border-radius: 6px; padding: 8px; cursor: move; transition: all 0.2s ease; }
+.kanban-task:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.kanban-task-title { font-size: 12px; font-weight: 500; color: #1F2937; margin-bottom: 4px; }
+.kanban-task-priority { display: inline-block; font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 3px; }
+.task-priority-urgent { background: #FEE2E2; color: #991B1B; }
+.task-priority-high { background: #FEF3C7; color: #92400E; }
+.task-priority-medium { background: #DBEAFE; color: #0c4a6e; }
+.task-priority-low { background: #E5E7EB; color: #374151; }
+.add-task-input { width: 100%; padding: 6px 8px; border: 1px solid #E5E7EB; border-radius: 4px; font-size: 12px; font-family: Inter; }
+</style>
+
+<div class="kanban-board">
+  <div class="kanban-header">
+    <div class="kanban-header-title" id="board-title">Board</div>
+    <button onclick="goBack()" style="background: none; border: none; color: #6B7280; cursor: pointer; font-size: 14px;">← Back</button>
+  </div>
+  <div class="kanban-columns-container" id="kanban-columns">
+    <div class="view-placeholder" style="grid-column: 1/-1;">Loading board...</div>
+  </div>
+</div>
+
+<script>
+let currentBoardId = null;
+let draggedTaskId = null;
+
+async function renderBoardDetail(boardId) {
+  currentBoardId = boardId;
+  try {
+    const resp = await fetch(`/api/boards/${boardId}`);
+    if (!resp.ok) throw new Error('Board not found');
+
+    const board = await resp.json();
+    document.getElementById('board-title').textContent = board.name;
+
+    const container = document.getElementById('kanban-columns');
+    if (!board.board_columns || board.board_columns.length === 0) {
+      container.innerHTML = '<div class="view-placeholder">No columns in this board</div>';
+      return;
+    }
+
+    const columns = board.board_columns.sort((a, b) => a.position - b.position);
+    container.innerHTML = columns.map(col => {
+      const tasks = (col.tasks || []).sort((a, b) => a.position - b.position);
+      return `
+        <div class="kanban-column" data-column-id="${col.id}">
+          <div class="kanban-column-header" style="border-top: 4px solid ${col.color};">
+            <div class="kanban-column-title">${col.name}</div>
+            <div class="kanban-column-meta">${tasks.length} ${tasks.length === 1 ? 'task' : 'tasks'} ${col.wip_limit ? `/ ${col.wip_limit} WIP` : ''}</div>
+          </div>
+          <div class="kanban-column-tasks" ondrop="handleDrop(event)" ondragover="event.preventDefault()" ondragleave="event.target.style.background=''">
+            ${tasks.map(task => `
+              <div class="kanban-task" draggable="true" ondragstart="handleDragStart(event, '${task.id}')" ondragend="handleDragEnd(event)">
+                <div class="kanban-task-title">${task.title}</div>
+                <span class="kanban-task-priority task-priority-${task.priority || 'medium'}">${task.priority || 'medium'}</span>
+              </div>
+            `).join('')}
+            <input type="text" class="add-task-input" placeholder="+ Add task" onkeypress="if(event.key==='Enter') createTask('${col.id}', this.value, this)">
+          </div>
+        </div>
+      `;
+    }).join('');
+  } catch (err) {
+    console.error('Error rendering board:', err);
+    document.getElementById('kanban-columns').innerHTML = '<div class="view-placeholder">Error loading board</div>';
+  }
+}
+
+function handleDragStart(e, taskId) {
+  draggedTaskId = taskId;
+  e.dataTransfer.effectAllowed = 'move';
+  e.target.style.opacity = '0.5';
+}
+
+function handleDragEnd(e) {
+  e.target.style.opacity = '1';
+}
+
+async function handleDrop(e) {
+  e.preventDefault();
+  if (!draggedTaskId || !currentBoardId) return;
+
+  const columnDiv = e.target.closest('.kanban-column');
+  if (!columnDiv) return;
+
+  const columnId = columnDiv.dataset.columnId;
+  const tasksContainer = columnDiv.querySelector('.kanban-column-tasks');
+  const taskElements = Array.from(tasksContainer.querySelectorAll('.kanban-task'));
+  const newPosition = taskElements.length;
+
+  try {
+    await fetch(`/api/tasks/${draggedTaskId}/move`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ column_id: columnId, position: newPosition })
+    });
+    draggedTaskId = null;
+    renderBoardDetail(currentBoardId);
+  } catch (err) {
+    console.error('Error moving task:', err);
+  }
+}
+
+async function createTask(columnId, title, inputEl) {
+  if (!title.trim()) return;
+  try {
+    await fetch('/api/tasks/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ board_id: currentBoardId, column_id: columnId, title: title.trim() })
+    });
+    inputEl.value = '';
+    renderBoardDetail(currentBoardId);
+  } catch (err) {
+    console.error('Error creating task:', err);
+  }
+}
+
+function goBack() {
+  window.location.hash = '#/boards';
+}
+
+document.addEventListener('hashchange', () => {
+  const hash = window.location.hash;
+  if (hash.startsWith('#/boards/') && hash !== '#/boards') {
+    const boardId = hash.split('/')[2];
+    renderBoardDetail(boardId);
+  }
+});
+</script>
+</div>
+
 <div class="view" id="view-settings">
     <div style="display: grid; grid-template-columns: 200px 1fr; gap: 24px;">
         <!-- Left Navigation -->
@@ -5931,6 +6190,96 @@ function showEmailToast(msg, type) {
 </script>
 </div>
 
+<div class="view" id="view-comments-mod">
+    <style>
+        .mod-header { margin-bottom: 24px; }
+        .mod-filters { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+        .mod-filter-btn { padding: 8px 16px; border: 1px solid #E5E7EB; border-radius: 6px; background-color: white; color: #6B7280; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+        .mod-filter-btn.active { background-color: #1B4D2E; color: white; border-color: #1B4D2E; }
+        .mod-comments-grid { display: flex; flex-direction: column; gap: 12px; }
+        .mod-comment-card { background-color: white; border: 1px solid #E5E7EB; border-left: 4px solid #F59E0B; border-radius: 8px; padding: 16px; transition: all 0.2s ease; }
+        .mod-comment-card.flagged { border-left-color: #EF4444; background-color: #FEF2F2; }
+        .mod-comment-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .mod-comment-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .mod-comment-author { font-weight: 600; color: #1F2937; }
+        .mod-comment-dossier { font-size: 12px; color: #6B7280; background-color: #F3F4F6; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+        .mod-comment-time { font-size: 12px; color: #9CA3AF; }
+        .mod-comment-body { color: #374151; font-size: 14px; line-height: 1.5; margin-bottom: 12px; word-wrap: break-word; }
+        .mod-comment-actions { display: flex; gap: 8px; }
+        .mod-action-btn { padding: 6px 12px; border: 1px solid #E5E7EB; border-radius: 4px; background-color: white; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+        .mod-approve-btn { color: #166534; border-color: #86efac; background-color: #dcfce7; }
+        .mod-approve-btn:hover { background-color: #bbf7d0; }
+        .mod-reject-btn { color: #7f1d1d; border-color: #fca5a5; background-color: #fee2e2; }
+        .mod-reject-btn:hover { background-color: #fecaca; }
+        .mod-flag-btn { color: #92400e; border-color: #fde68a; background-color: #fef3c7; }
+        .mod-flag-btn:hover { background-color: #fcd34d; }
+        .mod-empty { text-align: center; padding: 48px 24px; color: #6B7280; }
+        .mod-loading { text-align: center; padding: 24px; color: #9CA3AF; }
+    </style>
+
+    <div class="mod-header">
+        <h2 style="margin-bottom: 16px; color: #1F2937;">Comment Moderation Queue</h2>
+        <div class="mod-filters">
+            <button class="mod-filter-btn active" data-filter="all">All Comments</button>
+            <button class="mod-filter-btn" data-filter="pending">Pending</button>
+            <button class="mod-filter-btn" data-filter="flagged">Flagged</button>
+            <button class="mod-filter-btn" data-filter="approved">Approved</button>
+        </div>
+    </div>
+
+    <div id="mod-comments-container" class="mod-comments-grid">
+        <div class="mod-loading">Loading comments...</div>
+    </div>
+
+    <script>
+        async function renderModerationQueue() {
+            const container = document.getElementById('mod-comments-container');
+            const adminToken = localStorage.getItem('analyst_admin_token') || 'admin-token-placeholder';
+            try {
+                container.innerHTML = '<div class="mod-loading">Loading pending comments...</div>';
+                const resp = await fetch(`/api/comments/pending?adminToken=${encodeURIComponent(adminToken)}`);
+                if (!resp.ok) throw new Error(`Failed to fetch comments: ${resp.status}`);
+                const data = await resp.json();
+                const comments = data.comments || [];
+                if (comments.length === 0) {
+                    container.innerHTML = '<div class="mod-empty">No pending comments to moderate.</div>';
+                    return;
+                }
+                container.innerHTML = '';
+                comments.forEach(comment => {
+                    const card = document.createElement('div');
+                    card.className = 'mod-comment-card';
+                    if (comment.flagged) card.classList.add('flagged');
+                    const timestamp = new Date(comment.created_at).toLocaleString();
+                    card.innerHTML = `<div class="mod-comment-meta"><span class="mod-comment-author">${comment.display_name || comment.author_email}</span><span class="mod-comment-time">${timestamp}</span></div><div style="margin-bottom: 8px;"><span class="mod-comment-dossier">${comment.dossier_id}</span></div><div class="mod-comment-body">${escapeHtml(comment.body)}</div><div class="mod-comment-actions"><button class="mod-action-btn mod-approve-btn" onclick="moderateComment('${comment.id}', 'approved', '${adminToken}')">Approve</button><button class="mod-action-btn mod-reject-btn" onclick="moderateComment('${comment.id}', 'rejected', '${adminToken}')">Reject</button><button class="mod-action-btn mod-flag-btn" onclick="moderateComment('${comment.id}', 'flagged', '${adminToken}', 'Spam')">Flag</button></div>`;
+                    container.appendChild(card);
+                });
+            } catch (e) {
+                container.innerHTML = `<div class="mod-empty">Error: ${e.message}</div>`;
+                console.error('Moderation error:', e);
+            }
+        }
+        async function moderateComment(commentId, action, adminToken, reason) {
+            try {
+                const resp = await fetch(`/api/comments/moderate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ commentId, action, reason: reason || '', adminToken })
+                });
+                if (!resp.ok) throw new Error('Moderation failed');
+                renderModerationQueue();
+            } catch (e) {
+                alert(`Error: ${e.message}`);
+            }
+        }
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</div>
+
 <div class="view" id="view-private-notes">
     <!-- Private Banner -->
     <div style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; border-radius: 6px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
@@ -6134,10 +6483,13 @@ function showEmailToast(msg, type) {
             '/dossiers/:id': { view: 'dossier-detail', title: 'Dossier', private: false },
             '/seo': { view: 'seo', title: 'SEO', private: false },
             '/comments': { view: 'comments', title: 'Comments', private: false },
+            '/comments-mod': { view: 'comments-mod', title: 'Comment Moderation', private: true },
             '/apps': { view: 'apps', title: 'Apps', private: false },
             '/apps/:id': { view: 'app-detail', title: 'App', private: false },
             '/settings': { view: 'settings', title: 'Settings', private: false },
             '/roadmap': { view: 'roadmap', title: 'Roadmap', private: false },
+            '/boards': { view: 'boards', title: 'Boards', private: true },
+            '/boards/:id': { view: 'board-detail', title: 'Board', private: true },
             '/private/notes': { view: 'private-notes', title: 'Private Notes', private: true },
             '/private/tasks': { view: 'private-tasks', title: 'Private Tasks', private: true }
         };
@@ -6442,11 +6794,20 @@ function showEmailToast(msg, type) {
             if (routeInfo.view === 'roadmap' && typeof rmRender === 'function') {
                 rmRender();
             }
+            if (routeInfo.view === 'boards' && typeof renderBoardsList === 'function') {
+                renderBoardsList();
+            }
+            if (routeInfo.view === 'board-detail' && routeInfo.id && typeof renderBoardDetail === 'function') {
+                renderBoardDetail(routeInfo.id);
+            }
             if (routeInfo.view === 'cms-dossiers' && typeof renderCMSDossiersList === 'function') {
                 renderCMSDossiersList();
             }
             if (routeInfo.view === 'cms-dossier-edit' && routeInfo.id && typeof loadCMSDossierEdit === 'function') {
                 loadCMSDossierEdit(routeInfo.id);
+            }
+            if (routeInfo.view === 'comments-mod' && typeof renderModerationQueue === 'function') {
+                renderModerationQueue();
             }
         }
 
