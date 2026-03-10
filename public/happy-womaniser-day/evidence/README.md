@@ -24,7 +24,7 @@ availability and prevent evidence loss from platform takedowns.
 | anuradha-defense-melani-2.png | 38607dcc13c7318dd40bd68336dcbe927255c67296fab45874bb43b056bb9a3f | — | COMPLETE | N/A |
 | anuradha-defense-own-post.png | cdf5237163314696e4f1f453f6043830670b0088c31d55f4438bebc68b832f14 | — | COMPLETE | N/A |
 | anuradha-defense-comment-thread.png | 5bd138074df81f53d7e17e0cd276a5b846a59ecc566418aeb24eadc7a4ad1c5f | — | COMPLETE | N/A |
-| geethika-dharmasinghe-2021.png | 2f287b3caaa2d0db8a30067d8182eafc7ae011030e4b9fa324d57a2259236126 | — | PARTIAL — Geethika post truncated at "See more" | N/A |
+| geethika-dharmasinghe-2021.png | 2f287b3caaa2d0db8a30067d8182eafc7ae011030e4b9fa324d57a2259236126 | — | CONFIRMED COMPLETE — full text verified via Swasthika Arulingam repost | N/A |
 
 ---
 
@@ -96,10 +96,13 @@ availability and prevent evidence loss from platform takedowns.
 
 ### Historical Context — July/August 2021 [S15]
 
-**geethika-dharmasinghe-2021.png** — PARTIAL
-- Content: Geethika Dharmasinghe's Facebook post (July 16, 2021)
-- Visible text ends at: `"Slow clap"*...` — post continues behind "See more"
-- The full text of the post is NOT captured. Quote only visible portion.
+**geethika-dharmasinghe-2021.png** — ✅ CONFIRMED COMPLETE
+- Content: Geethika Dharmasinghe's Facebook share of Lakmali Hemachandra's post (July 16, 2021)
+- Full text confirmed via Swasthika Arulingam's public repost (2026-03-11)
+- Original author: **Lakmali Hemachandra** (attributed at bottom of post)
+- Shared by: **Geethika Dharmasinghe** (July 16, 2021)
+- Amplified by: **Swasthika Arulingam** (human rights lawyer, July 16, 2021)
+- Live URL: https://www.facebook.com/swasthika.arulingam/posts/pfbid0L5V1MkxnJNtHZmbzF9Li8CrdBLQVj5sfb1MmQhKpJGxeXpAnzCCFyVroRD2YeffFl
 - Also shows: Vangeesa Sumanasekara's theater post (August 5, 2021)
 
 ---
@@ -142,7 +145,7 @@ availability and prevent evidence loss from platform takedowns.
 ## Outstanding Evidence Gaps
 
 - [ ] Madhubhashini R. Rathnayaka full comment (partial screenshot)
-- [ ] Geethika Dharmasinghe full post (truncated at "See more")
+- [x] ~~Geethika Dharmasinghe full post (truncated at "See more")~~ — CONFIRMED COMPLETE via Swasthika Arulingam repost (2026-03-11). Original author: Lakmali Hemachandra.
 - [ ] vincika-screen-recording.mp4 — video content review needed
 - [ ] Sandali Costa messenger screenshots — professional Sinhala translation needed
 - [x] ~~Identity of the "father" in father-son-6.jpg~~ — CONFIRMED: Gamini Sumanasekara (2026-03-11)
