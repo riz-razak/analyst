@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WarenYan — Mapping & Routing Cost Analysis</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  :root {
+    --deep: #1B4332; --primary: #2D6A4F; --light: #40916C; --mint: #B7E4C7;
+    --cream: #F8FAF5; --white: #FFFFFF; --dark: #1a1a1a; --gray: #6B7280;
+    --light-gray: #E5E7EB; --red: #DC2626; --amber: #F59E0B; --blue: #2563EB; --gold: #D97706;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--dark); line-height: 1.7; font-size: 14px; }
+  .cover { background: linear-gradient(160deg, #0D2818 0%, var(--deep) 40%, var(--primary) 100%); color: white; padding: 48px 40px; }
+  .cover h1 { font-size: 32px; font-weight: 900; line-height: 1.2; }
+  .cover .subtitle { font-size: 16px; opacity: 0.8; margin-top: 8px; }
+  .cover .meta { font-size: 12px; opacity: 0.5; margin-top: 16px; display: flex; gap: 24px; flex-wrap: wrap; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+  nav { background: var(--white); border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  nav h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray); margin-bottom: 12px; }
+  nav ol { font-size: 13px; columns: 2; column-gap: 24px; padding-left: 20px; }
+  nav a { color: var(--primary); text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+  h2 { font-size: 22px; font-weight: 900; color: var(--deep); margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 3px solid var(--mint); }
+  h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin: 24px 0 8px; }
+  p { margin-bottom: 12px; }
+  .card { background: var(--white); border-radius: 12px; padding: 24px; margin: 16px 0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border-left: 4px solid var(--primary); }
+  .card.red { border-left-color: var(--red); }
+  .card.amber { border-left-color: var(--amber); }
+  .card.blue { border-left-color: var(--blue); }
+  .card h4 { font-size: 14px; font-weight: 800; color: var(--deep); margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+  th { background: var(--deep); color: white; padding: 8px 10px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--light-gray); }
+  tr:hover td { background: #f0fdf4; }
+  .callout { background: #FEF2F2; border-left: 4px solid var(--red); padding: 16px 20px; border-radius: 8px; margin: 16px 0; }
+  .callout.green { background: #E8F5E9; border-left-color: var(--primary); }
+  .callout.amber { background: #FFFBEB; border-left-color: var(--amber); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .badge.green { background: #D1FAE5; color: #065F46; }
+  .badge.red { background: #FEE2E2; color: #991B1B; }
+  .badge.amber { background: #FEF3C7; color: #92400E; }
+  .badge.blue { background: #DBEAFE; color: #1E40AF; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } nav ol { columns: 1; } }
+  .dashboard { background: var(--white); border-radius: 12px; padding: 24px; margin: 24px 0; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  .dashboard h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--mint); }
+  .slider-group { margin-bottom: 16px; }
+  .slider-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .slider-group input[type="range"] { width: 100%; height: 6px; border-radius: 3px; background: var(--light-gray); outline: none; -webkit-appearance: none; }
+  .slider-group input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--primary); cursor: pointer; }
+  .sv { display: inline-block; background: var(--deep); color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; margin-left: 6px; }
+  canvas { width: 100% !important; height: 300px !important; }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; }
+  @media (max-width: 768px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } }
+  .mcard { background: var(--white); border-radius: 10px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); text-align: center; border-top: 3px solid var(--primary); }
+  .mcard .lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); }
+  .mcard .val { font-size: 22px; font-weight: 900; color: var(--deep); margin: 4px 0; }
+  .mcard .sub { font-size: 10px; color: var(--gray); }
+  .footer { text-align: center; padding: 24px; font-size: 11px; color: var(--gray); border-top: 1px solid var(--light-gray); margin-top: 40px; }
+  .risk-matrix td { text-align: center; font-weight: 600; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Mapping & Routing Infrastructure<br>Cost Analysis</h1>
+  <div class="subtitle">Per-Driver Cost Breakdown · Regional Alternatives · Risk Assessment · Interactive Comparison</div>
+  <div class="meta">
+    <span>v1.0</span>
+    <span>10 March 2026</span>
+    <span>WarenYan Antigravity Build</span>
+    <span>INTERNAL — CONFIDENTIAL</span>
+    <span>Antigravity / DGTL | riz@dgtl.lk</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<nav>
+  <h3>Contents</h3>
+  <ol>
+    <li><a href="#sec-problem">The Problem: $0.84/Driver Maps API Cost</a></li>
+    <li><a href="#sec-breakdown">Per-Journey Cost Breakdown</a></li>
+    <li><a href="#sec-google">Google Maps Platform Pricing 2026</a></li>
+    <li><a href="#sec-alternatives">Regional Alternatives: How India Solved This</a></li>
+    <li><a href="#sec-osm">Open-Source Stack: OSM + OSRM + Nominatim</a></li>
+    <li><a href="#sec-hybrid">Hybrid Architectures</a></li>
+    <li><a href="#sec-sri-lanka">Sri Lanka Specific Conditions</a></li>
+    <li><a href="#sec-risk">Risk Analysis</a></li>
+    <li><a href="#sec-recommendation">Recommendation & Implementation Path</a></li>
+    <li><a href="#sec-dashboard">Interactive Cost Comparison Dashboard</a></li>
+  </ol>
+</nav>
+
+<!-- =========================================== -->
+<h2 id="sec-problem">1. The Problem: $0.84/Driver Maps API Cost</h2>
+
+<div class="callout">
+  <h4>The Core Issue</h4>
+  <p>At 120 rides/driver/month and Google Maps Routes API pricing of ~$0.007/ride, the <strong>Maps API alone costs $0.84/driver/month</strong>. For 5,000 drivers, that's <strong>$4,200/month on maps alone</strong> — roughly 76% of total ops cost at the $5,500 budget. This is unsustainable and represents the single largest variable cost in the WarenYan stack.</p>
+</div>
+
+<div class="card">
+  <h4>Why This Matters for the Business Model</h4>
+  <p>WarenYan's entire competitive advantage is zero commission. But if the platform's per-driver cost is dominated by a single vendor (Google), the company has no pricing power and no path to profitability at scale. Every additional driver adds ~$0.84/month in Maps API cost before a single rupee of subscription revenue is earned. The break-even equation collapses if we can't control this cost.</p>
+</div>
+
+<p>The $0.007/ride figure comes from a typical ride requiring: 1 Routes API call (route planning), 0.5 Geocoding calls (address resolution), and periodic Distance Matrix calls for ETA estimation. At Google's standard pricing of $5-10/1K requests, the per-ride cost ranges from $0.005 to $0.010 depending on feature usage.</p>
+
+<!-- =========================================== -->
+<h2 id="sec-breakdown">2. Per-Journey Cost Breakdown</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Per Request</th>
+      <th>Requests/Ride</th>
+      <th>Per Ride</th>
+      <th>Per Driver/Mo (120 rides)</th>
+      <th>5K Drivers/Mo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Routes API (Basic)</strong></td>
+      <td>$0.005</td>
+      <td>1.0</td>
+      <td>$0.0050</td>
+      <td>$0.60</td>
+      <td>$3,000</td>
+    </tr>
+    <tr>
+      <td><strong>Geocoding</strong></td>
+      <td>$0.005</td>
+      <td>0.5</td>
+      <td>$0.0025</td>
+      <td>$0.30</td>
+      <td>$1,500</td>
+    </tr>
+    <tr>
+      <td><strong>Distance Matrix</strong></td>
+      <td>$0.005</td>
+      <td>0.3</td>
+      <td>$0.0015</td>
+      <td>$0.18</td>
+      <td>$900</td>
+    </tr>
+    <tr>
+      <td><strong>Map Tiles (JS SDK)</strong></td>
+      <td>$0.007</td>
+      <td>1.0</td>
+      <td>$0.0070</td>
+      <td>$0.84</td>
+      <td>$4,200</td>
+    </tr>
+    <tr style="background: #FEE2E2; font-weight: 700;">
+      <td><strong>TOTAL (Google Only)</strong></td>
+      <td>—</td>
+      <td>—</td>
+      <td><strong>$0.0160</strong></td>
+      <td><strong>$1.92</strong></td>
+      <td><strong>$9,600</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <p><strong>$9,600/month on maps at 5,000 drivers</strong> — this exceeds the entire $5,500 ops budget by 75%. Google Maps is not viable as the primary stack at any reasonable scale.</p>
+</div>
+
+<p>Note: Google offers a $200/month free credit (replaced in 2025 with per-SKU free tiers), and volume discounts up to 80% at 5M+ monthly calls. Even at maximum discount, the cost is still ~$1,920/month at 5,000 drivers — 35% of ops budget on maps alone.</p>
+
+<!-- =========================================== -->
+<h2 id="sec-google">3. Google Maps Platform Pricing 2026</h2>
+
+<table>
+  <thead>
+    <tr><th>API</th><th>Standard Rate</th><th>Volume Discount (5M+)</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Routes API (Basic)</td><td>$5/1K</td><td>$1/1K (80% off)</td><td>Point-to-point routing</td></tr>
+    <tr><td>Routes API (Advanced)</td><td>$10/1K</td><td>$2/1K</td><td>With traffic, tolls</td></tr>
+    <tr><td>Geocoding</td><td>$5/1K</td><td>$1/1K</td><td>Address → coordinates</td></tr>
+    <tr><td>Distance Matrix</td><td>$5-10/1K</td><td>$1-2/1K</td><td>ETA calculation</td></tr>
+    <tr><td>Maps JS SDK</td><td>$7/1K loads</td><td>$1.4/1K</td><td>Map display in app</td></tr>
+  </tbody>
+</table>
+
+<p>Google's pricing is designed for enterprises with millions of API calls. For a startup at 5,000-10,000 drivers, you're in the worst pricing band — too many calls for the free tier but not enough for meaningful volume discounts. This is the <strong>scale trap</strong>.</p>
+
+<!-- =========================================== -->
+<h2 id="sec-alternatives">4. Regional Alternatives: How India Solved This</h2>
+
+<div class="card green" style="border-left-color: var(--primary);">
+  <h4>Namma Yatri — The Blueprint <span class="badge green">130M+ rides on $5M total spend</span></h4>
+  <p><strong>Stack:</strong> OpenStreetMap data + OSRM (Open Source Routing Machine) + custom frontend</p>
+  <p><strong>Protocol:</strong> ONDC/Beckn (open network protocol for mobility)</p>
+  <p><strong>Result:</strong> 700K+ drivers, 13M+ riders in Bengaluru & Chennai. Fully open-source on GitHub. Per-ride mapping cost approaches <strong>$0.001</strong> at scale — 90%+ savings vs Google.</p>
+  <p><strong>Key insight:</strong> They proved that OSM + OSRM handles real-world Indian urban routing at massive scale. If it works in Bengaluru traffic, it works in Colombo.</p>
+</div>
+
+<div class="two-col">
+  <div class="card blue">
+    <h4>Mappls (MapMyIndia) <span class="badge blue">India-Specific</span></h4>
+    <p>India's homegrown mapping platform. Deep tier-2/3 city coverage. Used by government and enterprise. Pricing not public but significantly below Google for Indian deployments. Not available for Sri Lanka.</p>
+  </div>
+  <div class="card">
+    <h4>BharatTaxi <span class="badge amber">Government-Backed</span></h4>
+    <p>Zero-commission model (like WarenYan). Likely uses open-source mapping. Focuses on tier-2/3 cities. Validates the model but doesn't export technology.</p>
+  </div>
+</div>
+
+<h3>Commercial Alternatives Comparison</h3>
+<table>
+  <thead>
+    <tr><th>Provider</th><th>Routing/1K</th><th>Geocoding/1K</th><th>Map Tiles</th><th>SL Coverage</th><th>Verdict</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Google Maps</strong></td><td>$5-10</td><td>$5</td><td>$7/1K loads</td><td>Excellent</td><td><span class="badge red">Too expensive</span></td></tr>
+    <tr><td><strong>Mapbox</strong></td><td>$2</td><td>$0.75</td><td>Free 50K/mo</td><td>Good</td><td><span class="badge amber">60% cheaper</span></td></tr>
+    <tr><td><strong>HERE Maps</strong></td><td>$1</td><td>$1</td><td>250K free/mo</td><td>Moderate</td><td><span class="badge amber">70% cheaper</span></td></tr>
+    <tr><td><strong>TomTom</strong></td><td>$4.40</td><td>$0.75</td><td>Free 50K/day</td><td>Low</td><td><span class="badge red">Poor SL data</span></td></tr>
+    <tr style="background: #E8F5E9;"><td><strong>OSM + OSRM</strong></td><td><strong>$0*</strong></td><td><strong>$0*</strong></td><td><strong>~$50/mo</strong></td><td><strong>Good (Colombo)</strong></td><td><span class="badge green">90%+ savings</span></td></tr>
+  </tbody>
+</table>
+<p style="font-size: 11px; color: var(--gray);">* Self-hosted. Server costs apply ($150-400/month for regional deployment).</p>
+
+<!-- =========================================== -->
+<h2 id="sec-osm">5. Open-Source Stack: OSM + OSRM + Nominatim</h2>
+
+<h3>Architecture</h3>
+<div class="card green" style="border-left-color: var(--primary);">
+  <h4>Recommended Self-Hosted Stack</h4>
+  <table>
+    <thead><tr><th>Component</th><th>Function</th><th>Monthly Cost</th><th>Performance</th></tr></thead>
+    <tbody>
+      <tr><td><strong>OSRM</strong></td><td>Routing engine</td><td>$100-200</td><td>&lt;1ms query, 500 req/sec</td></tr>
+      <tr><td><strong>Nominatim</strong></td><td>Geocoding</td><td>$100-200</td><td>30M queries/day capable</td></tr>
+      <tr><td><strong>Protomaps + Cloudflare R2</strong></td><td>Map tiles</td><td>$11-50</td><td>Global CDN, zero egress</td></tr>
+      <tr><td><strong>MapLibre GL JS</strong></td><td>Map rendering (frontend)</td><td>$0 (BSD license)</td><td>GPU-accelerated vectors</td></tr>
+      <tr style="background: #E8F5E9; font-weight: 700;"><td><strong>TOTAL</strong></td><td>Full mapping stack</td><td><strong>$211-450/mo</strong></td><td>Production-grade</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h3>Server Requirements (Sri Lanka Regional)</h3>
+<table>
+  <thead><tr><th>Component</th><th>RAM</th><th>CPU</th><th>Storage</th><th>Instance Type</th></tr></thead>
+  <tbody>
+    <tr><td>OSRM (SL data)</td><td>8-16GB</td><td>4 cores</td><td>20GB SSD</td><td>AWS t3.xlarge</td></tr>
+    <tr><td>Nominatim (SL data)</td><td>16-32GB</td><td>4-6 cores</td><td>50-100GB SSD</td><td>AWS r5.large</td></tr>
+    <tr><td>Tile server (Protomaps)</td><td>—</td><td>—</td><td>Cloudflare R2</td><td>Serverless</td></tr>
+  </tbody>
+</table>
+
+<h3>Protomaps + Cloudflare R2: The Game-Changer</h3>
+<p>Protomaps serves map tiles from a single PMTiles file hosted on Cloudflare R2. At 10 million tile requests/month, the cost comparison is stark:</p>
+<table>
+  <thead><tr><th>Provider</th><th>10M tile requests/mo</th></tr></thead>
+  <tbody>
+    <tr><td>Google Maps</td><td><strong>$3,600</strong></td></tr>
+    <tr><td>AWS S3</td><td>$120</td></tr>
+    <tr style="background: #E8F5E9;"><td><strong>Cloudflare R2 + Protomaps</strong></td><td><strong>$11</strong></td></tr>
+  </tbody>
+</table>
+
+<!-- =========================================== -->
+<h2 id="sec-hybrid">6. Hybrid Architectures</h2>
+
+<div class="two-col">
+  <div class="card green" style="border-left-color: var(--primary);">
+    <h4>Strategy A: Full Open-Source <span class="badge green">RECOMMENDED</span></h4>
+    <p><strong>Stack:</strong> OSRM + Nominatim + Protomaps + MapLibre</p>
+    <p><strong>Cost:</strong> ~$350-450/month</p>
+    <p><strong>Per ride:</strong> $0.004-0.006</p>
+    <p><strong>Risk:</strong> No real-time traffic. OSM data gaps in rural SL.</p>
+    <p><strong>Who uses it:</strong> Namma Yatri (130M rides)</p>
+  </div>
+  <div class="card blue">
+    <h4>Strategy B: OSM + Mapbox Fallback</h4>
+    <p><strong>Stack:</strong> OSRM for 80% routing, Mapbox for complex routes + rendering</p>
+    <p><strong>Cost:</strong> ~$200-400/month</p>
+    <p><strong>Per ride:</strong> $0.003-0.008</p>
+    <p><strong>Risk:</strong> Mapbox dependency for rendering. Mapbox pricing changes.</p>
+    <p><strong>Good for:</strong> Fastest time-to-market.</p>
+  </div>
+</div>
+<div class="two-col">
+  <div class="card amber">
+    <h4>Strategy C: OSM + Google Traffic Only</h4>
+    <p><strong>Stack:</strong> OSRM for routing, Google Routes Advanced for traffic-aware 20% of rides</p>
+    <p><strong>Cost:</strong> ~$400-800/month</p>
+    <p><strong>Per ride:</strong> $0.005-0.012</p>
+    <p><strong>Risk:</strong> Still some Google dependency. Good for rush-hour accuracy.</p>
+  </div>
+  <div class="card red">
+    <h4>Strategy D: Full Google <span class="badge red">CURRENT / NOT VIABLE</span></h4>
+    <p><strong>Stack:</strong> Google Maps Platform for everything</p>
+    <p><strong>Cost:</strong> $9,600/month at 5K drivers</p>
+    <p><strong>Per ride:</strong> $0.016</p>
+    <p><strong>Risk:</strong> Exceeds entire ops budget. No pricing power. Vendor lock-in.</p>
+  </div>
+</div>
+
+<!-- =========================================== -->
+<h2 id="sec-sri-lanka">7. Sri Lanka Specific Conditions</h2>
+
+<h3>OpenStreetMap Coverage Quality</h3>
+<table>
+  <thead><tr><th>Area</th><th>Road Coverage</th><th>Quality</th><th>Ride-Hailing Ready?</th></tr></thead>
+  <tbody>
+    <tr><td>Colombo Metro (Col 1-15)</td><td>~90%</td><td>Good — detailed street network</td><td><span class="badge green">Yes</span></td></tr>
+    <tr><td>Greater Colombo (Nugegoda, Dehiwala, Mt Lavinia)</td><td>~80%</td><td>Good with some gaps</td><td><span class="badge green">Yes</span></td></tr>
+    <tr><td>Suburban ring (Kaduwela, Malabe, Battaramulla)</td><td>~70%</td><td>Moderate — main roads mapped</td><td><span class="badge amber">Mostly</span></td></tr>
+    <tr><td>Secondary cities (Kandy, Galle, Jaffna)</td><td>~60%</td><td>Main routes good, lanes sparse</td><td><span class="badge amber">With augmentation</span></td></tr>
+    <tr><td>Rural / plantation areas</td><td>~40%</td><td>Sparse — major roads only</td><td><span class="badge red">Not yet</span></td></tr>
+  </tbody>
+</table>
+
+<p><strong>Key finding:</strong> Sri Lanka's OSM data, while 14 years old on average with only 3% updated in the last 6 months, has ~73% total road coverage. For WarenYan's Colombo beachhead strategy, the data is <strong>sufficient for launch</strong>. The file size is just 135MB — tiny enough to pre-process and serve from a single regional server.</p>
+
+<h3>Local Infrastructure Risks</h3>
+<div class="card red">
+  <h4>Risk: Dialog/Mobitel don't offer mapping APIs</h4>
+  <p>Unlike India (where Jio Maps and Mappls/MapMyIndia provide alternatives), Sri Lanka has <strong>no local mapping provider</strong>. This means the open-source route is the only alternative to Google/Mapbox. No commercial fallback exists within the country.</p>
+</div>
+
+<div class="card amber">
+  <h4>Risk: Internet reliability for self-hosted services</h4>
+  <p>If OSRM/Nominatim are hosted in Singapore or Mumbai (nearest AWS/DO regions), Sri Lanka's international bandwidth matters. Average latency to Singapore: ~40ms. For routing queries this is acceptable, but map tile loading may feel sluggish without aggressive caching. <strong>Mitigation:</strong> Use Cloudflare R2 for tile CDN (Colombo PoP exists) and pre-cache common routes.</p>
+</div>
+
+<!-- =========================================== -->
+<h2 id="sec-risk">8. Risk Analysis</h2>
+
+<h3>Risk Matrix: Open-Source vs Commercial Mapping</h3>
+<table class="risk-matrix">
+  <thead>
+    <tr><th>Risk Factor</th><th>Google Maps</th><th>Mapbox</th><th>OSM + OSRM</th><th>Hybrid</th></tr>
+  </thead>
+  <tbody>
+    <tr><td style="text-align:left; font-weight:600;">Cost escalation</td><td><span class="badge red">Critical</span></td><td><span class="badge amber">Medium</span></td><td><span class="badge green">Low</span></td><td><span class="badge green">Low</span></td></tr>
+    <tr><td style="text-align:left; font-weight:600;">Vendor lock-in</td><td><span class="badge red">High</span></td><td><span class="badge amber">Medium</span></td><td><span class="badge green">None</span></td><td><span class="badge green">Low</span></td></tr>
+    <tr><td style="text-align:left; font-weight:600;">Data accuracy (Colombo)</td><td><span class="badge green">Excellent</span></td><td><span class="badge green">Good</span></td><td><span class="badge amber">Good</span></td><td><span class="badge green">Good+</span></td></tr>
+    <tr><td style="text-align:left; font-weight:600;">Real-time traffic</td><td><span class="badge green">Yes</span></td><td><span class="badge amber">Limited</span></td><td><span class="badge red">No</span></td><td><span class="badge amber">Partial</span></td></tr>
+    <tr><td style="text-align:left; font-weight:600;">Setup complexity</td><td><span class="badge green">Easy</span></td><td><span class="badge green">Easy</span></td><td><span class="badge amber">Medium</span></td><td><span class="badge amber">Medium</span></td></tr>
+    <tr><td style="text-align:left; font-weight:600;">Ops maintenance</td><td><span class="badge green">Zero</span></td><td><span class="badge green">Low</span></td><td><span class="badge amber">Medium</span></td><td><span class="badge amber">Medium</span></td></tr>
+    <tr><td style="text-align:left; font-weight:600;">Scale cost</td><td><span class="badge red">Linear</span></td><td><span class="badge amber">Sub-linear</span></td><td><span class="badge green">Nearly flat</span></td><td><span class="badge green">Sub-linear</span></td></tr>
+    <tr><td style="text-align:left; font-weight:600;">Investor narrative</td><td><span class="badge red">Dependency</span></td><td><span class="badge amber">Partial</span></td><td><span class="badge green">Self-reliant</span></td><td><span class="badge green">Smart hybrid</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout green">
+  <h4>Verdict: The Namma Yatri Precedent Proves the Path</h4>
+  <p>Namma Yatri operates at 130M rides on $5M total spend. Their mapping cost per ride is ~$0.001. If WarenYan achieves even 10x their per-ride cost ($0.01), it would still be <strong>37% cheaper than Google at full price</strong>. The open-source stack is not a compromise — it's a competitive advantage. The investor narrative shifts from "we depend on Google" to "we control our own infrastructure like Namma Yatri."</p>
+</div>
+
+<!-- =========================================== -->
+<h2 id="sec-recommendation">9. Recommendation & Implementation Path</h2>
+
+<div class="card green" style="border-left-color: var(--primary);">
+  <h4>Phase 1: MVP (Weeks 1-4) — Mapbox + OSRM</h4>
+  <p><strong>Cost:</strong> ~$200/month. Use Mapbox free tier (50K map loads) for rendering and OSRM (Docker container) for routing. Fastest path to market. Mapbox gives better developer experience than raw MapLibre for MVP speed.</p>
+</div>
+
+<div class="card blue">
+  <h4>Phase 2: Independence (Weeks 5-12) — Full Self-Hosted</h4>
+  <p><strong>Cost:</strong> ~$400/month. Replace Mapbox rendering with MapLibre + Protomaps on Cloudflare R2. Add Nominatim for geocoding. Full control, zero vendor dependency. This is the Namma Yatri architecture.</p>
+</div>
+
+<div class="card">
+  <h4>Phase 3: Optimization (Month 3+) — Data Enhancement</h4>
+  <p><strong>Cost:</strong> ~$350/month (reduced through optimization). Contribute to OpenStreetMap for Colombo-specific improvements. Cache frequently-used routes. Build historical ETA models from actual ride data (replaces need for Google traffic data). This is the long game — WarenYan's own data becomes the competitive moat.</p>
+</div>
+
+<!-- =========================================== -->
+<h2 id="sec-dashboard">10. Interactive Cost Comparison Dashboard</h2>
+
+<div class="dashboard">
+  <h3>Adjust Parameters — See Real-Time Cost Impact</h3>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+    <div class="slider-group">
+      <label>Active Drivers <span class="sv" id="d-drivers">5000</span></label>
+      <input type="range" id="d-slider-drivers" min="500" max="25000" step="100" value="5000" oninput="calcDash()">
+    </div>
+    <div class="slider-group">
+      <label>Avg Rides/Driver/Month <span class="sv" id="d-rides">120</span></label>
+      <input type="range" id="d-slider-rides" min="30" max="250" step="5" value="120" oninput="calcDash()">
+    </div>
+    <div class="slider-group">
+      <label>Exchange Rate (LKR/USD) <span class="sv" id="d-fx">320</span></label>
+      <input type="range" id="d-slider-fx" min="250" max="500" step="10" value="320" oninput="calcDash()">
+    </div>
+    <div class="slider-group">
+      <label>Google Volume Discount <span class="sv" id="d-disc">0%</span></label>
+      <input type="range" id="d-slider-disc" min="0" max="80" step="5" value="0" oninput="calcDash()">
+    </div>
+  </div>
+</div>
+
+<div class="metric-grid" id="dash-metrics"></div>
+
+<div class="dashboard">
+  <h3>Monthly Cost by Strategy vs. Driver Count</h3>
+  <canvas id="costChart"></canvas>
+</div>
+
+<div class="dashboard">
+  <h3>Cost Per Ride by Strategy</h3>
+  <canvas id="perRideChart"></canvas>
+</div>
+
+<div class="dashboard" id="dash-table-wrap">
+  <h3>Detailed Cost Breakdown at Current Settings</h3>
+  <div id="dash-detail-table"></div>
+</div>
+
+<div class="dashboard" id="dash-savings">
+  <h3>Annual Savings vs Google (at current settings)</h3>
+  <div id="dash-savings-content"></div>
+</div>
+
+</div><!-- /wrap -->
+
+<div class="footer">
+  <strong>WarenYan</strong> — Mapping & Routing Cost Analysis v1.0 | Internal | 10 March 2026 | Antigravity / DGTL | riz@dgtl.lk
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+<script>
+let costChart, perRideChart;
+
+// Cost models (monthly)
+function googleCost(drivers, rides, discount) {
+  const totalRides = drivers * rides;
+  const routesPer1K = 5 * (1 - discount/100);
+  const geoPer1K = 5 * (1 - discount/100);
+  const matrixPer1K = 5 * (1 - discount/100);
+  const tilesPer1K = 7 * (1 - discount/100);
+  const routes = (totalRides / 1000) * routesPer1K;
+  const geo = (totalRides * 0.5 / 1000) * geoPer1K;
+  const matrix = (totalRides * 0.3 / 1000) * matrixPer1K;
+  const tiles = (totalRides / 1000) * tilesPer1K;
+  return routes + geo + matrix + tiles;
+}
+
+function mapboxCost(drivers, rides) {
+  const totalRides = drivers * rides;
+  const routing = (totalRides / 1000) * 2; // $2/1K
+  const geo = (totalRides * 0.5 / 1000) * 0.75;
+  const tiles = Math.max(0, (totalRides - 50000) / 1000) * 2; // 50K free
+  return routing + geo + tiles;
+}
+
+function osmCost(drivers, rides) {
+  // Mostly fixed: server costs
+  const osrm = 150; // routing server
+  const nominatim = 150; // geocoding server
+  const protomaps = 50; // Cloudflare R2 tiles
+  // Small variable: data updates, monitoring
+  const variable = Math.max(0, (drivers - 5000) * 0.01); // negligible scaling
+  return osrm + nominatim + protomaps + variable;
+}
+
+function hybridCost(drivers, rides) {
+  // 80% OSM, 20% Google (for traffic-aware)
+  const osmPortion = osmCost(drivers, rides);
+  const googlePortion = googleCost(drivers, rides * 0.2, 0);
+  return osmPortion + googlePortion;
+}
+
+function fmt(n) { return n.toLocaleString('en-US'); }
+function fmtK(n) { return n >= 1000000 ? (n/1000000).toFixed(1)+'M' : n >= 1000 ? (n/1000).toFixed(1)+'K' : n.toFixed(0); }
+
+function calcDash() {
+  const drivers = +document.getElementById('d-slider-drivers').value;
+  const rides = +document.getElementById('d-slider-rides').value;
+  const fx = +document.getElementById('d-slider-fx').value;
+  const disc = +document.getElementById('d-slider-disc').value;
+
+  document.getElementById('d-drivers').textContent = fmt(drivers);
+  document.getElementById('d-rides').textContent = rides;
+  document.getElementById('d-fx').textContent = fx;
+  document.getElementById('d-disc').textContent = disc + '%';
+
+  const gCost = googleCost(drivers, rides, disc);
+  const mCost = mapboxCost(drivers, rides);
+  const oCost = osmCost(drivers, rides);
+  const hCost = hybridCost(drivers, rides);
+
+  const totalRides = drivers * rides;
+  const gPerRide = totalRides > 0 ? gCost / totalRides : 0;
+  const mPerRide = totalRides > 0 ? mCost / totalRides : 0;
+  const oPerRide = totalRides > 0 ? oCost / totalRides : 0;
+  const hPerRide = totalRides > 0 ? hCost / totalRides : 0;
+
+  // Metrics
+  document.getElementById('dash-metrics').innerHTML = [
+    {l:'Google Maps', v:'$'+fmt(Math.round(gCost)), s:'$'+gPerRide.toFixed(4)+'/ride', c:'var(--red)'},
+    {l:'Mapbox', v:'$'+fmt(Math.round(mCost)), s:'$'+mPerRide.toFixed(4)+'/ride', c:'var(--amber)'},
+    {l:'OSM Stack', v:'$'+fmt(Math.round(oCost)), s:'$'+oPerRide.toFixed(4)+'/ride', c:'var(--primary)'},
+    {l:'Hybrid', v:'$'+fmt(Math.round(hCost)), s:'$'+hPerRide.toFixed(4)+'/ride', c:'var(--blue)'}
+  ].map(m => `<div class="mcard" style="border-top-color:${m.c};">
+    <div class="lbl">${m.l}</div><div class="val">${m.v}</div><div class="sub">${m.s}</div>
+  </div>`).join('');
+
+  // Chart 1: Cost vs drivers
+  const dPoints = [];
+  const gArr = [], mArr = [], oArr = [], hArr = [];
+  for (let d = 500; d <= 25000; d += 500) {
+    dPoints.push(d);
+    gArr.push(Math.round(googleCost(d, rides, disc)));
+    mArr.push(Math.round(mapboxCost(d, rides)));
+    oArr.push(Math.round(osmCost(d, rides)));
+    hArr.push(Math.round(hybridCost(d, rides)));
+  }
+
+  const ctx1 = document.getElementById('costChart').getContext('2d');
+  if (costChart) costChart.destroy();
+  costChart = new Chart(ctx1, {
+    type: 'line',
+    data: {
+      labels: dPoints.map(d => fmt(d)),
+      datasets: [
+        { label: 'Google Maps', data: gArr, borderColor: '#DC2626', tension: 0.3, borderWidth: 2, pointRadius: 0 },
+        { label: 'Mapbox', data: mArr, borderColor: '#F59E0B', tension: 0.3, borderWidth: 2, pointRadius: 0 },
+        { label: 'OSM Stack', data: oArr, borderColor: '#2D6A4F', tension: 0.3, borderWidth: 3, pointRadius: 0 },
+        { label: 'Hybrid (80/20)', data: hArr, borderColor: '#2563EB', tension: 0.3, borderWidth: 2, pointRadius: 0, borderDash: [5,5] }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+      scales: {
+        x: { title: { display: true, text: 'Active Drivers' }, ticks: { maxTicksLimit: 10 } },
+        y: { beginAtZero: true, title: { display: true, text: 'Monthly Cost (USD)' }, ticks: { callback: v => '$' + fmtK(v) } }
+      }
+    }
+  });
+
+  // Chart 2: Per-ride cost
+  const ctx2 = document.getElementById('perRideChart').getContext('2d');
+  if (perRideChart) perRideChart.destroy();
+  const gPR = [], mPR = [], oPR = [], hPR = [];
+  for (let d = 500; d <= 25000; d += 500) {
+    const tr = d * rides;
+    gPR.push(tr > 0 ? +(googleCost(d, rides, disc) / tr).toFixed(5) : 0);
+    mPR.push(tr > 0 ? +(mapboxCost(d, rides) / tr).toFixed(5) : 0);
+    oPR.push(tr > 0 ? +(osmCost(d, rides) / tr).toFixed(5) : 0);
+    hPR.push(tr > 0 ? +(hybridCost(d, rides) / tr).toFixed(5) : 0);
+  }
+  perRideChart = new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels: dPoints.map(d => fmt(d)),
+      datasets: [
+        { label: 'Google', data: gPR, borderColor: '#DC2626', tension: 0.3, borderWidth: 2, pointRadius: 0 },
+        { label: 'Mapbox', data: mPR, borderColor: '#F59E0B', tension: 0.3, borderWidth: 2, pointRadius: 0 },
+        { label: 'OSM Stack', data: oPR, borderColor: '#2D6A4F', tension: 0.3, borderWidth: 3, pointRadius: 0 },
+        { label: 'Hybrid', data: hPR, borderColor: '#2563EB', tension: 0.3, borderWidth: 2, pointRadius: 0, borderDash: [5,5] }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+      scales: {
+        x: { title: { display: true, text: 'Active Drivers' }, ticks: { maxTicksLimit: 10 } },
+        y: { beginAtZero: true, title: { display: true, text: 'Cost Per Ride (USD)' }, ticks: { callback: v => '$' + v.toFixed(4) } }
+      }
+    }
+  });
+
+  // Detail table
+  const strategies = [
+    { name: 'Google Maps (Full)', cost: gCost, perRide: gPerRide, perDriver: gCost/drivers, lkr: gCost*fx, color: 'red' },
+    { name: 'Mapbox', cost: mCost, perRide: mPerRide, perDriver: mCost/drivers, lkr: mCost*fx, color: 'amber' },
+    { name: 'OSM + OSRM (Self-Hosted)', cost: oCost, perRide: oPerRide, perDriver: oCost/drivers, lkr: oCost*fx, color: 'green' },
+    { name: 'Hybrid (OSM 80% + Google 20%)', cost: hCost, perRide: hPerRide, perDriver: hCost/drivers, lkr: hCost*fx, color: 'blue' }
+  ];
+
+  document.getElementById('dash-detail-table').innerHTML = `<table>
+    <thead><tr><th>Strategy</th><th>Monthly USD</th><th>Monthly LKR</th><th>Per Driver</th><th>Per Ride</th><th>% of $5.5K Ops</th></tr></thead>
+    <tbody>${strategies.map(s => `<tr>
+      <td><span class="badge ${s.color}">${s.name}</span></td>
+      <td><strong>$${fmt(Math.round(s.cost))}</strong></td>
+      <td>LKR ${fmt(Math.round(s.lkr))}</td>
+      <td>$${s.perDriver.toFixed(2)}</td>
+      <td>$${s.perRide.toFixed(4)}</td>
+      <td>${(s.cost/5500*100).toFixed(0)}%</td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+
+  // Savings
+  const osmSavings = gCost - oCost;
+  const annualSavings = osmSavings * 12;
+  document.getElementById('dash-savings-content').innerHTML = `
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; text-align:center;">
+      <div><div style="font-size:28px; font-weight:900; color:var(--primary);">$${fmt(Math.round(osmSavings))}</div><div style="font-size:12px; color:var(--gray);">Monthly savings (OSM vs Google)</div></div>
+      <div><div style="font-size:28px; font-weight:900; color:var(--primary);">$${fmt(Math.round(annualSavings))}</div><div style="font-size:12px; color:var(--gray);">Annual savings</div></div>
+      <div><div style="font-size:28px; font-weight:900; color:var(--primary);">${gCost > 0 ? Math.round((osmSavings/gCost)*100) : 0}%</div><div style="font-size:12px; color:var(--gray);">Cost reduction</div></div>
+    </div>
+    <div style="margin-top:16px; font-size:13px; color:var(--gray);">
+      At ${fmt(drivers)} drivers and ${rides} rides/driver/month, switching from Google Maps to the self-hosted OSM stack saves <strong>$${fmt(Math.round(annualSavings))}/year</strong> — equivalent to <strong>${(annualSavings/(5500*12)*100).toFixed(0)}% of annual ops budget</strong>.
+      This is money that stays in the company instead of going to Google.
+    </div>
+  `;
+}
+
+// Init
+calcDash();
+</script>
+</body>
+</html>

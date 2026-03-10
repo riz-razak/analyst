@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarenYan Document Portal</title>
+    <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1B4332;
+            --primary-light: #2D6A4F;
+            --accent: #40916C;
+            --cream: #F8FAF5;
+            --text-dark: #1a1a1a;
+            --text-light: #666;
+            --border: #e0e0e0;
+            --success: #2d6a4f;
+            --error: #d32f2f;
+        }
+
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        /* Login Screen */
+        .login-container {
+            display: none;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container.show {
+            display: flex;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 12px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-header p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: Inter, sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(27, 67, 50, 0.2);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-message {
+            margin-top: 20px;
+            padding: 16px;
+            background: #E8F5E9;
+            border-left: 4px solid var(--success);
+            border-radius: 4px;
+            font-size: 14px;
+            color: #2E7D32;
+            display: none;
+        }
+
+        .login-message.show {
+            display: block;
+        }
+
+        .login-error {
+            margin-top: 20px;
+            padding: 16px;
+            background: #FFEBEE;
+            border-left: 4px solid var(--error);
+            border-radius: 4px;
+            font-size: 14px;
+            color: var(--error);
+            display: none;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        /* Access Denied Screen */
+        .access-denied {
+            display: none;
+            min-height: 100vh;
+            background: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .access-denied.show {
+            display: flex;
+        }
+
+        .access-denied-card {
+            background: white;
+            border-radius: 12px;
+            padding: 48px 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .access-denied-card h2 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .access-denied-card p {
+            color: var(--text-light);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .logout-button {
+            padding: 12px 24px;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-button:hover {
+            background: var(--primary-light);
+        }
+
+        /* Setup Required Screen */
+        .setup-required {
+            display: none;
+            min-height: 100vh;
+            background: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .setup-required.show {
+            display: flex;
+        }
+
+        .setup-card {
+            background: white;
+            border-radius: 12px;
+            padding: 48px 40px;
+            max-width: 600px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .setup-card h2 {
+            font-size: 24px;
+            margin-bottom: 24px;
+            color: var(--error);
+        }
+
+        .setup-card p {
+            color: var(--text-light);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 16px 0;
+            border-left: 4px solid var(--error);
+        }
+
+        /* Main App Layout */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+
+        .app-container.show {
+            display: grid;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-bar-brand {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-email {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .logout-link {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .logout-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Content Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 0;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 28px;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            padding: 0 12px;
+        }
+
+        .doc-list {
+            list-style: none;
+        }
+
+        .doc-item {
+            margin-bottom: 8px;
+        }
+
+        .doc-link {
+            display: block;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 13px;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .doc-link:hover {
+            background: #f5f5f5;
+            color: var(--primary-light);
+        }
+
+        .doc-link.active {
+            background: rgba(45, 106, 79, 0.1);
+            color: var(--primary-light);
+            border-left-color: var(--primary-light);
+            font-weight: 500;
+        }
+
+        .admin-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .admin-link {
+            display: block;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--primary-dark);
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .admin-link:hover {
+            background: rgba(27, 67, 50, 0.1);
+        }
+
+        /* Main Content */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            background: var(--cream);
+        }
+
+        .doc-header {
+            background: white;
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: none;
+        }
+
+        .doc-header.show {
+            display: block;
+        }
+
+        .doc-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .doc-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .doc-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .doc-viewer {
+            flex: 1;
+            overflow: auto;
+            padding: 24px;
+            position: relative;
+        }
+
+        .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%;
+            text-align: center;
+        }
+
+        .empty-state-content {
+            color: var(--text-light);
+        }
+
+        .empty-state-content h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .doc-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .markdown-view {
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .markdown-placeholder {
+            padding: 48px 32px;
+            text-align: center;
+            background: #f5f5f5;
+            border-radius: 8px;
+            color: var(--text-light);
+        }
+
+        .markdown-placeholder p {
+            margin-bottom: 16px;
+        }
+
+        .view-in-admin {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-light);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            margin-top: 12px;
+            transition: all 0.2s;
+        }
+
+        .view-in-admin:hover {
+            background: var(--primary-dark);
+        }
+
+        /* View-Only Watermark */
+        .view-only-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .view-only-watermark {
+            font-size: 48px;
+            font-weight: 700;
+            color: rgba(0, 0, 0, 0.05);
+            transform: rotate(-45deg);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+
+        .iframe-container {
+            position: relative;
+            flex: 1;
+            overflow: auto;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+        }
+
+        .modal-body {
+            margin-bottom: 24px;
+        }
+
+        .user-role-item {
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-email-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .role-dropdown {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            background: white;
+            font-family: Inter, sans-serif;
+        }
+
+        .role-dropdown:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .button-primary {
+            padding: 10px 20px;
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .button-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .button-secondary {
+            padding: 10px 20px;
+            background: var(--border);
+            color: var(--text-dark);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .button-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
+            border-top-color: var(--primary-light);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .doc-header {
+                padding: 16px;
+            }
+
+            .doc-title {
+                font-size: 18px;
+            }
+
+            .doc-meta {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .doc-viewer {
+                padding: 12px;
+            }
+
+            .markdown-view {
+                padding: 16px;
+            }
+
+            .login-card {
+                padding: 32px 24px;
+            }
+
+            .login-header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Setup Required Screen -->
+    <div class="setup-required" id="setupRequired">
+        <div class="setup-card">
+            <h2>Setup Required</h2>
+            <p>The Supabase configuration is incomplete. Please replace the placeholder in the HTML file:</p>
+            <div class="code-block">
+YOUR_SUPABASE_ANON_KEY
+            </div>
+            <p>Steps:</p>
+            <ol style="padding-left: 20px; color: var(--text-light); margin-bottom: 16px;">
+                <li>Go to your Supabase project dashboard</li>
+                <li>Navigate to Settings → API</li>
+                <li>Copy the "anon" key</li>
+                <li>Replace the placeholder in this file (line ~375)</li>
+                <li>Reload the page</li>
+            </ol>
+            <p><small>Project URL: <code style="background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">https://ogunznqyfmxkmmwizpfy.supabase.co</code></small></p>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Warenයන්</h1>
+                <p>Document Portal</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="investor@example.com"
+                        required
+                    >
+                </div>
+                <button type="submit" class="login-button" id="loginButton">
+                    Send Magic Link
+                </button>
+            </form>
+            <div class="login-message" id="loginMessage">
+                <strong>Check your email!</strong> Click the link to access the portal.
+            </div>
+            <div class="login-error" id="loginError"></div>
+        </div>
+    </div>
+
+    <!-- Access Denied Screen -->
+    <div class="access-denied" id="accessDenied">
+        <div class="access-denied-card">
+            <h2>Access Pending</h2>
+            <p>
+                Your account has been recognized, but access to the document portal hasn't been granted yet.
+                <br><br>
+                Please contact the admin team to request access.
+            </p>
+            <button class="logout-button" onclick="handleLogout()">Sign Out</button>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="top-bar-brand">Warenයන් Document Portal</div>
+            <div class="top-bar-right">
+                <div class="user-email" id="userEmail"></div>
+                <button class="logout-link" onclick="handleLogout()">Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="main-grid">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div id="sidebarContent"></div>
+            </aside>
+
+            <!-- Content Area -->
+            <main class="content-area">
+                <div class="doc-header" id="docHeader">
+                    <div class="doc-title" id="docTitle"></div>
+                    <div class="doc-meta" id="docMeta"></div>
+                </div>
+
+                <div class="doc-viewer" id="docViewer">
+                    <div class="empty-state">
+                        <div class="empty-state-content">
+                            <h3>Select a Document</h3>
+                            <p>Choose a document from the sidebar to view it here.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Access Management Modal -->
+    <div class="modal" id="accessModal">
+        <div class="modal-content">
+            <div class="modal-header">Manage Access</div>
+            <div class="modal-body" id="modalBody">
+                <div style="text-align: center; padding: 20px;">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 12px; color: var(--text-light);">Loading users...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="button-secondary" onclick="closeAccessModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // ============================================================================
+        // CONFIG & INITIALIZATION
+        // ============================================================================
+
+        const SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // REPLACE WITH ACTUAL KEY
+
+        let supabase;
+        let currentUser = null;
+        let currentRole = null;
+        let currentDocument = null;
+
+        // Document registry
+        const DOCUMENTS = [
+            {
+                id: 'mvp-execution-plan',
+                title: 'MVP Execution Plan',
+                filename: 'MVP_EXECUTION_PLAN.html',
+                category: 'Operations',
+                app: 'waren-yan',
+                version: 'v0.6',
+                date: '10 Mar 2026',
+                visibility: ['admin', 'internal', 'investor'],
+                description: 'Two-round funding. 4-tier subscription model. Min base charge analysis. Break-even scenarios. Brand ambassadors.'
+            },
+            {
+                id: 'competitor-analysis',
+                title: 'Competitive Landscape & Risk Learnings',
+                filename: 'COMPETITOR_ANALYSIS.html',
+                category: 'Strategy',
+                app: 'waren-yan',
+                version: 'v1.3',
+                date: '10 Mar 2026',
+                visibility: ['admin', 'internal', 'investor'],
+                description: 'PickMe, HelaGo, Uber analysis. Launch doctrine. IPO pressure & endgame scenarios. Glossary. Jump nav.'
+            },
+            {
+                id: 'tuktuk-mafia-dossier',
+                title: 'Tuk-Tuk Mafia Risk Dossier',
+                filename: 'TUKTUK_MAFIA_DOSSIER.html',
+                category: 'Strategy',
+                app: 'waren-yan',
+                version: 'v1.0',
+                date: '10 Mar 2026',
+                visibility: ['admin', 'internal'],
+                description: 'Full risk analysis, international case studies, encirclement strategy, insurance, NTC pre-emption.'
+            },
+            {
+                id: 'premium-features-brief',
+                title: 'Premium Features & Monetisation Brief',
+                filename: 'PREMIUM_FEATURES_BRIEF.html',
+                category: 'Revenue',
+                app: 'waren-yan',
+                version: 'v1.1',
+                date: '10 Mar 2026',
+                visibility: ['admin', 'internal', 'investor'],
+                description: 'Four-tier model (Free / LKR 99 / Pro / Elite). Min base charge analysis. ROI calculations. Pricing psychology. PickMe bleed analysis.'
+            },
+            {
+                id: 'subscription-scenarios',
+                title: 'Subscription Pricing Scenarios Dashboard',
+                filename: 'SUBSCRIPTION_SCENARIOS.html',
+                category: 'Revenue',
+                app: 'waren-yan',
+                version: 'v2.0',
+                date: '10 Mar 2026',
+                visibility: ['admin', 'internal'],
+                description: '3-tier model (Entry/Growth/Premium). Adoption distribution sliders. Price floor parameter. Per-journey cost breakdown. Base charge scenarios. PickMe bleeding & critical mass. Absorption analysis.'
+            },
+            {
+                id: 'mapping-cost-analysis',
+                title: 'Mapping & Infrastructure Cost Analysis',
+                filename: 'MAPPING_COST_ANALYSIS.html',
+                category: 'Operations',
+                app: 'waren-yan',
+                version: 'v1.0',
+                date: '10 Mar 2026',
+                visibility: ['admin', 'internal'],
+                description: 'Maps API cost deep-dive. Google vs Mapbox vs OSM stack comparison. Namma Yatri precedent. 4 interactive cost models. SL OSM coverage analysis. Risk matrix. Per-ride economics at scale.'
+            },
+            {
+                id: 'sl-crisis-scenarios',
+                title: 'SL Crisis Scenarios Engine',
+                filename: 'SL_CRISIS_SCENARIOS.html',
+                category: 'Strategy',
+                app: 'waren-yan',
+                version: 'v1.1',
+                date: '11 Mar 2026',
+                visibility: ['admin', 'internal'],
+                description: 'Iran-US-Israel conflict cascade analysis. 3 escalating scenarios (Contained/Escalation/Full Crisis). Oracle v7 integration. Real-time macro sliders. PickMe vulnerability index. Competitive response playbook. 2022 parallels. Miyazaki Green light-mode UI.'
+            },
+            {
+                id: 'intention-doc',
+                title: 'The Intention Document',
+                filename: 'WARENYAN_INTENTION_DOC.md',
+                category: 'Philosophy',
+                app: 'waren-yan',
+                version: 'v0.1',
+                date: '7 Mar 2026',
+                visibility: ['admin', 'internal'],
+                description: 'Soul document. Philosophy, pillars, strategy, risk register.'
+            },
+            {
+                id: 'exec-summary',
+                title: 'Executive Summary',
+                filename: 'EXEC_SUMMARY.md',
+                category: 'Strategy',
+                app: 'waren-yan',
+                version: 'v0.1',
+                date: '7 Mar 2026',
+                visibility: ['admin', 'internal', 'investor'],
+                description: 'Investor one-pager. Market size, ask, timeline, traction.'
+            },
+            {
+                id: 'issues-flags',
+                title: 'Issues & Flags Audit',
+                filename: 'ISSUES_AND_FLAGS.md',
+                category: 'Operations',
+                app: 'waren-yan',
+                version: 'v0.1',
+                date: '7 Mar 2026',
+                visibility: ['admin', 'internal'],
+                description: 'Factual corrections, structural weaknesses, technical debt.'
+            },
+            {
+                id: 'design-philosophy',
+                title: 'Design Philosophy',
+                filename: 'WARENYAN_DESIGN_PHILOSOPHY.md',
+                category: 'Design',
+                app: 'waren-yan',
+                version: 'v0.1',
+                date: '7 Mar 2026',
+                visibility: ['admin', 'internal'],
+                description: 'Bawa tropical modernism, Miyazaki Green, cultural design language.'
+            },
+            {
+                id: 'logo-options',
+                title: 'Logo Options Review',
+                filename: 'LOGO_OPTIONS_REVIEW.html',
+                category: 'Design',
+                app: 'waren-yan',
+                version: 'v1.0',
+                date: '8 Mar 2026',
+                visibility: ['admin', 'internal'],
+                description: 'Evaluation of 10 AI-generated logo concepts.'
+            },
+            {
+                id: 'logo-mockups',
+                title: 'Logo Contextual Mockups',
+                filename: 'LOGO_MOCKUPS.html',
+                category: 'Design',
+                app: 'waren-yan',
+                version: 'v1.0',
+                date: '9 Mar 2026',
+                visibility: ['admin', 'internal'],
+                description: 'Options 2, 5, 6 in real-world contexts (phone, card, tuk-tuk).'
+            },
+            {
+                id: 'pitch-deck',
+                title: 'Investor Pitch Deck',
+                filename: null,
+                externalUrl: 'https://docs.google.com/presentation/d/1m28zHR1hshYtcA7Awgf8nimoVNbXqA2wVBtXztL8t3A/edit',
+                category: 'Strategy',
+                app: 'waren-yan',
+                version: 'v1.0',
+                date: '7 Mar 2026',
+                visibility: ['admin', 'internal', 'investor'],
+                description: '18-slide pitch deck with financials (Google Slides).'
+            }
+        ];
+
+        // ============================================================================
+        // INITIALIZATION
+        // ============================================================================
+
+        async function init() {
+            // Check if Supabase key is set
+            if (SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY') {
+                showSetupRequired();
+                return;
+            }
+
+            // Initialize Supabase
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            // Check for redirect from magic link
+            const { data: { session } } = await supabase.auth.getSession();
+
+            if (session) {
+                currentUser = session.user;
+                await checkUserRole();
+            } else {
+                showLoginScreen();
+            }
+        }
+
+        // ============================================================================
+        // AUTH FLOW
+        // ============================================================================
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const loginButton = document.getElementById('loginButton');
+            const loginError = document.getElementById('loginError');
+            const loginMessage = document.getElementById('loginMessage');
+
+            loginError.classList.remove('show');
+            loginButton.disabled = true;
+            loginButton.innerHTML = '<span class="loading-spinner"></span>';
+
+            try {
+                const { error } = await supabase.auth.signInWithOtp({
+                    email: email,
+                    options: {
+                        emailRedirectTo: window.location.href
+                    }
+                });
+
+                if (error) throw error;
+
+                loginMessage.classList.add('show');
+                document.getElementById('loginForm').style.display = 'none';
+            } catch (error) {
+                loginError.textContent = error.message || 'Failed to send magic link. Please try again.';
+                loginError.classList.add('show');
+                loginButton.disabled = false;
+                loginButton.innerHTML = 'Send Magic Link';
+            }
+        }
+
+        async function checkUserRole() {
+            try {
+                const { data, error } = await supabase
+                    .from('portal_user_roles')
+                    .select('role')
+                    .eq('user_id', currentUser.id)
+                    .single();
+
+                if (error && error.code !== 'PGRST116') throw error;
+
+                if (data) {
+                    currentRole = data.role;
+                    showApp();
+                } else {
+                    showAccessDenied();
+                }
+            } catch (error) {
+                console.error('Error checking user role:', error);
+                showAccessDenied();
+            }
+        }
+
+        async function handleLogout() {
+            await supabase.auth.signOut();
+            currentUser = null;
+            currentRole = null;
+            currentDocument = null;
+            showLoginScreen();
+        }
+
+        // ============================================================================
+        // UI STATE MANAGEMENT
+        // ============================================================================
+
+        function showSetupRequired() {
+            document.getElementById('setupRequired').classList.add('show');
+            hideAllExcept('setupRequired');
+        }
+
+        function showLoginScreen() {
+            document.getElementById('loginContainer').classList.add('show');
+            hideAllExcept('loginContainer');
+        }
+
+        function showAccessDenied() {
+            document.getElementById('accessDenied').classList.add('show');
+            hideAllExcept('accessDenied');
+        }
+
+        function showApp() {
+            document.getElementById('appContainer').classList.add('show');
+            document.getElementById('userEmail').textContent = currentUser.email;
+            renderSidebar();
+            hideAllExcept('appContainer');
+        }
+
+        function hideAllExcept(elementId) {
+            ['setupRequired', 'loginContainer', 'accessDenied', 'appContainer'].forEach(id => {
+                if (id !== elementId) {
+                    document.getElementById(id).classList.remove('show');
+                }
+            });
+        }
+
+        // ============================================================================
+        // DOCUMENT FILTERING & SIDEBAR
+        // ============================================================================
+
+        function getVisibleDocuments() {
+            return DOCUMENTS.filter(doc => {
+                if (!doc.visibility.includes(currentRole)) return false;
+                if (doc.app !== 'waren-yan') return false;
+                return true;
+            });
+        }
+
+        function renderSidebar() {
+            const sidebarContent = document.getElementById('sidebarContent');
+            sidebarContent.innerHTML = '';
+
+            const visibleDocs = getVisibleDocuments();
+            const categories = [...new Set(visibleDocs.map(d => d.category))];
+
+            categories.forEach(category => {
+                const categoryDocs = visibleDocs.filter(d => d.category === category);
+
+                const section = document.createElement('div');
+                section.className = 'sidebar-section';
+
+                const title = document.createElement('div');
+                title.className = 'sidebar-section-title';
+                title.textContent = category;
+                section.appendChild(title);
+
+                const list = document.createElement('ul');
+                list.className = 'doc-list';
+
+                categoryDocs.forEach(doc => {
+                    const item = document.createElement('li');
+                    item.className = 'doc-item';
+
+                    const link = document.createElement('a');
+                    link.className = 'doc-link';
+                    link.href = '#';
+                    link.textContent = doc.title;
+                    link.onclick = (e) => {
+                        e.preventDefault();
+                        loadDocument(doc);
+                    };
+
+                    item.appendChild(link);
+                    list.appendChild(item);
+                });
+
+                section.appendChild(list);
+                sidebarContent.appendChild(section);
+            });
+
+            // Add admin section if user is admin
+            if (currentRole === 'admin') {
+                const adminSection = document.createElement('div');
+                adminSection.className = 'admin-section';
+
+                const adminTitle = document.createElement('div');
+                adminTitle.className = 'sidebar-section-title';
+                adminTitle.textContent = 'Admin';
+                adminSection.appendChild(adminTitle);
+
+                const adminLink = document.createElement('a');
+                adminLink.className = 'admin-link';
+                adminLink.href = '#';
+                adminLink.textContent = 'Manage Access';
+                adminLink.onclick = (e) => {
+                    e.preventDefault();
+                    openAccessModal();
+                };
+
+                adminSection.appendChild(adminLink);
+                sidebarContent.appendChild(adminSection);
+            }
+        }
+
+        // ============================================================================
+        // DOCUMENT LOADING & VIEWING
+        // ============================================================================
+
+        function loadDocument(doc) {
+            currentDocument = doc;
+
+            // Update header
+            document.getElementById('docHeader').classList.add('show');
+            document.getElementById('docTitle').textContent = doc.title;
+
+            const metaHtml = `
+                <div class="doc-meta-item">
+                    <span>${doc.category}</span>
+                </div>
+                <div class="doc-meta-item">
+                    <span>${doc.version}</span>
+                </div>
+                <div class="doc-meta-item">
+                    <span>${doc.date}</span>
+                </div>
+            `;
+            document.getElementById('docMeta').innerHTML = metaHtml;
+
+            // Update sidebar active state
+            document.querySelectorAll('.doc-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.textContent === doc.title) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Load document content
+            const viewer = document.getElementById('docViewer');
+
+            if (doc.externalUrl) {
+                viewer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-content">
+                            <h3>${doc.title}</h3>
+                            <p>${doc.description}</p>
+                            <a href="${doc.externalUrl}" target="_blank" class="view-in-admin">
+                                Open in New Tab
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } else if (doc.filename.endsWith('.md')) {
+                viewer.innerHTML = `
+                    <div class="markdown-view">
+                        <div class="markdown-placeholder">
+                            <p><strong>This document is in Markdown format.</strong></p>
+                            <p>Full rendering will be available in the admin panel.</p>
+                            <a href="#" class="view-in-admin">View in Admin Panel</a>
+                        </div>
+                    </div>
+                `;
+            } else if (doc.filename.endsWith('.html')) {
+                const iframeContainer = document.createElement('div');
+                iframeContainer.className = 'iframe-container';
+
+                const iframe = document.createElement('iframe');
+                iframe.className = 'doc-iframe';
+                iframe.src = doc.filename;
+
+                iframeContainer.appendChild(iframe);
+
+                // Add view-only watermark for investors
+                if (currentRole === 'investor') {
+                    const watermark = document.createElement('div');
+                    watermark.className = 'view-only-overlay';
+                    watermark.innerHTML = '<div class="view-only-watermark">View Only</div>';
+                    iframeContainer.appendChild(watermark);
+
+                    // Disable right-click on iframe
+                    iframeContainer.oncontextmenu = (e) => e.preventDefault();
+                }
+
+                viewer.innerHTML = '';
+                viewer.appendChild(iframeContainer);
+            }
+        }
+
+        // ============================================================================
+        // ACCESS MANAGEMENT MODAL
+        // ============================================================================
+
+        async function openAccessModal() {
+            const modal = document.getElementById('accessModal');
+            const modalBody = document.getElementById('modalBody');
+            modal.classList.add('show');
+
+            try {
+                const { data: roles, error } = await supabase
+                    .from('portal_user_roles')
+                    .select('user_id, email, role')
+                    .order('email');
+
+                if (error) throw error;
+
+                if (!roles || roles.length === 0) {
+                    modalBody.innerHTML = '<p style="text-align: center; color: var(--text-light);">No users yet.</p>';
+                    return;
+                }
+
+                let html = '';
+                roles.forEach(userRole => {
+                    html += `
+                        <div class="user-role-item">
+                            <span class="user-email-label">${escapeHtml(userRole.email)}</span>
+                            <select class="role-dropdown" onchange="updateUserRole('${escapeHtml(userRole.user_id)}', '${escapeHtml(userRole.email)}', this.value)">
+                                <option value="admin" ${userRole.role === 'admin' ? 'selected' : ''}>Admin</option>
+                                <option value="internal" ${userRole.role === 'internal' ? 'selected' : ''}>Internal</option>
+                                <option value="investor" ${userRole.role === 'investor' ? 'selected' : ''}>Investor</option>
+                                <option value="revoke">Revoke Access</option>
+                            </select>
+                        </div>
+                    `;
+                });
+
+                modalBody.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading users:', error);
+                modalBody.innerHTML = '<p style="text-align: center; color: var(--error);">Error loading users. Please try again.</p>';
+            }
+        }
+
+        async function updateUserRole(userId, email, newRole) {
+            try {
+                if (newRole === 'revoke') {
+                    const { error } = await supabase
+                        .from('portal_user_roles')
+                        .delete()
+                        .eq('user_id', userId);
+
+                    if (error) throw error;
+                } else {
+                    const { error } = await supabase
+                        .from('portal_user_roles')
+                        .update({ role: newRole })
+                        .eq('user_id', userId);
+
+                    if (error) throw error;
+                }
+
+                // Refresh the modal
+                await openAccessModal();
+            } catch (error) {
+                console.error('Error updating user role:', error);
+                alert('Failed to update role. Please try again.');
+            }
+        }
+
+        function closeAccessModal() {
+            document.getElementById('accessModal').classList.remove('show');
+        }
+
+        // ============================================================================
+        // UTILITIES
+        // ============================================================================
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ============================================================================
+        // EVENT LISTENERS & INITIALIZATION
+        // ============================================================================
+
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+        window.addEventListener('load', () => {
+            init();
+        });
+    </script>
+</body>
+</html>

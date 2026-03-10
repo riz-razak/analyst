@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WarenYan — The Tuk-Tuk Mafia Problem</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --deep: #1B4332;
+    --primary: #2D6A4F;
+    --light: #40916C;
+    --mint: #B7E4C7;
+    --cream: #F8FAF5;
+    --white: #FFFFFF;
+    --dark: #1a1a1a;
+    --gray: #6B7280;
+    --light-gray: #E5E7EB;
+    --red: #DC2626;
+    --amber: #F59E0B;
+    --blue: #2563EB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .cover {
+    background: linear-gradient(160deg, #0D2818 0%, var(--deep) 40%, var(--primary) 100%);
+    color: white;
+    padding: 80px 48px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(ellipse, rgba(64,145,108,0.15) 0%, transparent 70%);
+  }
+  .cover-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 span { color: var(--mint); }
+  .cover .subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    opacity: 0.7;
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta {
+    margin-top: 40px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cover-meta .meta-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mint);
+  }
+  .cover-meta .meta-value {
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-top: 56px;
+    margin-bottom: 8px;
+    padding-top: 32px;
+    border-top: 2px solid var(--light-gray);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  h3 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--deep);
+    margin-bottom: 16px;
+  }
+  .section-desc {
+    color: var(--gray);
+    margin-bottom: 32px;
+    max-width: 700px;
+  }
+  p { margin-bottom: 16px; }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 16px;
+    border-left: 4px solid var(--primary);
+  }
+  .card.red { border-left-color: var(--red); }
+  .card.amber { border-left-color: var(--amber); }
+  .card.blue { border-left-color: var(--blue); }
+  .card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 8px;
+  }
+  .card p { color: var(--gray); font-size: 14px; margin-bottom: 8px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .callout {
+    background: linear-gradient(135deg, var(--deep), var(--primary));
+    color: white;
+    border-radius: 14px;
+    padding: 32px 36px;
+    margin: 32px 0;
+  }
+  .callout h4 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .callout p { opacity: 0.85; margin-bottom: 0; }
+
+  .callout-red {
+    background: linear-gradient(135deg, #7F1D1D, #DC2626);
+    color: white;
+    border-radius: 14px;
+    padding: 32px 36px;
+    margin: 32px 0;
+  }
+  .callout-red h4 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .callout-red p { opacity: 0.9; margin-bottom: 0; }
+
+  .callout-amber {
+    background: linear-gradient(135deg, #78350F, #D97706);
+    color: white;
+    border-radius: 14px;
+    padding: 32px 36px;
+    margin: 32px 0;
+  }
+  .callout-amber h4 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .callout-amber p { opacity: 0.9; margin-bottom: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+  th {
+    background: var(--deep);
+    color: white;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--light-gray);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) { background: #FAFBF8; }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .tag-green { background: #D1FAE5; color: #065F46; }
+  .tag-amber { background: #FEF3C7; color: #92400E; }
+  .tag-red { background: #FEE2E2; color: #991B1B; }
+  .tag-blue { background: #DBEAFE; color: #1E40AF; }
+  .tag-gray { background: #F3F4F6; color: #4B5563; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+  .metric {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .metric .num {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--deep);
+  }
+  .metric .label {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .learning-box {
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 12px 0;
+  }
+  .learning-box strong { color: var(--deep); }
+  .learning-box p { color: var(--gray); font-size: 14px; margin-bottom: 0; }
+
+  .risk-box {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 12px 0;
+  }
+  .risk-box strong { color: #991B1B; }
+  .risk-box p { color: var(--gray); font-size: 14px; margin-bottom: 0; }
+
+  .footer {
+    text-align: center;
+    padding: 40px 32px;
+    background: var(--deep);
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+  }
+  .footer strong { color: var(--mint); }
+
+  /* GLOSSARY & REFERENCES */
+  a.term {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--light);
+  }
+  a.term:hover { border-bottom-style: solid; }
+  .glossary {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 24px;
+    font-size: 13px;
+    columns: 2;
+    column-gap: 32px;
+  }
+  .glossary dt {
+    font-weight: 700;
+    color: var(--deep);
+    font-size: 12px;
+    margin-top: 10px;
+    break-inside: avoid;
+  }
+  .glossary dt:first-child { margin-top: 0; }
+  .glossary dd {
+    color: var(--gray);
+    margin-left: 0;
+    margin-bottom: 2px;
+    break-inside: avoid;
+  }
+  .ref-list {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+  .ref-list a { color: var(--primary); }
+
+  /* DOCUMENT NAV */
+  .doc-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 32px;
+    border-top: 3px solid var(--primary);
+  }
+  .doc-nav h4 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 14px;
+  }
+  .doc-nav ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+    margin: 0;
+    padding: 0;
+    counter-reset: nav;
+  }
+  .doc-nav li {
+    counter-increment: nav;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .doc-nav li::before {
+    content: counter(nav, decimal-leading-zero);
+    font-weight: 700;
+    color: var(--light);
+    font-size: 11px;
+    font-family: 'Inter', monospace;
+    margin-right: 6px;
+  }
+  .doc-nav a {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .doc-nav a:hover { color: var(--primary); }
+
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .cover { padding: 40px; }
+    .main { padding: 24px; }
+    table, .card { page-break-inside: avoid; }
+    .doc-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">Internal — Operational Risk Dossier</div>
+  <h1>Waren<span>යන්</span> The Tuk-Tuk Mafia Problem</h1>
+  <div class="subtitle">A full risk analysis, international case studies, and operational countermeasures for managing informal driver cartel resistance during WarenYan's Colombo launch and national expansion</div>
+  <div class="cover-meta">
+    <div class="meta-item">
+      <div class="meta-label">Scope</div>
+      <div class="meta-value">Sri Lanka</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Version</div>
+      <div class="meta-value">v1.0</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Date</div>
+      <div class="meta-value">March 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Classification</div>
+      <div class="meta-value">Internal</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- NAVIGATION -->
+<nav class="doc-nav">
+  <h4>In This Document</h4>
+  <ol>
+    <li><a href="#sec-problem">The Problem Defined</a></li>
+    <li><a href="#sec-sri-lanka">Sri Lanka Landscape</a></li>
+    <li><a href="#sec-international">International Case Studies</a></li>
+    <li><a href="#sec-encirclement">The Encirclement Strategy</a></li>
+    <li><a href="#sec-economics">Economic Countermeasures</a></li>
+    <li><a href="#sec-tech">AI & Technology Countermeasures</a></li>
+    <li><a href="#sec-narrative">Societal Narrative Strategies</a></li>
+    <li><a href="#sec-ntc">NTC Regulation Pre-Emption</a></li>
+    <li><a href="#sec-insurance">Insurance Strategy</a></li>
+    <li><a href="#sec-ops-plan">Operational Playbook</a></li>
+    <li><a href="#sec-risk-matrix">Risk Matrix</a></li>
+    <li><a href="#sec-glossary">Glossary</a></li>
+    <li><a href="#sec-references">Sources & References</a></li>
+  </ol>
+</nav>
+
+<!-- SECTION 1: THE PROBLEM DEFINED -->
+<h2 id="sec-problem">Section 1: The Problem Defined</h2>
+<h3>What is the Tuk-Tuk Mafia?</h3>
+<p class="section-desc">Informal driver cartels that control territory at tourist areas and railway stations, charge inflated prices, and violently resist app-based driver competition.</p>
+
+<p>The "tuk-tuk mafia" is not a criminal organization with a headquarters and leadership structure. It is a decentralized network of stand-based driver collectives that operate under territorial economics: they control specific high-value zones (tourist areas, railways, airports) and extract economic rents by charging tourists 2-3x standard rates for rides. When app-based platforms like PickMe introduce transparent pricing, they threaten this premium. Violence is the economic response.</p>
+
+<div class="learning-box">
+  <strong>Key Insight:</strong> <p>The mafia is economically rational. Remove or reduce the financial threat, and violence decreases. This is not cultural resistance to technology—it is defense of informal income streams.</p>
+</div>
+
+<h3>This is Not Unique to Sri Lanka</h3>
+
+<p>Ride-hailing platforms globally have faced this pattern:</p>
+
+<div class="grid-2">
+  <div class="card red">
+    <h4>South Africa (2025)</h4>
+    <p>Taxi association violence against Uber/Bolt drivers. 13 drivers killed in 2 weeks during violent taxi-war escalation. Formal complaints to authorities yielded minimal response.</p>
+  </div>
+  <div class="card red">
+    <h4>Indonesia (2016-Present)</h4>
+    <p>Jakarta taxi protests and vehicle damage. Bali taxi mafia physically block Grab/Go-Jek drivers in tourist zones. Ongoing territorial disputes.</p>
+  </div>
+  <div class="card red">
+    <h4>Kenya & Uganda (2015+)</h4>
+    <p>Boda boda gangs resist app-based motorcycle taxis. Community integration and localized hiring eventually reduced violence.</p>
+  </div>
+  <div class="card red">
+    <h4>Thailand (2014-Present)</h4>
+    <p>Taxi mafia blocked Grab expansion in Bangkok. Required significant regulatory cooperation and community negotiation.</p>
+  </div>
+</div>
+
+<h3>Scale in Sri Lanka</h3>
+
+<p><a class="term" href="#glossary-picme">PickMe</a> documented 30+ violent incidents against drivers in 12 weeks (2025-2026). The CEO wrote directly to the Inspector General of Police. Hotspots include Ella (backpacker hub), Kandy (Temple of Tooth area), Galle Fort (tourist zone), and major railway stations.</p>
+
+<div class="risk-box">
+  <strong>WarenYan's Specific Vulnerability:</strong> <p>We recruit drivers at tuk-tuk stands. Some of those stands ARE the cartel. We will face this problem during launch and expansion. Pretending otherwise is negligence.</p>
+</div>
+
+<!-- SECTION 2: SRI LANKA LANDSCAPE -->
+<h2 id="sec-sri-lanka">Section 2: Sri Lanka Landscape</h2>
+<h3>Risk Hotspot Mapping</h3>
+
+<p class="section-desc">Known cartel presence varies by zone. Our strategy must reflect this geography.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Zone</th>
+      <th>Risk Level</th>
+      <th>Geography</th>
+      <th>Cartel Strength</th>
+      <th>Strategic Approach</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Ella</strong></td>
+      <td><span class="tag tag-red">CRITICAL</span></td>
+      <td>Central Highlands (backpacker hub)</td>
+      <td>Very Strong. Aggressive enforcement. Multiple incidents documented.</td>
+      <td>Avoid in Phase 1-2. Enter only with dense driver support (Phase 3+).</td>
+    </tr>
+    <tr>
+      <td><strong>Galle Fort</strong></td>
+      <td><span class="tag tag-red">CRITICAL</span></td>
+      <td>South Coast (UNESCO heritage zone, heavy tourism)</td>
+      <td>Very Strong. Controls tourist traffic exclusively.</td>
+      <td>Tourist zone strategy only. Approach with caution.</td>
+    </tr>
+    <tr>
+      <td><strong>Kandy (Temple of Tooth)</strong></td>
+      <td><span class="tag tag-red">CRITICAL</span></td>
+      <td>Central Highlands (sacred site + tourist magnet)</td>
+      <td>Very Strong. Religious + economic dimensions.</td>
+      <td>Community engagement required before entry.</td>
+    </tr>
+    <tr>
+      <td><strong>Railway Stations (Colombo Fort, Maradana, Kandy)</strong></td>
+      <td><span class="tag tag-amber">HIGH</span></td>
+      <td>Urban centers</td>
+      <td>Strong. Commuter base = premium fares. High-value territory.</td>
+      <td>Phase 2-3. Build density in surrounding areas first.</td>
+    </tr>
+    <tr>
+      <td><strong>Airport Approach (Negombo)</strong></td>
+      <td><span class="tag tag-amber">HIGH</span></td>
+      <td>North-West of Colombo</td>
+      <td>Strong. International tourists = premium. Few competitors.</td>
+      <td>Phase 3+. Approach via community integration.</td>
+    </tr>
+    <tr>
+      <td><strong>Colombo Tourist Pockets (Pettah, Gangaramaya, Mount Lavinia)</strong></td>
+      <td><span class="tag tag-amber">MEDIUM</span></td>
+      <td>Urban Colombo</td>
+      <td>Moderate. Contested with some app-driver presence already.</td>
+      <td>Phase 2-3. Expand naturally with residential density growth.</td>
+    </tr>
+    <tr>
+      <td><strong>Colombo Residential Corridors (Dehiwala, Nugegoda, Maharagama, Kelaniya, Battaramulla)</strong></td>
+      <td><span class="tag tag-green">LOW</span></td>
+      <td>Urban sprawl (commuter-focused)</td>
+      <td>Weak to absent. Volume-based economics favor apps over stands.</td>
+      <td>Phase 1 (LAUNCH). Secure massive density here first.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="learning-box">
+  <strong>Key Strategic Insight:</strong> <p>PickMe is IFC-backed with 100K+ drivers. If they cannot brute-force the mafia problem, we cannot either. The Colombo residential market is SAFE territory where cartels have minimal presence. This is where we should launch and build our strength.</p>
+</div>
+
+<!-- SECTION 3: INTERNATIONAL CASE STUDIES -->
+<h2 id="sec-international">Section 3: International Case Studies</h2>
+<h3>How Other Platforms Managed Cartel Resistance</h3>
+
+<div class="card blue">
+  <h4>South Africa: Co-Optation Over Confrontation</h4>
+  <p><strong>The Crisis:</strong> Taxi association violence against Uber/Bolt drivers escalated to murder (13 deaths in 2 weeks in 2025). Traditional taxi unions (Santaco + NTA) viewed e-hailing as existential threat.</p>
+  <p><strong>The Response (Shesha):</strong> Instead of fighting the incumbents, the taxi unions created their own app (Shesha, backed by Santaco). The app offered drivers transparency while preserving the union's control structure.</p>
+  <p><strong>Outcome:</strong> Violence decreased. The union co-opted the disruption rather than resisting it. Both Shesha and traditional taxis coexist.</p>
+  <p><strong>Lesson for WarenYan:</strong> If a large cartel co-opts app-based models before we launch, confrontation becomes impossible. Our speed-to-market advantage is crucial.</p>
+</div>
+
+<div class="card blue">
+  <h4>Indonesia (Bali & Jakarta): Community Integration & Adjacent Markets</h4>
+  <p><strong>The Crisis:</strong> Jakarta taxi drivers protested Uber/Lyft aggressively (2016). Bali taxi mafia physically blocked Grab drivers in tourist zones.</p>
+  <p><strong>Go-Jek's Strategy:</strong> Focused on motorcycle taxis (ojeks) which operated in a separate regulatory ecosystem. Avoided direct confrontation in zones where four-wheeled taxi syndicates had established control.</p>
+  <p><strong>Grab's Strategy (GERCEP):</strong> Launched dedicated emergency response program for drivers in high-risk zones. Live chat support, real-time incident tracking, police coordination.</p>
+  <p><strong>Lesson for WarenYan:</strong> Avoid direct confrontation in cartel-controlled zones. Expand into adjacent market segments first (commuter market, suburban routes). Build a safety infrastructure that gives drivers confidence to operate in contested areas.</p>
+</div>
+
+<div class="card blue">
+  <h4>Kenya & Uganda: Community Structure Co-Optation</h4>
+  <p><strong>The Crisis:</strong> Boda boda gangs (motorcycle taxi collectives) resisted app-based platforms that threatened their informal income.</p>
+  <p><strong>SafeBoda's Strategy:</strong> Hired local community members, partnered with existing boda boda stand leaders, and offered technology as a tool to increase earnings—not replace them. 80% year-on-year driver retention.</p>
+  <p><strong>Outcome:</strong> By working WITH the existing community structure rather than disrupting it, SafeBoda reduced violent resistance. Drivers saw the app as an earnings multiplier, not a threat.</p>
+  <p><strong>Lesson for WarenYan:</strong> Community engagement is essential. Field agents (like our PJ and team) should build relationships with stand leaders before aggressive expansion. Position WarenYan as complementary, not competitive.</p>
+</div>
+
+<div class="learning-box">
+  <strong>Cross-Case Meta-Lesson:</strong> <p>Violence emerges from economic threat. The platforms that succeeded did so by: (1) avoiding direct confrontation in cartel strongholds, (2) building community relationships, (3) demonstrating that drivers earn more (not less) with the platform, and (4) expanding into adjacent markets where cartel presence is weak. Brute force fails. Strategic patience works.</p>
+</div>
+
+<!-- SECTION 4: ENCIRCLEMENT STRATEGY -->
+<h2 id="sec-encirclement">Section 4: The Encirclement Strategy</h2>
+<h3>Don't Attack Strongholds First</h3>
+
+<p class="section-desc">The core strategic insight: secure the perimeter before entering the citadel. Build overwhelming density in safe territory first, then let organic expansion bring you into contested zones.</p>
+
+<h3>Phase 1: Secure the Perimeter (Months 1–3)</h3>
+
+<div class="card">
+  <h4>Objective</h4>
+  <p>Launch across ALL of core Colombo residential corridors simultaneously. Build massive driver density (1,000 drivers/day recruitment target) in LOW-risk zones.</p>
+  <p><strong>Zones:</strong> Dehiwala, Nugegoda, Maharagama, Kelaniya, Battaramulla, Colombo 6-7 (Residence districts).</p>
+  <p><strong>Why:</strong> Informal cartels have minimal presence in commuter-focused areas. Volume economics favor platforms. No territorial defense.</p>
+  <p><strong>Outcome:</strong> Create a "ring" of WarenYan drivers around, but not yet in, tourist hotspot pockets. Establish ourselves as the dominant app in core Colombo before attempting expansion.</p>
+</div>
+
+<h3>Phase 2: Economic Demonstration (Months 3–6)</h3>
+
+<div class="card">
+  <h4>Objective</h4>
+  <p>Publish transparent earnings data showing Colombo residential drivers earn more per hour than cartel drivers in tourist areas—despite lower per-ride pricing.</p>
+  <p><strong>Evidence:</strong> WarenYan is zero commission. <a class="term" href="#glossary-picme">PickMe</a> takes 15-20%. A driver doing 15 rides/day at LKR 300 average in residential areas earns LKR 4,500/day (minus zero commission = LKR 4,500 take-home). A cartel driver doing 5 rides/day at LKR 800 average in tourist areas earns LKR 4,000/day. Volume + consistency beats premium pricing.</p>
+  <p><strong>Tactic:</strong> Share anonymized driver earnings dashboards via WhatsApp, community town halls, and social media. Let the data speak.</p>
+  <p><strong>Outcome:</strong> Create FOMO among cartel-adjacent drivers who see residential drivers thriving. Individual drivers begin defecting voluntarily.</p>
+</div>
+
+<h3>Phase 3: Gradual Entry (Months 6–9)</h3>
+
+<div class="card">
+  <h4>Objective</h4>
+  <p>As individual drivers from cartel-adjacent areas join voluntarily, density naturally creeps into tourist-adjacent zones. Do NOT announce "we're launching in Galle Fort." Let organic expansion happen.</p>
+  <p><strong>Tactic:</strong> PJ and field agents build relationships with stand leaders in borderline zones (AMBER-classified areas). Approach: "We're not here to replace you. We're here to give you an extra app. Zero commission. Your earnings don't drop."</p>
+  <p><strong>Outcome:</strong> Community acceptance. Some stands become multi-app (traditional + PickMe + WarenYan). Cartel exclusivity erodes gradually.</p>
+</div>
+
+<h3>Phase 4: Tourist Zone Strategy (Months 9–12+)</h3>
+
+<div class="card">
+  <h4>Objective</h4>
+  <p>Enter CRITICAL risk zones (Ella, Galle Fort, Kandy) only when organic driver density is high and community relationships are established. Consider a "Tourist Zone Markup" where drivers in designated tourist areas can set fares 20-30% above standard rates (rider-visible, transparent).</p>
+  <p><strong>Rationale:</strong> This preserves the economic premium that cartel drivers currently capture BUT within a transparent, regulated, safe framework. The narrative: "Your earnings don't drop. They get more consistent. And you're protected by the app."</p>
+  <p><strong>Risk Assessment:</strong> Creates a two-tier pricing system that may anger non-tourist riders. Regulatory risk if <a class="term" href="#glossary-ntc">NTC</a> mandates fare controls. May face negative media attention.</p>
+  <p><strong>Recommendation:</strong> Research and model thoroughly. Do NOT implement at launch. Revisit in Months 6-9 when tourist zones become operationally relevant.</p>
+</div>
+
+<!-- SECTION 5: ECONOMIC COUNTERMEASURES -->
+<h2 id="sec-economics">Section 5: Economic Countermeasures</h2>
+<h3>The Core Thesis: Change Economics, Change Behavior</h3>
+
+<p>The mafia exists because of economics. Change the economics, and behavior changes. Violence decreases when the platform proves drivers earn more (or at least comparably) to traditional stands.</p>
+
+<h3>Proving Earnings Don't Drop</h3>
+
+<div class="card">
+  <h4>Driver Earnings Dashboard</h4>
+  <p>Build a real-time comparison tool: "WarenYan driver earned LKR X today. If they were on PickMe at the same fare volume, they'd have earned LKR Y (minus 15% commission). Your WarenYan advantage: LKR Z."</p>
+  <p>Share anonymized aggregate data publicly as marketing collateral. Transparency disarms suspicion. Proof overcomes ideology.</p>
+</div>
+
+<h3>Volume Economics vs. Premium Pricing</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Rides/Day</th>
+      <th>Avg Fare</th>
+      <th>Commission</th>
+      <th>Daily Take-Home</th>
+      <th>Monthly (22 days)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>WarenYan (Residential)</strong></td>
+      <td>15</td>
+      <td>LKR 300</td>
+      <td>0%</td>
+      <td>LKR 4,500</td>
+      <td>LKR 99,000</td>
+    </tr>
+    <tr>
+      <td><strong>PickMe (Residential)</strong></td>
+      <td>15</td>
+      <td>LKR 300</td>
+      <td>15%</td>
+      <td>LKR 3,825</td>
+      <td>LKR 84,150</td>
+    </tr>
+    <tr>
+      <td><strong>Traditional Stand (Tourist)</strong></td>
+      <td>5</td>
+      <td>LKR 800</td>
+      <td>N/A*</td>
+      <td>LKR 4,000</td>
+      <td>LKR 88,000</td>
+    </tr>
+    <tr>
+      <td colspan="5"><small>*Traditional stands incur informal "protection" costs and uncertain daily earnings.</small></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="learning-box">
+  <strong>The Argument:</strong> <p>WarenYan drivers in Colombo residential areas earn MORE than cartel drivers in tourist areas. Consistency matters. Safety matters. Zero commission matters. This is the message for wavering drivers.</p>
+</div>
+
+<h3>Tourist Zone Markup (Exploratory — Research Required)</h3>
+
+<div class="risk-box">
+  <strong>Concept Not Recommended at Launch:</strong> <p>Allow drivers in designated tourist zones (Galle Fort, Ella, etc.) to set fares 20-30% above standard rates. The markup goes directly to the driver (zero commission still applies). This preserves the premium that cartel drivers currently capture but within an app, with transparency, ratings, and safety.</p>
+</div>
+
+<p><strong>RISKS:</strong></p>
+<ul style="margin: 12px 0 16px 32px;">
+  <li>Creates two-tier pricing that may feel unfair to local riders paying standard fares</li>
+  <li>Regulatory risk if <a class="term" href="#glossary-ntc">NTC</a> mandates fare controls or deems pricing "discriminatory"</li>
+  <li>Could be seen as legitimizing the inflated tourist pricing the cartel charges</li>
+  <li>May attract negative media: "WarenYan charges tourists more"</li>
+</ul>
+
+<p><strong>RECOMMENDATION:</strong> Research and model rigorously using Months 4-6 data. Do NOT implement in Phase 1. Revisit in Phase 3 when cartel resistance becomes acute and we have operational evidence of whether it helps.</p>
+
+<!-- SECTION 6: AI & TECHNOLOGY COUNTERMEASURES -->
+<h2 id="sec-tech">Section 6: AI & Technology Countermeasures</h2>
+<h3>Digital Tools for Risk Management</h3>
+
+<div class="card">
+  <h4>Hotspot Avoidance AI</h4>
+  <p>Geofence known cartel hotspots. During early phases (Months 1-3), deprioritize ride matching in RED-classified zones. As driver density grows and community relationships strengthen (Phase 2-3), gradually expand geofence and increase ride matching in contested zones.</p>
+</div>
+
+<div class="card">
+  <h4>Incident Reporting System</h4>
+  <p>In-app "Report Harassment" button. GPS-tagged. Timestamped. Auto-escalates to PJ + legal team. Creates a paper trail for police and regulatory bodies. Discourages cartel intimidation (if drivers know incidents are documented and reported).</p>
+</div>
+
+<div class="card">
+  <h4>Driver Safety Alerts</h4>
+  <p>If a driver enters a known hotspot zone, push notification: "You're entering a high-risk area. Please be aware of your surroundings. Report any incidents immediately." Does not prevent the driver from accepting rides, but raises awareness.</p>
+</div>
+
+<div class="card">
+  <h4>Predictive Risk Mapping</h4>
+  <p>Use ride data + incident reports to build a heat map of risk zones. Update dynamically (weekly). Share with police if patterns emerge. Demonstrates to authorities that we're serious about safety and data-driven risk management.</p>
+</div>
+
+<div class="card">
+  <h4>Evidence Documentation & Dashcams</h4>
+  <p>Encourage drivers to use dashcams (future: in-app video recording triggered by SOS button). This creates evidence that can be used for legal action against cartel members. Video evidence is more compelling to prosecutors than driver testimony alone.</p>
+</div>
+
+<div class="card">
+  <h4>Anonymous Driver Network</h4>
+  <p>Secure WhatsApp group (encrypted) for drivers to share real-time intel on cartel activity in specific zones. Managed by PJ's team. "Driver spotted aggressive stand at Kandy railway station. Avoid rides to/from this location for 2 hours." Real-time situational awareness reduces risk.</p>
+</div>
+
+<!-- SECTION 7: SOCIETAL NARRATIVE STRATEGIES -->
+<h2 id="sec-narrative">Section 7: Societal Narrative Strategies</h2>
+<h3>Winning the Narrative Battle</h3>
+
+<p>Violence against drivers is politically costly if WarenYan controls the narrative. Our brand ambassadors, civil society relationships, and media strategy must neutralize cartel violence before it occurs or escalates.</p>
+
+<h3>Frame as Worker's Rights</h3>
+
+<div class="card">
+  <h4>The Message</h4>
+  <p>"Every tuk-tuk driver deserves to earn without paying a middleman—whether that's PickMe's 15% commission or a cartel boss taking an informal cut. WarenYan gives drivers the choice. Zero commission. That choice is under attack."</p>
+</div>
+
+<h3>Media Engagement & Crisis Response</h3>
+
+<p>When (not if) incidents occur, be prepared with rapid response:</p>
+<ul style="margin: 12px 0 16px 32px;">
+  <li>Pre-prepared press statements: "App-based drivers are being attacked for offering fair prices. This is anti-competitive violence, not labor protest."</li>
+  <li>Rapid driver interviews: Have affected drivers speak to media within 24 hours (with PJ + legal team support).</li>
+  <li>Police coordination: Ensure police issue public statements on investigations quickly.</li>
+</ul>
+
+<h3>Civil Society Allies</h3>
+
+<p>The <a class="term" href="#glossary-hrcsl">Human Rights Commission of Sri Lanka (HRCSL)</a> has already received complaints from PickMe drivers regarding cartel violence. We should proactively engage:</p>
+<ul style="margin: 12px 0 16px 32px;">
+  <li>Briefing meetings with HRCSL before launch (not after incidents)</li>
+  <li>Share incident data (anonymized) proactively</li>
+  <li>Position WarenYan as supporting HRCSL's worker protection mandate</li>
+</ul>
+
+<h3>Government Narrative</h3>
+
+<p>Position WarenYan as helping the government's regulatory goals:</p>
+<ul style="margin: 12px 0 16px 32px;">
+  <li>"WarenYan is complying with emerging <a class="term" href="#glossary-ntc">NTC</a> regulations before they're even gazetted. We want the same thing—safe, regulated, transparent transport."</li>
+  <li>Leverage Transport Department connections (Deputy Prasanna, etc.) to signal government support.</li>
+  <li>"Cartel violence is undermining Sri Lanka's safety reputation with international tourists."</li>
+</ul>
+
+<h3>Brand Ambassador Leverage</h3>
+
+<p>The 20-30 brand ambassadors (cricketers, civil society leaders, government liaisons) give WarenYan public legitimacy that makes cartel violence politically costly. If an ambassador's association with us results in driver violence, it reflects poorly on the cartel, not WarenYan. Use this strategically in messaging.</p>
+
+<h3>Driver Community & Solidarity</h3>
+
+<p>Build a driver community (not just users). Monthly town halls. Driver of the Month awards. Group insurance access. The cartel's power comes from community structure—we need our own. A strong internal community is more resistant to external intimidation.</p>
+
+<!-- SECTION 8: NTC REGULATION PRE-EMPTION -->
+<h2 id="sec-ntc">Section 8: NTC Regulation Pre-Emption</h2>
+<h3>The Regulatory Window</h3>
+
+<p>The <a class="term" href="#glossary-ntc">NTC</a> Amendment Act No. 8 of 2025 gives NTC authority to regulate three-wheelers for the first time in Sri Lankan history. Regulations are NOT YET GAZETTED. This is a critical window to shape the regulatory framework before it solidifies.</p>
+
+<h3>Pre-Compliance Strategy: Be More Compliant Than Required</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Requirement</th>
+      <th>Timeline</th>
+      <th>Competitive Advantage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Driver Verification</strong></td>
+      <td><a class="term" href="#glossary-nic">NIC</a> + license + photo + background check</td>
+      <td>M1-M2 (before launch)</td>
+      <td>PickMe scrambling. We have this ready.</td>
+    </tr>
+    <tr>
+      <td><strong>Legal Entity</strong></td>
+      <td>PVT LTD registration (platform operator)</td>
+      <td>M1</td>
+      <td>Formal structure. Other apps may not be registered.</td>
+    </tr>
+    <tr>
+      <td><strong>Terms of Service</strong></td>
+      <td>Clear legal positioning as "technology platform" (matching service, not transport provider)</td>
+      <td>M1</td>
+      <td>Reduces liability exposure. Signals regulatory sophistication.</td>
+    </tr>
+    <tr>
+      <td><strong>Data Protection</strong></td>
+      <td><a class="term" href="#glossary-pdpa">PDPA</a>-aligned + best practices</td>
+      <td>M1</td>
+      <td>GDPR-aligned infrastructure. World-class standards. Regulatory credibility.</td>
+    </tr>
+    <tr>
+      <td><strong>Ride Tracking & SOS</strong></td>
+      <td>GPS tracking + emergency button</td>
+      <td>M1 (built-in)</td>
+      <td>Safety infrastructure. Differentiated feature.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Regulatory Engagement: Proactive Influence</h3>
+
+<p>Share WarenYan's compliance framework with NTC before regulations are gazetted. Position us as a "model platform" that regulations should be designed around. Riz's existing government connections (Transport Department, Deputy Prasanna) are the channel.</p>
+
+<p><strong>Goal:</strong> Influence regulation to reward platforms that already comply (us) and penalize those that don't (competitors scrambling for compliance).</p>
+
+<!-- SECTION 9: INSURANCE STRATEGY -->
+<h2 id="sec-insurance">Section 9: Insurance Strategy</h2>
+<h3>Three-Wheeler Insurance Market in Sri Lanka</h3>
+
+<p>Three Sri Lankan insurers already offer comprehensive three-wheeler products. Understanding these options is critical for Phase 1 insurance integration.</p>
+
+<div class="card">
+  <h4>Sri Lanka Insurance — Motor Plus Tuk</h4>
+  <p><strong>Product:</strong> Comprehensive three-wheeler policy. <strong>Key Features:</strong> Free Personal Accident Cover (LKR 100,000), Claim settlement in 3 working hours, Towing up to LKR 5,000/year, Cashless settlement network.</p>
+  <p><strong>Advantage:</strong> Cost-effective. Fastest claim settlement. Good for mass-market driver base.</p>
+</div>
+
+<div class="card">
+  <h4>Ceylinco Insurance — VIP Three Wheel Cover</h4>
+  <p><strong>Product:</strong> Most comprehensive offering. <strong>Key Features:</strong> Hospitalization coverage LKR 2,000,000, 20 major illnesses (LKR 100,000 each), Vehicle replacement if condemned within 5 years, On-the-spot claim settlement.</p>
+  <p><strong>Advantage:</strong> Premium coverage. Appeals to drivers wanting maximum protection. Higher price point.</p>
+</div>
+
+<div class="card">
+  <h4>Fairfirst Insurance — Three Wheeler Insurance Sri Lanka</h4>
+  <p><strong>Product:</strong> Comprehensive three-wheeler coverage. <strong>Key Features:</strong> Third-party property damage up to LKR 5 million, 24/7 call center, Click2Claim virtual settlement in under 15 minutes, 100+ partner garages island-wide.</p>
+  <p><strong>Advantage:</strong> Fastest claims processing (digital-first). Best for tech-savvy drivers.</p>
+</div>
+
+<h3>WarenYan Insurance Strategy (Phased Approach)</h3>
+
+<div class="card blue">
+  <h4>Phase 0 (M1-M3): Baseline Verification</h4>
+  <p>Require drivers to have basic third-party insurance (already legally required for vehicles). Verify during onboarding. No platform cost. Establishes insurance as a baseline standard.</p>
+</div>
+
+<div class="card blue">
+  <h4>Phase 1 (M3-M6): Group Partnership</h4>
+  <p>Partner with one insurer (recommend Sri Lanka Insurance Motor Plus Tuk for cost-effectiveness, or Fairfirst for claims speed). Negotiate group rate for WarenYan-verified drivers. Platform facilitates enrollment, doesn't subsidize premiums.</p>
+</div>
+
+<div class="card blue">
+  <h4>Phase 2 (M6-M9): Ride-Level Micro-Insurance</h4>
+  <p>Pilot per-ride coverage: opt-in micro-insurance for LKR 10-20 per ride. Rider-paid or driver-paid. Partnership model—WarenYan collects premium, insurer covers claims. Tests market demand.</p>
+</div>
+
+<div class="card blue">
+  <h4>Phase 3 (M9-M12): Full Insurance Framework</h4>
+  <p>Comprehensive rider injury coverage + driver liability + vehicle damage. Becomes a competitive moat (PickMe doesn't offer platform-level insurance to tuk-tuk drivers). Differentiator in marketing.</p>
+</div>
+
+<!-- SECTION 10: OPERATIONAL PLAYBOOK -->
+<h2 id="sec-ops-plan">Section 10: Operational Playbook</h2>
+<h3>Step-by-Step Procedures by Phase</h3>
+
+<h3>Pre-Launch (Month 1)</h3>
+
+<div class="card">
+  <h4>Risk Mapping</h4>
+  <p>PJ + field agents conduct reconnaissance. Map all known hotspot zones in Colombo and surrounding areas. Classify: GREEN (safe), AMBER (borderline), RED (avoid).</p>
+  <h4>Incident Tracking Setup</h4>
+  <p>Establish WhatsApp group for real-time incident reporting. In-app reporting system live. Daily monitoring assigned to PJ.</p>
+  <h4>Police Liaison</h4>
+  <p>Formal letter to area OICs (Officers-in-Charge) in operational zones. Introduce WarenYan. Request cooperation on driver safety. Proactive relationship-building.</p>
+  <h4>Civil Society Engagement</h4>
+  <p>Briefing meeting with HRCSL. Share our approach. Position as proactive, not reactive.</p>
+  <h4>Driver Briefing</h4>
+  <p>All recruited drivers receive hotspot awareness training. Safety protocols. Escalation procedures.</p>
+</div>
+
+<h3>Launch Phase (M2-M3)</h3>
+
+<div class="card">
+  <h4>Green Zone Deployment</h4>
+  <p>Deploy drivers in GREEN-classified residential zones only. Monitor incident reports daily (PJ's responsibility).</p>
+  <h4>Incident Response Protocol</h4>
+  <p>If incidents occur: (1) Document immediately, (2) Report to police, (3) Report to HRCSL, (4) Issue public statement within 24 hours, (5) Support affected driver (legal, medical, financial if needed).</p>
+  <h4>No Direct Engagement</h4>
+  <p>Do NOT engage directly with cartel members or stands. All communication flows through PJ + formal channels.</p>
+  <h4>Weekly Safety Briefings</h4>
+  <p>All drivers attend weekly town hall on safety, incident trends, and countermeasures.</p>
+</div>
+
+<h3>Expansion Phase (M4-M9)</h3>
+
+<div class="card">
+  <h4>Gradual AMBER Zone Entry</h4>
+  <p>As driver density grows naturally, expand into AMBER zones. PJ meets stand leaders before expansion. Build relationships.</p>
+  <h4>Earnings Data Release</h4>
+  <p>Publish anonymized driver earnings comparisons (M4-M5). Share via WhatsApp, media, and social platforms. Narrative: "WarenYan drivers earn more."</p>
+  <h4>Community Engagement</h4>
+  <p>PJ + agents present WarenYan as complementary, not competitive. "Extra app. Zero commission. Your choice."</p>
+  <h4>Monthly Zone Review</h4>
+  <p>Every month, update GREEN/AMBER/RED classifications. Risk landscape shifts. Stay agile.</p>
+</div>
+
+<h3>Tourist Zone Entry (M9+)</h3>
+
+<div class="card">
+  <h4>Viability Assessment</h4>
+  <p>Before entering CRITICAL zones (Ella, Galle Fort, Kandy), assess: (1) Driver density, (2) Incident rate (low), (3) Community relationships (strong).</p>
+  <h4>Tourist Zone Markup Decision</h4>
+  <p>Based on M4-M9 research, decide whether to implement tourist zone fares. If yes, pilot in one zone first.</p>
+  <h4>Heavy Community Engagement</h4>
+  <p>Spend 2-4 weeks building relationships with stand leaders, local government, and community elders before launch.</p>
+  <h4>Brand Ambassador Presence</h4>
+  <p>Brand ambassadors visible in tourist zone launches (public events, media presence). Political protection via association.</p>
+</div>
+
+<!-- SECTION 11: RISK MATRIX -->
+<h2 id="sec-risk-matrix">Section 11: Risk Matrix</h2>
+<h3>Comprehensive Risk Assessment</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Risk</th>
+      <th>Probability</th>
+      <th>Impact</th>
+      <th>Countermeasure</th>
+      <th>Owner</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Violent attack on WarenYan driver at stand</strong></td>
+      <td><span class="tag tag-amber">HIGH (tourist areas) / LOW (residential)</span></td>
+      <td><span class="tag tag-red">CRITICAL</span></td>
+      <td>Encirclement strategy. Avoid RED zones Phase 1-2. SOS system. Police liaison. Rapid escalation.</td>
+      <td>PJ</td>
+    </tr>
+    <tr>
+      <td><strong>Cartel intimidates drivers into uninstalling app</strong></td>
+      <td><span class="tag tag-amber">MEDIUM</span></td>
+      <td><span class="tag tag-amber">HIGH</span></td>
+      <td>Multi-app positioning ("use PickMe + WarenYan simultaneously"). Community building. Earnings proof. Insurance protection.</td>
+      <td>PJ + Marketing</td>
+    </tr>
+    <tr>
+      <td><strong>Media narrative: "WarenYan endangers drivers"</strong></td>
+      <td><span class="tag tag-amber">MEDIUM</span></td>
+      <td><span class="tag tag-red">CRITICAL</span></td>
+      <td>Pre-prepared PR responses. HRCSL relationship. Brand ambassador shield. Compliance documentation. Rapid counter-messaging.</td>
+      <td>Riz + Marketing</td>
+    </tr>
+    <tr>
+      <td><strong>NTC regulation bans uninsured platforms</strong></td>
+      <td><span class="tag tag-amber">MEDIUM</span></td>
+      <td><span class="tag tag-red">CRITICAL</span></td>
+      <td>Insurance partnership (Phase 1). Driver verification pipeline. Proactive NTC engagement. Influence regulation early.</td>
+      <td>Riz + Legal</td>
+    </tr>
+    <tr>
+      <td><strong>Tourist zone markup creates PR backlash</strong></td>
+      <td><span class="tag tag-gray">LOW (if not implemented)</span></td>
+      <td><span class="tag tag-amber">MEDIUM</span></td>
+      <td>Don't implement at launch. Research thoroughly (M4-M6). If implemented, frame as "driver choice," not platform pricing. Run pilot first.</td>
+      <td>Marketing + Riz</td>
+    </tr>
+    <tr>
+      <td><strong>Cartel co-opts local government against us</strong></td>
+      <td><span class="tag tag-gray">LOW</span></td>
+      <td><span class="tag tag-amber">HIGH</span></td>
+      <td>Government liaison (Transport Dept, Deputy Prasanna, other connections). Brand ambassador network. Clean compliance record.</td>
+      <td>Riz</td>
+    </tr>
+    <tr>
+      <td><strong>Driver fleet splits (some join cartel behavior)</strong></td>
+      <td><span class="tag tag-amber">MEDIUM</span></td>
+      <td><span class="tag tag-amber">MEDIUM</span></td>
+      <td>Driver code of conduct. Deactivation for fraud/intimidation. Community standards. Earnings incentive for compliance (badges, rewards).</td>
+      <td>PJ + Product</td>
+    </tr>
+    <tr>
+      <td><strong>Insurance partner backs out under pressure</strong></td>
+      <td><span class="tag tag-gray">LOW</span></td>
+      <td><span class="tag tag-amber">MEDIUM</span></td>
+      <td>Maintain relationships with 3+ insurers (SLIC, Ceylinco, Fairfirst). Don't become dependent on single partner. Diversify.</td>
+      <td>Riz + Legal</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- SECTION 12: GLOSSARY -->
+<h2 id="sec-glossary">Section 12: Glossary</h2>
+
+<div class="glossary">
+  <dl>
+    <dt>NTC</dt>
+    <dd>National Transport Commission. Regulatory body for transport in Sri Lanka. Amendment Act No. 8 (2025) grants authority over three-wheelers.</dd>
+
+    <dt id="glossary-nic">NIC</dt>
+    <dd>National Identity Card. Sri Lankan government-issued identification. Required for driver verification.</dd>
+
+    <dt>LKR</dt>
+    <dd>Sri Lankan Rupee. Currency. Used throughout for financial metrics.</dd>
+
+    <dt id="glossary-hrcsl">HRCSL</dt>
+    <dd>Human Rights Commission of Sri Lanka. Has received complaints regarding cartel violence against ride-hailing drivers.</dd>
+
+    <dt id="glossary-pdpa">PDPA</dt>
+    <dd>Personal Data Protection Act. Sri Lankan data protection law. WarenYan aims for GDPR-aligned compliance.</dd>
+
+    <dt>GDPR</dt>
+    <dd>General Data Protection Regulation. European privacy standard. WarenYan targeting world-class compliance level.</dd>
+
+    <dt>SOS</dt>
+    <dd>Emergency alert button. In-app feature allowing drivers to trigger immediate incident reporting and police notification.</dd>
+
+    <dt>OIC</dt>
+    <dd>Officer-in-Charge. Local police station commander. Primary point of contact for area-level law enforcement coordination.</dd>
+
+    <dt>PJ</dt>
+    <dd>Operations/Community Manager. WarenYan's lead for field engagement, driver relations, and community partnerships.</dd>
+
+    <dt id="glossary-picme">PickMe</dt>
+    <dd>Leading ride-hailing platform in Sri Lanka. IFC-backed. Documented 30+ violent incidents against drivers (2025-2026).</dd>
+
+    <dt>UGC</dt>
+    <dd>User-Generated Content. Driver reviews, ratings, and incident reports within WarenYan ecosystem.</dd>
+
+    <dt>SLIC</dt>
+    <dd>Sri Lanka Insurance Corporation. Provider of Motor Plus Tuk three-wheeler insurance product.</dd>
+
+    <dt>PWA</dt>
+    <dd>Progressive Web App. Technology standard for WarenYan driver/rider apps. Offline-capable, installable.</dd>
+
+    <dt>Flutter</dt>
+    <dd>Cross-platform development framework. WarenYan's app technology choice (iOS, Android, Web from single codebase).</dd>
+  </dl>
+</div>
+
+<!-- SECTION 13: REFERENCES -->
+<h2 id="sec-references">Section 13: References</h2>
+
+<div class="ref-list">
+  <p>[1] EconomyNext. (2026). "PickMe writes to police chief on tuk-tuk mafia violence." PickMe driver safety data: 30+ documented incidents, 12-week period, 2025-2026.</p>
+
+  <p>[2] Rest of World. (2024). "South Africa's Shesha: How taxi unions co-opted e-hailing to reduce violence." Santaco + NTA partnership model.</p>
+
+  <p>[3] TechCrunch. (2019). "SafeBoda's community-first approach to motorcycle ride-hailing in Uganda and Nigeria." Driver retention rates and violence reduction analysis.</p>
+
+  <p>[4] Marketing Interactive. (2016). "Grab and Go-Jek strategies in Indonesian taxi resistance." GERCEP emergency response program case study.</p>
+
+  <p>[5] Sri Lanka Insurance Corporation Limited. "Motor Plus Tuk — Three Wheeler Comprehensive Policy." Product specification and claims settlement procedures.</p>
+
+  <p>[6] Ceylinco Insurance PLC. "VIP Three Wheel Cover — Premium Three Wheeler Insurance." Product features and claim settlement data.</p>
+
+  <p>[7] Fairfirst Insurance Limited. "Three Wheeler Insurance Sri Lanka." Digital claims processing and partner garage network documentation.</p>
+
+  <p>[8] Sri Lanka Parliament. (2025). "National Transport Commission Amendment Act No. 8 of 2025." Regulatory framework for three-wheeler licensing and operation.</p>
+
+  <p>[9] VOA News. (2018). "Uganda's boda boda motorcycle taxi drivers resist safety regulations." Community structure and collective action analysis.</p>
+
+  <p>[10] Wikipedia. "Boda boda — Community structures, cooperative economics, and informal transportation networks in East Africa."</p>
+
+  <p>[11] Human Rights Watch. (2019). "South Africa's Taxi Wars: Violence, Murder, and Systemic Impunity in the Competing Transport Industry." Statistical analysis of deaths and incidents, 2015-2019.</p>
+
+  <p>[12] EconomyNext. (2026). "Regulating tuk-tuks is tougher than you think: The NTC's three-wheeler challenge." Policy analysis on emerging Sri Lankan regulation.</p>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>WarenYan</strong> — Tuk-Tuk Mafia Risk Dossier v1.0 | Internal | 10 March 2026<br>
+  Antigravity / DGTL | riz@dgtl.lk
+</div>
+
+</body>
+</html>

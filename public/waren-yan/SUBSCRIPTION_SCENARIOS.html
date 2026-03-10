@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WarenYan — Subscription Pricing Scenarios Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --deep: #1B4332;
+    --primary: #2D6A4F;
+    --light: #40916C;
+    --mint: #B7E4C7;
+    --cream: #F8FAF5;
+    --white: #FFFFFF;
+    --dark: #1a1a1a;
+    --gray: #6B7280;
+    --light-gray: #E5E7EB;
+    --red: #DC2626;
+    --amber: #F59E0B;
+    --blue: #2563EB;
+    --gold: #D97706;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  .header {
+    background: linear-gradient(160deg, #0D2818 0%, var(--deep) 40%, var(--primary) 100%);
+    color: white;
+    padding: 32px 40px;
+  }
+  .header h1 { font-size: 28px; font-weight: 900; }
+  .header p { font-size: 14px; opacity: 0.7; margin-top: 4px; }
+
+  .dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .dashboard { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .panel h3 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--mint);
+  }
+
+  .control-group {
+    margin-bottom: 20px;
+  }
+  .control-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+  .control-group .sublabel {
+    font-size: 11px;
+    color: var(--gray);
+    margin-bottom: 8px;
+  }
+  .control-group input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--light-gray);
+    outline: none;
+  }
+  .control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .control-value {
+    display: inline-block;
+    background: var(--deep);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-left: 8px;
+  }
+
+  .results-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .metric-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 900px) {
+    .metric-row { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    text-align: center;
+    border-top: 3px solid var(--primary);
+  }
+  .metric-card.red { border-top-color: var(--red); }
+  .metric-card.amber { border-top-color: var(--amber); }
+  .metric-card.gold { border-top-color: var(--gold); }
+  .metric-card .label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+    margin-bottom: 4px;
+  }
+  .metric-card .value {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--deep);
+  }
+  .metric-card .sub {
+    font-size: 11px;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+
+  .chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    position: relative;
+  }
+  .chart-container h3 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--gray);
+    margin-bottom: 16px;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: 280px !important;
+  }
+
+  .theory-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border-left: 4px solid var(--primary);
+    margin-top: 8px;
+  }
+  .theory-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 6px;
+  }
+  .theory-card p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+  }
+  .theory-card.warning { border-left-color: var(--red); background: #FEF2F2; }
+  .theory-card.optimal { border-left-color: var(--light); background: #E8F5E9; }
+
+  .optimum-indicator {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .optimum-indicator.good { background: #D1FAE5; color: #065F46; }
+  .optimum-indicator.caution { background: #FEF3C7; color: #92400E; }
+  .optimum-indicator.danger { background: #FEE2E2; color: #991B1B; }
+
+  .divider {
+    height: 1px;
+    background: var(--light-gray);
+    margin: 16px 0;
+  }
+
+  .scenario-presets {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .preset-btn {
+    padding: 6px 14px;
+    border: 2px solid var(--light-gray);
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: white;
+    color: var(--dark);
+    transition: all 0.15s;
+  }
+  .preset-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  .preset-btn.active {
+    background: var(--deep);
+    color: white;
+    border-color: var(--deep);
+  }
+
+  .footer-bar {
+    text-align: center;
+    padding: 24px;
+    font-size: 11px;
+    color: var(--gray);
+    border-top: 1px solid var(--light-gray);
+    margin-top: 24px;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Subscription Pricing Scenarios</h1>
+  <p>Interactive dashboard — adjust parameters to find the optimum pricing sweet spot | WarenYan Antigravity Build</p>
+</div>
+
+<div class="dashboard">
+
+  <!-- LEFT PANEL: CONTROLS -->
+  <div>
+    <div class="panel">
+      <h3>Scenario Presets</h3>
+      <div class="scenario-presets">
+        <button class="preset-btn active" onclick="loadPreset('conservative')">Conservative</button>
+        <button class="preset-btn" onclick="loadPreset('balanced')">Balanced</button>
+        <button class="preset-btn" onclick="loadPreset('aggressive')">Aggressive</button>
+        <button class="preset-btn" onclick="loadPreset('crisis')">Economic Crisis</button>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top: 16px;">
+      <h3>Market Parameters</h3>
+
+      <div class="control-group">
+        <label>Active Drivers <span class="control-value" id="val-drivers">2000</span></label>
+        <div class="sublabel">Total drivers on platform</div>
+        <input type="range" id="slider-drivers" min="200" max="20000" step="100" value="2000" oninput="update()">
+      </div>
+
+      <div class="control-group">
+        <label>Avg. Monthly Income (LKR) <span class="control-value" id="val-income">50000</span></label>
+        <div class="sublabel">Driver average monthly earnings</div>
+        <input type="range" id="slider-income" min="25000" max="100000" step="1000" value="50000" oninput="update()">
+      </div>
+
+      <div class="control-group">
+        <label>Exchange Rate (LKR/USD) <span class="control-value" id="val-fx">320</span></label>
+        <div class="sublabel">For USD conversion (standard: 320)</div>
+        <input type="range" id="slider-fx" min="250" max="500" step="10" value="320" oninput="update()">
+      </div>
+
+      <div class="control-group" style="background: #FEF2F2; padding: 12px; border-radius: 8px; border-left: 3px solid var(--red);">
+        <label>Subscription Price Floor (LKR/mo) <span class="control-value" id="val-price-floor" style="background: var(--red);">0</span></label>
+        <div class="sublabel">Minimum chargeable amount = per-journey costs (Maps API + server + infra) × avg rides + buffer + profit margin. 0 = auto-calculate from ops cost.</div>
+        <input type="range" id="slider-price-floor" min="0" max="5000" step="50" value="0" oninput="update()">
+        <div id="price-floor-breakdown" style="font-size:11px; color:var(--gray); margin-top:8px; display:none;"></div>
+      </div>
+
+      <div class="divider"></div>
+      <h3>Subscription Tiers</h3>
+      <p style="font-size:11px; color:var(--gray); margin:-12px 0 12px;">Entry → Growth → Premium. Set price per tier and overall paid conversion. Distribution controls how adopters split across tiers.</p>
+
+      <div class="control-group">
+        <label>Total Paid Conversion <span class="control-value" id="val-total-conv">20%</span></label>
+        <div class="sublabel">% of all drivers who pay for ANY tier</div>
+        <input type="range" id="slider-total-conv" min="2" max="50" step="1" value="20" oninput="update()">
+      </div>
+
+      <div style="background:#f0fdf4; border-radius:8px; padding:12px; margin-bottom:16px; border-left:3px solid var(--primary);">
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--primary); margin-bottom:8px;">Tier 1 — Entry</div>
+        <div class="control-group" style="margin-bottom:8px;">
+          <label>Entry Price (LKR/mo) <span class="control-value" id="val-t1-price">299</span></label>
+          <input type="range" id="slider-t1-price" min="49" max="990" step="1" value="299" oninput="update()">
+        </div>
+        <div class="control-group" style="margin-bottom:8px;">
+          <label>Entry Earning Boost (LKR/mo) <span class="control-value" id="val-t1-boost">3000</span></label>
+          <input type="range" id="slider-t1-boost" min="500" max="10000" step="500" value="3000" oninput="update()">
+        </div>
+      </div>
+
+      <div style="background:#f0f9ff; border-radius:8px; padding:12px; margin-bottom:16px; border-left:3px solid var(--blue);">
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--blue); margin-bottom:8px;">Tier 2 — Growth</div>
+        <div class="control-group" style="margin-bottom:8px;">
+          <label>Growth Price (LKR/mo) <span class="control-value" id="val-t2-price">990</span></label>
+          <input type="range" id="slider-t2-price" min="299" max="3000" step="1" value="990" oninput="update()">
+        </div>
+        <div class="control-group" style="margin-bottom:8px;">
+          <label>Growth Earning Boost (LKR/mo) <span class="control-value" id="val-t2-boost">8000</span></label>
+          <input type="range" id="slider-t2-boost" min="1000" max="25000" step="500" value="8000" oninput="update()">
+        </div>
+      </div>
+
+      <div style="background:#fdf4ff; border-radius:8px; padding:12px; margin-bottom:16px; border-left:3px solid #9333EA;">
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#9333EA; margin-bottom:8px;">Tier 3 — Premium</div>
+        <div class="control-group" style="margin-bottom:8px;">
+          <label>Premium Price (LKR/mo) <span class="control-value" id="val-t3-price">2500</span></label>
+          <input type="range" id="slider-t3-price" min="1500" max="7000" step="1" value="2500" oninput="update()">
+        </div>
+        <div class="control-group" style="margin-bottom:8px;">
+          <label>Premium Earning Boost (LKR/mo) <span class="control-value" id="val-t3-boost">20000</span></label>
+          <input type="range" id="slider-t3-boost" min="3000" max="50000" step="1000" value="20000" oninput="update()">
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <h3>Adoption Distribution</h3>
+      <p style="font-size:11px; color:var(--gray); margin:-12px 0 12px;">How paid subscribers split across tiers (must sum to 100%)</p>
+
+      <div class="control-group">
+        <label>Entry Tier Share <span class="control-value" id="val-dist-t1">60%</span></label>
+        <div class="sublabel">Typically largest — low barrier drives mass adoption</div>
+        <input type="range" id="slider-dist-t1" min="10" max="90" step="1" value="60" oninput="balanceDist('t1')">
+      </div>
+      <div class="control-group">
+        <label>Growth Tier Share <span class="control-value" id="val-dist-t2">30%</span></label>
+        <div class="sublabel">Mid-tier — best revenue driver</div>
+        <input type="range" id="slider-dist-t2" min="5" max="70" step="1" value="30" oninput="balanceDist('t2')">
+      </div>
+      <div class="control-group">
+        <label>Premium Tier Share <span class="control-value" id="val-dist-t3">10%</span></label>
+        <div class="sublabel">Aspirational — highest ARPU, lowest volume</div>
+        <input type="range" id="slider-dist-t3" min="2" max="40" step="1" value="10" oninput="balanceDist('t3')">
+      </div>
+      <div id="dist-bar" style="height:12px; border-radius:6px; overflow:hidden; display:flex; margin-top:4px;">
+        <div id="dist-bar-t1" style="background:#2D6A4F; width:60%; transition:width 0.2s;"></div>
+        <div id="dist-bar-t2" style="background:#2563EB; width:30%; transition:width 0.2s;"></div>
+        <div id="dist-bar-t3" style="background:#9333EA; width:10%; transition:width 0.2s;"></div>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--gray); margin-top:4px;">
+        <span>Entry</span><span>Growth</span><span>Premium</span>
+      </div>
+
+      <div class="divider"></div>
+      <h3>Operational Costs</h3>
+
+      <div class="control-group">
+        <label>Monthly Ops Cost (USD) <span class="control-value" id="val-ops">5500</span></label>
+        <div class="sublabel">Full operational cost (tech + support + CRM + CS)</div>
+        <input type="range" id="slider-ops" min="1000" max="15000" step="100" value="5500" oninput="update()">
+      </div>
+
+      <div class="control-group">
+        <label>Monthly Churn Rate <span class="control-value" id="val-churn">8%</span></label>
+        <div class="sublabel">% of paid subscribers cancelling/month</div>
+        <input type="range" id="slider-churn" min="1" max="25" step="1" value="8" oninput="update()">
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL: RESULTS -->
+  <div class="results-grid">
+
+    <!-- KEY METRICS -->
+    <div class="metric-row">
+      <div class="metric-card">
+        <div class="label">Monthly Revenue</div>
+        <div class="value" id="metric-revenue">—</div>
+        <div class="sub" id="metric-revenue-usd">—</div>
+      </div>
+      <div class="metric-card">
+        <div class="label">Cost Coverage</div>
+        <div class="value" id="metric-coverage">—</div>
+        <div class="sub">of monthly ops</div>
+      </div>
+      <div class="metric-card gold">
+        <div class="label">ARPU</div>
+        <div class="value" id="metric-arpu">—</div>
+        <div class="sub">per active driver</div>
+      </div>
+      <div class="metric-card" id="metric-profit-card">
+        <div class="label">Monthly P&L</div>
+        <div class="value" id="metric-pnl">—</div>
+        <div class="sub" id="metric-pnl-sub">revenue minus ops</div>
+      </div>
+    </div>
+
+    <!-- TIER DISTRIBUTION & ROI -->
+    <div class="panel" style="border-top: 3px solid var(--primary);">
+      <h3>Tier Breakdown — Subscribers, Revenue & ROI</h3>
+      <div id="tier-breakdown-cards" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;"></div>
+      <div id="tier-dist-insight" style="margin-top:12px;"></div>
+    </div>
+
+    <!-- REVENUE CHART -->
+    <div class="chart-container">
+      <h3>Revenue Composition & Break-Even Line</h3>
+      <canvas id="revenueChart"></canvas>
+    </div>
+
+    <!-- DEMAND CURVE -->
+    <div class="chart-container">
+      <h3>Price-Demand Curve (Growth Tier) — Optimum Revenue Spot</h3>
+      <canvas id="demandChart"></canvas>
+    </div>
+
+    <!-- PSYCHOLOGY & THEORY CARDS -->
+    <div class="panel">
+      <h3>Economic Theory & Pricing Psychology Analysis</h3>
+      <div id="theory-cards"></div>
+    </div>
+
+    <!-- SUBSCRIBER PROJECTIONS -->
+    <div class="chart-container">
+      <h3>12-Month Subscriber & Revenue Projection</h3>
+      <canvas id="projectionChart"></canvas>
+    </div>
+
+    <!-- BASE SUBSCRIPTION SCENARIOS -->
+    <div class="panel" style="border-top: 4px solid var(--red);">
+      <h3>Base Subscription Scenarios — Minimum Viable Pricing</h3>
+      <p style="font-size: 13px; color: var(--gray); margin-bottom: 16px;">
+        What is the <strong>absolute minimum subscription price</strong> that covers operational costs? This table works backwards from ops cost to find the floor price at different driver counts and conversion rates — then adds a 25% buffer for safety.
+      </p>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; font-size:12px; border-collapse:collapse;" id="base-scenarios-table">
+        </table>
+      </div>
+      <div id="base-scenario-insight" style="margin-top: 16px;"></div>
+    </div>
+
+    <!-- ABSORPTION ANALYSIS -->
+    <div class="panel" style="border-top: 4px solid var(--amber);">
+      <h3>Absorption Capacity — What Can We Absorb Before Break-Even?</h3>
+      <p style="font-size: 13px; color: var(--gray); margin-bottom: 16px;">
+        During early growth (months 1-12), subscription revenue won't cover ops. This table shows the <strong>monthly deficit</strong> the company must absorb from investment capital at different growth stages — and when self-sustainability kicks in.
+      </p>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; font-size:12px; border-collapse:collapse;" id="absorption-table">
+        </table>
+      </div>
+      <div id="absorption-insight" style="margin-top: 16px;"></div>
+    </div>
+
+    <!-- PICKME BLEEDING SCENARIOS -->
+    <div class="panel" style="border-top: 4px solid var(--red);">
+      <h3>PickMe Bleeding & Critical Mass — When Does WarenYan Become Operationally Unviable for PickMe?</h3>
+      <p style="font-size: 13px; color: var(--gray); margin-bottom: 16px;">
+        PickMe earns 15-20% commission on every ride. Every driver who multi-apps to WarenYan shifts rides off PickMe. This table models <strong>PickMe's monthly revenue loss</strong> as WarenYan's driver base grows — and identifies the <strong>critical mass point</strong> where PickMe's response options become economically unviable.
+      </p>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; font-size:12px; border-collapse:collapse;" id="pickme-bleed-table">
+        </table>
+      </div>
+      <div id="pickme-bleed-insight" style="margin-top: 16px;"></div>
+    </div>
+
+    <!-- PICKME RESPONSE COST CHART -->
+    <div class="chart-container" style="border-top: 4px solid var(--red);">
+      <h3>PickMe Response Cost vs. WarenYan Driver Count</h3>
+      <canvas id="pickmeChart"></canvas>
+    </div>
+
+    <!-- PRICE FLOOR VISUALISATION -->
+    <div class="chart-container" style="border-top: 4px solid var(--deep);">
+      <h3>Minimum Price Floor vs. Driver Count (Break-Even Line)</h3>
+      <canvas id="priceFloorChart"></canvas>
+    </div>
+
+    <!-- LTV AND UNIT ECONOMICS -->
+    <div class="two-col">
+      <div class="panel">
+        <h3>Unit Economics</h3>
+        <table style="width:100%; font-size:13px; border-collapse:collapse;">
+          <tbody id="unit-economics-table"></tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <h3>Sensitivity Analysis</h3>
+        <table style="width:100%; font-size:13px; border-collapse:collapse;">
+          <tbody id="sensitivity-table"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer-bar">
+  <strong>WarenYan</strong> — Subscription Pricing Scenarios Dashboard v2.0 | Internal | 10 March 2026 | Antigravity / DGTL | riz@dgtl.lk
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ===== GLOBAL STATE =====
+let revenueChart, demandChart, projectionChart, priceFloorChart, pickmeChart;
+
+const presets = {
+  conservative: { drivers: 2000, income: 50000, fx: 320, priceFloor: 0, totalConv: 15, t1Price: 199, t1Boost: 2000, t2Price: 790, t2Boost: 6000, t3Price: 2000, t3Boost: 15000, distT1: 65, distT2: 25, distT3: 10, ops: 5500, churn: 10 },
+  balanced:     { drivers: 5000, income: 55000, fx: 320, priceFloor: 299, totalConv: 22, t1Price: 299, t1Boost: 3000, t2Price: 990, t2Boost: 8000, t3Price: 2500, t3Boost: 20000, distT1: 60, distT2: 30, distT3: 10, ops: 5500, churn: 8 },
+  aggressive:   { drivers: 10000, income: 60000, fx: 320, priceFloor: 499, totalConv: 28, t1Price: 499, t1Boost: 4000, t2Price: 1500, t2Boost: 10000, t3Price: 3500, t3Boost: 25000, distT1: 55, distT2: 30, distT3: 15, ops: 7000, churn: 6 },
+  crisis:       { drivers: 3000, income: 35000, fx: 400, priceFloor: 0, totalConv: 10, t1Price: 99, t1Boost: 1500, t2Price: 490, t2Boost: 4000, t3Price: 1200, t3Boost: 10000, distT1: 70, distT2: 22, distT3: 8, ops: 4000, churn: 15 }
+};
+
+function loadPreset(name) {
+  const p = presets[name];
+  const fields = {
+    'slider-drivers': p.drivers, 'slider-income': p.income, 'slider-fx': p.fx,
+    'slider-price-floor': p.priceFloor, 'slider-total-conv': p.totalConv,
+    'slider-t1-price': p.t1Price, 'slider-t1-boost': p.t1Boost,
+    'slider-t2-price': p.t2Price, 'slider-t2-boost': p.t2Boost,
+    'slider-t3-price': p.t3Price, 'slider-t3-boost': p.t3Boost,
+    'slider-dist-t1': p.distT1, 'slider-dist-t2': p.distT2, 'slider-dist-t3': p.distT3,
+    'slider-ops': p.ops, 'slider-churn': p.churn
+  };
+  Object.keys(fields).forEach(id => document.getElementById(id).value = fields[id]);
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  update();
+}
+
+// Balance distribution so it always sums to 100%
+function balanceDist(changed) {
+  let t1 = +document.getElementById('slider-dist-t1').value;
+  let t2 = +document.getElementById('slider-dist-t2').value;
+  let t3 = +document.getElementById('slider-dist-t3').value;
+  const total = t1 + t2 + t3;
+  if (total !== 100) {
+    const diff = total - 100;
+    // Redistribute proportionally to the other two
+    if (changed === 't1') { t2 = Math.max(2, Math.round(t2 - diff * t2 / (t2+t3))); t3 = 100 - t1 - t2; }
+    else if (changed === 't2') { t1 = Math.max(10, Math.round(t1 - diff * t1 / (t1+t3))); t3 = 100 - t1 - t2; }
+    else { t1 = Math.max(10, Math.round(t1 - diff * t1 / (t1+t2))); t2 = 100 - t1 - t3; }
+    t3 = Math.max(2, t3); t2 = Math.max(2, t2); t1 = Math.max(10, t1);
+    // Final correction
+    const s = t1 + t2 + t3;
+    if (s !== 100) t1 += (100 - s);
+    document.getElementById('slider-dist-t1').value = t1;
+    document.getElementById('slider-dist-t2').value = t2;
+    document.getElementById('slider-dist-t3').value = t3;
+  }
+  update();
+}
+
+function getValues() {
+  const t1d = +document.getElementById('slider-dist-t1').value;
+  const t2d = +document.getElementById('slider-dist-t2').value;
+  const t3d = +document.getElementById('slider-dist-t3').value;
+  const totalConv = +document.getElementById('slider-total-conv').value / 100;
+  return {
+    drivers: +document.getElementById('slider-drivers').value,
+    income: +document.getElementById('slider-income').value,
+    fx: +document.getElementById('slider-fx').value,
+    priceFloor: +document.getElementById('slider-price-floor').value,
+    totalConv: totalConv,
+    t1Price: +document.getElementById('slider-t1-price').value,
+    t1Boost: +document.getElementById('slider-t1-boost').value,
+    t2Price: +document.getElementById('slider-t2-price').value,
+    t2Boost: +document.getElementById('slider-t2-boost').value,
+    t3Price: +document.getElementById('slider-t3-price').value,
+    t3Boost: +document.getElementById('slider-t3-boost').value,
+    distT1: t1d / 100, distT2: t2d / 100, distT3: t3d / 100,
+    ops: +document.getElementById('slider-ops').value,
+    churn: +document.getElementById('slider-churn').value / 100,
+    // Backward-compat aliases used by downstream functions
+    get proPrice() { return this.t2Price; },
+    get proConv() { return this.totalConv * this.distT2; },
+    get proBoost() { return this.t2Boost; },
+    get elitePrice() { return this.t3Price; },
+    get eliteConv() { return this.totalConv * this.distT3; },
+    get eliteBoost() { return this.t3Boost; },
+  };
+}
+
+function fmt(n) { return n.toLocaleString('en-US'); }
+function fmtK(n) { return n >= 1000000 ? (n/1000000).toFixed(1) + 'M' : n >= 1000 ? (n/1000).toFixed(1) + 'K' : n.toFixed(0); }
+
+// ===== DEMAND CURVE MODEL =====
+// Uses a logistic price-response function: conversion = maxConv / (1 + e^(k*(price - midpoint)))
+// This models the economic reality that conversion drops as price rises, with a sigmoid shape
+function demandModel(price, income, maxConv) {
+  // Price sensitivity increases as price/income ratio grows
+  const ratio = price / income;
+  // Midpoint: 2.5% of income is the inflection point (Van Westendorp sweet spot)
+  const midpoint = income * 0.025;
+  // Steepness: how fast conversion drops — steeper in lower-income markets
+  const k = 5 / midpoint;
+  const conv = maxConv / (1 + Math.exp(k * (price - midpoint)));
+  return Math.max(0.005, conv); // floor at 0.5%
+}
+
+// ===== UPDATE EVERYTHING =====
+function update() {
+  const v = getValues();
+
+  // Update display values — market params
+  document.getElementById('val-drivers').textContent = fmt(v.drivers);
+  document.getElementById('val-income').textContent = 'LKR ' + fmt(v.income);
+  document.getElementById('val-fx').textContent = v.fx;
+  document.getElementById('val-price-floor').textContent = v.priceFloor === 0 ? 'Auto' : 'LKR ' + fmt(v.priceFloor);
+  // Show per-journey cost breakdown when floor is set
+  const floorBreakdownEl = document.getElementById('price-floor-breakdown');
+  if (v.priceFloor > 0) {
+    const mapsApiPerRide = 0.007;
+    const avgRidesPerDriver = 120;
+    const mapsCostUSD = mapsApiPerRide * avgRidesPerDriver;
+    const serverPerDriver = 0.50;
+    const smsOtp = 0.15;
+    const paymentGateway = 0.10;
+    const totalCostUSD = mapsCostUSD + serverPerDriver + smsOtp + paymentGateway;
+    const totalCostLKR = totalCostUSD * v.fx;
+    const bufferedLKR = totalCostLKR * 1.25 * 1.15;
+    floorBreakdownEl.style.display = 'block';
+    floorBreakdownEl.innerHTML = `<strong>Per-driver cost basis:</strong> Maps $${mapsCostUSD.toFixed(2)} + Server $${serverPerDriver.toFixed(2)} + SMS $${smsOtp.toFixed(2)} + Pay $${paymentGateway.toFixed(2)} = <strong>$${totalCostUSD.toFixed(2)}/mo</strong> (LKR ${fmt(Math.round(totalCostLKR))}) → +25% buffer +15% margin = <strong>LKR ${fmt(Math.round(bufferedLKR))}</strong>${v.priceFloor < bufferedLKR ? ' <span style="color:var(--red); font-weight:700;">⚠ BELOW COST</span>' : ' <span style="color:#065F46; font-weight:700;">✓ OK</span>'}`;
+  } else {
+    floorBreakdownEl.style.display = 'none';
+  }
+
+  // Update display values — tier params
+  document.getElementById('val-total-conv').textContent = (v.totalConv * 100).toFixed(0) + '%';
+  document.getElementById('val-t1-price').textContent = 'LKR ' + fmt(v.t1Price);
+  document.getElementById('val-t1-boost').textContent = 'LKR ' + fmt(v.t1Boost);
+  document.getElementById('val-t2-price').textContent = 'LKR ' + fmt(v.t2Price);
+  document.getElementById('val-t2-boost').textContent = 'LKR ' + fmt(v.t2Boost);
+  document.getElementById('val-t3-price').textContent = 'LKR ' + fmt(v.t3Price);
+  document.getElementById('val-t3-boost').textContent = 'LKR ' + fmt(v.t3Boost);
+  document.getElementById('val-dist-t1').textContent = (v.distT1 * 100).toFixed(0) + '%';
+  document.getElementById('val-dist-t2').textContent = (v.distT2 * 100).toFixed(0) + '%';
+  document.getElementById('val-dist-t3').textContent = (v.distT3 * 100).toFixed(0) + '%';
+  // Distribution bar
+  document.getElementById('dist-bar-t1').style.width = (v.distT1 * 100) + '%';
+  document.getElementById('dist-bar-t2').style.width = (v.distT2 * 100) + '%';
+  document.getElementById('dist-bar-t3').style.width = (v.distT3 * 100) + '%';
+  document.getElementById('val-ops').textContent = '$' + fmt(v.ops);
+  document.getElementById('val-churn').textContent = (v.churn*100).toFixed(0) + '%';
+
+  // Core 3-tier calculations
+  const totalPaid = Math.round(v.drivers * v.totalConv);
+  const t1Subs = Math.round(totalPaid * v.distT1);
+  const t2Subs = Math.round(totalPaid * v.distT2);
+  const t3Subs = Math.round(totalPaid * v.distT3);
+  const t1Rev = t1Subs * v.t1Price;
+  const t2Rev = t2Subs * v.t2Price;
+  const t3Rev = t3Subs * v.t3Price;
+  const totalRevenue = t1Rev + t2Rev + t3Rev;
+  const totalRevenueUSD = totalRevenue / v.fx;
+  const opsLKR = v.ops * v.fx;
+  const coverage = v.ops > 0 ? (totalRevenueUSD / v.ops) * 100 : 0;
+  const arpu = v.drivers > 0 ? totalRevenue / v.drivers : 0;
+  const pnl = totalRevenueUSD - v.ops;
+
+  // Weighted average price (for downstream)
+  const wavgPrice = totalPaid > 0 ? totalRevenue / totalPaid : 0;
+
+  // ROI per tier
+  const t1ROI = v.t1Price > 0 ? v.t1Boost / v.t1Price : 0;
+  const t2ROI = v.t2Price > 0 ? v.t2Boost / v.t2Price : 0;
+  const t3ROI = v.t3Price > 0 ? v.t3Boost / v.t3Price : 0;
+  const t1Pct = (v.t1Price / v.income) * 100;
+  const t2Pct = (v.t2Price / v.income) * 100;
+  const t3Pct = (v.t3Price / v.income) * 100;
+
+  // Update top metrics
+  document.getElementById('metric-revenue').textContent = 'LKR ' + fmtK(totalRevenue);
+  document.getElementById('metric-revenue-usd').textContent = '~$' + fmt(Math.round(totalRevenueUSD)) + '/month';
+  document.getElementById('metric-coverage').textContent = coverage.toFixed(0) + '%';
+  document.getElementById('metric-arpu').textContent = 'LKR ' + fmt(Math.round(arpu));
+  document.getElementById('metric-pnl').textContent = (pnl >= 0 ? '+' : '') + '$' + fmt(Math.round(pnl));
+  document.getElementById('metric-pnl').style.color = pnl >= 0 ? '#065F46' : '#991B1B';
+  document.getElementById('metric-profit-card').style.borderTopColor = pnl >= 0 ? '#2D6A4F' : '#DC2626';
+  document.getElementById('metric-pnl-sub').textContent = pnl >= 0 ? 'surplus' : 'deficit';
+
+  // Tier breakdown cards
+  const tiers = [
+    {name:'Entry', subs:t1Subs, rev:t1Rev, roi:t1ROI, pct:t1Pct, color:'#2D6A4F', price:v.t1Price},
+    {name:'Growth', subs:t2Subs, rev:t2Rev, roi:t2ROI, pct:t2Pct, color:'#2563EB', price:v.t2Price},
+    {name:'Premium', subs:t3Subs, rev:t3Rev, roi:t3ROI, pct:t3Pct, color:'#9333EA', price:v.t3Price}
+  ];
+  document.getElementById('tier-breakdown-cards').innerHTML = tiers.map(t => {
+    const roiClass = t.roi >= 5 ? 'good' : t.roi >= 3 ? 'caution' : 'danger';
+    const pctClass = t.pct <= 2.5 ? 'good' : t.pct <= 5 ? 'caution' : 'danger';
+    return `<div style="background:white; border-radius:10px; padding:14px; border-top:3px solid ${t.color}; text-align:center;">
+      <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:${t.color};">${t.name}</div>
+      <div style="font-size:10px; color:var(--gray); margin:2px 0 6px;">LKR ${fmt(t.price)}/mo</div>
+      <div style="font-size:22px; font-weight:900; color:var(--deep);">${fmt(t.subs)}</div>
+      <div style="font-size:10px; color:var(--gray);">subscribers</div>
+      <div style="font-size:14px; font-weight:700; color:var(--deep); margin-top:8px;">LKR ${fmtK(t.rev)}</div>
+      <div style="font-size:10px; color:var(--gray);">revenue/mo</div>
+      <div style="display:flex; justify-content:space-around; margin-top:8px; font-size:10px;">
+        <span><span class="optimum-indicator ${roiClass}" style="padding:2px 6px; font-size:10px;">${t.roi.toFixed(1)}x ROI</span></span>
+        <span><span class="optimum-indicator ${pctClass}" style="padding:2px 6px; font-size:10px;">${t.pct.toFixed(1)}%</span></span>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Tier insight
+  const revShare1 = totalRevenue > 0 ? ((t1Rev/totalRevenue)*100).toFixed(0) : 0;
+  const revShare2 = totalRevenue > 0 ? ((t2Rev/totalRevenue)*100).toFixed(0) : 0;
+  const revShare3 = totalRevenue > 0 ? ((t3Rev/totalRevenue)*100).toFixed(0) : 0;
+  document.getElementById('tier-dist-insight').innerHTML = `<div style="font-size:12px; color:var(--gray);">
+    <strong>Revenue split:</strong> Entry ${revShare1}% · Growth ${revShare2}% · Premium ${revShare3}% |
+    <strong>Weighted avg:</strong> LKR ${fmt(Math.round(wavgPrice))}/subscriber |
+    <strong>Total paid:</strong> ${fmt(totalPaid)} of ${fmt(v.drivers)} (${(v.totalConv*100).toFixed(0)}%)
+  </div>`;
+
+  // Update charts — use backward-compat aliases for older functions
+  updateRevenueChart(t1Rev, t2Rev, t3Rev, opsLKR);
+  updateDemandChart(v);
+  updateProjectionChart(v, t1Subs, t2Subs, t3Subs);
+  updateTheoryCards(v, t1ROI, t2ROI, t3ROI, t1Pct, t2Pct, t3Pct, coverage, wavgPrice);
+  updateUnitEconomics(v, t1Subs, t2Subs, t3Subs, t1Rev, t2Rev, t3Rev, totalPaid);
+  updateSensitivityTable(v);
+  updateBaseScenarios(v);
+  updateAbsorptionTable(v);
+  updatePickMeBleed(v);
+  updatePriceFloorChart(v);
+}
+
+function setIndicator(id, cls, text) {
+  document.getElementById(id).innerHTML = `<span class="optimum-indicator ${cls}">${text}</span>`;
+}
+
+// ===== REVENUE CHART =====
+function updateRevenueChart(t1Rev, t2Rev, t3Rev, opsLKR) {
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+  if (revenueChart) revenueChart.destroy();
+
+  revenueChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Entry', 'Growth', 'Premium', 'Total', 'Ops Cost'],
+      datasets: [{
+        data: [t1Rev, t2Rev, t3Rev, t1Rev + t2Rev + t3Rev, opsLKR],
+        backgroundColor: ['#2D6A4F', '#2563EB', '#9333EA', '#1B4332', '#DC2626'],
+        borderRadius: 6,
+        barThickness: 45
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) { return 'LKR ' + fmt(Math.round(ctx.raw)); }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { callback: v => 'LKR ' + fmtK(v) }
+        }
+      }
+    }
+  });
+}
+
+// ===== DEMAND CURVE CHART =====
+function updateDemandChart(v) {
+  const ctx = document.getElementById('demandChart').getContext('2d');
+  if (demandChart) demandChart.destroy();
+
+  // Generate price points
+  const prices = [];
+  const conversions = [];
+  const revenues = [];
+  const maxConvBase = 0.35; // theoretical max conversion at price=0
+
+  for (let p = 200; p <= 3000; p += 50) {
+    const conv = demandModel(p, v.income, maxConvBase);
+    const subs = v.drivers * conv;
+    const rev = subs * p;
+    prices.push(p);
+    conversions.push((conv * 100).toFixed(1));
+    revenues.push(Math.round(rev));
+  }
+
+  // Find optimum
+  const maxRev = Math.max(...revenues);
+  const optIdx = revenues.indexOf(maxRev);
+  const optPrice = prices[optIdx];
+
+  demandChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: prices.map(p => 'LKR ' + p),
+      datasets: [
+        {
+          label: 'Revenue (LKR)',
+          data: revenues,
+          borderColor: '#1B4332',
+          backgroundColor: 'rgba(27, 67, 50, 0.1)',
+          fill: true,
+          yAxisID: 'y',
+          tension: 0.3,
+          pointRadius: prices.map((p,i) => i === optIdx ? 8 : (p === v.proPrice ? 6 : 0)),
+          pointBackgroundColor: prices.map((p,i) => i === optIdx ? '#DC2626' : (p === v.proPrice ? '#2563EB' : 'transparent')),
+          pointBorderColor: prices.map((p,i) => i === optIdx ? '#DC2626' : (p === v.proPrice ? '#2563EB' : 'transparent')),
+          borderWidth: 2
+        },
+        {
+          label: 'Conversion %',
+          data: conversions,
+          borderColor: '#F59E0B',
+          borderDash: [5, 5],
+          yAxisID: 'y1',
+          tension: 0.3,
+          pointRadius: 0,
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 11 } } },
+        tooltip: {
+          callbacks: {
+            title: function(items) { return items[0].label; },
+            afterBody: function() {
+              return `Optimum: LKR ${optPrice} | Current Growth: LKR ${v.proPrice}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { maxTicksLimit: 12, font: { size: 10 } } },
+        y: {
+          type: 'linear',
+          position: 'left',
+          beginAtZero: true,
+          title: { display: true, text: 'Revenue (LKR)' },
+          ticks: { callback: v => fmtK(v) }
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          beginAtZero: true,
+          max: 40,
+          title: { display: true, text: 'Conversion %' },
+          grid: { drawOnChartArea: false }
+        }
+      }
+    }
+  });
+}
+
+// ===== 12-MONTH PROJECTION =====
+function updateProjectionChart(v) {
+  const ctx = document.getElementById('projectionChart').getContext('2d');
+  if (projectionChart) projectionChart.destroy();
+
+  const months = [];
+  const t1Arr = [], t2Arr = [], t3Arr = [];
+  const revArr = [], opsArr = [];
+
+  let currentDrivers = Math.round(v.drivers * 0.2);
+  for (let m = 1; m <= 12; m++) {
+    const growthRate = Math.max(0.05, 0.25 * Math.exp(-0.15 * m));
+    currentDrivers = Math.min(v.drivers, Math.round(currentDrivers * (1 + growthRate)));
+
+    const convRamp = 1 / (1 + Math.exp(-0.8 * (m - 4)));
+    const totalPaidM = Math.round(currentDrivers * v.totalConv * convRamp);
+    const s1 = Math.round(totalPaidM * v.distT1);
+    const s2 = Math.round(totalPaidM * v.distT2 * (m >= 2 ? 1 : 0.3)); // Growth launches fully M2
+    const s3 = Math.round(totalPaidM * v.distT3 * (m >= 4 ? 1 : 0));   // Premium launches M4
+    const rev = (s1 * v.t1Price + s2 * v.t2Price + s3 * v.t3Price) / v.fx;
+
+    months.push('M' + m);
+    t1Arr.push(s1); t2Arr.push(s2); t3Arr.push(s3);
+    revArr.push(Math.round(rev));
+    opsArr.push(v.ops);
+  }
+
+  projectionChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [
+        { label: 'Revenue (USD)', data: revArr, borderColor: '#1B4332', backgroundColor: 'rgba(27,67,50,0.1)', fill: true, tension: 0.3, borderWidth: 2 },
+        { label: 'Ops Cost (USD)', data: opsArr, borderColor: '#DC2626', borderDash: [8,4], fill: false, tension: 0, borderWidth: 2, pointRadius: 0 },
+        { label: 'Entry Subs', data: t1Arr, borderColor: '#2D6A4F', fill: false, tension: 0.3, borderWidth: 1, yAxisID: 'y1', borderDash: [3,3] },
+        { label: 'Growth Subs', data: t2Arr, borderColor: '#2563EB', fill: false, tension: 0.3, borderWidth: 1, yAxisID: 'y1', borderDash: [3,3] },
+        { label: 'Premium Subs', data: t3Arr, borderColor: '#9333EA', fill: false, tension: 0.3, borderWidth: 1, yAxisID: 'y1', borderDash: [3,3] }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { position: 'top', labels: { font: { size: 11 } } } },
+      scales: {
+        y: { type: 'linear', position: 'left', beginAtZero: true, title: { display: true, text: 'USD' }, ticks: { callback: v => '$' + fmtK(v) } },
+        y1: { type: 'linear', position: 'right', beginAtZero: true, title: { display: true, text: 'Subscribers' }, grid: { drawOnChartArea: false } }
+      }
+    }
+  });
+}
+
+// ===== THEORY CARDS =====
+function updateTheoryCards(v, t1ROI, t2ROI, t3ROI, t1Pct, t2Pct, t3Pct, coverage, wavgPrice) {
+  let html = '';
+
+  // Anchoring analysis — use Growth tier as the main revenue driver
+  const commissionSaved = v.income * 0.2;
+  const growthVsComm = ((v.t2Price / commissionSaved) * 100).toFixed(1);
+  html += `<div class="theory-card${growthVsComm <= 20 ? ' optimal' : ''}">
+    <h4>Anchoring Effect (Tversky & Kahneman, 1974)</h4>
+    <p>The driver's mental anchor: LKR ${fmt(Math.round(commissionSaved))}/month saved vs PickMe's 20% commission.
+    Growth tier at LKR ${fmt(v.t2Price)} is just <strong>${growthVsComm}%</strong> of commission saved. Entry at LKR ${fmt(v.t1Price)} is ${((v.t1Price / commissionSaved) * 100).toFixed(1)}% — virtually invisible.
+    ${growthVsComm <= 15 ? 'Growth feels trivial against the anchor — excellent positioning.' :
+      growthVsComm <= 25 ? 'Acceptable range. The ratchet from Entry → Growth is psychologically smooth.' :
+      'Getting expensive. Entry tier becomes critical as the "safe" option.'}</p>
+  </div>`;
+
+  // Tier ladder analysis
+  const stepRatio12 = (v.t2Price / v.t1Price).toFixed(1);
+  const stepRatio23 = (v.t3Price / v.t2Price).toFixed(1);
+  const goodLadder = stepRatio12 >= 2 && stepRatio12 <= 5 && stepRatio23 >= 1.5 && stepRatio23 <= 4;
+  html += `<div class="theory-card${goodLadder ? ' optimal' : ''}">
+    <h4>Price Ladder Architecture</h4>
+    <p>Entry → Growth: <strong>${stepRatio12}x step</strong>. Growth → Premium: <strong>${stepRatio23}x step</strong>.
+    ${goodLadder ? 'Ideal ladder — each step feels like a meaningful but achievable upgrade. The Entry tier seeds the behaviour; Growth captures the mass market; Premium self-selects power users.' :
+      'Consider adjusting: optimal is 2-5x for first step, 1.5-4x for second. Too small = no differentiation; too large = barrier feels impossible.'}</p>
+  </div>`;
+
+  // Decoy effect — Premium makes Growth look attractive
+  const premGrowthRatio = (v.t3Price / v.t2Price).toFixed(1);
+  html += `<div class="theory-card${premGrowthRatio >= 2 && premGrowthRatio <= 3.5 ? ' optimal' : ''}">
+    <h4>Decoy Effect (Asymmetric Dominance)</h4>
+    <p>Premium is ${premGrowthRatio}x the price of Growth. ${premGrowthRatio >= 2 && premGrowthRatio <= 3.5 ?
+      'Ideal decoy range. Premium makes Growth look like a bargain — most drivers will land on Growth, which is the desired revenue outcome.' :
+      premGrowthRatio < 2 ? 'Gap too small — drivers won\'t feel Growth is a bargain by comparison.' :
+      'Premium feels unreachable — serves as aspirational anchor but won\'t cannibalize Growth.'}</p>
+  </div>`;
+
+  // Loss aversion framing — use Entry tier
+  const dailyLoss = Math.round(v.t1Boost / 30);
+  html += `<div class="theory-card">
+    <h4>Loss Aversion Framing (Prospect Theory)</h4>
+    <p>Entry tier frame: <strong>"You're losing ~LKR ${fmt(dailyLoss)}/day by not knowing where demand is."</strong>
+    Entry costs just LKR ${Math.round(v.t1Price/30)}/day — less than ${Math.round(v.t1Price/30) < 20 ? 'a cup of plain tea' : Math.round(v.t1Price/30) < 50 ? 'a cup of tea' : 'a snack'}.
+    Once on Entry, the upgrade hook: Growth boost is ${(v.t2Boost / v.t1Boost).toFixed(1)}x larger. "You've seen ${fmt(v.t1Boost)} extra — imagine ${fmt(v.t2Boost)}."</p>
+  </div>`;
+
+  // Proportionality rule check — all 3 tiers
+  const allMeet = t1ROI >= 3 && t2ROI >= 3 && t3ROI >= 3;
+  html += `<div class="theory-card${allMeet ? ' optimal' : ' warning'}">
+    <h4>Proportionality Rule (WarenYan Core Principle)</h4>
+    <p>Minimum 3:1 ROI required. Entry: <strong>${t1ROI.toFixed(1)}x</strong> ${t1ROI >= 3 ? '✓' : '✗'} |
+    Growth: <strong>${t2ROI.toFixed(1)}x</strong> ${t2ROI >= 3 ? '✓' : '✗'} |
+    Premium: <strong>${t3ROI.toFixed(1)}x</strong> ${t3ROI >= 3 ? '✓' : '✗'}
+    ${!allMeet ? '. Action needed on tiers below 3x — lower price or increase boost.' : '. All tiers meet the floor. Safe to launch.'}</p>
+  </div>`;
+
+  // Sustainability check
+  html += `<div class="theory-card${coverage >= 100 ? ' optimal' : coverage >= 50 ? '' : ' warning'}">
+    <h4>Sustainability Index</h4>
+    <p>Subscription revenue covers <strong>${coverage.toFixed(0)}%</strong> of monthly ops ($${fmt(v.ops)}).
+    Weighted average price: LKR ${fmt(Math.round(wavgPrice))}/subscriber.
+    ${coverage >= 100 ? 'Self-sustaining on subscriptions alone.' :
+      coverage >= 50 ? 'Partial coverage — supplementary capital still needed.' :
+      'Below 50% — heavy reliance on investment. Acceptable months 1-6 only.'}</p>
+  </div>`;
+
+  document.getElementById('theory-cards').innerHTML = html;
+}
+
+// ===== UNIT ECONOMICS TABLE =====
+function updateUnitEconomics(v, t1Subs, t2Subs, t3Subs, t1Rev, t2Rev, t3Rev, totalPaid) {
+  const t1LTV = v.t1Price * (1 / v.churn);
+  const t2LTV = v.t2Price * (1 / v.churn);
+  const t3LTV = v.t3Price * (1 / v.churn);
+  const payingPct = ((totalPaid / v.drivers) * 100).toFixed(1);
+  const totalRev = t1Rev + t2Rev + t3Rev;
+
+  const rows = [
+    ['Entry Subscribers', fmt(t1Subs)],
+    ['Growth Subscribers', fmt(t2Subs)],
+    ['Premium Subscribers', fmt(t3Subs)],
+    ['Total Paying Drivers', fmt(totalPaid) + ` (${payingPct}%)`],
+    ['Entry LTV (LKR)', fmt(Math.round(t1LTV))],
+    ['Growth LTV (LKR)', fmt(Math.round(t2LTV))],
+    ['Premium LTV (LKR)', fmt(Math.round(t3LTV))],
+    ['Avg. Retention (months)', (1/v.churn).toFixed(1)],
+    ['Daily Entry Cost', 'LKR ' + Math.round(v.t1Price / 30)],
+    ['Daily Growth Cost', 'LKR ' + Math.round(v.t2Price / 30)],
+    ['Revenue / Driver / Day', 'LKR ' + (totalRev / v.drivers / 30).toFixed(1)]
+  ];
+
+  document.getElementById('unit-economics-table').innerHTML = rows.map(r =>
+    `<tr><td style="padding:6px 8px; border-bottom:1px solid #eee; font-weight:500;">${r[0]}</td>
+     <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right; font-weight:700; color:var(--deep);">${r[1]}</td></tr>`
+  ).join('');
+}
+
+// ===== SENSITIVITY TABLE =====
+function updateSensitivityTable(v) {
+  // Test different price points
+  const testPrices = [500, 790, 990, 1290, 1500, 1990, 2500];
+  const maxConv = 0.35;
+
+  const rows = testPrices.map(p => {
+    const conv = demandModel(p, v.income, maxConv);
+    const subs = Math.round(v.drivers * conv);
+    const rev = subs * p;
+    const revUSD = rev / v.fx;
+    const pctIncome = ((p / v.income) * 100).toFixed(1);
+    const isCurrentApprox = Math.abs(p - v.proPrice) < 100;
+    return `<tr${isCurrentApprox ? ' style="background:#E8F5E9; font-weight:600;"' : ''}>
+      <td style="padding:5px 6px; border-bottom:1px solid #eee;">LKR ${fmt(p)}</td>
+      <td style="padding:5px 6px; border-bottom:1px solid #eee;">${(conv*100).toFixed(1)}%</td>
+      <td style="padding:5px 6px; border-bottom:1px solid #eee;">${fmt(subs)}</td>
+      <td style="padding:5px 6px; border-bottom:1px solid #eee; text-align:right;">$${fmt(Math.round(revUSD))}</td>
+    </tr>`;
+  });
+
+  document.getElementById('sensitivity-table').innerHTML =
+    `<tr><th style="padding:5px 6px; text-align:left; font-size:11px; border-bottom:2px solid var(--deep);">Price</th>
+     <th style="padding:5px 6px; text-align:left; font-size:11px; border-bottom:2px solid var(--deep);">Conv.</th>
+     <th style="padding:5px 6px; text-align:left; font-size:11px; border-bottom:2px solid var(--deep);">Subs</th>
+     <th style="padding:5px 6px; text-align:right; font-size:11px; border-bottom:2px solid var(--deep);">Rev/mo</th></tr>` +
+    rows.join('');
+}
+
+// ===== BASE SUBSCRIPTION SCENARIOS =====
+function updateBaseScenarios(v) {
+  const driverCounts = [500, 1000, 2000, 3000, 5000, 7500, 10000, 15000, 20000];
+  const convRates = [0.08, 0.12, 0.15, 0.20, 0.25, 0.30]; // combined paid conversion
+  const opsTargets = [
+    { label: '$4K (lean)', usd: 4000 },
+    { label: '$5.5K (mid)', usd: 5500 },
+    { label: '$7K (full)', usd: 7000 }
+  ];
+
+  // Use whichever ops cost is set in the slider
+  const opsLKR = v.ops * v.fx;
+  const buffer = 1.25; // 25% safety buffer
+
+  // Header
+  let html = `<thead><tr>
+    <th style="padding:6px 8px; text-align:left; font-size:11px; background:var(--deep); color:white; position:sticky; left:0;">Drivers</th>`;
+  convRates.forEach(c => {
+    html += `<th style="padding:6px 8px; text-align:center; font-size:11px; background:var(--deep); color:white;">${(c*100)}% conv.</th>`;
+  });
+  html += `</tr></thead><tbody>`;
+
+  // Find the sweet spots
+  let sweetSpots = [];
+
+  driverCounts.forEach(d => {
+    html += `<tr>`;
+    html += `<td style="padding:6px 8px; border-bottom:1px solid #eee; font-weight:700; background:#f9fafb; position:sticky; left:0;">${fmt(d)}</td>`;
+    convRates.forEach(c => {
+      const payingSubs = Math.round(d * c);
+      const minPriceRaw = opsLKR / payingSubs;
+      const minPriceBuffered = Math.ceil(minPriceRaw * buffer);
+      const pctOfIncome = ((minPriceBuffered / v.income) * 100).toFixed(1);
+      const affordable = pctOfIncome <= 3;
+      const viable = pctOfIncome <= 5;
+      const isCurrentish = Math.abs(d - v.drivers) < 500 && Math.abs(c - (v.totalConv)) < 0.04;
+
+      // Apply user-set price floor if > 0
+      const effectivePrice = (v.priceFloor > 0 && minPriceBuffered < v.priceFloor) ? v.priceFloor : minPriceBuffered;
+      const effectivePct = ((effectivePrice / v.income) * 100).toFixed(1);
+      const floorApplied = v.priceFloor > 0 && minPriceBuffered < v.priceFloor;
+      const effAffordable = effectivePct <= 3;
+      const effViable = effectivePct <= 5;
+
+      if (effAffordable) sweetSpots.push({ drivers: d, conv: c, price: effectivePrice, pct: effectivePct });
+
+      let bg = 'transparent';
+      let color = '#991B1B';
+      if (effAffordable) { bg = '#D1FAE5'; color = '#065F46'; }
+      else if (effViable) { bg = '#FEF3C7'; color = '#92400E'; }
+      else { bg = '#FEE2E2'; }
+      if (isCurrentish) { bg = '#C8E6C9'; }
+
+      html += `<td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:center; background:${bg}; color:${color}; font-size:11px;">
+        <strong>LKR ${fmt(effectivePrice)}</strong>${floorApplied ? ' <span title="Floor applied" style="color:var(--red);">▲</span>' : ''}<br>
+        <span style="font-size:10px; opacity:0.8;">${effectivePct}% of income</span>
+      </td>`;
+    });
+    html += `</tr>`;
+  });
+  html += `</tbody>`;
+
+  document.getElementById('base-scenarios-table').innerHTML = html;
+
+  // Insight card
+  const bestSweet = sweetSpots.length > 0 ? sweetSpots.reduce((a, b) => a.drivers < b.drivers ? a : b) : null;
+  let insightHtml = '';
+  const floorNote = v.priceFloor > 0 ? ` <strong style="color:var(--red);">User floor of LKR ${fmt(v.priceFloor)} applied</strong> — cells marked with ▲ are raised to the floor.` : '';
+  if (bestSweet) {
+    insightHtml = `<div class="theory-card optimal">
+      <h4>Minimum Viable Pricing Floor (with 25% buffer)</h4>
+      <p>At current ops cost of <strong>$${fmt(v.ops)}/month</strong> (LKR ${fmt(Math.round(opsLKR))}), the earliest affordable pricing (under 3% of income) becomes possible at <strong>${fmt(bestSweet.drivers)} drivers</strong> with ${(bestSweet.conv*100)}% conversion — minimum price: <strong>LKR ${fmt(bestSweet.price)}/month</strong> (${bestSweet.pct}% of income).
+      Green cells = affordable (under 3% of income). Amber = viable but borderline (3-5%). Red = overpriced (above 5%).${floorNote}</p>
+    </div>`;
+  } else {
+    insightHtml = `<div class="theory-card warning">
+      <h4>No Affordable Scenario Found</h4>
+      <p>At current ops cost of $${fmt(v.ops)}/month and driver income of LKR ${fmt(v.income)}, no combination of driver count and conversion rate produces an affordable subscription (under 3% of income). Either ops cost needs to decrease, driver count needs to increase beyond 20,000, or the affordability threshold needs to be relaxed.</p>
+    </div>`;
+  }
+
+  // Add the 3-scenario breakdown
+  insightHtml += `<div class="theory-card" style="margin-top: 12px;">
+    <h4>Three Scenarios — Minimum Base Charge</h4>
+    <p style="margin-bottom: 8px;">Working backwards from ops cost at current settings (${fmt(v.drivers)} drivers, ${((v.proConv+v.eliteConv)*100).toFixed(0)}% combined conversion):</p>
+    <table style="width:100%; font-size:12px; border-collapse:collapse;">
+      <tr style="background:var(--deep); color:white;">
+        <th style="padding:6px 8px; text-align:left;">Scenario</th>
+        <th style="padding:6px 8px; text-align:right;">Ops/mo</th>
+        <th style="padding:6px 8px; text-align:right;">Min Price (raw)</th>
+        <th style="padding:6px 8px; text-align:right;">Min Price (+25% buffer)</th>
+        <th style="padding:6px 8px; text-align:right;">% of Income</th>
+        <th style="padding:6px 8px; text-align:center;">Verdict</th>
+      </tr>
+      ${opsTargets.map(t => {
+        const tLKR = t.usd * v.fx;
+        const combinedConv = v.totalConv;
+        const payingSubs = Math.round(v.drivers * combinedConv);
+        const rawMin = payingSubs > 0 ? Math.ceil(tLKR / payingSubs) : 999999;
+        const buffMin = Math.ceil(rawMin * 1.25);
+        const pct = ((buffMin / v.income) * 100).toFixed(1);
+        const verdict = pct <= 3 ? '<span style="color:#065F46; font-weight:700;">Affordable</span>' :
+                       pct <= 5 ? '<span style="color:#92400E; font-weight:700;">Borderline</span>' :
+                       '<span style="color:#991B1B; font-weight:700;">Overpriced</span>';
+        return `<tr>
+          <td style="padding:5px 8px; border-bottom:1px solid #eee; font-weight:600;">${t.label}</td>
+          <td style="padding:5px 8px; border-bottom:1px solid #eee; text-align:right;">$${fmt(t.usd)}</td>
+          <td style="padding:5px 8px; border-bottom:1px solid #eee; text-align:right;">LKR ${fmt(rawMin)}</td>
+          <td style="padding:5px 8px; border-bottom:1px solid #eee; text-align:right; font-weight:700;">LKR ${fmt(buffMin)}</td>
+          <td style="padding:5px 8px; border-bottom:1px solid #eee; text-align:right;">${pct}%</td>
+          <td style="padding:5px 8px; border-bottom:1px solid #eee; text-align:center;">${verdict}</td>
+        </tr>`;
+      }).join('')}
+    </table>
+  </div>`;
+
+  document.getElementById('base-scenario-insight').innerHTML = insightHtml;
+}
+
+// ===== ABSORPTION TABLE =====
+function updateAbsorptionTable(v) {
+  // Model: at each growth stage, what's the deficit?
+  const stages = [
+    { label: 'Month 1-2 (beta)', driverPct: 0.05, convMult: 0.2 },
+    { label: 'Month 3 (launch)', driverPct: 0.15, convMult: 0.4 },
+    { label: 'Month 4-6', driverPct: 0.35, convMult: 0.65 },
+    { label: 'Month 7-9', driverPct: 0.6, convMult: 0.85 },
+    { label: 'Month 10-12', driverPct: 0.85, convMult: 0.95 },
+    { label: 'Month 13-18', driverPct: 1.0, convMult: 1.0 },
+    { label: 'Month 18+ (scale)', driverPct: 1.5, convMult: 1.0 }
+  ];
+
+  let html = `<thead><tr>
+    <th style="padding:6px 8px; text-align:left; font-size:11px; background:var(--deep); color:white;">Stage</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:var(--deep); color:white;">Drivers</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:var(--deep); color:white;">Paid Subs</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:var(--deep); color:white;">Revenue/mo</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:var(--deep); color:white;">Ops Cost</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:var(--deep); color:white;">Deficit</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:var(--deep); color:white;">Coverage</th>
+  </tr></thead><tbody>`;
+
+  let cumulativeDeficit = 0;
+  let breakEvenMonth = null;
+
+  stages.forEach((s, i) => {
+    const d = Math.round(v.drivers * s.driverPct);
+    const combinedConv = (v.totalConv) * s.convMult;
+    const paidSubs = Math.round(d * combinedConv);
+    // Weighted avg price using distribution, apply floor
+    const rawAvgPrice = v.t1Price * v.distT1 + v.t2Price * v.distT2 + v.t3Price * v.distT3;
+    const avgPrice = v.priceFloor > 0 ? Math.max(rawAvgPrice, v.priceFloor) : rawAvgPrice;
+    const revLKR = paidSubs * avgPrice;
+    const revUSD = revLKR / v.fx;
+    const deficit = revUSD - v.ops;
+    const coverage = v.ops > 0 ? ((revUSD / v.ops) * 100).toFixed(0) : '0';
+    const monthSpan = i === 0 ? 2 : i === 1 ? 1 : i <= 4 ? 3 : i === 5 ? 6 : 6;
+    cumulativeDeficit += Math.min(0, deficit) * monthSpan;
+
+    if (deficit >= 0 && !breakEvenMonth) {
+      breakEvenMonth = s.label;
+    }
+
+    const isPositive = deficit >= 0;
+    html += `<tr style="${isPositive ? 'background:#E8F5E9;' : ''}">
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; font-weight:600;">${s.label}</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right;">${fmt(d)}</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right;">${fmt(paidSubs)}</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right;">$${fmt(Math.round(revUSD))}</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right;">$${fmt(v.ops)}</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right; font-weight:700; color:${isPositive ? '#065F46' : '#991B1B'};">${isPositive ? '+' : ''}$${fmt(Math.round(deficit))}</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right;">${coverage}%</td>
+    </tr>`;
+  });
+
+  html += `</tbody>`;
+  document.getElementById('absorption-table').innerHTML = html;
+
+  // Insight
+  let insightHtml = `<div class="theory-card${breakEvenMonth ? ' optimal' : ' warning'}">
+    <h4>Absorption Summary</h4>
+    <p>${breakEvenMonth ?
+      `Break-even projected at <strong>${breakEvenMonth}</strong>. Cumulative pre-break-even deficit: <strong>~$${fmt(Math.abs(Math.round(cumulativeDeficit)))}</strong>. This is the minimum capital that must be reserved from investment to cover operations until subscription revenue self-sustains. Add 30% contingency = <strong>~$${fmt(Math.round(Math.abs(cumulativeDeficit) * 1.3))}</strong> recommended reserve.` :
+      `No break-even reached within 18+ months at current parameters. Consider: increasing driver target, improving conversion rates, raising price (if ROI supports it), or reducing ops cost. Cumulative deficit through 18 months: ~$${fmt(Math.abs(Math.round(cumulativeDeficit)))}.`
+    }</p>
+  </div>`;
+
+  document.getElementById('absorption-insight').innerHTML = insightHtml;
+}
+
+// ===== PICKME BLEED SCENARIOS =====
+function updatePickMeBleed(v) {
+  // PickMe assumptions (from research):
+  // - ~75,000 drivers, ~900,000 users
+  // - FY2024/25: Rs 5.8B revenue = ~$18.1M/yr = ~$1.5M/month
+  // - ~LKR 483M/month revenue
+  // - Commission: 15-20% (assume 17.5% avg)
+  // - Estimated ~600,000 rides/month in Colombo metro
+  // - Avg ride value: ~LKR 800 (commission on that: ~LKR 140)
+  const pickmeMonthlyRevLKR = 483000000; // ~LKR 483M/month
+  const pickmeMonthlyRevUSD = pickmeMonthlyRevLKR / v.fx;
+  const pickmeMonthlyOps = 50000; // est. $50K+/month ops
+  const pickmeCommissionRate = 0.175; // 17.5% avg
+  const avgRideValueLKR = 800;
+  const pickmeRidesPerDriverPerDay = 12;
+  const workingDays = 26; // per month
+
+  // WarenYan driver milestones
+  const milestones = [500, 1000, 2000, 3000, 5000, 7500, 10000, 15000, 20000];
+
+  // For each milestone: how many rides shift? What's PickMe's revenue loss?
+  // Assumption: multi-apping drivers shift ~40% of their rides to WarenYan initially, growing to ~60% over time
+  const rideShiftPct = 0.45; // avg ~45% of rides shift
+
+  let html = `<thead><tr>
+    <th style="padding:6px 8px; text-align:left; font-size:11px; background:#991B1B; color:white;">WarenYan Drivers</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:#991B1B; color:white;">Rides Shifted/mo</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:#991B1B; color:white;">PickMe Rev Loss/mo</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:#991B1B; color:white;">% of PickMe Rev</th>
+    <th style="padding:6px 8px; text-align:right; font-size:11px; background:#991B1B; color:white;">0% Match Cost</th>
+    <th style="padding:6px 8px; text-align:center; font-size:11px; background:#991B1B; color:white;">Threat Level</th>
+  </tr></thead><tbody>`;
+
+  let criticalMass = null;
+  let unviablePoint = null;
+  const bleedData = [];
+
+  milestones.forEach(d => {
+    const ridesShifted = d * pickmeRidesPerDriverPerDay * workingDays * rideShiftPct;
+    const revLossLKR = ridesShifted * avgRideValueLKR * pickmeCommissionRate;
+    const revLossUSD = revLossLKR / v.fx;
+    const pctOfPickmeRev = (revLossLKR / pickmeMonthlyRevLKR) * 100;
+
+    // Cost for PickMe to match 0% commission across Colombo metro
+    // If they drop to 0%, they lose ALL commission on ALL Colombo rides
+    // Colombo is ~60% of PickMe's business
+    const colomboPct = 0.6;
+    const matchCostLKR = pickmeMonthlyRevLKR * colomboPct; // lose all Colombo commission
+    const matchCostUSD = matchCostLKR / v.fx;
+
+    let threat = '';
+    let bg = '';
+    if (pctOfPickmeRev < 3) { threat = 'Noise'; bg = ''; }
+    else if (pctOfPickmeRev < 8) { threat = 'Noticeable'; bg = '#FEF3C7'; }
+    else if (pctOfPickmeRev < 15) { threat = 'Material'; bg = '#FDE68A'; if (!criticalMass) criticalMass = d; }
+    else if (pctOfPickmeRev < 25) { threat = 'Critical Mass'; bg = '#FEE2E2'; if (!criticalMass) criticalMass = d; }
+    else { threat = 'Existential'; bg = '#FCA5A5'; if (!unviablePoint) unviablePoint = d; }
+
+    bleedData.push({ drivers: d, revLossUSD, matchCostUSD, pctOfPickmeRev });
+
+    html += `<tr style="${bg ? 'background:' + bg + ';' : ''}">
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; font-weight:700;">${fmt(d)}</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right;">${fmt(Math.round(ridesShifted))}</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right; font-weight:600;">$${fmt(Math.round(revLossUSD))}</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right; font-weight:700; color:#991B1B;">${pctOfPickmeRev.toFixed(1)}%</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:right; color:#991B1B;">$${fmt(Math.round(matchCostUSD))}/mo</td>
+      <td style="padding:6px 8px; border-bottom:1px solid #eee; text-align:center; font-weight:700;">${threat}</td>
+    </tr>`;
+  });
+  html += `</tbody>`;
+
+  document.getElementById('pickme-bleed-table').innerHTML = html;
+
+  // Insight cards
+  let insightHtml = '';
+
+  insightHtml += `<div class="theory-card warning">
+    <h4>PickMe's Dilemma — The Cost of Responding</h4>
+    <p>PickMe has two response options, both devastating:</p>
+    <p style="margin-top:8px;"><strong>Option A: Match 0% across Colombo.</strong> Colombo is ~60% of PickMe's business. Dropping commission to zero there costs them ~<strong>$${fmt(Math.round(pickmeMonthlyRevLKR * 0.6 / v.fx))}/month</strong> in lost commission revenue. On Rs 5.8B annual revenue, that's a ~60% revenue hit. The stock (PKME.N0000) would crater. IFC writes down their position. Quarterly earnings become a bloodbath. And the moment they reinstate commission, every driver remembers.</p>
+    <p style="margin-top:8px;"><strong>Option B: Targeted promo.</strong> Offer 0% to drivers who "might switch." But which drivers? Multi-apping is invisible until the ride happens off-platform. Targeted promos create two-tier driver classes — those with 0% and those at 20% — breeding resentment from the drivers who didn't get the offer. Internal morale collapses.</p>
+  </div>`;
+
+  if (criticalMass) {
+    insightHtml += `<div class="theory-card" style="border-left-color: var(--red); background: #FEF2F2;">
+      <h4>Critical Mass Point: ${fmt(criticalMass)} WarenYan Drivers</h4>
+      <p>At <strong>${fmt(criticalMass)} drivers</strong>, WarenYan's ride shift becomes <strong>material to PickMe's P&L</strong> — visible in quarterly earnings, flagged by analysts, impacting stock sentiment. This is the inflection point where PickMe <em>must</em> respond or accept permanent revenue erosion. WarenYan's target should be to reach this point as fast as possible — because every month past this point increases the pressure on PickMe's board and shareholders.</p>
+    </div>`;
+  }
+
+  insightHtml += `<div class="theory-card" style="border-left-color: var(--deep);">
+    <h4>WarenYan's Operational Cost at Critical Mass</h4>
+    <p>At <strong>${fmt(criticalMass || v.drivers)} drivers</strong>, WarenYan's full monthly operational cost is <strong>$${fmt(v.ops)}</strong>.
+    PickMe's cost to match us at that same point: <strong>$${fmt(Math.round(pickmeMonthlyRevLKR * 0.6 / v.fx))}/month</strong> in lost revenue.
+    <strong>The asymmetry: PickMe's response costs ${Math.round((pickmeMonthlyRevLKR * 0.6 / v.fx) / v.ops)}x more than our entire operation.</strong>
+    This is not a war of capital. It's a war of structure. We can sustain indefinitely at $${fmt(v.ops)}/month. They bleed every month they fight.</p>
+  </div>`;
+
+  // LKR 99 base price scenario
+  insightHtml += `<div class="theory-card optimal">
+    <h4>The LKR 99 Entry Tier — Brand Power + Volume Economics</h4>
+    <p>A <strong>LKR 99/month</strong> (~$0.31) entry-level "WarenYan+" tier is powerful branding: <strong>"Less than a cup of tea per month."</strong> At LKR 99, the number is psychologically negligible — it costs the driver nothing meaningful, but it creates a paid relationship (payment data, engagement signal, upsell path to Pro/Elite). At ${fmt(v.drivers)} drivers with 40% conversion at LKR 99: that's <strong>LKR ${fmt(Math.round(v.drivers * 0.4 * 99))}/month</strong> ($${fmt(Math.round(v.drivers * 0.4 * 99 / v.fx))}). Not significant revenue alone — but combined with Pro/Elite upsell, it seeds the paid funnel. For investors: "We have ${fmt(Math.round(v.drivers * 0.4))} paying customers" sounds very different from "We have free users."</p>
+  </div>`;
+
+  document.getElementById('pickme-bleed-insight').innerHTML = insightHtml;
+
+  // PickMe chart
+  updatePickMeChart(bleedData, v);
+}
+
+function updatePickMeChart(data, v) {
+  const ctx = document.getElementById('pickmeChart').getContext('2d');
+  if (pickmeChart) pickmeChart.destroy();
+
+  const pickmeColumboMatchCost = Math.round(483000000 * 0.6 / v.fx); // constant
+
+  pickmeChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: data.map(d => fmt(d.drivers)),
+      datasets: [
+        {
+          label: 'PickMe Revenue Loss ($/mo)',
+          data: data.map(d => Math.round(d.revLossUSD)),
+          borderColor: '#DC2626',
+          backgroundColor: 'rgba(220,38,38,0.1)',
+          fill: true,
+          tension: 0.3,
+          borderWidth: 2
+        },
+        {
+          label: 'PickMe 0% Match Cost ($/mo)',
+          data: data.map(d => pickmeColumboMatchCost),
+          borderColor: '#991B1B',
+          borderDash: [8, 4],
+          fill: false,
+          tension: 0,
+          borderWidth: 2,
+          pointRadius: 0
+        },
+        {
+          label: 'WarenYan Ops Cost ($/mo)',
+          data: data.map(d => v.ops),
+          borderColor: '#2D6A4F',
+          borderDash: [4, 4],
+          fill: false,
+          tension: 0,
+          borderWidth: 2,
+          pointRadius: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 11 } } },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) { return ctx.dataset.label + ': $' + fmt(ctx.raw); }
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: 'WarenYan Active Drivers' }, ticks: { font: { size: 10 } } },
+        y: {
+          beginAtZero: true,
+          title: { display: true, text: 'Monthly Cost (USD)' },
+          ticks: { callback: v => '$' + fmtK(v) }
+        }
+      }
+    }
+  });
+}
+
+// ===== PRICE FLOOR CHART =====
+function updatePriceFloorChart(v) {
+  const ctx = document.getElementById('priceFloorChart').getContext('2d');
+  if (priceFloorChart) priceFloorChart.destroy();
+
+  const driverPoints = [];
+  const floorLean = [];
+  const floorMid = [];
+  const floorFull = [];
+  const affordLine = [];
+  const combinedConv = v.totalConv;
+  const buffer = 1.25;
+
+  const userFloorLine = [];
+
+  for (let d = 500; d <= 20000; d += 500) {
+    const payingSubs = Math.round(d * combinedConv);
+    if (payingSubs === 0) continue;
+    driverPoints.push(d);
+    floorLean.push(Math.ceil((4000 * v.fx / payingSubs) * buffer));
+    floorMid.push(Math.ceil((5500 * v.fx / payingSubs) * buffer));
+    floorFull.push(Math.ceil((7000 * v.fx / payingSubs) * buffer));
+    affordLine.push(Math.round(v.income * 0.03)); // 3% affordability ceiling
+    if (v.priceFloor > 0) userFloorLine.push(v.priceFloor);
+  }
+
+  priceFloorChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: driverPoints.map(d => fmt(d)),
+      datasets: [
+        {
+          label: 'Floor @ $4K ops',
+          data: floorLean,
+          borderColor: '#40916C',
+          backgroundColor: 'rgba(64,145,108,0.05)',
+          fill: false,
+          tension: 0.3,
+          borderWidth: 2,
+          pointRadius: 0
+        },
+        {
+          label: 'Floor @ $5.5K ops',
+          data: floorMid,
+          borderColor: '#F59E0B',
+          fill: false,
+          tension: 0.3,
+          borderWidth: 2,
+          pointRadius: 0
+        },
+        {
+          label: 'Floor @ $7K ops',
+          data: floorFull,
+          borderColor: '#DC2626',
+          fill: false,
+          tension: 0.3,
+          borderWidth: 2,
+          pointRadius: 0
+        },
+        {
+          label: '3% Affordability Ceiling',
+          data: affordLine,
+          borderColor: '#1B4332',
+          borderDash: [10, 5],
+          fill: false,
+          tension: 0,
+          borderWidth: 2,
+          pointRadius: 0
+        },
+        ...(v.priceFloor > 0 ? [{
+          label: 'User Price Floor (LKR ' + fmt(v.priceFloor) + ')',
+          data: userFloorLine,
+          borderColor: '#DC2626',
+          borderDash: [4, 4],
+          fill: false,
+          tension: 0,
+          borderWidth: 3,
+          pointRadius: 0
+        }] : [])
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 11 } } },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) { return ctx.dataset.label + ': LKR ' + fmt(ctx.raw); }
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Active Drivers' }, ticks: { maxTicksLimit: 10, font: { size: 10 } } },
+        y: {
+          beginAtZero: true,
+          max: 10000,
+          title: { display: true, text: 'Minimum Price (LKR/month)' },
+          ticks: { callback: v => 'LKR ' + fmtK(v) }
+        }
+      }
+    }
+  });
+}
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  update();
+});
+</script>
+
+</body>
+</html>

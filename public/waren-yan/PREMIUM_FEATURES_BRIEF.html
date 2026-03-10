@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WarenYan — Premium Features & Monetisation Brief</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --deep: #1B4332;
+    --primary: #2D6A4F;
+    --light: #40916C;
+    --mint: #B7E4C7;
+    --cream: #F8FAF5;
+    --white: #FFFFFF;
+    --dark: #1a1a1a;
+    --gray: #6B7280;
+    --light-gray: #E5E7EB;
+    --red: #DC2626;
+    --amber: #F59E0B;
+    --blue: #2563EB;
+    --gold: #D97706;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .cover {
+    background: linear-gradient(160deg, #0D2818 0%, var(--deep) 40%, var(--primary) 100%);
+    color: white;
+    padding: 80px 48px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(ellipse, rgba(64,145,108,0.15) 0%, transparent 70%);
+  }
+  .cover-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 span { color: var(--mint); }
+  .cover .subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    opacity: 0.7;
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta {
+    margin-top: 40px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .cover-meta .meta-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mint);
+  }
+  .cover-meta .meta-value { font-size: 20px; font-weight: 800; }
+
+  .main { max-width: 900px; margin: 0 auto; padding: 48px 32px; }
+
+  h2 {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--deep);
+    margin-top: 56px;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--mint);
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray);
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  h4 { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--deep); }
+
+  p { margin-bottom: 16px; }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .card.red { border-left-color: var(--red); }
+  .card.amber { border-left-color: var(--amber); }
+  .card.blue { border-left-color: var(--blue); }
+  .card.gold { border-left-color: var(--gold); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  .callout {
+    background: #E8F5E9;
+    border-left: 4px solid var(--primary);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  .callout-red {
+    background: #FEF2F2;
+    border-left: 4px solid var(--red);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  .callout-amber {
+    background: #FFFBEB;
+    border-left: 4px solid var(--amber);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  .callout-blue {
+    background: #EFF6FF;
+    border-left: 4px solid var(--blue);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  th {
+    background: var(--deep);
+    color: white;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--light-gray);
+    vertical-align: top;
+  }
+  tr:hover { background: #F0FFF4; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .tag-green { background: #D1FAE5; color: #065F46; }
+  .tag-amber { background: #FEF3C7; color: #92400E; }
+  .tag-red { background: #FEE2E2; color: #991B1B; }
+  .tag-blue { background: #DBEAFE; color: #1E40AF; }
+  .tag-gold { background: #FDE68A; color: #78350F; }
+
+  .tier-badge {
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tier-free { background: #E5E7EB; color: #374151; }
+  .tier-pro { background: #D1FAE5; color: #065F46; }
+  .tier-elite { background: #FDE68A; color: #78350F; }
+
+  .principle-box {
+    background: white;
+    border: 2px solid var(--mint);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .principle-box .number {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background: var(--deep);
+    color: white;
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: 14px;
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+
+  .doc-nav {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 24px 32px;
+    border-top: 4px solid var(--primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    margin-bottom: 32px;
+    counter-reset: nav;
+  }
+  .doc-nav h4 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 16px;
+  }
+  .doc-nav ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 32px;
+  }
+  .doc-nav li { counter-increment: nav; }
+  .doc-nav li::before {
+    content: counter(nav, decimal-leading-zero);
+    margin-right: 6px;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 13px;
+  }
+  .doc-nav a {
+    color: var(--dark);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .doc-nav a:hover { color: var(--primary); }
+
+  .term {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--primary);
+  }
+  .term:hover { color: var(--deep); }
+
+  .glossary dt {
+    font-weight: 700;
+    color: var(--deep);
+    margin-top: 16px;
+    font-size: 15px;
+  }
+  .glossary dd {
+    margin-left: 0;
+    margin-bottom: 8px;
+    color: var(--gray);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .ref-list {
+    background: white;
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-size: 13px;
+    line-height: 2;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .ref-list a { color: var(--primary); }
+
+  .footer {
+    text-align: center;
+    padding: 32px;
+    font-size: 12px;
+    color: var(--gray);
+    border-top: 1px solid var(--light-gray);
+    margin-top: 48px;
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-label">WarenYan — Antigravity Build</div>
+  <h1>Premium Features &<br><span>Monetisation Brief</span></h1>
+  <p class="subtitle">How WarenYan makes money without taxing its drivers. Every premium feature must increase driver earnings — or it doesn't exist.</p>
+  <div class="cover-meta">
+    <div class="meta-item">
+      <div class="meta-label">Document</div>
+      <div class="meta-value">v1.1</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Classification</div>
+      <div class="meta-value">Internal</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Tiers Defined</div>
+      <div class="meta-value">4</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Features Mapped</div>
+      <div class="meta-value">18</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- JUMP NAVIGATION -->
+<nav class="doc-nav">
+  <h4>In This Document</h4>
+  <ol>
+    <li><a href="#sec-philosophy">Monetisation Philosophy</a></li>
+    <li><a href="#sec-principles">Core Principles</a></li>
+    <li><a href="#sec-driver-economics">Driver Economics Baseline</a></li>
+    <li><a href="#sec-tiers">Tier Architecture (4 Tiers)</a></li>
+    <li><a href="#sec-free">Free Tier (Every Driver)</a></li>
+    <li><a href="#sec-pro">Pro Tier Features</a></li>
+    <li><a href="#sec-elite">Elite Tier Features</a></li>
+    <li><a href="#sec-proportionality">The Proportionality Rule</a></li>
+    <li><a href="#sec-psychology">Pricing Psychology</a></li>
+    <li><a href="#sec-precedents">Global Precedents</a></li>
+    <li><a href="#sec-anti-patterns">Anti-Patterns (What We Won't Do)</a></li>
+    <li><a href="#sec-revenue-model">Revenue Projection Model</a></li>
+    <li><a href="#sec-investor-narrative">The Investor Narrative</a></li>
+    <li><a href="#sec-glossary-pf">Glossary</a></li>
+    <li><a href="#sec-references-pf">Sources & References</a></li>
+  </ol>
+</nav>
+
+
+<!-- SECTION 1: PHILOSOPHY -->
+<h2 id="sec-philosophy">Monetisation Philosophy</h2>
+<h3>The Zero-Commission Promise Is Not a Loss Leader — It's the Business Model</h3>
+
+<div class="callout">
+  <h4 style="font-size: 20px; line-height: 1.4;">Every rupee a driver pays WarenYan must put more than one rupee back in the driver's pocket.</h4>
+  <p style="margin-top: 12px;">This is not charity. This is not a promotional offer. This is the structural economic logic of the platform. WarenYan charges zero commission because commission is a tax on labour. Instead, we sell tools that make drivers earn more. If a premium feature doesn't increase a driver's earning potential, it has no right to exist on this platform.</p>
+</div>
+
+<p>The ride-hailing industry has spent a decade monetising by extraction: take 15-25% of every ride, then raise it when the market has nowhere else to go. PickMe started at 15%, moved to 20%. Uber's global average is 25%+. HelaGo entered at 7% promising to be "different" — but it's the same architecture, just at a discount. Eventually, investor pressure forces commission up. It always does.</p>
+
+<p>WarenYan's monetisation is architecturally different. We don't take a cut of what drivers earn. We sell features that help them earn more. The distinction is fundamental: <strong>extraction vs. investment.</strong> Commission is a cost. Premium features are an investment — and the driver decides whether the return justifies the spend.</p>
+
+
+<!-- SECTION 2: CORE PRINCIPLES -->
+<h2 id="sec-principles">Core Principles</h2>
+<h3>Five Rules That Govern Every Premium Feature Decision</h3>
+
+<div class="principle-box">
+  <p><span class="number">1</span> <strong>Proportionality.</strong> Every premium feature must generate more revenue for the driver than it costs. If Pro costs LKR 1,500/month, it must demonstrably enable LKR 3,000+ in additional monthly earnings. The ROI must be visible, measurable, and real — not theoretical.</p>
+</div>
+
+<div class="principle-box">
+  <p><span class="number">2</span> <strong>Voluntariness.</strong> No driver is disadvantaged for staying free. Free-tier drivers get rides, get paid, and get the full core experience. Premium is an accelerator, not a gate. The moment free-tier drivers feel punished, the brand promise dies.</p>
+</div>
+
+<div class="principle-box">
+  <p><span class="number">3</span> <strong>Transparency.</strong> Drivers see exactly what each feature does, what it costs, and what the expected return is — in LKR, not marketing language. "Boost your earnings" is not acceptable copy. "Drivers with Priority Zones earn an average of LKR 800/day more" is.</p>
+</div>
+
+<div class="principle-box">
+  <p><span class="number">4</span> <strong>No Creep.</strong> Free-tier features never get moved behind a paywall. Once free, always free. This is a contractual commitment to driver trust. If we break this once, we're PickMe with extra steps.</p>
+</div>
+
+<div class="principle-box">
+  <p><span class="number">5</span> <strong>Proportional Pricing.</strong> Subscription costs are proportional to local driver income. At ~LKR 40,000-60,000/month average driver income, a premium tier should not exceed 2-4% of monthly earnings. Any higher and the value proposition inverts.</p>
+</div>
+
+
+<!-- SECTION 3: DRIVER ECONOMICS -->
+<h2 id="sec-driver-economics">Driver Economics Baseline</h2>
+<h3>Understanding the Income We're Building For</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Low End</th>
+      <th>Average</th>
+      <th>High End</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Daily income (Colombo)</td>
+      <td>LKR 1,500</td>
+      <td>LKR 2,000-3,000</td>
+      <td>LKR 4,000-5,000</td>
+      <td>Driver surveys, Glassdoor</td>
+    </tr>
+    <tr>
+      <td>Monthly income</td>
+      <td>LKR 35,000</td>
+      <td>LKR 50,000-60,000</td>
+      <td>LKR 90,000+</td>
+      <td>Salary.lk, industry estimates</td>
+    </tr>
+    <tr>
+      <td>Rides per day</td>
+      <td>8-10</td>
+      <td>12-15</td>
+      <td>20+</td>
+      <td>PickMe driver interviews</td>
+    </tr>
+    <tr>
+      <td>Average fare per ride</td>
+      <td>LKR 150</td>
+      <td>LKR 250-350</td>
+      <td>LKR 600+</td>
+      <td>Market rates</td>
+    </tr>
+    <tr>
+      <td>Fuel cost / day</td>
+      <td>LKR 400</td>
+      <td>LKR 600-800</td>
+      <td>LKR 1,200+</td>
+      <td>Driver estimates</td>
+    </tr>
+    <tr>
+      <td>PickMe commission loss / month</td>
+      <td>LKR 7,000</td>
+      <td>LKR 10,000-12,000</td>
+      <td>LKR 18,000+</td>
+      <td>20% of gross</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout-amber">
+  <h4>The key insight: WarenYan already saves the average driver LKR 10,000-12,000/month by charging zero commission.</h4>
+  <p>That's the baseline. That's what every driver gets for free, just by being on the platform. Premium features need to deliver <em>on top of</em> this savings — additional earning potential that the driver wouldn't have otherwise.</p>
+</div>
+
+
+<!-- SECTION 4: TIER ARCHITECTURE -->
+<h2 id="sec-tiers">Tier Architecture</h2>
+<h3>Four Tiers, Clear Value, No Coercion</h3>
+
+<div class="grid-2">
+  <div class="card" style="border-left-color: #6B7280;">
+    <div style="text-align: center; margin-bottom: 16px;">
+      <span class="tier-badge tier-free">Free</span>
+    </div>
+    <h4 style="text-align: center;">Every Driver</h4>
+    <p style="text-align: center; color: var(--gray); font-size: 14px;">Full ride-hailing experience. Zero commission. Zero cost. Forever.</p>
+    <p style="text-align: center; font-size: 28px; font-weight: 900; color: var(--deep); margin-top: 12px;">LKR 0</p>
+    <p style="text-align: center; font-size: 12px; color: var(--gray);">Always free</p>
+  </div>
+  <div class="card" style="border-left-color: var(--blue);">
+    <div style="text-align: center; margin-bottom: 16px;">
+      <span class="tier-badge" style="background: #DBEAFE; color: #1E40AF;">WarenYan+</span>
+    </div>
+    <h4 style="text-align: center;">Entry Tier</h4>
+    <p style="text-align: center; color: var(--gray); font-size: 14px;">Basic premium perks. Creates a paid relationship. Seeds the upgrade funnel.</p>
+    <p style="text-align: center; font-size: 28px; font-weight: 900; color: var(--blue); margin-top: 12px;">LKR 99</p>
+    <p style="text-align: center; font-size: 12px; color: var(--gray);">/month (~LKR 3/day)</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card" style="border-left-color: var(--primary);">
+    <div style="text-align: center; margin-bottom: 16px;">
+      <span class="tier-badge tier-pro">Pro</span>
+    </div>
+    <h4 style="text-align: center;">Earning Accelerator</h4>
+    <p style="text-align: center; color: var(--gray); font-size: 14px;">Priority features + analytics that put more riders in your tuk-tuk.</p>
+    <p style="text-align: center; font-size: 28px; font-weight: 900; color: var(--primary); margin-top: 12px;">LKR 990-1,500</p>
+    <p style="text-align: center; font-size: 12px; color: var(--gray);">/month (~2-3% of income)</p>
+  </div>
+  <div class="card" style="border-left-color: var(--gold);">
+    <div style="text-align: center; margin-bottom: 16px;">
+      <span class="tier-badge tier-elite">Elite</span>
+    </div>
+    <h4 style="text-align: center;">Full Business Suite</h4>
+    <p style="text-align: center; color: var(--gray); font-size: 14px;">Business tools + premium visibility + insurance access. Run your tuk-tuk like a business.</p>
+    <p style="text-align: center; font-size: 28px; font-weight: 900; color: var(--gold); margin-top: 12px;">LKR 2,500-3,500</p>
+    <p style="text-align: center; font-size: 12px; color: var(--gray);">/month (~4-6% of income)</p>
+  </div>
+</div>
+
+<p style="margin-top: 16px; color: var(--gray); font-size: 14px;"><strong>Note:</strong> Price ranges above are indicative for the scenarios dashboard. Final pricing requires market testing (see Subscription Scenarios Dashboard for interactive modelling). FX rate: 320 LKR/USD standard.</p>
+
+
+<!-- THE LKR 99 ENTRY TIER RATIONALE -->
+<h3 style="margin-top: 32px;">The LKR 99 Entry Tier — Why It Exists</h3>
+
+<div class="callout-blue">
+  <h4 style="font-size: 18px; line-height: 1.4;">LKR 99/month. Less than a cup of tea. That's the price of becoming a WarenYan+ member.</h4>
+  <p style="margin-top: 12px;">The LKR 99 entry tier serves three strategic functions simultaneously. For the driver, it's psychologically negligible — LKR 3/day is invisible in their daily cash flow. For the business, it creates a paid customer relationship (payment data, engagement metrics, upsell funnel). For investors, it transforms "free users" into "paying subscribers" — a categorically different conversation in fundraising.</p>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Function</th>
+      <th>Why It Matters</th>
+      <th>Economics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Paid relationship seeding</strong></td>
+      <td>Once a driver pays even LKR 99, they've crossed the psychological barrier from "free user" to "subscriber." The jump from LKR 99 to LKR 990 (Pro) is 10x in price but a much smaller psychological leap than free-to-paid.</td>
+      <td>Freemium-to-paid conversion: 8-15%. Paid-to-upgrade: 25-40%. The LKR 99 tier is the bridge.</td>
+    </tr>
+    <tr>
+      <td><strong>Branding power</strong></td>
+      <td>"WarenYan+ for ninety-nine rupees a month" is a marketing weapon. It's memorable, shareable, and creates a belonging identity. Every driver who signs up becomes part of "the plus club" — peer influence drives further adoption.</td>
+      <td>Cost per acquisition for + tier is near-zero (word of mouth + in-app prompt). CAC payback: immediate.</td>
+    </tr>
+    <tr>
+      <td><strong>Investor narrative</strong></td>
+      <td>"We have 2,000 paying subscribers" vs "We have 5,000 free users." The former raises at 3-5x the valuation of the latter. Even at LKR 99, the subscriber count is real, the payment pipeline works, and the conversion funnel is proven.</td>
+      <td>At 5,000 drivers with 40% WarenYan+ conversion: 2,000 paying subscribers generating LKR 198,000/month (~$619 at 320 LKR/USD). Revenue is modest — narrative is powerful.</td>
+    </tr>
+    <tr>
+      <td><strong>Payment infrastructure testing</strong></td>
+      <td>Before Pro/Elite launch, the LKR 99 tier tests the entire payment flow (mobile money, bank transfer, in-app billing) at minimal risk. If the payment pipeline breaks, it breaks on a LKR 99 transaction, not a LKR 2,500 one.</td>
+      <td>De-risks the premium tier launch. Identifies payment friction before it costs real revenue.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 style="margin-top: 32px;">WarenYan+ Features (LKR 99 Tier)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Description</th>
+      <th>Why It's Worth LKR 99</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>WarenYan+ badge</strong></td>
+      <td>Visible "+" badge next to driver name in the rider app. Subtle trust signal.</td>
+      <td>Distinguishes from unverified free-tier drivers. Riders slightly prefer badged drivers.</td>
+    </tr>
+    <tr>
+      <td><strong>Weekly earnings digest</strong></td>
+      <td>SMS or push notification with weekly income summary, best-earning day, and one tip.</td>
+      <td>Keeps the driver engaged with the platform. Creates a "my app knows me" feeling.</td>
+    </tr>
+    <tr>
+      <td><strong>Extended ride history</strong></td>
+      <td>90-day ride history (vs 30-day for free tier).</td>
+      <td>Useful for tax, disputes, or personal tracking. Low-cost to provide, perceived as valuable.</td>
+    </tr>
+    <tr>
+      <td><strong>Priority support</strong></td>
+      <td>Faster CS response time for + members.</td>
+      <td>Creates a tangible service difference without restricting free-tier core support.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- MINIMUM BASE SUBSCRIPTION CHARGE ANALYSIS -->
+<h3 style="margin-top: 32px;">Minimum Base Charge Analysis — The Break-Even Floor</h3>
+
+<div class="callout-red">
+  <h4>What is the absolute minimum subscription price that covers operational costs?</h4>
+  <p>Working backwards from operational costs ($4K-7K/month at 320 LKR/USD) to find the price floor at different scale points. The 25% buffer accounts for churn, payment failures, and FX volatility.</p>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Active Drivers</th>
+      <th>Combined Conversion</th>
+      <th>Paying Subs</th>
+      <th>Min Price (raw) @ $5.5K ops</th>
+      <th>Min Price (+25% buffer)</th>
+      <th>% of Income</th>
+      <th>Verdict</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1,000</td>
+      <td>15%</td>
+      <td>150</td>
+      <td>LKR 11,733</td>
+      <td>LKR 14,667</td>
+      <td>29.3%</td>
+      <td><span class="tag tag-red">Impossible</span></td>
+    </tr>
+    <tr>
+      <td>2,000</td>
+      <td>18%</td>
+      <td>360</td>
+      <td>LKR 4,889</td>
+      <td>LKR 6,111</td>
+      <td>12.2%</td>
+      <td><span class="tag tag-red">Overpriced</span></td>
+    </tr>
+    <tr>
+      <td>3,000</td>
+      <td>20%</td>
+      <td>600</td>
+      <td>LKR 2,933</td>
+      <td>LKR 3,667</td>
+      <td>7.3%</td>
+      <td><span class="tag tag-amber">Borderline</span></td>
+    </tr>
+    <tr style="background: #FEF3C7;">
+      <td>5,000</td>
+      <td>20%</td>
+      <td>1,000</td>
+      <td>LKR 1,760</td>
+      <td>LKR 2,200</td>
+      <td>4.4%</td>
+      <td><span class="tag tag-amber">Viable</span></td>
+    </tr>
+    <tr style="background: #D1FAE5;">
+      <td>7,500</td>
+      <td>22%</td>
+      <td>1,650</td>
+      <td>LKR 1,067</td>
+      <td>LKR 1,333</td>
+      <td>2.7%</td>
+      <td><span class="tag tag-green">Affordable</span></td>
+    </tr>
+    <tr style="background: #D1FAE5;">
+      <td>10,000</td>
+      <td>25%</td>
+      <td>2,500</td>
+      <td>LKR 704</td>
+      <td>LKR 880</td>
+      <td>1.8%</td>
+      <td><span class="tag tag-green">Sweet spot</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <h4>The key insight for investors</h4>
+  <p>At less than 5,000 drivers, subscription revenue alone cannot cover ops cost at an affordable price point. This is expected and planned for — it's what the R1 ($100K) and R2 ($200-300K) investment capital covers. The break-even threshold is approximately <strong>5,000-7,500 active drivers at 20-22% paid conversion</strong>. Below this, the company operates on investment capital. Above this, it self-sustains. The LKR 99 entry tier accelerates the conversion funnel but isn't designed to carry the revenue load — Pro and Elite are the revenue engines.</p>
+</div>
+
+<p><strong>Three-scenario minimum charge (at 5,000 drivers, 20% combined conversion):</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Monthly Ops</th>
+      <th>Paying Subscribers</th>
+      <th>Min Price (buffered)</th>
+      <th>% of Income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Lean ($4K ops)</strong></td>
+      <td>$4,000</td>
+      <td>1,000</td>
+      <td><strong>LKR 1,600</strong></td>
+      <td>3.2%</td>
+    </tr>
+    <tr>
+      <td><strong>Mid ($5.5K ops)</strong></td>
+      <td>$5,500</td>
+      <td>1,000</td>
+      <td><strong>LKR 2,200</strong></td>
+      <td>4.4%</td>
+    </tr>
+    <tr>
+      <td><strong>Full ($7K ops)</strong></td>
+      <td>$7,000</td>
+      <td>1,000</td>
+      <td><strong>LKR 2,800</strong></td>
+      <td>5.6%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin-top: 16px; color: var(--gray); font-size: 14px;"><strong>Implication:</strong> The Pro tier at LKR 990-1,500 is <em>below</em> the break-even floor at 5,000 drivers — which means the blended revenue from WarenYan+ (LKR 99, high volume) + Pro (LKR 990-1,500, medium volume) + Elite (LKR 2,500-3,500, low volume) must combine to hit the floor. See the Subscription Scenarios Dashboard for interactive modelling of this blended revenue.</p>
+
+
+<!-- SECTION 5: FREE TIER -->
+<h2 id="sec-free">Free Tier</h2>
+<h3>The Complete Experience — No Asterisks</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Description</th>
+      <th>Why It's Free Forever</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Ride matching</strong></td>
+      <td>Full ride request, accept, navigate, complete cycle</td>
+      <td>Core product. Gatekeeping this = commission by another name.</td>
+    </tr>
+    <tr>
+      <td><strong>Zero commission</strong></td>
+      <td>Keep 100% of every fare</td>
+      <td>The brand promise. Non-negotiable.</td>
+    </tr>
+    <tr>
+      <td><strong>Fair fare display</strong></td>
+      <td>Rider sees price before booking, driver sees fare before accepting</td>
+      <td>Transparency builds trust. Trust builds retention.</td>
+    </tr>
+    <tr>
+      <td><strong>SOS / safety</strong></td>
+      <td>Emergency button, location sharing, incident reporting</td>
+      <td>Safety is a human right, not a premium feature.</td>
+    </tr>
+    <tr>
+      <td><strong>Driver profile</strong></td>
+      <td>Photo, name, rating, vehicle details</td>
+      <td>Basic identity and trust infrastructure.</td>
+    </tr>
+    <tr>
+      <td><strong>Cash payments</strong></td>
+      <td>Accept cash for all rides</td>
+      <td>80%+ of Sri Lankan transactions are cash.</td>
+    </tr>
+    <tr>
+      <td><strong>Basic earnings view</strong></td>
+      <td>Daily/weekly totals, ride count</td>
+      <td>Drivers need to know what they earned.</td>
+    </tr>
+    <tr>
+      <td><strong>Navigation</strong></td>
+      <td>Turn-by-turn directions via Mapbox</td>
+      <td>Route guidance is operational infrastructure.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <p><strong>The test:</strong> Can a free-tier driver make a full living on WarenYan without ever paying us anything? The answer must always be <strong>yes</strong>. If not, we've built PickMe 2.0 and the brand promise is dead.</p>
+</div>
+
+
+<!-- SECTION 6: PRO TIER -->
+<h2 id="sec-pro">Pro Tier Features</h2>
+<h3>Earning Accelerators — Each Feature Must Pay For Itself</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>What It Does</th>
+      <th>Earning Impact</th>
+      <th>Economics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Priority Zones</strong></td>
+      <td>See real-time demand heatmaps. Get notified when high-demand zones activate near you.</td>
+      <td>Position yourself where demand is, not where you guess it is. Reduces dead-time between rides by 15-25%.</td>
+      <td>~LKR 500-800/day more for drivers who reposition vs. those who don't.</td>
+    </tr>
+    <tr>
+      <td><strong>Advance Booking</strong></td>
+      <td>Accept pre-scheduled rides (airport pickups, office commutes, school runs). Riders book 1-24 hours ahead.</td>
+      <td>Guaranteed rides = guaranteed income. No idle time. Fills low-demand hours with confirmed bookings.</td>
+      <td>3-5 advance bookings/week at higher avg. fare = LKR 2,000-4,000/week additional.</td>
+    </tr>
+    <tr>
+      <td><strong>Earnings Analytics</strong></td>
+      <td>Hourly earning breakdown, best routes, peak time patterns, fuel cost tracking, net income calculator.</td>
+      <td>Drivers who understand their data optimise their hours. Work smarter, not longer.</td>
+      <td>Indirect: drivers report 10-15% income improvement when they track and adjust.</td>
+    </tr>
+    <tr>
+      <td><strong>Rider Preferences</strong></td>
+      <td>Set preferred ride types (short hops, long routes, tourist), preferred areas, working hours.</td>
+      <td>Better ride matching = higher satisfaction = higher ratings = more ride requests.</td>
+      <td>Reduces cancellation rate, improves completion rate and tips.</td>
+    </tr>
+    <tr>
+      <td><strong>Digital Payments</strong></td>
+      <td>Accept QR code and card payments through the app. Rider pays digitally, funds settle to driver's bank.</td>
+      <td>Access to riders who don't carry cash (tourists, urban professionals). Larger transaction sizes.</td>
+      <td>Digital ride fares average 20-30% higher than cash rides globally.</td>
+    </tr>
+    <tr>
+      <td><strong>Priority Queue</strong></td>
+      <td>Slight boost in ride matching algorithm during high-demand periods.</td>
+      <td>More ride requests during peak hours when earnings per hour are highest.</td>
+      <td>1-3 additional rides/day during peaks = LKR 300-900/day additional.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <h4>Pro ROI calculation</h4>
+  <p>At LKR 1,500/month cost, a Pro driver needs just <strong>LKR 50/day</strong> in additional earnings to break even. The Priority Zones feature alone is estimated to deliver LKR 500-800/day. That's a <strong>10-16x return on investment.</strong> This is the pitch: "Pay us fifty rupees a day, earn five hundred more."</p>
+</div>
+
+
+<!-- SECTION 7: ELITE TIER -->
+<h2 id="sec-elite">Elite Tier Features</h2>
+<h3>Run Your Tuk-Tuk Like a Business</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>What It Does</th>
+      <th>Earning Impact</th>
+      <th>Economics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Featured Driver Badge</strong></td>
+      <td>Visible badge in rider app. Highlighted in search. Trust signal for tourists and first-time riders.</td>
+      <td>Higher selection rate from riders who have a choice between multiple nearby drivers.</td>
+      <td>Estimated 20-30% increase in ride requests for badged drivers.</td>
+    </tr>
+    <tr>
+      <td><strong>Business Dashboard</strong></td>
+      <td>Full P&L view: income, fuel, maintenance, insurance, vehicle payments. Monthly/quarterly reporting. Tax-ready export.</td>
+      <td>Professionalises the operation. Helps drivers see true profitability and make better decisions.</td>
+      <td>Indirect but significant: enables cost reduction through visibility.</td>
+    </tr>
+    <tr>
+      <td><strong>Insurance Access</strong></td>
+      <td>Bundled access to SLIC Motor Plus Tuk or Ceylinco VIP at group-negotiated rates. In-app claims.</td>
+      <td>Lower insurance premiums through group purchasing power. Faster claims = less downtime.</td>
+      <td>Group rates typically 15-25% below retail. Saves LKR 2,000-5,000/year.</td>
+    </tr>
+    <tr>
+      <td><strong>Regular Rider Network</strong></td>
+      <td>Riders can "favourite" and directly request specific drivers. Build a personal client base within the platform.</td>
+      <td>Repeat riders = predictable income. Reduces dependence on algorithmic matching.</td>
+      <td>Top-performing drivers on other platforms report 30-40% of rides from repeat customers.</td>
+    </tr>
+    <tr>
+      <td><strong>Multi-Stop / Hourly Hire</strong></td>
+      <td>Accept multi-stop trips and hourly rentals (market runs, tourist tours, errands).</td>
+      <td>Higher-value trips. A 2-hour tourist tour at LKR 1,200/hr vs. point-to-point at LKR 300.</td>
+      <td>3-5 hourly hires/week = LKR 5,000-10,000 additional weekly.</td>
+    </tr>
+    <tr>
+      <td><strong>Vehicle Maintenance Alerts</strong></td>
+      <td>Mileage-based service reminders, nearby mechanic directory, maintenance cost tracking.</td>
+      <td>Preventive maintenance reduces breakdowns. Less downtime = more earning hours.</td>
+      <td>Indirect: 1 avoided breakdown/quarter saves 1-3 earning days (LKR 3,000-9,000).</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout" style="border-left-color: var(--gold); background: #FFFBEB;">
+  <h4>Elite ROI calculation</h4>
+  <p>At LKR 3,500/month cost, an Elite driver needs ~<strong>LKR 115/day</strong> in additional earnings to break even. The Featured Driver Badge alone (20-30% more ride requests) delivers multiples of this. Multi-stop/hourly hire delivers LKR 5,000-10,000/week. Insurance group rate saves LKR 2,000-5,000/year. <strong>Total estimated additional monthly earning potential: LKR 15,000-30,000.</strong> That's a 4-8x return.</p>
+</div>
+
+
+<!-- SECTION 8: PROPORTIONALITY RULE -->
+<h2 id="sec-proportionality">The Proportionality Rule</h2>
+<h3>The Math That Keeps Us Honest</h3>
+
+<div class="callout-red">
+  <h4>If a driver can't make back 3x the subscription cost from the premium features alone, the pricing is wrong.</h4>
+  <p>This is not a guideline. This is a hard rule. The minimum acceptable ROI for any premium tier is 3:1. If we can't demonstrate this with real driver data within 90 days of launch, we lower the price until we can.</p>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tier</th>
+      <th>Monthly Cost</th>
+      <th>Min. Required Additional Earnings</th>
+      <th>Target Additional Earnings</th>
+      <th>ROI Target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="tier-badge tier-free">Free</span></td>
+      <td>LKR 0</td>
+      <td>N/A</td>
+      <td>LKR 10,000-12,000 (commission saved vs PickMe)</td>
+      <td>∞</td>
+    </tr>
+    <tr>
+      <td><span class="tier-badge tier-pro">Pro</span></td>
+      <td>LKR 990-1,500</td>
+      <td>LKR 3,000-4,500</td>
+      <td>LKR 8,000-15,000</td>
+      <td>5-10x</td>
+    </tr>
+    <tr>
+      <td><span class="tier-badge tier-elite">Elite</span></td>
+      <td>LKR 2,500-3,500</td>
+      <td>LKR 7,500-10,500</td>
+      <td>LKR 15,000-30,000</td>
+      <td>4-8x</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>The proportionality check is applied twice:</strong> once at design (when we model the feature economics before building it) and once in production (when we measure actual driver earnings data). If a feature underperforms its projected ROI for more than 60 days, it either gets improved, repriced, or moved to the free tier.</p>
+
+
+<!-- SECTION 9: PRICING PSYCHOLOGY -->
+<h2 id="sec-psychology">Pricing Psychology</h2>
+<h3>Why These Numbers, Not Other Numbers</h3>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>Anchoring Effect</h4>
+    <p>The Free tier anchors the driver's mental model at zero cost. Everything else is measured against "I was already saving LKR 10,000/month in commission." Pro at LKR 1,500 feels trivial against that backdrop — it's giving back 15% of what you already saved.</p>
+  </div>
+  <div class="card">
+    <h4>Decoy Effect (Asymmetric Dominance)</h4>
+    <p>Three tiers, not two. Pro is priced to be the "obvious choice" — most features, reasonable cost, clear ROI. Elite exists partly to make Pro look like a bargain. 60-70% of paid users should land on Pro.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>Loss Aversion</h4>
+    <p>Framing matters. "You're losing LKR 800/day by not knowing where demand is" hits harder than "earn LKR 800/day more." The pain of losing is 2x the pleasure of gaining (Kahneman & Tversky, 1979). Marketing copy should lead with what they're missing.</p>
+  </div>
+  <div class="card">
+    <h4>Endowment Effect</h4>
+    <p>Offer 30-day free Pro trial to all new drivers. Once they've experienced Priority Zones and Earnings Analytics for a month, removing them feels like a loss. Trial-to-paid conversion rates in freemium models: 8-15% for general SaaS, but 25-40% when the product directly increases income.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>Income Proportionality (Van Westendorp)</h4>
+    <p>For gig workers in developing markets, the willingness-to-pay ceiling is 3-5% of monthly income. Above this, adoption collapses. At LKR 50,000 average monthly income, that ceiling is LKR 1,500-2,500. Pro sits right at the sweet spot. Elite pushes into the 5-7% range and is designed for high-earning drivers.</p>
+  </div>
+  <div class="card">
+    <h4>Charm Pricing</h4>
+    <p>LKR 990 (not 1,000). LKR 2,499 (not 2,500). The left-digit effect reduces perceived price by 15-20%. For a price-sensitive market where LKR 10 matters psychologically, this isn't trivial — it's the difference between "affordable" and "expensive" in the driver's mental accounting.</p>
+  </div>
+</div>
+
+<div class="callout-blue">
+  <h4>The Critical Constraint: Daily Income Framing</h4>
+  <p>Never present subscription costs as a monthly figure in driver-facing marketing. Always frame as daily cost. "LKR 33/day for Pro" is psychologically easier than "LKR 990/month." LKR 33 is less than a cup of tea. LKR 990 is a grocery run. Same money, different psychology. The daily frame is mandatory in all driver communications.</p>
+</div>
+
+
+<!-- SECTION 10: GLOBAL PRECEDENTS -->
+<h2 id="sec-precedents">Global Precedents</h2>
+<h3>How Other Platforms Monetise Drivers (And What We Learn)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Platform</th>
+      <th>Model</th>
+      <th>What They Charge</th>
+      <th>What We Learn</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Uber Pro</strong></td>
+      <td>Gamified tiers (Blue → Gold → Platinum → Diamond)</td>
+      <td>Free — but tiered benefits require high acceptance rates (effectively: work more, get perks). Diamond gets tuition, Costco membership, priority rides.</td>
+      <td>Tiers work. But tying them to acceptance rate is coercive — drivers can't decline bad rides without losing status. We should never penalise for declining rides.</td>
+    </tr>
+    <tr>
+      <td><strong>Lyft Pink (riders)</strong></td>
+      <td>Rider subscription</td>
+      <td>$9.99/month — 15% off rides, priority pickups, relaxed cancellations.</td>
+      <td>Rider-side subscriptions work when riders save more than they pay. The same logic applies driver-side. If the driver saves/earns more than they pay, conversion is high.</td>
+    </tr>
+    <tr>
+      <td><strong>Bolt (Driver+)</strong></td>
+      <td>Driver subscription in select markets</td>
+      <td>€5-15/month — lower commission rate (e.g., 15% instead of 25%), priority dispatch.</td>
+      <td>Bolt proved drivers will pay for lower commission. But this is still extraction — just discounted extraction. We can't replicate this because our commission is already zero. Our premium must add capability, not reduce a tax.</td>
+    </tr>
+    <tr>
+      <td><strong>Grab (GrabBenefits)</strong></td>
+      <td>Driver loyalty + insurance bundling</td>
+      <td>Points-based rewards, insurance access, fuel discounts through partnerships.</td>
+      <td>Insurance bundling and fuel partnerships are high-value. Group negotiation for insurance premiums is a genuine cost savings drivers can't get individually. Worth replicating.</td>
+    </tr>
+    <tr>
+      <td><strong>SafeBoda (Uganda/Kenya)</strong></td>
+      <td>Community-first, driver training, safety certification</td>
+      <td>Training and certification for boda-boda drivers. Safety-certified badge = more rides.</td>
+      <td>Trust badges drive rider selection. A "WarenYan Verified" or "Elite" badge has tangible ride-matching value. 80% driver retention in SafeBoda's model.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<!-- SECTION 11: ANTI-PATTERNS -->
+<h2 id="sec-anti-patterns">Anti-Patterns</h2>
+<h3>What WarenYan Will Never Do</h3>
+
+<div class="grid-2">
+  <div class="card red">
+    <h4>Surge Pricing</h4>
+    <p>Charging riders more during high demand, with or without passing the premium to drivers. Destroys rider trust. Creates fare unpredictability. The antithesis of "fair fares that keep your riders coming back."</p>
+  </div>
+  <div class="card red">
+    <h4>Commission Introduction</h4>
+    <p>Introducing any per-ride fee, however small, however "temporary." The moment a per-ride fee appears, the entire brand narrative collapses. Zero means zero. Forever.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card red">
+    <h4>Penalising Free Tier</h4>
+    <p>Artificially throttling ride requests to free-tier drivers to push upgrades. This is what Uber does implicitly through its acceptance-rate-tied tier system. We will never reduce a free-tier driver's natural ride flow to make premium look better.</p>
+  </div>
+  <div class="card red">
+    <h4>Feature Paywalling (Retroactive)</h4>
+    <p>Moving a feature from free to paid after launch. Once a feature is in the free tier, it stays there. Full stop. If we need more revenue, we build new premium features — we don't steal existing ones.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card red">
+    <h4>Rider Data Selling</h4>
+    <p>Selling rider or driver personal data to third parties. Not a revenue model. Not a consideration. PDPA compliance is the floor, not the ceiling.</p>
+  </div>
+  <div class="card red">
+    <h4>Advertising to Drivers</h4>
+    <p>Displaying ads in the driver app. The app is a professional tool. It's not a billboard. Driver attention is for driving, not for selling them things they didn't ask for.</p>
+  </div>
+</div>
+
+
+<!-- SECTION 12: REVENUE PROJECTION -->
+<h2 id="sec-revenue-model">Revenue Projection Model</h2>
+<h3>Conservative Scenario: How Subscriptions Scale</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Month 3</th>
+      <th>Month 6</th>
+      <th>Month 12</th>
+      <th>Month 18</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Active drivers</td>
+      <td>500</td>
+      <td>2,000</td>
+      <td>5,000</td>
+      <td>10,000</td>
+    </tr>
+    <tr>
+      <td>Pro conversion (%)</td>
+      <td>5%</td>
+      <td>12%</td>
+      <td>18%</td>
+      <td>22%</td>
+    </tr>
+    <tr>
+      <td>Elite conversion (%)</td>
+      <td>0%</td>
+      <td>2%</td>
+      <td>5%</td>
+      <td>8%</td>
+    </tr>
+    <tr>
+      <td>WarenYan+ conversion (%)</td>
+      <td>20%</td>
+      <td>35%</td>
+      <td>40%</td>
+      <td>40%</td>
+    </tr>
+    <tr>
+      <td>WarenYan+ subscribers</td>
+      <td>100</td>
+      <td>700</td>
+      <td>2,000</td>
+      <td>4,000</td>
+    </tr>
+    <tr>
+      <td>Pro subscribers</td>
+      <td>25</td>
+      <td>240</td>
+      <td>900</td>
+      <td>2,200</td>
+    </tr>
+    <tr>
+      <td>Elite subscribers</td>
+      <td>0</td>
+      <td>40</td>
+      <td>250</td>
+      <td>800</td>
+    </tr>
+    <tr>
+      <td>WarenYan+ revenue (LKR)</td>
+      <td>9,900</td>
+      <td>69,300</td>
+      <td>198,000</td>
+      <td>396,000</td>
+    </tr>
+    <tr>
+      <td>Pro revenue (LKR)</td>
+      <td>24,750</td>
+      <td>237,600</td>
+      <td>891,000</td>
+      <td>2,178,000</td>
+    </tr>
+    <tr>
+      <td>Elite revenue (LKR)</td>
+      <td>0</td>
+      <td>100,000</td>
+      <td>625,000</td>
+      <td>2,000,000</td>
+    </tr>
+    <tr style="background: #E8F5E9;">
+      <td><strong>Total monthly subscription revenue</strong></td>
+      <td><strong>LKR 34,650</strong></td>
+      <td><strong>LKR 406,900</strong></td>
+      <td><strong>LKR 1,714,000</strong></td>
+      <td><strong>LKR 4,574,000</strong></td>
+    </tr>
+    <tr style="background: #E8F5E9;">
+      <td><strong>USD equivalent (~320 LKR/USD)</strong></td>
+      <td><strong>~$108</strong></td>
+      <td><strong>~$1,272</strong></td>
+      <td><strong>~$5,356</strong></td>
+      <td><strong>~$14,294</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Total paying subscribers</strong></td>
+      <td><strong>125</strong></td>
+      <td><strong>980</strong></td>
+      <td><strong>3,150</strong></td>
+      <td><strong>7,000</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <h4>Break-even contribution</h4>
+  <p>At $4-7K/month full operational cost, subscription revenue alone covers 15-25% of costs by Month 6, 72-100% by Month 12, and generates surplus by Month 15-18. This is the path to self-sustaining operations without ever touching driver commissions. <strong>For investors: this model works precisely because we don't charge commission.</strong> The subscription conversion rate is higher because drivers trust us — and trust converts to revenue.</p>
+</div>
+
+
+<!-- SECTION 13: INVESTOR NARRATIVE -->
+<h2 id="sec-investor-narrative">The Investor Narrative</h2>
+<h3>How This Story Lands in the Pitch Deck</h3>
+
+<div class="callout" style="border-left-color: var(--deep); background: #E8F5E9;">
+  <h4 style="font-size: 18px; line-height: 1.4;">The pitch in one paragraph:</h4>
+  <p style="margin-top: 12px;">"Every ride-hailing company in history has monetised by taxing drivers 15-25% per ride. WarenYan takes zero. Instead, we sell premium tools that help drivers earn more — Priority Zones, Advance Booking, Business Analytics, Insurance Access. Drivers pay LKR 990-3,500/month for features that generate 4-10x returns. Our conversion economics are better than traditional SaaS because the product directly increases the customer's income. At 10,000 active drivers with 22% Pro and 8% Elite conversion, subscription revenue alone exceeds our $4-7K monthly operating cost. This isn't a loss-leader strategy waiting for commission to be introduced. Commission is never coming. The architecture doesn't need it."</p>
+</div>
+
+<p><strong>Investor objection: "But Juno tried zero commission and failed."</strong></p>
+<p>Juno (NYC, 2016-2020) offered zero commission as a promotional growth tactic with no alternative revenue model. When they ran out of funding, they had no way to monetise. WarenYan has a revenue model from day one: premium subscriptions with demonstrated ROI. Juno failed because zero commission was a promotion. For us, it's the business model — supported by a premium tier that drivers voluntarily pay because it makes them money.</p>
+
+<p><strong>Investor objection: "Conversion rates in developing markets are low."</strong></p>
+<p>True for general consumer apps (2-5% conversion). But WarenYan's premium features are income-generating tools for professional workers, not entertainment or social features. The comparison isn't Spotify or Netflix conversion — it's "tool that pays for itself" conversion. Comparable: Shopify's SMB conversion in emerging markets (8-15%), mobile money premium tiers in East Africa (10-20%), SafeBoda certification uptake in Uganda (estimated 30%+). When the product demonstrably increases income, price sensitivity drops dramatically.</p>
+
+
+<!-- GLOSSARY -->
+<h2 id="sec-glossary-pf">Glossary</h2>
+<h3>Terms & Abbreviations</h3>
+
+<dl class="glossary">
+  <dt id="term-roi-pf">ROI</dt>
+  <dd>Return on Investment. In this context: additional monthly earnings generated by a premium feature divided by its monthly cost. Minimum acceptable ROI for any premium tier: 3:1.</dd>
+
+  <dt id="term-van-westendorp">Van Westendorp PSM</dt>
+  <dd>Price Sensitivity Meter. A survey-based pricing research methodology that identifies optimal price points by asking four questions about perceived value (too cheap, bargain, expensive, too expensive).</dd>
+
+  <dt id="term-freemium">Freemium</dt>
+  <dd>Business model where the core product is free, with premium features available for a fee. WarenYan's version: the core ride-hailing experience is free forever; earning-accelerator tools are paid.</dd>
+
+  <dt id="term-arpu">ARPU</dt>
+  <dd>Average Revenue Per User. For WarenYan: calculated across all active drivers (including free-tier). Target ARPU increases as conversion rates improve over time.</dd>
+
+  <dt id="term-ltv">LTV</dt>
+  <dd>Lifetime Value. Total revenue generated by a driver over their time on the platform. For subscription models: monthly subscription x average retention months.</dd>
+
+  <dt id="term-churn">Churn Rate</dt>
+  <dd>Percentage of paid subscribers who cancel their subscription in a given period. Target: below 8% monthly. Critical to monitor: churn driven by dissatisfaction (bad) vs. seasonal income variation (manageable).</dd>
+
+  <dt id="term-cac-pf">CAC</dt>
+  <dd>Customer Acquisition Cost. Total cost to acquire one active driver (marketing + recruitment + onboarding). Must be recoverable within 3 months of subscription revenue for paid tiers.</dd>
+
+  <dt id="term-kahneman">Kahneman & Tversky</dt>
+  <dd>Daniel Kahneman and Amos Tversky. Nobel Prize-winning behavioural economists who established Prospect Theory (1979), demonstrating that losses are felt approximately twice as strongly as equivalent gains (loss aversion).</dd>
+
+  <dt id="term-decoy-effect">Decoy Effect</dt>
+  <dd>A cognitive bias where adding a third, asymmetrically dominated option makes one of the original two options more attractive. Used in tier pricing: Elite tier makes Pro look like a bargain.</dd>
+
+  <dt id="term-endowment-effect">Endowment Effect</dt>
+  <dd>People value things more once they possess them. Applied: 30-day free trial creates ownership psychology. Removing Pro features after trial feels like a loss, driving conversion.</dd>
+
+  <dt id="term-charm-pricing">Charm Pricing</dt>
+  <dd>Pricing strategy using prices ending in 9 or 99 (e.g., LKR 990 vs. LKR 1,000). The left-digit effect makes the perceived price significantly lower. Effective in price-sensitive markets.</dd>
+
+  <dt id="term-anchor-pricing">Anchoring</dt>
+  <dd>Cognitive bias where the first number seen influences all subsequent price judgments. WarenYan's anchor: "You're already saving LKR 10,000/month in commission. Pro costs 15% of that."</dd>
+</dl>
+
+
+<!-- REFERENCES -->
+<h2 id="sec-references-pf">Sources & References</h2>
+<h3>Research Citations</h3>
+
+<div class="ref-list">
+  <p>
+    <strong>[1]</strong> Uber Newsroom — <a href="https://www.uber.com/us/en/drive/uber-pro/" target="_blank">Uber Pro Rewards Program</a> (tier structure, Diamond benefits, tuition coverage)<br>
+    <strong>[2]</strong> TripLog — <a href="https://www.triplog.net/blog/uber-pro-explained-everything-drivers-need-to-know" target="_blank">"Uber Pro Explained: Everything Drivers Need to Know for 2026"</a> (point system, tier requirements)<br>
+    <strong>[3]</strong> Ridester — <a href="https://www.ridester.com/uber-pro/" target="_blank">"How Uber Pro Works for Drivers in 2026"</a> (Pro Perk additional earnings, Costco membership)<br>
+    <strong>[4]</strong> Glassdoor — <a href="https://www.glassdoor.com/Salaries/colombo-sri-lanka-driver-salary-SRCH_IL.0,17_IM1025_KO18,24.htm" target="_blank">"Driver Salary Colombo, Sri Lanka 2026"</a> (driver income estimates)<br>
+    <strong>[5]</strong> Salary.lk — <a href="https://salary.lk/job-and-career/sri-lanka-job-wage/sri-lanka-car-taxi-and-van-drivers" target="_blank">"Car, Taxi and Van Drivers — Sri Lanka Wages"</a> (income ranges)<br>
+    <strong>[6]</strong> Kahneman, D. & Tversky, A. (1979). "Prospect Theory: An Analysis of Decision under Risk." <em>Econometrica</em>, 47(2), 263-292.<br>
+    <strong>[7]</strong> Phoenix Strategy Group — <a href="https://www.phoenixstrategy.group/blog/freemium-vs-subscription-behavioral-insights" target="_blank">"Freemium vs. Subscription: Behavioral Insights"</a> (conversion psychology)<br>
+    <strong>[8]</strong> Cobloom — <a href="https://www.cobloom.com/blog/saas-pricing-models" target="_blank">"The Ultimate Guide to SaaS Pricing Models, Strategies & Psychological Hacks"</a> (decoy effect, anchoring, charm pricing)<br>
+    <strong>[9]</strong> Propelius AI — <a href="https://propelius.ai/blogs/saas-pricing-psychology-monetization-guide/" target="_blank">"SaaS Pricing Psychology: How to Monetize Effectively"</a> (freemium conversion rates 8-15%)<br>
+    <strong>[10]</strong> Rest of World — <a href="https://restofworld.org/2024/sri-lanka-pickme/" target="_blank">"This cab startup helped 100,000 drivers survive Sri Lanka's economic crisis"</a> (PickMe driver economics, commission rates)
+  </p>
+</div>
+
+
+<!-- CLOSING -->
+<div style="margin-top:48px; padding-top:32px; border-top:2px solid var(--light-gray); text-align:center; color:var(--gray); font-size:13px;">
+  <p><em>"We don't tax your work. We sell you tools to do more of it. If the tool doesn't pay for itself, we failed — not you."</em></p>
+</div>
+
+</div>
+
+<div class="footer">
+  <strong>WarenYan</strong> — Premium Features & Monetisation Brief v1.1 | Internal | 10 March 2026<br>
+  Antigravity / DGTL | riz@dgtl.lk
+</div>
+
+</body>
+</html>

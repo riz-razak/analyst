@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WarenYan — MVP Execution Plan ($100K Seed)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --deep: #1B4332;
+    --primary: #2D6A4F;
+    --light: #40916C;
+    --mint: #B7E4C7;
+    --cream: #F8FAF5;
+    --white: #FFFFFF;
+    --dark: #1a1a1a;
+    --gray: #6B7280;
+    --light-gray: #E5E7EB;
+    --red: #DC2626;
+    --amber: #F59E0B;
+    --blue: #2563EB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .cover {
+    background: linear-gradient(160deg, #0D2818 0%, var(--deep) 40%, var(--primary) 100%);
+    color: white;
+    padding: 80px 48px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(ellipse, rgba(64,145,108,0.15) 0%, transparent 70%);
+  }
+  .cover-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 span { color: var(--mint); }
+  .cover .subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    opacity: 0.7;
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta {
+    margin-top: 40px;
+    display: flex;
+    gap: 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cover-meta .meta-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mint);
+  }
+  .cover-meta .meta-value {
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* SECTIONS */
+  h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-top: 56px;
+    margin-bottom: 8px;
+    padding-top: 32px;
+    border-top: 2px solid var(--light-gray);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  h3 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--deep);
+    margin-bottom: 16px;
+  }
+  .section-desc {
+    color: var(--gray);
+    margin-bottom: 32px;
+    max-width: 700px;
+  }
+  p { margin-bottom: 16px; }
+
+  /* CARDS */
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 16px;
+    border-left: 4px solid var(--primary);
+  }
+  .card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 8px;
+  }
+  .card p { color: var(--gray); font-size: 14px; margin-bottom: 0; }
+
+  /* CALLOUT */
+  .callout {
+    background: linear-gradient(135deg, var(--deep), var(--primary));
+    color: white;
+    border-radius: 14px;
+    padding: 32px 36px;
+    margin: 32px 0;
+  }
+  .callout h4 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .callout p { opacity: 0.85; margin-bottom: 0; }
+
+  /* TABLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+  th {
+    background: var(--deep);
+    color: white;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--light-gray);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) { background: #FAFBF8; }
+  .amount { font-weight: 700; font-family: 'Inter', monospace; }
+  .total-row { background: #E8F5E9 !important; font-weight: 700; }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+    margin: 32px 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--primary), var(--light));
+    border-radius: 2px;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 32px;
+    padding-left: 20px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 3px solid var(--cream);
+  }
+  .tl-item.active::before { background: var(--amber); box-shadow: 0 0 0 4px rgba(245,158,11,0.2); }
+  .tl-item.future::before { background: var(--light-gray); }
+  .tl-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 4px;
+  }
+  .tl-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 4px;
+  }
+  .tl-desc { color: var(--gray); font-size: 14px; }
+
+  /* TAGS */
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .tag-green { background: #D1FAE5; color: #065F46; }
+  .tag-amber { background: #FEF3C7; color: #92400E; }
+  .tag-red { background: #FEE2E2; color: #991B1B; }
+  .tag-blue { background: #DBEAFE; color: #1E40AF; }
+  .tag-gray { background: #F3F4F6; color: #4B5563; }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+  /* METRIC BOX */
+  .metric {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .metric .num {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--deep);
+  }
+  .metric .label {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 40px 32px;
+    background: var(--deep);
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+  }
+  .footer strong { color: var(--mint); }
+
+  /* GLOSSARY & TERMS */
+  a.term { color: var(--primary); text-decoration: none; border-bottom: 1px dotted var(--light); }
+  a.term:hover { color: var(--deep); border-bottom-color: var(--deep); }
+  .glossary { margin: 32px 0; }
+  .glossary dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .glossary dt { font-weight: 700; font-size: 13px; color: var(--deep); padding: 8px 12px 2px; border-top: 1px solid var(--light-gray); }
+  .glossary dd { font-size: 13px; color: var(--gray); padding: 2px 12px 8px; margin: 0; }
+  .ref-list { font-size: 12px; color: var(--gray); margin: 16px 0 32px; line-height: 1.8; }
+  .ref-list a { color: var(--primary); }
+
+  /* DOCUMENT NAV */
+  .doc-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 32px;
+    border-top: 3px solid var(--primary);
+  }
+  .doc-nav h4 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 14px;
+  }
+  .doc-nav ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+    margin: 0;
+    padding: 0;
+    counter-reset: nav;
+  }
+  .doc-nav li {
+    counter-increment: nav;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .doc-nav li::before {
+    content: counter(nav, decimal-leading-zero);
+    font-weight: 700;
+    color: var(--light);
+    font-size: 11px;
+    font-family: 'Inter', monospace;
+    margin-right: 6px;
+  }
+  .doc-nav a {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .doc-nav a:hover { color: var(--primary); }
+
+  /* PRINT */
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .cover { padding: 40px; }
+    .main { padding: 24px; }
+    table { page-break-inside: avoid; }
+    .doc-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">Internal — Pre-Seed Execution Plan</div>
+  <h1>Warenයන් <span>MVP to Launch</span></h1>
+  <div class="subtitle">A two-round funding plan from working prototype to public launch in 12 months. Round 1 ($100K) covers 3 months of foundation work. Round 2 ($200-300K) funds scale-out to public launch.</div>
+  <div class="cover-meta">
+    <div class="meta-item">
+      <span class="meta-label">Round 1</span>
+      <span class="meta-value">$100,000</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">R1 Runway</span>
+      <span class="meta-value">3 Months</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Round 2</span>
+      <span class="meta-value">$200-300K</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Version</span>
+      <span class="meta-value">0.5</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- JUMP NAVIGATION -->
+<nav class="doc-nav">
+  <h4>In This Document</h4>
+  <ol>
+    <li><a href="#sec-exec">Executive Summary</a></li>
+    <li><a href="#sec-funds">Use of Funds — R1</a></li>
+    <li><a href="#sec-r2">Round 2 Scale-Out</a></li>
+    <li><a href="#sec-burn">Monthly Burn Profile</a></li>
+    <li><a href="#sec-team-ops">Ground Operations Team</a></li>
+    <li><a href="#sec-recruitment">Rapid Driver Recruitment</a></li>
+    <li><a href="#sec-marketing">Marketing Strategy</a></li>
+    <li><a href="#sec-timeline">Execution Timeline</a></li>
+    <li><a href="#sec-team-plan">Expanded Team Plan</a></li>
+    <li><a href="#sec-infra">Infrastructure Costs</a></li>
+    <li><a href="#sec-gates">Milestone Gates</a></li>
+    <li><a href="#sec-geo">Geopolitical Buffers</a></li>
+    <li><a href="#sec-revenue">Revenue Model</a></li>
+    <li><a href="#sec-risks-mvp">Risk Register</a></li>
+    <li><a href="#sec-built">What's Already Built</a></li>
+    <li><a href="#sec-needs">What Needs Building</a></li>
+    <li><a href="#sec-investor">Investor Perspective</a></li>
+    <li><a href="#sec-post">Post-Launch / Series A</a></li>
+  </ol>
+</nav>
+
+<!-- EXEC SUMMARY -->
+<h2 id="sec-exec">Executive Summary</h2>
+<h3>The $100K Path to Public Launch (12 Months)</h3>
+
+<p>WarenYan has a <strong>working MVP</strong> — real-time ride matching, <a class="term" href="#term-postgis">PostGIS</a> spatial queries, <a class="term" href="#term-sos">SOS</a> safety system, and full ride lifecycle — running on $0/month infrastructure. The product works. What we need now is the operational runway to take it from a functional demo to a publicly launched, driver-verified, legally registered ride-hailing platform.</p>
+
+<p>The plan compresses the go-to-market into <strong>12 months to public launch</strong>. Round 1 ($100K) covers <strong>3 months of intense foundation work</strong>: app development kickoff, legal entity formation, driver verification pipeline, rapid driver recruitment (1,000/day peak in Q1), and brand launch preparation. Round 2 ($200-300K) immediately funds months 4-12 for scale-out, marketing blitz, and public launch.</p>
+
+<p>This plan is anchored around a <strong>ground operations team from Day 1</strong>: <strong><a class="term" href="#term-pj">PJ</a> (Prageeth Jayathilaka)</strong> as DGTL business partner executing on-ground operations, plus <strong>5 Driver Onboarding Agents</strong> from Month 1. Together they recruit, verify, and support 1,000+ drivers in Q1 using aggressive, high-touch methods: stand-by-stand blitzes, WhatsApp signup, personal calls, and incentives.</p>
+
+<div class="callout">
+  <h4>12-Month to Launch, with Ground Operations Core</h4>
+  <p><strong>R1 (Months 1-3, $100K):</strong> PJ + 5 agents establish operations. Legal entity, native app dev kicks off ($30K flat), launch marketing war chest ($30K), rapid driver onboarding (1,000/day peak). Prove the market with 500+ drivers and first real rides.<br><br><strong>R2 (Months 4-12, $200-300K):</strong> Scale-out injection — multi-city expansion, full marketing campaign, team scale-up, public launch, <a class="term" href="#term-series-a">Series A</a> prep. This is the growth fuel after market validation.</p>
+</div>
+
+<!-- KEY METRICS -->
+<div class="grid-3" style="margin-top: 32px;">
+  <div class="metric">
+    <div class="num">$100K</div>
+    <div class="label">Round 1 (3 Months)</div>
+  </div>
+  <div class="metric">
+    <div class="num">$200-300K</div>
+    <div class="label">Round 2 (9 Months)</div>
+  </div>
+  <div class="metric">
+    <div class="num">12 months</div>
+    <div class="label">to Public Launch</div>
+  </div>
+</div>
+<div class="grid-3">
+  <div class="metric">
+    <div class="num">1,000/day</div>
+    <div class="label">Driver Recruitment (Q1 Peak)</div>
+  </div>
+  <div class="metric">
+    <div class="num">PJ + 5 Agents</div>
+    <div class="label">Ground Ops from Day 1</div>
+  </div>
+  <div class="metric">
+    <div class="num">350 LKR/USD</div>
+    <div class="label">Exchange Buffer Standard</div>
+  </div>
+</div>
+
+<!-- USE OF FUNDS -->
+<h2 id="sec-funds">Use of Funds — Round 1</h2>
+<h3>Where the $100K Goes (3-Month Runway)</h3>
+<p class="section-desc">Three clear buckets: app development, launch marketing, and operations (including PJ + 5 agents). The two $30K allocations are fixed. The remaining $40K is stretched thin to cover PJ, 5 agents, legal, infra, and contingency — this is a tight budget with real trade-offs.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:35%">Category</th>
+      <th style="width:35%">Description</th>
+      <th style="width:15%">Amount</th>
+      <th style="width:15%">% of Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>App Development</strong><br><span class="tag tag-red">Fixed / Non-Negotiable</span></td>
+      <td>Flutter native app (Android + iOS) — flat rate contract for MVP launch. Includes UI/UX implementation, testing, App Store submission, QA. Paid per-quarter at $30K flat.</td>
+      <td class="amount">$30,000</td>
+      <td>30%</td>
+    </tr>
+    <tr>
+      <td><strong>Launch Marketing</strong><br><span class="tag tag-red">Reserved</span></td>
+      <td>Emotional-anarchist campaign leveraging Riz's personal brand + influencer network. Driver <a class="term" href="#term-ugc">UGC</a> content, social media blitz, printed materials for stands, WhatsApp marketing, hard launch strategy (airwaves + social deafening for days), attack on PickMe/Uber, national pride narrative, zero-commission promise, rider incentives</td>
+      <td class="amount">$30,000</td>
+      <td>30%</td>
+    </tr>
+    <tr>
+      <td><strong>People & Operations</strong></td>
+      <td><strong>PJ (Prageeth Jayathilaka):</strong> <a class="term" href="#term-lkr">LKR</a> 100K/mo ($286) × 3mo = ~$858. Ramps to LKR 500K/mo ($1,429) on milestone success. <strong>5 Driver Onboarding Agents:</strong> LKR 50-60K/mo each (~$165-200) × 5 × 3mo = ~$2,500. Stand visits, verification, usability support, manual driver calls if needed. Part-time or contract.</td>
+      <td class="amount">$3,400</td>
+      <td>3.4%</td>
+    </tr>
+    <tr>
+      <td><strong>Legal & Compliance</strong></td>
+      <td>PVT LTD registration, legal consultation, Terms of Service, <a class="term" href="#term-pdpa">PDPA</a> compliance audit, insurance framework research, driver verification system setup</td>
+      <td class="amount">$10,000</td>
+      <td>10%</td>
+    </tr>
+    <tr>
+      <td><strong>Infrastructure & APIs</strong></td>
+      <td>Supabase Pro ($25/mo), Google Places API, SMS/OTP costs, Mapbox, hosting, monitoring tools, testing devices, App Store fees</td>
+      <td class="amount">$8,000</td>
+      <td>8%</td>
+    </tr>
+    <tr>
+      <td><strong>Contingency Reserve</strong></td>
+      <td>Buffer for unexpected legal costs, API pricing changes, emergency operational needs. Tight contingency given aggressive hiring.</td>
+      <td class="amount">$8,600</td>
+      <td>8.6%</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>TOTAL — ROUND 1</strong></td>
+      <td></td>
+      <td class="amount">$100,000</td>
+      <td>100%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin-top: 16px; color: var(--gray);"><em>Note: The $40K "People & Ops" bucket is stretched. At 350 LKR/USD conversion, PJ + 5 agents consume ~$3.4K of the available $40K, leaving ~$36.6K for legal, infra, and contingency. This is feasible but requires disciplined execution. Any cost overruns on legal or infra will impact the contingency reserve.</em></p>
+
+<!-- ROUND 2 -->
+<h2 id="sec-r2">Round 2 — Scale-Out Injection</h2>
+<h3>$200,000 – $300,000 (Months 4-12)</h3>
+<p class="section-desc">Round 2 is triggered once Round 1 milestones are met: legal entity formed, app in beta, 500+ verified drivers, first real rides completed, proof of 1,000/day recruitment velocity. This round funds the public launch, national expansion, team scale-up, and Series A readiness.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:35%">Category</th>
+      <th style="width:35%">Description</th>
+      <th style="width:15%">Estimated Range</th>
+      <th style="width:15%">% of Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>App Development (Continued)</strong></td>
+      <td>Ongoing Flutter quarters (at $30K/quarter flat rate), iOS polish, feature additions, push notifications, premium features build</td>
+      <td class="amount">$60-90K</td>
+      <td>~30%</td>
+    </tr>
+    <tr>
+      <td><strong>Growth Marketing</strong></td>
+      <td>Multi-city launch campaigns (Galle, Kandy, Negombo), tourism partnerships, airport presence, digital marketing, PR, brand ambassadors</td>
+      <td class="amount">$50-80K</td>
+      <td>~25-27%</td>
+    </tr>
+    <tr>
+      <td><strong>Team Scale-Up</strong></td>
+      <td>Full-time engineering hire, city operations managers (Galle, Kandy, Negombo), expanded customer support, driver relations team, PJ ramp to LKR 500K/mo</td>
+      <td class="amount">$50-70K</td>
+      <td>~25%</td>
+    </tr>
+    <tr>
+      <td><strong>Operations & Infrastructure</strong></td>
+      <td>Supabase scale-up, increased API costs at volume, insurance programme launch, office/co-working, legal (multi-city compliance)</td>
+      <td class="amount">$30-50K</td>
+      <td>~15-17%</td>
+    </tr>
+    <tr>
+      <td><strong>Reserve</strong></td>
+      <td>Competitive response fund, emergency runway extension, Series A preparation costs</td>
+      <td class="amount">$10-20K</td>
+      <td>~5-7%</td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>TOTAL — ROUND 2</strong></td>
+      <td></td>
+      <td class="amount">$200-300K</td>
+      <td>100%</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- MONTHLY BURN -->
+<h2 id="sec-burn">Round 1 — Monthly Burn Profile</h2>
+<h3>$100K Deployed Across 3 Months</h3>
+<p class="section-desc">Aggressive but disciplined. The two big-ticket items (app dev and marketing) are committed upfront. Operations ramp within the remaining $40K, with focus on rapid driver recruitment and verification.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Ops & Team</th>
+      <th>App Dev</th>
+      <th>Marketing</th>
+      <th>Infra + Legal</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Month 1</strong><br><span class="tag tag-blue">Foundation</span></td>
+      <td class="amount">$1,200</td>
+      <td class="amount">$10,000</td>
+      <td class="amount">$5,000</td>
+      <td class="amount">$8,000</td>
+      <td class="amount"><strong>$24,200</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Month 2</strong><br><span class="tag tag-green">Rapid Recruitment</span></td>
+      <td class="amount">$1,100</td>
+      <td class="amount">$10,000</td>
+      <td class="amount">$10,000</td>
+      <td class="amount">$5,000</td>
+      <td class="amount"><strong>$26,100</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Month 3</strong><br><span class="tag tag-amber">Launch Prep</span></td>
+      <td class="amount">$1,100</td>
+      <td class="amount">$10,000</td>
+      <td class="amount">$15,000</td>
+      <td class="amount">$5,000</td>
+      <td class="amount"><strong>$31,100</strong></td>
+    </tr>
+    <tr class="total-row">
+      <td><strong>R1 Total</strong></td>
+      <td class="amount">$3,400</td>
+      <td class="amount">$30,000</td>
+      <td class="amount">$30,000</td>
+      <td class="amount">$18,000</td>
+      <td class="amount"><strong>$81,400</strong></td>
+    </tr>
+    <tr>
+      <td colspan="5"><em>Contingency reserve</em></td>
+      <td class="amount"><strong>$18,600</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- TEAM & OPERATIONS SECTION -->
+<h2 id="sec-team-ops">Ground Operations Team</h2>
+<h3>PJ + 5 Driver Onboarding Agents from Day 1</h3>
+<p class="section-desc">The heart of the rapid recruitment strategy. PJ is a contract business partner executing all ground operations. The 5 agents are his ground troops, trained to verify drivers, handle onboarding, visit stands, and provide usability support.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>Status</th>
+      <th>Monthly Cost</th>
+      <th>Responsibilities</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PJ (Prageeth Jayathilaka)</strong><br><span class="tag tag-green">Business Partner, Contract</span></td>
+      <td>Month 1-12+</td>
+      <td class="amount"><strong>LKR 100K → 500K</strong><br>($286 → $1,429)</td>
+      <td>Executive all on-ground operations: driver recruitment strategy, agent management, stand visits, community relationships, incentive programme design, partnership negotiation with hotels/tourism. Ramps salary to LKR 500K/month on milestone success (1,000+ drivers recruited by M3, operational metrics hit).</td>
+    </tr>
+    <tr>
+      <td><strong>5 Driver Onboarding Agents</strong><br><span class="tag tag-amber">Part-time / Contract</span></td>
+      <td>Month 1-12+</td>
+      <td class="amount">LKR 50-60K each<br>(~$165-200)</td>
+      <td>Ground troops. Visit tuk-tuk stands, verify drivers (<a class="term" href="#term-nic">NIC</a> + license + vehicle check), handle app signup, provide usability support, call drivers personally if they stall during signup, distribute QR codes for quick signup, manage driver referral programme, identify pain points, report daily progress to PJ.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- DRIVER RECRUITMENT STRATEGY -->
+<h2 id="sec-recruitment">Rapid Driver Recruitment Strategy</h2>
+<h3>1,000/Day Peak in Q1 (Not 12/Day)</h3>
+<p class="section-desc">The original 12 verified drivers/day assumption is too slow for the market window. With PJ + 5 agents + aggressive systems, we target ~1,000 drivers/day at peak recruitment in Q1, then ramp down as focus shifts to rider acquisition and retention.</p>
+
+<div class="card">
+  <h4>Rapid Onboarding System</h4>
+  <p><strong>Digital-first, human-touch fallback:</strong> NIC + license upload via WhatsApp or in-app. QR codes at stands linking to instant signup. Agents call drivers personally if they stall during signup. <strong>Stand-by-stand blitz:</strong> 5 agents covering different zones, 5 stands/day per agent × 200 contacts/day = 1,000 contacts/day, ~50% conversion = 500 new signups/day (accounting for verification failures). Ramping to 1,000/day in M2-M3 with incentives and referral bonuses. <strong>Incentives:</strong> Priority placement in matching algorithm, founding driver badge, early payment bonus, referral bonuses (LKR 500-1,000 per successful referral). <strong>Verification turnaround:</strong> Same-day or next-day for agents to close the gap.</p>
+</div>
+
+<p style="margin-top: 16px;"><strong>Timeline:</strong> M1: 100-200/day. M2: 500-700/day. M3: 1,000/day peak. By end of R1, target 500+ verified, active drivers ready for public launch in M4.</p>
+
+<!-- MARKETING STRATEGY -->
+<h2 id="sec-marketing">Marketing Strategy: Emotional-Anarchist Campaign</h2>
+<h3>Riz's Personal Brand + Movement Marketing</h3>
+<p class="section-desc">This is not corporate marketing. It's movement marketing anchored in Riz Razak's known anti-capitalist de-fluencer brand and broad influencer network. The campaign attacks PickMe/Uber on monopolistic practices and positions WarenYan as the people's platform.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Timing</th>
+      <th>Strategy & Tactics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Phase 1: Hard Launch</strong><br><span class="tag tag-red">Days 1-3</span></td>
+      <td>After beta closes, before public launch</td>
+      <td>"The airwaves and social media will be deafening for a few days." Full-force driver UGC content (real drivers talking about their experience), social media blitz (TikTok, Instagram, Twitter, WhatsApp), national media outreach, launch event at iconic location.</td>
+    </tr>
+    <tr>
+      <td><strong>Phase 2: Sustained Pressure</strong><br><span class="tag tag-amber">Days 4-14</span></td>
+      <td>Days after Phase 1</td>
+      <td>"Then we go even harder in a week to show success." Second wave: success stories, driver testimonials, rider adoption curve, driver earnings data, zero-commission pledge, attack ads on PickMe/Uber practices.</td>
+    </tr>
+    <tr>
+      <td><strong>Emotional Narrative</strong></td>
+      <td>Throughout</td>
+      <td>National pride: "This is Sri Lanka's platform." Anti-monopoly: "Zero commission, forever — no middleman taking drivers' earnings." Real people, real impact: driver stories, rider relief from unfair fares. Raw, authentic tone — not slick corporate, but genuine and personal.</td>
+    </tr>
+    <tr>
+      <td><strong>Brand Ambassadors</strong><br><span class="tag tag-green">20-30 Ambassadors</span></td>
+      <td>M2-M3 (recruitment), M3+ (active)</td>
+      <td>20-30 brand ambassadors (mix of paid and unpaid) to capture public imagination and provide reach. Tiers: <strong>Tentpole ambassadors</strong> — celebrities, cricketers, civil society leaders (e.g. Ashen Senarathna podcast collaboration network). <strong>Influencer tier</strong> — social media creators, artists, lifestyle influencers from Riz's broad network. <strong>Institutional tier</strong> — Transportation Department officials (Deputy Prasanna, known for ground-level work), government liaisons (Riz has existing connections — WarenYan is the perfect story for them: tech-enabled, zero-commission, driver welfare). Ambassadors amplify launch narrative, provide social proof, and make WarenYan feel like a national movement, not a startup.</td>
+    </tr>
+    <tr>
+      <td><strong>Team & Support</strong></td>
+      <td>M1-M3</td>
+      <td>Dedicated marketing staff + volunteers + part-timers for launch support. Ambassador coordination (20-30 paid/unpaid). Driver UGC content creation (training + phone support for drivers recording testimonials). Influencer partnerships (Riz's network). Aggressive user incentives (rider credits on launch, referral bonuses).</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- PHASED TIMELINE -->
+<h2 id="sec-timeline">Execution Timeline</h2>
+<h3>12-Month Roadmap to Public Launch</h3>
+
+<div class="timeline">
+
+  <div class="tl-item active">
+    <div class="tl-label">Phase 0 — Months 1-3 (R1 Foundation)</div>
+    <div class="tl-title">Legal, Rapid Recruitment, App Dev Kickoff</div>
+    <div class="tl-desc">
+      Register WarenYan PVT LTD in Sri Lanka. Draft Terms of Service and Privacy Policy (PDPA-aligned). Hire PJ (Month 1). Recruit 5 driver onboarding agents (Month 1). Engage <a class="term" href="#term-flutter">Flutter</a> developer on $30K/quarter flat contract. Finalize brand identity (Sinhala UI). Set up Supabase Pro. Configure driver verification workflow. Launch rapid recruitment: 100-200/day in M1, ramping to 500-700/day in M2, targeting 1,000/day peak in M3. Run closed beta on <a class="term" href="#term-pwa">PWA</a> with recruited drivers. Implement SOS auto-notification, push notifications, ride cancellation. Milestone: <strong>Legal entity registered, 500+ verified drivers, 100+ first real rides completed, app ready for public launch.</strong>
+    </div>
+  </div>
+
+  <div class="tl-item future">
+    <div class="tl-label">Phase 1 — Months 4-6 (R2 Hard Launch)</div>
+    <div class="tl-title">Public Launch, Marketing Blitz, Multi-City Expansion Start</div>
+    <div class="tl-desc">
+      Deploy public launch marketing campaign (hard launch days 1-3, sustained pressure days 4-14). Launch native apps on Google Play + App Store. Activate PJ's salary ramp to LKR 500K/month (on milestone success). Expand driver recruitment to Negombo, Galle, Kandy (5 new agents per city). Scale rider acquisition through full marketing campaign. Implement premium features (Priority Queue, Featured Badge). Begin insurance partnerships. Collect traction data (KPIs, unit economics). Milestone: <strong>2,000+ drivers across 3 cities, 10,000+ riders, 200+ daily rides, launch momentum, R2-ready metrics.</strong>
+    </div>
+  </div>
+
+  <div class="tl-item future">
+    <div class="tl-label">Phase 2 — Months 7-9 (Scale & Consolidate)</div>
+    <div class="tl-title">Multi-City Consolidation, Premium Features, Business Accounts</div>
+    <div class="tl-desc">
+      Consolidate 3-city presence (Mt. Lavinia/Colombo South, Negombo, Galle, Kandy). Implement Business Accounts portal (hotel/company bulk booking). Activate insurance programme (opt-in micro-insurance for drivers). Scale rider acquisition in each city. Monitor unit economics, refine incentive programmes. Prepare Series A materials. Milestone: <strong>3,000+ drivers, 15,000+ riders, $2K+/month revenue from premium features, Series A-ready traction.</strong>
+    </div>
+  </div>
+
+  <div class="tl-item future">
+    <div class="tl-label">Phase 3 — Months 10-12 (Series A Prep & Runway)</div>
+    <div class="tl-title">National Scale Readiness, Series A Launch</div>
+    <div class="tl-desc">
+      Refine operations playbook for national scale. Implement Tamil UI (Northern/Eastern expansion). Launch Series A fundraising (target: $500K-$1M, Q4 2027 close). Plan super-app extensions (delivery, micro-logistics). Roadmap: data monetisation, regional expansion (Bangladesh, Nepal, Cambodia). Milestone: <strong>Series A ready: 5,000+ drivers nationally, 50,000+ riders, proven unit economics, clear path to profitability or strategic exit.</strong>
+    </div>
+  </div>
+
+</div>
+
+<!-- TEAM PLAN -->
+<h2 id="sec-team-plan">Expanded Team Plan</h2>
+<h3>From Solo Founder + PJ + 5 Agents to Scaled Team</h3>
+<p class="section-desc">We hire against milestones, not headcount targets. PJ + 5 agents are the core ground operations. Additional hires in R2 support scale-out.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Role</th>
+      <th>When</th>
+      <th>Monthly Cost</th>
+      <th>Why Now</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PJ (Prageeth Jayathilaka)</strong><br><span class="tag tag-green">Contract, Scales on Success</span></td>
+      <td>Month 1-12+</td>
+      <td class="amount">LKR 100K → 500K<br>($286 → $1,429)</td>
+      <td>DGTL business partner executing all on-ground operations. Driver recruitment, agent management, stand visits, partnerships. Salary ramps on milestone success.</td>
+    </tr>
+    <tr>
+      <td><strong>5 Driver Onboarding Agents</strong><br><span class="tag tag-amber">Contract / Part-time</span></td>
+      <td>Month 1-12+</td>
+      <td class="amount">LKR 50-60K each<br>(~$165-200)</td>
+      <td>Ground troops for rapid driver onboarding. Verification, stand visits, usability support, personal driver calls. Expand to 15+ agents by M6.</td>
+    </tr>
+    <tr>
+      <td><strong>Flutter Developer</strong><br><span class="tag tag-blue">Contract</span></td>
+      <td>Month 2-12+</td>
+      <td class="amount">$1,800/mo</td>
+      <td>Native app development (Android + iOS). $30K/quarter flat rate. Can extend or convert to full-time post-launch.</td>
+    </tr>
+    <tr>
+      <td><strong>Customer Support Lead</strong><br><span class="tag tag-amber">Part-time / Full-time</span></td>
+      <td>Month 4</td>
+      <td class="amount">$300-500/mo</td>
+      <td>Rider/driver complaint handling as volume scales post-launch. WhatsApp + in-app support initially.</td>
+    </tr>
+    <tr>
+      <td><strong>Marketing Lead</strong><br><span class="tag tag-blue">Contract / Full-time</span></td>
+      <td>Month 3</td>
+      <td class="amount">$500-800/mo</td>
+      <td>Campaign execution, driver UGC management, social media, influencer coordination for hard launch. Uses $30K R1 marketing budget efficiently.</td>
+    </tr>
+    <tr>
+      <td><strong>City Ops Managers</strong> (Galle, Kandy, Negombo)<br><span class="tag tag-blue">Full-time</span></td>
+      <td>Month 4-5</td>
+      <td class="amount">$300-400/mo each</td>
+      <td>Local on-ground presence in expansion cities. Report to PJ. Manage agents, partnerships, local compliance.</td>
+    </tr>
+    <tr>
+      <td><strong>Founder (Riz)</strong><br><span class="tag tag-gray">Full-time, $0 salary</span></td>
+      <td>Throughout</td>
+      <td class="amount">$0</td>
+      <td>Product, technology, strategy, investor relations, brand. No salary during seed phase — compensated via equity only.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- INFRA COST -->
+<h2 id="sec-infra">Infrastructure & Operations Cost Progression</h2>
+<h3>From ~$1K to $4-7K/Month at Scale</h3>
+<p class="section-desc">The raw technical stack (APIs, hosting, databases) is cheap. But a real ride-hailing operation needs support infrastructure: CRM, team collaboration, customer service architecture, call centre tooling, monitoring, and business operations software. This table shows the full operational cost, not just the code-level infra.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Service</th>
+      <th>R1<br>(M1-3)</th>
+      <th>R2 Early<br>(M4-6)</th>
+      <th>R2 Late<br>(M7-12)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td colspan="5" style="background:var(--deep);color:white;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Core Technical Stack</td></tr>
+    <tr>
+      <td rowspan="5">Platform Infra</td>
+      <td>Supabase (DB + Auth + Realtime)</td>
+      <td class="amount">$25/mo</td>
+      <td class="amount">$50/mo</td>
+      <td class="amount">$75/mo</td>
+    </tr>
+    <tr>
+      <td>Google Places API</td>
+      <td class="amount">$15/mo</td>
+      <td class="amount">$45/mo</td>
+      <td class="amount">$90/mo</td>
+    </tr>
+    <tr>
+      <td>Mapbox (tiles + directions)</td>
+      <td class="amount">$0</td>
+      <td class="amount">$30/mo</td>
+      <td class="amount">$60/mo</td>
+    </tr>
+    <tr>
+      <td>Vercel / Hosting</td>
+      <td class="amount">$0</td>
+      <td class="amount">$20/mo</td>
+      <td class="amount">$20/mo</td>
+    </tr>
+    <tr>
+      <td>Monitoring / Error tracking (Sentry)</td>
+      <td class="amount">$0</td>
+      <td class="amount">$26/mo</td>
+      <td class="amount">$26/mo</td>
+    </tr>
+    <tr>
+      <td rowspan="2">Comms</td>
+      <td>SMS / OTP (Twilio or local)</td>
+      <td class="amount">$20/mo</td>
+      <td class="amount">$200/mo</td>
+      <td class="amount">$400/mo</td>
+    </tr>
+    <tr>
+      <td>Push notifications (FCM — free tier)</td>
+      <td class="amount">$0</td>
+      <td class="amount">$0</td>
+      <td class="amount">$0</td>
+    </tr>
+    <tr>
+      <td>Distribution</td>
+      <td>App Store fees (Apple + Google)</td>
+      <td class="amount">$0</td>
+      <td class="amount">$125 one-time</td>
+      <td class="amount">$0</td>
+    </tr>
+    <tr><td colspan="5" style="background:var(--deep);color:white;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Operations & Support Infrastructure</td></tr>
+    <tr>
+      <td rowspan="3">Team &amp; Collaboration</td>
+      <td>Google Workspace (email, docs, drive)</td>
+      <td class="amount">$50/mo</td>
+      <td class="amount">$100/mo</td>
+      <td class="amount">$200/mo</td>
+    </tr>
+    <tr>
+      <td>Notion (ops wiki, driver docs, SOPs)</td>
+      <td class="amount">$20/mo</td>
+      <td class="amount">$40/mo</td>
+      <td class="amount">$80/mo</td>
+    </tr>
+    <tr>
+      <td>Slack / WhatsApp Business</td>
+      <td class="amount">$0</td>
+      <td class="amount">$50/mo</td>
+      <td class="amount">$100/mo</td>
+    </tr>
+    <tr>
+      <td rowspan="2">CRM &amp; Driver Management</td>
+      <td>CRM (driver pipeline, partnerships)</td>
+      <td class="amount">$0</td>
+      <td class="amount">$100/mo</td>
+      <td class="amount">$200/mo</td>
+    </tr>
+    <tr>
+      <td>Driver onboarding / verification system</td>
+      <td class="amount">$50/mo</td>
+      <td class="amount">$100/mo</td>
+      <td class="amount">$200/mo</td>
+    </tr>
+    <tr>
+      <td rowspan="3">Customer Support</td>
+      <td>CS helpdesk (Freshdesk / Zendesk)</td>
+      <td class="amount">$0</td>
+      <td class="amount">$100/mo</td>
+      <td class="amount">$300/mo</td>
+    </tr>
+    <tr>
+      <td>Call centre / IVR (basic)</td>
+      <td class="amount">$0</td>
+      <td class="amount">$200/mo</td>
+      <td class="amount">$500/mo</td>
+    </tr>
+    <tr>
+      <td>In-app chat / support widget</td>
+      <td class="amount">$0</td>
+      <td class="amount">$50/mo</td>
+      <td class="amount">$100/mo</td>
+    </tr>
+    <tr>
+      <td rowspan="3">Business Ops</td>
+      <td>Accounting / invoicing (Xero or local)</td>
+      <td class="amount">$25/mo</td>
+      <td class="amount">$40/mo</td>
+      <td class="amount">$60/mo</td>
+    </tr>
+    <tr>
+      <td>Analytics / dashboards (Mixpanel / GA)</td>
+      <td class="amount">$0</td>
+      <td class="amount">$100/mo</td>
+      <td class="amount">$200/mo</td>
+    </tr>
+    <tr>
+      <td>Legal / compliance tooling</td>
+      <td class="amount">$0</td>
+      <td class="amount">$50/mo</td>
+      <td class="amount">$100/mo</td>
+    </tr>
+    <tr>
+      <td>Insurance</td>
+      <td>Platform insurance premiums (group rate)</td>
+      <td class="amount">$0</td>
+      <td class="amount">$500/mo</td>
+      <td class="amount">$1,500/mo</td>
+    </tr>
+    <tr class="total-row">
+      <td colspan="2"><strong>Technical Stack Only</strong></td>
+      <td class="amount"><strong>$60</strong></td>
+      <td class="amount"><strong>$370</strong></td>
+      <td class="amount"><strong>$670</strong></td>
+    </tr>
+    <tr class="total-row" style="background: #C8E6C9 !important;">
+      <td colspan="2"><strong>FULL OPERATIONAL COST</strong></td>
+      <td class="amount"><strong>~$1,200</strong></td>
+      <td class="amount"><strong>~$4,000</strong></td>
+      <td class="amount"><strong>~$5,500-7,000</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin-top: 16px; color: var(--gray);"><em>Note: Technical stack cost alone is $60-670/month — dramatically below competitors. But the full operational cost ($4-7K/month at scale) is the honest figure for investor presentations. Even at $7K/month, this is 7-10x cheaper than PickMe's estimated $50,000+/month infrastructure spend. The structural advantage holds.</em></p>
+
+<!-- MILESTONES / GO-NO-GO -->
+<h2 id="sec-gates">Milestone Gates</h2>
+<h3>Go / No-Go Decision Points</h3>
+<p class="section-desc">Every phase has a gate. If we don't hit the gate criteria, we pause, diagnose, and course-correct before burning more capital. No vanity metrics — only leading indicators of product-market fit and recruitment velocity.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Gate</th>
+      <th>When</th>
+      <th>Go Criteria</th>
+      <th>Cash Remaining</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>G1: Legal + Ops Launch</strong></td>
+      <td>End M1</td>
+      <td>PVT LTD registered. ToS drafted. PJ + 5 agents hired and operational. Driver verification workflow live. Recruitment at 100-200/day. 50+ drivers recruited.</td>
+      <td class="amount">~$75K</td>
+    </tr>
+    <tr>
+      <td><strong>G2: Recruitment Velocity Proof</strong></td>
+      <td>End M2</td>
+      <td>500-700 drivers/day recruitment rate achieved. 300+ verified drivers. 100+ real rides completed. Marketing assets ready. Flutter Android alpha underway. No major ops issues.</td>
+      <td class="amount">~$49K</td>
+    </tr>
+    <tr>
+      <td><strong>G3: Launch Ready</strong></td>
+      <td>End M3</td>
+      <td>500+ verified drivers. 1,000/day recruitment peak demonstrated. 500+ real rides completed. SOS, push notif, ride cancellation all live. Marketing campaign ready. Flutter app submission-ready. Traction data ready for R2 pitch.</td>
+      <td class="amount">~$19K</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- GEOPOLITICAL & MACRO BUFFERS -->
+<h2 id="sec-geo">Geopolitical & Macro Buffers</h2>
+<h3>Oil Prices, Exchange Rates, Stress Tests</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Risk Factor</th>
+      <th>Base Assumption</th>
+      <th>Buffer Scenario</th>
+      <th>Stress Test (Extreme)</th>
+      <th>Impact on Plan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Oil Price</strong></td>
+      <td>$100-120/barrel</td>
+      <td>$150+/barrel</td>
+      <td>$200+/barrel</td>
+      <td>Driver economics compress (higher fuel costs). Passenger willingness to pay declines. Counter: zero-commission keeps driver take-home higher than PickMe. May need larger rider incentives.</td>
+    </tr>
+    <tr>
+      <td><strong>Exchange Rate</strong></td>
+      <td>300 LKR/USD (spot)</td>
+      <td><strong>350 LKR/USD (buffer standard)</strong></td>
+      <td>400 LKR/USD (extreme stress)</td>
+      <td>LKR depreciation increases USD-denominated costs (app dev, APIs, infra). All LKR figures in this plan use 350 as conversion standard. If hits 400, contingency reserve absorbs most impact; beyond that, R2 timing may shift.</td>
+    </tr>
+    <tr>
+      <td><strong>Tourism Demand</strong></td>
+      <td>20-30% of rides (Mt. Lavinia/Dehiwala)</td>
+      <td>15% of rides (downturn)</td>
+      <td>5% of rides (major crisis)</td>
+      <td>Beachhead (Colombo South) is more resilient to tourism shocks than Galle/Negombo. Plan assumes tourism buffer built into M4+ expansion (post-launch). Mitigated by driver/rider density in core market.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin-top: 16px;"><strong>Conversion Standard:</strong> All LKR figures use <strong>350 LKR/USD</strong> as the planning standard (more conservative than current 300). This provides buffer for FX volatility. Plan survives 400 LKR/USD scenario (halts some M4+ expansion but doesn't kill R1 or early R2).</p>
+
+<!-- REVENUE MODEL -->
+<h2 id="sec-revenue">Revenue Model</h2>
+<h3>Zero Commission, Forever — Revenue From Tiered Subscriptions</h3>
+
+<p>WarenYan will never charge drivers commission. Revenue comes from a <strong>four-tier subscription model</strong> where every paid feature is designed to increase the driver's earning potential. Every feature is opt-in, and free-tier drivers get the complete ride-hailing experience at zero cost forever. Full analysis in the <strong>Premium Features & Monetisation Brief</strong>; interactive modelling in the <strong>Subscription Scenarios Dashboard</strong>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tier</th>
+      <th>Price</th>
+      <th>Key Features</th>
+      <th>Target Conversion</th>
+      <th>Projected Revenue (at 5,000 drivers)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Free</strong></td>
+      <td>LKR 0</td>
+      <td>Full ride matching, zero commission, fair fares, SOS, navigation, cash payments, basic earnings view</td>
+      <td>100% (every driver)</td>
+      <td class="amount">$0</td>
+    </tr>
+    <tr>
+      <td><strong>WarenYan+</strong></td>
+      <td>LKR 99/month<br><em>(~$0.31, LKR 3/day)</em></td>
+      <td>+ badge, weekly earnings digest, extended ride history, priority CS</td>
+      <td>35-40%</td>
+      <td class="amount">~$619</td>
+    </tr>
+    <tr>
+      <td><strong>Pro</strong></td>
+      <td>LKR 990/month<br><em>(~$3.09, LKR 33/day)</em></td>
+      <td>Priority Zones, Advance Booking, Earnings Analytics, Rider Preferences, Digital Payments, Priority Queue</td>
+      <td>15-22%</td>
+      <td class="amount">~$2,784</td>
+    </tr>
+    <tr>
+      <td><strong>Elite</strong></td>
+      <td>LKR 2,500/month<br><em>(~$7.81, LKR 83/day)</em></td>
+      <td>Featured Driver Badge, Business Dashboard, Insurance Access, Regular Rider Network, Multi-Stop/Hourly, Maintenance Alerts</td>
+      <td>5-8%</td>
+      <td class="amount">~$1,953</td>
+    </tr>
+    <tr class="total-row">
+      <td colspan="4"><strong>Projected Monthly Revenue (at 5,000 drivers, 320 LKR/USD)</strong></td>
+      <td class="amount"><strong>~$5,356/mo</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout" style="border-left-color: var(--red);">
+  <h4>Minimum Base Subscription Charge — The Floor Price</h4>
+  <p>Working backwards from operational costs: at $5,500/month ops (320 LKR/USD = LKR 1,760,000), with 20% combined conversion at 5,000 drivers (= 1,000 paying subscribers), the <strong>minimum average subscription price to break even is LKR 1,760/month</strong>. With 25% buffer: <strong>LKR 2,200/month</strong>.</p>
+  <p style="margin-top: 8px;">The blended average across tiers achieves this: (WarenYan+ at LKR 99 × 40%) + (Pro at LKR 990 × 18%) + (Elite at LKR 2,500 × 5%) = weighted average ~LKR 343/driver/month across <em>all</em> drivers. This means <strong>break-even requires ~5,100 drivers at current conversion assumptions</strong> — achievable in Month 10-12.</p>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario</th>
+      <th>Monthly Ops</th>
+      <th>Active Drivers Needed</th>
+      <th>At 20% Conv.</th>
+      <th>At 30% Conv.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Lean ($4K)</strong></td>
+      <td>$4,000</td>
+      <td colspan="1">—</td>
+      <td>~3,700 drivers</td>
+      <td>~2,500 drivers</td>
+    </tr>
+    <tr>
+      <td><strong>Mid ($5.5K)</strong></td>
+      <td>$5,500</td>
+      <td colspan="1">—</td>
+      <td>~5,100 drivers</td>
+      <td>~3,400 drivers</td>
+    </tr>
+    <tr style="background: #FEF3C7;">
+      <td><strong>Full ($7K)</strong></td>
+      <td>$7,000</td>
+      <td colspan="1">—</td>
+      <td>~6,500 drivers</td>
+      <td>~4,300 drivers</td>
+    </tr>
+  </tbody>
+</table>
+
+<p style="margin-top: 16px;"><strong>Break-even on operational costs:</strong> Full monthly operational cost at scale is ~$5,500-7,000 (including CRM, CS, call centre, insurance, analytics — not just tech stack). At 2,000 drivers (launch), subscription revenue covers ~20-25% of costs. At 5,000 drivers (Month 10-12), revenue reaches ~97% of mid-range costs. At 7,500+ drivers, the platform self-sustains. <strong>This plan does not assume profitability at launch</strong> — it assumes Series A readiness, with the subscription model proving conversion rates and unit economics that justify scale funding.</p>
+
+<p><strong>The LKR 99 entry tier</strong> is not designed to carry revenue load. It exists to (1) create paying customer relationships for investor narrative, (2) test payment infrastructure, (3) seed the upgrade funnel to Pro/Elite, and (4) provide instant branding ("WarenYan+ for ninety-nine rupees"). At 40% conversion of 5,000 drivers, it produces ~$619/month — modest revenue but 2,000 paying subscribers on the books.</p>
+
+<!-- RISK REGISTER -->
+<h2 id="sec-risks-mvp">Risk Register</h2>
+<h3>Known Risks & Mitigations</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:5%">#</th>
+      <th style="width:25%">Risk</th>
+      <th style="width:8%">P</th>
+      <th style="width:8%">Impact</th>
+      <th style="width:54%">Mitigation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Chicken-and-egg: driver/rider density collapses post-launch</td>
+      <td><span class="tag tag-red">High</span></td>
+      <td><span class="tag tag-red">High</span></td>
+      <td>PJ + 5 agents prove 1,000/day recruitment velocity in M2-M3. Dense beachhead (Colombo South 5km radius) ensures &lt;3min wait times before expanding. Driver referral program + aggressive incentives in R2 maintain cohort. Never expand geography until beachhead density is proven.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>PJ or agents underperform or leave unexpectedly</td>
+      <td><span class="tag tag-amber">Med</span></td>
+      <td><span class="tag tag-red">High</span></td>
+      <td>PJ is performance-contracted (salary ramp tied to milestones). Agents are part-time/contract (easy to replace). Cross-training on operations processes. Document all stand relationships, driver networks, partnership contacts. If PJ departs, Riz assumes ops role temporarily; hire replacement city ops manager within 2 weeks.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>PickMe competitive response (price cuts, M&A aggression)</td>
+      <td><span class="tag tag-amber">Med</span></td>
+      <td><span class="tag tag-red">High</span></td>
+      <td>Their cost structure makes 0% commission suicidal — abandoning it costs them $150K+/year in tuk-tuk revenue. If they drop to 5%, they sacrifice profitability on tuk-tuks. We sacrifice nothing. Our driver loyalty is structural (zero commission = higher take-home). Also: we onboard the 80% PickMe doesn't serve. 12-month head start is significant.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Safety incident before brand is established</td>
+      <td><span class="tag tag-green">Low</span></td>
+      <td><span class="tag tag-red">Crit</span></td>
+      <td>SOS system live from Day 1 with GPS breadcrumbs. Driver verification mandatory (NIC + license). Emergency contact auto-notification (built in Phase 2). Incident response protocol defined before beta launch. Insurance pilot in Phase 3.</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Marketing campaign misfires or gets negative blowback</td>
+      <td><span class="tag tag-amber">Med</span></td>
+      <td><span class="tag tag-amber">Med</span></td>
+      <td>Emotional-anarchist tone is Riz's authentic brand — not a manufactured persona. Test key messaging with drivers in M2 beta (before M3 campaign). Have PR/legal review all attack ads on PickMe (avoid defamation). Driver UGC is authentic — train drivers on messaging, but don't script them. Fallback: pivot to positive (driver stories, user testimonials) if attack angle backfires.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Flutter app quality / timeline slippage into R2</td>
+      <td><span class="tag tag-amber">Med</span></td>
+      <td><span class="tag tag-amber">Med</span></td>
+      <td>PWA continues as fallback throughout R1 + early R2. Flutter is additive. If Flutter slips past M3, launch on PWA + Play Store TWA (Trusted Web Activity). iOS can follow post-launch. $30K/quarter flat rate incentivizes developer to deliver on time; missed deadline triggers contract review.</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>inDrive or Uber enters Sri Lanka aggressively</td>
+      <td><span class="tag tag-green">Low</span></td>
+      <td><span class="tag tag-amber">Med</span></td>
+      <td>12-month head start is significant. First-mover on zero-commission + Sinhala-first + tuk-tuk-specific. Cultural depth and driver loyalty hard to replicate. By M12 (Series A launch), we have 5,000+ drivers + 50K+ riders + brand loyalty. They'd need $10M+ to match our growth in 12 months.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>$100K budget exhausted before end of M3</td>
+      <td><span class="tag tag-green">Low</span></td>
+      <td><span class="tag tag-red">High</span></td>
+      <td>Phase gates (G1, G2, G3) force cost discipline. Contingency reserve ($18.6K in R1) provides 5-week runway if burn exceeds by 30%. Founder takes $0 salary (no payroll risk). If burn exceeds 20% for 2 consecutive months, trigger emergency review (pause expansion, reduce agent count, delay app dev). Bridge financing from angels as last resort.</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Exchange rate hits 400 LKR/USD or higher</td>
+      <td><span class="tag tag-amber">Med</span></td>
+      <td><span class="tag tag-amber">Med</span></td>
+      <td>Plan uses 350 as standard (already conservative vs. spot 300). Contingency reserve + phase gates absorb 350-400 range. At 400+, would need to reduce LKR-denominated costs (PJ/agents freeze, reduce incentives) OR negotiate USD-costs downward (app dev, APIs). Would not kill R1, but delays R2 trigger by 2-4 weeks.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- WHAT'S ALREADY BUILT -->
+<h2 id="sec-built">What's Already Built</h2>
+<h3>The $0 Foundation</h3>
+<p class="section-desc">This is not a pitch deck asking for R&D money. The product exists and works. Here is what the $100K builds on top of.</p>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>Real-Time Ride Matching</h4>
+    <p>PostGIS spatial queries (st_dwithin) — same technology Uber uses — running on <a class="term" href="#term-supabase">Supabase</a> free tier.</p>
+  </div>
+  <div class="card">
+    <h4>Full Ride Lifecycle</h4>
+    <p>Search → Book → Accept → Track → Complete → Rate → Pay. End-to-end working on two phones.</p>
+  </div>
+  <div class="card">
+    <h4>SOS Emergency System</h4>
+    <p>One-tap SOS with GPS breadcrumbs every 5 seconds. Battery level tracking. Real-time alerts to Owner Hub.</p>
+  </div>
+  <div class="card">
+    <h4>Admin Dashboard (Owner Hub)</h4>
+    <p>Real-time KPIs, safety monitor, <a class="term" href="#term-rbac">RBAC</a> matrix (Owner/Admin/Agent), fraud detection, driver management.</p>
+  </div>
+  <div class="card">
+    <h4>Data Protection (DPPP)</h4>
+    <p>AES-256-GCM encryption, tokenization, Forget-Me erasure protocol, 90-day GPS lifecycle. GDPR + PDPA aligned.</p>
+  </div>
+  <div class="card">
+    <h4>Demo Mode</h4>
+    <p>10 simulated drivers, full ride lifecycle, $0 API cost. Investor demo runs without any backend spend.</p>
+  </div>
+  <div class="card">
+    <h4>Smart Cash + QR Payments</h4>
+    <p>Change calculator, driver personal QR display. No payment gateway needed. Cash-first by design.</p>
+  </div>
+  <div class="card">
+    <h4>Fraud Detection</h4>
+    <p>Automated red-flag triggers: collision fraud, teleportation, fare anomalies. Logging from Day 1.</p>
+  </div>
+</div>
+
+<!-- WHAT NEEDS BUILDING -->
+<h2 id="sec-needs">What Needs Building</h2>
+<h3>The Gap Between MVP and Launch</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width:30%">Feature / System</th>
+      <th style="width:10%">Priority</th>
+      <th style="width:15%">Phase</th>
+      <th style="width:45%">Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Driver Verification System</strong></td>
+      <td><span class="tag tag-red">P0</span></td>
+      <td>M1</td>
+      <td>NIC upload, driver's license validation, vehicle registration check, photo verification (selfie match). Manual review by agents + Owner initially, automated later. WhatsApp + in-app upload paths.</td>
+    </tr>
+    <tr>
+      <td><strong>Legal Entity + Terms of Service</strong></td>
+      <td><span class="tag tag-red">P0</span></td>
+      <td>M1</td>
+      <td>PVT LTD registration. ToS positioning WarenYan as "technology platform" (matching service, not transport provider). Privacy Policy. PDPA compliance.</td>
+    </tr>
+    <tr>
+      <td><strong>Sinhala UI</strong></td>
+      <td><span class="tag tag-red">P0</span></td>
+      <td>M2</td>
+      <td>Full Sinhala translation of all user-facing strings. Language toggle. Tamil on roadmap for M10.</td>
+    </tr>
+    <tr>
+      <td><strong>SOS Auto-Notification</strong></td>
+      <td><span class="tag tag-amber">P1</span></td>
+      <td>M2</td>
+      <td>Supabase Edge Function to send SMS to stored emergency contacts when SOS triggered. Currently alerts Owner Hub only.</td>
+    </tr>
+    <tr>
+      <td><strong>Flutter Mobile App (Android)</strong></td>
+      <td><span class="tag tag-amber">P1</span></td>
+      <td>M2-6</td>
+      <td>Native Android app. React PWA codebase informs UX but Flutter is ground-up build. Priority: ride lifecycle, maps, push notifications. Launch-ready by M3.</td>
+    </tr>
+    <tr>
+      <td><strong>Push Notifications</strong></td>
+      <td><span class="tag tag-amber">P1</span></td>
+      <td>M2</td>
+      <td>Ride request alerts, ride status updates, promotional notifications. <a class="term" href="#term-fcm">FCM</a> (Firebase Cloud Messaging).</td>
+    </tr>
+    <tr>
+      <td><strong>Ride Cancellation Flow</strong></td>
+      <td><span class="tag tag-amber">P1</span></td>
+      <td>M3</td>
+      <td>Driver-side cancellation with reason codes. Cancellation rate tracking. Penalty system for serial cancellers.</td>
+    </tr>
+    <tr>
+      <td><strong>Flutter Mobile App (iOS)</strong></td>
+      <td><span class="tag tag-blue">P2</span></td>
+      <td>M6-9</td>
+      <td>iOS version after Android is stable and launched. Shared Flutter codebase — primarily platform-specific integration work.</td>
+    </tr>
+    <tr>
+      <td><strong>Business Accounts Portal</strong></td>
+      <td><span class="tag tag-blue">P2</span></td>
+      <td>M7-9</td>
+      <td>Hotel/company bulk booking interface. Pre-set routes, monthly invoicing, dedicated driver pools.</td>
+    </tr>
+    <tr>
+      <td><strong>Premium Features (Live)</strong></td>
+      <td><span class="tag tag-blue">P2</span></td>
+      <td>M6-9</td>
+      <td>Priority Queue, Featured Badge, Business Accounts, Local Ads. Shadow-tested before monetisation goes live (M4 test, M6 launch).</td>
+    </tr>
+    <tr>
+      <td><strong>Insurance Framework</strong></td>
+      <td><span class="tag tag-blue">P2</span></td>
+      <td>M7</td>
+      <td>Partnership with Sri Lankan insurer for ride-level micro-insurance. Opt-in for drivers. Legal liability protection.</td>
+    </tr>
+    <tr>
+      <td><strong>Tamil UI</strong></td>
+      <td><span class="tag tag-gray">P3</span></td>
+      <td>M10-12</td>
+      <td>Tamil translation for Northern/Eastern Province expansion readiness (Series A phase).</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- INVESTOR RETURN -->
+<h2 id="sec-investor">Investor Perspective</h2>
+<h3>What $100K Buys</h3>
+
+<div class="grid-2" style="margin-top: 24px;">
+  <div class="card" style="border-left-color: var(--deep);">
+    <h4>At Investment ($0)</h4>
+    <p>Working MVP (PWA). 0 users. 0 revenue. No legal entity. No team. No native app. Strong technical foundation + demonstrated product capability.</p>
+  </div>
+  <div class="card" style="border-left-color: var(--light);">
+    <h4>At Month 12 ($100K Deployed + R2 Underway)</h4>
+    <p>Native apps on both stores (Android + iOS). 5,000+ verified drivers nationally (3+ cities). 50,000+ riders. Revenue generating (~$1.3K/month at launch, growing). PVT LTD with PDPA compliance. Insurance framework. Series A ready. Proven unit economics + 12-month head start vs. competitors.</p>
+  </div>
+</div>
+
+<div class="callout" style="margin-top: 24px;">
+  <h4>The Structural Advantage Remains</h4>
+  <p>At $100K deployed and 2,000 drivers, our full monthly operational cost is ~$5,500-7,000/month (including CRM, CS infrastructure, Google Workspace, call centre, insurance, analytics — everything). PickMe spends an estimated $50,000+/month on infrastructure alone. We run a complete operation for 7-10x less. Our cost structure makes zero-commission sustainable at any scale. The $100K doesn't change the thesis — it proves it works in the real world with real people, with a team executing ground operations at speed.</p>
+</div>
+
+<!-- WHAT HAPPENS AFTER -->
+<h2 id="sec-post">Post-Launch: Series A Readiness</h2>
+<h3>What Comes After the $100K + R2</h3>
+
+<p>The $100K + $200-300K R2 gets us to national launch and traction. The <strong>Series A</strong> (target: $500K-$1M, Q4 2027) funds full national scale-out and regional expansion:</p>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>National Scale (Sri Lanka)</h4>
+    <p>Jaffna (Tamil market), Matara, Ruwanella. Build ops playbook proven in Colombo/Galle/Kandy. 20,000+ drivers nationally. Each city: 1,000-3,000 drivers depending on demand.</p>
+  </div>
+  <div class="card">
+    <h4>Super-App Extensions</h4>
+    <p>Delivery (food, parcels), micro-logistics (last-mile for e-commerce), driver microfinance partnerships. Same zero-commission philosophy.</p>
+  </div>
+  <div class="card">
+    <h4>Data Monetisation</h4>
+    <p>Anonymized, aggregated movement data for urban planning. Municipal/government contracts. Academic research partnerships. Conservative: $5-10K/month by M18.</p>
+  </div>
+  <div class="card">
+    <h4>Regional Playbook (South Asia)</h4>
+    <p>Bangladesh, Nepal, Cambodia — tuk-tuk economies with similar dynamics. Hybrid architecture deploys for ~$200/month anywhere. License the platform or launch regional entities. Path to $100M+ valuation by Series B.</p>
+  </div>
+</div>
+
+<!-- APPENDIX -->
+<h2>Appendix A: Key Assumptions</h2>
+<h3>Market, Exchange, Oil, Churn</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Assumption</th>
+      <th>Value</th>
+      <th>Basis / Rationale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Exchange rate (Base)</strong></td><td>300 LKR/USD (spot)</td><td>March 2026 market rate</td></tr>
+    <tr><td><strong>Exchange rate (Plan Standard)</strong></td><td><strong>350 LKR/USD</strong></td><td>Conservative buffer for FX volatility. All budgets use this. Stress: 400 LKR/USD (extreme scenario).</td></tr>
+    <tr><td><strong>Oil Price</strong></td><td>$100-120/barrel (base)</td><td>IEA/OPEC 2026 forecast. Buffer: $150+/barrel scenario readiness (affects driver costs, passenger demand).</td></tr>
+    <tr><td>PJ salary (M1-3)</td><td>LKR 100K/mo ($286)</td><td>Market rate for operations lead in Colombo. Ramps to LKR 500K/mo ($1,429) on milestone success.</td></tr>
+    <tr><td>Agent salary (M1-12+)</td><td>LKR 50-60K/mo each (~$165-200)</td><td>Part-time/contract rate for ground ops. Scales with agent count in R2.</td></tr>
+    <tr><td>Flutter developer rate</td><td>$1,800/month (contract)</td><td>Sri Lankan mid-senior Flutter developer market rate. Flat $30K/quarter.</td></tr>
+    <tr><td><strong>Driver recruitment rate</strong></td><td><strong>1,000/day peak Q1</strong></td><td>PJ + 5 agents × 200 contacts/day × 50% conversion. Ramping: M1 100/day, M2 500/day, M3 1,000/day. Clamps post-Q1 (focus shifts to retention).</td></tr>
+    <tr><td>Rider organic acquisition</td><td>3 riders per active driver per week</td><td>Word-of-mouth + referral + hotel partnerships. Conservative vs. urban ride-hailing norms (5-7).</td></tr>
+    <tr><td>Ride completion rate target</td><td>≥85%</td><td>Industry benchmark for mature platforms.</td></tr>
+    <tr><td>Driver churn target</td><td>&lt;15%/month</td><td>Zero-commission should drive lower churn than industry avg (20-25%). Premium features + referral incentives improve retention.</td></tr>
+    <tr><td>Premium feature conversion</td><td>8-10% of drivers</td><td>Conservative vs. industry 15-20% for freemium platforms. Validates in M4-6 beta.</td></tr>
+    <tr><td>Tourism rider %</td><td>20-30% of rides (beachhead)</td><td>Mt. Lavinia/Dehiwala proximity to tourist hotels. Declines as network expands inland (Kandy, Galle).</td></tr>
+    <tr><td>Supabase free-to-Pro trigger</td><td>500+ concurrent connections</td><td>~Month 5-6 at projected growth. Pro tier: $25→$50+/mo.</td></tr>
+  </tbody>
+</table>
+
+<h2>Appendix B: Corrections Applied (v0.3 → v0.5)</h2>
+<h3>Changes Reflecting Ground Operations, Geopolitical Buffers & Marketing Strategy</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Old (v0.3)</th>
+      <th>Updated (v0.4)</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Timeline</td><td>18 months to launch</td><td><strong>12 months to launch</strong></td><td>R2 funding accelerates expansion (M4-12 scale-out). Founder + team execute faster with capital.</td></tr>
+    <tr><td>Driver recruitment rate</td><td>12 verified drivers/day</td><td><strong>1,000 drivers/day peak Q1</strong></td><td>PJ + 5 agents + aggressive systems unlock rapid onboarding. 12/day was too conservative for market window.</td></tr>
+    <tr><td>Ground operations team</td><td>Ops Manager (M1) + agents (M5+)</td><td><strong>PJ + 5 agents from Day 1 (M1)</strong></td><td>Early ground team execution is critical. Agents start immediately to enable 1,000/day recruitment in M3.</td></tr>
+    <tr><td>PJ role</td><td>Operations Manager ($400/mo)</td><td><strong>DGTL Business Partner, contract, LKR 100K→500K ($286→$1,429)</strong></td><td>PJ is not an employee but a contract partner. Salary ramps on milestone success (aligns incentives). Executes entire on-ground op.</td></tr>
+    <tr><td>Agents (count & timing)</td><td>1 agent (M5)</td><td><strong>5 agents from M1, scales to 15+ by M4</strong></td><td>5 agents cover stand recruitment, verification, driver support, personal calls. Essential for 1,000/day velocity.</td></tr>
+    <tr><td>Exchange rate assumption</td><td>300 LKR/USD</td><td><strong>350 LKR/USD (buffer), 400 LKR/USD (stress test)</strong></td><td>FX volatility in Sri Lanka warrants conservative standard. Plan survives 350 easily, absorbs 400 via contingency.</td></tr>
+    <tr><td>Oil price buffer</td><td>Not addressed</td><td><strong>$150+/barrel scenario readiness</strong></td><td>Sri Lanka net oil importer. Fuel costs affect driver economics and passenger demand. Plan acknowledges but doesn't assume mitigation.</td></tr>
+    <tr><td>Marketing strategy</td><td>"Driver acquisition campaign"</td><td><strong>Emotional-anarchist campaign (Riz's personal brand, hard launch, attack PickMe/Uber, national pride narrative)</strong></td><td>Movement marketing is more authentic and effective than corporate positioning. Leverages founder's known brand.</td></tr>
+    <tr><td>Brand ambassadors</td><td>Not addressed</td><td><strong>20-30 ambassadors (paid/unpaid): celebrities, cricketers, civil society leaders, influencers, government liaisons</strong></td><td>Capture public imagination, provide reach, position WarenYan as national movement. Leverage Riz's network + Transport Department connections.</td></tr>
+    <tr><td>Glossary + references</td><td>Not included</td><td><strong>Full glossary (20 terms) + references section</strong></td><td>All docs should include first description of terms with # anchor links and compact references near footer.</td></tr>
+    <tr><td>Version</td><td>v0.4</td><td><strong>v0.5</strong></td><td>Reflects brand ambassador strategy, glossary/references addition, term annotations.</td></tr>
+  </tbody>
+</table>
+
+
+<!-- GLOSSARY -->
+<h2>Glossary</h2>
+<h3>Key Terms & Abbreviations</h3>
+
+<div class="glossary">
+<dl>
+  <dt id="term-pvt-ltd">PVT LTD</dt>
+  <dd>Private Limited Company — standard Sri Lankan business entity registration under the Companies Act.</dd>
+
+  <dt id="term-lkr">LKR</dt>
+  <dd>Sri Lankan Rupee — national currency. Plan uses 350 LKR/USD as conservative buffer (spot ~300).</dd>
+
+  <dt id="term-pj">PJ</dt>
+  <dd>Prageeth Jayathilaka — DGTL business partner executing all on-ground operations for WarenYan. Contract role, salary ramps LKR 100K→500K on milestone success.</dd>
+
+  <dt id="term-flutter">Flutter</dt>
+  <dd>Google's cross-platform mobile framework — builds Android + iOS from single codebase. Used for WarenYan native app development ($30K/quarter flat rate).</dd>
+
+  <dt id="term-pwa">PWA</dt>
+  <dd>Progressive Web App — web application that works like a native app. WarenYan's current MVP runs as a PWA; Flutter native app is the upgrade path.</dd>
+
+  <dt id="term-postgis">PostGIS</dt>
+  <dd>Spatial database extension for PostgreSQL — powers WarenYan's real-time ride matching using st_dwithin proximity queries. Same technology Uber uses.</dd>
+
+  <dt id="term-supabase">Supabase</dt>
+  <dd>Open-source Firebase alternative — provides database (PostgreSQL), authentication, real-time subscriptions, and Edge Functions. WarenYan's backend infrastructure.</dd>
+
+  <dt id="term-pdpa">PDPA</dt>
+  <dd>Personal Data Protection Act — Sri Lanka's data protection legislation (modelled on GDPR). WarenYan's privacy framework is PDPA-aligned.</dd>
+
+  <dt id="term-gdpr">GDPR</dt>
+  <dd>General Data Protection Regulation — EU data protection law. Referenced as the international standard WarenYan's data practices align with.</dd>
+
+  <dt id="term-nic">NIC</dt>
+  <dd>National Identity Card — Sri Lankan government-issued ID. Required for driver verification (NIC + driving license + vehicle registration).</dd>
+
+  <dt id="term-ugc">UGC</dt>
+  <dd>User-Generated Content — authentic content created by drivers (testimonials, day-in-the-life videos). Core to WarenYan's emotional-anarchist marketing strategy.</dd>
+
+  <dt id="term-sos">SOS</dt>
+  <dd>Emergency alert system — one-tap safety feature with GPS breadcrumbs every 5 seconds. Live from Day 1 in WarenYan.</dd>
+
+  <dt id="term-rbac">RBAC</dt>
+  <dd>Role-Based Access Control — permission system in Owner Hub (Owner/Admin/Agent roles). Controls who can view/manage what.</dd>
+
+  <dt id="term-fcm">FCM</dt>
+  <dd>Firebase Cloud Messaging — Google's push notification service. Used for ride request alerts and status updates in the native app.</dd>
+
+  <dt id="term-twa">TWA</dt>
+  <dd>Trusted Web Activity — wraps a PWA in a native Android shell for Google Play distribution. Fallback if Flutter app development slips.</dd>
+
+  <dt id="term-iea">IEA</dt>
+  <dd>International Energy Agency — provides global oil price forecasts referenced in geopolitical buffer assumptions.</dd>
+
+  <dt id="term-opec">OPEC</dt>
+  <dd>Organization of the Petroleum Exporting Countries — oil cartel whose production decisions affect Sri Lanka's fuel costs and driver economics.</dd>
+
+  <dt id="term-series-a">Series A</dt>
+  <dd>First significant round of venture capital financing. WarenYan targets $500K-$1M Series A in Q4 2027 after proving traction with seed funding.</dd>
+
+  <dt id="term-dgtl">DGTL</dt>
+  <dd>Digital services company — Riz Razak's existing business entity. PJ is a DGTL business partner contracted for WarenYan ground operations.</dd>
+</dl>
+</div>
+
+<!-- REFERENCES -->
+<h2>References</h2>
+<h3>Sources & Citations</h3>
+
+<div class="ref-list">
+[1] PickMe Sri Lanka — <a href="https://pickme.lk">pickme.lk</a> — market leader, 100K+ drivers, 15-20% commission model<br>
+[2] HelaGo ride-hailing — launched January 2026, Bhasha Lanka (Helakuru) + David Pieris Group, $1M seed, 7% commission<br>
+[3] Uber Sri Lanka — <a href="https://uber.com/lk">uber.com/lk</a> — Tuk Rentals product, 20-25% commission<br>
+[4] NTC Amendment Act No. 8 of 2025 — National Transport Commission regulations for ride-hailing (pending gazette)<br>
+[5] IEA World Energy Outlook 2025 — oil price forecasts and energy market analysis<br>
+[6] CBSL Exchange Rate Data — Central Bank of Sri Lanka, USD/LKR market rates<br>
+[7] Supabase — <a href="https://supabase.com">supabase.com</a> — open-source backend infrastructure<br>
+[8] Flutter — <a href="https://flutter.dev">flutter.dev</a> — Google's cross-platform mobile framework<br>
+[9] Mapbox — <a href="https://mapbox.com">mapbox.com</a> — mapping and navigation APIs<br>
+[10] Google Places API — <a href="https://developers.google.com/maps/documentation/places">developers.google.com/maps</a> — location search and autocomplete<br>
+[11] Sri Lanka Personal Data Protection Act (PDPA) — data privacy legislation<br>
+[12] PayHere — <a href="https://payhere.lk">payhere.lk</a> — Sri Lankan payment gateway (Bhasha Lanka subsidiary)<br>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>WarenYan MVP Execution Plan v0.6</strong> — March 2026</p>
+  <p style="margin-top: 4px;">Internal Document — Antigravity / DGTL — riz@dgtl.lk</p>
+  <p style="margin-top: 8px; opacity: 0.5;">This is a living document. Numbers will be updated as we learn.</p>
+</div>
+
+</body>
+</html>

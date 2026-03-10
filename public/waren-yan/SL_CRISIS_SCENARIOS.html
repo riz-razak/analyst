@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WarenYan — SL Economic Crisis Scenarios Engine</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    /* Miyazaki Green — Canopy Palette */
+    --wy-green-900: #1B4332;
+    --wy-green-700: #2D6A4F;
+    --wy-green-500: #40916C;
+    --wy-green-300: #74C69D;
+    --wy-green-100: #D8F3DC;
+    /* Bawa Earth */
+    --wy-earth-700: #8B6914;
+    --wy-earth-500: #C4A35A;
+    --wy-earth-300: #E8D5A3;
+    --wy-earth-100: #F5F0E5;
+    /* Light Mode Surfaces (Bawa Plaster) */
+    --surface: #FAFAF8;
+    --elevated: #FFFFFF;
+    --card: #F5F0E5;
+    --border: #E5E1DA;
+    --text: #1A1A2E;
+    --text-secondary: #4A4A5A;
+    --text-muted: #8B8B9E;
+    /* Functional */
+    --wy-danger: #C0392B;
+    --wy-warning: #D4644A;
+    --wy-caution: #A67C00;
+    --wy-info: #2C6B8E;
+    --wy-s1: #2D6A4F;
+    --wy-s2: #92650A;
+    --wy-s3: #9B2C2C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--surface);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--wy-green-900);
+    color: var(--wy-earth-100);
+    padding: 24px 32px;
+    border-bottom: 2px solid var(--wy-green-700);
+  }
+  .header h1 {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .header h1 span.yan { color: var(--wy-green-100); }
+  .header h1 span.oracle { color: var(--wy-earth-300); font-weight: 500; font-size: 14px; }
+  .header p { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .header .status-badge {
+    display: inline-block;
+    background: rgba(192,57,43,0.2);
+    border: 1px solid rgba(192,57,43,0.4);
+    color: #F5B8B0;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 8px;
+  }
+
+  /* ── Layout ── */
+  .dashboard {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 20px 24px;
+  }
+
+  /* ── Situation Banner ── */
+  .situation-banner {
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .sit-card { text-align: center; }
+  .sit-card .sit-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+  .sit-card .sit-value {
+    font-size: 20px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .sit-card .sit-delta { font-size: 11px; margin-top: 2px; color: var(--text-secondary); }
+  .sit-delta.bad { color: var(--wy-danger); }
+  .sit-delta.ok { color: var(--wy-caution); }
+  .sit-delta.good { color: var(--wy-green-300); }
+
+  /* ── Controls Bar ── */
+  .controls-bar {
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .ctrl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 140px;
+  }
+  .ctrl-group label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ctrl-group label .cv {
+    background: var(--wy-green-700);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+  .ctrl-group input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+  }
+  .ctrl-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px; height: 12px;
+    background: var(--wy-green-500);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .scenario-selector {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .scenario-btn {
+    padding: 5px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: Inter, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .scenario-btn:hover { border-color: var(--wy-green-500); }
+  .scenario-btn.active-s1 { background: var(--wy-green-100); border-color: var(--wy-green-700); color: var(--wy-green-900); }
+  .scenario-btn.active-s2 { background: #FDF6E8; border-color: var(--wy-caution); color: #5C4A1A; }
+  .scenario-btn.active-s3 { background: #FDF0EE; border-color: var(--wy-danger); color: #5C1A1A; }
+
+  /* ── Scenario Columns ── */
+  .scenarios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .scenario-col {
+    background: var(--elevated);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .scenario-col.active { border-color: var(--wy-green-500); }
+
+  .scenario-header {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .scenario-header .s-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .scenario-header .s-title { font-size: 14px; font-weight: 700; }
+  .scenario-header .s-subtitle { font-size: 11px; color: var(--text-muted); }
+  .scenario-header .s-prob {
+    margin-left: auto;
+    font-size: 20px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .s1 .scenario-header { background: var(--wy-green-100); color: var(--wy-green-900); }
+  .s1 .s-icon { background: rgba(45,106,79,0.12); }
+  .s1 .s-prob { color: var(--wy-green-700); }
+  .s1 .s-subtitle { color: var(--wy-green-500); }
+
+  .s2 .scenario-header { background: #FDF6E8; color: #5C4A1A; }
+  .s2 .s-icon { background: rgba(139,105,20,0.1); }
+  .s2 .s-prob { color: var(--wy-earth-700); }
+  .s2 .s-subtitle { color: #92650A; }
+
+  .s3 .scenario-header { background: #FDF0EE; color: #5C1A1A; }
+  .s3 .s-icon { background: rgba(192,57,43,0.08); }
+  .s3 .s-prob { color: var(--wy-danger); }
+  .s3 .s-subtitle { color: #9B2C2C; }
+
+  .scenario-body { padding: 14px 16px; }
+
+  .condition-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .condition-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
+  .condition-item .ci-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .s1 .ci-dot { background: var(--wy-green-700); }
+  .s2 .ci-dot { background: var(--wy-caution); }
+  .s3 .ci-dot { background: var(--wy-danger); }
+
+  /* ── Impact Cards ── */
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .impact-card {
+    background: var(--card);
+    border-radius: 6px;
+    padding: 8px 10px;
+  }
+  .impact-card .ic-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .impact-card .ic-value {
+    font-size: 16px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    margin-top: 1px;
+  }
+  .impact-card .ic-detail {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+
+  /* ── WarenYan Impact ── */
+  .wy-section {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+  .wy-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-bottom: 6px;
+  }
+  .s1 .wy-badge { background: var(--wy-green-100); color: var(--wy-green-700); }
+  .s2 .wy-badge { background: #FDF6E8; color: var(--wy-earth-700); }
+  .s3 .wy-badge { background: #FDF0EE; color: var(--wy-danger); }
+
+  .wy-item {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 3px;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .wy-item::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--text-muted);
+  }
+
+  /* ── Panels (shared) ── */
+  .briefing-panel, .cascade-panel, .chart-panel, .integration-panel {
+    background: var(--elevated);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    margin-bottom: 16px;
+  }
+  .briefing-panel h3, .cascade-panel h3, .chart-panel h3, .integration-panel h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  /* ── Briefing Cards ── */
+  .brief-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .brief-card {
+    background: var(--card);
+    border-radius: 6px;
+    padding: 14px;
+  }
+  .brief-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .brief-action {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .brief-action::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+  .brief-action.priority-high::before { color: var(--wy-danger); }
+  .brief-action.priority-med::before { color: var(--wy-caution); }
+  .brief-action.priority-low::before { color: var(--wy-green-700); }
+
+  /* ── Charts ── */
+  .charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .chart-panel canvas {
+    width: 100% !important;
+    height: 260px !important;
+  }
+
+  /* ── Cascade Flow ── */
+  .cascade-flow {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+  .cascade-node {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    min-width: 120px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .cascade-node .cn-icon { font-size: 18px; margin-bottom: 2px; }
+  .cascade-node .cn-label { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .cascade-node .cn-value { font-size: 14px; font-weight: 700; margin-top: 2px; }
+  .cascade-arrow { font-size: 14px; color: var(--text-muted); flex-shrink: 0; }
+
+  /* ── Integration ── */
+  .integration-panel .subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    margin-top: -4px;
+  }
+  .api-block {
+    background: #F8F6F2;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 10px;
+    border: 1px solid var(--border);
+    overflow-x: auto;
+    white-space: pre;
+    line-height: 1.7;
+  }
+  .api-block .comment { color: var(--text-muted); }
+  .api-block .key { color: var(--wy-green-700); }
+  .api-block .string { color: var(--wy-earth-700); }
+  .api-block .number { color: var(--wy-danger); }
+
+  /* ── Competitive Landscape ── */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .comp-card {
+    background: var(--card);
+    border-radius: 6px;
+    padding: 12px;
+  }
+  .comp-card h5 { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+  .comp-card .comp-status {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .comp-card p { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+
+  /* ── Parallels Table ── */
+  .parallels-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .parallels-table th {
+    text-align: left;
+    padding: 8px 10px;
+    background: var(--card);
+    color: var(--text-muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .parallels-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .parallels-table tr:hover td { background: rgba(0,0,0,0.02); }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .footer a { color: var(--wy-green-500); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .scenarios-grid { grid-template-columns: 1fr; }
+    .charts-row { grid-template-columns: 1fr; }
+    .brief-grid { grid-template-columns: 1fr; }
+    .comp-grid { grid-template-columns: repeat(2, 1fr); }
+    .situation-banner { grid-template-columns: repeat(3, 1fr); }
+    .controls-bar { flex-direction: column; align-items: stretch; }
+    .scenario-selector { margin-left: 0; justify-content: center; }
+  }
+  @media (max-width: 640px) {
+    .situation-banner { grid-template-columns: repeat(2, 1fr); }
+    .impact-grid { grid-template-columns: 1fr; }
+    .comp-grid { grid-template-columns: 1fr; }
+    .header { padding: 20px; }
+    .header h1 { font-size: 18px; }
+    .dashboard { padding: 12px; }
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="yan">WarenYan</span> <span class="oracle">× Oracle</span> — SL Crisis Scenarios Engine</h1>
+  <p>v1.1 — Iran-US-Israel Conflict Cascade Analysis for Sri Lanka &amp; Competitive Response Planning | 11 March 2026</p>
+  <div class="status-badge">Live Crisis — Hormuz Disrupted</div>
+</div>
+
+<div class="dashboard">
+
+  <!-- Situation Awareness Banner -->
+  <div class="situation-banner" id="sit-banner">
+    <div class="sit-card">
+      <div class="sit-label">Brent Crude</div>
+      <div class="sit-value" id="sit-oil" style="color:var(--wy-danger);">$115</div>
+      <div class="sit-delta bad" id="sit-oil-d">↑ +24% from $93 baseline</div>
+    </div>
+    <div class="sit-card">
+      <div class="sit-label">LKR / USD</div>
+      <div class="sit-value" id="sit-fx" style="color:var(--wy-caution);">310.6</div>
+      <div class="sit-delta ok" id="sit-fx-d">↓ −0.4% this month</div>
+    </div>
+    <div class="sit-card">
+      <div class="sit-label">Forex Reserves</div>
+      <div class="sit-value" id="sit-reserves" style="color:var(--wy-green-300);">$7.28B</div>
+      <div class="sit-delta ok" id="sit-res-d">~3 months import cover</div>
+    </div>
+    <div class="sit-card">
+      <div class="sit-label">Inflation (YoY)</div>
+      <div class="sit-value" id="sit-cpi" style="color:var(--wy-green-300);">1.6%</div>
+      <div class="sit-delta good" id="sit-cpi-d">Below 5% target — room exists</div>
+    </div>
+    <div class="sit-card">
+      <div class="sit-label">Hormuz Status</div>
+      <div class="sit-value" style="color:var(--wy-danger); font-size:14px;">DISRUPTED</div>
+      <div class="sit-delta bad">150+ tankers queued</div>
+    </div>
+  </div>
+
+  <!-- Interactive Controls -->
+  <div class="controls-bar">
+    <div class="ctrl-group">
+      <label>Oil Price ($/bbl) <span class="cv" id="cv-oil">115</span></label>
+      <input type="range" id="sl-oil" min="70" max="180" step="1" value="115" oninput="recalc()">
+    </div>
+    <div class="ctrl-group">
+      <label>LKR / USD <span class="cv" id="cv-fx">310</span></label>
+      <input type="range" id="sl-fx" min="290" max="420" step="1" value="310" oninput="recalc()">
+    </div>
+    <div class="ctrl-group">
+      <label>Reserves ($B) <span class="cv" id="cv-res">7.3</span></label>
+      <input type="range" id="sl-res" min="1" max="12" step="0.1" value="7.3" oninput="recalc()">
+    </div>
+    <div class="ctrl-group">
+      <label>Hormuz Disruption (wks) <span class="cv" id="cv-hormuz">2</span></label>
+      <input type="range" id="sl-hormuz" min="0" max="26" step="1" value="2" oninput="recalc()">
+    </div>
+    <div class="ctrl-group">
+      <label>Remittance Shock (%) <span class="cv" id="cv-remit">5</span></label>
+      <input type="range" id="sl-remit" min="0" max="40" step="1" value="5" oninput="recalc()">
+    </div>
+    <div class="scenario-selector">
+      <button class="scenario-btn active-s1" onclick="loadScenario(1)">S1: Contained</button>
+      <button class="scenario-btn" onclick="loadScenario(2)">S2: Escalation</button>
+      <button class="scenario-btn" onclick="loadScenario(3)">S3: Full Crisis</button>
+    </div>
+  </div>
+
+  <!-- Three Scenarios -->
+  <div class="scenarios-grid">
+
+    <!-- Scenario 1: Contained Disruption -->
+    <div class="scenario-col s1 active" id="col-s1">
+      <div class="scenario-header" onclick="selectScenario(1)">
+        <div class="s-icon">🟢</div>
+        <div>
+          <div class="s-title">Contained Disruption</div>
+          <div class="s-subtitle">2-4 week disruption, diplomatic resolution</div>
+        </div>
+        <div class="s-prob" id="s1-prob">45%</div>
+      </div>
+      <div class="scenario-body">
+        <div class="condition-label">Trigger Conditions</div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Hormuz strait partially reopens within 2-4 weeks</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Brent crude stabilises at $100-115/bbl</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>No further military escalation beyond IRIS Dena</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Gulf states mediate, shipping insurance normalises</div></div>
+
+        <div class="impact-grid" id="s1-impacts">
+          <!-- filled by JS -->
+        </div>
+
+        <div class="wy-section">
+          <div class="wy-badge">WarenYan Impact — Manageable</div>
+          <div class="wy-item" id="s1-wy1"></div>
+          <div class="wy-item" id="s1-wy2"></div>
+          <div class="wy-item" id="s1-wy3"></div>
+          <div class="wy-item" id="s1-wy4"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario 2: Sustained Escalation -->
+    <div class="scenario-col s2" id="col-s2">
+      <div class="scenario-header" onclick="selectScenario(2)">
+        <div class="s-icon">🟡</div>
+        <div>
+          <div class="s-title">Sustained Escalation</div>
+          <div class="s-subtitle">8-16 week disruption, regional contagion</div>
+        </div>
+        <div class="s-prob" id="s2-prob">35%</div>
+      </div>
+      <div class="scenario-body">
+        <div class="condition-label">Trigger Conditions</div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Hormuz remains disrupted 8-16 weeks</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Brent crude sustains $120-140/bbl range</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Gulf state economies contract; construction slowdown</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Tea export routes blocked; $40-60M cumulative loss</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>SL fuel prices rise 15-25%; second-round inflation begins</div></div>
+
+        <div class="impact-grid" id="s2-impacts">
+          <!-- filled by JS -->
+        </div>
+
+        <div class="wy-section">
+          <div class="wy-badge">WarenYan Impact — Stressed</div>
+          <div class="wy-item" id="s2-wy1"></div>
+          <div class="wy-item" id="s2-wy2"></div>
+          <div class="wy-item" id="s2-wy3"></div>
+          <div class="wy-item" id="s2-wy4"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario 3: Full Economic Crisis -->
+    <div class="scenario-col s3" id="col-s3">
+      <div class="scenario-header" onclick="selectScenario(3)">
+        <div class="s-icon">🔴</div>
+        <div>
+          <div class="s-title">Full Economic Crisis</div>
+          <div class="s-subtitle">6+ month disruption, 2022-parallel cascade</div>
+        </div>
+        <div class="s-prob" id="s3-prob">20%</div>
+      </div>
+      <div class="scenario-body">
+        <div class="condition-label">Trigger Conditions</div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Hormuz effectively closed 6+ months; full naval blockade</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Brent crude breaches $150-180/bbl (2008-level)</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Gulf recession triggers mass worker repatriation (100K+ SL workers)</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Tea exports to ME collapse entirely; $530M/yr revenue at risk</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Forex reserves drain below $4B; IMF emergency measures invoked</div></div>
+        <div class="condition-item"><div class="ci-dot"></div><div>Fuel rationing; inflation breaches 15%; LKR above 370</div></div>
+
+        <div class="impact-grid" id="s3-impacts">
+          <!-- filled by JS -->
+        </div>
+
+        <div class="wy-section">
+          <div class="wy-badge">WarenYan Impact — Crisis Mode</div>
+          <div class="wy-item" id="s3-wy1"></div>
+          <div class="wy-item" id="s3-wy2"></div>
+          <div class="wy-item" id="s3-wy3"></div>
+          <div class="wy-item" id="s3-wy4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cascade Flow Visualisation -->
+  <div class="cascade-panel">
+    <h3>⛓️ Crisis Cascade Flow — How Hormuz Burns Colombo</h3>
+    <div class="cascade-flow" id="cascade-flow">
+      <!-- filled by JS -->
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts-row">
+    <div class="chart-panel">
+      <h3>📉 Economic Indicators Under Each Scenario (12-month projection)</h3>
+      <canvas id="chart-indicators"></canvas>
+    </div>
+    <div class="chart-panel">
+      <h3>💰 WarenYan Revenue Impact by Scenario</h3>
+      <canvas id="chart-wy-revenue"></canvas>
+    </div>
+  </div>
+
+  <!-- Briefing Cards -->
+  <div class="briefing-panel">
+    <h3>📋 Preparedness Briefing — WarenYan Response Playbook</h3>
+    <div class="brief-grid">
+      <div class="brief-card" style="border-top: 2px solid var(--wy-green-500);">
+        <h4 style="color:var(--wy-green-300);">S1: Contained — Business As Usual+</h4>
+        <div class="brief-action priority-low">Continue launch timeline; Colombo beachhead on schedule</div>
+        <div class="brief-action priority-low">Lock in OSM mapping stack NOW — eliminates Google API FX exposure</div>
+        <div class="brief-action priority-med">Hedge: pre-negotiate 6-month server contracts in USD before LKR weakens</div>
+        <div class="brief-action priority-low">Marketing: lean into "zero-commission saves drivers money during hard times"</div>
+        <div class="brief-action priority-low">Monitor weekly: oil price, LKR rate, fuel queue reports</div>
+      </div>
+      <div class="brief-card" style="border-top: 2px solid var(--wy-caution);">
+        <h4 style="color:var(--wy-earth-300);">S2: Escalation — Defensive Pivot</h4>
+        <div class="brief-action priority-high">FREEZE non-essential spend; extend runway to 18 months minimum</div>
+        <div class="brief-action priority-high">Reduce Entry tier to LKR 149 — affordability is now critical differentiator</div>
+        <div class="brief-action priority-med">Deploy "fuel savings calculator" feature — show drivers exact savings vs PickMe commission</div>
+        <div class="brief-action priority-med">Accelerate driver acquisition: PickMe drivers bleeding from fuel costs + commission</div>
+        <div class="brief-action priority-high">Rebase all USD costs to OSM stack immediately — Google API becomes existential risk</div>
+        <div class="brief-action priority-med">Open "crisis mode" in app: fuel station queue tracker, price alerts</div>
+      </div>
+      <div class="brief-card" style="border-top: 2px solid var(--wy-danger);">
+        <h4 style="color:#E8A49C;">S3: Full Crisis — Survival + Capture</h4>
+        <div class="brief-action priority-high">Switch to SURVIVAL MODE: freeze all hiring, cut to skeleton ops ($3K/mo)</div>
+        <div class="brief-action priority-high">Drop subscription to LKR 49 "solidarity pricing" — retention over revenue</div>
+        <div class="brief-action priority-high">Offer FREE tier for 6 months to ALL new drivers — land grab while PickMe haemorrhages</div>
+        <div class="brief-action priority-med">Build "fuel cooperative" feature — group buying for cheaper fuel access</div>
+        <div class="brief-action priority-med">Position as ESSENTIAL INFRASTRUCTURE: "every rupee matters" campaign</div>
+        <div class="brief-action priority-high">Prepare emergency fundraising pitch: "crisis creates decade-defining market opportunity"</div>
+        <div class="brief-action priority-med">Monitor: if PickMe raises commission to survive → triggers mass migration to WarenYan</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Competitive Landscape Under Crisis -->
+  <div class="briefing-panel">
+    <h3>⚔️ Competitive Landscape Shifts Under Crisis</h3>
+    <div class="comp-grid" id="comp-grid">
+      <div class="comp-card">
+        <h5>PickMe</h5>
+        <div class="comp-status" style="background:rgba(192,57,43,0.1); color:#E8A49C;" id="comp-pickme-status">VULNERABLE</div>
+        <p id="comp-pickme-text">20% commission becomes unbearable as fuel costs rise. Driver churn accelerates. May raise commission to cover USD-denominated tech costs, creating death spiral.</p>
+      </div>
+      <div class="comp-card">
+        <h5>Uber</h5>
+        <div class="comp-status" style="background:rgba(196,163,90,0.1); color:var(--wy-earth-300);" id="comp-uber-status">RETREATING</div>
+        <p id="comp-uber-text">Global operations mean SL is expendable. Likely to reduce market investment if crisis deepens. Already minimal presence — may exit entirely under S3.</p>
+      </div>
+      <div class="comp-card">
+        <h5>Traditional Taxis</h5>
+        <div class="comp-status" style="background:rgba(196,163,90,0.1); color:var(--wy-earth-300);" id="comp-trad-status">RESURGENT</div>
+        <p id="comp-trad-text">Informal economy thrives in crisis. Cash-based, no commission, no tech overhead. But no route optimisation = higher fuel waste. WarenYan's zero-commission + fuel savings counters this.</p>
+      </div>
+      <div class="comp-card">
+        <h5>WarenYan</h5>
+        <div class="comp-status" style="background:rgba(116,198,157,0.1); color:var(--wy-green-300);" id="comp-wy-status">POSITIONED</div>
+        <p id="comp-wy-text">Zero-commission model becomes strongest value prop in crisis. OSM stack eliminates USD API exposure. Entry tier pricing adapts to driver income compression. First-mover on crisis-mode features.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2022 Parallels -->
+  <div class="briefing-panel">
+    <h3>📊 2022 Crisis Parallels — Then vs Now</h3>
+    <table class="parallels-table">
+      <thead>
+        <tr>
+          <th>Indicator</th>
+          <th>2022 Crisis Start</th>
+          <th>2022 Crisis Peak</th>
+          <th>March 2026 (Now)</th>
+          <th>Risk Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Forex Reserves</td>
+          <td>$1.9B (Jan 2022)</td>
+          <td>&lt;$50M usable (May 2022)</td>
+          <td style="font-weight:700;" id="par-reserves">$7.28B</td>
+          <td><span style="color:#A67C00;">●</span> Better but fragile (3mo cover)</td>
+        </tr>
+        <tr>
+          <td>LKR / USD</td>
+          <td>203 (Jan 2022)</td>
+          <td>363 (Dec 2022) — 79% collapse</td>
+          <td style="font-weight:700;" id="par-fx">310.6</td>
+          <td><span style="color:#A67C00;">●</span> Already weaker start point</td>
+        </tr>
+        <tr>
+          <td>Inflation (CPI)</td>
+          <td>17.5% (Feb 2022)</td>
+          <td>70%+ (Sep 2022)</td>
+          <td style="font-weight:700;" id="par-cpi">1.6%</td>
+          <td><span style="color:#2D6A4F;">●</span> Major buffer — room to absorb</td>
+        </tr>
+        <tr>
+          <td>Oil Trigger</td>
+          <td>Ukraine war (Feb 2022)</td>
+          <td>Brent $120+ sustained</td>
+          <td style="font-weight:700;" id="par-oil">$115 (spiking)</td>
+          <td><span style="color:#C0392B;">●</span> Nearly at 2022 peak levels already</td>
+        </tr>
+        <tr>
+          <td>Export Shock</td>
+          <td>Russia tea market lost</td>
+          <td>~15% of tea exports disrupted</td>
+          <td style="font-weight:700;">ME = 50% of tea exports at risk</td>
+          <td><span style="color:#C0392B;">●</span> Worse concentration risk than 2022</td>
+        </tr>
+        <tr>
+          <td>Remittances</td>
+          <td>$5.4B/yr (declining)</td>
+          <td>Shifted to informal channels</td>
+          <td style="font-weight:700;">$8B/yr — 30% from Gulf</td>
+          <td><span style="color:#A67C00;">●</span> Higher volume but Gulf-concentrated</td>
+        </tr>
+        <tr>
+          <td>IMF Program</td>
+          <td>No program (seeking)</td>
+          <td>Applied March 2022</td>
+          <td style="font-weight:700;">Active EFF — 5th review pending</td>
+          <td><span style="color:#2D6A4F;">●</span> Safety net exists (with conditions)</td>
+        </tr>
+        <tr>
+          <td>Fuel Queues</td>
+          <td>Sporadic (early 2022)</td>
+          <td>14+ hour queues (Jun-Jul 2022)</td>
+          <td style="font-weight:700;">Early signs — panic buying Mar 9</td>
+          <td><span style="color:#A67C00;">●</span> Echoes of 2022 pattern</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Oracle Integration Architecture -->
+  <div class="integration-panel">
+    <h3>🔗 Oracle v7 Integration Architecture</h3>
+    <div class="subtitle">API bridge between Iran-oracle geopolitical engine and WarenYan economic response system</div>
+    <div class="api-block"><span class="comment">// Oracle v7 → WarenYan Crisis Engine API Contract</span>
+<span class="comment">// Endpoint: analyst.rizrazak.com/oracle/api/yan-bridge</span>
+
+{
+  <span class="key">"source"</span>: <span class="string">"oracle-v7"</span>,
+  <span class="key">"scenarios"</span>: {
+    <span class="key">"plc"</span>: { <span class="key">"prob"</span>: <span class="number">0.15</span>, <span class="key">"label"</span>: <span class="string">"Prolonged Limited Conflict"</span> },
+    <span class="key">"epc"</span>: { <span class="key">"prob"</span>: <span class="number">0.25</span>, <span class="key">"label"</span>: <span class="string">"Expanded Proxy Conflict"</span> },
+    <span class="key">"irc"</span>: { <span class="key">"prob"</span>: <span class="number">0.30</span>, <span class="key">"label"</span>: <span class="string">"Iran Regional Confrontation"</span> },
+    <span class="key">"rc"</span>:  { <span class="key">"prob"</span>: <span class="number">0.10</span>, <span class="key">"label"</span>: <span class="string">"Regime Change / Collapse"</span> },
+    <span class="key">"nte"</span>: { <span class="key">"prob"</span>: <span class="number">0.08</span>, <span class="key">"label"</span>: <span class="string">"Negotiated Tension Equilibrium"</span> },
+    <span class="key">"udc"</span>: { <span class="key">"prob"</span>: <span class="number">0.12</span>, <span class="key">"label"</span>: <span class="string">"US Domestic Constraint"</span> }
+  },
+  <span class="key">"mapping"</span>: {
+    <span class="comment">// Oracle scenarios → WarenYan crisis tiers</span>
+    <span class="key">"S1_contained"</span>:  [<span class="string">"nte"</span>, <span class="string">"udc"</span>, <span class="string">"plc"</span>],
+    <span class="key">"S2_escalation"</span>: [<span class="string">"epc"</span>, <span class="string">"rc"</span>],
+    <span class="key">"S3_crisis"</span>:     [<span class="string">"irc"</span>]
+  },
+  <span class="key">"sl_indicators"</span>: {
+    <span class="key">"oil_brent"</span>: <span class="number">115</span>,
+    <span class="key">"lkr_usd"</span>: <span class="number">310.6</span>,
+    <span class="key">"reserves_b"</span>: <span class="number">7.28</span>,
+    <span class="key">"cpi_yoy"</span>: <span class="number">1.6</span>,
+    <span class="key">"tea_me_pct"</span>: <span class="number">0.52</span>,
+    <span class="key">"remit_gulf_pct"</span>: <span class="number">0.305</span>,
+    <span class="key">"hormuz_weeks"</span>: <span class="number">2</span>
+  }
+}</div>
+    <div style="font-size:12px; color:var(--text-secondary); margin-top:8px;">
+      <strong>Integration path:</strong> Oracle v7's Bayesian engine (client-side) passes scenario probabilities via postMessage or shared state to this crisis engine. The WarenYan crisis engine maps Oracle's 6 geopolitical scenarios into 3 economic impact tiers, applies SL-specific cascade multipliers, and outputs actionable business intelligence. Both deploy as sub-routes on analyst.rizrazak.com — <code>/oracle/</code> for geopolitical analysis, <code>/oracle/yan/</code> for economic response.
+    </div>
+  </div>
+
+  <div class="footer">
+    WarenYan Crisis Scenarios Engine v1.1 — Powered by Oracle v7 Bayesian Network | <a href="DOCUMENT_PORTAL.html">← Document Portal</a>
+  </div>
+</div>
+
+<script>
+// ============================================================================
+// SCENARIO ENGINE — Core Calculation
+// ============================================================================
+
+const BASE = {
+  oil: 93,           // Pre-crisis Brent baseline
+  fx: 310,           // LKR/USD baseline
+  reserves: 7.28,    // $B
+  cpi: 1.6,          // % YoY
+  teaME: 530,        // $M/yr tea exports to ME
+  remitGulf: 2380,   // $M/yr remittances from Gulf (30.5% of $7.8B)
+  tourism: 780,      // $M/yr from ME routing
+  oilImportBill: 4200, // $M/yr total petroleum imports
+  wyDriverTarget: 5000,
+  wySubRevenue: 990, // avg weighted LKR/driver/mo
+  wyOpsMonthly: 5500 // USD
+};
+
+// Oracle v7 scenario mapping
+const ORACLE_MAP = {
+  nte: 'S1', udc: 'S1', plc: 'S1',
+  epc: 'S2', rc: 'S2',
+  irc: 'S3'
+};
+
+// Scenario presets
+const SCENARIOS = {
+  1: { oil: 108, fx: 315, reserves: 6.8, hormuz: 3, remitShock: 5, label: 'Contained Disruption' },
+  2: { oil: 132, fx: 340, reserves: 5.5, hormuz: 12, remitShock: 15, label: 'Sustained Escalation' },
+  3: { oil: 160, fx: 385, reserves: 3.8, hormuz: 26, remitShock: 30, label: 'Full Economic Crisis' }
+};
+
+let currentScenario = 1;
+let chartIndicators = null;
+let chartWyRevenue = null;
+
+function getInputs() {
+  return {
+    oil: +document.getElementById('sl-oil').value,
+    fx: +document.getElementById('sl-fx').value,
+    reserves: +document.getElementById('sl-res').value,
+    hormuz: +document.getElementById('sl-hormuz').value,
+    remitShock: +document.getElementById('sl-remit').value
+  };
+}
+
+function calcScenario(inp) {
+  const oilShockPct = (inp.oil - BASE.oil) / BASE.oil;
+  const fxShockPct = (inp.fx - BASE.fx) / BASE.fx;
+
+  // Oil import cost increase
+  const oilCostIncrease = BASE.oilImportBill * oilShockPct; // $M/yr additional
+  const oilCostMonthly = oilCostIncrease / 12;
+
+  // Tea export losses (proportional to hormuz duration)
+  const teaWeeklyLoss = Math.min(15, inp.hormuz > 0 ? 12.5 : 0); // $M/week
+  const teaCumulativeLoss = teaWeeklyLoss * Math.min(inp.hormuz, 52) * (inp.hormuz > 0 ? 1 : 0);
+  const teaAnnualLoss = Math.min(BASE.teaME, teaWeeklyLoss * 52);
+
+  // Remittance losses
+  const remitAnnualLoss = BASE.remitGulf * (inp.remitShock / 100);
+  const remitMonthlyLoss = remitAnnualLoss / 12;
+
+  // Tourism losses (proportional to hormuz)
+  const tourismLoss = inp.hormuz > 0 ? Math.min(BASE.tourism, 15 * Math.min(inp.hormuz, 52)) : 0;
+
+  // Total forex drain (annual, $M)
+  const totalForexDrain = oilCostIncrease + teaAnnualLoss + remitAnnualLoss + tourismLoss;
+
+  // Projected reserves after 12 months
+  const reservesProjected = Math.max(0.5, inp.reserves - (totalForexDrain / 1000));
+
+  // Import cover (months)
+  const monthlyImports = (BASE.oilImportBill * (1 + oilShockPct) + 12000) / 12; // ~$1.35B/mo total imports
+  const importCoverMonths = (inp.reserves * 1000) / monthlyImports;
+
+  // Inflation projection (second-round effects from fuel)
+  const fuelInflationPush = oilShockPct * 8; // 1% oil → ~0.08% CPI push
+  const fxInflationPush = fxShockPct * 12;
+  const projectedCPI = Math.min(70, BASE.cpi + fuelInflationPush + fxInflationPush + (inp.hormuz > 12 ? 5 : 0));
+
+  // FX projection (weakens with reserve drain)
+  const fxPressure = (totalForexDrain / 1000) / inp.reserves * 30;
+  const projectedFx = Math.min(450, inp.fx * (1 + fxPressure / 100));
+
+  // Scenario probability (Bayesian estimate based on conditions)
+  let s1Prob, s2Prob, s3Prob;
+  if (inp.oil < 110 && inp.hormuz < 4) {
+    s1Prob = 55; s2Prob = 30; s3Prob = 15;
+  } else if (inp.oil < 135 && inp.hormuz < 14) {
+    s1Prob = 30; s2Prob = 45; s3Prob = 25;
+  } else {
+    s1Prob = 15; s2Prob = 30; s3Prob = 55;
+  }
+
+  // WarenYan-specific impacts
+  const driverIncomeShock = oilShockPct * 0.6 + fxShockPct * 0.3; // % income decline
+  const avgDriverIncome = 55000 * (1 - driverIncomeShock);
+  const pickMeCommissionBurden = avgDriverIncome * 0.20; // PickMe's 20% on reduced income
+  const wySubAffordability = (BASE.wySubRevenue / avgDriverIncome) * 100;
+  const wyOpsInLKR = BASE.wyOpsMonthly * inp.fx;
+  const googleApiMonthlyLKR = 9600 * inp.fx / 5000 * BASE.wyDriverTarget; // Google API at scale
+  const osmStackLKR = 350 * inp.fx; // OSM fixed cost
+  const apiSavings = googleApiMonthlyLKR - osmStackLKR;
+
+  // PickMe vulnerability index (0-100)
+  const pickMeVulnerability = Math.min(100, 40 + oilShockPct * 80 + fxShockPct * 60 + (inp.hormuz > 8 ? 20 : 0));
+
+  // Driver migration potential
+  const migrationPotential = Math.min(95, 15 + driverIncomeShock * 200 + (pickMeVulnerability > 60 ? 15 : 0));
+
+  return {
+    oilShockPct, fxShockPct,
+    oilCostIncrease, oilCostMonthly,
+    teaWeeklyLoss, teaCumulativeLoss, teaAnnualLoss,
+    remitAnnualLoss, remitMonthlyLoss,
+    tourismLoss, totalForexDrain,
+    reservesProjected, importCoverMonths,
+    projectedCPI, projectedFx, fxPressure,
+    s1Prob, s2Prob, s3Prob,
+    driverIncomeShock, avgDriverIncome,
+    pickMeCommissionBurden, wySubAffordability,
+    wyOpsInLKR, googleApiMonthlyLKR, osmStackLKR, apiSavings,
+    pickMeVulnerability, migrationPotential
+  };
+}
+
+function fmt(n, d=0) { return n.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d }); }
+function fmtM(n) { return '$' + fmt(n, 0) + 'M'; }
+
+function renderImpacts(id, c, tier) {
+  const el = document.getElementById(id);
+  const colors = { 1: '#2D6A4F', 2: '#8B6914', 3: '#C0392B' };
+  const col = colors[tier];
+
+  let html = '';
+  html += `<div class="impact-card"><div class="ic-label">Oil Cost Surge</div><div class="ic-value" style="color:${col};">+${fmtM(c.oilCostIncrease/1)}/yr</div><div class="ic-detail">+${fmt(c.oilShockPct*100,0)}% from baseline • +${fmtM(c.oilCostMonthly)}/mo</div></div>`;
+  html += `<div class="impact-card"><div class="ic-label">Tea Export Loss</div><div class="ic-value" style="color:${col};">${fmtM(c.teaCumulativeLoss)}</div><div class="ic-detail">${fmtM(c.teaWeeklyLoss)}/wk × ${getInputs().hormuz} weeks</div></div>`;
+  html += `<div class="impact-card"><div class="ic-label">Remittance Drain</div><div class="ic-value" style="color:${col};">-${fmtM(c.remitAnnualLoss)}/yr</div><div class="ic-detail">${getInputs().remitShock}% of Gulf remittances lost</div></div>`;
+  html += `<div class="impact-card"><div class="ic-label">Projected CPI</div><div class="ic-value" style="color:${col};">${fmt(c.projectedCPI,1)}%</div><div class="ic-detail">from ${BASE.cpi}% baseline • fuel + FX pass-through</div></div>`;
+  html += `<div class="impact-card"><div class="ic-label">Reserves (12mo)</div><div class="ic-value" style="color:${col};">$${fmt(c.reservesProjected,1)}B</div><div class="ic-detail">${fmt(c.importCoverMonths,1)} months import cover</div></div>`;
+  html += `<div class="impact-card"><div class="ic-label">Total Forex Drain</div><div class="ic-value" style="color:${col};">${fmtM(c.totalForexDrain)}/yr</div><div class="ic-detail">Oil + tea + remit + tourism combined</div></div>`;
+  el.innerHTML = html;
+}
+
+function renderWyImpact(tier, c) {
+  const inp = getInputs();
+  if (tier === 1) {
+    document.getElementById('s1-wy1').textContent = `Ops cost: LKR ${fmt(c.wyOpsInLKR,0)}/mo (+${fmt(c.fxShockPct*100,1)}% from FX)`;
+    document.getElementById('s1-wy2').textContent = `OSM stack saves LKR ${fmt(c.apiSavings,0)}/mo vs Google API — critical hedge`;
+    document.getElementById('s1-wy3').textContent = `Driver income avg LKR ${fmt(c.avgDriverIncome,0)} — subscription still ${fmt(c.wySubAffordability,1)}% of income`;
+    document.getElementById('s1-wy4').textContent = `PickMe vulnerability: ${fmt(c.pickMeVulnerability,0)}/100 — driver migration potential: ${fmt(c.migrationPotential,0)}%`;
+  } else if (tier === 2) {
+    document.getElementById('s2-wy1').textContent = `Driver income compressed to LKR ${fmt(c.avgDriverIncome,0)} — Entry tier MUST drop to maintain affordability`;
+    document.getElementById('s2-wy2').textContent = `PickMe's commission = LKR ${fmt(c.pickMeCommissionBurden,0)}/mo burden vs WarenYan LKR 299 — 10× pain gap`;
+    document.getElementById('s2-wy3').textContent = `Google API at LKR ${fmt(c.googleApiMonthlyLKR,0)}/mo vs OSM LKR ${fmt(c.osmStackLKR,0)} — migration to OSM is existential`;
+    document.getElementById('s2-wy4').textContent = `Driver migration potential: ${fmt(c.migrationPotential,0)}% — accelerated acquisition window opens`;
+  } else {
+    document.getElementById('s3-wy1').textContent = `CRISIS MODE: Driver income collapses to LKR ${fmt(c.avgDriverIncome,0)} — sub must go to LKR 49 or free`;
+    document.getElementById('s3-wy2').textContent = `PickMe death spiral: ${fmt(c.pickMeVulnerability,0)}/100 vulnerability — may exit market or raise commission (accelerates our capture)`;
+    document.getElementById('s3-wy3').textContent = `Ops in LKR: ${fmt(c.wyOpsInLKR,0)}/mo — USD fundraise at current rate captures ${fmt((100000*inp.fx),0)} LKR runway`;
+    document.getElementById('s3-wy4').textContent = `Market capture opportunity: ${fmt(c.migrationPotential,0)}% of PickMe drivers considering switch — historic window`;
+  }
+}
+
+function renderCascade(c, inp) {
+  const el = document.getElementById('cascade-flow');
+  const nodes = [
+    { icon: '💥', label: 'Iran-US Conflict', value: 'IRIS Dena sunk' },
+    { icon: '⚓', label: 'Hormuz Disrupted', value: inp.hormuz + ' weeks' },
+    { icon: '🛢️', label: 'Oil Spike', value: '$' + inp.oil + '/bbl' },
+    { icon: '⛽', label: 'Fuel Prices', value: '+' + fmt(c.oilShockPct*100,0) + '% SL' },
+    { icon: '🚢', label: 'Shipping Blocked', value: fmtM(c.teaWeeklyLoss) + '/wk tea' },
+    { icon: '💸', label: 'Remittance Drop', value: '-' + fmt(inp.remitShock) + '% Gulf' },
+    { icon: '📉', label: 'Forex Drain', value: fmtM(c.totalForexDrain) + '/yr' },
+    { icon: '💱', label: 'LKR Weakens', value: fmt(c.projectedFx,0) + '/USD' },
+    { icon: '📊', label: 'CPI Rises', value: fmt(c.projectedCPI,1) + '%' },
+    { icon: '🛺', label: 'Driver Income', value: 'LKR ' + fmt(c.avgDriverIncome,0) },
+    { icon: '🟢', label: 'WarenYan Opp.', value: fmt(c.migrationPotential,0) + '% migration' }
+  ];
+
+  el.innerHTML = nodes.map((n, i) => {
+    let html = `<div class="cascade-node"><div class="cn-icon">${n.icon}</div><div class="cn-label">${n.label}</div><div class="cn-value">${n.value}</div></div>`;
+    if (i < nodes.length - 1) html += `<div class="cascade-arrow">→</div>`;
+    return html;
+  }).join('');
+}
+
+function updateCharts(c, inp) {
+  // Chart 1: Economic indicators under each scenario
+  const months = ['Now', 'M+1', 'M+2', 'M+3', 'M+4', 'M+5', 'M+6', 'M+7', 'M+8', 'M+9', 'M+10', 'M+11', 'M+12'];
+
+  // Project CPI over 12 months
+  const cpiPath = months.map((_, i) => {
+    const t = i / 12;
+    return BASE.cpi + (c.projectedCPI - BASE.cpi) * Math.min(1, t * 2.5);
+  });
+
+  // Project reserves drain
+  const resPath = months.map((_, i) => {
+    return Math.max(0.5, inp.reserves - (c.totalForexDrain / 1000) * (i / 12));
+  });
+
+  // FX projection
+  const fxPath = months.map((_, i) => {
+    const t = i / 12;
+    return inp.fx + (c.projectedFx - inp.fx) * Math.min(1, t * 1.8);
+  });
+
+  if (chartIndicators) chartIndicators.destroy();
+  chartIndicators = new Chart(document.getElementById('chart-indicators'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: 'CPI Inflation (%)',
+          data: cpiPath,
+          borderColor: '#C0392B',
+          backgroundColor: 'rgba(192,57,43,0.08)',
+          fill: true,
+          tension: 0.4,
+          yAxisID: 'y'
+        },
+        {
+          label: 'Forex Reserves ($B)',
+          data: resPath,
+          borderColor: '#2D6A4F',
+          backgroundColor: 'rgba(45,106,79,0.08)',
+          fill: true,
+          tension: 0.4,
+          yAxisID: 'y1'
+        },
+        {
+          label: 'LKR/USD',
+          data: fxPath,
+          borderColor: '#8B6914',
+          borderDash: [5,3],
+          tension: 0.4,
+          yAxisID: 'y2'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#4A4A5A', font: { size: 11 } } } },
+      scales: {
+        x: { ticks: { color: '#8B8B9E', font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.06)' } },
+        y: { position: 'left', title: { display: true, text: 'CPI %', color: '#C0392B' }, ticks: { color: '#C0392B' }, grid: { color: 'rgba(0,0,0,0.06)' } },
+        y1: { position: 'right', title: { display: true, text: 'Reserves $B', color: '#2D6A4F' }, ticks: { color: '#2D6A4F' }, grid: { display: false } },
+        y2: { position: 'right', title: { display: true, text: 'LKR/USD', color: '#8B6914' }, ticks: { color: '#8B6914' }, grid: { display: false }, offset: true }
+      }
+    }
+  });
+
+  // Chart 2: WarenYan revenue impact
+  const scenarioLabels = ['S1: Contained', 'S2: Escalation', 'S3: Full Crisis'];
+  const scenarioInputs = [1, 2, 3].map(s => SCENARIOS[s]);
+  const scenarioRevenues = scenarioInputs.map(si => {
+    const sc = calcScenario(si);
+    const convRate = si.oil < 110 ? 0.22 : si.oil < 135 ? 0.18 : 0.12;
+    const avgSub = si.oil < 110 ? 700 : si.oil < 135 ? 450 : 200;
+    const drivers = si.oil < 135 ? 5000 : 3000;
+    return (drivers * convRate * avgSub) / si.fx;
+  });
+  const opsUSD = scenarioInputs.map(si => BASE.wyOpsMonthly);
+  const pickMeRevHit = scenarioInputs.map(si => {
+    const sc = calcScenario(si);
+    return sc.pickMeVulnerability;
+  });
+
+  if (chartWyRevenue) chartWyRevenue.destroy();
+  chartWyRevenue = new Chart(document.getElementById('chart-wy-revenue'), {
+    type: 'bar',
+    data: {
+      labels: scenarioLabels,
+      datasets: [
+        {
+          label: 'WY Monthly Revenue (USD)',
+          data: scenarioRevenues,
+          backgroundColor: ['rgba(45,106,79,0.5)', 'rgba(139,105,20,0.5)', 'rgba(192,57,43,0.5)'],
+          borderColor: ['#2D6A4F', '#8B6914', '#C0392B'],
+          borderWidth: 1,
+          yAxisID: 'y'
+        },
+        {
+          label: 'Ops Cost (USD)',
+          data: opsUSD,
+          backgroundColor: 'rgba(139,139,158,0.2)',
+          borderColor: '#8B8B9E',
+          borderWidth: 1,
+          borderDash: [3,3],
+          type: 'line',
+          yAxisID: 'y'
+        },
+        {
+          label: 'PickMe Vulnerability (/100)',
+          data: pickMeRevHit,
+          backgroundColor: 'rgba(192,57,43,0.1)',
+          borderColor: '#C0392B',
+          borderWidth: 2,
+          type: 'line',
+          yAxisID: 'y1'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: '#8B8B9E', font: { size: 11 } } } },
+      scales: {
+        x: { ticks: { color: '#8B8B9E' }, grid: { color: 'rgba(0,0,0,0.06)' } },
+        y: { position: 'left', title: { display: true, text: 'USD/mo', color: '#8B8B9E' }, ticks: { color: '#8B8B9E' }, grid: { color: 'rgba(0,0,0,0.06)' } },
+        y1: { position: 'right', min: 0, max: 100, title: { display: true, text: 'PickMe Vuln.', color: '#C0392B' }, ticks: { color: '#C0392B' }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+function recalc() {
+  const inp = getInputs();
+
+  // Update control values
+  document.getElementById('cv-oil').textContent = inp.oil;
+  document.getElementById('cv-fx').textContent = inp.fx;
+  document.getElementById('cv-res').textContent = inp.reserves.toFixed(1);
+  document.getElementById('cv-hormuz').textContent = inp.hormuz;
+  document.getElementById('cv-remit').textContent = inp.remitShock;
+
+  const c = calcScenario(inp);
+
+  // Update situation banner
+  document.getElementById('sit-oil').textContent = '$' + inp.oil;
+  document.getElementById('sit-oil').style.color = inp.oil > 130 ? '#C0392B' : inp.oil > 110 ? '#A67C00' : '#2D6A4F';
+  document.getElementById('sit-oil-d').textContent = (inp.oil > BASE.oil ? '↑' : '↓') + ' ' + fmt(Math.abs(c.oilShockPct*100),0) + '% from $' + BASE.oil + ' baseline';
+  document.getElementById('sit-oil-d').className = 'sit-delta ' + (c.oilShockPct > 0.2 ? 'bad' : c.oilShockPct > 0.1 ? 'ok' : 'good');
+
+  document.getElementById('sit-fx').textContent = inp.fx.toFixed(0);
+  document.getElementById('sit-fx').style.color = inp.fx > 350 ? '#C0392B' : inp.fx > 320 ? '#A67C00' : '#2D6A4F';
+
+  document.getElementById('sit-reserves').textContent = '$' + inp.reserves.toFixed(2) + 'B';
+  document.getElementById('sit-reserves').style.color = inp.reserves < 4 ? '#C0392B' : inp.reserves < 6 ? '#A67C00' : '#2D6A4F';
+  document.getElementById('sit-res-d').textContent = '~' + fmt(c.importCoverMonths, 1) + ' months import cover';
+
+  document.getElementById('sit-cpi').textContent = fmt(c.projectedCPI, 1) + '%';
+  document.getElementById('sit-cpi').style.color = c.projectedCPI > 15 ? '#C0392B' : c.projectedCPI > 5 ? '#A67C00' : '#2D6A4F';
+
+  // Update scenario probabilities
+  document.getElementById('s1-prob').textContent = c.s1Prob + '%';
+  document.getElementById('s2-prob').textContent = c.s2Prob + '%';
+  document.getElementById('s3-prob').textContent = c.s3Prob + '%';
+
+  // Render all three scenario impacts
+  const s1c = calcScenario(SCENARIOS[1]);
+  const s2c = calcScenario(SCENARIOS[2]);
+  const s3c = calcScenario(SCENARIOS[3]);
+
+  // But use current inputs for the active scenario
+  const activeC = c;
+
+  renderImpacts('s1-impacts', currentScenario === 1 ? c : s1c, 1);
+  renderImpacts('s2-impacts', currentScenario === 2 ? c : s2c, 2);
+  renderImpacts('s3-impacts', currentScenario === 3 ? c : s3c, 3);
+
+  renderWyImpact(1, currentScenario === 1 ? c : s1c);
+  renderWyImpact(2, currentScenario === 2 ? c : s2c);
+  renderWyImpact(3, currentScenario === 3 ? c : s3c);
+
+  renderCascade(c, inp);
+
+  // Update parallels table
+  document.getElementById('par-reserves').textContent = '$' + inp.reserves.toFixed(2) + 'B';
+  document.getElementById('par-fx').textContent = inp.fx.toFixed(1);
+  document.getElementById('par-cpi').textContent = fmt(c.projectedCPI, 1) + '%';
+  document.getElementById('par-oil').textContent = '$' + inp.oil;
+
+  updateCharts(c, inp);
+
+  // Update competitive landscape dynamically
+  updateCompetitive(c, inp);
+}
+
+function updateCompetitive(c, inp) {
+  const vuln = c.pickMeVulnerability;
+  const pickMeEl = document.getElementById('comp-pickme-status');
+  const pickMeText = document.getElementById('comp-pickme-text');
+
+  if (vuln > 75) {
+    pickMeEl.textContent = 'CRITICAL';
+    pickMeEl.style.background = 'rgba(192,57,43,0.1)';
+    pickMeText.textContent = `Vulnerability index ${fmt(vuln,0)}/100. Commission model unsustainable at $${inp.oil}/bbl oil. Mass driver exodus likely. May attempt emergency commission hike → accelerates death spiral. Market share capture window: OPEN.`;
+  } else if (vuln > 55) {
+    pickMeEl.textContent = 'VULNERABLE';
+    pickMeText.textContent = `Vulnerability index ${fmt(vuln,0)}/100. 20% commission increasingly painful as driver income compresses. USD tech costs rising with LKR at ${inp.fx}. Driver churn building. Watch for commission changes.`;
+  } else {
+    pickMeEl.textContent = 'STABLE';
+    pickMeEl.style.background = 'rgba(139,105,20,0.08)';
+    pickMeText.textContent = `Vulnerability index ${fmt(vuln,0)}/100. Business model holding under current conditions. But structural weakness (USD costs, commission dependency) remains. WarenYan's zero-commission still differentiated.`;
+  }
+}
+
+function loadScenario(n) {
+  const s = SCENARIOS[n];
+  document.getElementById('sl-oil').value = s.oil;
+  document.getElementById('sl-fx').value = s.fx;
+  document.getElementById('sl-res').value = s.reserves;
+  document.getElementById('sl-hormuz').value = s.hormuz;
+  document.getElementById('sl-remit').value = s.remitShock;
+  currentScenario = n;
+  selectScenario(n);
+  recalc();
+}
+
+function selectScenario(n) {
+  currentScenario = n;
+  document.querySelectorAll('.scenario-col').forEach(el => el.classList.remove('active'));
+  document.getElementById('col-s' + n).classList.add('active');
+
+  document.querySelectorAll('.scenario-btn').forEach(btn => {
+    btn.className = 'scenario-btn';
+  });
+  const btns = document.querySelectorAll('.scenario-btn');
+  btns[n-1].className = 'scenario-btn active-s' + n;
+}
+
+// Initialize
+window.addEventListener('DOMContentLoaded', () => {
+  loadScenario(1);
+});
+</script>
+
+</body>
+</html>

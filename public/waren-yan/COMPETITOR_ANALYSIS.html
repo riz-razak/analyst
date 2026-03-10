@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WarenYan — Competitive Landscape & Risk Learnings</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --deep: #1B4332;
+    --primary: #2D6A4F;
+    --light: #40916C;
+    --mint: #B7E4C7;
+    --cream: #F8FAF5;
+    --white: #FFFFFF;
+    --dark: #1a1a1a;
+    --gray: #6B7280;
+    --light-gray: #E5E7EB;
+    --red: #DC2626;
+    --amber: #F59E0B;
+    --blue: #2563EB;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .cover {
+    background: linear-gradient(160deg, #0D2818 0%, var(--deep) 40%, var(--primary) 100%);
+    color: white;
+    padding: 80px 48px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 60%;
+    height: 200%;
+    background: radial-gradient(ellipse, rgba(64,145,108,0.15) 0%, transparent 70%);
+  }
+  .cover-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--mint);
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover h1 span { color: var(--mint); }
+  .cover .subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    opacity: 0.7;
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta {
+    margin-top: 40px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .cover-meta .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cover-meta .meta-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mint);
+  }
+  .cover-meta .meta-value {
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-top: 56px;
+    margin-bottom: 8px;
+    padding-top: 32px;
+    border-top: 2px solid var(--light-gray);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  h3 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--deep);
+    margin-bottom: 16px;
+  }
+  .section-desc {
+    color: var(--gray);
+    margin-bottom: 32px;
+    max-width: 700px;
+  }
+  p { margin-bottom: 16px; }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 16px;
+    border-left: 4px solid var(--primary);
+  }
+  .card.red { border-left-color: var(--red); }
+  .card.amber { border-left-color: var(--amber); }
+  .card.blue { border-left-color: var(--blue); }
+  .card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 8px;
+  }
+  .card p { color: var(--gray); font-size: 14px; margin-bottom: 8px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .callout {
+    background: linear-gradient(135deg, var(--deep), var(--primary));
+    color: white;
+    border-radius: 14px;
+    padding: 32px 36px;
+    margin: 32px 0;
+  }
+  .callout h4 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .callout p { opacity: 0.85; margin-bottom: 0; }
+
+  .callout-red {
+    background: linear-gradient(135deg, #7F1D1D, #DC2626);
+    color: white;
+    border-radius: 14px;
+    padding: 32px 36px;
+    margin: 32px 0;
+  }
+  .callout-red h4 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .callout-red p { opacity: 0.9; margin-bottom: 0; }
+
+  .callout-amber {
+    background: linear-gradient(135deg, #78350F, #D97706);
+    color: white;
+    border-radius: 14px;
+    padding: 32px 36px;
+    margin: 32px 0;
+  }
+  .callout-amber h4 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .callout-amber p { opacity: 0.9; margin-bottom: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+  th {
+    background: var(--deep);
+    color: white;
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--light-gray);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) { background: #FAFBF8; }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .tag-green { background: #D1FAE5; color: #065F46; }
+  .tag-amber { background: #FEF3C7; color: #92400E; }
+  .tag-red { background: #FEE2E2; color: #991B1B; }
+  .tag-blue { background: #DBEAFE; color: #1E40AF; }
+  .tag-gray { background: #F3F4F6; color: #4B5563; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+  .metric {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .metric .num {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--deep);
+  }
+  .metric .label {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .competitor-profile {
+    background: white;
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    margin-bottom: 24px;
+  }
+  .competitor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .competitor-header h4 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--deep);
+  }
+  .competitor-header .threat-level {
+    padding: 4px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .threat-critical { background: #FEE2E2; color: #991B1B; }
+  .threat-high { background: #FEF3C7; color: #92400E; }
+  .threat-medium { background: #DBEAFE; color: #1E40AF; }
+  .threat-low { background: #F3F4F6; color: #4B5563; }
+
+  .stat-row {
+    display: flex;
+    gap: 24px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .stat-item .stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+  .stat-item .stat-val {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--deep);
+  }
+
+  .learning-box {
+    background: #F0FDF4;
+    border: 1px solid #BBF7D0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 12px 0;
+  }
+  .learning-box strong { color: var(--deep); }
+  .learning-box p { color: var(--gray); font-size: 14px; margin-bottom: 0; }
+
+  .risk-box {
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 12px 0;
+  }
+  .risk-box strong { color: #991B1B; }
+  .risk-box p { color: var(--gray); font-size: 14px; margin-bottom: 0; }
+
+  .footer {
+    text-align: center;
+    padding: 40px 32px;
+    background: var(--deep);
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
+  }
+  .footer strong { color: var(--mint); }
+
+  /* GLOSSARY & REFERENCES */
+  a.term {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--light);
+  }
+  a.term:hover { border-bottom-style: solid; }
+  .glossary {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 24px;
+    font-size: 13px;
+    columns: 2;
+    column-gap: 32px;
+  }
+  .glossary dt {
+    font-weight: 700;
+    color: var(--deep);
+    font-size: 12px;
+    margin-top: 10px;
+    break-inside: avoid;
+  }
+  .glossary dt:first-child { margin-top: 0; }
+  .glossary dd {
+    color: var(--gray);
+    margin-left: 0;
+    margin-bottom: 2px;
+    break-inside: avoid;
+  }
+  .ref-list {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+  .ref-list a { color: var(--primary); }
+
+  /* DOCUMENT NAV */
+  .doc-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 32px;
+    border-top: 3px solid var(--primary);
+  }
+  .doc-nav h4 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 14px;
+  }
+  .doc-nav ol {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+    margin: 0;
+    padding: 0;
+    counter-reset: nav;
+  }
+  .doc-nav li {
+    counter-increment: nav;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .doc-nav li::before {
+    content: counter(nav, decimal-leading-zero);
+    font-weight: 700;
+    color: var(--light);
+    font-size: 11px;
+    font-family: 'Inter', monospace;
+    margin-right: 6px;
+  }
+  .doc-nav a {
+    color: var(--dark);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .doc-nav a:hover { color: var(--primary); }
+
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .cover { padding: 40px; }
+    .main { padding: 24px; }
+    table, .competitor-profile { page-break-inside: avoid; }
+    .doc-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">WarenYan — Internal Strategy Document</div>
+  <h1>Competitive Landscape<br>& <span>Risk Learnings</span></h1>
+  <div class="subtitle">Who has tried this before. What happened. What we learn. How we don't repeat it.</div>
+  <div class="cover-meta">
+    <div class="meta-item">
+      <div class="meta-label">Document</div>
+      <div class="meta-value">v1.3</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Date</div>
+      <div class="meta-value">10 March 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Classification</div>
+      <div class="meta-value">Internal</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Competitors Profiled</div>
+      <div class="meta-value">6</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- JUMP NAVIGATION -->
+<nav class="doc-nav">
+  <h4>In This Document</h4>
+  <ol>
+    <li><a href="#sec-context">Context & Landscape</a></li>
+    <li><a href="#sec-profiles">Competitor Profiles</a></li>
+    <li><a href="#sec-comparison">Feature Comparison Matrix</a></li>
+    <li><a href="#sec-mafia">The Tuk-Tuk Mafia Problem</a></li>
+    <li><a href="#sec-regulation">NTC Regulation (2025)</a></li>
+    <li><a href="#sec-patterns">Why Challengers Stall</a></li>
+    <li><a href="#sec-helago">HelaGo Deep Dive</a></li>
+    <li><a href="#sec-learnings">Actionable Learnings</a></li>
+    <li><a href="#sec-risks">Revised Risk Register</a></li>
+    <li><a href="#sec-doctrine">Launch Doctrine</a></li>
+    <li><a href="#sec-ipo-pressure">IPO Pressure & Endgame</a></li>
+    <li><a href="#sec-positioning">Competitive Positioning</a></li>
+    <li><a href="#sec-glossary-ca">Glossary</a></li>
+    <li><a href="#sec-references-ca">Sources & References</a></li>
+  </ol>
+</nav>
+
+<!-- SECTION 1: CONTEXT -->
+<h2 id="sec-context">Context</h2>
+<h3>The Sri Lankan Ride-Hailing Landscape Is Small But Brutal</h3>
+
+<p>Sri Lanka's ride-hailing market is valued at roughly $9.5M (2025) and projected to reach $14.6M by 2030. That is tiny by global standards — the entire market is smaller than a single mid-stage startup's annual revenue. But the underlying transport economy (945,000+ three-wheelers, 3.5M people sustained) is enormous. The gap between addressable market and captured market is where the opportunity lives.</p>
+
+<p>The market has been shaped by two dominant forces: <strong>PickMe</strong> (local incumbent, est. 2015) and <strong>Uber</strong> (global player, entered ~2015). A handful of smaller players — Kangaroo Cabs, YOGO — remain niche. And in January 2026, a significant new entrant appeared: <strong>HelaGo</strong>, backed by <a class="term" href="#term-bhasha">Bhasha Lanka</a> (<a class="term" href="#term-helakuru">Helakuru</a>/<a class="term" href="#term-payhere">PayHere</a>) and the <a class="term" href="#term-dpg">David Pieris Group</a>.</p>
+
+<p>No Sri Lankan ride-hailing startup has "failed" in the dramatic, headline-making way common in Southeast Asia. The pattern here is different: platforms don't collapse — they <em>stall</em>. They hit the same structural walls and either plateau at low penetration or quietly stop growing. Understanding those walls is more useful than studying shutdowns.</p>
+
+<div class="grid-3">
+  <div class="metric">
+    <div class="num">~20%</div>
+    <div class="label">Three-wheelers on any app</div>
+  </div>
+  <div class="metric">
+    <div class="num">~750K</div>
+    <div class="label">Unserved three-wheelers</div>
+  </div>
+  <div class="metric">
+    <div class="num">3</div>
+    <div class="label">Active competitors</div>
+  </div>
+</div>
+
+
+<!-- SECTION 2: COMPETITOR PROFILES -->
+<h2 id="sec-profiles">Competitor Profiles</h2>
+<h3>Who's in the Arena</h3>
+
+<!-- PICKME -->
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>PickMe</h4>
+    <span class="threat-level threat-critical">THREAT: CRITICAL</span>
+  </div>
+  <p>Sri Lanka's dominant ride-hailing platform. Founded 2015 by Jiffry Zulfer. Backed by <a class="term" href="#term-ifc">IFC</a> ($2.5M, 2018). Now a full mobility + delivery + logistics platform. This is the company that defines the category in Sri Lanka.</p>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-label">Drivers</div>
+      <div class="stat-val">100,000+</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Commission</div>
+      <div class="stat-val">15–20%</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Coverage</div>
+      <div class="stat-val">Island-wide</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Revenue Streams</div>
+      <div class="stat-val">Rides + Food + Parcels + Logistics</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Funding</div>
+      <div class="stat-val">$2.5M+ (IFC)</div>
+    </div>
+  </div>
+
+  <p><strong>Strengths:</strong> Deep driver network, brand recognition, multi-vertical diversification (PickMe Food, Parcels), IFC backing, university partnership with Moratuwa for tech innovation, established relationships with regulators.</p>
+
+  <p><strong>Weaknesses:</strong> Commission escalation from 15% → 20% has angered drivers. Driver complaints filed with the <a class="term" href="#term-hrcsl">Human Rights Commission of Sri Lanka (HRCSL)</a>. Platform sets fares with limited driver input. Complex interface not optimized for tuk-tuks. Digital wallet friction.</p>
+
+  <p><strong>What they'd do if WarenYan gains traction:</strong> Temporary commission reduction in Mt. Lavinia/Dehiwala. Tuk-tuk-specific promotions. PR narrative about safety and insurance that highlights our gaps. They can afford to bleed in one district.</p>
+
+  <div class="risk-box">
+    <strong>WarenYan Risk — but also our weapon:</strong>
+    <p>If we launched in one small zone (say, Mt. Lavinia only), PickMe could match our 0% commission in that zone for $10-15K/month. Survivable for them. Fatal for our narrative. <strong>This is why we don't launch in a beachhead — we launch across all of core Colombo + suburbs simultaneously.</strong> If PickMe wants to match 0% across the entire Colombo metro, that costs them an estimated $300-450K/month in lost commission revenue. IFC won't tolerate that for more than a quarter. Width is the weapon. The wider we launch, the more expensive it is for Zulfer to respond.</p>
+  </div>
+</div>
+
+<!-- HELAGO -->
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>HelaGo</h4>
+    <span class="threat-level threat-critical">THREAT: CRITICAL</span>
+  </div>
+  <p>The new entrant. Launched January 2026 by Bhasha Lanka (Pvt) Ltd — the company behind Helakuru (Sri Lanka's most-used Sinhala keyboard, millions of installs), PayHere (leading payment gateway), and HelaPay. Founded by Dhanika Perera. Partnered with David Pieris Group (one of Sri Lanka's largest automotive/mobility conglomerates). Raised $1M seed.</p>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-label">Drivers (launch)</div>
+      <div class="stat-val">200+ (Jan 2026)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Commission</div>
+      <div class="stat-val">7% (93% driver payout)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Coverage</div>
+      <div class="stat-val">Western Province (expanding)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Funding</div>
+      <div class="stat-val">$1M seed (David Pieris)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Parent Ecosystem</div>
+      <div class="stat-val">Helakuru + PayHere + HelaPay</div>
+    </div>
+  </div>
+
+  <p><strong>Key Feature — Driver-Set Pricing:</strong> HelaGo does not use algorithm-set fares. Drivers offer their own price for each ride. Passengers see and compare offers. This is the <a class="term" href="#term-indrive">inDrive</a> model adapted for Sri Lanka.</p>
+
+  <p><strong>Vehicle Types:</strong> Bike, Tuk, GoLite, GoPlus, GoMax — multi-vehicle from day one.</p>
+
+  <p><strong>Strengths:</strong> Helakuru's Sinhala-first brand is already on millions of phones. PayHere gives them instant digital payment integration. David Pieris Group provides islandwide dealer network for driver recruitment. $1M is 10x WarenYan's operating budget. They have a full engineering team, established brand, and cross-platform distribution (Helakuru superapp).</p>
+
+  <p><strong>Weaknesses:</strong> Driver-set pricing introduces inconsistency — early reviews mention drivers charging significantly more during busy periods. 7% commission, while lower than PickMe's 15-20%, is still not zero. Multi-vehicle strategy dilutes tuk-tuk focus. As a division of a larger company, moves may be slower than a focused startup.</p>
+
+  <div class="callout-red">
+    <h4>HelaGo is the existential competitive threat.</h4>
+    <p>They share our narrative ("local platform, fair for drivers, Sinhala-first") but have 10x the capital, an established user base, integrated payments, and a corporate partner with physical infrastructure across the island. We need to be honest about this.</p>
+  </div>
+</div>
+
+<!-- UBER -->
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>Uber Sri Lanka</h4>
+    <span class="threat-level threat-high">THREAT: HIGH</span>
+  </div>
+  <p>Global ride-hailing giant. Operates across 5 districts (Colombo, Gampaha, Kalutara, Kandy, Galle). Claims <a class="term" href="#term-lkr">LKR</a> 160B+ in economic value generated annually. Recently launched "Tuk Rentals" — multi-hour tuk-tuk bookings at LKR 399/hr.</p>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-label">Commission</div>
+      <div class="stat-val">20–25%</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Coverage</div>
+      <div class="stat-val">5 districts, 40 cities</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Tuk Focus</div>
+      <div class="stat-val">Uber Tuk + Tuk Rentals</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Unique</div>
+      <div class="stat-val">Tourism brand recognition</div>
+    </div>
+  </div>
+
+  <p><strong>Strengths:</strong> Global brand. Tourists search for "Uber" by default. Established safety/insurance frameworks. Deep pockets. 36% of riders have used Uber Tuk.</p>
+
+  <p><strong>Weaknesses:</strong> Highest commission in the market. Limited to urban corridors. Interface designed for global market — no Sinhala, no cultural adaptation. Cash was added late and reluctantly. Not a priority market for the company.</p>
+
+  <p><strong>What they'd do if WarenYan gains traction:</strong> Uber's local team is small but capable — they already built Tuk Rentals (their own product) and actively adapt to the Sri Lankan market. If we generate enough noise, they could: (a) drop tuk commission to 15% to match PickMe and pressure us on volume, (b) expand their existing Tuk Rentals into commuter pricing, or (c) approach us for acquisition/partnership if we prove the zero-commission model works at scale. The most likely scenario: they monitor us quietly unless we start taking media share.</p>
+</div>
+
+<!-- KANGAROO CABS -->
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>Kangaroo Cabs</h4>
+    <span class="threat-level threat-low">THREAT: LOW</span>
+  </div>
+  <p>One of Sri Lanka's oldest private taxi services. Now has a mobile app. Primarily a call-center dispatched car service with a digital layer bolted on. Not a tuk-tuk-focused platform.</p>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-label">Model</div>
+      <div class="stat-val">Call center + app hybrid</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Focus</div>
+      <div class="stat-val">Cars, airport transfers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Tuk-tuk relevance</div>
+      <div class="stat-val">Minimal</div>
+    </div>
+  </div>
+
+  <p>Not a direct competitor for the tuk-tuk segment. Relevant only as evidence that pre-digital taxi services couldn't transition to the app economy effectively.</p>
+</div>
+
+<!-- YOGO -->
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>YOGO</h4>
+    <span class="threat-level threat-low">THREAT: LOW</span>
+  </div>
+  <p>App-based platform built on the "LINK Meter" for accurate distance metering. Western Province focus. Emphasizes transparent fare calculation to reduce driver-passenger conflict over pricing.</p>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-label">Model</div>
+      <div class="stat-val">Meter-based transparent fares</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Coverage</div>
+      <div class="stat-val">Western Province</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Status</div>
+      <div class="stat-val">Active, niche</div>
+    </div>
+  </div>
+
+  <p>YOGO is interesting as a concept (metering solves a real trust issue) but has not achieved meaningful market share. They solved a real problem (fare disputes) but couldn't solve the distribution problem (getting enough drivers and riders).</p>
+
+  <div class="learning-box">
+    <strong>Learning:</strong>
+    <p>Good product mechanics without distribution power = irrelevance. YOGO proves that solving the pricing problem alone isn't enough. You must also solve recruitment and network density.</p>
+  </div>
+</div>
+
+<!-- INDRIVE (POTENTIAL) -->
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>inDrive</h4>
+    <span class="threat-level threat-medium">THREAT: MEDIUM (POTENTIAL)</span>
+  </div>
+  <p>Global ride-hailing company operating in 1,065 cities across 48 countries. Uses a driver-bidding model (passengers and drivers negotiate price). Not yet in Sri Lanka as of March 2026. Expanding aggressively across South Asia (active in Pakistan, India, Bangladesh).</p>
+
+  <div class="stat-row">
+    <div class="stat-item">
+      <div class="stat-label">Global Presence</div>
+      <div class="stat-val">48 countries, 1,065 cities</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Sri Lanka Status</div>
+      <div class="stat-val">Not yet launched</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Model</div>
+      <div class="stat-val">Driver-passenger price negotiation</div>
+    </div>
+  </div>
+
+  <p>inDrive is a latent threat. They've shown the negotiated-fare model works in low-income markets. If they enter Sri Lanka, their brand, capital, and operational playbook would be formidable. HelaGo's driver-set pricing may be a preemptive local response to inDrive's model.</p>
+</div>
+
+
+<!-- SECTION 3: HEAD-TO-HEAD COMPARISON -->
+<h2 id="sec-comparison">Head-to-Head</h2>
+<h3>Feature Comparison Matrix</h3>
+
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>WarenYan</th>
+    <th>PickMe</th>
+    <th>HelaGo</th>
+    <th>Uber</th>
+  </tr>
+  <tr>
+    <td><strong>Commission</strong></td>
+    <td style="color:#065F46;font-weight:700">0% forever</td>
+    <td style="color:#991B1B">15–20%</td>
+    <td style="color:#92400E">7%</td>
+    <td style="color:#991B1B">20–25%</td>
+  </tr>
+  <tr>
+    <td><strong>Fare model</strong></td>
+    <td>Distance-based algorithm</td>
+    <td>Algorithm-set</td>
+    <td>Driver-set (negotiated)</td>
+    <td>Algorithm-set + surge</td>
+  </tr>
+  <tr>
+    <td><strong>Payment</strong></td>
+    <td>Cash + personal QR</td>
+    <td>Cash + wallet + card</td>
+    <td>Cash + digital (PayHere)</td>
+    <td>Cash + card + wallet</td>
+  </tr>
+  <tr>
+    <td><strong>Sinhala UI</strong></td>
+    <td><span class="tag tag-amber">Planned</span></td>
+    <td>Partial</td>
+    <td><span class="tag tag-green">Native (Helakuru)</span></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td><strong>Tuk-tuk focus</strong></td>
+    <td><span class="tag tag-green">Primary</span></td>
+    <td>One of many</td>
+    <td>One of many</td>
+    <td>Secondary</td>
+  </tr>
+  <tr>
+    <td><strong>Driver verification</strong></td>
+    <td><span class="tag tag-amber">Pipeline (M1-M2)</span></td>
+    <td>Yes</td>
+    <td>Yes</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td><strong>Insurance/liability</strong></td>
+    <td><span class="tag tag-red">Not yet</span></td>
+    <td>Yes</td>
+    <td>Unknown</td>
+    <td>Yes (global)</td>
+  </tr>
+  <tr>
+    <td><strong>Native app</strong></td>
+    <td><span class="tag tag-amber"><a class="term" href="#term-pwa" style="color:inherit;border:0">PWA</a> (<a class="term" href="#term-flutter" style="color:inherit;border:0">Flutter</a> Q2)</span></td>
+    <td>iOS + Android</td>
+    <td>iOS + Android</td>
+    <td>iOS + Android</td>
+  </tr>
+  <tr>
+    <td><strong>Monthly ops cost (full)</strong></td>
+    <td style="color:#065F46;font-weight:700">~$4-7K (at scale)</td>
+    <td>Est. $50,000+</td>
+    <td>Unknown (backed by PayHere infra)</td>
+    <td>N/A (global)</td>
+  </tr>
+  <tr>
+    <td><strong>Funding</strong></td>
+    <td>$100K (R1)</td>
+    <td>$2.5M+ (IFC)</td>
+    <td>$1M (David Pieris)</td>
+    <td>$billions (global)</td>
+  </tr>
+  <tr>
+    <td><strong>Payment methods</strong></td>
+    <td><span class="tag tag-green">Cash + QR + Cards (rider-cost)</span></td>
+    <td>Cash + Card + Wallet</td>
+    <td>Cash + PayHere</td>
+    <td>Card + Cash</td>
+  </tr>
+  <tr>
+    <td><strong>Data protection</strong></td>
+    <td><span class="tag tag-green">GDPR-aligned → world-class (ramp)</span></td>
+    <td>Standard</td>
+    <td>Standard</td>
+    <td>Global standard</td>
+  </tr>
+</table>
+
+
+<!-- SECTION 4: THE TUK-TUK MAFIA PROBLEM -->
+<h2 id="sec-mafia">Structural Risk</h2>
+<h3>The "Tuk-Tuk Mafia" Problem</h3>
+
+<p>This is the risk that no business plan accounts for, and it's real. PickMe has formally documented 30+ violent incidents against its drivers over a 12-week period in 2025-2026. App-based drivers are physically attacked, their vehicles damaged, and they're intimidated out of tourist areas by informal driver cartels.</p>
+
+<p>Hotspots: Ella, Kandy, Galle Fort, and areas around major railway stations. The pattern is consistent — informal tuk-tuk networks that charge tourists 2-3x standard rates resist any platform that makes pricing transparent. PickMe's CEO wrote directly to the Inspector General of Police requesting protection for drivers.</p>
+
+<div class="card red">
+  <h4>What This Means for WarenYan</h4>
+  <p>We plan to recruit at tuk-tuk stands. Some of those stands are run by the same informal networks that attack app drivers. If we're successful, we will face this problem. PickMe, with 100,000+ drivers and IFC backing, still can't solve it. A solo founder with a PWA will be even more exposed.</p>
+  <p><strong>Mitigation:</strong> Core Colombo rollout focuses on residential and commuter corridors first — these have less tourist-cartel activity than Ella or Galle Fort. Encircle tourist hotspots by building density in surrounding non-hostile territory before entering them. Avoid Ella, Kandy, and Galle Fort until we have operational staff, local buy-in, and documented earnings data proving app-based drivers earn more. See the <strong>Tuk-Tuk Mafia Dossier</strong> (separate document) for full risk analysis, international case studies, and operational countermeasures.</p>
+</div>
+
+
+<!-- SECTION 5: NTC REGULATION -->
+<h2 id="sec-regulation">Regulatory Environment</h2>
+<h3>The <a class="term" href="#term-ntc">NTC</a> Amendment Act (2025)</h3>
+
+<p>The National Transport Commission (Amendment) Act No. 8 of 2025 gives the NTC authority to regulate three-wheelers, school transport, and office transport for the first time. The act is passed but the specific regulations and guidelines have not yet been gazetted — the NTC is still formulating the rules.</p>
+
+<p>This is both a risk and an opportunity. Regulation could impose licensing requirements, insurance mandates, fare controls, or driver verification standards. Platforms that are already compliant win. Platforms that aren't get shut down or forced into expensive retrofits.</p>
+
+<div class="card blue">
+  <h4>WarenYan Position</h4>
+  <p>Our data protection architecture (DPPP, RBAC, Forget-Me) puts us ahead on privacy compliance. But we lag on driver verification, insurance, and legal entity registration — the areas most likely to be regulated. These need to be resolved before regulations are gazetted, not after.</p>
+</div>
+
+
+<!-- SECTION 6: PATTERN ANALYSIS -->
+<h2 id="sec-patterns">Pattern Analysis</h2>
+<h3>Why Sri Lankan Ride-Hailing Challengers Stall</h3>
+
+<p>No one has "beaten" PickMe. No one has even seriously dented their market share. YOGO, Kangaroo's app, and a handful of other attempts all hit the same walls. Understanding why is more important than studying any single competitor.</p>
+
+<div class="card">
+  <h4>Wall 1: The Chicken-and-Egg at Sri Lankan Scale</h4>
+  <p>In a country of 22M people with ~4M smartphone-active ride-hailing users, the liquidity threshold is brutal. You need enough drivers in a tight geography that a rider gets a response in under 3 minutes. PickMe took years to reach critical mass — and they had IFC funding and a first-mover advantage in a market with zero alternatives.</p>
+  <p><strong>WarenYan learning:</strong> Launch wide across all core Colombo + suburbs simultaneously — width is the weapon (see Launch Doctrine). Beta small (~10 drivers), launch big. Density target: 10 drivers per 2km radius across the entire metro before expanding to secondary cities.</p>
+</div>
+
+<div class="card">
+  <h4>Wall 2: Digital Payment Friction</h4>
+  <p>Sri Lanka is still overwhelmingly a cash economy. Every platform that required digital wallets or card payments lost the casual rider. PickMe learned this the hard way and added cash. Uber was even slower. The platforms that thrive are the ones that treat cash as default and digital as optional.</p>
+  <p><strong>WarenYan learning:</strong> Cash-first is correct. Personal QR as the upgrade path is elegant — it doesn't require platform-level payment processing. This is a genuine advantage over HelaGo (which integrates PayHere but still creates friction) and Uber (which is still card-biased).</p>
+</div>
+
+<div class="card">
+  <h4>Wall 3: Commission Sensitivity Is Real But Insufficient</h4>
+  <p>Every new entrant pitches "lower commissions." YOGO did it. HelaGo does it (7%). But PickMe's drivers stay on PickMe because it has riders. Commission savings mean nothing if you don't get enough ride requests. The driver calculates total daily earnings, not per-ride margin.</p>
+  <p><strong>WarenYan learning:</strong> Zero commission is our story, but it's not our moat by itself. The moat is zero commission + sufficient ride volume. If a driver makes LKR 3,000/day on PickMe (after 20% commission) and LKR 1,500/day on WarenYan (zero commission but fewer rides), they stay on PickMe. We need ride density before our commission advantage converts.</p>
+</div>
+
+<div class="card">
+  <h4>Wall 4: Native App Expectation</h4>
+  <p>App Store and Google Play presence is a trust signal. When a rider searches for "tuk-tuk app," they expect to download something. PWAs don't appear in store search results. This isn't a technical limitation — it's a distribution limitation. HelaGo is on both stores. YOGO is on both stores. Even Kangaroo is on both stores.</p>
+  <p><strong>WarenYan learning:</strong> The Flutter app budget ($30K/quarter) is not optional. It's a table-stakes requirement for credibility. PWA is fine for beta testing; it is not fine for market launch.</p>
+</div>
+
+<div class="card">
+  <h4>Wall 5: No One Solved the Safety Narrative</h4>
+  <p>Street hailing is perceived as unsafe. App-based rides are perceived as "safer" — but only if the app has driver verification, ride tracking, and an emergency system. PickMe has these. Uber has these. HelaGo presumably has these (<a class="term" href="#term-nic">NIC</a> required for driver registration). WarenYan has ride tracking and SOS but no driver verification. Without it, we can't credibly claim to be safer than street hailing.</p>
+  <p><strong>WarenYan learning:</strong> Driver verification (NIC + license + photo) must ship before public launch. This is not a "nice to have." It is a launch blocker.</p>
+</div>
+
+
+<!-- SECTION 7: HELAGO DEEP DIVE -->
+<h2 id="sec-helago">Critical Assessment</h2>
+<h3>HelaGo: What Specifically Threatens Us</h3>
+
+<p>HelaGo deserves its own section because it directly competes for the same narrative WarenYan occupies: "local, fair, driver-friendly." Here's the honest assessment of where they're stronger, where they're weaker, and what we can do about it.</p>
+
+<div class="card red">
+  <h4>Where HelaGo is stronger</h4>
+  <p><strong>Distribution:</strong> Helakuru is on millions of Sri Lankan phones. HelaGo can push ride-hailing to existing Helakuru users with a notification. We have no existing user base.</p>
+  <p><strong>Payments:</strong> PayHere is Sri Lanka's leading payment gateway. They have integrated digital payments from day one. We have cash + personal QR (which is valid but less slick).</p>
+  <p><strong>Capital:</strong> $1M seed vs our $100K. They can afford marketing, driver incentives, and operational staff we cannot.</p>
+  <p><strong>Corporate partner:</strong> David Pieris Group has dealer networks across the island. That's a physical recruitment infrastructure we'll never match with foot traffic at tuk-tuk stands.</p>
+  <p><strong>Sinhala:</strong> Helakuru literally built the Sinhala keyboard. Their Sinhala UI will be native and natural. Ours isn't built yet.</p>
+</div>
+
+<div class="card">
+  <h4>Where WarenYan has an edge</h4>
+  <p><strong>Zero vs 7%:</strong> Seven percent is better than twenty percent. Zero is better than seven percent. This is a simple, memorable, permanent difference. Every rupee matters to a driver earning LKR 2,000-3,000/day.</p>
+  <p><strong>Fixed fares vs driver-set fares:</strong> HelaGo's driver-set pricing is interesting but creates uncertainty for riders. Early reviews already mention price inconsistency. Our distance-based algorithm gives riders predictable pricing. This matters more to regular commuters than to one-time tourists.</p>
+  <p><strong>Cost structure:</strong> Full operational cost (including CRM, CS, call centre, Google Workspace, insurance, analytics) is $4-7K/month at scale. HelaGo's $1M buys ~12-15 months of runway if their burn is aggressive. We run a complete operation for 7-10x less than PickMe. If HelaGo's funding runs out and they haven't hit profitability, they need more capital. Our cost structure makes sustainability an architectural fact, not a fundraising milestone.</p>
+  <p><strong>Focus:</strong> HelaGo is a feature of Bhasha Lanka's superapp strategy. WarenYan is the only thing we do. Every decision, every feature, every support interaction is about the tuk-tuk driver. That focus compounds.</p>
+</div>
+
+<div class="callout-amber">
+  <h4>The honest question we need to answer:</h4>
+  <p>"If a tuk-tuk driver already has Helakuru on their phone, HelaGo charges only 7%, and they can set their own fares — why would they also install WarenYan?"</p>
+  <p>Our answer has to land in one breath. Not a feature list. Not a comparison table. A promise:</p>
+</div>
+
+<div class="callout" style="margin-top: 16px;">
+  <h4 style="font-size: 22px; line-height: 1.4;">Zero commission. Fair fares that keep your riders coming back. And we will never change the deal.</h4>
+  <p style="font-size: 16px; opacity: 1; margin-top: 12px;">Every other app takes a cut. PickMe takes 20%. HelaGo takes 7%. Tomorrow, they'll take more — because they have investors to repay. <strong>We take nothing. Today. Tomorrow. Forever.</strong> We set a fair fare so your riders trust the price and come back. Not a bidding war where your regular passenger sees three different prices and hails a tuk-tuk off the street instead. <strong>WarenYan was built for the tuk-tuk driver. Only for you. Not for venture capitalists. Not for a superapp strategy. For you.</strong></p>
+</div>
+
+<p style="margin-top: 16px; color: var(--gray); font-size: 14px;"><strong>For investor decks:</strong> "The ride-hailing market extracts 15-25% of driver income as commission. WarenYan takes zero. That's not a promotional offer — it's the structural economics of a platform that costs $4-7K/month to operate at scale instead of $50K+. The commission isn't a revenue model for us. It was never going to be. We monetize through premium features that drivers choose to buy — not through taxing every ride they complete."</p>
+
+
+<!-- SECTION 8: ACTIONABLE LEARNINGS -->
+<h2 id="sec-learnings">Actionable Learnings</h2>
+<h3>What All of This Means for Launch</h3>
+
+<div class="learning-box">
+  <strong>Learning 1: Speed is the only moat we can build right now</strong>
+  <p>HelaGo launched in January 2026. They're in Western Province. Every week that passes, they recruit more drivers in Colombo. The $30K app dev budget and the 5-agent ground team must be deployed immediately. Beta with ~10 paid drivers, then Colombo-wide launch as fast as operationally possible.</p>
+</div>
+
+<div class="learning-box">
+  <strong>Learning 2: "Zero commission" must become identity, not just pricing</strong>
+  <p>If we're competing against HelaGo's 7%, the conversation can't be "we're slightly cheaper." It has to be a philosophical position: "We believe drivers should keep every rupee. That's not a launch promotion. That's who we are. Forever." This needs to be the first thing any driver hears.</p>
+</div>
+
+<div class="learning-box">
+  <strong>Learning 3: Driver verification is a launch blocker — but build a pipeline, not a wall</strong>
+  <p>PickMe has it. HelaGo has it. Uber has it. NTC regulation is coming. We must ship NIC + license + photo verification before public launch — this is non-negotiable. But the verification system must be designed as a robust pipeline (fast throughput, agent-assisted, same-day turnaround) rather than a bottleneck. At 1,000 drivers/day recruitment, even a 1-day delay in verification kills momentum. Solution: agents verify on-site at stands, photo + NIC capture via WhatsApp, manual review queue for edge cases, automated approval for clean submissions.</p>
+</div>
+
+<div class="learning-box">
+  <strong>Learning 4: Don't fight HelaGo's distribution — outflank it with ground presence</strong>
+  <p>We will never out-distribute Helakuru's user base via digital channels. Don't try. Instead: <a class="term" href="#term-pj">PJ</a> + 5 agents recruit in person at stands across all of Colombo, relationship-based, not notification-based. Target the drivers HelaGo won't prioritize: the ones who need hand-holding, the ones in suburban corridors, the ones who've never used an app. Agents call drivers personally if they stall during signup. This is human-scale onboarding that a notification can't replicate.</p>
+</div>
+
+<div class="learning-box">
+  <strong>Learning 5: Rider-side value prop must be about predictability, not price</strong>
+  <p>HelaGo's driver-set pricing means riders don't know the fare until drivers bid. Our distance-based algorithm means the rider sees a fixed price before confirming. In a market where fare disputes are the #1 cause of tuk-tuk complaints, predictable pricing is a rider-side moat. Lean into this.</p>
+</div>
+
+<div class="learning-box">
+  <strong>Learning 6: The tuk-tuk mafia is a real operational risk — plan for it</strong>
+  <p>Colombo-wide launch includes residential corridors AND some tourist-adjacent areas. Avoid Ella, Kandy, and Galle Fort until we have operational staff and local driver community buy-in in those areas. For Colombo, prioritize residential and commuter routes over tourist hotspots. Budget for community engagement and be prepared to document incidents if they occur.</p>
+</div>
+
+<div class="learning-box">
+  <strong>Learning 7: Multi-driver-app loyalty is realistic</strong>
+  <p>Drivers use multiple apps simultaneously. A PickMe driver can also be a HelaGo driver can also be a WarenYan driver. We don't need exclusivity — we need to be one of the 2-3 apps a driver has open. The "always on, zero cost to stay on" model helps here. There's no financial penalty for a driver keeping WarenYan running alongside PickMe.</p>
+</div>
+
+
+<!-- SECTION 9: REVISED RISK REGISTER -->
+<h2 id="sec-risks">Revised Risk Register</h2>
+<h3>Updated for Competitive Reality</h3>
+
+<table>
+  <tr>
+    <th>Risk</th>
+    <th>Severity</th>
+    <th>Likelihood</th>
+    <th>Mitigation</th>
+  </tr>
+  <tr>
+    <td>HelaGo builds Colombo density before we launch</td>
+    <td><span class="tag tag-red">CRITICAL</span></td>
+    <td><span class="tag tag-amber">MEDIUM</span></td>
+    <td>Accelerate beta timeline. Our Colombo-wide launch means we're not fighting for one zone — we're competing for the same city, and zero commission is a permanent structural advantage over their 7%.</td>
+  </tr>
+  <tr>
+    <td>PickMe retaliates with temporary 0% commission</td>
+    <td><span class="tag tag-red">HIGH</span></td>
+    <td><span class="tag tag-amber">MEDIUM</span></td>
+    <td><strong>Width neutralises this.</strong> Matching 0% in one zone costs $10-15K/mo. Matching across Colombo metro costs $300-450K/mo — unsustainable. And temporary 0% is still temporary: the moment they reinstate commission, we win the narrative. Build driver relationships PJ + agents can maintain even under competitive pressure.</td>
+  </tr>
+  <tr>
+    <td>NTC regulation requires insurance/verification we don't have</td>
+    <td><span class="tag tag-red">HIGH</span></td>
+    <td><span class="tag tag-red">HIGH</span></td>
+    <td>Ship driver verification before launch. Begin insurance partner conversations immediately (Fairfirst, Ceylinco).</td>
+  </tr>
+  <tr>
+    <td>Tuk-tuk mafia violence against WarenYan drivers</td>
+    <td><span class="tag tag-red">HIGH</span></td>
+    <td><span class="tag tag-amber">MEDIUM</span></td>
+    <td>Encircle tourist hotspots — build density in surrounding residential corridors first. Prove earnings data. Community engagement before entry. Full strategy in separate Tuk-Tuk Mafia Dossier.</td>
+  </tr>
+  <tr>
+    <td>Riders don't trust a PWA (no app store presence)</td>
+    <td><span class="tag tag-amber">MEDIUM</span></td>
+    <td><span class="tag tag-red">HIGH</span></td>
+    <td>Flutter app is budgeted ($30K Q1). Ship before public launch.</td>
+  </tr>
+  <tr>
+    <td>Driver churn — drivers try WarenYan but leave for HelaGo/PickMe due to ride volume</td>
+    <td><span class="tag tag-red">HIGH</span></td>
+    <td><span class="tag tag-red">HIGH</span></td>
+    <td>Encourage multi-app use from Day 1 (don't ask them to leave PickMe). Aggressive rider-side acquisition so ride volume follows driver density. Incentives for early adopters. The zero-cost-to-stay model means drivers lose nothing by keeping the app open. Churn happens when drivers have to choose — we make sure they don't have to.</td>
+  </tr>
+  <tr>
+    <td>inDrive enters Sri Lanka</td>
+    <td><span class="tag tag-amber">MEDIUM</span></td>
+    <td><span class="tag tag-blue">LOW</span></td>
+    <td>Not in any announced pipeline. Monitor. Our cost structure survives regardless — they'd hurt PickMe and HelaGo more.</td>
+  </tr>
+  <tr>
+    <td>Solo founder burnout / bus factor</td>
+    <td><span class="tag tag-red">CRITICAL</span></td>
+    <td><span class="tag tag-amber">MEDIUM</span></td>
+    <td>First hire within Month 1. Operations manager handles driver recruitment so founder focuses on product + fundraising.</td>
+  </tr>
+</table>
+
+
+<!-- SECTION 10: THE LAUNCH DOCTRINE -->
+<h2 id="sec-doctrine">Launch Doctrine</h2>
+<h3>Beta Small, Launch Wide, Bleed Them on Width</h3>
+
+<div class="callout-red">
+  <h4>The core insight: width is the weapon.</h4>
+  <p>A beachhead strategy (one suburb, grow slowly) sounds safe. It's not. It's suicidal. A single-zone launch lets PickMe run a targeted 0% promo that costs them $10-15K and kills our narrative. We beta-test with ~10 paid drivers in one zone. But when we launch, it's all of core Colombo and suburbs or nothing. Force PickMe to choose: match 0% across the entire metro (impossible — ~$300-450K/month in lost revenue) or watch us grow.</p>
+</div>
+
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>How to Bleed Zulfer Before He Bleeds Us</h4>
+    <span class="threat-level threat-critical">OFFENSIVE STRATEGY</span>
+  </div>
+
+  <p>PickMe's business model has a structural vulnerability: it is entirely commission-dependent. Every ride generates 15-20% revenue. That dependency is a load-bearing wall. Pull it out and the building shakes. Here's how:</p>
+
+  <p><strong>Phase 1: Silent Beta (10 drivers, 1 zone, ~2 weeks)</strong></p>
+  <p>Test ride lifecycle, payment flow, driver app usability, SOS system. PJ and agents onboard 10 paid drivers personally. No marketing. No social media. No press. PickMe doesn't know we exist. This is purely a systems test.</p>
+
+  <p><strong>Phase 2: Recruitment Blitz (pre-launch, ~4-6 weeks)</strong></p>
+  <p>PJ + 5 agents recruit across ALL of core Colombo and suburbs simultaneously. Target: 1,000+ drivers/day at peak. The pitch is face-to-face: "Keep every rupee you earn. Zero commission. Forever. Just add this app alongside PickMe." We don't ask them to leave PickMe — we ask them to multi-app. Non-threatening. Low friction. High conversion.</p>
+
+  <p><strong>Phase 3: The Deafening Launch</strong></p>
+  <p>Riz Razak goes public. Emotional-anarchist marketing. The social media and airwaves are deafening for days. Attack PickMe/Uber on monopolistic practices. Real driver stories. National pride. <a class="term" href="#term-ugc">UGC</a> from the drivers themselves. A week later, go even harder — show early success numbers, more stories, more drivers switching. The narrative becomes self-reinforcing.</p>
+
+  <p><strong>Phase 4: Force the Dilemma</strong></p>
+  <p>PickMe now faces an impossible choice:</p>
+
+  <div class="grid-2" style="margin-top:16px;">
+    <div class="card red">
+      <h4>Option A: Match 0% Across Colombo</h4>
+      <p>Costs them $300-450K/month in lost commission. IFC won't tolerate this. Zulfer's P&L collapses. And even if he does it temporarily, the moment he reinstates commission, every driver remembers: "PickMe charged you, WarenYan never did." The temporary promo validates our philosophy permanently.</p>
+    </div>
+    <div class="card amber">
+      <h4>Option B: Don't Match, Lose Slowly</h4>
+      <p>Drivers multi-app. WarenYan rides have 15-20% more driver earnings per trip. Word spreads through stands. Driver WhatsApp groups become recruitment channels. The bleeding is slow, structural, and permanent — because we will never reinstate commission. There is no "promo ending."</p>
+    </div>
+  </div>
+
+  <div class="card blue" style="margin-top:16px;">
+    <h4>Option C: Attack on Safety/Brand (Most Likely Response)</h4>
+    <p>Zulfer goes to media: "WarenYan has no insurance, no verification, no track record." This is why driver verification, legal entity, ToS, and insurance conversations must be DONE before launch. If these are in place, the attack doesn't land. If they're not, it kills us. This is not a nice-to-have — it's the prerequisite for surviving the counter-attack.</p>
+  </div>
+
+  <p style="margin-top:24px;"><strong>The math that matters:</strong> Our full monthly operational cost is ~$4-7K at scale (including CRM, CS, insurance, everything). PickMe's is $50,000+. Every month of competition costs them 7-12x more than it costs us. We don't need to "win." We need to survive long enough that our presence becomes a permanent cost pressure on their model. Time is on our side if we can stay alive.</p>
+</div>
+
+
+<!-- SECTION 11: IPO PRESSURE & BURN SCENARIOS -->
+<h2 id="sec-ipo-pressure">IPO Pressure & the Endgame</h2>
+<h3>How Stock Prices Kill Ride-Hailing Companies — and Why PickMe Is Vulnerable</h3>
+
+<div class="callout" style="border-left-color: var(--red);">
+  <h4>The universal pattern: grow at all costs → IPO → stock price pressure → margin squeeze → fold or sell.</h4>
+  <p>Every ride-hailing company in history has followed the same trajectory. Subsidise drivers and riders with investor money. Grow fast. IPO or SPAC. Then the market asks one question: <strong>"When do you make money?"</strong> The answer, for most, is "not yet" — and the stock craters. What follows is a death spiral of cost-cutting, commission increases, driver churn, and eventually: acquisition or irrelevance.</p>
+</div>
+
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>The Global Precedent: How They All Fold</h4>
+    <span class="threat-level threat-critical">PATTERN ANALYSIS</span>
+  </div>
+
+  <p><strong>Uber</strong> — the archetype. IPO'd May 2019 at a $82B valuation. Had accumulated over $30 billion in cumulative losses. Stock dropped below IPO price immediately. It took <strong>4 years as a public company</strong> before posting its first operating profit (Q2 2023). The survival mechanism? Exit every market it couldn't win. Sold China to Didi ($35B deal, took 17.7% equity). Sold Southeast Asia to Grab. Sold Russia to Yandex. Each exit was a concession: <em>"We burned $1B/year here and couldn't win."</em> Uber survived because it was enormous enough to retreat from losing fronts. Most companies aren't.</p>
+
+  <p><strong>Lyft</strong> — the cautionary tale. IPO'd March 2019 at $72/share, $24.3B valuation. First quarterly report: $1.1 billion net loss. As of March 2026, the stock is <strong>down ~80% from its all-time high</strong>. Reddit is openly asking whether bankruptcy is next. Lyft never diversified beyond US ride-hailing, never built a superapp moat, and spent 7 years post-IPO trying to reach sustainable profitability. A $5,000 investment in Lyft's IPO is worth roughly $1,000 today. That's what happens when you can't answer the profitability question.</p>
+
+  <p><strong>Grab</strong> — the SPAC disaster. Went public December 2021 via SPAC at a $40B valuation. <strong>Stock plunged 21% on day one.</strong> Had lost $2.75B in 2020 and $3.56B in 2021. Hit post-IPO lows repeatedly. Only achieved first full-year net profit in 2024 — three years of being a publicly traded company bleeding money. Survived because it dominates Southeast Asia (90%+ share in Malaysia and Philippines) and diversified into payments, food delivery, and financial services. Without that superapp moat, Grab would be Lyft.</p>
+
+  <p><strong>Ola (India)</strong> — the valuation collapse. Once valued at $7.3B. Vanguard marked it down <strong>83%</strong> to $1.25B. CEO quit. 10% layoffs in 2024. 20% headcount decline year-over-year by 2025. IPO repeatedly delayed. Fallen to <strong>third place</strong> in Indian ride-hailing — once its core market. The planned $500M IPO at $5B valuation looks increasingly unlikely. This is what happens when investor patience runs out before profitability arrives.</p>
+
+  <p><strong>Didi (China)</strong> — regulatory execution. Dominated China with 80%+ market share. IPO'd June 2021 at $68B valuation. Chinese regulators launched a cybersecurity investigation within days. Stock collapsed. Delisted from NYSE by June 2022 — less than a year after listing. Forced to sell its EV business. Even market dominance doesn't protect you when the regulatory environment turns hostile.</p>
+</div>
+
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>The Acquisition Graveyard</h4>
+    <span class="threat-level threat-high">ENDGAME SCENARIOS</span>
+  </div>
+
+  <p>When ride-hailing companies can't win, they get absorbed. The pattern is consistent across every market:</p>
+
+  <div style="overflow-x:auto; margin-top:16px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>What Happened</th>
+          <th>Acquirer</th>
+          <th>Price</th>
+          <th>Why They Sold</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Uber China</strong></td>
+          <td>Sold 2016</td>
+          <td>Didi Chuxing</td>
+          <td>$35B (equity swap)</td>
+          <td>Burning $1B/year. Couldn't win against local incumbent.</td>
+        </tr>
+        <tr>
+          <td><strong>Careem</strong> (Middle East)</td>
+          <td>Acquired 2019</td>
+          <td>Uber</td>
+          <td>$3.1B</td>
+          <td>Regional leader couldn't scale further. Uber bought instead of competed.</td>
+        </tr>
+        <tr>
+          <td><strong>Uber SEA</strong></td>
+          <td>Sold 2018</td>
+          <td>Grab</td>
+          <td>27.5% equity stake</td>
+          <td>Losing money in every SEA market. Retreated for equity.</td>
+        </tr>
+        <tr>
+          <td><strong>Uber Russia</strong></td>
+          <td>Merged 2018</td>
+          <td>Yandex</td>
+          <td>$3.7B JV</td>
+          <td>Couldn't outspend local player with government ties.</td>
+        </tr>
+        <tr>
+          <td><strong>Juno</strong> (US)</td>
+          <td>Bankrupt 2020</td>
+          <td>Gett (then liquidated)</td>
+          <td>$200M → $0</td>
+          <td>Zero-commission model without structural cost advantage.</td>
+        </tr>
+        <tr>
+          <td><strong>Sidecar</strong> (US)</td>
+          <td>Shut down 2015</td>
+          <td>GM (assets only)</td>
+          <td>Undisclosed</td>
+          <td>Pioneered ride-sharing. Outspent by Uber and Lyft.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:16px;">The lesson is consistent: <strong>the company that burns more cash doesn't win — the company that can survive longer on less wins.</strong> Uber "won" globally not by winning everywhere, but by selling every market it was losing. The survivors in each region are the ones who had lower operating costs, local knowledge, or regulatory protection.</p>
+</div>
+
+<div class="competitor-profile">
+  <div class="competitor-header">
+    <h4>PickMe's Specific Vulnerability</h4>
+    <span class="threat-level threat-critical">STRATEGIC INTELLIGENCE</span>
+  </div>
+
+  <p>PickMe IPO'd on the Colombo Stock Exchange in September 2024 at LKR 36/share. The stock hit an all-time high of LKR 175 in January 2026 — a 386% gain. FY2024/25 results show Rs 5.8B revenue (+49% YoY) and Rs 1.17B profit after tax. Market cap approximately $159M (as of late 2025). On paper, this looks strong. Under the surface, the pressure points are real:</p>
+
+  <p><strong>1. The Profitability Is Commission-Dependent</strong></p>
+  <p>PickMe's entire revenue engine is built on 15-20% commission per ride, plus delivery and marketplace fees. Strip commission from the ride-hailing vertical — even partially — and the P&L collapses. They've spent a decade building a business model where the driver pays for every transaction. That's not a technology company. That's a toll booth. And we're building a road that goes around it.</p>
+
+  <p><strong>2. Superapp Expansion = Superapp Burn</strong></p>
+  <p>Zulfer is expanding into food delivery, flash delivery, online marketplace, subscription passes (PickMe Pass), and entertainment ticketing. Every vertical requires its own subsidies, its own operations team, its own customer service infrastructure. This is the Grab playbook — but Grab had $40B in SPAC money. PickMe has a $159M market cap. The gap between ambition and capital is where companies die. Every new vertical that underperforms becomes a drag on the core ride-hailing business that's funding everything.</p>
+
+  <p><strong>3. Stock Price Creates a New Master</strong></p>
+  <p>Pre-IPO, Zulfer answered to IFC and a small group of private investors. Post-IPO, he answers to the Colombo Stock Exchange, retail shareholders, quarterly earnings calls, and analyst expectations. This changes behaviour in predictable ways:</p>
+
+  <div class="grid-2" style="margin-top:12px;">
+    <div class="card red">
+      <h4>What shareholders want</h4>
+      <p>Revenue growth. Margin expansion. EPS increases. Dividend signals. Share price appreciation. Quarterly beats. Predictability.</p>
+    </div>
+    <div class="card amber">
+      <h4>What fighting WarenYan requires</h4>
+      <p>Dropping commission to 0% (revenue destruction). Spending on counter-marketing (margin compression). Subsidising drivers to prevent churn (cash burn). All of which <strong>directly contradict</strong> what shareholders demand.</p>
+    </div>
+  </div>
+
+  <p style="margin-top:16px;">This is the trap. The moment PickMe became a publicly listed company, it lost the ability to fight a price war without destroying its own stock. Every quarter Zulfer spends money fighting us is a quarter where revenue per ride falls, margins shrink, and the stock takes a hit. <strong>We don't need to beat PickMe. We need to make PickMe's fight against us visible to its shareholders.</strong></p>
+
+  <p><strong>4. The Acquisition Scenarios</strong></p>
+  <p>If PickMe's stock comes under sustained pressure, three endgame scenarios emerge:</p>
+
+  <div style="overflow-x:auto; margin-top:12px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Acquirer</th>
+          <th>Logic</th>
+          <th>WarenYan Impact</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>A: Uber Acquisition</strong></td>
+          <td>Uber Sri Lanka</td>
+          <td>Uber already operates in SL. PickMe has 75K+ drivers and local infrastructure. Eliminates a competitor and acquires distribution. Classic Careem playbook.</td>
+          <td><span class="tag tag-red">High threat</span> — Combined Uber+PickMe would be formidable. But Uber's global history is to <em>raise commission post-acquisition</em> (Careem markets saw this). Opens a new moral attack window.</td>
+        </tr>
+        <tr>
+          <td><strong>B: Regional Player Acquisition</strong></td>
+          <td>Grab / inDrive / Bolt</td>
+          <td>PickMe becomes entry ticket to Sri Lanka without building from scratch. inDrive already operates in Pakistan, India, Bangladesh — Sri Lanka is a natural next step.</td>
+          <td><span class="tag tag-amber">Medium threat</span> — New owner brings capital but also brings its own commission model. The zero-commission positioning still holds. Corporate ownership change creates driver uncertainty we can exploit.</td>
+        </tr>
+        <tr>
+          <td><strong>C: Slow Decline (Ola Model)</strong></td>
+          <td>No acquirer</td>
+          <td>Stock drifts down. Talent leaves. Superapp verticals get cut. Focus shrinks to core ride-hailing. Innovation stops. Market share erodes gradually.</td>
+          <td><span class="tag tag-green">Opportunity</span> — This is the ideal scenario for WarenYan. Slow decline means we inherit drivers, riders, and market share through sheer persistence. No dramatic war — just steady erosion.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="callout" style="border-left-color: var(--deep); background: #E8F5E9;">
+  <h4 style="font-size: 20px; line-height: 1.4;">WarenYan's Strategic Position: We Are the Pressure, Not the Target</h4>
+  <p style="margin-top: 12px;">Every ride-hailing exit in history — Uber China, Careem, Uber SEA, Ola's decline — followed the same sequence: <strong>unsustainable burn → investor pressure → commission increases → driver resentment → acquisition or irrelevance.</strong></p>
+  <p style="margin-top: 8px;">We don't need PickMe to fail. We need PickMe to be <em>unable to respond without hurting itself.</em> A zero-commission competitor forces a listed company into a lose-lose: fight us and bleed shareholder value, or ignore us and bleed drivers. Our operational cost of $4-7K/month means we can sustain this pressure for years on minimal capital. PickMe's $50K+/month burn rate means every month of parallel existence is a month where the market questions their structural advantage.</p>
+  <p style="margin-top: 8px;"><strong>For investors:</strong> We are not trying to out-raise PickMe. We are not trying to out-feature Uber. We are the structural cost pressure that forces the market to reprice how ride-hailing works in Sri Lanka. The last zero-commission ride-hailing attempt (Juno, New York) failed because it had no structural cost advantage — it was just a promotional offer. WarenYan's zero commission is not a promotion. It's the architecture. And that's why this time it's permanent.</p>
+</div>
+
+<!-- COMPETITIVE POSITIONING -->
+<h2 id="sec-positioning">Competitive Positioning</h2>
+<h3>The Messaging by Opponent</h3>
+
+<div class="grid-2">
+  <div class="card" style="border-left-color: var(--red);">
+    <h4>Against PickMe — The Moral Attack</h4>
+    <p><strong>Driver pitch:</strong> "PickMe takes LKR 600 out of every LKR 3,000 trip. That's your kids' lunch money. Every single day. We take zero. Not today as a promotion — forever, because we don't need your money to survive."</p>
+    <p style="margin-top: 8px;"><strong>Hard launch attack:</strong> Commission escalation (15% → 20% and climbing), HRCSL complaints from their own drivers, fares set by an algorithm with no driver input, monopoly pricing on a captive market. Make it a moral conversation: "They got rich off your work. We're here to end that."</p>
+  </div>
+  <div class="card" style="border-left-color: var(--amber);">
+    <h4>Against HelaGo — Trust & Consistency</h4>
+    <p><strong>Driver pitch:</strong> "HelaGo lets drivers set fares. Sounds fair — until your regular rider gets quoted LKR 800, LKR 600, and LKR 1,100 for the same trip and goes back to waving down a tuk-tuk off the street. We set a fair fare. Your riders trust the price. They come back."</p>
+    <p style="margin-top: 8px;"><strong>The math:</strong> HelaGo's 7% is still 7% you lose on every ride. At 15 rides/day, that's LKR 300+ gone daily. LKR 9,000/month. That's a phone bill. Or school fees. Or it stays in your pocket with WarenYan.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h4>Against Uber — Don't Compete, Ignore</h4>
+    <p>Uber serves tourists and urban professionals. Let them have the airport runs. We want the daily Dehiwala-to-Bambalapitiya commute, the school pickup, the market trip. The rides Uber doesn't care about are 80% of the market. Different audience. Different economics. Different universe.</p>
+  </div>
+  <div class="card" style="border-left-color: var(--deep);">
+    <h4>Against Street Hailing — The Real Competitor</h4>
+    <p><strong>Driver pitch:</strong> "Same cash. Same route. Same passengers. But now your rider sees the fare before they get in — no arguments. You get rated for good service — which means more riders find you. And zero commission means you keep everything you earn, same as street."</p>
+    <p style="margin-top: 8px;">We're upgrading street hailing, not replacing it. The app is a tool for drivers who already work — not a disruption of how they work.</p>
+  </div>
+</div>
+
+
+<!-- GLOSSARY -->
+<h2 id="sec-glossary-ca">Glossary</h2>
+<h3>Terms & Abbreviations</h3>
+
+<dl class="glossary">
+  <dt id="term-ifc">IFC</dt>
+  <dd>International Finance Corporation. The private-sector investment arm of the World Bank Group. Invests in developing-market companies. Invested $2.5M+ in PickMe (2018).</dd>
+
+  <dt id="term-ntc">NTC</dt>
+  <dd>National Transport Commission (Sri Lanka). Government regulator of public transport. The NTC Amendment Act No. 8 of 2025 extends its authority to three-wheelers and ride-hailing platforms.</dd>
+
+  <dt id="term-hrcsl">HRCSL</dt>
+  <dd>Human Rights Commission of Sri Lanka. Independent body that investigates rights violations. PickMe drivers filed formal complaints here about platform working conditions and harassment.</dd>
+
+  <dt id="term-nic">NIC</dt>
+  <dd>National Identity Card. Sri Lanka's primary government ID. Used for driver identity verification on ride-hailing platforms.</dd>
+
+  <dt id="term-lkr">LKR</dt>
+  <dd>Sri Lankan Rupee. Buffer planning rate: 350 LKR/USD (stress test: 400 LKR/USD). Spot rate ~300 LKR/USD as of March 2026.</dd>
+
+  <dt id="term-pwa">PWA</dt>
+  <dd>Progressive Web App. A web application that behaves like a native mobile app but runs in the browser. Does not appear in App Store/Play Store search results — a distribution limitation.</dd>
+
+  <dt id="term-flutter">Flutter</dt>
+  <dd>Google's cross-platform mobile development framework. Builds native Android + iOS apps from a single codebase. WarenYan's budgeted app development path ($30K/quarter).</dd>
+
+  <dt id="term-ugc">UGC</dt>
+  <dd>User-Generated Content. In WarenYan's context: drivers creating social media content about their experience, supported by the marketing team.</dd>
+
+  <dt id="term-pj">PJ</dt>
+  <dd>Prageeth Jayathilaka. DGTL business partner. Contract role leading all ground operations: driver recruitment, agent management, stand visits, community relationships. LKR 100K/mo → 500K/mo on milestone success.</dd>
+
+  <dt id="term-bhasha">Bhasha Lanka</dt>
+  <dd>Sri Lankan tech company. Parent of Helakuru (Sinhala keyboard, millions of installs), PayHere (leading payment gateway), HelaPay, and now HelaGo. Founded by Dhanika Perera.</dd>
+
+  <dt id="term-dpg">David Pieris Group</dt>
+  <dd>One of Sri Lanka's largest automotive and mobility conglomerates. HelaGo's corporate partner, providing islandwide dealer networks for driver recruitment infrastructure.</dd>
+
+  <dt id="term-helakuru">Helakuru</dt>
+  <dd>Sri Lanka's most-used Sinhala keyboard app (millions of installs). Built by Bhasha Lanka. Its user base gives HelaGo instant distribution via push notifications.</dd>
+
+  <dt id="term-payhere">PayHere</dt>
+  <dd>Sri Lanka's leading online payment gateway. Built by Bhasha Lanka. Gives HelaGo integrated digital payment capabilities from day one.</dd>
+
+  <dt id="term-indrive">inDrive</dt>
+  <dd>Global ride-hailing company (48 countries, 1,065 cities). Uses a negotiated-fare model where drivers and passengers agree on price. Active in South Asia (Pakistan, India, Bangladesh) but not yet in Sri Lanka.</dd>
+
+  <dt id="term-rls">RLS</dt>
+  <dd>Row Level Security. A database access control mechanism (used in Supabase/PostgreSQL) that restricts which rows a user can access based on their identity.</dd>
+
+  <dt id="term-pdpa">PDPA</dt>
+  <dd>Personal Data Protection Act (Sri Lanka). Upcoming data privacy legislation. WarenYan is designed to be PDPA-compliant before the law requires it.</dd>
+
+  <dt id="term-spac">SPAC</dt>
+  <dd>Special Purpose Acquisition Company. A shell company listed on a stock exchange for the purpose of acquiring a private company, allowing it to go public without a traditional IPO. Grab used this route in 2021 ($40B valuation, stock crashed 21% on day one).</dd>
+
+  <dt id="term-cse">CSE</dt>
+  <dd>Colombo Stock Exchange. Sri Lanka's primary stock exchange. PickMe (Digital Mobility Solutions Lanka PLC, ticker PKME.N0000) listed here in September 2024 at LKR 36/share.</dd>
+
+  <dt id="term-eps">EPS</dt>
+  <dd>Earnings Per Share. Net profit divided by total shares outstanding. A key metric public company shareholders use to evaluate performance and justify stock price.</dd>
+
+  <dt id="term-pat">PAT</dt>
+  <dd>Profit After Tax. Net income after all expenses and taxes. PickMe reported Rs 1.17B PAT for FY2024/25.</dd>
+
+  <dt id="term-ebitda">EBITDA</dt>
+  <dd>Earnings Before Interest, Taxes, Depreciation and Amortisation. A profitability measure used to evaluate operational performance. Often the first profitability milestone ride-hailing companies achieve before true net profit.</dd>
+</dl>
+
+
+<!-- REFERENCES -->
+<h2 id="sec-references-ca">Sources & References</h2>
+<h3>Research Citations</h3>
+
+<div class="ref-list">
+  <p>
+    <strong>[1]</strong> Statista Market Forecast — <a href="https://www.statista.com/outlook/mmo/shared-mobility/ride-hailing/sri-lanka" target="_blank">Ride-hailing Sri Lanka</a> (market size projections)<br>
+    <strong>[2]</strong> Rest of World — <a href="https://restofworld.org/2024/sri-lanka-pickme/" target="_blank">"This cab startup helped 100,000 drivers survive Sri Lanka's economic crisis"</a> (2024, PickMe history + driver count)<br>
+    <strong>[3]</strong> EconomyNext — <a href="https://economynext.com/sri-lanka-pickme-writes-to-police-chief-on-violent-protectionism-of-tuk-tuk-mafia-254840/" target="_blank">"PickMe writes to police chief on violent protectionism of tuk-tuk mafia"</a> (30+ incidents, driver safety)<br>
+    <strong>[4]</strong> The Morning — <a href="https://www.themorning.lk/articles/eY1KlavKnSfZEeBiCO34" target="_blank">"Tuk-tuks and apps: Calls for better regulations"</a> (NTC Amendment Act, fare disputes)<br>
+    <strong>[5]</strong> Sunday Times — <a href="https://www.sundaytimes.lk/220109/news/taxi-hailing-apps-whos-taking-whom-for-a-ride-468512.html" target="_blank">"Taxi-hailing apps: Who's taking whom for a ride?"</a> (commission complaints, 15-20%)<br>
+    <strong>[6]</strong> Lanka News Web — <a href="https://lankanewsweb.net/archives/161125/app-based-taxi-drivers-lodge-complaint-with-hrcsl-over-alleged-harassment/" target="_blank">"App-Based Taxi Drivers Lodge Complaint with HRCSL"</a> (driver rights complaints)<br>
+    <strong>[7]</strong> Uber Newsroom — <a href="https://www.uber.com/en-LK/newsroom/a-decade-of-moving-sl-forward/" target="_blank">"A Decade of Moving Sri Lanka Forward"</a> (Uber economic impact, LKR 160B+)<br>
+    <strong>[8]</strong> Uber Sri Lanka — <a href="https://www.uber.com/lk/en/newsroom/uber-launches-tuk-rentals-in-sri-lanka-for-multi-hour-multi-stop-needs/" target="_blank">"Uber launches Tuk Rentals in Sri Lanka"</a> (LKR 399/hr product)<br>
+    <strong>[9]</strong> Uber Economic Impact — <a href="https://ubersrilanka.publicfirst.co/" target="_blank">Sri Lanka Economic Impact Report</a> (Public First, 2024)<br>
+    <strong>[10]</strong> Newswire.lk — HelaGo raises USD 1 million seed funding (Jan 2026, David Pieris partnership, 7% commission model)<br>
+    <strong>[11]</strong> Echelon.lk — "Can a newcomer disrupt the ride-hailing giants? Enter HelaGo" (competitive analysis, driver-set pricing)<br>
+    <strong>[12]</strong> Newswire.lk — <a href="https://www.newswire.lk/2026/01/29/three-wheel-drivers-urge-uniform-fares-for-app-based-independent-services/" target="_blank">"Three-wheel drivers urge uniform fares"</a> (Jan 2026, fare regulation pressure)<br>
+    <strong>[13]</strong> PickMe Wikipedia — <a href="https://en.wikipedia.org/wiki/PickMe" target="_blank">PickMe</a> (founding, IFC investment, driver count)<br>
+    <strong>[14]</strong> Lanka Business Online — <a href="https://www.lankabusinessonline.com/pickme-delivers-rs-1-17-bn-pat-for-fy2024-25-stellar-first-full-year-results-post-ipo/" target="_blank">"PickMe delivers Rs 1.17B PAT for FY2024/25"</a> (post-IPO financials, revenue growth)<br>
+    <strong>[15]</strong> ProMarket / Wharton — <a href="https://www.promarket.org/2019/11/20/the-uber-bubble-why-is-a-company-that-lost-20-billion-claimed-to-be-successful/" target="_blank">"The Uber Bubble: Why Is a Company That Lost $20 Billion Claimed to Be Successful?"</a> (cumulative losses analysis)<br>
+    <strong>[16]</strong> ArtNova — <a href="https://arthnova.com/how-uber-turned-losses-into-profits/" target="_blank">"Uber Profitability: First $326M Profit After $30B Losses"</a> (4-year post-IPO path to profit)<br>
+    <strong>[17]</strong> CNN Business — <a href="https://www.cnn.com/2021/12/02/investing/grab-ipo-spac-nasdaq-intl-hnk/index.html" target="_blank">"Grab IPO plunges 21% in biggest US debut by Southeast Asian company"</a> (SPAC disaster)<br>
+    <strong>[18]</strong> CNBC — <a href="https://www.cnbc.com/2016/08/01/5-reasons-why-uber-sold-its-china-business-to-didi-chuxing.html" target="_blank">"5 reasons why Uber sold its China business to Didi"</a> ($1B/year burn, exit strategy)<br>
+    <strong>[19]</strong> AckoDrive — <a href="https://ackodrive.com/news/ola-valuation-plunges-83-to-1-25-billion-vanguard/" target="_blank">"Ola Valuation Plunges 83% to $1.25 Billion"</a> (Vanguard markdown, IPO delays)<br>
+    <strong>[20]</strong> 24/7 Wall St — <a href="https://247wallst.com/investing/2026/03/05/lyft-is-down-79-and-reddit-is-asking-if-bankruptcy-is-next/" target="_blank">"Lyft Is Down 79% and Reddit Is Asking If Bankruptcy Is Next"</a> (March 2026, post-IPO value destruction)
+  </p>
+</div>
+
+
+<!-- CLOSING -->
+<div style="margin-top:48px; padding-top:32px; border-top:2px solid var(--light-gray); text-align:center; color:var(--gray); font-size:13px;">
+  <p><em>"You don't beat a monopoly by competing with it. You beat it by making the thing it charges for free — and making it permanent."</em></p>
+</div>
+
+</div>
+
+<div class="footer">
+  <strong>WarenYan</strong> — Competitive Landscape & Risk Learnings v1.3 | Internal | 10 March 2026<br>
+  Antigravity / DGTL | riz@dgtl.lk
+</div>
+
+</body>
+</html>
