@@ -1,5 +1,5 @@
 # analyst.rizrazak.com — Living Project Tracker
-**Last updated:** 2026-03-09 (session 4)
+**Last updated:** 2026-03-11 (session 5)
 **Managed by:** Claude (Cowork)
 **Repo:** `riz-razak/analyst` → GitHub Pages → `analyst.rizrazak.com`
 
@@ -13,13 +13,15 @@
 
 ## 🟡 PENDING / PLANNED
 
-- [ ] **Admin CMS Dashboard** — full content management portal
-  - Image swap via GitHub API (no more base64 gymnastics)
-  - Inline text editing with real-time deploy
-  - Password-protected, bilingual EN/Sinhala
-  - No backend — GitHub API calls from browser using PAT
-  - Cloudflare Worker available for API proxying if needed
-  - Phases: (1) GitHub API read/write scaffold → (2) Image manager → (3) Text editor → (4) Deploy button
+- [x] **Admin CMS Dashboard — Phase 0 deployed** *(2026-03-11)*
+  - CMS Overview: GitHub connection + token input (localStorage), feature cards
+  - Dossier Manager: 8 dossier cards with status badges, Edit / View Live actions
+  - Dossier edit view: smart `[data-cms-id]` section parser, raw HTML fallback, save+commit, visibility toggle
+  - Worker endpoints: `GET /api/github/file`, `PUT /api/github/file`
+  - Routing fix: CMS sub-views (`#/cms/dossiers`, `#/cms/dossiers/:id`) now render via `navigateToRoute`
+  - Commits: `f4b59a1` (initial), `f7665b9` (routing fix)
+  - ⚠️ **One-time setup required**: Add `GITHUB_TOKEN` to Cloudflare Worker secrets (Cloudflare Dashboard → Workers & Pages → `analyst-collaborative-cms` → Settings → Variables & Secrets → Add `GITHUB_TOKEN` as Secret). Without this, the CMS uses localStorage PAT fallback only.
+  - Remaining phases: (2) Image manager → (3) Deploy button
 
 - [ ] **Women's Day Betrayal — Sinhala translations incomplete**
   - Most `lang-si` elements have `style="display:none"` and some are empty or missing
@@ -130,9 +132,10 @@
 | Evidence Protocol | ✅ Created | `EVIDENCE_PROTOCOL.md` — full pipeline reference with verdict system |
 | Ethics Protocol | ✅ Created | `ETHICS_PROTOCOL.md` — source protection, victim-centered reporting |
 | Shared Evidence System | ✅ Created | `_shared/evidence-system.css` + `_shared/evidence-system.js` |
-| Admin dashboard | 🔴 Not built | `admin-preview.html` is a mockup only |
+| Admin dashboard | ✅ Phase 0 live | CMS Overview + Dossier Manager at `#/cms` |
+| Infrastructure Monitor | ✅ Live | `/architecture-census/` — all 9 services healthy |
 | Email worker | ✅ Cloudflare Worker | Pledge confirmation emails |
-| GitHub API write access | ❌ Not configured | Needed for CMS feature |
+| GitHub API write access | ⚠️ PAT via localStorage | `GITHUB_TOKEN` Worker secret not yet set |
 
 ---
 
