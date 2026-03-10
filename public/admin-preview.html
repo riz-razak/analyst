@@ -1852,6 +1852,28 @@ anatta-bamiyan<!DOCTYPE html>
                 </a>
             </div>
 
+            <!-- CMS Section -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">CMS</div>
+                <a href="#/cms" class="nav-item" data-nav="cms">
+                    <div class="nav-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 4.5 C2 3.7 2.7 3 3.5 3 L9 3 L11 5 L12.5 5 C13.3 5 14 5.7 14 6.5 L14 12.5 C14 13.3 13.3 14 12.5 14 L3.5 14 C2.7 14 2 13.3 2 12.5 Z"/>
+                        </svg>
+                    </div>
+                    <div class="nav-item-label">CMS Overview</div>
+                </a>
+                <a href="#/cms/dossiers" class="nav-item" data-nav="cms-dossiers">
+                    <div class="nav-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                            <path d="M3 2h10c.55 0 1 .45 1 1v10c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1z"/>
+                            <path d="M5 5h6M5 8h6M5 11h3"/>
+                        </svg>
+                    </div>
+                    <div class="nav-item-label">Dossier Manager</div>
+                </a>
+            </div>
+
             <!-- Evidence Submissions -->
             <div class="sidebar-section">
                 <div class="sidebar-section-title">Moderation</div>
@@ -2438,6 +2460,160 @@ anatta-bamiyan<!DOCTYPE html>
                 <!-- Save Button -->
                 <button class="btn-full primary" id="save-btn" style="margin-top: auto;">Save changes</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- CMS Overview View -->
+<div class="view" id="view-cms">
+    <div style="max-width: 1200px;">
+        <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">Content Management System</h1>
+        <p style="color: #6B7280; margin-bottom: 32px;">Manage dossier content directly from GitHub</p>
+
+        <!-- GitHub Connection Status -->
+        <div class="card" style="padding: 24px; margin-bottom: 32px; border: 1px solid #E5E7EB;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div>
+                    <h3 style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">GitHub Connection</h3>
+                    <p style="font-size: 13px; color: #6B7280;">Connect to riz-razak/analyst repository</p>
+                </div>
+                <div id="github-status-indicator" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 6px; background: #FEE2E2; border: 1px solid #FECACA;">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <circle cx="6" cy="6" r="5" fill="#EF4444"/>
+                    </svg>
+                    <span style="font-size: 12px; font-weight: 500; color: #991B1B;" id="github-status-text">Not Connected</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 6px;">GitHub Personal Access Token</label>
+                <input type="password" id="github-token-input" placeholder="ghp_..." style="width: 100%; padding: 10px 12px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 13px; font-family: monospace;">
+                <p style="font-size: 11px; color: #9CA3AF; margin-top: 6px;">Token saved to browser only. Create a fine-grained PAT at <a href="https://github.com/settings/tokens" target="_blank" style="color: #1B4D2E; text-decoration: underline;">github.com/settings/tokens</a></p>
+            </div>
+
+            <button id="github-test-btn" style="background: #1B4D2E; color: white; padding: 10px 16px; border: none; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s;">Test Connection</button>
+        </div>
+
+        <!-- Features Grid -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <div class="card" style="padding: 24px; border: 2px solid #10B981; background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#10B981" stroke-width="1.5">
+                        <path d="M4 6c0-1.1.9-2 2-2h20c1.1 0 2 .9 2 2v20c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6z"/>
+                    </svg>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="9" fill="#10B981" stroke="#10B981"/>
+                        <path d="M7 10l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3 style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 6px;">Dossier Manager</h3>
+                <p style="font-size: 12px; color: #6B7280; line-height: 1.5;">Edit and publish dossier content with inline section editing</p>
+                <a href="#/cms/dossiers" style="display: inline-block; margin-top: 12px; color: #10B981; text-decoration: none; font-size: 12px; font-weight: 500;">Open Manager →</a>
+            </div>
+
+            <div class="card" style="padding: 24px; opacity: 0.6; border: 1px solid #E5E7EB;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#9CA3AF" stroke-width="1.5">
+                        <rect x="4" y="4" width="24" height="24" rx="2"/>
+                        <circle cx="10" cy="10" r="2"/>
+                    </svg>
+                    <span style="background: #F3F4F6; color: #6B7280; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;">Coming Soon</span>
+                </div>
+                <h3 style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 6px;">Image Manager</h3>
+                <p style="font-size: 12px; color: #6B7280; line-height: 1.5;">Upload and manage images used in dossiers</p>
+            </div>
+
+            <div class="card" style="padding: 24px; opacity: 0.6; border: 1px solid #E5E7EB;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#9CA3AF" stroke-width="1.5">
+                        <path d="M8 16h16M8 10h16M8 22h16"/>
+                    </svg>
+                    <span style="background: #F3F4F6; color: #6B7280; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;">Coming Soon</span>
+                </div>
+                <h3 style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 6px;">Deploy</h3>
+                <p style="font-size: 12px; color: #6B7280; line-height: 1.5;">Build and deploy changes to production</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CMS Dossier Manager View -->
+<div class="view" id="view-cms-dossiers">
+    <div style="max-width: 1400px;">
+        <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">Dossier Manager</h1>
+        <p style="color: #6B7280; margin-bottom: 24px;">Edit and manage dossier content from GitHub</p>
+
+        <div id="cms-dossiers-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+</div>
+
+<!-- CMS Dossier Edit View -->
+<div class="view" id="view-cms-dossier-edit">
+    <div style="max-width: 1000px;">
+        <button id="cms-back-btn" style="display: flex; align-items: center; gap: 6px; padding: 8px 12px; border: none; background: none; color: #1B4D2E; cursor: pointer; font-size: 13px; font-weight: 500; margin-bottom: 24px;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M10 2L4 8l6 6"/>
+            </svg>
+            Back to Dossiers
+        </button>
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+            <div>
+                <h1 id="cms-edit-title" style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">Edit Dossier</h1>
+                <p id="cms-edit-subtitle" style="color: #6B7280; font-size: 13px;">Last updated: <span id="cms-last-commit">—</span></p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <button id="cms-toggle-visibility-btn" style="padding: 10px 16px; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px; font-weight: 500; background: white; color: #1F2937; cursor: pointer; transition: all 0.2s;">Hide Dossier</button>
+                <button id="cms-save-btn" style="padding: 10px 16px; border: none; border-radius: 6px; font-size: 13px; font-weight: 500; background: #1B4D2E; color: white; cursor: pointer; transition: all 0.2s;">Save Changes</button>
+            </div>
+        </div>
+
+        <!-- File Info Card -->
+        <div class="card" style="padding: 16px; margin-bottom: 24px; background: #F9FAFB; border: 1px solid #E5E7EB;">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                <div>
+                    <p style="font-size: 11px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">File Path</p>
+                    <p id="cms-file-path" style="font-size: 12px; color: #1F2937; font-family: monospace;">—</p>
+                </div>
+                <div>
+                    <p style="font-size: 11px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">File Size</p>
+                    <p id="cms-file-size" style="font-size: 12px; color: #1F2937;">—</p>
+                </div>
+                <div>
+                    <p style="font-size: 11px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">SHA</p>
+                    <p id="cms-file-sha" style="font-size: 12px; color: #1F2937; font-family: monospace; word-break: break-all;">—</p>
+                </div>
+                <div>
+                    <p style="font-size: 11px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Visibility</p>
+                    <p id="cms-visibility-status" style="font-size: 12px; color: #1F2937;">—</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Editor Tabs -->
+        <div style="margin-bottom: 24px;">
+            <div style="display: flex; gap: 0; border-bottom: 1px solid #E5E7EB;">
+                <button id="cms-editor-mode-sections" style="padding: 12px 16px; border: none; border-bottom: 2px solid #1B4D2E; background: transparent; color: #1B4D2E; font-size: 13px; font-weight: 600; cursor: pointer;">Smart Section Editor</button>
+                <button id="cms-editor-mode-raw" style="padding: 12px 16px; border: none; border-bottom: 2px solid transparent; background: transparent; color: #6B7280; font-size: 13px; font-weight: 600; cursor: pointer;">HTML Source</button>
+            </div>
+
+            <!-- Smart Section Editor -->
+            <div id="cms-sections-editor" style="margin-top: 20px;">
+                <!-- Dynamically populated with section editors -->
+            </div>
+
+            <!-- Raw HTML Editor -->
+            <div id="cms-raw-editor" style="display: none; margin-top: 20px;">
+                <textarea id="cms-html-textarea" style="width: 100%; height: 500px; padding: 16px; border: 1px solid #E5E7EB; border-radius: 6px; font-family: 'Monaco', 'Menlo', monospace; font-size: 12px; line-height: 1.5; resize: vertical;"></textarea>
+            </div>
+        </div>
+
+        <!-- Save Area -->
+        <div style="display: flex; gap: 8px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
+            <button id="cms-save-btn-bottom" style="padding: 12px 20px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; background: #1B4D2E; color: white; cursor: pointer; transition: all 0.2s;">Save & Commit</button>
+            <input type="text" id="cms-commit-message" placeholder="What changed?" style="flex: 1; padding: 10px 12px; border: 1px solid #E5E7EB; border-radius: 6px; font-size: 13px;">
         </div>
     </div>
 </div>
@@ -5948,6 +6124,9 @@ function showEmailToast(msg, type) {
         const routes = {
             '/dashboard': { view: 'dashboard', title: 'Dashboard', private: false },
             '/analytics': { view: 'analytics', title: 'Analytics', private: false },
+            '/cms': { view: 'cms', title: 'CMS', private: false },
+            '/cms/dossiers': { view: 'cms-dossiers', title: 'CMS', private: false },
+            '/cms/dossiers/:id': { view: 'cms-dossier-edit', title: 'CMS', private: false },
             '/dossiers': { view: 'dossiers', title: 'Dossiers', private: false },
             '/dossiers/:id': { view: 'dossier-detail', title: 'Dossier', private: false },
             '/seo': { view: 'seo', title: 'SEO', private: false },
@@ -7548,6 +7727,390 @@ if (document.readyState === 'loading') {
     if (typeof updateSortHeaders === 'function') updateSortHeaders();
     renderSidebarDossiers();
     setupDossierSearch();
+    setupCMS();
+}
+
+// ========================================
+// CMS - Content Management System
+// ========================================
+
+const GITHUB_TOKEN_KEY = 'cms-github-token';
+const GITHUB_REPO = 'riz-razak/analyst';
+const GITHUB_BRANCH = 'main';
+
+let cmsState = {
+    currentDossierSlug: null,
+    fileContent: null,
+    fileSha: null,
+    editorMode: 'sections', // 'sections' or 'raw'
+    sections: []
+};
+
+function setupCMS() {
+    // GitHub connection test
+    const testBtn = document.getElementById('github-test-btn');
+    if (testBtn) {
+        testBtn.addEventListener('click', testGitHubConnection);
+    }
+
+    // Load token from localStorage if exists
+    const savedToken = localStorage.getItem(GITHUB_TOKEN_KEY);
+    const tokenInput = document.getElementById('github-token-input');
+    if (tokenInput && savedToken) {
+        tokenInput.value = savedToken;
+        testGitHubConnection();
+    }
+
+    // Token input save on change
+    if (tokenInput) {
+        tokenInput.addEventListener('blur', function() {
+            if (this.value) {
+                localStorage.setItem(GITHUB_TOKEN_KEY, this.value);
+            }
+        });
+    }
+
+    // CMS Dossier Manager rendering
+    window.addEventListener('hashchange', function() {
+        const hash = window.location.hash;
+        if (hash === '#/cms/dossiers') {
+            renderCMSDossiersList();
+        } else if (hash.startsWith('#/cms/dossiers/')) {
+            const slug = hash.replace('#/cms/dossiers/', '');
+            loadCMSDossierEdit(slug);
+        }
+    });
+
+    // Check current route on load
+    const currentHash = window.location.hash;
+    if (currentHash === '#/cms/dossiers') {
+        renderCMSDossiersList();
+    } else if (currentHash.startsWith('#/cms/dossiers/')) {
+        const slug = currentHash.replace('#/cms/dossiers/', '');
+        loadCMSDossierEdit(slug);
+    }
+
+    // Editor mode tabs
+    const tabSections = document.getElementById('cms-editor-mode-sections');
+    const tabRaw = document.getElementById('cms-editor-mode-raw');
+    if (tabSections && tabRaw) {
+        tabSections.addEventListener('click', function() {
+            cmsState.editorMode = 'sections';
+            document.getElementById('cms-sections-editor').style.display = 'block';
+            document.getElementById('cms-raw-editor').style.display = 'none';
+            this.style.borderBottomColor = '#1B4D2E';
+            this.style.color = '#1B4D2E';
+            tabRaw.style.borderBottomColor = 'transparent';
+            tabRaw.style.color = '#6B7280';
+        });
+        tabRaw.addEventListener('click', function() {
+            // Sync from sections to raw
+            const textarea = document.getElementById('cms-html-textarea');
+            if (textarea && cmsState.fileContent) {
+                textarea.value = cmsState.fileContent;
+            }
+            cmsState.editorMode = 'raw';
+            document.getElementById('cms-sections-editor').style.display = 'none';
+            document.getElementById('cms-raw-editor').style.display = 'block';
+            this.style.borderBottomColor = '#1B4D2E';
+            this.style.color = '#1B4D2E';
+            tabSections.style.borderBottomColor = 'transparent';
+            tabSections.style.color = '#6B7280';
+        });
+    }
+
+    // Back button
+    const backBtn = document.getElementById('cms-back-btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', function() {
+            window.location.hash = '#/cms/dossiers';
+        });
+    }
+
+    // Save buttons
+    const saveBtn = document.getElementById('cms-save-btn');
+    const saveBottomBtn = document.getElementById('cms-save-btn-bottom');
+    if (saveBtn) saveBtn.addEventListener('click', saveCMSDossier);
+    if (saveBottomBtn) saveBottomBtn.addEventListener('click', saveCMSDossier);
+
+    // Visibility toggle
+    const visibilityBtn = document.getElementById('cms-toggle-visibility-btn');
+    if (visibilityBtn) {
+        visibilityBtn.addEventListener('click', toggleCMSDossierVisibility);
+    }
+}
+
+async function testGitHubConnection() {
+    const tokenInput = document.getElementById('github-token-input');
+    const statusIndicator = document.getElementById('github-status-indicator');
+    const statusText = document.getElementById('github-status-text');
+
+    const token = tokenInput.value.trim();
+    if (!token) {
+        statusIndicator.style.background = '#FEE2E2';
+        statusIndicator.style.border = '1px solid #FECACA';
+        statusText.textContent = 'Token Required';
+        statusText.style.color = '#991B1B';
+        return;
+    }
+
+    try {
+        const response = await fetch('https://api.github.com/repos/' + GITHUB_REPO, {
+            headers: { 'Authorization': 'token ' + token }
+        });
+
+        if (response.ok) {
+            statusIndicator.style.background = '#DCFCE7';
+            statusIndicator.style.border = '1px solid #BBF7D0';
+            statusText.textContent = '✓ Connected to riz-razak/analyst';
+            statusText.style.color = '#065F46';
+            localStorage.setItem(GITHUB_TOKEN_KEY, token);
+            showToast('GitHub connection successful!');
+        } else {
+            statusIndicator.style.background = '#FEE2E2';
+            statusIndicator.style.border = '1px solid #FECACA';
+            statusText.textContent = 'Connection Failed';
+            statusText.style.color = '#991B1B';
+            showToast('Invalid token or repo access denied');
+        }
+    } catch (err) {
+        statusIndicator.style.background = '#FEE2E2';
+        statusIndicator.style.border = '1px solid #FECACA';
+        statusText.textContent = 'Error Testing';
+        statusText.style.color = '#991B1B';
+        showToast('Network error: ' + err.message);
+    }
+}
+
+function renderCMSDossiersList() {
+    const container = document.getElementById('cms-dossiers-list');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    dossiersData.forEach(dossier => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.cssText = 'padding: 20px; cursor: pointer; transition: all 0.2s;';
+        card.onmouseover = function() { this.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)'; this.style.transform = 'translateY(-2px)'; };
+        card.onmouseout = function() { this.style.boxShadow = 'none'; this.style.transform = 'none'; };
+
+        // Get visibility status
+        let visibilityStatus = 'Published';
+        let statusColor = '#10B981';
+        if (dossier.status === 'hidden') {
+            visibilityStatus = 'Hidden';
+            statusColor = '#EF4444';
+        } else if (dossier.status === 'draft') {
+            visibilityStatus = 'Draft';
+            statusColor = '#F59E0B';
+        }
+
+        card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                <h3 style="font-size: 14px; font-weight: 600; color: #1F2937; margin: 0; flex: 1;">${dossier.title}</h3>
+                <span style="background: ${statusColor}22; color: ${statusColor}; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap;">${visibilityStatus}</span>
+            </div>
+            <p style="font-size: 12px; color: #6B7280; margin: 0 0 12px 0; line-height: 1.4;">${dossier.description.substring(0, 100)}…</p>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                <button onclick="window.location.hash='#/cms/dossiers/${dossier.id}'" style="flex: 1; padding: 8px 12px; background: #1B4D2E; color: white; border: none; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer;">Edit</button>
+                <a href="/${dossier.id}/" target="_blank" style="flex: 1; padding: 8px 12px; background: #F3F4F6; color: #1F2937; border: none; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer; text-decoration: none; text-align: center;">View Live</a>
+            </div>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+async function loadCMSDossierEdit(slug) {
+    const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+    if (!token) {
+        showToast('GitHub token required. Set it in CMS Overview.');
+        window.location.hash = '#/cms';
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/github/file?path=public/${slug}/index.html`, {
+            headers: { 'X-GitHub-Token': token }
+        });
+
+        if (!response.ok) {
+            showToast('Failed to load dossier: ' + response.statusText);
+            return;
+        }
+
+        const data = await response.json();
+        cmsState.currentDossierSlug = slug;
+        cmsState.fileContent = data.content;
+        cmsState.fileSha = data.sha;
+
+        // Find dossier metadata
+        const dossier = dossiersData.find(d => d.id === slug);
+        if (dossier) {
+            document.getElementById('cms-edit-title').textContent = 'Edit: ' + dossier.title;
+        }
+
+        document.getElementById('cms-file-path').textContent = `public/${slug}/index.html`;
+        document.getElementById('cms-file-size').textContent = (data.content.length / 1024).toFixed(2) + ' KB';
+        document.getElementById('cms-file-sha').textContent = data.sha.substring(0, 12) + '…';
+        document.getElementById('cms-last-commit').textContent = data.lastCommit || '—';
+
+        // Check visibility status
+        const visCheck = await fetch(`/api/dossier/visibility/check?slug=${slug}`);
+        const visData = await visCheck.json();
+        const visStatus = visData.visible ? (dossiersData.find(d => d.id === slug)?.status || 'published') : visData.status;
+        document.getElementById('cms-visibility-status').textContent = visStatus.charAt(0).toUpperCase() + visStatus.slice(1);
+        document.getElementById('cms-toggle-visibility-btn').textContent = visData.visible ? 'Hide Dossier' : 'Publish Dossier';
+
+        // Parse sections with data-cms-id
+        parseCMSSections(data.content);
+        renderCMSSectionEditors();
+
+    } catch (err) {
+        showToast('Error loading dossier: ' + err.message);
+    }
+}
+
+function parseCMSSections(html) {
+    cmsState.sections = [];
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const elements = doc.querySelectorAll('[data-cms-id]');
+
+    if (elements.length === 0) {
+        cmsState.sections = [];
+        return;
+    }
+
+    elements.forEach(el => {
+        const id = el.getAttribute('data-cms-id');
+        const label = el.getAttribute('data-cms-label') || id;
+        let content = '';
+
+        if (el.tagName === 'IMG' || el.tagName === 'img') {
+            content = el.getAttribute('src') || '';
+        } else {
+            content = el.innerHTML || el.textContent || '';
+        }
+
+        cmsState.sections.push({ id, label, content, element: el });
+    });
+}
+
+function renderCMSSectionEditors() {
+    const container = document.getElementById('cms-sections-editor');
+    if (!container) return;
+
+    if (cmsState.sections.length === 0) {
+        container.innerHTML = '<p style="color: #9CA3AF; padding: 20px; text-align: center;">No editable sections found. Use raw HTML editor.</p>';
+        return;
+    }
+
+    container.innerHTML = '';
+    cmsState.sections.forEach((section, idx) => {
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = 'margin-bottom: 20px; padding: 16px; border: 1px solid #E5E7EB; border-radius: 6px; background: #F9FAFB;';
+
+        wrapper.innerHTML = `
+            <label style="display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 8px;">${section.label}</label>
+            <textarea data-section-idx="${idx}" style="width: 100%; height: 120px; padding: 12px; border: 1px solid #D1D5DB; border-radius: 6px; font-family: monospace; font-size: 12px; resize: vertical;">${section.content}</textarea>
+        `;
+        container.appendChild(wrapper);
+    });
+}
+
+async function saveCMSDossier() {
+    const token = localStorage.getItem(GITHUB_TOKEN_KEY);
+    if (!token) {
+        showToast('GitHub token required');
+        return;
+    }
+
+    let content = cmsState.fileContent;
+
+    // Collect changes from editors
+    if (cmsState.editorMode === 'sections' && cmsState.sections.length > 0) {
+        const textareas = document.querySelectorAll('[data-section-idx]');
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'text/html');
+
+        textareas.forEach((ta, idx) => {
+            const sectionIdx = parseInt(ta.getAttribute('data-section-idx'));
+            const section = cmsState.sections[sectionIdx];
+            if (section) {
+                const el = doc.querySelector(`[data-cms-id="${section.id}"]`);
+                if (el) {
+                    el.innerHTML = ta.value;
+                }
+            }
+        });
+
+        content = doc.documentElement.outerHTML;
+    } else if (cmsState.editorMode === 'raw') {
+        const textarea = document.getElementById('cms-html-textarea');
+        if (textarea) content = textarea.value;
+    }
+
+    try {
+        const commitMsg = document.getElementById('cms-commit-message').value || 'Update dossier content';
+        const response = await fetch('/api/github/file', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-GitHub-Token': token
+            },
+            body: JSON.stringify({
+                path: `public/${cmsState.currentDossierSlug}/index.html`,
+                content: btoa(content),
+                sha: cmsState.fileSha,
+                message: commitMsg
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            showToast('Save failed: ' + (error.error || response.statusText));
+            return;
+        }
+
+        const result = await response.json();
+        cmsState.fileSha = result.commit.sha;
+        document.getElementById('cms-file-sha').textContent = result.commit.sha.substring(0, 12) + '…';
+        document.getElementById('cms-commit-message').value = '';
+        showToast('Changes saved and committed!');
+
+    } catch (err) {
+        showToast('Error saving: ' + err.message);
+    }
+}
+
+async function toggleCMSDossierVisibility() {
+    const slug = cmsState.currentDossierSlug;
+    const dossier = dossiersData.find(d => d.id === slug);
+    if (!dossier) return;
+
+    const currentStatus = dossier.status === 'published' ? 'hidden' : 'published';
+
+    try {
+        const response = await fetch('/api/dossier/visibility', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ slug, status: currentStatus })
+        });
+
+        if (!response.ok) {
+            showToast('Failed to update visibility');
+            return;
+        }
+
+        dossier.status = currentStatus;
+        document.getElementById('cms-visibility-status').textContent = currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1);
+        document.getElementById('cms-toggle-visibility-btn').textContent = currentStatus === 'published' ? 'Hide Dossier' : 'Publish Dossier';
+        showToast(`Dossier is now ${currentStatus}`);
+    } catch (err) {
+        showToast('Error updating visibility: ' + err.message);
+    }
 }</script>
 
 <!-- Global toast notification -->

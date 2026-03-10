@@ -86,6 +86,15 @@ export default {
         return handleVisibilityCheck(request, env);
       }
 
+      // ── GitHub CMS endpoints ──
+      else if (path === '/api/github/file') {
+        if (request.method === 'GET') {
+          return handleGitHubFileGet(request, env);
+        } else if (request.method === 'PUT') {
+          return handleGitHubFilePut(request, env);
+        }
+      }
+
       // ── Infrastructure monitoring endpoints ──
       else if (path === '/api/infra/health') {
         return handleInfraHealth(request, env);
@@ -1739,6 +1748,175 @@ async function handleInfraProxyCheck(request, env) {
     }
   } catch (e) {
     return jsonResponse({ error: e.message }, 400);
+  }
+}
+
+/**
+ * GET /api/github/file?path=[path]
+ * Fetch a file from GitHub repository
+ * Uses env.GITHUB_TOKEN or X-GitHub-Token header
+ */
+async function handleGitHubFileGet(request, env) {
+  const url = new URL(request.url);
+  const filePath = url.searchParams.get('path');
+
+  if (!filePath) {
+    return jsonResponse({ error: 'path parameter required' }, 400);
+  }
+
+  // Get GitHub token from env or request header
+  const token = env.GITHUB_TOKEN || request.headers.get('X-GitHub-Token');
+  if (!token) {
+    return jsonResponse({ error: 'GitHub token not configured' }, 401);
+  }
+
+  const repo = env.GITHUB_REPO || 'riz-razak/analyst';
+  const branch = env.GITHUB_BRANCH || 'main';
+
+  try {
+    const githubUrl = `https://api.github.com/repos/${repo}/contents/${filePath}?ref=${branch}`;
+    const response = await fetch(githubUrl, {
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3.raw',
+        'User-Agent': 'Analyst-CMS',
+      },
+    });
+
+    if (response.status === 404) {
+      return jsonResponse({ error: 'File not found' }, 404);
+    }
+
+    if (!response.ok) {
+      console.error(`GitHub API error: ${response.status}`);
+      return jsonResponse({ error: `GitHub API error: ${response.status}` }, response.status);
+    }
+
+    const content = await response.text();
+
+    // Get file metadata (need to fetch again with application/vnd.github.v3+json)
+    const metaResponse = await fetch(githubUrl.replace('?ref=' + branch, ''), {
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'Analyst-CMS',
+      },
+    });
+
+    let sha = '';
+    let lastCommit = '';
+    if (metaResponse.ok) {
+      const metaData = await metaResponse.json();
+      sha = metaData.sha || '';
+
+      // Get last commit info
+      const commitsUrl = `https://api.github.com/repos/${repo}/commits?path=${filePath}&per_page=1`;
+      const commitsResponse = await fetch(commitsUrl, {
+        headers: {
+          'Authorization': `token ${token}`,
+          'User-Agent': 'Analyst-CMS',
+        },
+      });
+      if (commitsResponse.ok) {
+        const commits = await commitsResponse.json();
+        if (commits.length > 0) {
+          lastCommit = commits[0].commit.author.date;
+        }
+      }
+    }
+
+    return jsonResponse({
+      content,
+      sha,
+      name: filePath.split('/').pop(),
+      path: filePath,
+      lastCommit,
+    });
+  } catch (error) {
+    console.error('GitHub file fetch error:', error);
+    return jsonResponse({ error: error.message }, 500);
+  }
+}
+
+/**
+ * PUT /api/github/file
+ * Commit changes to a file in GitHub repository
+ * Body: { path, content (base64), sha, message }
+ */
+async function handleGitHubFilePut(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return jsonResponse({ error: 'Invalid JSON body' }, 400);
+  }
+
+  const { path, content, sha, message } = body;
+
+  if (!path || !content || !sha || !message) {
+    return jsonResponse({ error: 'path, content, sha, and message are required' }, 400);
+  }
+
+  // Get GitHub token from env or request header
+  const token = env.GITHUB_TOKEN || request.headers.get('X-GitHub-Token');
+  if (!token) {
+    return jsonResponse({ error: 'GitHub token not configured' }, 401);
+  }
+
+  const repo = env.GITHUB_REPO || 'riz-razak/analyst';
+  const branch = env.GITHUB_BRANCH || 'main';
+
+  try {
+    const githubUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
+
+    // Verify content is base64 encoded
+    let decodedContent;
+    try {
+      decodedContent = atob(content);
+    } catch (e) {
+      return jsonResponse({ error: 'content must be base64 encoded' }, 400);
+    }
+
+    const response = await fetch(githubUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'Analyst-CMS',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message,
+        content,
+        sha,
+        branch,
+        committer: {
+          name: 'Analyst CMS',
+          email: 'cms@analyst.rizrazak.com',
+        },
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('GitHub API error:', errorData);
+      return jsonResponse({
+        error: errorData.message || `GitHub API error: ${response.status}`,
+      }, response.status);
+    }
+
+    const result = await response.json();
+
+    return jsonResponse({
+      success: true,
+      commit: {
+        sha: result.commit.sha,
+        url: result.commit.html_url,
+      },
+    });
+  } catch (error) {
+    console.error('GitHub file put error:', error);
+    return jsonResponse({ error: error.message }, 500);
   }
 }
 
