@@ -72,8 +72,6 @@ export default {
         return handleListSubmissions(request, env);
       } else if (path === '/api/submissions/review') {
         return handleReviewSubmission(request, env, ctx);
-      } else if (path === '/api/translate') {
-        return handleTranslate(request, env);
       } else if (path === '/api/otp/send') {
         return handleOtpSend(request, env);
       } else if (path === '/api/otp/verify') {
@@ -962,128 +960,6 @@ function buildHiddenDossierPage(slug) {
   </div>
 </body>
 </html>`;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// AI TRANSLATION — Sinhala paragraph translation via Claude API
-// Requires ANTHROPIC_API_KEY Cloudflare secret:
-//   wrangler secret put ANTHROPIC_API_KEY --env production
-// ═══════════════════════════════════════════════════════════════════════════
-
-/**
- * TRANSLATE PARAGRAPHS TO SINHALA
- * POST /api/translate
- * Body: { dossierId, paragraphs: [{ id: "si-N", enText: "..." }] }
- * Returns: { translations: [{ id: "si-N", siText: "..." }] }
- *
- * Requires admin auth: Authorization: Bearer <supabase-jwt>
- * Rate: processes up to 30 paragraphs per call (Claude handles batching via prompt)
- */
-async function handleTranslate(request, env) {
-  if (request.method !== 'POST') {
-    return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
-  }
-
-  // Auth guard — require Bearer token (same Supabase JWT the admin panel uses)
-  const authHeader = request.headers.get('Authorization') || '';
-  if (!authHeader.startsWith('Bearer ') || authHeader.length < 20) {
-    return corsResponse(JSON.stringify({ error: 'Unauthorized' }), 401);
-  }
-
-  if (!env.ANTHROPIC_API_KEY) {
-    console.error('[translate] ANTHROPIC_API_KEY not configured');
-    return corsResponse(
-      JSON.stringify({ error: 'Translation service not configured' }),
-      503
-    );
-  }
-
-  const body = await request.json();
-  const { dossierId, paragraphs } = body;
-
-  if (!dossierId || !Array.isArray(paragraphs) || paragraphs.length === 0) {
-    return corsResponse(
-      JSON.stringify({ error: 'Missing dossierId or paragraphs array' }),
-      400
-    );
-  }
-
-  // Build the translation prompt
-  const paragraphList = paragraphs
-    .map(p => `[${p.id}]\n${p.enText.trim()}`)
-    .join('\n\n---\n\n');
-
-  const systemPrompt = `You are a precise literary translator from English to Sinhala (සිංහල).
-You are translating philosophical and journalistic prose for a bilingual dossier platform.
-
-Rules:
-- Translate faithfully and elegantly. Preserve the register and tone of each paragraph.
-- Use modern, literary Sinhala script (Unicode). Do not transliterate.
-- Preserve proper nouns in English (e.g. "Bamiyan", "Buddha", "anatta", "Taliban").
-- Buddhist technical terms: use standard Pali/Sinhala equivalents where established (e.g. "anatta" → "අනාත්ම", "dukkha" → "දුක්ඛ").
-- Return ONLY a JSON object. No prose. No explanation. No markdown.
-- The JSON must have exactly one key: "translations", an array of objects with "id" and "siText".`;
-
-  const userPrompt = `Translate each paragraph below to Sinhala.
-Return as JSON: {"translations":[{"id":"si-N","siText":"..."},...]}.
-
-${paragraphList}`;
-
-  // Call Claude API
-  let claudeData;
-  try {
-    const claudeResp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 8192,
-        system: systemPrompt,
-        messages: [{ role: 'user', content: userPrompt }],
-      }),
-    });
-
-    if (!claudeResp.ok) {
-      const errText = await claudeResp.text();
-      console.error('[translate] Claude API error:', claudeResp.status, errText);
-      return corsResponse(
-        JSON.stringify({ error: `Translation API error (${claudeResp.status})` }),
-        502
-      );
-    }
-
-    claudeData = await claudeResp.json();
-  } catch (err) {
-    console.error('[translate] Fetch failed:', err.message);
-    return corsResponse(
-      JSON.stringify({ error: 'Translation service unreachable' }),
-      502
-    );
-  }
-
-  // Extract JSON from Claude's response
-  const rawContent = claudeData?.content?.[0]?.text || '';
-  let translations;
-  try {
-    // Claude should return pure JSON; strip any accidental markdown fences
-    const cleaned = rawContent.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '').trim();
-    const parsed = JSON.parse(cleaned);
-    translations = parsed.translations;
-    if (!Array.isArray(translations)) throw new Error('translations is not an array');
-  } catch (err) {
-    console.error('[translate] Failed to parse Claude response:', err.message, rawContent.slice(0, 300));
-    return corsResponse(
-      JSON.stringify({ error: 'Translation response could not be parsed', raw: rawContent.slice(0, 500) }),
-      500
-    );
-  }
-
-  console.log(`[translate] ${dossierId}: translated ${translations.length}/${paragraphs.length} paragraphs`);
-  return corsResponse(JSON.stringify({ success: true, translations }), 200);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
