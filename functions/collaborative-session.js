@@ -1865,3 +1865,17 @@ async function handleInfraProxyCheck(request, env) {
     return jsonResponse({ error: e.message }, 400);
   }
 }
+
+/**
+ * Utility: return a JSON response with CORS headers.
+ */
+function jsonResponse(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'no-store',
+    },
+  });
+}
