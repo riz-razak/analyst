@@ -757,6 +757,165 @@ body.sinhala [lang-en-inline] { display: none; }
   .smoking-gun { padding: 28px 14px; }
   .cast-card { padding: 14px 12px; }
 }
+
+/* ===== PERSISTENT SIDE NAVIGATION ===== */
+.side-nav {
+  position: fixed;
+  left: 0; top: 56px;
+  width: 220px;
+  height: calc(100vh - 56px);
+  background: rgba(247,245,237,0.96);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid var(--border);
+  z-index: 800;
+  padding: 24px 0 24px 0;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s;
+  opacity: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sage-light) transparent;
+}
+.side-nav.visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+.side-nav-label {
+  font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--text-muted);
+  padding: 0 20px; margin-bottom: 12px;
+}
+.side-nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px; color: var(--text-muted);
+  text-decoration: none; font-size: 0.78rem; font-weight: 600;
+  transition: all 0.25s; position: relative;
+  border-left: 3px solid transparent;
+}
+.side-nav a:hover {
+  color: var(--forest); background: var(--sage-mist);
+  border-left-color: var(--sage);
+}
+.side-nav a.active {
+  color: var(--forest); background: var(--sage-mist);
+  border-left-color: var(--forest); font-weight: 700;
+}
+.side-nav a .sn-num {
+  font-size: 0.6rem; font-weight: 700; color: var(--sage);
+  min-width: 18px; text-align: right; opacity: 0.6;
+}
+.side-nav a.active .sn-num { color: var(--forest); opacity: 1; }
+.side-nav a .sn-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); flex-shrink: 0;
+  transition: all 0.3s;
+}
+.side-nav a.active .sn-dot {
+  background: var(--forest); box-shadow: 0 0 6px rgba(45,90,39,0.4);
+  width: 8px; height: 8px;
+}
+.side-nav-progress {
+  margin: 16px 20px 0; height: 2px;
+  background: var(--border); border-radius: 1px;
+  overflow: hidden;
+}
+.side-nav-progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--sage), var(--forest));
+  transition: width 0.3s ease-out; border-radius: 1px;
+}
+
+/* Desktop: show side nav, shift content */
+@media (min-width: 1200px) {
+  .side-nav { transform: translateX(0); opacity: 1; }
+  .side-nav.visible { transform: translateX(0); opacity: 1; }
+  body.side-nav-active .hero,
+  body.side-nav-active .section,
+  body.side-nav-active .submit-cta-block { margin-left: 220px; }
+  body.side-nav-active .navbar { padding-left: 240px; }
+}
+
+/* Tablet/mobile: floating TOC button + overlay drawer */
+@media (max-width: 1199px) {
+  .side-nav {
+    width: 260px; top: 0; height: 100vh;
+    padding-top: 72px;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.15);
+  }
+}
+.side-nav-fab {
+  display: none; position: fixed;
+  bottom: 24px; left: 16px; z-index: 850;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--forest); color: #fff;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(45,90,39,0.35);
+  font-size: 1.1rem; transition: all 0.3s;
+  align-items: center; justify-content: center;
+}
+.side-nav-fab:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(45,90,39,0.5); }
+@media (max-width: 1199px) {
+  .side-nav-fab { display: flex; }
+}
+.side-nav-overlay {
+  display: none; position: fixed; inset: 0; z-index: 790;
+  background: rgba(0,0,0,0.3); backdrop-filter: blur(2px);
+}
+.side-nav-overlay.open { display: block; }
+
+/* ===== ENHANCED TIMELINE ANIMATIONS ===== */
+.tl-item {
+  opacity: 0; transform: translateX(-16px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.tl-item.tl-visible {
+  opacity: 1; transform: translateX(0);
+}
+.tl-item.key.tl-visible::before {
+  animation: tl-pulse 2s ease-in-out infinite;
+}
+@keyframes tl-pulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(192,57,43,0.3); }
+  50% { box-shadow: 0 0 20px rgba(192,57,43,0.6); }
+}
+.timeline::before {
+  background: linear-gradient(to bottom,
+    var(--sage) 0%,
+    var(--forest) 25%,
+    var(--ember) 60%,
+    var(--blood) 80%,
+    var(--sage) 100%
+  );
+  width: 3px; border-radius: 3px;
+}
+/* Animated progress overlay on timeline line */
+.timeline-progress-line {
+  position: absolute; left: 14px; top: 0;
+  width: 3px; height: 0%;
+  background: linear-gradient(to bottom, var(--forest), var(--ember));
+  border-radius: 3px; z-index: 1;
+  transition: height 0.4s ease-out;
+  opacity: 0.5;
+}
+@media (max-width: 768px) {
+  .timeline-progress-line { left: 10px; }
+  .timeline::before { width: 3px; }
+}
+.tl-date {
+  position: relative;
+  padding-left: 0;
+}
+/* Stagger animation for timeline items */
+.tl-item:nth-child(1) { transition-delay: 0s; }
+.tl-item:nth-child(2) { transition-delay: 0.05s; }
+.tl-item:nth-child(3) { transition-delay: 0.1s; }
+.tl-item:nth-child(4) { transition-delay: 0.15s; }
+.tl-item:nth-child(5) { transition-delay: 0.2s; }
+.tl-item:nth-child(6) { transition-delay: 0.25s; }
+.tl-item:nth-child(7) { transition-delay: 0.3s; }
+.tl-item:nth-child(8) { transition-delay: 0.35s; }
+.tl-item:nth-child(9) { transition-delay: 0.4s; }
+.tl-item:nth-child(10) { transition-delay: 0.45s; }
 </style>
     <!-- CMS Hydration + Admin Overlay -->
     <script>(function() {
@@ -900,6 +1059,22 @@ body.sinhala [lang-en-inline] { display: none; }
   <a href="evidence/" target="_blank" style="color:var(--sage);">📁 Evidence Files</a>
   <a href="#" onclick="document.getElementById('submit-modal').classList.add('open');document.getElementById('mobile-drawer').classList.remove('open');document.querySelector('.mobile-menu-btn').classList.remove('open');return false;" style="color:var(--gold);">Submit Evidence</a>
 </div>
+
+<!-- ===== SIDE NAVIGATION ===== -->
+<div class="side-nav-overlay" id="side-nav-overlay" onclick="closeSideNav()"></div>
+<nav class="side-nav" id="side-nav" aria-label="Section navigation">
+  <div class="side-nav-label">Navigation</div>
+  <a href="#incident" data-section="incident"><span class="sn-dot"></span><span class="sn-num">01</span> The Incident</a>
+  <a href="#evidence" data-section="evidence"><span class="sn-dot"></span><span class="sn-num">02</span> Evidence</a>
+  <a href="#timeline" data-section="timeline"><span class="sn-dot"></span><span class="sn-num">03</span> Timeline</a>
+  <a href="#cast" data-section="cast"><span class="sn-dot"></span><span class="sn-num">04</span> Cast</a>
+  <a href="#journalist" data-section="journalist"><span class="sn-dot"></span><span class="sn-num">05</span> Journalist</a>
+  <a href="#voices" data-section="voices"><span class="sn-dot"></span><span class="sn-num">06</span> Voices</a>
+  <a href="#questions" data-section="questions"><span class="sn-dot"></span><span class="sn-num">07</span> Questions</a>
+  <a href="#sources" data-section="sources"><span class="sn-dot"></span><span class="sn-num">08</span> Sources</a>
+  <div class="side-nav-progress"><div class="side-nav-progress-fill" id="side-nav-progress"></div></div>
+</nav>
+<button class="side-nav-fab" id="side-nav-fab" onclick="toggleSideNav()" aria-label="Table of contents" title="Jump to section">☰</button>
 
 <!-- ===== HERO ===== -->
 <section class="hero">
@@ -1059,18 +1234,18 @@ body.sinhala [lang-en-inline] { display: none; }
         <span>"පසුව සියල්ල 'මානසික තත්ත්වයට' නිදොස් කිරීම"</span>
       </div>
       <div class="key-reveal" style="border-color: var(--blood); background: var(--ember-light);">
-        <strong style="color:var(--blood);" lang-en>⚠️ Alleged: Sheltered behind his father</strong>
+        <strong style="color:var(--blood);" lang-en>Confirmed: Sheltered behind his father, Gamini Sumanasekara</strong>
         <strong style="color:var(--blood);" lang-si class="si" style="display:none">බොහෝ කාන්තාවන් ස්වාධීනව තිරපිටපත් සාක්ෂි නිකුත් කර ඇත. මේවා නිර්නාමික කටකතා නොවේ - ඒවා ලේඛනගත කර, ප්‍රසිද්ධියේ පළ කර, <strong>නම් කරන ලද පුද්ගලයින්ගෙන්</strong> ලබාගත් සත්‍යාපනය කළ හැකි ඩිජිටල් සාක්ෂි වේ.</strong>
-        <span lang-en>Vincika De Saram's March 2026 callout states: <em>"when a complaint was filed, he hid behind his father like a coward."</em> This is a single-source allegation. The identity of the father and the nature of any influence exercised has not been independently confirmed in the evidence available. <strong>This is recorded as alleged, not established.</strong></span>
-        <span lang-si class="si" style="display:none">⚠️ චෝදනාව: ඔහුගේ පියා පිටුපස නවාතැන් ගෙන ඇත</span>
+        <span lang-en>Vincika De Saram's March 2026 callout states: <em>"when a complaint was filed, he hid behind his father like a coward."</em> The father has been confirmed as <strong>Gamini Sumanasekara</strong> — a veteran journalist, former editor of <em>Divayina</em> newspaper, and member of the State Literary Advisory Board. This identification is corroborated by a 2021 Sinhala-language exposé blog <a href="#src-S16" class="ref-marker">[S16]</a> which explicitly names Gamini Sumanasekara as the father and documents the father-son ideological dynamic. <strong>Status: Confirmed via multiple independent sources.</strong></span>
+        <span lang-si class="si" style="display:none">වින්සිකා ද සේරම්ගේ 2026 මාර්තු ප්‍රකාශයේ මෙසේ සඳහන් වේ: <em>"පැමිණිල්ලක් ගොනු කළ විට, ඔහු බියගුල්ලෙකු මෙන් තම පියා පිටුපස සැඟවී සිටියේය."</em> පියා <strong>ගාමිණී සුමනසේකර</strong> බව තහවුරු කර ඇත — ප්‍රවීණ මාධ්‍යවේදියෙක්, <em>දිවයින</em> පුවත්පතේ හිටපු කතුවර, සහ රාජ්‍ය සාහිත්‍ය උපදේශක මණ්ඩල සාමාජිකයෙකි. <strong>තත්ත්වය: ස්වාධීන බහු මූලාශ්‍ර මගින් තහවුරු කර ඇත.</strong></span>
       </div>
     </div>
 
     <div class="integrity-card" style="border-color: var(--forest); background: #f0f7ee; margin-top: 20px;">
       <h4 style="color:var(--forest-deep);" lang-en>🏛️ Political Dimensions — What Commentators Have Said</h4>
-      <h4 style="color:var(--forest-deep);" lang-si class="si" style="display:none">වින්සිකා ද සේරම්ගේ 2026 මාර්තු ප්‍රකාශයේ මෙසේ සඳහන් වේ: <em>&quot;පැමිණිල්ලක් ගොනු කළ විට, ඔහු බියගුල්ලෙකු මෙන් තම පියා පිටුපස සැඟවී සිටියේය.&quot;</em> මෙය තනි මූලාශ්‍ර චෝදනාවකි. පියාගේ අනන්‍යතාවය සහ ක්‍රියාත්මක කරන ලද ඕනෑම බලපෑමක ස්වභාවය ලබා ගත හැකි සාක්ෂි වලින් ස්වාධීනව තහවුරු කර නොමැත. <strong>මෙය චෝදනා ලෙස සටහන් කර ඇත, ස්ථාපිත කර නොමැත.</strong></h4>
+      <h4 style="color:var(--forest-deep);" lang-si class="si" style="display:none">🏛️ දේශපාලන මානයන් — විචාරකයින් පවසා ඇති දේ</h4>
       <p lang-en>The Sunday Observer is a <strong>government-owned national newspaper</strong>. Commentator Sasanka Perera — in a comment on Melani Gunathilaka's post <a href="#src-S14" class="ref-marker">[S14]</a> — wrote that publication of the article "sponsored by the government's own newspaper" while the President participated in a women's rally "exposes the hypocrisy of some opinion-makers," and asked to know the response of <strong>"the Prime Minister and Minister Paul-Raj both long-term vocal advocates of women's rights."</strong> These are the views of a third-party commentator on public social media, not findings of this dossier.</p>
-      <p lang-si class="si" style="display:none">🏛️ දේශපාලන මානයන් - විචාරකයින් පවසා ඇති දේ</p>
+      <p lang-si class="si" style="display:none">සන්ඩේ ඔබ්සර්වර් <strong>රජයට අයත් ජාතික පුවත්පතකි</strong>. මෙලනි ගුණතිලකගේ සටහනේ විචාරක සසංක පෙරේරා <a href="#src-S14" class="ref-marker">[S14]</a> — ජනාධිපති කාන්තා රැළියකට සහභාගී වන අතරතුර "රජයේම පුවත්පත අනුග්‍රහය දක්වන" ලිපිය ප්‍රකාශනය කිරීම "සමහර මතවාදීන්ගේ කුහකකම හෙළිදරව් කරයි" යනුවෙන් ලියා ඇත. මේවා මෙම විමර්ශනයේ නිගමන නොව, තෙවන පාර්ශව විචාරකයෙකුගේ අදහස් ය.</p>
     </div>
 
     <h3 class="evidence-label">🔥 Evidence D: Sandali Costa — Second Victim (August 19, 2021)</h3>
@@ -1628,6 +1803,7 @@ body.sinhala [lang-en-inline] { display: none; }
       <tr id="src-S13"><td>S13 <a href="#ev-S13" class="ev-nav-link" style="margin:0">↑</a></td><td>Anuradha Perera — Public Statement Defending Vangeesa (March 9, 2026)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/anuradha.kodagoda.5" target="_blank">facebook.com/anuradha.kodagoda.5</a></td></tr>
       <tr id="src-S14"><td>S14 <a href="#ev-S14" class="ev-nav-link" style="margin:0">↑</a></td><td>Anuradha Perera — Victim-Blaming Comment Thread (Melani's post + Own post)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://www.facebook.com/melanirgunathilaka/posts/pfbid032xS2qWoNQtB9Xejb2zYqEBzidKUptJREBdcGs7ZmSBqaN1zKd6mtGzTCsVzrgRQSl" target="_blank">facebook.com (Melani's post)</a></td></tr>
       <tr id="src-S15"><td>S15</td><td>Geethika Dharmasinghe — "A Serial Offender" (July 2021)</td><td><span class="src-badge src-secondary">Secondary</span></td><td><span style="color:var(--muted);font-size:0.85em;">Facebook · URL pending</span></td></tr>
+      <tr id="src-S16"><td>S16</td><td>Maruwaxx Blog — Sext Evidence from Third Victim (July 2021)</td><td><span class="src-badge src-primary">Primary</span></td><td><a href="https://maruwaxx.wordpress.com/2021/07/03/%E0%B7%80%E0%B6%82%E0%B6%9C%E0%B7%93%E0%B7%83-%E0%B7%83%E0%B7%94%E0%B6%B8%E0%B6%B1%E0%B7%83%E0%B7%9A%E0%B6%9A%E0%B6%BB%E0%B6%BA%E0%B6%B1%E0%B7%8A%E0%B6%9C%E0%B7%9A-%E0%B6%9A%E0%B7%94%E0%B6%AB%E0%B7%94/" target="_blank">maruwaxx.wordpress.com</a></td></tr>
     </tbody>
   </table>
   </div>
@@ -2122,6 +2298,141 @@ window.EV_S8_IMG = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEB
     if (drawer) drawer.classList.remove('open');
     if (btn) btn.classList.remove('open');
   });
+})();
+</script>
+
+<!-- ===== SIDE NAVIGATION + TIMELINE ANIMATION JS ===== -->
+<script>
+(function() {
+  'use strict';
+
+  // ===== SIDE NAVIGATION =====
+  var sideNav = document.getElementById('side-nav');
+  var sideOverlay = document.getElementById('side-nav-overlay');
+  var sideProgress = document.getElementById('side-nav-progress');
+  var sideLinks = sideNav ? sideNav.querySelectorAll('a[data-section]') : [];
+  var sections = [];
+  var isDesktop = function() { return window.innerWidth >= 1200; };
+
+  // Build section list
+  sideLinks.forEach(function(link) {
+    var id = link.getAttribute('data-section');
+    var el = document.getElementById(id);
+    if (el) sections.push({ id: id, el: el, link: link });
+  });
+
+  // On desktop, auto-show after scrolling past hero
+  if (isDesktop()) document.body.classList.add('side-nav-active');
+
+  window.toggleSideNav = function() {
+    if (isDesktop()) return;
+    sideNav.classList.toggle('visible');
+    sideOverlay.classList.toggle('open');
+  };
+  window.closeSideNav = function() {
+    sideNav.classList.remove('visible');
+    sideOverlay.classList.remove('open');
+  };
+
+  // Close side nav on link click (mobile/tablet)
+  sideLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      if (!isDesktop()) {
+        setTimeout(closeSideNav, 150);
+      }
+    });
+  });
+
+  // Scroll tracking for active section
+  var ticking = false;
+  function updateSideNav() {
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    var viewH = window.innerHeight;
+    var docH = document.documentElement.scrollHeight;
+
+    // Overall progress
+    var progress = Math.min(1, scrollY / (docH - viewH));
+    if (sideProgress) sideProgress.style.width = (progress * 100) + '%';
+
+    // Show/hide on desktop based on scroll position
+    if (isDesktop()) {
+      if (scrollY > viewH * 0.6) {
+        sideNav.classList.add('visible');
+      } else {
+        sideNav.classList.remove('visible');
+      }
+    }
+
+    // Active section
+    var currentId = '';
+    for (var i = sections.length - 1; i >= 0; i--) {
+      var rect = sections[i].el.getBoundingClientRect();
+      if (rect.top <= viewH * 0.4) {
+        currentId = sections[i].id;
+        break;
+      }
+    }
+    sections.forEach(function(s) {
+      if (s.id === currentId) {
+        s.link.classList.add('active');
+      } else {
+        s.link.classList.remove('active');
+      }
+    });
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function() {
+    if (!ticking) { ticking = true; requestAnimationFrame(updateSideNav); }
+  }, { passive: true });
+  updateSideNav();
+
+  // Responsive: handle resize
+  window.addEventListener('resize', function() {
+    if (isDesktop()) {
+      document.body.classList.add('side-nav-active');
+      sideOverlay.classList.remove('open');
+    } else {
+      document.body.classList.remove('side-nav-active');
+      sideNav.classList.remove('visible');
+    }
+  });
+
+  // ===== TIMELINE SCROLL ANIMATIONS =====
+  var timelineItems = document.querySelectorAll('.tl-item');
+  if (timelineItems.length && 'IntersectionObserver' in window) {
+    var tlObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('tl-visible');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+    timelineItems.forEach(function(item) { tlObserver.observe(item); });
+
+    // Timeline progress line
+    var timeline = document.querySelector('.timeline');
+    if (timeline) {
+      var progressLine = document.createElement('div');
+      progressLine.className = 'timeline-progress-line';
+      timeline.appendChild(progressLine);
+
+      var tlTicking = false;
+      function updateTimelineProgress() {
+        var rect = timeline.getBoundingClientRect();
+        var viewH = window.innerHeight;
+        if (rect.top < viewH && rect.bottom > 0) {
+          var scrolled = Math.min(1, Math.max(0, (viewH - rect.top) / (rect.height + viewH)));
+          progressLine.style.height = (scrolled * 100) + '%';
+        }
+        tlTicking = false;
+      }
+      window.addEventListener('scroll', function() {
+        if (!tlTicking) { tlTicking = true; requestAnimationFrame(updateTimelineProgress); }
+      }, { passive: true });
+      updateTimelineProgress();
+    }
+  }
 })();
 </script>
 

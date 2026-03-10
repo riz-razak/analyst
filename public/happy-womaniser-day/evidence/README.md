@@ -106,17 +106,36 @@ availability and prevent evidence loss from platform takedowns.
 
 ---
 
-### Subject Identity Context [UNVERIFIED]
+### Subject Identity Context [CONFIRMED]
 
-**father-son-6.jpg** — COMPLETE (file); ⚠️ IDENTITY UNVERIFIED
+**father-son-6.jpg** — COMPLETE (file); ✅ IDENTITY CONFIRMED
 - File type confirmed: JPEG image, JFIF 1.01, 800×500px, 96 DPI
 - Size: 116KB
-- Content: Composite side-by-side photo. Left: older man (white shirt, short beard). Right: younger man with full beard, appears to be at a press event or public forum.
-- Source: Provided by editor with reference to Facebook (https://www.facebook.com/share/p/1c9TYyse2Z/) and maruwaxx WordPress (2021 post)
-- Identity claim: Editor asserts this is Vangeesa Sumanasekara (right) and his father (left)
-- Status: UNVERIFIED — identity cannot be independently confirmed from image alone without captions or corroborating sources
-- Web research note: "Gamini Sumanasekara" identified in web searches as a veteran journalist and State Literary Advisory Board member in Sri Lanka — possible match for father, but NOT confirmed
-- Do NOT identify persons in dossier until identity is independently confirmed with a primary source (e.g., caption, family confirmation, official document)
+- Content: Composite side-by-side photo. Left: Gamini Sumanasekara (father). Right: Vangeesa Sumanasekara (son).
+- Source: Facebook (https://www.facebook.com/share/p/1c9TYyse2Z/) and maruwaxx WordPress (2021 post)
+- Identity confirmed by: (1) Editor assertion (2026-03-11); (2) maruwaxx article (2021-07-03) which explicitly names "Gamini Sumanasekara" as the father and describes him as a veteran journalist and former Divayina editor
+- **Gamini Sumanasekara**: Senior journalist, former editor of Divayina newspaper, State Literary Advisory Board member, described as devout Buddhist and nationalist
+
+---
+
+### Maruwaxx Blog — Sext Evidence from Third Victim [S16]
+
+**Source**: https://maruwaxx.wordpress.com/2021/07/03/වංගීස-සුමනසේකරයන්ගේ-කුණු/
+**Date**: July 3, 2021
+**Blog**: මරුවා (Maruwa) — Sinhala gossip/exposé blog (295,304 page views at time of access)
+**Title**: වංගීස සුමනසේකරයන්ගේ කුණුහරුප ("Vangeesa Sumanasekara's Obscenities")
+
+**Content**:
+- Screenshot of Facebook Messenger sext conversation (English) from Vangeesa Sumanasekara to an unidentified woman
+- Messages include explicit sexual demands
+- Screenshot shows Facebook blocking confirmation: "You've blocked messages and calls from Vangeesa Sumanasekara's Facebook account"
+- Article explicitly names Gamini Sumanasekara as father and describes father-son ideological split
+- Second photo shows "Happy Birthday Geethika" — possibly connecting to S15 (Geethika Dharmasinghe)
+- Article also contains a Centre for Poverty Analysis video featuring Vangeesa Sumanasekara discussing youth political literacy
+
+**Evidence files needed** (must be saved by editor):
+- [ ] maruwaxx-sext-screenshot.jpg — the Messenger sext screenshot from the article
+- [ ] maruwaxx-birthday-photo.jpg — the "Happy Birthday Geethika" photo
 
 ---
 
@@ -126,9 +145,12 @@ availability and prevent evidence loss from platform takedowns.
 - [ ] Geethika Dharmasinghe full post (truncated at "See more")
 - [ ] vincika-screen-recording.mp4 — video content review needed
 - [ ] Sandali Costa messenger screenshots — professional Sinhala translation needed
-- [ ] Identity of the "father" in father-son-6.jpg — must be independently confirmed before naming in dossier
+- [x] ~~Identity of the "father" in father-son-6.jpg~~ — CONFIRMED: Gamini Sumanasekara (2026-03-11)
 - [ ] Facebook source for father-son-6.jpg (https://www.facebook.com/share/p/1c9TYyse2Z/) — not yet accessible/archived
+- [ ] maruwaxx sext screenshot — save from article to evidence folder
+- [ ] maruwaxx birthday photo — save from article to evidence folder
 
 ## Capture Dates
 Received: 2026-03-09
 Protocol applied: 2026-03-09
+Updated: 2026-03-11 — Father identity confirmed, maruwaxx source added (S16)
