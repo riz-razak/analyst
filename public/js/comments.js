@@ -269,7 +269,8 @@
         currentUser.user_metadata?.display_name ||
         currentUser.user_metadata?.full_name ||
         currentUser.email.split('@')[0];
-      info.innerHTML = `<strong>${esc(displayName)}</strong> <span class="comments-muted">${esc(currentUser.email)}</span>`;
+      const isAdmin = currentUser.email === adminEmail;
+      info.innerHTML = `<strong>${esc(displayName)}</strong>${isAdmin ? ' <span class="comments-verified" title="Platform administrator">✓ Verified</span>' : ''}`;
       identity.appendChild(info);
 
       const signOutBtn = document.createElement('button');
@@ -521,7 +522,8 @@
 
     const meta = document.createElement('div');
     meta.className = 'comment-meta';
-    meta.innerHTML = `<strong>${esc(comment.author_name)}</strong> <span class="comments-muted">${relativeTime(comment.created_at)}</span>`;
+    const isAdminComment = comment.author_email === adminEmail;
+    meta.innerHTML = `<strong>${esc(comment.author_name)}</strong>${isAdminComment ? ' <span class="comments-verified" title="Platform administrator">✓ Verified</span>' : ''} <span class="comments-muted">${relativeTime(comment.created_at)}</span>`;
 
     if (isPending && isOwn) {
       const badge = document.createElement('span');
