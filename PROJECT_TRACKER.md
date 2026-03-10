@@ -23,25 +23,25 @@
   - ⚠️ **One-time setup required**: Add `GITHUB_TOKEN` to Cloudflare Worker secrets (Cloudflare Dashboard → Workers & Pages → `analyst-collaborative-cms` → Settings → Variables & Secrets → Add `GITHUB_TOKEN` as Secret). Without this, the CMS uses localStorage PAT fallback only.
   - Remaining phases: (2) Image manager → (3) Deploy button
 
-- [ ] **Women's Day Betrayal — Sinhala translations incomplete**
-  - Most `lang-si` elements have `style="display:none"` and some are empty or missing
+- [x] **Women's Day Betrayal — Sinhala translations complete** *(2026-03-11)*
+  - All 96 `lang-si` elements translated: hero, timeline, cast, Q&A, source index, evidence sections
 
 - [x] **Women's Day Betrayal — In-text S1–S11 source references** *(2026-03-09)*
   - Added inline `[SX]` markers throughout all body text sections
   - Added anchor IDs to evidence cards and source index rows
   - Bidirectional navigation: body text → evidence cards → source index → back
 
-- [ ] **Narrative Timeline Positioning Bar** — subtle temporal position indicator
-  - Shows reader's position in the narrative timeline as they scroll
-  - Significance labels on key moments, hover cards for context
-  - Toggle-off option in CMS (`data-cms-id` attribute for admin control)
+- [x] **Narrative Timeline Positioning Bar — deployed to all dossiers** *(2026-03-11)*
   - Reusable component: `_shared/narrative-timeline.css` + `_shared/narrative-timeline.js`
-  - Standard for all dossier storytelling
+  - Integrated into all 9 dossier pages with custom timeline events (6-9 events each)
+  - Features: scroll-position tracking, significance markers (critical/important/context), hover cards, keyboard toggle (T key), localStorage preference
+  - CMS toggle via `data-cms-id="narrative-timeline-toggle"`
 
-- [ ] **Platform Category System** — Miyazaki green palette
-  - Categories (max 20, always consolidate): Policy & Law, Geopolitics & Breaking News, Philosophy, Social Commentary, AI & Tech, Anarchist Social-Capitalism, Corruption & Mismanagement, Not Too Serious, Social Change
-  - Color palette derived from central Miyazaki green (`--forest`)
-  - Category tags on dossier cards, section headers, navigation
+- [x] **Platform Category System — deployed** *(2026-03-11)*
+  - 9 core categories + 6 reserved slots in `_shared/category-system.css` (Miyazaki green palette)
+  - Categories assigned: social-commentary, geopolitics, corruption, philosophy, ai-tech
+  - Category badges in admin panel: grid view, table view, CMS dossier manager
+  - `dossiers.json` updated with `category` field for all dossiers
 
 - [ ] **Comments System Overhaul (Phase 3)** — Supabase backend
   - User accounts with email (required), display names, magic link auth
@@ -50,8 +50,8 @@
   - Admin moderation, rate limiting, email notifications
   - Deferred to dedicated session
 
-- [ ] **Caravan Fresh — Pledge portal iframe embed on main page**
-  - Portal deployed ✅ — verify it's correctly embedded in the Caravan Fresh index.html iframe with `?lang=` param passing
+- [x] **Caravan Fresh — Pledge portal iframe embed verified** *(2026-03-11)*
+  - iframe loads `pledge-portal.html?lang=` with bilingual param passing ✅
 
 - [ ] **Caravan Fresh — Evidence 37 review**
   - Confirmed not present on live page — no action needed unless new evidence surfaces
