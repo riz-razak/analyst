@@ -6439,6 +6439,12 @@ function showEmailToast(msg, type) {
             if (routeInfo.view === 'roadmap' && typeof rmRender === 'function') {
                 rmRender();
             }
+            if (routeInfo.view === 'cms-dossiers' && typeof renderCMSDossiersList === 'function') {
+                renderCMSDossiersList();
+            }
+            if (routeInfo.view === 'cms-dossier-edit' && routeInfo.id && typeof loadCMSDossierEdit === 'function') {
+                loadCMSDossierEdit(routeInfo.id);
+            }
         }
 
         function updateActiveNav(hash, routeInfo) {
@@ -7768,26 +7774,6 @@ function setupCMS() {
                 localStorage.setItem(GITHUB_TOKEN_KEY, this.value);
             }
         });
-    }
-
-    // CMS Dossier Manager rendering
-    window.addEventListener('hashchange', function() {
-        const hash = window.location.hash;
-        if (hash === '#/cms/dossiers') {
-            renderCMSDossiersList();
-        } else if (hash.startsWith('#/cms/dossiers/')) {
-            const slug = hash.replace('#/cms/dossiers/', '');
-            loadCMSDossierEdit(slug);
-        }
-    });
-
-    // Check current route on load
-    const currentHash = window.location.hash;
-    if (currentHash === '#/cms/dossiers') {
-        renderCMSDossiersList();
-    } else if (currentHash.startsWith('#/cms/dossiers/')) {
-        const slug = currentHash.replace('#/cms/dossiers/', '');
-        loadCMSDossierEdit(slug);
     }
 
     // Editor mode tabs
