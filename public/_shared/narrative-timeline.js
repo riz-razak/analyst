@@ -1,10 +1,14 @@
 /**
  * Narrative Timeline — Scroll-position temporal awareness bar
  * analyst.rizrazak.com
- * Last updated: 2026-03-09
+ * Last updated: 2026-03-11
+ *
+ * MODES:
+ * 1. Standalone: fixed full-width bar at top of viewport (no sidenav)
+ * 2. Embedded:   compact bar inside .side-nav panel (auto-detected)
  *
  * Reads timeline data from a <script type="application/json" id="narrative-timeline-data">
- * block in the dossier HTML, then renders a subtle fixed bar showing the reader's
+ * block in the dossier HTML, then renders a bar showing the reader's
  * temporal position within the narrative.
  *
  * Data format:
@@ -17,13 +21,13 @@
  *       "title": "Emy Vithanage Releases Screenshot",
  *       "significance": "critical|important|context",
  *       "sectionId": "evidence",
- *       "position": 0.35  // 0-1 position on timeline (normalized)
+ *       "position": 0.35
  *     }
  *   ]
  * }
  *
  * CMS toggle: data-cms-id="narrative-timeline-toggle"
- * User toggle: click the × button or press 'T' key
+ * User toggle: press 'T' key
  */
 
 (function () {
@@ -35,7 +39,7 @@
 
   // ===== LOAD DATA =====
   const dataEl = document.getElementById('narrative-timeline-data');
-  if (!dataEl) return; // No timeline data, don't render
+  if (!dataEl) return;
 
   let timelineData;
   try {
@@ -47,9 +51,13 @@
 
   if (!timelineData.events || !timelineData.events.length) return;
 
+  // ===== DETECT SIDENAV =====
+  const sideNav = document.querySelector('.side-nav');
+  const isEmbedded = !!sideNav;
+
   // ===== BUILD DOM =====
   const bar = document.createElement('div');
-  bar.className = 'narrative-timeline';
+  bar.className = 'narrative-timeline' + (isEmbedded ? ' nt-embedded' : '');
   bar.setAttribute('data-cms-id', 'narrative-timeline-toggle');
   bar.setAttribute('role', 'complementary');
   bar.setAttribute('aria-label', 'Narrative timeline showing temporal position');
@@ -120,22 +128,48 @@
     localStorage.setItem('nt-hidden', bar.classList.contains('hidden') ? '1' : '0');
   });
 
-  // Assemble
-  bar.appendChild(dateStart);
-  bar.appendChild(track);
-  bar.appendChild(dateEnd);
-  bar.appendChild(toggle);
+  // ===== ASSEMBLE =====
+  if (isEmbedded) {
+    // Embedded mode: structured layout inside sidenav
+    // [temporal label] → [date-row: start | toggle | end] → [track]
+    const temporalLabel = document.createElement('div');
+    temporalLabel.className = 'nt-temporal-label';
+    temporalLabel.textContent = 'Timeline';
 
-  // Insert after navbar (or at top of body)
-  const navbar = document.querySelector('.navbar');
-  if (navbar && navbar.nextSibling) {
-    navbar.parentNode.insertBefore(bar, navbar.nextSibling);
+    const dateRow = document.createElement('div');
+    dateRow.className = 'nt-date-row';
+    dateRow.appendChild(dateStart);
+    dateRow.appendChild(toggle);
+    dateRow.appendChild(dateEnd);
+
+    bar.appendChild(temporalLabel);
+    bar.appendChild(dateRow);
+    bar.appendChild(track);
+
+    // Insert at top of sidenav, before the nav label
+    const navLabel = sideNav.querySelector('.side-nav-label');
+    if (navLabel) {
+      sideNav.insertBefore(bar, navLabel);
+    } else {
+      sideNav.insertBefore(bar, sideNav.firstChild);
+    }
   } else {
-    document.body.insertBefore(bar, document.body.firstChild);
+    // Standalone mode: flat horizontal bar
+    bar.appendChild(dateStart);
+    bar.appendChild(track);
+    bar.appendChild(dateEnd);
+    bar.appendChild(toggle);
+
+    // Insert at top of body
+    const navbar = document.querySelector('.navbar');
+    if (navbar && navbar.nextSibling) {
+      navbar.parentNode.insertBefore(bar, navbar.nextSibling);
+    } else {
+      document.body.insertBefore(bar, document.body.firstChild);
+    }
   }
 
   // ===== SCROLL TRACKING =====
-  // Map sections to their timeline positions
   const sectionPositions = [];
   timelineData.events.forEach(function (evt) {
     if (evt.sectionId) {
@@ -176,7 +210,6 @@
         prevTop = elTop;
         prevPos = sectionPositions[i].timelinePos;
 
-        // Interpolate to next section
         if (i < sectionPositions.length - 1) {
           const nextEl = document.getElementById(sectionPositions[i + 1].id);
           if (nextEl) {
@@ -190,7 +223,6 @@
             currentPos = prevPos;
           }
         } else {
-          // Last section — interpolate to 1.0
           const remaining = docHeight - elTop - viewportHeight;
           const sectionProgress = remaining > 0
             ? Math.min(1, (scrollY - elTop) / remaining)
@@ -200,10 +232,8 @@
       }
     }
 
-    // Clamp
     currentPos = Math.min(1, Math.max(0, currentPos));
 
-    // Update DOM
     progress.style.width = (currentPos * 100) + '%';
     cursor.style.left = (currentPos * 100) + '%';
 
@@ -220,7 +250,6 @@
   // Keyboard toggle
   document.addEventListener('keydown', function (e) {
     if (e.key === 't' || e.key === 'T') {
-      // Don't toggle if user is typing in an input
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
       bar.classList.toggle('hidden');
       localStorage.setItem('nt-hidden', bar.classList.contains('hidden') ? '1' : '0');
