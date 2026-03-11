@@ -1718,18 +1718,35 @@ anatta-bamiyan<!DOCTYPE html>
     }
 
 
-        .app-tab-content {
-            display: none;
-        }
+        /* App Drawer — Card grid on #/apps */
+        .app-drawer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .app-card { background: var(--bg-main); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.15s ease; }
+        .app-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .app-card-header { padding: 20px 20px 16px; position: relative; }
+        .app-card-body { padding: 14px 20px 18px; }
+        .app-card-icon { width: 44px; height: 44px; border-radius: 8px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; color: #fff; margin-bottom: 10px; }
+        .app-card-badge { position: absolute; top: 12px; right: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.2); color: #fff; }
+        .app-card-name { font-size: 18px; font-weight: 700; color: #fff; }
+        .app-card-tagline { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+        .app-phase-dots { display: flex; align-items: center; gap: 4px; }
+        .app-phase-dot { width: 8px; height: 8px; border-radius: 50%; }
+        /* App Drawer — ghost "Add" card */
+        .app-card-add { border: 2px dashed var(--border-color); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; cursor: pointer; min-height: 200px; transition: all 0.15s; }
+        .app-card-add:hover { border-color: var(--color-primary); background: rgba(27,77,46,0.02); }
 
-        .app-tab-content.active {
-            display: block;
-        }
+        /* Portal Shell — App detail view */
+        .portal-header { padding: 14px 20px; display: flex; align-items: center; gap: 14px; }
+        .portal-header-icon { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; color: #fff; }
+        .portal-tabs { display: flex; border-bottom: 1px solid var(--border-color); background: var(--bg-main); }
+        .portal-tab { padding: 12px 20px; font-size: 13px; font-weight: 500; color: var(--text-secondary); border-bottom: 2px solid transparent; background: none; border-top: none; border-left: none; border-right: none; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+        .portal-tab.active { font-weight: 700; }
+        .portal-content { background: var(--bg-main); }
+        .portal-iframe { width: 100%; height: 78vh; border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 10px 10px; background: #FAFAF8; }
 
-        .app-tab-btn.active {
-            color: #1B4D2E !important;
-            border-bottom-color: #1B4D2E !important;
-        }
+        /* Legacy compat — remove once stable */
+        .app-tab-content { display: none; }
+        .app-tab-content.active { display: block; }
+        .app-tab-btn.active { color: #1B4D2E !important; border-bottom-color: #1B4D2E !important; }
   </style>
 
     <!-- Category System Styles -->
@@ -1924,14 +1941,7 @@ anatta-bamiyan<!DOCTYPE html>
                     <div class="nav-item-label">Apps</div>
                 </a>
                 <div class="nav-submenu" id="apps-menu">
-                    <a href="#/apps/kunatu" class="nav-item submenu-item" data-nav="app-detail">
-                        <div class="nav-item-icon"><svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg></div>
-                        <div class="nav-item-label">Kunatu</div>
-                    </a>
-                    <a href="#/apps/yan" class="nav-item submenu-item" data-nav="app-detail">
-                        <div class="nav-item-icon"><svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg></div>
-                        <div class="nav-item-label">Waren Yan</div>
-                    </a>
+                    <!-- Dynamically rendered from APP_REGISTRY by renderAppsSidebar() -->
                 </div>
             </div>
 
@@ -3979,342 +3989,311 @@ anatta-bamiyan<!DOCTYPE html>
 </script>
 
 <div class="view" id="view-apps">
-    <div style="margin-bottom: 24px;">
-        <!-- Tab Bar -->
-        <div style="display: flex; gap: 0; border-bottom: 1px solid #E5E7EB;">
-            <button class="app-tab-btn active" data-tab="overview" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Overview</button>
-            <button class="app-tab-btn" data-tab="kunatu" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Kunatu</button>
-            <button class="app-tab-btn" data-tab="waren-yan" style="padding: 12px 24px; border: none; background: none; color: #6B7280; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s ease; position: relative; bottom: -1px;">Waren Yan</button>
-        </div>
-    </div>
-
-    <!-- Overview Tab -->
-    <div class="app-tab-content active" data-tab="overview">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-            <!-- Kunatu Card -->
-            <div class="card" style="border-top: 4px solid #14B8A6;">
-                <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px;">
-                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700;">K</div>
-                    <div style="background-color: #FEF3C7; color: #D97706; font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 4px;">WIP</div>
-                </div>
-                <div style="font-size: 18px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Kunatu</div>
-                <div style="font-size: 13px; color: #6B7280; margin-bottom: 16px;">Next.js web application for task management and analytics</div>
-                
-                <div style="margin-bottom: 16px;">
-                    <div style="font-size: 12px; font-weight: 600; color: #9CA3AF; margin-bottom: 8px; text-transform: uppercase;">Stack</div>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Next.js</span>
-                        <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 12px; padding: 4px 8px; border-radius: 4px;">TypeScript</span>
-                        <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Tailwind</span>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 16px; padding: 12px; background-color: #F9FAFB; border-radius: 8px; font-size: 12px;">
-                    <div style="color: #6B7280; margin-bottom: 4px;">Deploy target:</div>
-                    <div style="color: #1F2937; font-weight: 500;">Not set</div>
-                </div>
-
-                <div style="margin-bottom: 16px; padding: 12px; background-color: #F0FDF4; border-radius: 8px;">
-                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #10B981;">
-                        <span>✓</span>
-                        <span>Proposal documentation done</span>
-                    </div>
-                </div>
-
-                <div style="padding: 12px; background-color: #FEF3C7; border-radius: 8px; margin-bottom: 16px;">
-                    <div style="font-size: 12px; color: #92400E;">Recommended next: Connect to Vercel for zero-config deploys</div>
-                </div>
-
-                <div style="display: flex; gap: 8px;">
-                    <a href="https://github.com/riz-razak/kunatu" target="_blank" rel="noopener noreferrer" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background-color: #1F2937; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">
-                        <span style="font-size: 15px;">⌘</span> GitHub
-                    </a>
-                    <button onclick="window.location.hash='#/apps/kunatu'" style="flex: 1; background-color: #1B4D2E; color: white; padding: 10px 16px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease;">View Details</button>
-                </div>
-            </div>
-
-            <!-- Waren Yan Card -->
-            <div class="card" style="border-top: 4px solid #5D8A5E;">
-                <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px;">
-                    <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #5D8A5E 0%, #D4AF37 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700;">Y</div>
-                    <div style="background-color: #D1FAE5; color: #059669; font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 4px;">LIVE</div>
-                </div>
-                <div style="font-size: 18px; font-weight: 600; color: #1F2937; margin-bottom: 4px;">Waren Yan</div>
-                <div style="font-size: 13px; color: #6B7280; margin-bottom: 16px;">SL ride-hailing ops platform &middot; <a href="https://yan.rizrazak.com/ops/" target="_blank" style="color: #10B981;">yan.rizrazak.com</a></div>
-
-                <div style="margin-bottom: 16px;">
-                    <div style="font-size: 12px; font-weight: 600; color: #9CA3AF; margin-bottom: 8px; text-transform: uppercase;">Stack</div>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <span style="background-color: #F0F5EB; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Vite</span>
-                        <span style="background-color: #F0F5EB; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Cloudflare Pages</span>
-                        <span style="background-color: #F0F5EB; color: #BE185D; font-size: 12px; padding: 4px 8px; border-radius: 4px;">Supabase</span>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 16px; padding: 12px; background-color: #F9FAFB; border-radius: 8px; font-size: 12px;">
-                    <div style="color: #6B7280; margin-bottom: 4px;">Deploy method:</div>
-                    <div style="color: #1F2937; font-weight: 500;">git push &rarr; GitHub Actions &rarr; CF Pages</div>
-                </div>
-
-                <div style="margin-bottom: 16px; padding: 12px; background-color: #F0FDF4; border-radius: 8px;">
-                    <div style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: #10B981;">
-                        <span>✓</span>
-                        <span>Plan &middot; Develop &middot; Deploy complete</span>
-                    </div>
-                </div>
-
-                <div style="padding: 12px; background-color: #F0FDF4; border-radius: 8px; margin-bottom: 16px;">
-                    <div style="font-size: 12px; color: #065F46;">Mission Control + Planning Docs live at yan-eat.pages.dev</div>
-                </div>
-
-                <div style="display: flex; gap: 8px;">
-                    <a href="https://github.com/riz-razak/yan" target="_blank" rel="noopener noreferrer" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background-color: #1F2937; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">
-                        <span style="font-size: 15px;">⌘</span> GitHub
-                    </a>
-                    <a href="https://yan.rizrazak.com/ops/" target="_blank" rel="noopener noreferrer" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; background-color: #1B4D2E; color: white; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s ease;">Ops Dashboard</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Kunatu Tab -->
-    <div class="app-tab-content" data-tab="kunatu">
-        <div class="card">
-            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
-                <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px; font-weight: 700;">K</div>
-                <div>
-                    <div style="font-size: 24px; font-weight: 700; color: #1F2937;">Kunatu</div>
-                    <div style="font-size: 14px; color: #6B7280; margin-top: 4px;">Next.js web application for task management and analytics</div>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 24px;">
-                <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Stack</div>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Next.js 14</span>
-                    <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">TypeScript</span>
-                    <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">Tailwind CSS</span>
-                    <span style="background-color: #E8F0E8; color: #1B4D2E; font-size: 13px; padding: 6px 12px; border-radius: 6px; font-weight: 500;">React</span>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 24px;">
-                <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Status Timeline</div>
-                <div style="display: flex; gap: 8px; align-items: center;">
-                    <div style="text-align: center;">
-                        <div style="width: 32px; height: 32px; background-color: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; margin-bottom: 4px;">✓</div>
-                        <div style="font-size: 11px; color: #6B7280;">Proposal</div>
-                    </div>
-                    <div style="flex: 1; height: 2px; background-color: #10B981;"></div>
-                    <div style="text-align: center;">
-                        <div style="width: 32px; height: 32px; background-color: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; margin-bottom: 4px;">✓</div>
-                        <div style="font-size: 11px; color: #6B7280;">Scaffold</div>
-                    </div>
-                    <div style="flex: 1; height: 2px; background-color: #E5E7EB;"></div>
-                    <div style="text-align: center;">
-                        <div style="width: 32px; height: 32px; background-color: #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6B7280; font-weight: 600; margin-bottom: 4px;">○</div>
-                        <div style="font-size: 11px; color: #6B7280;">API</div>
-                    </div>
-                    <div style="flex: 1; height: 2px; background-color: #E5E7EB;"></div>
-                    <div style="text-align: center;">
-                        <div style="width: 32px; height: 32px; background-color: #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6B7280; font-weight: 600; margin-bottom: 4px;">○</div>
-                        <div style="font-size: 11px; color: #6B7280;">Deploy</div>
-                    </div>
-                    <div style="flex: 1; height: 2px; background-color: #E5E7EB;"></div>
-                    <div style="text-align: center;">
-                        <div style="width: 32px; height: 32px; background-color: #E5E7EB; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #6B7280; font-weight: 600; margin-bottom: 4px;">○</div>
-                        <div style="font-size: 11px; color: #6B7280;">Launch</div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 24px;">
-                <div style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 12px;">Recommended Deploy Steps</div>
-                <ol style="list-style-position: inside; display: flex; flex-direction: column; gap: 8px; color: #6B7280; font-size: 13px;">
-                    <li>Create Vercel project from GitHub repository</li>
-                    <li>Configure environment variables (.env.production)</li>
-                    <li>Set up preview deployments for pull requests</li>
-                    <li>Configure custom domain after first deploy</li>
-                    <li>Enable analytics and monitoring</li>
-                </ol>
-            </div>
-
-            <div style="padding: 20px; background-color: #F9FAFB; border: 2px dashed #E5E7EB; border-radius: 8px; margin-bottom: 24px; text-align: center;">
-                <div style="font-size: 14px; color: #6B7280; margin-bottom: 12px;">Logo/Thumbnail</div>
-                <button class="button" style="background-color: #1B4D2E; color: white; padding: 8px 16px; margin-top: 8px; cursor: pointer;">Upload Logo</button>
-            </div>
-
-            <div style="display: flex; gap: 12px;">
-                <button class="button" style="background-color: #1B4D2E; color: white; padding: 10px 20px; flex: 1; cursor: pointer;">Edit Details</button>
-                <button class="button" style="background-color: transparent; border: 1px solid #E5E7EB; color: #6B7280; padding: 10px 20px; flex: 1; cursor: pointer;">Open in Finder</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Waren Yan Tab — Full Project Portal -->
-    <div class="app-tab-content" data-tab="waren-yan">
-
-        <!-- Compact project header -->
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; padding: 16px 20px; background: #FAFAF8; border: 1px solid #E5E1DA; border-radius: 10px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #2D6A4F 0%, #C4A35A 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: 700;">Y</div>
-                <div>
-                    <div style="font-size: 16px; font-weight: 700; color: #1F2937;">Warenයන්</div>
-                    <div style="font-size: 12px; color: #6B7280;">SL ride-hailing ops &middot; Plan &rarr; Develop &rarr; Deploy ✓ &middot; Launch in progress</div>
-                </div>
-            </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <span style="font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 3px 10px; border-radius: 4px; background: rgba(45, 106, 79, 0.1); color: #2D6A4F;">Live</span>
-                <a href="https://github.com/riz-razak/yan" target="_blank" style="font-size: 11px; color: #6B7280; text-decoration: none; padding: 4px 10px; border: 1px solid #E5E7EB; border-radius: 5px;">GitHub</a>
-                <a href="https://yan.rizrazak.com/ops/" target="_blank" style="font-size: 11px; color: #2D6A4F; text-decoration: none; padding: 4px 10px; border: 1px solid #2D6A4F; border-radius: 5px;">Open Live &rarr;</a>
-            </div>
-        </div>
-
-        <!-- Portal sub-tabs -->
-        <div style="display: flex; gap: 2px; margin-bottom: 0; border-bottom: 1px solid #E5E7EB;">
-            <button class="wy-portal-tab active" data-wy-tab="dashboard" style="padding: 10px 20px; font-size: 13px; font-weight: 500; border: none; background: none; cursor: pointer; color: #2D6A4F; border-bottom: 2px solid #2D6A4F; font-family: inherit;">Dashboard</button>
-            <button class="wy-portal-tab" data-wy-tab="documents" style="padding: 10px 20px; font-size: 13px; font-weight: 500; border: none; background: none; cursor: pointer; color: #6B7280; border-bottom: 2px solid transparent; font-family: inherit;">Documents</button>
-            <button class="wy-portal-tab" data-wy-tab="project" style="padding: 10px 20px; font-size: 13px; font-weight: 500; border: none; background: none; cursor: pointer; color: #6B7280; border-bottom: 2px solid transparent; font-family: inherit;">Project Info</button>
-        </div>
-
-        <!-- Dashboard panel — embedded Mission Control -->
-        <div class="wy-portal-panel active" data-wy-panel="dashboard">
-            <iframe src="https://yan.rizrazak.com/ops/" style="width: 100%; height: 75vh; border: 1px solid #E5E1DA; border-top: none; border-radius: 0 0 10px 10px; background: #FAFAF8;" loading="lazy"></iframe>
-        </div>
-
-        <!-- Documents panel — embedded Planning Docs -->
-        <div class="wy-portal-panel" data-wy-panel="documents" style="display: none;">
-            <iframe src="https://yan.rizrazak.com/ops/planning/" style="width: 100%; height: 75vh; border: 1px solid #E5E1DA; border-top: none; border-radius: 0 0 10px 10px; background: #FAFAF8;" loading="lazy"></iframe>
-        </div>
-
-        <!-- Project Info panel -->
-        <div class="wy-portal-panel" data-wy-panel="project" style="display: none;">
-            <div style="padding: 24px; border: 1px solid #E5E1DA; border-top: none; border-radius: 0 0 10px 10px; background: #FAFAF8;">
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
-                    <!-- Stack -->
-                    <div>
-                        <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 8px;">Stack</div>
-                        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                            <span style="background: #F0EDE8; color: #4A4A5A; font-size: 12px; padding: 4px 10px; border-radius: 5px; font-weight: 500;">Vite</span>
-                            <span style="background: #F0EDE8; color: #4A4A5A; font-size: 12px; padding: 4px 10px; border-radius: 5px; font-weight: 500;">Cloudflare Pages</span>
-                            <span style="background: #F0EDE8; color: #4A4A5A; font-size: 12px; padding: 4px 10px; border-radius: 5px; font-weight: 500;">Supabase</span>
-                            <span style="background: #F0EDE8; color: #4A4A5A; font-size: 12px; padding: 4px 10px; border-radius: 5px; font-weight: 500;">GitHub Actions</span>
-                        </div>
-                    </div>
-                    <!-- Deploy -->
-                    <div>
-                        <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 8px;">Deploy</div>
-                        <div style="background: #1F2937; color: #74C69D; padding: 10px 14px; border-radius: 6px; font-family: 'SF Mono', Consolas, monospace; font-size: 11px;">git push origin main</div>
-                        <div style="font-size: 11px; color: #8B8B9E; margin-top: 4px;">Auto-deploys via GitHub Actions &rarr; CF Pages</div>
-                    </div>
-                </div>
-
-                <!-- Status Timeline -->
-                <div style="margin-bottom: 24px;">
-                    <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 12px;">Status</div>
-                    <div style="display: flex; gap: 8px; align-items: center;">
-                        <div style="text-align: center;">
-                            <div style="width: 28px; height: 28px; background-color: #2D6A4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; margin-bottom: 3px;">✓</div>
-                            <div style="font-size: 10px; color: #6B7280;">Plan</div>
-                        </div>
-                        <div style="flex: 1; height: 2px; background-color: #2D6A4F;"></div>
-                        <div style="text-align: center;">
-                            <div style="width: 28px; height: 28px; background-color: #2D6A4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; margin-bottom: 3px;">✓</div>
-                            <div style="font-size: 10px; color: #6B7280;">Develop</div>
-                        </div>
-                        <div style="flex: 1; height: 2px; background-color: #2D6A4F;"></div>
-                        <div style="text-align: center;">
-                            <div style="width: 28px; height: 28px; background-color: #2D6A4F; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; margin-bottom: 3px;">✓</div>
-                            <div style="font-size: 10px; color: #6B7280;">Deploy</div>
-                        </div>
-                        <div style="flex: 1; height: 2px; background-color: #E5E1DA;"></div>
-                        <div style="text-align: center;">
-                            <div style="width: 28px; height: 28px; background-color: #C4A35A; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; margin-bottom: 3px;">...</div>
-                            <div style="font-size: 10px; color: #6B7280;">Launch</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- URLs & Modules -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div>
-                        <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 8px;">Live URLs</div>
-                        <div style="font-size: 12px; color: #4A4A5A; line-height: 2;">
-                            <a href="https://yan.rizrazak.com/ops/" target="_blank" style="color: #2D6A4F;">yan.rizrazak.com/ops/</a> &mdash; Mission Control<br>
-                            <a href="https://yan.rizrazak.com/ops/planning/" target="_blank" style="color: #2D6A4F;">yan.rizrazak.com/ops/planning/</a> &mdash; Planning Docs<br>
-                            <a href="https://yan-eat.pages.dev" target="_blank" style="color: #2D6A4F;">yan-eat.pages.dev</a> &mdash; CF Pages hostname
-                        </div>
-                    </div>
-                    <div>
-                        <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 8px;">Command Modules (6)</div>
-                        <div style="font-size: 12px; color: #4A4A5A; line-height: 2;">
-                            SL Crisis Scenarios &middot; Subscription Pricing<br>
-                            Competitive Intelligence &middot; Mapping Costs<br>
-                            Risk Matrix &middot; Funding Pipeline
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    <!-- Rendered dynamically by renderAppDrawer() / renderPortalShell() -->
+    <div id="app-drawer-container"></div>
 
     <script>
-(function() {
+// ════════════════════════════════════════════════════════════════
+// APP REGISTRY — Single source of truth for all apps
+// ════════════════════════════════════════════════════════════════
+const APP_REGISTRY = [
+    {
+        id: 'yan',
+        name: 'Waren Yan',
+        nameSi: 'Warenයන්',
+        tagline: 'SL ride-hailing ops platform',
+        icon: 'Y',
+        accent: '#5D8A5E',
+        accentDark: '#2D6A4F',
+        accentGrad: 'linear-gradient(135deg, #5D8A5E 0%, #D4AF37 100%)',
+        status: 'live',
+        stack: ['Vite', 'Cloudflare Pages', 'Supabase', 'GitHub Actions'],
+        repo: 'riz-razak/yan',
+        subdomain: 'yan.rizrazak.com',
+        portal: {
+            tabs: [
+                { id: 'dashboard', label: 'Mission Control', type: 'iframe', url: 'https://yan.rizrazak.com/ops/' },
+                { id: 'docs', label: 'Documents', type: 'iframe', url: 'https://yan.rizrazak.com/ops/planning/' },
+                { id: 'info', label: 'Project Info', type: 'component' }
+            ],
+            defaultTab: 'dashboard'
+        },
+        phases: [
+            { label: 'Plan', done: true },
+            { label: 'Develop', done: true },
+            { label: 'Deploy', done: true },
+            { label: 'Launch', done: false, current: true }
+        ],
+        deploy: { method: 'git push origin main', pipeline: 'GitHub Actions → CF Pages' },
+        links: [
+            { label: 'Ops Dashboard', url: 'https://yan.rizrazak.com/ops/', primary: true },
+            { label: 'Planning Docs', url: 'https://yan.rizrazak.com/ops/planning/' },
+            { label: 'CF Pages', url: 'https://yan-eat.pages.dev' }
+        ],
+        modules: ['SL Crisis Scenarios', 'Subscription Pricing', 'Competitive Intelligence', 'Mapping Costs', 'Risk Matrix', 'Funding Pipeline']
+    },
+    {
+        id: 'kunatu',
+        name: 'Kunatu',
+        tagline: 'Task management & analytics platform',
+        icon: 'K',
+        accent: '#14B8A6',
+        accentDark: '#0D9488',
+        accentGrad: 'linear-gradient(135deg, #14B8A6 0%, #06B6D4 100%)',
+        status: 'wip',
+        stack: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'React'],
+        repo: 'riz-razak/kunatu',
+        subdomain: null,
+        portal: {
+            tabs: [
+                { id: 'info', label: 'Project Info', type: 'component' }
+            ],
+            defaultTab: 'info'
+        },
+        phases: [
+            { label: 'Proposal', done: true },
+            { label: 'Scaffold', done: true },
+            { label: 'API', done: false },
+            { label: 'Deploy', done: false },
+            { label: 'Launch', done: false }
+        ],
+        deploy: { method: 'Not configured', pipeline: 'Recommended: Vercel' },
+        links: [],
+        modules: [],
+        nextStep: 'Connect to Vercel for zero-config deploys'
+    }
+];
 
-        // Apps tab switching
-        document.querySelectorAll('.app-tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const tabName = this.dataset.tab;
+// Helpers
+const STATUS_STYLES = {
+    live:    { bg: '#D1FAE5', fg: '#059669', label: 'LIVE' },
+    wip:     { bg: '#FEF3C7', fg: '#D97706', label: 'WIP' },
+    planned: { bg: '#EDE9FE', fg: '#7C3AED', label: 'PLANNED' },
+    archived:{ bg: '#F3F4F6', fg: '#6B7280', label: 'ARCHIVED' }
+};
 
-                // Hide all content
-                document.querySelectorAll('.app-tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
+let appDrawerState = { currentApp: null, currentTab: null, loadedIframes: {} };
 
-                // Remove active class from all buttons
-                document.querySelectorAll('.app-tab-btn').forEach(b => {
-                    b.classList.remove('active');
-                    b.style.color = '#6B7280';
-                    b.style.borderBottomColor = 'transparent';
-                });
+// ════════════════════════════════════════════════════════════════
+// RENDER: App Drawer (card grid)
+// ════════════════════════════════════════════════════════════════
+function renderAppDrawer() {
+    appDrawerState.currentApp = null;
+    appDrawerState.currentTab = null;
+    const container = document.getElementById('app-drawer-container');
+    if (!container) return;
 
-                // Show selected content
-                document.querySelector(`[data-tab="${tabName}"].app-tab-content`).classList.add('active');
+    let html = '<div style="margin-bottom: 24px;"><h1 style="font-size: 28px; font-weight: 700; margin-bottom: 4px;">Apps</h1><p style="color: #6B7280; font-size: 14px;">Your product portfolio — click to enter an app\'s portal</p></div>';
+    html += '<div class="app-drawer-grid">';
 
-                // Mark button as active
-                this.classList.add('active');
-                this.style.color = '#1B4D2E';
-                this.style.borderBottomColor = '#1B4D2E';
-            });
+    APP_REGISTRY.forEach(app => {
+        const st = STATUS_STYLES[app.status] || STATUS_STYLES.planned;
+        const doneCount = app.phases.filter(p => p.done).length;
+        html += `
+        <div class="app-card" onclick="window.location.hash='#/apps/${app.id}'">
+            <div class="app-card-header" style="background: ${app.accentGrad};">
+                <span class="app-card-badge">${st.label}</span>
+                <div class="app-card-icon">${app.icon}</div>
+                <div class="app-card-name">${app.name}</div>
+                <div class="app-card-tagline">${app.tagline}</div>
+            </div>
+            <div class="app-card-body">
+                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;">
+                    ${app.stack.map(s => `<span style="font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: #F7F8FA; color: #6B7280; border: 1px solid #F3F4F6;">${s}</span>`).join('')}
+                </div>
+                <div class="app-phase-dots">
+                    ${app.phases.map(p => `<div class="app-phase-dot" style="background: ${p.done ? app.accent : '#E5E7EB'};"></div>`).join('')}
+                    <span style="font-size: 10px; color: #9CA3AF; margin-left: 6px;">${doneCount}/${app.phases.length} phases</span>
+                </div>
+                ${app.subdomain ? `<div style="margin-top: 10px; font-size: 11px; color: ${app.accentDark};">${app.subdomain}</div>` : ''}
+            </div>
+        </div>`;
+    });
+
+    // Ghost "Add" card
+    html += `<div class="app-card-add"><div style="width: 44px; height: 44px; border-radius: 50%; border: 2px dashed #E5E7EB; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #9CA3AF; margin-bottom: 10px;">+</div><div style="font-size: 14px; font-weight: 600; color: #6B7280;">Register New App</div><div style="font-size: 12px; color: #9CA3AF; margin-top: 2px;">Add to APP_REGISTRY</div></div>`;
+
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════════════════
+// RENDER: Portal Shell (app detail view)
+// ════════════════════════════════════════════════════════════════
+function renderPortalShell(appId) {
+    const app = APP_REGISTRY.find(a => a.id === appId);
+    if (!app) { renderAppDrawer(); return; }
+
+    appDrawerState.currentApp = app;
+    const defaultTab = app.portal?.defaultTab || app.portal?.tabs?.[0]?.id || 'info';
+    appDrawerState.currentTab = defaultTab;
+
+    const container = document.getElementById('app-drawer-container');
+    if (!container) return;
+    const st = STATUS_STYLES[app.status] || STATUS_STYLES.planned;
+
+    let html = '';
+
+    // Portal header
+    html += `<div class="portal-header" style="background: ${app.accentGrad}; border-radius: 12px 12px 0 0; margin: -4px -4px 0;">
+        <button onclick="window.location.hash='#/apps'" style="color: rgba(255,255,255,0.7); background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 600; padding: 0; font-family: inherit;">← Apps</button>
+        <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.2);"></div>
+        <div class="portal-header-icon">${app.icon}</div>
+        <div style="flex: 1;">
+            <div style="font-size: 16px; font-weight: 700; color: #fff;">${app.name}</div>
+            <div style="font-size: 11px; color: rgba(255,255,255,0.6);">${app.tagline}</div>
+        </div>
+        <span style="padding: 3px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; background: rgba(255,255,255,0.15); color: #fff; text-transform: uppercase; letter-spacing: 0.5px;">${st.label}</span>
+        ${app.subdomain ? `<a href="https://${app.subdomain}" target="_blank" rel="noopener noreferrer" style="padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.15); color: #fff; border: none; cursor: pointer; text-decoration: none;">Open ↗</a>` : ''}
+        <a href="https://github.com/${app.repo}" target="_blank" rel="noopener noreferrer" style="padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); border: none; cursor: pointer; text-decoration: none;">GitHub</a>
+    </div>`;
+
+    // Sub-tab bar
+    if (app.portal?.tabs?.length > 1) {
+        html += '<div class="portal-tabs" style="margin: 0 -4px; padding: 0 4px;">';
+        app.portal.tabs.forEach(tab => {
+            const isActive = tab.id === defaultTab;
+            html += `<button class="portal-tab${isActive ? ' active' : ''}" data-portal-tab="${tab.id}" style="${isActive ? `color: ${app.accentDark}; border-bottom-color: ${app.accentDark}; font-weight: 700;` : ''}">${tab.label}</button>`;
         });
+        html += '</div>';
+    }
 
-        // Waren Yan portal sub-tab switching
-        document.querySelectorAll('.wy-portal-tab').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const tabName = this.dataset.wyTab;
-                // Reset all portal tabs
-                document.querySelectorAll('.wy-portal-tab').forEach(b => {
-                    b.style.color = '#6B7280';
-                    b.style.borderBottomColor = 'transparent';
-                    b.classList.remove('active');
-                });
-                // Hide all panels
-                document.querySelectorAll('.wy-portal-panel').forEach(p => {
-                    p.style.display = 'none';
-                    p.classList.remove('active');
-                });
-                // Activate selected
-                this.style.color = '#2D6A4F';
-                this.style.borderBottomColor = '#2D6A4F';
-                this.classList.add('active');
-                const panel = document.querySelector(`[data-wy-panel="${tabName}"]`);
-                if (panel) { panel.style.display = 'block'; panel.classList.add('active'); }
+    // Content panels
+    html += '<div class="portal-content" style="margin: 0 -4px;">';
+    app.portal.tabs.forEach(tab => {
+        const isActive = tab.id === defaultTab;
+        if (tab.type === 'iframe') {
+            html += `<div class="portal-panel" data-portal-panel="${tab.id}" style="display: ${isActive ? 'block' : 'none'};">
+                <iframe class="portal-iframe" data-portal-iframe="${tab.id}" ${isActive ? `src="${tab.url}"` : `data-src="${tab.url}"`} loading="lazy"></iframe>
+            </div>`;
+        } else {
+            html += `<div class="portal-panel" data-portal-panel="${tab.id}" style="display: ${isActive ? 'block' : 'none'};">
+                <div style="padding: 24px; border: 1px solid var(--border-color); border-top: none; border-radius: 0 0 10px 10px; background: #FAFAF8;">
+                    ${renderProjectInfo(app)}
+                </div>
+            </div>`;
+        }
+    });
+    html += '</div>';
+
+    container.innerHTML = html;
+
+    // Wire sub-tab clicks
+    container.querySelectorAll('.portal-tab').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tabId = this.dataset.portalTab;
+            appDrawerState.currentTab = tabId;
+            // Reset tabs
+            container.querySelectorAll('.portal-tab').forEach(b => {
+                b.classList.remove('active');
+                b.style.color = '';
+                b.style.borderBottomColor = 'transparent';
+                b.style.fontWeight = '';
             });
+            // Activate
+            this.classList.add('active');
+            this.style.color = app.accentDark;
+            this.style.borderBottomColor = app.accentDark;
+            this.style.fontWeight = '700';
+            // Switch panels
+            container.querySelectorAll('.portal-panel').forEach(p => p.style.display = 'none');
+            const panel = container.querySelector(`[data-portal-panel="${tabId}"]`);
+            if (panel) {
+                panel.style.display = 'block';
+                // Lazy-load iframe on first visit
+                const iframe = panel.querySelector(`[data-portal-iframe="${tabId}"]`);
+                if (iframe && !iframe.src && iframe.dataset.src) {
+                    iframe.src = iframe.dataset.src;
+                }
+            }
         });
-    
-})();
+    });
+}
+
+// ════════════════════════════════════════════════════════════════
+// RENDER: Project Info Component (reusable per app)
+// ════════════════════════════════════════════════════════════════
+function renderProjectInfo(app) {
+    const st = STATUS_STYLES[app.status] || STATUS_STYLES.planned;
+    let html = '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">';
+
+    // Stack
+    html += `<div>
+        <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 8px;">Stack</div>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            ${app.stack.map(s => `<span style="background: #F0EDE8; color: #4A4A5A; font-size: 12px; padding: 4px 10px; border-radius: 5px; font-weight: 500;">${s}</span>`).join('')}
+        </div>
+    </div>`;
+
+    // Deploy
+    html += `<div>
+        <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 8px;">Deploy</div>
+        <div style="background: #1F2937; color: #74C69D; padding: 10px 14px; border-radius: 6px; font-family: 'SF Mono', Consolas, monospace; font-size: 11px;">${app.deploy.method}</div>
+        <div style="font-size: 11px; color: #8B8B9E; margin-top: 4px;">${app.deploy.pipeline}</div>
+    </div>`;
+    html += '</div>';
+
+    // Status timeline
+    html += '<div style="margin-bottom: 24px;"><div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 12px;">Status</div><div style="display: flex; gap: 8px; align-items: center;">';
+    app.phases.forEach((phase, i) => {
+        const color = phase.done ? app.accentDark : (phase.current ? '#C4A35A' : '#E5E7EB');
+        const textColor = (phase.done || phase.current) ? '#fff' : '#6B7280';
+        const symbol = phase.done ? '✓' : (phase.current ? '...' : '○');
+        html += `<div style="text-align: center;">
+            <div style="width: 28px; height: 28px; background-color: ${color}; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: ${textColor}; font-size: 12px; font-weight: 600; margin-bottom: 3px;">${symbol}</div>
+            <div style="font-size: 10px; color: #6B7280;">${phase.label}</div>
+        </div>`;
+        if (i < app.phases.length - 1) {
+            const nextDone = app.phases[i + 1]?.done;
+            html += `<div style="flex: 1; height: 2px; background-color: ${nextDone ? app.accentDark : '#E5E1DA'};"></div>`;
+        }
+    });
+    html += '</div></div>';
+
+    // Links & modules (if any)
+    if (app.links.length || app.modules.length) {
+        html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">';
+        if (app.links.length) {
+            html += `<div><div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 8px;">Live URLs</div><div style="font-size: 12px; color: #4A4A5A; line-height: 2;">`;
+            app.links.forEach(l => {
+                html += `<a href="${l.url}" target="_blank" style="color: ${app.accentDark};">${l.url.replace(/^https?:\/\//, '')}</a> — ${l.label}<br>`;
+            });
+            html += '</div></div>';
+        }
+        if (app.modules.length) {
+            html += `<div><div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #8B8B9E; margin-bottom: 8px;">Modules (${app.modules.length})</div><div style="font-size: 12px; color: #4A4A5A; line-height: 2;">${app.modules.join(' · ')}</div></div>`;
+        }
+        html += '</div>';
+    }
+
+    // Next step recommendation (for WIP apps)
+    if (app.nextStep) {
+        html += `<div style="margin-top: 24px; padding: 12px 16px; background: #FEF3C7; border-radius: 8px; border: 1px solid #FBBF24;"><div style="font-size: 12px; color: #92400E; font-weight: 600;">Recommended next:</div><div style="font-size: 13px; color: #92400E; margin-top: 2px;">${app.nextStep}</div></div>`;
+    }
+
+    return html;
+}
+
+// ════════════════════════════════════════════════════════════════
+// DYNAMIC SIDEBAR: Render app submenu from registry
+// ════════════════════════════════════════════════════════════════
+function renderAppsSidebar() {
+    const menu = document.getElementById('apps-menu');
+    if (!menu) return;
+    const dotSvg = '<svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2" fill="currentColor" opacity="0.5"/></svg>';
+    menu.innerHTML = '';
+    APP_REGISTRY.forEach(app => {
+        const a = document.createElement('a');
+        a.href = `#/apps/${app.id}`;
+        a.className = 'nav-item submenu-item';
+        a.dataset.nav = 'app-detail';
+        a.innerHTML = `<div class="nav-item-icon">${dotSvg}</div><div class="nav-item-label">${app.name}</div>`;
+        menu.appendChild(a);
+    });
+}
+
+// Run on load
+renderAppsSidebar();
 </script>
 </div>
 
@@ -6793,25 +6772,31 @@ function showEmailToast(msg, type) {
             appState.currentRoute = hash;
             appState.currentView = routeInfo.view;
 
-            // Handle app detail routes by switching tabs within apps view
+            // Handle app routes via registry-powered drawer/portal
             if (routeInfo.view === 'apps' || (hash.startsWith('#/apps/') && hash !== '#/apps')) {
                 const appId = hash.replace('#/apps/', '');
+                // Make sure view-apps is the active view
+                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+                const appsView = document.getElementById('view-apps');
+                if (appsView) appsView.classList.add('active');
+
                 if (appId && appId !== 'apps') {
-                    // Switch to the app's detail tab within view-apps
-                    const tabName = appId === 'yan' ? 'waren-yan' : appId;
-                    const targetTab = document.querySelector(`.app-tab-btn[data-tab="${tabName}"]`);
-                    if (targetTab) {
-                        targetTab.click();
+                    // Render portal shell for this app
+                    const app = APP_REGISTRY.find(a => a.id === appId);
+                    if (app) {
+                        renderPortalShell(appId);
+                        document.getElementById('topbar-title').textContent = 'Apps: ' + app.name;
+                    } else {
+                        renderAppDrawer();
+                        document.getElementById('topbar-title').textContent = 'Apps';
                     }
-                    // Make sure view-apps is the active view (not view-app-detail)
-                    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-                    const appsView = document.getElementById('view-apps');
-                    if (appsView) appsView.classList.add('active');
-                    // Update topbar
-                    const titles = { 'kunatu': 'Apps: Kunatu', 'yan': 'Apps: Waren Yan', 'waren-yan': 'Apps: Waren Yan' };
-                    document.getElementById('topbar-title').textContent = titles[appId] || 'Apps';
-                    return;
+                } else {
+                    // Render drawer grid
+                    renderAppDrawer();
+                    document.getElementById('topbar-title').textContent = 'Apps';
                 }
+                updateActiveNav(hash, routeInfo);
+                return;
             }
 
             // Update topbar
