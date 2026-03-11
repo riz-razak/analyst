@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Submissions Review — Analyst Admin</title>
+<title>Submissions Review â Analyst Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -39,6 +39,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .header h1 { font-size: 1.1rem; font-weight: 700; }
 .header a { color: var(--forest); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
@@ -49,6 +51,8 @@ body {
   gap: 12px;
   align-items: center;
   flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .toolbar select, .toolbar input {
   padding: 8px 14px;
@@ -179,6 +183,58 @@ body {
   .header, .toolbar, .submissions-list { padding-left: 16px; padding-right: 16px; }
   .sub-meta { grid-template-columns: 1fr; }
 }
+
+/* Search & Sort controls */
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  padding: 9px 14px 9px 36px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E") no-repeat 12px center;
+  transition: border-color 0.2s;
+}
+.search-box:focus { outline: none; border-color: var(--forest); }
+
+.sort-select {
+  padding: 9px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: var(--card);
+  cursor: pointer;
+  min-width: 160px;
+}
+.sort-select:focus { outline: none; border-color: var(--forest); }
+
+.submissions-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px 32px;
+}
+
+.stats {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 32px;
+}
+
+/* Fix select dropdown - constrain width */
+.toolbar select {
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Header banner full width background */
+.header-wrapper {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+
 </style>
 </head>
 <body>
@@ -186,7 +242,7 @@ body {
 <div class="header">
   <h1>Evidence Submissions Review</h1>
   <div>
-    <a href="/admin-preview.html">← Back to CMS</a>
+    <a href="/admin-preview.html">â Back to CMS</a>
   </div>
 </div>
 
@@ -284,7 +340,7 @@ function loadSubmissions() {
   }
 
   promise.then(function(data) {
-    document.getElementById('stats').textContent = data.total + ' total · ' + data.filtered + ' shown';
+    document.getElementById('stats').textContent = data.total + ' total Â· ' + data.filtered + ' shown';
 
     if (!data.submissions || data.submissions.length === 0) {
       container.innerHTML = '<div class="empty-state"><h2>No submissions found</h2><p>No evidence submissions match the current filter.</p></div>';
@@ -379,7 +435,7 @@ function renderCard(sub) {
 }
 
 function reviewSub(submissionId, subDossierId, action) {
-  // Resolve the actual dossierId — use the submission's own dossierId if available,
+  // Resolve the actual dossierId â use the submission's own dossierId if available,
   // otherwise fall back to the dropdown (for single-dossier view)
   var dossierId = subDossierId || document.getElementById('dossier-select').value;
   if (dossierId === '__all') {
