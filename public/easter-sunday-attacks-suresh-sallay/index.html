@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Sallay Arrest & the Easter Sunday Conspiracy â Political Research Dossier</title>
+<title>The Sallay Arrest & the Easter Sunday Conspiracy — Political Research Dossier</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:wght@700;800;900&display=swap');
 
@@ -166,11 +166,18 @@
 
   @media (max-width: 900px) { .board-nodes { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .board-nodes { grid-template-columns: 1fr; } .cycle-container { flex-direction: column; } .cycle-arrow { transform: rotate(90deg); } }
-</style>
 
-  <!-- âââ Analytics: GA4 + Microsoft Clarity âââ
+    /* Responsive table wrappers */
+    .table-scroll-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1rem 0; }
+    .table-scroll-wrapper table { min-width: 500px; }
+    table { width: 100%; border-collapse: collapse; word-break: break-word; }
+    td, th { padding: 0.75rem; }
+
+    </style>
+
+  <!-- ═══ Analytics: GA4 + Microsoft Clarity ═══
        GDPR-aware: skips tracking if user explicitly declined consent.
-       To update IDs: replace values in analytics.html â Analytics tab,
+       To update IDs: replace values in analytics.html → Analytics tab,
        or edit GA4_ID / CLARITY_ID directly in inject_analytics.py and re-run.
        GA4 Measurement ID : G-SCKES76007
        Clarity Project ID  : vomuhyeriq
@@ -179,9 +186,9 @@
     (function(){
       try {
         var c = JSON.parse(localStorage.getItem('gdpr_consent_v1') || 'null');
-        if (c && c.accepted === false) return; // user declined â skip analytics
+        if (c && c.accepted === false) return; // user declined — skip analytics
       } catch(e) {}
-      // ââ Google Analytics 4 âââââââââââââââââââââââââââââââââââââââââââââââ
+      // ── Google Analytics 4 ───────────────────────────────────────────────
       var _ga = document.createElement('script');
       _ga.async = true;
       _ga.src = 'https://www.googletagmanager.com/gtag/js?id=G-SCKES76007';
@@ -194,7 +201,7 @@
         'anonymize_ip': true,      // GDPR best-practice
         'send_page_view': true
       });
-      // ââ Microsoft Clarity ââââââââââââââââââââââââââââââââââââââââââââââââ
+      // ── Microsoft Clarity ────────────────────────────────────────────────
       (function(c,l,a,r,i,t,y){
         c[a] = c[a] || function(){ (c[a].q = c[a].q || []).push(arguments) };
         t = l.createElement(r); t.async = 1;
@@ -203,10 +210,10 @@
       })(window, document, 'clarity', 'script', 'vomuhyeriq');
     })();
   </script>
-  <!-- âââ End Analytics âââ -->
+  <!-- ═══ End Analytics ═══ -->
   <!-- analytics-events-module -->
   <script src="../_analytics_events.js" defer></script>
-<!-- âââ JSON-LD Structured Data âââ -->
+<!-- ═══ JSON-LD Structured Data ═══ -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -253,9 +260,9 @@
   }
 }
 </script>
-<!-- âââ End JSON-LD âââ -->
+<!-- ═══ End JSON-LD ═══ -->
 <!-- rss-autodiscovery -->
-<link rel="alternate" type="application/rss+xml" title="analyst.rizrazak.com â Investigative Dossiers" href="https://analyst.rizrazak.com/feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="analyst.rizrazak.com — Investigative Dossiers" href="https://analyst.rizrazak.com/feed.xml" />
     <!-- Umami Analytics -->
     <script defer src="https://umami-analytics-plum-theta.vercel.app/script.js" data-website-id="c092a262-c652-46b8-a06b-a07a18e67b25"></script>
     <!-- CMS Hydration + Admin Overlay -->
@@ -304,7 +311,7 @@
                 el.addEventListener('click', function(e) { e.stopPropagation(); openEditor(el); });
             });
             var tb = document.createElement('div');
-            tb.innerHTML = '<div style="position:fixed;bottom:24px;right:24px;z-index:9999;background:#12121f;border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 18px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,0.6);font-family:system-ui,sans-serif;"><span style="font-size:12px;color:#4ade80;font-weight:600;">â CMS</span><span style="font-size:12px;color:#a0a0a8;font-family:monospace;">' + CMS_SLUG + '</span><button id="cms-export-btn" style="padding:7px 14px;background:#2d7a3e;color:white;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;">Export JSON</button><button id="cms-exit-btn" style="padding:7px 14px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.14);border-radius:7px;font-size:12px;cursor:pointer;">Exit</button></div>';
+            tb.innerHTML = '<div style="position:fixed;bottom:24px;right:24px;z-index:9999;background:#12121f;border:1px solid rgba(255,255,255,0.14);border-radius:12px;padding:14px 18px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,0.6);font-family:system-ui,sans-serif;"><span style="font-size:12px;color:#4ade80;font-weight:600;">● CMS</span><span style="font-size:12px;color:#a0a0a8;font-family:monospace;">' + CMS_SLUG + '</span><button id="cms-export-btn" style="padding:7px 14px;background:#2d7a3e;color:white;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;">Export JSON</button><button id="cms-exit-btn" style="padding:7px 14px;background:transparent;color:#a0a0a8;border:1px solid rgba(255,255,255,0.14);border-radius:7px;font-size:12px;cursor:pointer;">Exit</button></div>';
             document.body.appendChild(tb);
             document.getElementById('cms-export-btn').onclick = function() {
                 var result = {};
@@ -370,7 +377,7 @@
 <!-- NAVIGATION -->
 <nav class="nav-container">
   <div class="nav-inner">
-    <a href="https://analyst.rizrazak.com" class="nav-back">â Deep Dives</a>
+    <a href="https://analyst.rizrazak.com" class="nav-back">← Deep Dives</a>
     <a href="#arrest" class="nav-link active">The Arrest</a>
     <a href="#sallay" class="nav-link">Who Is Sallay?</a>
     <a href="#zahran" class="nav-link">Zahran Deep Dive</a>
@@ -385,7 +392,7 @@
     <a href="#gametheory" class="nav-link">Game Theory</a>
     <a href="#scenarios" class="nav-link">Scenarios</a>
     <a href="#sources" class="nav-link">Sources</a>
-    <button id="theme-toggle" class="nav-theme-btn" onclick="toggleTheme()">â¾ Dark</button>
+    <button id="theme-toggle" class="nav-theme-btn" onclick="toggleTheme()">☾ Dark</button>
   </div>
 </nav>
 
@@ -412,13 +419,13 @@
   <div class="analysis-block fade-in"><h3>Early Life &amp; Family</h3><p>Mohammed Zahran Hashim was born into a poor Muslim family in Kattankudy, Batticaloa district. His father sold food packets on the street and reportedly engaged in petty theft, earning the nickname 'Kallan Hashim'. The family placed their hopes on Zahran, who joined the Jamiathul Falah Arabic College at age 12. For three years he memorised the Quran with remarkable aptitude, but by 15 was arguing his teachers were "too liberal." He was expelled in 2007 for insubordination and radical views.</p></div>
 
   <div class="analysis-block fade-in"><h3>Contradictions &amp; Timeline Gaps</h3>
-    <table class="evidence-table">
+    <div class="table-scroll-wrapper"><table class="evidence-table">
       <tr><th>Issue</th><th>Version A</th><th>Version B</th><th>Implication</th></tr>
       <tr><td><strong>Birth year</strong></td><td>1985 (Jamestown)</td><td>1986/1988 (The Week / Wikipedia)</td><td>Even basic biographical data contested</td></tr>
       <tr><td><strong>Post-expulsion path</strong></td><td>Joined Ibn Mas'ood Madrasa, then SLTJ</td><td>Founded Darul Athar in 2007, separate from SLTJ (West Point CTC)</td><td>Was he ever truly part of SLTJ mainstream?</td></tr>
       <tr><td><strong>NTJ founding</strong></td><td>~2012 (West Point CTC, Jamestown)</td><td>~2014 (Counter Extremism Project, most media)</td><td>2-year gap &mdash; what happened in between?</td></tr>
       <tr><td><strong>SLTJ relationship</strong></td><td>Formal member who split</td><td>Never truly part of SLTJ; founded parallel group</td><td>Was NTJ organic or externally created?</td></tr>
-    </table>
+    </table></div>
   </div>
 
   <div class="analysis-block fade-in"><h3>Radicalization Escalation: 2013&ndash;2019</h3>
@@ -500,7 +507,7 @@
 <section class="section" id="conspiracy" data-nav-label="Conspiracy Allegations">
   <div class="section-header fade-in"><div class="section-number">Section 06</div><h2 data-cms-id="s6-title">The Conspiracy Allegations</h2><p class="section-lead">The circumstantial case that intelligence elements allowed or facilitated the attacks to engineer a presidential election.</p></div>
   <div class="analysis-block fade-in"><h3>The Evidence Chain</h3>
-    <table class="evidence-table">
+    <div class="table-scroll-wrapper"><table class="evidence-table">
       <tr><th>Evidence</th><th>Status</th><th>Significance</th></tr>
       <tr><td>DMI funded NTJ</td><td><span class="tag tag-confirmed">Confirmed</span></td><td>Institutional link between intelligence and attackers</td></tr>
       <tr><td>26 NTJ members on military intel payroll</td><td><span class="tag tag-confirmed">Confirmed</span></td><td>Cabinet spokesman disclosed publicly</td></tr>
@@ -513,7 +520,7 @@
       <tr><td>Sallay met NTJ bombers (2018)</td><td><span class="tag tag-alleged">Alleged</span></td><td>Whistleblower testimony. Sallay denies.</td></tr>
       <tr><td>Attacks permitted for Rajapaksa candidacy</td><td><span class="tag tag-alleged">Alleged</span></td><td>Circumstantial case. No direct order found.</td></tr>
       <tr><td>Gotabaya personally ordered/approved</td><td><span class="tag tag-unproven">Unproven</span></td><td>No direct evidence. He denies all.</td></tr>
-    </table>
+    </table></div>
   </div>
   <div class="insight-callout fade-in"><div class="label">Assessment</div><p>Heavily circumstantial but coherent pattern: intelligence funding, infiltration producing reports that were suppressed, foreknowledge not acted upon, a political beneficiary with means and motive, immediate investigation dismantlement, and evidence destruction. Missing: the definitive "smoking gun" &mdash; a specific order. The 90-day Sallay interrogation may be the mechanism to obtain it.</p></div>
 </section>
@@ -623,14 +630,14 @@
 <section class="section" id="misinfo" data-nav-label="Misinformation vs. Disinformation">
   <div class="section-header fade-in"><div class="section-number">Section 11</div><h2>Misinformation vs. Disinformation</h2><p class="section-lead">Separating confirmed facts from allegations and identifying deliberate disinformation.</p></div>
   <div class="analysis-block fade-in">
-    <table class="evidence-table">
+    <div class="table-scroll-wrapper"><table class="evidence-table">
       <tr><th>Narrative</th><th>Reality</th><th>Type</th></tr>
       <tr><td>"All Muslims are responsible"</td><td>Tiny fringe group. Muslim orgs warned authorities for years.</td><td><span class="tag tag-disinfo">Disinfo</span></td></tr>
       <tr><td>"Sterilisation medicine in Muslim food"</td><td>Debunked. Zero evidence.</td><td><span class="tag tag-disinfo">Disinfo</span></td></tr>
       <tr><td>"Investigation is a political witch-hunt"</td><td>Multiple independent probes including SC and INTERPOL found genuine failures.</td><td><span class="tag tag-disinfo">Disinfo</span></td></tr>
       <tr><td>"ISIS was sole mastermind, no local complicity"</td><td>No foreign operational link. Domestic planning with intel nexus confirmed.</td><td><span class="tag tag-disinfo">Disinfo</span></td></tr>
       <tr><td>"Maulana is unreliable"</td><td>Credibility genuinely disputed but European intel agencies treating testimony as credible.</td><td><span class="tag tag-alleged">Contested</span></td></tr>
-    </table>
+    </table></div>
   </div>
 </section>
 
@@ -638,21 +645,21 @@
 <section class="section" id="gametheory" data-nav-label="Game Theory Analysis">
   <div class="section-header fade-in"><div class="section-number">Section 12</div><h2>Game Theory Analysis</h2><p class="section-lead">Strategic interaction modelling with payoff analysis and Nash equilibrium predictions.</p></div>
   <div class="analysis-block fade-in"><h3>Game 1: Sallay Interrogation &mdash; Cooperate vs. Resist</h3>
-    <table class="game-theory-table">
+    <div class="table-scroll-wrapper"><table class="game-theory-table">
       <tr><th></th><th>Sallay Cooperates</th><th>Sallay Resists</th></tr>
       <tr><td><strong>Govt offers deal</strong></td><td><span class="payoff-high">Best for Govt.</span> Political win. Rajapaksa network devastated.<br><span class="payoff-med">Mixed for Sallay.</span> Reduced sentence, permanent enmity.</td><td><span class="payoff-low">Bad for both.</span> Political capital wasted. Max charges.</td></tr>
       <tr><td><strong>Max charges</strong></td><td><span class="payoff-med">Good for Govt.</span> Testimony + prosecution.<br><span class="payoff-low">Worst for Sallay.</span></td><td><span class="payoff-med">Neutral.</span> Existing evidence trial. Rajapaksas survive under suspicion.</td></tr>
-    </table>
+    </table></div>
     <div class="insight-callout"><div class="label">Nash Equilibrium</div><p>Government offers implicit incentives while maintaining credible max prosecution threat. Given diminished Rajapaksa power, Sallay's rational self-interest points toward partial cooperation &mdash; enough to negotiate, retaining leverage.</p></div>
   </div>
   <div class="analysis-block fade-in"><h3>Game 2: Ethno-Religious Responses</h3>
-    <table class="game-theory-table">
+    <div class="table-scroll-wrapper"><table class="game-theory-table">
       <tr><th>Community</th><th>State conspiracy revealed</th><th>Investigation stalls</th></tr>
       <tr><td><strong>Sinhala-Buddhist</strong></td><td>Cognitive dissonance. Some accept; hardliners reject as "conspiracy to defame military."</td><td>Nationalists claim vindication.</td></tr>
       <tr><td><strong>Muslims</strong></td><td>Vindication. Narrative shifts to "state terrorism using Muslim patsies."</td><td>Continued stigmatisation.</td></tr>
       <tr><td><strong>Catholic/Christian</strong></td><td>Justice served. Cardinal vindicated. Reconciliation potential.</td><td>Disillusionment. Turn to international mechanisms.</td></tr>
       <tr><td><strong>Tamil</strong></td><td>Parallels with civil war experience. Pressure for war crimes accountability.</td><td>Reinforces cynicism about SL justice.</td></tr>
-    </table>
+    </table></div>
   </div>
   <div class="analysis-block fade-in"><h3>Risk Assessment</h3>
     <div class="skill-grid">
@@ -700,9 +707,9 @@
     <a href="https://rizrazak.com" style="color:var(--accent-cyan);text-decoration:none;">rizrazak.com</a> &middot; <a href="https://dgtl.lk" target="_blank" rel="noopener noreferrer" style="color:var(--accent-cyan);text-decoration:none;">dgtl.lk</a>
   </p>
   <div class="disclaimer-box" style="margin-top:1.5rem;">
-    <strong>â  ML-Assisted Research:</strong> This dossier uses machine learning to augment human research and analysis. While every effort has been made to ensure accuracy, errors, omissions, or inadvertent biases may exist. <strong>All interpretive risk lies with the reader.</strong> Allegations are distinguished from confirmed facts throughout. All subjects are presumed innocent until proven guilty. This document is for informational purposes only and does not constitute legal advice or journalistic reporting.
+    <strong>⚠ ML-Assisted Research:</strong> This dossier uses machine learning to augment human research and analysis. While every effort has been made to ensure accuracy, errors, omissions, or inadvertent biases may exist. <strong>All interpretive risk lies with the reader.</strong> Allegations are distinguished from confirmed facts throughout. All subjects are presumed innocent until proven guilty. This document is for informational purposes only and does not constitute legal advice or journalistic reporting.
   </div>
-  <p style="margin-top:1.2rem;">Â© 2026 Riz Razak</p>
+  <p style="margin-top:1.2rem;">© 2026 Riz Razak</p>
 </div>
 
 <script>
@@ -725,10 +732,10 @@ document.querySelectorAll('.nav-link').forEach(link => {
 
 <!-- ML Disclaimer Banner -->
 <div id="ml-banner" class="ml-banner">
-  <span style="font-size:1.4rem;flex-shrink:0;">ð¤</span>
-  <p><span style="color:var(--accent-gold);font-weight:700;">ML-Assisted Research:</span> This dossier uses machine learning to augment human research and analysis. Errors may exist â please fact-check independently. Reliance is at your own risk.</p>
+  <span style="font-size:1.4rem;flex-shrink:0;">🤖</span>
+  <p><span style="color:var(--accent-gold);font-weight:700;">ML-Assisted Research:</span> This dossier uses machine learning to augment human research and analysis. Errors may exist — please fact-check independently. Reliance is at your own risk.</p>
   <button class="ml-banner-agree" onclick="dismissBanner()">I Understand</button>
-  <button class="ml-banner-close" onclick="dismissBanner()">â</button>
+  <button class="ml-banner-close" onclick="dismissBanner()">✕</button>
 </div>
 
 <script>
@@ -739,7 +746,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
   if(!getCookie('ml_disclaimer')){var b=document.getElementById('ml-banner');if(b)b.style.display='flex'}
   function initTheme(){var stored=localStorage.getItem('analyst_theme');var t=stored||'dark';document.documentElement.setAttribute('data-theme',t==='light'?'light':'');updateBtn(t)}
   function toggleTheme(){var cur=document.documentElement.getAttribute('data-theme')==='light'?'light':'dark';var next=cur==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',next==='light'?'light':'');localStorage.setItem('analyst_theme',next);updateBtn(next)}
-  function updateBtn(t){var b=document.getElementById('theme-toggle');if(b)b.textContent=t==='light'?'â Light':'â¾ Dark'}
+  function updateBtn(t){var b=document.getElementById('theme-toggle');if(b)b.textContent=t==='light'?'☀ Light':'☾ Dark'}
   window.toggleTheme=toggleTheme;
   initTheme();
 })();
