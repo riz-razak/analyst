@@ -173,7 +173,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
   position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
   color: rgba(245,240,224,0.3); font-size: 0.7rem; letter-spacing: 0.1em;
   text-transform: uppercase;
-  animation: fadeInUp 2s ease-out 1s both;
+  animation: heroScrollFadeIn 2s ease-out 1s both;
   display: flex; flex-direction: column; align-items: center; gap: 6px;
 }
 .hero-scroll::after {
@@ -359,6 +359,11 @@ body.sinhala [lang-en-inline] { display: none !important; }
 }
 
 @keyframes fadeInUp {
+    @keyframes heroScrollFadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
