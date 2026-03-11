@@ -6,6 +6,7 @@
 <title>The Form Was Empty — Anatta, Bamiyan, and the Doctrine of Non-Self</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400;1,8..60,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_shared/dossier-sidenav.css">
 <style>
 :root {
   --bg: #f7f5ed;
@@ -90,33 +91,6 @@ body.sinhala [lang-en-inline] { display: none !important; }
 }
 .lang-btn:hover { background: var(--forest); color: #fff; }
 .nav-right { display: flex; align-items: center; gap: 12px; }
-
-/* Mobile hamburger */
-.mobile-menu-btn {
-  display: none; background: none; border: none; cursor: pointer;
-  padding: 6px; flex-direction: column; gap: 5px;
-}
-.mobile-menu-btn span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
-.mobile-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
-.mobile-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-.mobile-drawer {
-  display: none; position: fixed; top: 56px; left: 0; right: 0; bottom: 0;
-  background: rgba(247,245,237,0.98); z-index: 999; padding: 20px;
-  flex-direction: column; gap: 4px; overflow-y: auto;
-}
-.mobile-drawer.open { display: flex; }
-.mobile-drawer a {
-  color: var(--text); text-decoration: none; font-size: 1.05rem; font-weight: 600;
-  padding: 14px 16px; border-radius: 10px; transition: background 0.2s;
-  border-bottom: 1px solid var(--border);
-}
-.mobile-drawer a:hover { background: var(--sage-mist); color: var(--forest); }
-
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-  .mobile-menu-btn { display: flex; }
-}
 
 /* ===== HERO ===== */
 .hero {
@@ -402,24 +376,9 @@ body.sinhala [lang-en-inline] { display: none !important; }
     </div>
     <div class="nav-right">
       <button class="lang-btn" onclick="toggleLang(this)" id="lang-toggle-btn" aria-label="Toggle language">සිංහල</button>
-      <button class="mobile-menu-btn" onclick="toggleMobileMenu(this)" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-      </button>
     </div>
   </div>
 </nav>
-
-<!-- Mobile drawer -->
-<div class="mobile-drawer" id="mobile-drawer">
-  <a href="#niches" onclick="closeMobileMenu()">The Niches / ශූන්‍ය ගල්</a>
-  <a href="#teaching" onclick="closeMobileMenu()">The Teaching / ශාසනය</a>
-  <a href="#paradox" onclick="closeMobileMenu()">The Paradox / විරෝධාභාසය</a>
-  <a href="#quantum" onclick="closeMobileMenu()">Quantum / ක්වොන්ටම්</a>
-  <a href="#objections" onclick="closeMobileMenu()">Objections / විරෝධ</a>
-  <a href="#buddhaghosa" onclick="closeMobileMenu()">Buddhaghosa / බුද්ධඝෝෂ</a>
-  <a href="#return" onclick="closeMobileMenu()">The Return / ආපසු</a>
-  <a href="#sources" onclick="closeMobileMenu()">Sources / ප්‍රභවයන්</a>
-</div>
 
 <!-- ===== HERO ===== -->
 <section class="hero">
@@ -474,7 +433,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 </div>
 
 <!-- ===== SECTION 1: THE EMPTY NICHES ===== -->
-<section class="section" id="niches">
+<section class="section" id="niches" data-nav-label="The Empty Niches">
   <div class="section-inner">
     <a href="/" class="back-link">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
@@ -507,7 +466,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 </section>
 
 <!-- ===== SECTION 2: THE TEACHING ===== -->
-<section class="section" id="teaching" style="background: var(--bg-card-alt);">
+<section class="section" id="teaching" data-nav-label="The Teaching" style="background: var(--bg-card-alt);">
   <div class="section-inner">
     <div class="section-label" lang-en data-cms-id="s2-label-en">Section 02</div>
     <div class="section-label si" lang-si data-cms-id="s2-label-si">කොටස 02</div>
@@ -538,7 +497,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 </section>
 
 <!-- ===== SECTION 3: THE PARADOX ===== -->
-<section class="section-dark" id="paradox">
+<section class="section-dark" id="paradox" data-nav-label="The Paradox">
   <div class="section-inner">
     <div class="section-label" lang-en data-cms-id="s3-label-en">Section 03</div>
     <div class="section-label si" lang-si data-cms-id="s3-label-si">කොටස 03</div>
@@ -566,7 +525,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 </section>
 
 <!-- ===== SECTION 4: QUANTUM PHYSICS ===== -->
-<section class="section" id="quantum">
+<section class="section" id="quantum" data-nav-label="Quantum Physics and the Observer">
   <div class="section-inner">
     <div class="section-label" lang-en data-cms-id="s4-label-en">Section 04</div>
     <div class="section-label si" lang-si data-cms-id="s4-label-si">කොටස 04</div>
@@ -595,7 +554,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 </section>
 
 <!-- ===== SECTION 5: HONEST OBJECTIONS ===== -->
-<section class="section" id="objections" style="background: var(--bg-card-alt);">
+<section class="section" id="objections" data-nav-label="Honest Objections" style="background: var(--bg-card-alt);">
   <div class="section-inner">
     <div class="section-label" lang-en data-cms-id="s5-label-en">Section 05</div>
     <div class="section-label si" lang-si data-cms-id="s5-label-si">කොටස 05</div>
@@ -646,7 +605,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 </section>
 
 <!-- ===== SECTION 6: BUDDHAGHOSA ===== -->
-<section class="section" id="buddhaghosa">
+<section class="section" id="buddhaghosa" data-nav-label="Buddhaghosa and the Chariot">
   <div class="section-inner">
     <div class="section-label" lang-en data-cms-id="s6-label-en">Section 06</div>
     <div class="section-label si" lang-si data-cms-id="s6-label-si">කොටස 06</div>
@@ -675,7 +634,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 </section>
 
 <!-- ===== SECTION 7: THE RETURN ===== -->
-<section class="section-dark" id="return">
+<section class="section-dark" id="return" data-nav-label="The Return">
   <div class="section-inner">
     <div class="section-label" lang-en data-cms-id="s7-label-en">Section 07</div>
     <div class="section-label si" lang-si data-cms-id="s7-label-si">කොටස 07</div>
@@ -704,7 +663,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 </section>
 
 <!-- ===== SECTION 8: SOURCES ===== -->
-<section class="section" id="sources">
+<section class="section" id="sources" data-nav-label="Sources & Further Reading">
   <div class="section-inner">
     <div class="section-label" lang-en data-cms-id="s8-label-en">Section 08</div>
     <div class="section-label si" lang-si data-cms-id="s8-label-si">කොටස 08</div>
@@ -799,16 +758,6 @@ function toggleLang(btn) {
   try { localStorage.setItem('lang', isSinhala ? 'si' : 'en'); } catch(e) {}
 }
 
-// Mobile menu
-function toggleMobileMenu(btn) {
-  btn.classList.toggle('open');
-  document.getElementById('mobile-drawer').classList.toggle('open');
-}
-function closeMobileMenu() {
-  document.querySelector('.mobile-menu-btn').classList.remove('open');
-  document.getElementById('mobile-drawer').classList.remove('open');
-}
-
 // Restore language preference
 (function() {
   try {
@@ -820,11 +769,6 @@ function closeMobileMenu() {
     }
   } catch(e) {}
 })();
-
-// Close mobile menu on resize
-window.addEventListener('resize', function() {
-  if (window.innerWidth > 768) closeMobileMenu();
-});
 
 // ─── ADMIN TRANSLATION TOOLBAR ───────────────────────────────────────────────
 // Visible only to authenticated admins (reads Supabase session from localStorage)
@@ -1143,15 +1087,20 @@ window.addEventListener('resize', function() {
 <script src="../_shared/narrative-timeline.js" defer></script>
 <link rel="stylesheet" href="../_shared/privacy-banner.css">
 <script src="../_shared/privacy-banner.js" defer></script>
+<!-- Supabase SDK + Comments FAB -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 window.ANALYST_COMMENTS_CONFIG = {
   supabaseUrl: 'https://ogunznqyfmxkmmwizpfy.supabase.co',
   supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM',
   dossierId: 'anatta-bamiyan',
+  adminEmail: 'riz@dgtl.lk',
+  siteUrl: 'https://analyst.rizrazak.com',
   workerUrl: 'https://analyst-collaborative-cms.riz-1cb.workers.dev'
 };
 </script>
 <link rel="stylesheet" href="../_shared/comments-v3.css">
-<script src="../_shared/comments-v3.js" defer></script>
+<script src="../_shared/comments-v3.js"></script>
+<script src="../_shared/dossier-sidenav.js"></script>
 </body>
 </html>

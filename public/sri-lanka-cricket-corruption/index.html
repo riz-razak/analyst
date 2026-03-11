@@ -215,81 +215,6 @@
   }
 
   /* ── MOBILE NAV: HAMBURGER BUTTON ── */
-  .nav-hamburger {
-    display: none;
-    background: none;
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    width: 32px;
-    height: 28px;
-    border-radius: 6px;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    line-height: 1;
-    transition: all 0.2s;
-    flex-shrink: 0;
-    padding: 0;
-  }
-  .nav-hamburger:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
-  .nav-mobile-title {
-    display: none;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: var(--accent-gold);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: 1;
-    text-align: center;
-  }
-  /* ── MOBILE NAV: DROPDOWN PANEL ── */
-  .nav-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--nav-bg);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border-color);
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 10px 12px 14px;
-    z-index: 99;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-  }
-  .nav-dropdown.open { display: grid; }
-  .nav-dropdown .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 7px 10px;
-    border-radius: 6px;
-    border-bottom: 2px solid transparent;
-    font-size: 0.64rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .nav-dropdown .nav-link:hover,
-  .nav-dropdown .nav-link.active {
-    background: rgba(255,255,255,0.04);
-    color: var(--accent-gold);
-    border-bottom-color: transparent;
-  }
-  .nav-link-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.52rem;
-    color: var(--accent-gold);
-    opacity: 0.55;
-    min-width: 16px;
-    flex-shrink: 0;
-  }
-
   /* MAIN CONTENT */
   .main-content { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
@@ -1512,9 +1437,6 @@
     }
     /* Hide all desktop nav links */
     .nav-inner > .nav-link { display: none; }
-    /* Show hamburger + title */
-    .nav-hamburger { display: flex; }
-    .nav-mobile-title { display: block; }
     /* Unpin socials so they flow inline */
     .nav-socials {
       position: static;
@@ -1740,6 +1662,7 @@
             m.onclick = function() { m.remove(); };
         }
     })();</script>
+<link rel="stylesheet" href="../_shared/dossier-sidenav.css">
 </head>
 <body>
 
@@ -1778,12 +1701,6 @@
 <!-- NAVIGATION -->
 <nav class="nav-container">
   <div class="nav-inner">
-    <!-- Mobile: hamburger toggle (hidden on desktop) -->
-    <button class="nav-hamburger" id="nav-hamburger-btn" onclick="toggleMobileNav()" title="Menu" aria-expanded="false" aria-controls="nav-dropdown">
-      <span class="ham-icon">☰</span>
-    </button>
-    <!-- Mobile: dossier title (hidden on desktop) -->
-    <span class="nav-mobile-title">SL Cricket's Underbelly</span>
     <div class="nav-socials">
       <a href="https://www.facebook.com/riz.life.crisis/" class="nav-social-link" target="_blank" rel="noopener" title="Facebook"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
       <a href="https://www.instagram.com/riz_razak_" class="nav-social-link" target="_blank" rel="noopener" title="Instagram"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
@@ -1807,30 +1724,12 @@
     <a href="#hidden" class="nav-link"><span data-en="Hidden Insights" data-si="සැඟවුණු තීක්ෂ්ණ බුද්ධිය">Hidden Insights</span></a>
     <button class="nav-theme-btn" id="dossier-theme-btn" onclick="toggleDossierTheme()" title="Toggle light/dark mode">🌙</button>
   </div>
-  <!-- Mobile: dropdown panel (hidden on desktop, toggled by hamburger) -->
-  <div class="nav-dropdown" id="nav-dropdown" role="menu">
-    <a href="#match"       class="nav-link" role="menuitem"><span class="nav-link-num">01</span><span data-en="The Match"        data-si="තරගය">The Match</span></a>
-    <a href="#mafia"       class="nav-link" role="menuitem"><span class="nav-link-num">02</span><span data-en="The Mafia"        data-si="මාෆියාව">The Mafia</span></a>
-    <a href="#board"       class="nav-link" role="menuitem"><span class="nav-link-num">03</span><span data-en="Conspiracy Board" data-si="කුමන්ත්‍රණ මණ්ඩලය">Conspiracy Board</span></a>
-    <a href="#powernetwork" class="nav-link" role="menuitem"><span class="nav-link-num">04</span><span data-en="Power Network"   data-si="බල ජාලය">Power Network</span></a>
-    <a href="#betting"     class="nav-link" role="menuitem"><span class="nav-link-num">05</span><span data-en="The Betting Web"  data-si="ඔට්ටු ඇල්ලීමේ ජාලය">The Betting Web</span></a>
-    <a href="#elitism"     class="nav-link" role="menuitem"><span class="nav-link-num">06</span><span data-en="Elitism Paradox" data-si="ප්‍රභූවාදයේ විරුද්ධාභාසය">Elitism Paradox</span></a>
-    <a href="#social"      class="nav-link" role="menuitem"><span class="nav-link-num">07</span><span data-en="Fan Toxicity"    data-si="විදුලි පංකා විෂ වීම">Fan Toxicity</span></a>
-    <a href="#players"     class="nav-link" role="menuitem"><span class="nav-link-num">08</span><span data-en="Player Crisis"   data-si="ක්‍රීඩක අර්බුදය">Player Crisis</span></a>
-    <a href="#npp"         class="nav-link" role="menuitem"><span class="nav-link-num">09</span><span data-en="NPP &amp; Reform" data-si="NPP සහ ප්‍රතිසංස්කරණ">NPP &amp; Reform</span></a>
-    <a href="#restructure" class="nav-link" role="menuitem"><span class="nav-link-num">10</span><span data-en="Restructuring"   data-si="ප්‍රතිව්‍යුහගත කිරීම">Restructuring</span></a>
-    <a href="#gametheory"  class="nav-link" role="menuitem"><span class="nav-link-num">11</span><span data-en="Game Theory"     data-si="ක්‍රීඩා න්‍යාය">Game Theory</span></a>
-    <a href="#skills"      class="nav-link" role="menuitem"><span class="nav-link-num">12</span><span data-en="Skills Gap"      data-si="කුසලතා පරතරය">Skills Gap</span></a>
-    <a href="#bcci"        class="nav-link" role="menuitem"><span class="nav-link-num">13</span><span data-en="BCCI/IPL Axis"   data-si="BCCI/IPL අක්ෂය">BCCI/IPL Axis</span></a>
-    <a href="#calendar"    class="nav-link" role="menuitem"><span class="nav-link-num">14</span><span data-en="Calendar Crisis" data-si="දින දර්ශන අර්බුදය">Calendar Crisis</span></a>
-    <a href="#hidden"      class="nav-link" role="menuitem"><span class="nav-link-num">15</span><span data-en="Hidden Insights" data-si="සැඟවුණු තීක්ෂ්ණ බුද්ධිය">Hidden Insights</span></a>
-  </div>
 </nav>
 
 <div class="main-content">
 
 <!-- SECTION 1: THE MATCH -->
-<section class="section fade-in" id="match">
+<section class="section fade-in" id="match" data-nav-label="The Match">
   <div class="section-header">
     <div class="section-number" data-cms-id="s1-label-en"><span data-en="01 — The Catalyst" data-si="01 — උත්ප්‍රේරකය">01 — The Catalyst</span></div>
     <h2 data-cms-id="s1-h2-en"><span data-en="A Familiar Collapse on Home Soil" data-si="ගෙදර බිමක හුරුපුරුදු කඩා වැටීමක්">A Familiar Collapse on Home Soil</span></h2>
@@ -1874,7 +1773,7 @@
 </section>
 
 <!-- SECTION 2: THE MAFIA -->
-<section class="section fade-in" id="mafia">
+<section class="section fade-in" id="mafia" data-nav-label="The Mafia">
   <div class="section-header">
     <div class="section-number" data-cms-id="s2-label-en"><span data-en="02 — The Cricket Mafia" data-si="02 — ක්‍රිකට් මාෆියාව">02 — The Cricket Mafia</span></div>
     <h2 data-cms-id="s2-h2-en"><span data-en="How SLC Became the Most Corrupt Board in World Cricket" data-si="ශ්‍රී ලංකා ක්‍රිකට් ආයතනය ලෝක ක්‍රිකට් ඉතිහාසයේ දූෂිතම මණ්ඩලය බවට පත් වූ ආකාරය">How SLC Became the Most Corrupt Board in World Cricket</span></h2>
@@ -1966,7 +1865,7 @@
 </section>
 
 <!-- SECTION 3: CONSPIRACY BOARD -->
-<section class="section fade-in" id="board">
+<section class="section fade-in" id="board" data-nav-label="Conspiracy Board">
   <div class="section-header">
     <div class="section-number" data-cms-id="s3-label-en"><span data-en="03 — The Power Map" data-si="03 — බල සිතියම">03 — The Power Map</span></div>
     <h2 data-cms-id="s3-h2-en"><span data-en="Stakeholder Conspiracy Board" data-si="කොටස්කරුවන්ගේ කුමන්ත්‍රණ මණ්ඩලය">Stakeholder Conspiracy Board</span></h2>
@@ -2133,7 +2032,7 @@
 </section>
 
 <!-- SECTION 4: POWER NETWORK -->
-<section class="section fade-in" id="powernetwork">
+<section class="section fade-in" id="powernetwork" data-nav-label="Power Network">
   <div class="section-header">
     <div class="section-number" data-cms-id="s4-label-en"><span data-en="04 — The Power Network" data-si="04 — විදුලිබල ජාලය">04 — The Power Network</span></div>
     <h2 data-cms-id="s4-h2-en"><span data-en="SLC Political & Financial Network Map" data-si="ශ්‍රී ලංකා ක්‍රිකට් ආයතනයේ දේශපාලන සහ මූල්‍ය ජාල සිතියම">SLC Political & Financial Network Map</span></h2>
@@ -2157,7 +2056,7 @@
 </section>
 
 <!-- SECTION 5: THE BETTING WEB -->
-<section class="section fade-in" id="betting">
+<section class="section fade-in" id="betting" data-nav-label="The Betting Web">
   <div class="section-header">
     <div class="section-number" data-cms-id="s5-label-en"><span data-en="05 — The Betting Web" data-si="05 — ඔට්ටු ඇල්ලීමේ ජාලය">05 — The Betting Web</span></div>
     <h2 data-cms-id="s5-h2-en"><span data-en="How an International Criminal Betting Network Embedded Itself in Sri Lankan Cricket" data-si="ජාත්‍යන්තර අපරාධ ඔට්ටු ඇල්ලීමේ ජාලයක් ශ්‍රී ලංකා ක්‍රිකට් තුළ කාවැද්දුණු ආකාරය">How an International Criminal Betting Network Embedded Itself in Sri Lankan Cricket</span></h2>
@@ -2250,7 +2149,7 @@
 </section>
 
 <!-- SECTION 6: ELITISM PARADOX -->
-<section class="section fade-in" id="elitism">
+<section class="section fade-in" id="elitism" data-nav-label="Elitism Paradox">
   <div class="section-header">
     <div class="section-number" data-cms-id="s6-label-en"><span data-en="06 — The Elitism Paradox" data-si="06 — එලිටිස්ම් විරුද්ධාභාසය">06 — The Elitism Paradox</span></div>
     <h2 data-cms-id="s6-h2-en"><span data-en="When Democratisation Killed the &quot;Cricketing Brain&quot;" data-si="ප්‍රජාතන්ත්‍රීකරණය &quot;ක්‍රිකට් මොළය&quot; මරා දැමූ විට">When Democratisation Killed the "Cricketing Brain"</span></h2>
@@ -2284,7 +2183,7 @@
 </section>
 
 <!-- SECTION 5: FAN TOXICITY -->
-<section class="section fade-in" id="social">
+<section class="section fade-in" id="social" data-nav-label="Fan Toxicity">
   <div class="section-header">
     <div class="section-number" data-cms-id="s7-label-en"><span data-en="07 — The Social Media Vortex" data-si="07 — සමාජ මාධ්‍ය සුළි සුළඟ">07 — The Social Media Vortex</span></div>
     <h2 data-cms-id="s7-h2-en"><span data-en="The Hype-Pressure-Disappointment Death Spiral" data-si="අතිශයෝක්තිය-පීඩනය-බලාපොරොත්තු සුන්වීම මරණ සර්පිලාකාරය">The Hype-Pressure-Disappointment Death Spiral</span></h2>
@@ -2364,7 +2263,7 @@
 </section>
 
 <!-- SECTION 6: PLAYER CRISIS -->
-<section class="section fade-in" id="players">
+<section class="section fade-in" id="players" data-nav-label="Player Crisis">
   <div class="section-header">
     <div class="section-number" data-cms-id="s8-label-en"><span data-en="08 — The Player Crisis" data-si="08 — ක්‍රීඩක අර්බුදය">08 — The Player Crisis</span></div>
     <h2 data-cms-id="s8-h2-en"><span data-en="Form, Dedication & The Hollowing Out" data-si="ස්වරූපය, කැපවීම සහ හිස්බව">Form, Dedication & The Hollowing Out</span></h2>
@@ -2398,7 +2297,7 @@
 </section>
 
 <!-- SECTION 7: NPP & REFORM -->
-<section class="section fade-in" id="npp">
+<section class="section fade-in" id="npp" data-nav-label="NPP & Reform">
   <div class="section-header">
     <div class="section-number" data-cms-id="s9-label-en"><span data-en="09 — The NPP Paradox" data-si="09 — NPP විරුද්ධාභාසය">09 — The NPP Paradox</span></div>
     <h2 data-cms-id="s9-h2-en"><span data-en="Why the &quot;Anti-Corruption&quot; Government Can't Fix Cricket" data-si="&quot;දූෂණ විරෝධී&quot; රජයට ක්‍රිකට් නිවැරදි කළ නොහැක්කේ ඇයි?">Why the "Anti-Corruption" Government Can't Fix Cricket</span></h2>
@@ -2427,7 +2326,7 @@
 </section>
 
 <!-- SECTION 8: RESTRUCTURING OPTIONS -->
-<section class="section fade-in" id="restructure">
+<section class="section fade-in" id="restructure" data-nav-label="Restructuring">
   <div class="section-header">
     <div class="section-number" data-cms-id="s10-label-en"><span data-en="10 — Breaking the Deadlock" data-si="10 — අවහිරතා බිඳ දැමීම">10 — Breaking the Deadlock</span></div>
     <h2 data-cms-id="s10-h2-en"><span data-en="Restructuring Options & How to Navigate the ICC" data-si="ප්‍රතිව්‍යුහගත කිරීමේ විකල්ප සහ ICC හි සැරිසැරීම කරන්නේ කෙසේද">Restructuring Options & How to Navigate the ICC</span></h2>
@@ -2506,7 +2405,7 @@
 </section>
 
 <!-- SECTION 9: GAME THEORY -->
-<section class="section fade-in" id="gametheory">
+<section class="section fade-in" id="gametheory" data-nav-label="Game Theory">
   <div class="section-header">
     <div class="section-number" data-cms-id="s11-label-en"><span data-en="11 — Game Theory Analysis" data-si="11 — ක්‍රීඩා න්‍යාය විශ්ලේෂණය">11 — Game Theory Analysis</span></div>
     <h2 data-cms-id="s11-h2-en"><span data-en="Strategic Scenario Modelling" data-si="උපායමාර්ගික අවස්ථා ආකෘති නිර්මාණය">Strategic Scenario Modelling</span></h2>
@@ -2599,7 +2498,7 @@
 </section>
 
 <!-- SECTION 10: SKILLS GAP & ANALYTICS -->
-<section class="section fade-in" id="skills">
+<section class="section fade-in" id="skills" data-nav-label="Skills Gap">
   <div class="section-header">
     <div class="section-number" data-cms-id="s12-label-en"><span data-en="12 — The Skills Gap & Analytics Deficit" data-si="12 — කුසලතා පරතරය සහ විශ්ලේෂණ හිඟය">12 — The Skills Gap & Analytics Deficit</span></div>
     <h2 data-cms-id="s12-h2-en"><span data-en="Fielding, Patience, Game-Reading & The Data Desert" data-si="පන්දු රැකීම, ඉවසීම, ක්‍රීඩා කියවීම සහ දත්ත කාන්තාරය">Fielding, Patience, Game-Reading & The Data Desert</span></h2>
@@ -2652,7 +2551,7 @@
 </section>
 
 <!-- SECTION 11: BCCI/IPL AXIS -->
-<section class="section fade-in" id="bcci">
+<section class="section fade-in" id="bcci" data-nav-label="BCCI/IPL Axis">
   <div class="section-header">
     <div class="section-number" data-cms-id="s13-label-en"><span data-en="13 — The BCCI/IPL Axis" data-si="13 — BCCI/IPL අක්ෂය">13 — The BCCI/IPL Axis</span></div>
     <h2 data-cms-id="s13-h2-en"><span data-en="India's Gravitational Pull & The Small Nation Trap" data-si="ඉන්දියාවේ ගුරුත්වාකර්ෂණ ඇදීම සහ කුඩා ජාතියේ උගුල">India's Gravitational Pull & The Small Nation Trap</span></h2>
@@ -2715,7 +2614,7 @@
 </section>
 
 <!-- SECTION 12: CALENDAR CRISIS -->
-<section class="section fade-in" id="calendar">
+<section class="section fade-in" id="calendar" data-nav-label="Calendar Crisis">
   <div class="section-header">
     <div class="section-number" data-cms-id="s14-label-en"><span data-en="14 — The Calendar Crisis" data-si="14 — දින දර්ශන අර්බුදය">14 — The Calendar Crisis</span></div>
     <h2 data-cms-id="s14-h2-en"><span data-en="The Slow Death of Sri Lankan Test Cricket" data-si="ශ්‍රී ලංකා ටෙස්ට් ක්‍රිකට් ක්‍රීඩාවේ මන්දගාමී මරණය">The Slow Death of Sri Lankan Test Cricket</span></h2>
@@ -2753,7 +2652,7 @@
 </section>
 
 <!-- SECTION 13: HIDDEN INSIGHTS -->
-<section class="section fade-in" id="hidden">
+<section class="section fade-in" id="hidden" data-nav-label="Hidden Insights">
   <div class="section-header">
     <div class="section-number" data-cms-id="s15-label-en"><span data-en="15 — The Undiscussed" data-si="15 — සාකච්ඡා නොකළ">15 — The Undiscussed</span></div>
     <h2 data-cms-id="s15-h2-en"><span data-en="Insights Nobody Talks About" data-si="කිසිවෙකු කතා නොකරන තීක්ෂ්ණ බුද්ධිය">Insights Nobody Talks About</span></h2>
@@ -2952,34 +2851,6 @@ setTimeout(revealOnScroll, 1500);
 setTimeout(() => {
   document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
 }, 3000);
-
-// ══════════════════════════════════════════
-// MOBILE HAMBURGER NAV
-// ══════════════════════════════════════════
-function toggleMobileNav() {
-  const btn = document.getElementById('nav-hamburger-btn');
-  const dropdown = document.getElementById('nav-dropdown');
-  if (!btn || !dropdown) return;
-  const isOpen = dropdown.classList.toggle('open');
-  btn.setAttribute('aria-expanded', String(isOpen));
-  btn.querySelector('.ham-icon').textContent = isOpen ? '✕' : '☰';
-}
-function closeMobileNav() {
-  const btn = document.getElementById('nav-hamburger-btn');
-  const dropdown = document.getElementById('nav-dropdown');
-  if (!dropdown) return;
-  dropdown.classList.remove('open');
-  if (btn) { btn.setAttribute('aria-expanded', 'false'); btn.querySelector('.ham-icon').textContent = '☰'; }
-}
-// Close dropdown when clicking outside the nav
-document.addEventListener('click', function(e) {
-  const nav = document.querySelector('.nav-container');
-  if (nav && !nav.contains(e.target)) closeMobileNav();
-});
-// Close dropdown when a dropdown link is clicked
-document.querySelectorAll('#nav-dropdown .nav-link').forEach(link => {
-  link.addEventListener('click', () => closeMobileNav());
-});
 
 // Active nav tracking
 const sections = document.querySelectorAll('.section[id]');
@@ -3544,11 +3415,15 @@ initDossierTheme();
 <script src="../_shared/privacy-banner.js" defer></script>
 
 <!-- Comments System v3 Configuration -->
+<!-- Supabase SDK + Comments FAB -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 window.ANALYST_COMMENTS_CONFIG = {
   supabaseUrl: 'https://ogunznqyfmxkmmwizpfy.supabase.co',
   supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM',
   dossierId: 'sri-lanka-cricket-corruption',
+  adminEmail: 'riz@dgtl.lk',
+  siteUrl: 'https://analyst.rizrazak.com',
   workerUrl: 'https://analyst-collaborative-cms.riz-1cb.workers.dev'
 };
 </script>
@@ -3557,7 +3432,8 @@ window.ANALYST_COMMENTS_CONFIG = {
 <link rel="stylesheet" href="../_shared/comments-v3.css">
 
 <!-- Comments System Script -->
-<script src="../_shared/comments-v3.js" defer></script>
+<script src="../_shared/comments-v3.js"></script>
 
+<script src="../_shared/dossier-sidenav.js"></script>
 </body>
 </html>

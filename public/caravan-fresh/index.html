@@ -17,6 +17,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="../_shared/dossier-sidenav.css">
+
     <style>
         :root {
             --color-bg: #f4f4fa;
@@ -1250,7 +1252,7 @@
     </div>
 
     <!-- Section 1: The Incident -->
-    <section id="incident" class="section">
+    <section id="incident" class="section" data-nav-label="The Incident">
         <div class="section-number">01 —</div>
         <h2 data-lang="si" data-cms-id="s1-heading-si">සිද්ධිය</h2>
         <h2 data-lang="en" data-cms-id="s1-heading-en">The Incident</h2>
@@ -1290,7 +1292,7 @@
     </section>
 
     <!-- Section 2: Timeline -->
-    <section id="timeline" class="section">
+    <section id="timeline" class="section" data-nav-label="Timeline">
         <div class="section-number">02 —</div>
         <h2 data-lang="si" data-cms-id="s2-heading-si">කාලරේඛාව</h2>
         <h2 data-lang="en" data-cms-id="s2-heading-en">Timeline</h2>
@@ -1566,7 +1568,7 @@
     </section>
 
     <!-- Section 3: Behavioral Patterns -->
-    <section id="patterns" class="section">
+    <section id="patterns" class="section" data-nav-label="Behavioural Patterns">
         <div class="section-number">03 —</div>
         <h2 data-lang="si">හැසිරීම් රටා</h2>
         <h2 data-lang="en">Behavioral Patterns</h2>
@@ -1663,7 +1665,7 @@
     </section>
 
     <!-- Section 4: Key Actors -->
-    <section id="company" class="section">
+    <section id="company" class="section" data-nav-label="Key Actors">
         <div class="section-number">04 —</div>
         <h2 data-lang="si">ප්‍රධාන පුද්ගලයින්</h2>
         <h2 data-lang="en">Key Actors</h2>
@@ -1883,7 +1885,7 @@
     </section>
 
     <!-- Section 5: Company Profile (Simplified) -->
-    <section id="company-profile" class="section">
+    <section id="company-profile" class="section" data-nav-label="Company Profile">
         <div class="section-number">05 —</div>
         <h2 data-lang="si">සමාගම් සාරාංශය</h2>
         <h2 data-lang="en">Company Overview</h2>
@@ -1953,7 +1955,7 @@
 
     
     <!-- Section 5b: 2020 Food Storage Scandal -->
-    <section id="food-scandal" class="section" style="border-left: 3px solid #dc2626; padding-left: 2rem;">
+    <section id="food-scandal" class="section" style="border-left: 3px solid #dc2626; padding-left: 2rem;" data-nav-label="Food Scandal">
         <div class="section-number" style="color: #dc2626;">05b —</div>
         <h2 data-lang="si" style="color: #dc2626;">2020 ආහාර ගබඩා අර්බුදය</h2>
         <h2 data-lang="en" style="color: #dc2626;">2020 Food Storage Scandal</h2>
@@ -2022,7 +2024,7 @@
 
 
     <!-- Section 6: Map -->
-    <section id="outlet-map" class="section">
+    <section id="outlet-map" class="section" data-nav-label="Outlet Map">
         <div class="section-number">06 —</div>
         <h2 data-lang="si">සිතියම</h2>
         <h2 data-lang="en">Map</h2>
@@ -2043,7 +2045,7 @@
     </section>
 
     <!-- Section 7: Consumer Rights -->
-    <section id="rights" class="section">
+    <section id="rights" class="section" data-nav-label="Consumer Rights">
         <div class="section-number">07 —</div>
         <h2 data-lang="si">පාරිභෝගික අයිතිවාසිකම්</h2>
         <h2 data-lang="en">Consumer Rights</h2>
@@ -2319,7 +2321,7 @@
     </section>
 
     <!-- Section 8: Consumer Protection Guide -->
-    <section id="protection" class="section">
+    <section id="protection" class="section" data-nav-label="Consumer Protection">
         <div class="section-number">08 —</div>
         <h2 data-lang="en">Protecting Consumers Against Corporate Bullying</h2>
         <h2 data-lang="si">ආයතනික හිරිහැරයට එරෙහිව පාරිභෝගිකයින් ආරක්ෂා කිරීම</h2>
@@ -2718,7 +2720,7 @@
 
 
     <!-- Section 8: Methodology -->
-    <section id="methodology" class="section">
+    <section id="methodology" class="section" data-nav-label="Methodology">
         <div class="section-number">09 —</div>
         <h2 data-lang="si">ක්‍රමවේදය</h2>
         <h2 data-lang="en">Methodology</h2>
@@ -3179,15 +3181,20 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closePledge(
 <script src="../_shared/narrative-timeline.js" defer></script>
 <link rel="stylesheet" href="../_shared/privacy-banner.css">
 <script src="../_shared/privacy-banner.js" defer></script>
+<!-- Supabase SDK + Comments FAB -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 window.ANALYST_COMMENTS_CONFIG = {
   supabaseUrl: 'https://ogunznqyfmxkmmwizpfy.supabase.co',
   supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM',
   dossierId: 'caravan-fresh',
+  adminEmail: 'riz@dgtl.lk',
+  siteUrl: 'https://analyst.rizrazak.com',
   workerUrl: 'https://analyst-collaborative-cms.riz-1cb.workers.dev'
 };
 </script>
 <link rel="stylesheet" href="../_shared/comments-v3.css">
-<script src="../_shared/comments-v3.js" defer></script>
+<script src="../_shared/comments-v3.js"></script>
+<script src="../_shared/dossier-sidenav.js"></script>
 </body>
 </html>
