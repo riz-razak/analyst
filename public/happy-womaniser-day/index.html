@@ -17,7 +17,7 @@
 <meta name="description" content="An investigative dossier examining how the Sunday Observer's International Women's Day 2026 feature platformed Vangeesa Sumanasekara, a man facing multiple public sexual harassment allegations, as a champion of women's empowerment.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/_shared/dossier-sidenav.css">
+<link rel="stylesheet" href="/_shared/spine-nav.css">
 <style>
 :root {
   --bg: #f7f5ed;
@@ -109,7 +109,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 }
 .btn-accept:hover { background: var(--forest-deep); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(45,90,39,0.3); }
 
-/* ===== NAVBAR (hidden — sidenav takes over) ===== */
+/* ===== NAVBAR (hidden — spine-nav takes over) ===== */
 .navbar { display: none; }
 .nav-inner { display: none; }
 .nav-brand { display: none; }
@@ -124,7 +124,7 @@ body.sinhala [lang-en-inline] { display: none !important; }
 .lang-btn:hover { background: var(--forest); color: #fff; }
 
 /* ===== HERO ===== */
-/* ===== HERO — DARK IMMERSIVE ===== */
+/* ===== HERO — DARK IMMERSIVE (full-bleed behind spine rail) ===== */
 .hero {
   position: relative; min-height: 100vh; min-height: 100svh;
   display: flex; align-items: center; justify-content: center;
@@ -132,6 +132,15 @@ body.sinhala [lang-en-inline] { display: none !important; }
   background: linear-gradient(135deg, #1a0d0d 0%, #2a1412 25%, #1e1210 55%, #0d0808 100%);
   overflow: hidden;
   padding: 80px 20px 60px;
+  /* Break out of body padding-left to go full-bleed */
+  margin-left: calc(-1 * var(--spine-rail-w-desktop, 180px));
+  width: calc(100% + var(--spine-rail-w-desktop, 180px));
+}
+@media (max-width: 767px) {
+  .hero {
+    margin-left: -36px;
+    width: calc(100% + 36px);
+  }
 }
 .hero::before {
   content: '';
@@ -205,6 +214,12 @@ body.sinhala [lang-en-inline] { display: none !important; }
   background: #0d0808;
   padding: 28px 20px;
   display: flex; justify-content: center;
+  /* Full-bleed behind spine rail */
+  margin-left: calc(-1 * var(--spine-rail-w-desktop, 180px));
+  width: calc(100% + var(--spine-rail-w-desktop, 180px));
+}
+@media (max-width: 767px) {
+  .stat-bar { margin-left: -36px; width: calc(100% + 36px); }
 }
 .stat-bar-inner {
   display: flex; gap: 0; max-width: 800px; width: 100%;
@@ -229,16 +244,8 @@ body.sinhala [lang-en-inline] { display: none !important; }
 
 /* ===== SECTIONS ===== */
 .section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
-/* Offset for LHS sidenav on desktop — must match sidenav specificity */
-@media (min-width: 1024px) {
-  body.side-nav-active .section {
-    max-width: 900px;
-    /* Center 900px content in the space right of the 220px sidenav */
-    margin-left: max(240px, calc(50vw - 340px));
-    margin-right: auto;
-  }
-  body.side-nav-active .stat-bar { padding-left: 240px; }
-}
+/* Content centering — spine-nav uses body padding-left, so auto margins work */
+.section { max-width: 900px; }
 .section-label {
   display: inline-block; font-size: 0.65rem; font-weight: 700;
   color: var(--forest); text-transform: uppercase; letter-spacing: 0.15em;
@@ -858,20 +865,18 @@ body.sinhala [lang-en-inline] { display: none !important; }
   .cast-card { padding: 14px 12px; }
 }
 
-/* ===== DOSSIER-SPECIFIC SIDENAV THEME ===== */
+/* ===== DOSSIER-SPECIFIC SPINE NAV THEME ===== */
 :root {
-  --sidenav-bg: rgba(247,245,237,0.96);
-  --sidenav-border: var(--border);
-  --sidenav-text: var(--text-muted);
-  --sidenav-active: var(--forest);
-  --sidenav-active-bg: var(--sage-mist);
-  --sidenav-hover-bg: var(--sage-mist);
-  --sidenav-dot: var(--border);
-  --sidenav-dot-active: var(--forest);
-  --sidenav-progress-from: var(--sage);
-  --sidenav-progress-to: var(--forest);
-  --sidenav-fab-bg: var(--forest);
-  --sidenav-fab-shadow: rgba(45,90,39,0.35);
+  --spine-bg: rgba(247,245,237,0.92);
+  --spine-border: var(--border);
+  --spine-text: var(--text-muted);
+  --spine-active: var(--forest);
+  --spine-active-mid: var(--sage);
+  --spine-dot-color: var(--border);
+  --spine-dot-active: var(--forest);
+  --spine-fill-from: var(--sage);
+  --spine-fill-to: var(--forest);
+  --spine-tooltip-bg: var(--forest);
 }
 
 /* ===== ENHANCED TIMELINE ANIMATIONS ===== */
@@ -2607,7 +2612,7 @@ window.EV_S8_IMG = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEB
 })();
 </script>
 
-<script src="/_shared/dossier-sidenav.js"></script>
+<script src="/_shared/spine-nav.js"></script>
 
 <!-- ===== TIMELINE ANIMATION JS ===== -->
 <script>
