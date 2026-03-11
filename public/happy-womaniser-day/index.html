@@ -231,7 +231,12 @@ body.sinhala [lang-en-inline] { display: none !important; }
 .section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
 /* Offset for LHS sidenav on desktop */
 @media (min-width: 1024px) {
-  .section { margin-left: calc(220px + 20px); margin-right: auto; max-width: 900px; }
+  .section {
+    max-width: 900px;
+    /* Center in the space right of the 220px sidenav; clamp to 240px min */
+    margin-left: max(240px, calc(50vw - 340px));
+    margin-right: auto;
+  }
   .stat-bar { padding-left: 240px; }
 }
 .section-label {
