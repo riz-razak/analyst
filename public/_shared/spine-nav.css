@@ -1,10 +1,10 @@
 /* ============================================================================
-   SPINE NAV — Shared Module
+   SPINE NAV â Shared Module
    analyst.rizrazak.com
    ============================================================================
 
    A thin vertical rail pinned to the left edge. The timeline spine IS
-   the navigation — each dot is a nav anchor AND a scroll-progress node.
+   the navigation â each dot is a nav anchor AND a scroll-progress node.
    A hairline "fill" line grows downward as the user scrolls.
 
    USAGE:
@@ -12,7 +12,7 @@
    2. Include spine-nav.js before </body>
    3. Add sections with id + data-nav-label attributes to your page
 
-   THEMING — override these in your dossier's own <style> block:
+   THEMING â override these in your dossier's own <style> block:
    --spine-bg, --spine-border, --spine-text, --spine-active,
    --spine-dot-color, --spine-dot-active, --spine-fill-from,
    --spine-fill-to, --spine-tooltip-bg, --spine-rail-w,
@@ -68,7 +68,7 @@
   border-radius: 1px;
 }
 
-/* Fill line (foreground — grows with scroll) */
+/* Fill line (foreground â grows with scroll) */
 .spine-fill {
   position: absolute;
   left: 50%;
@@ -171,7 +171,7 @@ body.spine-nav-active {
   transition: padding-left 0.35s ease;
 }
 
-/* ===== DESKTOP ≥ 768px ===== */
+/* ===== DESKTOP â¥ 768px ===== */
 @media (min-width: 768px) {
   :root {
     --spine-rail-w: var(--spine-rail-w-desktop);
@@ -235,5 +235,18 @@ body.spine-nav-active {
   }
   body.spine-nav-active {
     padding-left: 36px;
+  }
+}
+
+
+/* ===== HERO ALIGNMENT FIX =====
+   When spine-nav adds body padding-left for the rail, full-width hero sections
+   break out via margin-left:-Xpx + width:100vw. But their flex-centered content
+   aligns to the viewport center, not the visible-area center. Adding left padding
+   equal to the rail width shifts the flex center to match content sections below.
+   =============================================================================== */
+@media (min-width: 768px) {
+  body.spine-nav-active .hero {
+    padding-left: calc(var(--spine-rail-w-desktop, 180px) + 20px);
   }
 }
