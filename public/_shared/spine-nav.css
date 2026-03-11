@@ -215,7 +215,7 @@ body.spine-nav-active .section {
     transition: color 0.25s;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: calc(var(--spine-rail-w-desktop) - 52px);
+    max-width: calc(var(--spine-rail-w-desktop) - 42px);
   }
   .spine-label::before {
     display: none;
