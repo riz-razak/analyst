@@ -242,7 +242,7 @@ body {
 <div class="header">
   <h1>Evidence Submissions Review</h1>
   <div>
-    <a href="/admin-preview.html">â← Back to CMS</a>
+    <a href="/admin-preview.html">&larr; Back to CMS</a>
   </div>
 </div>
 
@@ -348,7 +348,7 @@ function loadSubmissions() {
   }
 
   promise.then(function(data) {
-    document.getElementById('stats').textContent = data.total + ' total Â· ' + data.filtered + ' shown';
+    document.getElementById('stats').textContent = data.total + ' total | ' + data.filtered + ' shown';
 
     if (!data.submissions || data.submissions.length === 0) {
       container.innerHTML = '<div class="empty-state"><h2>No submissions found</h2><p>No evidence submissions match the current filter.</p></div>';
