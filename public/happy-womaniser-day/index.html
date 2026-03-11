@@ -132,14 +132,14 @@ body.sinhala [lang-en-inline] { display: none !important; }
   background: linear-gradient(135deg, #1a0d0d 0%, #2a1412 25%, #1e1210 55%, #0d0808 100%);
   overflow: hidden;
   padding: 80px 20px 60px;
-  /* Break out of body padding-left to go full-bleed */
-  margin-left: calc(-1 * var(--spine-rail-w-desktop, 180px));
-  width: calc(100% + var(--spine-rail-w-desktop, 180px));
+  /* Full-bleed: span entire viewport width from left edge */
+  width: 100vw;
+  margin-left: 0;
 }
 @media (max-width: 767px) {
   .hero {
-    margin-left: -36px;
-    width: calc(100% + 36px);
+    width: 100vw;
+    margin-left: 0;
   }
 }
 .hero::before {
@@ -214,12 +214,12 @@ body.sinhala [lang-en-inline] { display: none !important; }
   background: #0d0808;
   padding: 28px 20px;
   display: flex; justify-content: center;
-  /* Full-bleed behind spine rail */
-  margin-left: calc(-1 * var(--spine-rail-w-desktop, 180px));
-  width: calc(100% + var(--spine-rail-w-desktop, 180px));
+  /* Full-bleed: span entire viewport width */
+  width: 100vw;
+  margin-left: 0;
 }
 @media (max-width: 767px) {
-  .stat-bar { margin-left: -36px; width: calc(100% + 36px); }
+  .stat-bar { width: 100vw; margin-left: 0; }
 }
 .stat-bar-inner {
   display: flex; gap: 0; max-width: 800px; width: 100%;

@@ -165,10 +165,19 @@
   background: var(--spine-tooltip-bg);
 }
 
-/* ===== CONTENT OFFSET ===== */
+/* ===== CONTENT OFFSET =====
+   Centre content in the FULL viewport, not just the space right of the rail.
+   The max() ensures we never overlap the rail while keeping reading position
+   visually centred on wide screens.
+   --spine-content-max: max-width of a .section (default 900px → half = 450px)
+   ======================================================================= */
 body.spine-nav-active {
-  padding-left: var(--spine-rail-w);
-  transition: padding-left 0.35s ease;
+  /* No padding-left on body — centering is handled per-element */
+}
+body.spine-nav-active .section {
+  margin-left: max(var(--spine-rail-w), calc(50vw - 450px));
+  margin-right: auto;
+  transition: margin-left 0.35s ease;
 }
 
 /* ===== DESKTOP â¥ 768px ===== */
@@ -217,8 +226,8 @@ body.spine-nav-active {
     color: var(--spine-active-mid);
   }
 
-  body.spine-nav-active {
-    padding-left: var(--spine-rail-w-desktop);
+  body.spine-nav-active .section {
+    margin-left: max(var(--spine-rail-w-desktop), calc(50vw - 450px));
   }
 }
 
@@ -233,8 +242,11 @@ body.spine-nav-active {
     top: 48px;
     bottom: 16px;
   }
-  body.spine-nav-active {
-    padding-left: 36px;
+  body.spine-nav-active .section {
+    margin-left: 36px;
+    margin-right: 0;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
 
