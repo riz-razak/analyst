@@ -499,3 +499,6 @@ body.sinhala .cv3-comment-body {
     margin-left: 16px;
   }
 }
+
+/* Override page-level #comments-fab styles */
+#comments-fab.cv3-fab { display:flex !important; }
