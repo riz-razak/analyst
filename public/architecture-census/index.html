@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Infrastructure Monitor — The Analyst Platform</title>
+  <title>Infrastructure Monitor â The Analyst Platform</title>
   <meta name="description" content="Live infrastructure monitoring dashboard for the DGTL ecosystem.">
   <link rel="icon" href="/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; }
 
-    /* ── Header ── */
+    /* ââ Header ââ */
     .dash-header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 20px 24px;
@@ -66,7 +66,7 @@
     }
     .notif-badge .count:empty, .notif-badge .count[data-count="0"] { display: none; }
 
-    /* ── Status bar ── */
+    /* ââ Status bar ââ */
     .status-bar {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 12px; padding: 24px;
@@ -83,7 +83,7 @@
     .status-card.down .value { color: var(--danger); }
     .status-card.info .value { color: var(--info); }
 
-    /* ── Section ── */
+    /* ââ Section ââ */
     .section { padding: 0 24px 32px; }
     .section-header {
       display: flex; align-items: center; justify-content: space-between;
@@ -92,7 +92,7 @@
     .section-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
     .section h2 { font-family: var(--serif); font-weight: 700; font-size: 22px; margin-top: 4px; }
 
-    /* ── Service grid ── */
+    /* ââ Service grid ââ */
     .service-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 12px;
@@ -139,7 +139,7 @@
     .service-footer a { color: var(--accent); text-decoration: none; }
     .service-footer a:hover { color: var(--accent-bright); }
 
-    /* ── Alert list ── */
+    /* ââ Alert list ââ */
     .alert-list { display: flex; flex-direction: column; gap: 8px; }
     .alert-item {
       display: flex; align-items: center; gap: 12px;
@@ -158,7 +158,7 @@
     }
     .alert-action:hover { background: rgba(107,124,82,0.15); }
 
-    /* ── Expiry timeline ── */
+    /* ââ Expiry timeline ââ */
     .expiry-table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .expiry-table th {
       text-align: left; font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
@@ -169,14 +169,14 @@
     .expiry-table td:first-child { color: var(--text); font-weight: 500; }
     .expiry-table tr:hover td { background: rgba(107,124,82,0.04); }
 
-    /* ── Footer ── */
+    /* ââ Footer ââ */
     .dash-footer {
       text-align: center; padding: 32px 24px; color: var(--text-dim);
       font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
       border-top: 1px solid var(--border); margin-top: 32px;
     }
 
-    /* ── Loading state ── */
+    /* ââ Loading state ââ */
     .loading-shimmer {
       background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-alt) 50%, var(--bg-card) 75%);
       background-size: 200% 100%;
@@ -184,7 +184,7 @@
     }
     @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-    /* ── Responsive ── */
+    /* ââ Responsive ââ */
     @media (max-width: 640px) {
       .dash-header { flex-direction: column; gap: 12px; align-items: flex-start; }
       .status-bar { grid-template-columns: repeat(2, 1fr); }
@@ -195,7 +195,7 @@
 </head>
 <body>
 
-<!-- ── HEADER ── -->
+<!-- ââ HEADER ââ -->
 <header class="dash-header">
   <div class="dash-header-left">
     <span class="dash-logo">Analyst</span>
@@ -214,7 +214,7 @@
   </div>
 </header>
 
-<!-- ── STATUS BAR ── -->
+<!-- ââ STATUS BAR ââ -->
 <div class="status-bar" id="status-bar">
   <div class="status-card healthy" id="stat-overall">
     <div class="value" id="stat-overall-val">-</div>
@@ -242,7 +242,7 @@
   </div>
 </div>
 
-<!-- ── ALERTS ── -->
+<!-- ââ ALERTS ââ -->
 <div class="section" id="alerts-section" style="display: none;">
   <div class="section-header">
     <div>
@@ -252,7 +252,7 @@
   <div class="alert-list" id="alert-list"></div>
 </div>
 
-<!-- ── SERVICES ── -->
+<!-- ââ SERVICES ââ -->
 <div class="section">
   <div class="section-header">
     <div>
@@ -266,7 +266,7 @@
   </div>
 </div>
 
-<!-- ── EXPIRY TRACKER ── -->
+<!-- ââ EXPIRY TRACKER ââ -->
 <div class="section">
   <div class="section-header">
     <div>
@@ -290,16 +290,16 @@
   </table>
 </div>
 
-<!-- ── FOOTER ── -->
+<!-- ââ FOOTER ââ -->
 <footer class="dash-footer">
-  Infrastructure Monitor v1.0 — analyst.rizrazak.com — Polling every 5 minutes
+  Infrastructure Monitor v1.0 â analyst.rizrazak.com â Polling every 5 minutes
 </footer>
 
-<!-- ── MODULE LOADER ── -->
+<!-- ââ MODULE LOADER ââ -->
 <script type="module">
   import { InfraMonitor } from '/js/infra/index.js';
 
-  // Same-origin — Worker routes analyst.rizrazak.com/*
+  // Same-origin â Worker routes analyst.rizrazak.com/*
   const WORKER_URL = location.origin;
 
   // Initialize monitor
@@ -310,7 +310,7 @@
 
   window._monitor = monitor;
 
-  // ── Render service cards ──────────────────────────────────
+  // ââ Render service cards ââââââââââââââââââââââââââââââââââ
   function renderServices() {
     const grid = document.getElementById('service-grid');
     const services = monitor.registry.getAll();
@@ -357,7 +357,7 @@
     }).join('');
   }
 
-  // ── Render status bar ─────────────────────────────────────
+  // ââ Render status bar âââââââââââââââââââââââââââââââââââââ
   function renderStatusBar() {
     const counts = monitor.checker.getStatusCounts();
     const alertCounts = monitor.expiry.getAlertCounts();
@@ -375,7 +375,7 @@
     overallCard.className = `status-card ${overall.toLowerCase()}`;
   }
 
-  // ── Render alerts ─────────────────────────────────────────
+  // ââ Render alerts âââââââââââââââââââââââââââââââââââââââââ
   function renderAlerts() {
     const alerts = monitor.expiry.getAlerts();
     const section = document.getElementById('alerts-section');
@@ -400,7 +400,7 @@
     }).join('');
   }
 
-  // ── Render expiry table ───────────────────────────────────
+  // ââ Render expiry table âââââââââââââââââââââââââââââââââââ
   function renderExpiry() {
     const items = monitor.expiry.getTrackedItems();
     const tbody = document.getElementById('expiry-tbody');
@@ -433,12 +433,12 @@
     }).join('');
   }
 
-  // ── Update timestamp ──────────────────────────────────────
+  // ââ Update timestamp ââââââââââââââââââââââââââââââââââââââ
   function updateTimestamp() {
     document.getElementById('last-checked').textContent = 'Last check: ' + new Date().toLocaleTimeString();
   }
 
-  // ── Wire events ───────────────────────────────────────────
+  // ââ Wire events âââââââââââââââââââââââââââââââââââââââââââ
   monitor.checker.on('checkAll', () => {
     renderServices();
     renderStatusBar();
@@ -456,14 +456,14 @@
     el.dataset.count = count;
   });
 
-  // ── Utility ───────────────────────────────────────────────
+  // ââ Utility âââââââââââââââââââââââââââââââââââââââââââââââ
   function esc(str) {
     const el = document.createElement('span');
     el.textContent = str || '';
     return el.innerHTML;
   }
 
-  // ── Initial render ────────────────────────────────────────
+  // ââ Initial render ââââââââââââââââââââââââââââââââââââââââ
   renderServices();
   renderStatusBar();
   renderAlerts();
@@ -478,11 +478,24 @@
       // Update service cards with server-side data
       Object.entries(data.checks || {}).forEach(([key, val]) => {
         const card = document.querySelector(`[data-service]`);
-        // Server-side results are supplementary — browser checks are primary
+        // Server-side results are supplementary â browser checks are primary
       });
     })
     .catch(err => console.warn('[infra] Worker health check failed:', err));
 </script>
 
+
+<!-- Comments v3 FAB -->
+<script>
+window.ANALYST_COMMENTS_CONFIG = {
+  supabaseUrl: 'https://ogunznqyfmxkmmwizpfy.supabase.co',
+  supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM',
+  dossierId: 'architecture-census',
+  adminEmail: 'riz@dgtl.lk',
+  siteUrl: 'https://analyst.rizrazak.com'
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="/_shared/comments-v3.js"></script>
 </body>
 </html>
