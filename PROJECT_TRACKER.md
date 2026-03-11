@@ -1,5 +1,5 @@
 # analyst.rizrazak.com — Living Project Tracker
-**Last updated:** 2026-03-11 (session 6)
+**Last updated:** 2026-03-11 (session 7)
 **Managed by:** Claude (Cowork)
 **Repo:** `riz-razak/analyst` → GitHub Pages → `analyst.rizrazak.com`
 
@@ -73,6 +73,33 @@
 
 - [x] **Caravan Fresh — Pledge portal iframe embed verified** *(2026-03-11)*
   - iframe loads `pledge-portal.html?lang=` with bilingual param passing ✅
+
+- [x] **Spam & Abuse Filter — deployed to Worker** *(2026-03-11)*
+  - 270-line synchronous content analysis in `collaborative-session.js`
+  - 30+ detection signals: keyword matching, URL spam, identity validation, profanity, threats
+  - Scoring: auto-approve (<15), moderate (15-59), auto-reject (>=60)
+  - Spam analysis stored in `moderation_note` JSON field
+  - Commit: `21ab26e`
+
+- [x] **Dossier Side Navigation — standardised across all dossiers** *(2026-03-11)*
+  - Shared component: `_shared/dossier-sidenav.css` + `_shared/dossier-sidenav.js`
+  - Desktop: fixed left sidebar (220px), auto-shows after hero scroll
+  - Mobile: FAB button (bottom-left) + overlay drawer (260px)
+  - Auto-discovery: sections with `data-nav-label` attributes
+  - Zero-config integration protocol: `SIDENAV-PROTOCOL.md`
+  - ✅ Deployed to 8 dossier pages: anatta-bamiyan, caravan-fresh, cricket, easter-sunday, happy-womaniser-day, hormuz, iran-us-israel-war, waren-yan
+  - Commits: `a0f9aaa`, `c25712f`
+
+- [x] **Comments v3 — rewritten with Supabase auth** *(2026-03-11)*
+  - Full rewrite from Worker-backed to Supabase magic-link authentication
+  - Features: threaded replies, admin badge, moderation visibility, i18n (EN/SI)
+  - Click-outside dismiss, Escape key close
+  - Requires `@supabase/supabase-js` loaded before script
+  - Commit: `a0f9aaa`
+
+- [x] **Repository cleanup — .gitignore expanded** *(2026-03-11)*
+  - Added: `__pycache__/`, `*.pyc`, `vm-changes.patch`, `.env`, `.vscode/`, `.idea/`
+  - Commit: `a0f9aaa`
 
 - [ ] **Caravan Fresh — Evidence 37 review**
   - Confirmed not present on live page — no action needed unless new evidence surfaces
@@ -153,7 +180,9 @@
 | Evidence Protocol | ✅ Created | `EVIDENCE_PROTOCOL.md` — full pipeline reference with verdict system |
 | Ethics Protocol | ✅ Created | `ETHICS_PROTOCOL.md` — source protection, victim-centered reporting |
 | Shared Evidence System | ✅ Created | `_shared/evidence-system.css` + `_shared/evidence-system.js` |
-| Shared Components | ✅ Live | `_shared/` — narrative-timeline, category-system, comments-v3, privacy-banner |
+| Shared Components | ✅ Live | `_shared/` — narrative-timeline, category-system, comments-v3, privacy-banner, dossier-sidenav |
+| Dossier Sidenav | ✅ All 8 dossiers | FAB + drawer mobile nav, auto-discover sections, `SIDENAV-PROTOCOL.md` |
+| Spam Filter | ✅ Worker deployed | 30+ signals, auto-approve/moderate/reject scoring |
 | Admin dashboard | ✅ Phase 0 live | CMS Overview + Dossier Manager at `#/cms` |
 | Comments v3 | ✅ All 8 dossiers | FAB + slide-out panel, Supabase-backed |
 | Kanban boards | ✅ Supabase live | 3 projects, 4 boards, admin `#/boards` |
