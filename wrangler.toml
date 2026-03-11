@@ -3,6 +3,10 @@ type = "service"
 main = "functions/_middleware.js"
 compatibility_date = "2025-03-09"
 
+# Daily cron: anonymise IPs older than 180 days (3am UTC)
+[triggers]
+crons = ["0 3 * * *"]
+
 [env.production]
 routes = [
   { pattern = "analyst.rizrazak.com/*", zone_name = "rizrazak.com" }

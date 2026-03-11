@@ -135,6 +135,11 @@ export default {
         return handleInfraProxyCheck(request, env);
       }
 
+      // ── Privacy / IP anonymisation ──
+      else if (path === '/api/privacy/anonymise') {
+        return handleAnonymiseIPs(request, env);
+      }
+
       return new Response(JSON.stringify({ error: 'Not Found' }), {
         status: 404,
         headers: { 'Content-Type': 'application/json' },
@@ -145,6 +150,19 @@ export default {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
+    }
+  },
+
+  // ── Cloudflare Cron Trigger ──────────────────────────────
+  // Runs daily to anonymise IPs older than 180 days
+  // Configure in wrangler.toml: [triggers] crons = ["0 3 * * *"]
+  async scheduled(event, env, ctx) {
+    console.log('[cron] IP anonymisation triggered at', new Date().toISOString());
+    try {
+      const result = await runIPAnonymisation(env);
+      console.log('[cron] Anonymised', result.affected, 'records');
+    } catch (e) {
+      console.error('[cron] Anonymisation failed:', e.message);
     }
   },
 };
@@ -2527,6 +2545,57 @@ async function handleCommentsPending(request, env) {
 
     const comments = await resp.json();
     return jsonResponse({ success: true, comments });
+  } catch (e) {
+    return jsonResponse({ error: e.message }, 500);
+  }
+}
+
+/**
+ * IP ANONYMISATION
+ * Calls Supabase RPC function to hash IPs older than 180 days
+ */
+const ANON_SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
+const ANON_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+
+async function runIPAnonymisation(env) {
+  const resp = await fetch(`${ANON_SUPABASE_URL}/rest/v1/rpc/anonymise_old_ips`, {
+    method: 'POST',
+    headers: {
+      'apikey': ANON_SUPABASE_KEY,
+      'Authorization': `Bearer ${ANON_SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: '{}',
+  });
+
+  if (!resp.ok) {
+    const err = await resp.text();
+    throw new Error(`Supabase RPC error ${resp.status}: ${err}`);
+  }
+
+  const affected = await resp.json();
+  return { affected: affected || 0 };
+}
+
+async function handleAnonymiseIPs(request, env) {
+  // Only allow POST, and require a simple auth header to prevent abuse
+  if (request.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  const authHeader = request.headers.get('X-Cron-Key') || '';
+  if (authHeader !== 'analyst-cron-2026' && !request.headers.get('CF-Worker')) {
+    return jsonResponse({ error: 'Unauthorized' }, 401);
+  }
+
+  try {
+    const result = await runIPAnonymisation(env);
+    return jsonResponse({
+      success: true,
+      message: `Anonymised ${result.affected} IP addresses older than 180 days`,
+      affected: result.affected,
+      timestamp: new Date().toISOString(),
+    });
   } catch (e) {
     return jsonResponse({ error: e.message }, 500);
   }
