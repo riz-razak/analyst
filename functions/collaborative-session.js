@@ -128,6 +128,13 @@ export default {
         return handleAddColumn(request, env, boardId);
       }
 
+      // ── Thumbnail generation endpoints ──
+      else if (path === '/api/thumbnail/generate') {
+        return handleThumbnailGenerate(request, env);
+      } else if (path === '/api/thumbnail/upload') {
+        return handleThumbnailUpload(request, env);
+      }
+
       // ── Infrastructure monitoring endpoints ──
       else if (path === '/api/infra/health') {
         return handleInfraHealth(request, env);
@@ -2876,6 +2883,233 @@ async function handleAnonymiseIPs(request, env) {
     return jsonResponse({ error: e.message }, 500);
   }
 }
+
+// ════════════════════════════════════════════════════════════════
+// THUMBNAIL GENERATION & UPLOAD
+// ════════════════════════════════════════════════════════════════
+
+/**
+ * POST /api/thumbnail/generate
+ * Generates a thumbnail prompt and saves it to KV.
+ * When GEMINI_API_KEY is available, will call Gemini Imagen directly.
+ *
+ * Body: { dossierId, prompt, negativePrompt, style, aspectRatio, category, title }
+ * Returns: { promptSaved: true, prompt } or { imageUrl } when AI generation is active
+ */
+async function handleThumbnailGenerate(request, env) {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization' } });
+  }
+  if (request.method !== 'POST') return jsonResponse({ error: 'Method not allowed' }, 405);
+
+  try {
+    const body = await request.json();
+    const { dossierId, prompt, negativePrompt, style, aspectRatio, category, title } = body;
+    if (!dossierId || !prompt) return jsonResponse({ error: 'dossierId and prompt required' }, 400);
+
+    // Save prompt metadata to KV for reference
+    const thumbMeta = {
+      dossierId,
+      prompt,
+      negativePrompt: negativePrompt || '',
+      style: style || 'investigative',
+      aspectRatio: aspectRatio || '16:9',
+      category: category || '',
+      title: title || '',
+      createdAt: new Date().toISOString(),
+      status: 'prompt_ready'
+    };
+
+    await env.SESSION_STORE.put(
+      `thumb:${dossierId}`,
+      JSON.stringify(thumbMeta),
+      { expirationTtl: 86400 * 90 } // 90 days
+    );
+
+    // ── Future: Gemini Imagen API integration ──
+    // When GEMINI_API_KEY is set as a Worker secret, this section will
+    // call the API and return { imageUrl: "..." } directly.
+    //
+    // To enable:
+    //   wrangler secret put GEMINI_API_KEY --env production
+    //
+    // The endpoint will then:
+    //   1. Call Gemini Imagen with the prompt
+    //   2. Upload the result to GitHub at /images/thumbnails/{dossierId}.jpg
+    //   3. Return { imageUrl: "/images/thumbnails/{dossierId}.jpg" }
+    //
+    if (env.GEMINI_API_KEY) {
+      try {
+        const imageUrl = await generateWithGemini(env, dossierId, prompt, negativePrompt, aspectRatio);
+        if (imageUrl) {
+          thumbMeta.status = 'generated';
+          thumbMeta.imageUrl = imageUrl;
+          await env.SESSION_STORE.put(`thumb:${dossierId}`, JSON.stringify(thumbMeta), { expirationTtl: 86400 * 90 });
+          return jsonResponse({ imageUrl, prompt, style, aspectRatio });
+        }
+      } catch (genErr) {
+        console.error('[Thumbnail] Gemini generation failed:', genErr);
+        // Fall through to prompt-only response
+      }
+    }
+
+    return jsonResponse({
+      promptSaved: true,
+      prompt,
+      style,
+      aspectRatio,
+      message: 'Prompt saved. AI generation requires GEMINI_API_KEY secret. Use "Copy Prompt" to generate externally.'
+    });
+
+  } catch (err) {
+    console.error('[Thumbnail] Generate error:', err);
+    return jsonResponse({ error: err.message }, 500);
+  }
+}
+
+/**
+ * Generate thumbnail using Google Gemini Imagen API.
+ * Uploads result to GitHub and returns the path.
+ */
+async function generateWithGemini(env, dossierId, prompt, negativePrompt, aspectRatio) {
+  // Gemini Imagen API endpoint
+  const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict';
+
+  const ratioMap = { '16:9': '16:9', '1:1': '1:1', '9:16': '9:16' };
+  const imageParams = {
+    instances: [{ prompt }],
+    parameters: {
+      sampleCount: 1,
+      aspectRatio: ratioMap[aspectRatio] || '16:9',
+      ...(negativePrompt ? { negativePrompt } : {})
+    }
+  };
+
+  const resp = await fetch(`${apiUrl}?key=${env.GEMINI_API_KEY}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(imageParams)
+  });
+
+  if (!resp.ok) {
+    const errText = await resp.text();
+    throw new Error(`Gemini API error: ${resp.status} — ${errText}`);
+  }
+
+  const data = await resp.json();
+  const imageBase64 = data?.predictions?.[0]?.bytesBase64Encoded;
+  if (!imageBase64) throw new Error('No image in Gemini response');
+
+  // Upload to GitHub
+  const githubPath = `public/images/thumbnails/${dossierId}.jpg`;
+  const uploaded = await uploadToGitHub(env, githubPath, imageBase64, `Add AI-generated thumbnail for ${dossierId}`);
+  if (!uploaded) throw new Error('GitHub upload failed');
+
+  return `/images/thumbnails/${dossierId}.jpg`;
+}
+
+/**
+ * POST /api/thumbnail/upload
+ * Manually upload a thumbnail image to GitHub repository.
+ *
+ * Body: { dossierId, imageBase64, filename }
+ * Returns: { success: true, url }
+ */
+async function handleThumbnailUpload(request, env) {
+  if (request.method === 'OPTIONS') {
+    return new Response(null, { headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type, Authorization' } });
+  }
+  if (request.method !== 'POST') return jsonResponse({ error: 'Method not allowed' }, 405);
+
+  try {
+    const body = await request.json();
+    const { dossierId, imageBase64, filename } = body;
+    if (!dossierId || !imageBase64) return jsonResponse({ error: 'dossierId and imageBase64 required' }, 400);
+
+    const fname = filename || `${dossierId}.jpg`;
+    const githubPath = `public/images/thumbnails/${fname}`;
+
+    const uploaded = await uploadToGitHub(env, githubPath, imageBase64, `Upload thumbnail for ${dossierId}`);
+    if (!uploaded) return jsonResponse({ error: 'GitHub upload failed. Check GITHUB_TOKEN secret.' }, 500);
+
+    const url = `/images/thumbnails/${fname}`;
+
+    // Update thumbnail metadata in KV
+    const existingMeta = await env.SESSION_STORE.get(`thumb:${dossierId}`, 'json') || {};
+    existingMeta.imageUrl = url;
+    existingMeta.status = 'uploaded';
+    existingMeta.uploadedAt = new Date().toISOString();
+    await env.SESSION_STORE.put(`thumb:${dossierId}`, JSON.stringify(existingMeta), { expirationTtl: 86400 * 90 });
+
+    return jsonResponse({ success: true, url });
+
+  } catch (err) {
+    console.error('[Thumbnail] Upload error:', err);
+    return jsonResponse({ error: err.message }, 500);
+  }
+}
+
+/**
+ * Upload a base64-encoded file to GitHub via the Contents API.
+ * Uses GITHUB_TOKEN from Worker secrets.
+ */
+async function uploadToGitHub(env, path, base64Content, commitMessage) {
+  if (!env.GITHUB_TOKEN) {
+    console.error('[GitHub] GITHUB_TOKEN not configured');
+    return false;
+  }
+
+  const repo = env.GITHUB_REPO || 'riz-razak/analyst';
+  const branch = env.GITHUB_BRANCH || 'main';
+  const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
+
+  try {
+    // Check if file already exists (need SHA to update)
+    let sha = null;
+    const checkResp = await fetch(`${apiUrl}?ref=${branch}`, {
+      headers: {
+        'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+        'User-Agent': 'analyst-cms-worker',
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if (checkResp.ok) {
+      const existing = await checkResp.json();
+      sha = existing.sha;
+    }
+
+    // Create or update file
+    const body = {
+      message: commitMessage,
+      content: base64Content,
+      branch,
+      ...(sha ? { sha } : {})
+    };
+
+    const resp = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+        'User-Agent': 'analyst-cms-worker',
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!resp.ok) {
+      const errText = await resp.text();
+      console.error(`[GitHub] Upload failed: ${resp.status} — ${errText}`);
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    console.error('[GitHub] Upload error:', err);
+    return false;
+  }
+}
+
 
 /**
  * Utility: return a JSON response with CORS headers.

@@ -7691,7 +7691,8 @@ function renderDetailView(id) {
 
     // Update panel dossier names
     document.getElementById('fb-panel-dossier').textContent = dossier.title;
-    document.getElementById('thumb-prompt').placeholder = `A dark investigative journalism thumbnail for ${dossier.title}...`;
+    document.getElementById('thumb-panel-dossier').textContent = dossier.title;
+    document.getElementById('thumb-prompt').placeholder = `Describe the thumbnail you want for "${dossier.title}"...`;
 }
 
 // ========================================
@@ -8033,52 +8034,334 @@ function setupDetailView() {
         document.getElementById('fb-video-panel').classList.remove('open');
     });
 
-    // Generate thumbnail button
-    document.getElementById('generate-thumb-btn').addEventListener('click', () => {
-        document.getElementById('thumb-gen-panel').classList.add('open');
-    });
+    // ═══════════════════════════════════════════════════════════
+    // THUMBNAIL GENERATION SYSTEM
+    // ═══════════════════════════════════════════════════════════
 
-    // Thumbnail generator close
+    // Category-specific prompt templates
+    const THUMB_STYLE_TEMPLATES = {
+        investigative: {
+            prefix: 'Dark cinematic investigative journalism thumbnail,',
+            suffix: 'moody lighting, dramatic shadows, film noir atmosphere, high contrast, grain texture, 4K quality',
+            catHints: {
+                corruption: 'shattered glass, broken chains, red and black palette, corporate shadows',
+                geopolitics: 'world map fragments, chess pieces, strategic overlay, muted earth tones with gold accents',
+                philosophy: 'abstract thought bubbles, mandala patterns, contemplative silhouettes, muted sage tones',
+                'social-commentary': 'newspaper fragments, magnifying glass, urban textures, warm earth palette',
+                'ai-tech': 'circuit board patterns, digital grid, holographic elements, cool blue-steel tones',
+            }
+        },
+        editorial: {
+            prefix: 'Clean editorial magazine cover thumbnail,',
+            suffix: 'minimalist composition, strong typography space, professional, matte finish, balanced layout',
+            catHints: {
+                corruption: 'stacked documents, broken seal, stark red accent on white',
+                geopolitics: 'globe detail, diplomatic setting, formal with tension, navy and gold',
+                philosophy: 'single symbolic object, vast negative space, contemplative, sage green',
+                'social-commentary': 'people silhouettes, public space, warmth and empathy, earth tones',
+                'ai-tech': 'sleek interface, data visualization, modern minimal, blue gradients',
+            }
+        },
+        abstract: {
+            prefix: 'Abstract symbolic art thumbnail,',
+            suffix: 'painterly textures, metaphorical imagery, rich palette, gallery-quality composition, no text',
+            catHints: {
+                corruption: 'crumbling tower, thorny vines, blood-red on dark canvas, decay motif',
+                geopolitics: 'tectonic plates shifting, interlocking gears, amber and shadow',
+                philosophy: 'yin-yang dissolution, ripples in still water, infinite regression, forest green mist',
+                'social-commentary': 'fractured mirror, human hands reaching, warm ochre and burnt sienna',
+                'ai-tech': 'neural network visualization, code rain, bioluminescent blue patterns',
+            }
+        },
+        documentary: {
+            prefix: 'Photojournalistic documentary thumbnail,',
+            suffix: 'natural lighting, candid feel, photorealistic, street photography aesthetic, subtle grain',
+            catHints: {
+                corruption: 'empty government hallway, locked door, scattered papers, harsh fluorescent',
+                geopolitics: 'busy port or border crossing, flags, diplomatic atmosphere, golden hour',
+                philosophy: 'ancient temple ruins at dawn, meditation space, natural serenity',
+                'social-commentary': 'marketplace crowd, everyday life moment, authentic humanity, warm light',
+                'ai-tech': 'server room glow, person at workstation, technology in daily life',
+            }
+        }
+    };
+
+    let thumbState = { style: 'investigative', ratio: '16:9', generatedUrl: null };
+
+    function buildThumbPrompt(dossier) {
+        const style = THUMB_STYLE_TEMPLATES[thumbState.style] || THUMB_STYLE_TEMPLATES.investigative;
+        const catHint = style.catHints[dossier.category] || '';
+        const keywords = (dossier.tags || []).slice(0, 4).join(', ');
+        const ratioDesc = thumbState.ratio === '16:9' ? 'wide landscape format (16:9)' : thumbState.ratio === '1:1' ? 'square format (1:1)' : 'vertical portrait format (9:16)';
+
+        return `${style.prefix} ${ratioDesc}, themed around: "${dossier.title}". ${catHint}. Key themes: ${keywords}. ${style.suffix}. No text or words in the image. Sri Lankan context where relevant.`;
+    }
+
+    function openThumbPanel() {
+        const dossier = dossiersData.find(d => d.id === appState.currentDossierId);
+        if (!dossier) return;
+
+        document.getElementById('thumb-panel-dossier').textContent = dossier.title;
+        document.getElementById('thumb-gen-panel').classList.add('open');
+        document.getElementById('thumb-preview-area').style.display = 'none';
+        document.getElementById('thumb-gen-status').style.display = 'none';
+
+        // Auto-generate initial prompt
+        document.getElementById('thumb-prompt').value = buildThumbPrompt(dossier);
+        updateThumbPromptChars();
+    }
+
+    function updateThumbPromptChars() {
+        const len = (document.getElementById('thumb-prompt').value || '').length;
+        document.getElementById('thumb-prompt-chars').textContent = `${len} chars`;
+    }
+
+    // Open panel
+    document.getElementById('generate-thumb-btn').addEventListener('click', openThumbPanel);
+    document.getElementById('change-thumb-btn').addEventListener('click', openThumbPanel);
+
+    // Close panel
     document.getElementById('thumb-gen-close').addEventListener('click', () => {
         document.getElementById('thumb-gen-panel').classList.remove('open');
     });
 
-    // Generate thumbnail submit
-    document.getElementById('generate-thumb-submit').addEventListener('click', () => {
-        const spinner = document.createElement('span');
-        spinner.className = 'spinner';
-        const btn = document.getElementById('generate-thumb-submit');
-        btn.disabled = true;
-        btn.textContent = '';
-        btn.appendChild(spinner);
+    // Style preset selection
+    document.getElementById('thumb-style-grid').addEventListener('click', (e) => {
+        const btn = e.target.closest('.thumb-style-btn');
+        if (!btn) return;
+        document.querySelectorAll('.thumb-style-btn').forEach(b => {
+            b.classList.remove('active');
+            b.style.borderColor = 'var(--border-color)';
+        });
+        btn.classList.add('active');
+        btn.style.borderColor = 'var(--color-primary)';
+        thumbState.style = btn.dataset.style;
 
-        setTimeout(() => {
-            btn.textContent = 'Generate';
-            btn.disabled = false;
-            showToast('Thumbnail generated (placeholder)');
-        }, 2000);
+        // Regenerate prompt with new style
+        const dossier = dossiersData.find(d => d.id === appState.currentDossierId);
+        if (dossier) {
+            document.getElementById('thumb-prompt').value = buildThumbPrompt(dossier);
+            updateThumbPromptChars();
+        }
     });
 
-    // Use thumbnail button
-    document.getElementById('use-thumb-btn').addEventListener('click', () => {
-        showToast('Thumbnail saved');
+    // Aspect ratio selection
+    document.querySelectorAll('.thumb-ratio-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.thumb-ratio-btn').forEach(b => {
+                b.classList.remove('active');
+                b.style.borderColor = 'var(--border-color)';
+            });
+            btn.classList.add('active');
+            btn.style.borderColor = 'var(--color-primary)';
+            thumbState.ratio = btn.dataset.ratio;
+
+            // Update preview aspect ratio
+            const ratioMap = { '16:9': '16/9', '1:1': '1/1', '9:16': '9/16' };
+            document.getElementById('thumb-preview-img').style.aspectRatio = ratioMap[thumbState.ratio] || '16/9';
+
+            // Regenerate prompt with new ratio
+            const dossier = dossiersData.find(d => d.id === appState.currentDossierId);
+            if (dossier) {
+                document.getElementById('thumb-prompt').value = buildThumbPrompt(dossier);
+                updateThumbPromptChars();
+            }
+        });
+    });
+
+    // Prompt char counter
+    document.getElementById('thumb-prompt').addEventListener('input', updateThumbPromptChars);
+
+    // Auto-generate prompt button
+    document.getElementById('thumb-auto-prompt').addEventListener('click', () => {
+        const dossier = dossiersData.find(d => d.id === appState.currentDossierId);
+        if (dossier) {
+            document.getElementById('thumb-prompt').value = buildThumbPrompt(dossier);
+            updateThumbPromptChars();
+            showToast('Prompt auto-generated from dossier metadata');
+        }
+    });
+
+    // Copy prompt to clipboard
+    document.getElementById('thumb-copy-prompt').addEventListener('click', async () => {
+        const prompt = document.getElementById('thumb-prompt').value;
+        if (!prompt) { showToast('No prompt to copy'); return; }
+        try {
+            await navigator.clipboard.writeText(prompt);
+            showToast('Prompt copied to clipboard!');
+            document.getElementById('thumb-copy-prompt').innerHTML = '✓ Copied!';
+            setTimeout(() => {
+                document.getElementById('thumb-copy-prompt').innerHTML = '📋 Copy Prompt to Clipboard';
+            }, 2000);
+        } catch (err) {
+            // Fallback for clipboard API failure
+            const ta = document.createElement('textarea');
+            ta.value = prompt;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast('Prompt copied!');
+        }
+    });
+
+    // Generate thumbnail (calls Worker API)
+    document.getElementById('generate-thumb-submit').addEventListener('click', async () => {
+        const dossier = dossiersData.find(d => d.id === appState.currentDossierId);
+        if (!dossier) return;
+
+        const prompt = document.getElementById('thumb-prompt').value;
+        const negative = document.getElementById('thumb-negative').value;
+        if (!prompt) { showToast('Please enter a prompt'); return; }
+
+        const btn = document.getElementById('generate-thumb-submit');
+        const status = document.getElementById('thumb-gen-status');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Generating...';
+        status.style.display = 'block';
+        status.textContent = 'Sending to AI thumbnail service...';
+
+        try {
+            const WORKER = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
+            const stored = localStorage.getItem('sb-ogunznqyfmxkmmwizpfy-auth-token');
+            const tokenData = stored ? JSON.parse(stored) : {};
+            const jwt = tokenData?.access_token || tokenData;
+
+            const resp = await fetch(`${WORKER}/api/thumbnail/generate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}` },
+                body: JSON.stringify({
+                    dossierId: dossier.id,
+                    prompt: prompt,
+                    negativePrompt: negative,
+                    style: thumbState.style,
+                    aspectRatio: thumbState.ratio,
+                    category: dossier.category,
+                    title: dossier.title
+                })
+            });
+
+            const data = await resp.json();
+
+            if (data.imageUrl) {
+                // Image was generated (future: when Gemini API is integrated)
+                thumbState.generatedUrl = data.imageUrl;
+                document.getElementById('thumb-preview-src').src = data.imageUrl;
+                document.getElementById('thumb-preview-area').style.display = 'block';
+                status.textContent = 'Thumbnail generated successfully!';
+                status.style.color = '#059669';
+            } else if (data.promptSaved) {
+                // Prompt was saved for manual generation
+                status.innerHTML = `Prompt saved to dossier. <strong>Copy the prompt above</strong> and generate in your preferred AI tool, then upload the result.`;
+                status.style.color = 'var(--text-secondary)';
+                showToast('Prompt saved! Use "Copy Prompt" to generate externally.');
+            } else if (data.error) {
+                status.textContent = `Error: ${data.error}`;
+                status.style.color = '#dc2626';
+            }
+        } catch (err) {
+            status.textContent = `Network error: ${err.message}. Use "Copy Prompt" to generate manually.`;
+            status.style.color = '#dc2626';
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = '✨ Generate Thumbnail';
+    });
+
+    // Use generated thumbnail
+    document.getElementById('use-thumb-btn').addEventListener('click', async () => {
+        if (!thumbState.generatedUrl) { showToast('No thumbnail to use'); return; }
+        const dossier = dossiersData.find(d => d.id === appState.currentDossierId);
+        if (!dossier) return;
+
+        // Update dossier data
+        dossier.thumbnailUrl = thumbState.generatedUrl;
+        document.getElementById('detail-thumbnail-display').style.backgroundImage = `url(${thumbState.generatedUrl})`;
+        document.getElementById('detail-thumbnail-display').style.backgroundSize = 'cover';
+        document.getElementById('detail-thumbnail-display').style.backgroundPosition = 'center';
+
+        showToast('Thumbnail applied to dossier!');
         document.getElementById('thumb-gen-panel').classList.remove('open');
     });
 
-    // Download thumbnail button
+    // Regenerate
+    const regenBtn = document.getElementById('thumb-regenerate-btn');
+    if (regenBtn) {
+        regenBtn.addEventListener('click', () => {
+            document.getElementById('generate-thumb-submit').click();
+        });
+    }
+
+    // Download thumbnail
     document.getElementById('download-thumb-btn').addEventListener('click', () => {
+        if (!thumbState.generatedUrl) { showToast('No thumbnail to download'); return; }
+        const a = document.createElement('a');
+        a.href = thumbState.generatedUrl;
+        a.download = `${appState.currentDossierId || 'thumbnail'}-thumb.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
         showToast('Downloading thumbnail...');
     });
 
-    // Change thumbnail button
-    document.getElementById('change-thumb-btn').addEventListener('click', () => {
-        document.getElementById('thumb-gen-panel').classList.add('open');
+    // Upload thumbnail button — trigger file input
+    document.getElementById('upload-thumbnail-btn').addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/jpeg,image/png,image/webp';
+        input.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const dossier = dossiersData.find(d => d.id === appState.currentDossierId);
+            if (!dossier) return;
+
+            // Read as data URL for preview
+            const reader = new FileReader();
+            reader.onload = async (ev) => {
+                const dataUrl = ev.target.result;
+
+                // Show in detail thumbnail display
+                document.getElementById('detail-thumbnail-display').style.backgroundImage = `url(${dataUrl})`;
+                document.getElementById('detail-thumbnail-display').style.backgroundSize = 'cover';
+                document.getElementById('detail-thumbnail-display').style.backgroundPosition = 'center';
+
+                // Try to upload to GitHub via Worker
+                try {
+                    const WORKER = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
+                    const stored = localStorage.getItem('sb-ogunznqyfmxkmmwizpfy-auth-token');
+                    const tokenData = stored ? JSON.parse(stored) : {};
+                    const jwt = tokenData?.access_token || tokenData;
+
+                    const base64 = dataUrl.split(',')[1];
+                    const resp = await fetch(`${WORKER}/api/thumbnail/upload`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}` },
+                        body: JSON.stringify({
+                            dossierId: dossier.id,
+                            imageBase64: base64,
+                            filename: `${dossier.id}.jpg`
+                        })
+                    });
+                    const data = await resp.json();
+                    if (data.success) {
+                        dossier.thumbnailUrl = data.url || `/images/thumbnails/${dossier.id}.jpg`;
+                        showToast('Thumbnail uploaded to GitHub!');
+                    } else {
+                        showToast('Preview applied locally. Upload to GitHub failed: ' + (data.error || 'unknown'));
+                    }
+                } catch (err) {
+                    showToast('Preview applied locally. GitHub upload unavailable.');
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+        input.click();
     });
 
-    // Upload thumbnail button
-    document.getElementById('upload-thumbnail-btn').addEventListener('click', () => {
-        showToast('File upload coming soon');
-    });
+    // Initialize active style borders
+    document.querySelectorAll('.thumb-style-btn.active').forEach(b => b.style.borderColor = 'var(--color-primary)');
+    document.querySelectorAll('.thumb-ratio-btn.active').forEach(b => b.style.borderColor = 'var(--color-primary)');
 }
 
 // ========================================
@@ -8564,6 +8847,100 @@ async function toggleCMSDossierVisibility() {
         showToast('Error updating visibility: ' + err.message);
     }
 }</script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     THUMBNAIL GENERATION PANEL — AI-Powered Thumbnail Generator
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="side-panel" id="thumb-gen-panel" style="width: 440px;">
+    <div class="side-panel-header">
+        <span class="side-panel-title">✨ AI Thumbnail Generator</span>
+        <button class="side-panel-close" id="thumb-gen-close">×</button>
+    </div>
+    <div class="side-panel-content">
+        <!-- Dossier context -->
+        <div style="padding: 10px 14px; background: var(--bg-sidebar); border-radius: 8px; margin-bottom: 16px; border: 1px solid var(--border-color);">
+            <div style="font-size: 11px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Generating for</div>
+            <div id="thumb-panel-dossier" style="font-size: 14px; font-weight: 600; color: var(--text-primary); line-height: 1.4;"></div>
+        </div>
+
+        <!-- Style preset -->
+        <div class="side-panel-field">
+            <label class="side-panel-label">Style Preset</label>
+            <div id="thumb-style-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <button class="thumb-style-btn active" data-style="investigative" style="padding: 10px; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-main); cursor: pointer; text-align: left; transition: all 0.15s;">
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">🔍 Investigative</div>
+                    <div style="font-size: 11px; color: var(--text-light);">Dark, dramatic, cinematic</div>
+                </button>
+                <button class="thumb-style-btn" data-style="editorial" style="padding: 10px; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-main); cursor: pointer; text-align: left; transition: all 0.15s;">
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">📰 Editorial</div>
+                    <div style="font-size: 11px; color: var(--text-light);">Clean, magazine-like</div>
+                </button>
+                <button class="thumb-style-btn" data-style="abstract" style="padding: 10px; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-main); cursor: pointer; text-align: left; transition: all 0.15s;">
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">🎨 Abstract</div>
+                    <div style="font-size: 11px; color: var(--text-light);">Symbolic, metaphorical</div>
+                </button>
+                <button class="thumb-style-btn" data-style="documentary" style="padding: 10px; border-radius: 8px; border: 2px solid var(--border-color); background: var(--bg-main); cursor: pointer; text-align: left; transition: all 0.15s;">
+                    <div style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">📷 Documentary</div>
+                    <div style="font-size: 11px; color: var(--text-light);">Photojournalism feel</div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Aspect ratio -->
+        <div class="side-panel-field">
+            <label class="side-panel-label">Aspect Ratio</label>
+            <div style="display: flex; gap: 8px;">
+                <button class="thumb-ratio-btn active" data-ratio="16:9" style="flex: 1; padding: 8px; border-radius: 6px; border: 2px solid var(--border-color); background: var(--bg-main); cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-primary); transition: all 0.15s;">16:9 Hero</button>
+                <button class="thumb-ratio-btn" data-ratio="1:1" style="flex: 1; padding: 8px; border-radius: 6px; border: 2px solid var(--border-color); background: var(--bg-main); cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-primary); transition: all 0.15s;">1:1 Social</button>
+                <button class="thumb-ratio-btn" data-ratio="9:16" style="flex: 1; padding: 8px; border-radius: 6px; border: 2px solid var(--border-color); background: var(--bg-main); cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-primary); transition: all 0.15s;">9:16 Story</button>
+            </div>
+        </div>
+
+        <!-- Prompt -->
+        <div class="side-panel-field">
+            <label class="side-panel-label">Prompt</label>
+            <textarea id="thumb-prompt" class="side-panel-input" rows="5" style="resize: vertical; font-size: 13px; line-height: 1.5;"></textarea>
+            <div style="display: flex; justify-content: space-between; margin-top: 6px;">
+                <button id="thumb-auto-prompt" style="font-size: 11px; color: var(--color-primary); background: none; border: none; cursor: pointer; font-weight: 600; padding: 0;">⚡ Auto-generate prompt</button>
+                <span id="thumb-prompt-chars" style="font-size: 11px; color: var(--text-light);">0 chars</span>
+            </div>
+        </div>
+
+        <!-- Negative prompt -->
+        <div class="side-panel-field">
+            <label class="side-panel-label">Negative Prompt <span style="font-weight: 400; text-transform: none; letter-spacing: 0;">(optional)</span></label>
+            <input type="text" id="thumb-negative" class="side-panel-input" value="text, watermark, logo, blurry, low quality, distorted faces, hands" style="font-size: 12px;" />
+        </div>
+
+        <!-- Generate button -->
+        <button id="generate-thumb-submit" style="width: 100%; padding: 12px; border-radius: 8px; border: none; background: linear-gradient(135deg, #1b4d2e 0%, #2d5a27 100%); color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            ✨ Generate Thumbnail
+        </button>
+        <div id="thumb-gen-status" style="font-size: 12px; color: var(--text-light); text-align: center; margin-top: 8px; display: none;"></div>
+
+        <!-- Preview area -->
+        <div id="thumb-preview-area" style="display: none; margin-top: 20px;">
+            <label class="side-panel-label">Preview</label>
+            <div id="thumb-preview-img" style="width: 100%; aspect-ratio: 16/9; border-radius: 8px; background: var(--bg-sidebar); border: 1px solid var(--border-color); overflow: hidden; position: relative;">
+                <img id="thumb-preview-src" style="width: 100%; height: 100%; object-fit: cover;" />
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                <button id="use-thumb-btn" style="flex: 1; padding: 10px; border-radius: 6px; border: none; background: var(--color-primary); color: #fff; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;">✓ Use This</button>
+                <button id="thumb-regenerate-btn" style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-primary); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;">↻ Regenerate</button>
+                <button id="download-thumb-btn" style="padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-primary); font-size: 13px; cursor: pointer;">↓</button>
+            </div>
+        </div>
+
+        <!-- Prompt clipboard section (for manual generation) -->
+        <div id="thumb-clipboard-section" style="margin-top: 20px; padding: 14px; background: var(--bg-sidebar); border-radius: 8px; border: 1px solid var(--border-color);">
+            <div style="font-size: 11px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 600;">Quick Export</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.5;">Copy the prompt to use in Gemini, DALL-E, Midjourney, or any image generator.</div>
+            <button id="thumb-copy-prompt" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-primary); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px;">
+                📋 Copy Prompt to Clipboard
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- Global toast notification -->
 <div id="toast" style="display:none; position:fixed; bottom:24px; right:24px; z-index:2000; padding:12px 20px; background:#1F2937; color:#fff; border-radius:8px; font-size:13px; font-weight:500; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:opacity 0.3s;"></div>
