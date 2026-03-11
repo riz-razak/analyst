@@ -1042,23 +1042,26 @@ body.sinhala [lang-en-inline] { display: none !important; }
 /* ===== HERO EPIGRAPH (Utopia quote — inside dark hero) ===== */
 .hero-epigraph {
   margin: 40px auto 0; max-width: 560px;
-  padding: 24px 28px; border-radius: var(--radius);
-  background: rgba(192,57,43,0.06);
-  border-left: 3px solid rgba(192,57,43,0.4);
+  padding: 28px 32px; border-radius: var(--radius);
+  background: rgba(192,57,43,0.12);
+  border-left: 4px solid rgba(232,168,156,0.6);
   text-align: left;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.04);
+  backdrop-filter: blur(4px);
 }
 .hero-epigraph blockquote {
-  font-family: var(--font-sinhala); font-size: 0.95rem;
-  line-height: 1.9; color: rgba(245,240,224,0.85); font-weight: 600;
+  font-family: var(--font-sinhala); font-size: 1.05rem;
+  line-height: 1.9; color: #f5f0e0; font-weight: 700;
   margin: 0;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
 }
 .hero-epigraph .translation {
-  display: block; margin-top: 8px;
-  font-family: var(--font-serif); font-size: 0.88rem;
-  color: rgba(245,240,224,0.5); font-style: italic;
+  display: block; margin-top: 10px;
+  font-family: var(--font-serif); font-size: 0.92rem;
+  color: rgba(245,240,224,0.7); font-style: italic;
 }
 .hero-epigraph .epigraph-attr {
-  display: block; margin-top: 10px;
+  display: block; margin-top: 12px;
   font-family: var(--font-sans); font-size: 0.72rem;
   color: rgba(245,240,224,0.3); font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.08em;
@@ -1214,8 +1217,8 @@ body.sinhala [lang-en-inline] { display: none !important; }
     <p class="hero-tagline" lang-si>මවාපාන දාර්ශනිකයින් සහ නවස්ත්‍රීවාදී මිත්‍රයින්</p>
 
     <!-- Description — pushed below, less focus -->
-    <p class="subtitle" lang-en data-cms-id="hero-subtitle-en">On International Women's Day 2026, a state-owned newspaper chose a man with documented sexual harassment allegations to celebrate Simone de Beauvoir's feminist philosophy. Multiple women had publicly posted screenshot evidence. This is that story.</p>
-    <p class="subtitle" lang-si data-cms-id="hero-subtitle-si">2026 ජාත්‍යන්තර කාන්තා දිනයේදී, රජයට අයත් පුවත්පතක් ලේඛනගත ලිංගික හිරිහැර චෝදනා ඇති පුරුෂයෙකු සිමෝන් ද බියුවෝර්ගේ ස්ත්‍රීවාදී දර්ශනය සැමරීමට තෝරා ගත්තේය. බහු කාන්තාවන් තිරපිටපත් සාක්ෂි ප්‍රසිද්ධියේ පළ කර තිබුණි. මේ ඒ කතාවයි.</p>
+    <p class="subtitle" lang-en data-cms-id="hero-subtitle-en">On International Women's Day 2026, journalist <strong style="color:rgba(245,240,224,0.7)">Anuradha Perera</strong> and the Sunday Observer platformed <strong style="color:rgba(245,240,224,0.7)">Vangeesa Sumanasekara</strong> — a man with documented sexual harassment allegations — to celebrate Simone de Beauvoir's feminist philosophy. <strong style="color:rgba(245,240,224,0.7)">Vincika De Saram</strong> and others had publicly posted screenshot evidence years earlier. When confronted, the journalist blamed the victim.</p>
+    <p class="subtitle" lang-si data-cms-id="hero-subtitle-si">2026 ජාත්‍යන්තර කාන්තා දිනයේදී, මාධ්‍යවේදිනි <strong style="color:rgba(245,240,224,0.7)">අනුරාධා පෙරේරා</strong> සහ සන්ඩේ ඔබ්සර්වර් ලේඛනගත ලිංගික හිරිහැර චෝදනා ඇති <strong style="color:rgba(245,240,224,0.7)">වංගීස සුමනසේකර</strong>ව සිමෝන් ද බියුවෝර්ගේ ස්ත්‍රීවාදී දර්ශනය සැමරීමට වේදිකා ගත කළේය. <strong style="color:rgba(245,240,224,0.7)">වින්සිකා ද සේරම්</strong> සහ අනෙක් අය වසර කිහිපයකට පෙර තිරපිටපත් සාක්ෂි ප්‍රසිද්ධියේ පළ කර තිබුණි. මුහුණ දුන් විට, මාධ්‍යවේදිනිය වින්දිතයාට දොස් පැවරුවාය.</p>
   </div>
   <div class="hero-scroll" onclick="document.getElementById('stat-bar').scrollIntoView({behavior:'smooth'})">scroll</div>
 </section>
