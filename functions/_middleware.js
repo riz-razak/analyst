@@ -27,6 +27,7 @@ const PROTECTED_PREFIXES = [
 const PUBLIC_PATHS = [
   '/login.html',
   '/auth/',
+  '/api/comments',  // Public comments endpoint (submit + read approved)
 ];
 
 // Worker URL for visibility checks

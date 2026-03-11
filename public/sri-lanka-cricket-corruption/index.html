@@ -2984,19 +2984,17 @@ function closeTos(){
 
 // ══════════════════════════════════════════
 // COMMENTS SYSTEM
-// localStorage + Formspree notifications
-// Admin approves via analytics.html dashboard
+// Supabase backend via /api/comments
+// Admin approves via analytics.html → /api/moderate
 // ══════════════════════════════════════════
-const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
-const PAGE_KEY = 'slc_main_comments_v1';
-const REPLIES_KEY = 'slc_replies_v1';
+const DOSSIER_ID = 'sri-lanka-cricket-corruption';
 let panelOpen = false;
-let userIP = 'unknown';
 let userGeo = '';
 let currentSort = 'newest';
+let cachedComments = [];  // approved comments from API
+let cachedPendingCount = 0;
 
 // ── AVATAR GENERATOR ──
-// Deterministic palette from comment ID
 const AVATAR_COLORS = [
   '#7c3aed','#2563eb','#059669','#d97706','#dc2626',
   '#0891b2','#7c3aed','#4f46e5','#0d9488','#b45309',
@@ -3013,43 +3011,32 @@ function getAvatar(id, size=32) {
   return '<div class="comment-avatar" style="width:'+size+'px;height:'+size+'px;background:'+col+';font-size:'+fs+';">'+shape+'</div>';
 }
 
-function fetchUserIP(){
-  fetch('https://api.ipify.org?format=json')
-    .then(r=>r.json())
-    .then(d=>{
-      userIP = d.ip;
-      return fetch('https://ipapi.co/json/');
-    })
+function fetchUserGeo(){
+  fetch('https://ipapi.co/json/')
     .then(r=>r.json())
     .then(d=>{ userGeo = (d.city||'')+(d.country_name?', '+d.country_name:''); })
     .catch(()=>{ userGeo=''; });
 }
 
-// Load IP on start (only if GDPR consent given)
+// Fetch geo on start (only if GDPR consent given)
 (function(){
   const consent = localStorage.getItem(GDPR_KEY);
   if(consent && JSON.parse(consent).accepted){
-    fetchUserIP();
+    fetchUserGeo();
   }
 })();
 
-function loadComments(){
-  try{ return JSON.parse(localStorage.getItem(PAGE_KEY)||'[]'); }
-  catch(e){ return []; }
-}
-
-function saveComment(c){
-  const arr = loadComments();
-  arr.unshift(c);
-  localStorage.setItem(PAGE_KEY, JSON.stringify(arr.slice(0,200)));
-}
-
-function loadReplies(){ try{ return JSON.parse(localStorage.getItem(REPLIES_KEY)||'{}'); }catch(e){ return {}; } }
-function saveReply(parentId, reply){
-  const all = loadReplies();
-  if(!all[parentId]) all[parentId]=[];
-  all[parentId].push(reply);
-  localStorage.setItem(REPLIES_KEY, JSON.stringify(all));
+// ── API helpers ──
+async function fetchComments(){
+  try {
+    const res = await fetch('/api/comments?dossier_id='+encodeURIComponent(DOSSIER_ID));
+    if(!res.ok) throw new Error('API error');
+    const data = await res.json();
+    cachedComments = data.comments || [];
+    cachedPendingCount = data.pending_count || 0;
+  } catch(e) {
+    console.warn('[comments] API fetch failed, using cache:', e.message);
+  }
 }
 
 function setSort(order, btn){
@@ -3077,51 +3064,56 @@ function toggleReplies(id){
   if(!thread || !btn) return;
   const hidden = thread.style.display === 'none' || !thread.style.display;
   thread.style.display = hidden ? 'block' : 'none';
-  const replies = (loadReplies()[id]||[]);
+  const replies = cachedComments.filter(c=>c.parent_id===id);
   btn.textContent = hidden ? '▲ Hide replies ('+replies.length+')' : '▼ '+replies.length+' repl'+(replies.length===1?'y':'ies');
 }
 
-function submitReply(parentId){
+async function submitReply(parentId){
   const ta = document.getElementById('reply-ta-'+parentId);
   if(!ta) return;
   const text = ta.value.trim();
   if(!text || text.length < 5){ ta.style.borderColor='var(--accent-red)'; return; }
   ta.style.borderColor='';
-  const reply = {
-    id: Math.random().toString(36).slice(2,7).toUpperCase(),
-    text, ts: Date.now(),
-    ip: userIP, geo: userGeo
-  };
-  saveReply(parentId, reply);
-  ta.value='';
-  document.getElementById('reply-form-'+parentId).classList.remove('open');
-  renderComments();
+  const id = Math.random().toString(36).slice(2,8).toUpperCase();
+  try {
+    const res = await fetch('/api/comments', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ id, dossier_id:DOSSIER_ID, text, parent_id:parentId, geo:userGeo })
+    });
+    if(!res.ok) throw new Error('Submit failed');
+    ta.value='';
+    document.getElementById('reply-form-'+parentId).classList.remove('open');
+    // Refresh to show updated pending count
+    await fetchComments();
+    renderComments();
+  } catch(e) {
+    ta.style.borderColor='var(--accent-red)';
+  }
 }
 
 function renderComments(){
-  const allComments = loadComments();
-  const approved = allComments.filter(c => c.status === 'approved');
-  const pending = allComments.filter(c => c.status === 'pending');
+  const approved = cachedComments.filter(c => !c.parent_id); // top-level approved
   const feed = document.getElementById('cp-feed');
   const empty = document.getElementById('cp-empty');
   const sortBar = document.getElementById('cp-sort-bar');
-  const allReplies = loadReplies();
 
+  const totalVisible = approved.length;
   const fabCountEl = document.getElementById('fab-count');
-  fabCountEl.textContent = allComments.length;
-  fabCountEl.style.display = allComments.length > 0 ? 'flex' : 'none';
-  document.getElementById('comment-count-bar').textContent = allComments.length;
+  fabCountEl.textContent = totalVisible;
+  fabCountEl.style.display = totalVisible > 0 ? 'flex' : 'none';
+  document.getElementById('comment-count-bar').textContent = totalVisible;
 
   feed.querySelectorAll('.comment-bubble,.comment-pending-notice').forEach(el=>el.remove());
 
   if(approved.length === 0){
     empty.style.display='flex';
     if(sortBar) sortBar.style.display='none';
-    if(pending.length > 0){
+    if(cachedPendingCount > 0){
       const notice = document.createElement('div');
       notice.className='comment-pending-notice';
       notice.style.cssText='text-align:center;padding:16px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;';
-      notice.textContent = pending.length+' comment'+(pending.length>1?'s':'')+' awaiting moderation.';
+      notice.textContent = cachedPendingCount+' comment'+(cachedPendingCount>1?'s':'')+' awaiting moderation.';
       feed.appendChild(notice);
     }
     return;
@@ -3130,16 +3122,20 @@ function renderComments(){
   empty.style.display='none';
   if(sortBar) sortBar.style.display='flex';
 
-  // Sort
-  const sorted = [...approved].sort((a,b)=> currentSort==='oldest' ? a.ts-b.ts : b.ts-a.ts);
+  // Sort by created_at
+  const sorted = [...approved].sort((a,b)=>{
+    const ta = new Date(a.created_at).getTime(), tb = new Date(b.created_at).getTime();
+    return currentSort==='oldest' ? ta-tb : tb-ta;
+  });
 
   sorted.forEach(c=>{
     const div = document.createElement('div');
     div.className='comment-bubble';
-    const d = new Date(c.ts);
+    const d = new Date(c.created_at);
     const timeStr = d.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-    const isLong = c.text.length > 220;
-    const replies = allReplies[c.id] || [];
+    const text = c.body || c.text || '';
+    const isLong = text.length > 220;
+    const replies = cachedComments.filter(r=>r.parent_id===c.id);
     const rCount = replies.length;
 
     div.innerHTML =
@@ -3149,7 +3145,7 @@ function renderComments(){
           '<span class="bubble-anon">Anonymous</span>'+
           '<span class="bubble-time">'+timeStr+'</span>'+
         '</div>'+
-        '<div class="bubble-text'+(isLong?' collapsed':'')+'" id="bt-'+c.id+'">'+escHtml(c.text)+'</div>'+
+        '<div class="bubble-text'+(isLong?' collapsed':'')+'" id="bt-'+c.id+'">'+escHtml(text)+'</div>'+
         (isLong ? `<button class="bubble-expand-btn" onclick="toggleExpand(this,document.getElementById('bt-${c.id}'))">▼ Show more</button>` : '')+
         '<div class="bubble-actions">'+
           '<span class="bubble-flag">'+escHtml(c.geo||'Unknown')+'</span>'+
@@ -3159,9 +3155,9 @@ function renderComments(){
         (rCount>0 ?
           '<div class="reply-thread" id="reply-thread-'+c.id+'" style="display:none;">'+
             replies.map(r=>{
-              const rd = new Date(r.ts);
+              const rd = new Date(r.created_at);
               const rs = rd.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
-              return '<div class="reply-bubble">'+getAvatar(r.id,24)+'<div class="reply-content"><div class="reply-meta">Anonymous · '+rs+'</div><div class="reply-text">'+escHtml(r.text)+'</div></div></div>';
+              return '<div class="reply-bubble">'+getAvatar(r.id,24)+'<div class="reply-content"><div class="reply-meta">Anonymous · '+rs+'</div><div class="reply-text">'+escHtml(r.body||r.text||'')+'</div></div></div>';
             }).join('')+
           '</div>' : '')+
         '<div class="reply-form" id="reply-form-'+c.id+'">'+
@@ -3175,21 +3171,24 @@ function renderComments(){
     feed.appendChild(div);
   });
 
-  if(pending.length > 0){
+  if(cachedPendingCount > 0){
     const notice = document.createElement('div');
     notice.className='comment-pending-notice';
     notice.style.cssText='text-align:center;padding:12px;font-family:JetBrains Mono,monospace;font-size:0.55rem;color:var(--text-muted);border-top:1px solid var(--border-color);margin-top:8px;';
-    notice.textContent = '+ '+pending.length+' comment'+(pending.length>1?'s':'')+' pending moderation';
+    notice.textContent = '+ '+cachedPendingCount+' comment'+(cachedPendingCount>1?'s':'')+' pending moderation';
     feed.appendChild(notice);
   }
 }
 
 function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 
-function toggleComments(){
+async function toggleComments(){
   panelOpen = !panelOpen;
   document.getElementById('comments-panel').classList.toggle('open', panelOpen);
-  if(panelOpen) renderComments();
+  if(panelOpen){
+    await fetchComments();
+    renderComments();
+  }
 }
 
 function checkRateLimit(){
@@ -3205,74 +3204,65 @@ function checkRateLimit(){
 async function submitComment(){
   const text = document.getElementById('cp-text').value.trim();
   const honeypot = document.getElementById('hp-name').value;
-  const status = document.getElementById('cp-status');
+  const statusEl = document.getElementById('cp-status');
   const btn = document.getElementById('cp-btn');
 
   if(honeypot){ return; }
 
   if(!text || text.length < 10){
-    status.textContent = 'Comment too short (min 10 chars).';
-    status.className='cp-status err'; return;
+    statusEl.textContent = 'Comment too short (min 10 chars).';
+    statusEl.className='cp-status err'; return;
   }
   if(!checkRateLimit()){
-    status.textContent = 'Too many comments. Please wait 15 minutes.';
-    status.className='cp-status err'; return;
+    statusEl.textContent = 'Too many comments. Please wait 15 minutes.';
+    statusEl.className='cp-status err'; return;
   }
 
   btn.disabled = true;
-  status.textContent = 'Submitting...';
-  status.className = 'cp-status';
+  statusEl.textContent = 'Submitting...';
+  statusEl.className = 'cp-status';
 
   const id = Math.random().toString(36).slice(2,8).toUpperCase();
-  const ipHash = hashStr(userIP + 'salt_slc_2026');
 
-  const comment = {
-    id,
-    text,
-    ts: Date.now(),
-    ip: userIP,
-    ip_hash: ipHash,
-    ua: navigator.userAgent.slice(0,120),
-    geo: userGeo,
-    page: window.location.href,
-    status: 'pending',
-    flagged: false,
-    tos_accepted: true,
-    tos_ts: JSON.parse(localStorage.getItem(TOS_KEY)||'{}').ts || Date.now()
-  };
+  try {
+    const res = await fetch('/api/comments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id,
+        dossier_id: DOSSIER_ID,
+        text,
+        geo: userGeo,
+        hp_name: honeypot, // server-side honeypot check too
+      })
+    });
 
-  saveComment(comment);
+    const data = await res.json();
 
-  if(FORMSPREE_ID !== 'YOUR_FORMSPREE_ID'){
-    try{
-      await fetch('https://formspree.io/f/'+FORMSPREE_ID, {
-        method:'POST',
-        headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body: JSON.stringify({
-          _subject: '[SLC Cricket Dossier] New comment pending — ID:'+id,
-          comment_id: id,
-          comment_text: text,
-          visitor_ip: userIP,
-          ip_hash: ipHash,
-          visitor_geo: userGeo,
-          user_agent: navigator.userAgent,
-          page: window.location.href,
-          timestamp: new Date().toISOString(),
-          approve_url: 'analyst.rizrazak.com/sri-lanka-cricket-corruption/analytics.html'
-        })
-      });
-    } catch(e){}
+    if(!res.ok){
+      throw new Error(data.error || 'Submission failed');
+    }
+
+    document.getElementById('cp-text').value='';
+    // Refresh comments from API
+    await fetchComments();
+    renderComments();
+    statusEl.textContent = 'Submitted. Your comment is awaiting moderation.';
+    statusEl.className='cp-status';
+
+  } catch(e) {
+    statusEl.textContent = e.message || 'Could not submit. Please try again.';
+    statusEl.className='cp-status err';
   }
 
-  document.getElementById('cp-text').value='';
-  renderComments();
-  status.textContent = 'Submitted. Your comment is awaiting moderation.';
-  status.className='cp-status';
   btn.disabled = false;
 }
 
-// Init comments
-renderComments();
+// Init comments — fetch from API
+(async function initComments(){
+  await fetchComments();
+  renderComments();
+})();
 
 // ══════════════════════════════════════════
 // SINHALA / ENGLISH LANGUAGE TOGGLE (i18n)

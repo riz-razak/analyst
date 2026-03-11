@@ -1055,100 +1055,64 @@ function switchTab(name){
   if(name==='analytics') loadAnalyticsIds();
 }
 
-// ── STORAGE KEYS ──
-const PAGE_KEY = 'slc_comments_v1';
-const APPROVED_KEY = 'slc_approved_ids_v1';
+// ── STORAGE KEYS (for local GDPR/TOS status only) ──
 const GDPR_KEY = 'gdpr_consent_v1';
 const TOS_KEY = 'tos_accepted_v1';
+const DOSSIER_ID = 'sri-lanka-cricket-corruption';
 
-// ── HASH ──
-function hashStr(str){
-  let h = 0x811c9dc5;
-  for(let i=0;i<str.length;i++){
-    h ^= str.charCodeAt(i);
-    h = (h*0x01000193)>>>0;
+// ── COMMENTS STATE (fetched from API) ──
+let allCommentsCache = [];
+let commentStats = { total:0, pending:0, approved:0, flagged:0, rejected:0 };
+
+// ── FETCH COMMENTS FROM API ──
+async function fetchAllComments(){
+  try {
+    const res = await fetch('/api/moderate?dossier_id='+encodeURIComponent(DOSSIER_ID));
+    if(!res.ok) throw new Error('API error: '+res.status);
+    const data = await res.json();
+    allCommentsCache = data.comments || [];
+    commentStats = data.stats || commentStats;
+  } catch(e) {
+    console.error('[moderate] Fetch error:', e.message);
+    // Show error in the comment list
+    const list = document.getElementById('comment-list');
+    if(list) list.innerHTML = `<div class="empty-state"><span class="icon">⚠️</span>Could not load comments. ${e.message}</div>`;
   }
-  return 'sha:' + h.toString(16).padStart(8,'0');
 }
 
-// ── LOAD COMMENTS FROM BOTH KEYS ──
-function getAllComments(){
-  try{
-    const arr = JSON.parse(localStorage.getItem(PAGE_KEY)||'[]');
-    const approvedIds = JSON.parse(localStorage.getItem(APPROVED_KEY)||'[]');
-    // Sync approved IDs back to comment objects
-    return arr.map(c => ({
-      ...c,
-      status: approvedIds.includes(c.id) ? 'approved' :
-              (c.status === 'rejected' ? 'rejected' :
-               (c.status === 'flagged' ? 'flagged' : 'pending'))
-    }));
-  } catch(e){ return []; }
+// ── MODERATION ACTIONS (via API) ──
+async function moderateComment(id, status, extra={}){
+  try {
+    const res = await fetch('/api/moderate', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status, ...extra })
+    });
+    if(!res.ok) {
+      const data = await res.json();
+      throw new Error(data.error || 'Moderation failed');
+    }
+    await loadDashboard(); // Refresh
+  } catch(e) {
+    alert('Moderation error: '+e.message);
+  }
 }
 
-function saveComments(arr){
-  localStorage.setItem(PAGE_KEY, JSON.stringify(arr.slice(0,200)));
-}
-
-function getApprovedIds(){
-  try{ return JSON.parse(localStorage.getItem(APPROVED_KEY)||'[]'); }
-  catch(e){ return []; }
-}
-
-function saveApprovedIds(ids){
-  localStorage.setItem(APPROVED_KEY, JSON.stringify(ids));
-}
-
-// ── ACTIONS ──
-function approveComment(id){
-  const arr = getAllComments();
-  const ids = getApprovedIds();
-  if(!ids.includes(id)) ids.push(id);
-  saveApprovedIds(ids);
-  // Update status in main array
-  const updated = arr.map(c => c.id === id ? {...c, status:'approved'} : c);
-  saveComments(updated);
-  loadDashboard();
-}
-
-function rejectComment(id){
-  const arr = getAllComments();
-  const ids = getApprovedIds().filter(i=>i!==id);
-  saveApprovedIds(ids);
-  const updated = arr.map(c => c.id === id ? {...c, status:'rejected'} : c);
-  saveComments(updated);
-  loadDashboard();
-}
-
+function approveComment(id){ moderateComment(id, 'approved'); }
+function rejectComment(id){ moderateComment(id, 'rejected'); }
 function flagComment(id){
-  const arr = getAllComments();
-  const ids = getApprovedIds().filter(i=>i!==id);
-  saveApprovedIds(ids);
-  const updated = arr.map(c => c.id === id ? {...c, status:'flagged', flagged:true} : c);
-  saveComments(updated);
-  loadDashboard();
+  const reason = prompt('Flag reason (optional):');
+  moderateComment(id, 'flagged', { flagged_reason: reason || '' });
 }
+function unapproveComment(id){ moderateComment(id, 'pending'); }
 
-function unapproveComment(id){
-  const arr = getAllComments();
-  const ids = getApprovedIds().filter(i=>i!==id);
-  saveApprovedIds(ids);
-  const updated = arr.map(c => c.id === id ? {...c, status:'pending'} : c);
-  saveComments(updated);
-  loadDashboard();
-}
-
-function approveAllPending(){
-  const arr = getAllComments();
-  const pending = arr.filter(c=>c.status==='pending');
+async function approveAllPending(){
+  const pending = allCommentsCache.filter(c=>c.status==='pending');
   if(pending.length===0){ alert('No pending comments.'); return; }
   if(!confirm(`Approve all ${pending.length} pending comments?`)) return;
-  const ids = getApprovedIds();
-  pending.forEach(c=>{ if(!ids.includes(c.id)) ids.push(c.id); });
-  saveApprovedIds(ids);
-  const updated = arr.map(c => ids.includes(c.id) ? {...c, status:'approved'} : c);
-  saveComments(updated);
-  loadDashboard();
+  for(const c of pending){
+    await moderateComment(c.id, 'approved');
+  }
 }
 
 // ── FILTER STATE ──
@@ -1162,19 +1126,19 @@ function setFilter(f, btn){
 
 // ── RENDER COMMENTS ──
 function renderCommentList(){
-  const all = getAllComments();
+  const all = allCommentsCache;
   const filtered = currentFilter==='all' ? all : all.filter(c=>c.status===currentFilter);
   const list = document.getElementById('comment-list');
 
   if(filtered.length===0){
-    list.innerHTML=`<div class="empty-state"><span class="icon">💬</span>${currentFilter==='all'?'No comments yet.':'No '+currentFilter+' comments.'}</div>`;
+    list.innerHTML=`<div class="empty-state"><span class="icon">💬</span>${currentFilter==='all'?'No comments yet. They\'ll appear here as visitors submit them.':'No '+currentFilter+' comments.'}</div>`;
     return;
   }
 
   list.innerHTML = filtered.map(c=>{
-    const d = new Date(c.ts);
+    const d = new Date(c.created_at);
     const ts = d.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
-    const tos = c.tos_accepted ? '<span class="cc-tos">ToS Accepted</span>' : '';
+    const moderatedInfo = c.moderated_at ? `<span class="cc-tos">Moderated by ${escHtml(c.moderated_by||'admin')}</span>` : '';
     const actionBtns = c.status === 'pending'
       ? `<button class="cc-btn approve" onclick="approveComment('${c.id}')">✓ Approve</button>
          <button class="cc-btn flag" onclick="flagComment('${c.id}')">🚩 Flag</button>
@@ -1193,16 +1157,17 @@ function renderCommentList(){
           <span class="cc-id">#${c.id}</span>
           <span class="cc-status ${c.status||'pending'}">${(c.status||'pending').toUpperCase()}</span>
           <span class="cc-time">${ts}</span>
-          ${tos}
+          ${moderatedInfo}
         </div>
         <div class="cc-actions">${actionBtns}</div>
       </div>
-      <div class="cc-text">${escHtml(c.text||'')}</div>
+      <div class="cc-text">${escHtml(c.body||'')}</div>
       <div class="cc-detail">
-        <span><span class="cc-ip">${escHtml(c.ip||'unknown')}</span></span>
+        <span>🔑 Hash: ${escHtml((c.ip_hash||'').slice(0,16))}…</span>
         <span class="cc-geo">📍 ${escHtml(c.geo||'Unknown')}</span>
-        <span>🔑 Hash: ${c.ip_hash||hashStr(c.ip||'')}</span>
-        <span>🌐 ${escHtml((c.ua||'').slice(0,60))}</span>
+        <span>🌐 ${escHtml((c.user_agent||'').slice(0,60))}</span>
+        ${c.parent_id ? '<span>↩ Reply to #'+escHtml(c.parent_id)+'</span>' : ''}
+        ${c.flagged_reason ? '<span>🚩 '+escHtml(c.flagged_reason)+'</span>' : ''}
       </div>
     </div>`;
   }).join('');
@@ -1211,25 +1176,22 @@ function renderCommentList(){
 function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
 
 // ── LOAD DASHBOARD ──
-function loadDashboard(){
-  const all = getAllComments();
-  const pending = all.filter(c=>c.status==='pending').length;
-  const approved = all.filter(c=>c.status==='approved').length;
-  const flagged = all.filter(c=>c.status==='flagged').length;
+async function loadDashboard(){
+  await fetchAllComments();
 
-  document.getElementById('sc-total').textContent = all.length;
-  document.getElementById('sc-pending').textContent = pending;
-  document.getElementById('sc-approved').textContent = approved;
-  document.getElementById('sc-flagged').textContent = flagged;
-  document.getElementById('tab-pending-count').textContent = pending;
-  document.getElementById('tab-pending-count').className = 'tab-badge' + (pending > 0 ? ' gold' : ' green');
+  document.getElementById('sc-total').textContent = commentStats.total;
+  document.getElementById('sc-pending').textContent = commentStats.pending;
+  document.getElementById('sc-approved').textContent = commentStats.approved;
+  document.getElementById('sc-flagged').textContent = commentStats.flagged;
+  document.getElementById('tab-pending-count').textContent = commentStats.pending;
+  document.getElementById('tab-pending-count').className = 'tab-badge' + (commentStats.pending > 0 ? ' gold' : ' green');
 
-  // ToS
+  // ToS (still local — browser-specific)
   const tos = localStorage.getItem(TOS_KEY);
   document.getElementById('sc-tos').textContent = tos ? '✓ YES' : '✗ NO';
   document.getElementById('sc-tos').style.color = tos ? '#34d399' : '#f87171';
 
-  // GDPR
+  // GDPR (still local)
   const gdpr = localStorage.getItem(GDPR_KEY);
   if(gdpr){
     const g = JSON.parse(gdpr);
@@ -1245,7 +1207,7 @@ function loadDashboard(){
 
 // ── GDPR PANEL ──
 function loadGdprPanel(){
-  const all = getAllComments();
+  const all = allCommentsCache;
   const gdpr = localStorage.getItem(GDPR_KEY);
   const tos = localStorage.getItem(TOS_KEY);
 
@@ -1273,47 +1235,33 @@ function loadGdprPanel(){
     document.getElementById('gd-tos-ts').textContent = '—';
   }
 
-  // Raw IPs
-  const rawIps = all.filter(c=>c.ip && !c.ip.startsWith('sha:') && c.ip!=='DECLINED' && c.ip!=='unknown').length;
-  document.getElementById('gd-ip-raw').textContent = rawIps + ' comment(s) with raw IP';
-  document.getElementById('gd-ip-raw').className = 'gdpr-val ' + (rawIps > 0 ? 'warn' : 'ok');
+  // IPs are always hashed server-side — no raw IPs in Supabase
+  document.getElementById('gd-ip-raw').textContent = '0 — IPs hashed at edge (server-side)';
+  document.getElementById('gd-ip-raw').className = 'gdpr-val ok';
 
-  // 90-day purge
-  const oldest = all.reduce((min,c)=>Math.min(min,c.ts||Date.now()), Date.now());
+  // 90-day purge — based on oldest comment
+  const oldest = all.reduce((min,c)=> {
+    const t = new Date(c.created_at).getTime();
+    return Math.min(min, t);
+  }, Date.now());
   const ninetyDays = 90*24*60*60*1000;
   const purgeDue = new Date(oldest + ninetyDays);
   document.getElementById('gd-purge').textContent = all.length > 0 ? purgeDue.toLocaleDateString('en-GB') : 'No data';
 
-  document.getElementById('gd-total').textContent = all.length;
+  document.getElementById('gd-total').textContent = commentStats.total || all.length;
 }
 
 // ── GDPR ACTIONS ──
 function purgeRawIPs(){
-  const arr = getAllComments();
-  const updated = arr.map(c=>{
-    if(c.ip && !c.ip.startsWith('sha:') && c.ip !== 'DECLINED' && c.ip !== 'unknown'){
-      return {...c, ip: hashStr(c.ip + 'salt_slc_2026'), ip_hashed_at: Date.now()};
-    }
-    return c;
-  });
-  saveComments(updated);
-  alert('✓ All raw IPs replaced with hashes. This is irreversible.');
-  loadGdprPanel();
+  alert('IPs are already hashed server-side at the edge function. No raw IPs are stored in the database.');
 }
 
 function purgeOldComments(){
-  const arr = getAllComments();
-  const cutoff = Date.now() - 90*24*60*60*1000;
-  const kept = arr.filter(c=>(c.ts||0) > cutoff);
-  if(kept.length === arr.length){ alert('No comments older than 90 days.'); return; }
-  if(!confirm(`Delete ${arr.length - kept.length} comment(s) older than 90 days?`)) return;
-  saveComments(kept);
-  alert(`✓ Deleted ${arr.length - kept.length} old comment(s).`);
-  loadGdprPanel();
+  alert('Comment purging is managed via the Supabase dashboard or scheduled cron job (see migration 004). This ensures GDPR compliance at the database level.');
 }
 
 function exportComments(){
-  const arr = getAllComments();
+  const arr = allCommentsCache;
   const blob = new Blob([JSON.stringify(arr, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
