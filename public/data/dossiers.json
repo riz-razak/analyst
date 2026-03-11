@@ -1,25 +1,25 @@
 {
-  "version": "1.4",
-  "lastUpdated": "2026-03-08",
+  "version": "2.0",
+  "lastUpdated": "2026-03-11",
   "dossiers": [
     {
       "id": "happy-womaniser-day",
       "date": "2026-03-08",
-      "title": "The Women's Day Betrayal: How a State Newspaper Platformed an Alleged Sexual Predator to Celebrate Feminism",
+      "title": "Happy Womaniser Day! — How a State Newspaper Platformed an Alleged Sexual Predator",
       "description": "An investigative dossier examining how the Sunday Observer's 'Observer MUSE' International Women's Day 2026 feature — authored by journalist Anuradha Perera — platformed Vangeesa Sumanasekara, a man facing multiple public sexual harassment allegations, as a champion of women's empowerment.",
       "authors": ["Riz Razak"],
       "tags": ["Sexual Harassment", "Media Accountability", "Women's Rights", "Press Ethics", "Sri Lanka", "International Women's Day"],
       "category": "social-commentary",
       "thumbnailUrl": "/images/thumbnails/womens-day-betrayal.jpg",
       "contentUrl": "/happy-womaniser-day/index.html",
-      "sections": 8,
-      "features": ["Victim testimony compilation", "Media editorial failure analysis", "Institutional pattern mapping", "Facebook evidence preservation", "Sinhala translation", "Legal disclaimer"],
+      "sections": 9,
+      "features": ["Victim testimony compilation", "Media editorial failure analysis", "Institutional pattern mapping", "Facebook evidence preservation", "Sinhala translation", "Legal disclaimer", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner"],
       "status": "published"
     },
     {
       "id": "iran-us-israel-war",
       "date": "2026-03-06",
-      "title": "The War That Changed Everything: Iran, Israel \u0026 the Unravelling of American Power",
+      "title": "The War That Changed Everything: Iran, Israel & the Unravelling of American Power",
       "description": "A multi-disciplinary analysis of the February 2026 Iran-US-Israel conflict through geopolitics, game theory, theology, psychology, and history — with dedicated focus on Sri Lanka's strategic position, the tech oligarchy feedback loop, and the 10-15 year window that could change everything.",
       "authors": ["Riz Razak"],
       "tags": ["Geopolitics", "War", "Sri Lanka", "Game Theory", "AI", "US Decline"],
@@ -37,7 +37,11 @@
         "De-dollarization trajectory",
         "Military balance assessment",
         "Sinhala translation",
-        "Dark mode"
+        "Dark mode",
+        "Dossier sidenav",
+        "Comments v3 (Supabase)",
+        "Privacy banner",
+        "Narrative timeline"
       ],
       "status": "hidden"
     },
@@ -51,14 +55,14 @@
       "category": "corruption",
       "thumbnailUrl": "/images/thumbnails/caravan-fresh.jpg",
       "contentUrl": "/caravan-fresh/index.html",
-      "sections": 8,
-      "features": ["69-outlet geocoded map", "Behavioral pattern analysis", "Timeline reconstruction", "Evidence preservation", "Sinhala translation", "Dark mode", "Legal disclaimer"],
+      "sections": 10,
+      "features": ["69-outlet geocoded map", "Behavioral pattern analysis", "Timeline reconstruction", "Evidence preservation", "Sinhala translation", "Dark mode", "Legal disclaimer", "Pledge portal", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
       "status": "published"
     },
     {
       "id": "easter-sunday-attacks-suresh-sallay",
       "date": "2026-02-26",
-      "title": "The Arrest of Suresh Sallay: Easter Sunday Attacks Political Dossier",
+      "title": "The Sallay Arrest & the Easter Sunday Conspiracy — Political Research Dossier",
       "description": "A deep investigation into the arrest of intelligence operative Suresh Sallay, the Easter Sunday bombings conspiracy, and the political machinations connecting Sri Lanka's intelligence apparatus to the worst terrorist attack in the nation's history.",
       "authors": ["Riz Razak"],
       "tags": ["Terrorism", "Sri Lanka", "Politics", "Intelligence", "Religion", "Conspiracy"],
@@ -66,7 +70,7 @@
       "thumbnailUrl": "/images/thumbnails/easter-sunday-attacks-suresh-sallay.jpg",
       "contentUrl": "/easter-sunday-attacks-suresh-sallay/index.html",
       "sections": 14,
-      "features": ["Exhaustive conspiracy board", "Zahran Hashim deep dive", "Game theory analysis", "Timeline analysis", "Misinformation/disinformation audit", "Scenario modelling"],
+      "features": ["Exhaustive conspiracy board", "Zahran Hashim deep dive", "Game theory analysis", "Timeline analysis", "Misinformation/disinformation audit", "Scenario modelling", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
       "status": "hidden"
     },
     {
@@ -79,9 +83,53 @@
       "category": "corruption",
       "thumbnailUrl": "/images/thumbnails/sri-lanka-cricket-corruption.jpg",
       "contentUrl": "/sri-lanka-cricket-corruption/index.html",
-      "sections": 14,
-      "features": ["Game theory analysis", "Conspiracy board", "Stakeholder mapping", "Interactive power network", "KalathmaGate conduct files", "Sinhala translation", "Comments moderation", "GDPR compliant"],
+      "sections": 15,
+      "features": ["Game theory analysis", "Conspiracy board", "Stakeholder mapping", "Interactive power network", "KalathmaGate conduct files", "Sinhala translation", "Spam-filtered comments", "GDPR compliant", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
       "status": "published"
+    },
+    {
+      "id": "anatta-bamiyan",
+      "date": "2026-03-10",
+      "title": "The Form Was Empty — Anatta, Bamiyan, and the Doctrine of Non-Self",
+      "description": "A philosophical exploration connecting the Buddhist doctrine of Anatta (non-self) with the destruction of the Bamiyan Buddhas — examining how the statues' absence paradoxically embodies the teaching they once represented.",
+      "authors": ["Riz Razak"],
+      "tags": ["Philosophy", "Buddhism", "Anatta", "Bamiyan", "Religion", "Sri Lanka"],
+      "category": "philosophy",
+      "thumbnailUrl": "/images/thumbnails/anatta-bamiyan.jpg",
+      "contentUrl": "/anatta-bamiyan/index.html",
+      "sections": 8,
+      "features": ["Quantum physics parallels", "Buddhist philosophy deep dive", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
+      "status": "published"
+    },
+    {
+      "id": "sri-lanka-hormuz-crisis",
+      "date": "2026-03-07",
+      "title": "Sri Lanka & the Hormuz Crisis — What You Need to Know",
+      "description": "A comprehensive analysis of how the Strait of Hormuz crisis impacts Sri Lanka's energy security, economic stability, and geopolitical positioning — with trilingual coverage in English, Sinhala, and Tamil.",
+      "authors": ["Riz Razak"],
+      "tags": ["Geopolitics", "Energy", "Sri Lanka", "Oil", "Hormuz", "Economics"],
+      "category": "geopolitics",
+      "thumbnailUrl": "/images/thumbnails/sri-lanka-hormuz-crisis.jpg",
+      "contentUrl": "/sri-lanka-hormuz-crisis/index.html",
+      "sections": 19,
+      "features": ["Trilingual (EN/SI/TA)", "Energy security modelling", "Fuel reserve analysis", "Economic impact projections", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
+      "status": "published"
+    }
+  ],
+  "internal": [
+    {
+      "id": "architecture-census",
+      "title": "Infrastructure Monitor — The Analyst Platform",
+      "description": "Real-time health dashboard for all platform services and components.",
+      "contentUrl": "/architecture-census/index.html",
+      "status": "internal"
+    },
+    {
+      "id": "waren-yan",
+      "title": "WarenYan Document Portal",
+      "description": "Internal document management portal for the WarenYan project.",
+      "contentUrl": "/waren-yan/index.html",
+      "status": "internal"
     }
   ]
 }
