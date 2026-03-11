@@ -632,58 +632,6 @@ input[type="range"]:active::-webkit-slider-thumb{transform:scale(1.15);}
   .bar-f{font-size:0.65rem;padding-right:8px;}
 }
 
-/* Comments */
-.cmt-form{background:var(--bg-card);border:1px solid var(--brd-l);border-radius:var(--r);padding:14px;margin-bottom:16px;box-shadow:var(--sh);}
-.cmt-input{
-  width:100%;background:var(--bg);border:1px solid var(--brd);border-radius:var(--rs);
-  padding:10px 12px;color:var(--tx);font-family:var(--f);font-size:16px; /* 16px prevents iOS zoom */
-  resize:vertical;min-height:72px;transition:border-color 0.2s,box-shadow 0.2s;
-}
-.cmt-input:focus{outline:none;border-color:var(--gm);box-shadow:0 0 0 3px var(--gbg);}
-.cmt-input::placeholder{color:var(--txm);}
-.cmt-act{display:flex;justify-content:flex-end;margin-top:8px;}
-.btn{
-  padding:10px 20px;border-radius:20px;font-size:0.78rem;font-weight:600;
-  cursor:pointer;transition:all 0.2s;border:none;font-family:var(--f);
-  min-height:var(--tap);
-  -webkit-tap-highlight-color:transparent;
-}
-.btn-primary{background:var(--gm);color:#fff;}
-.btn-primary:hover{background:var(--gd);}
-.btn-primary:active{transform:scale(0.97);}
-
-/* Comment identity */
-.cmt-identity{background:var(--bg-card);border:1px solid var(--brd-l);border-radius:var(--r);padding:12px 14px;margin-bottom:10px;box-shadow:var(--sh);}
-.cmt-identity-toggle{display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
-.cmt-field{
-  background:var(--bg);border:1px solid var(--brd);border-radius:var(--rs);
-  padding:8px 10px;font-family:var(--f);font-size:16px;color:var(--tx);
-  transition:border-color 0.2s;
-}
-.cmt-field:focus{outline:none;border-color:var(--gm);box-shadow:0 0 0 3px var(--gbg);}
-/* Comment cards */
-.cmt-card{
-  background:var(--bg-card);border:1px solid var(--brd-l);border-radius:var(--rs);
-  padding:12px 14px;margin-bottom:8px;box-shadow:var(--sh);
-  animation:fadeInUp 0.4s ease;
-}
-.cmt-card .cmt-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
-.cmt-card .cmt-avatar{
-  width:28px;height:28px;border-radius:50%;
-  background:var(--gm);color:#fff;font-size:0.58rem;font-weight:700;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.cmt-card .cmt-author{font-size:0.78rem;font-weight:700;color:var(--tx);}
-.cmt-card .cmt-time{font-size:0.62rem;color:var(--txm);font-family:var(--mono);}
-.cmt-card .cmt-body{font-size:0.82rem;color:var(--tx2);line-height:1.65;}
-.cmt-card .cmt-actions{display:flex;gap:10px;margin-top:6px;}
-.cmt-card .cmt-reply-btn{
-  background:none;border:none;color:var(--gm);font-size:0.68rem;font-weight:600;
-  cursor:pointer;font-family:var(--f);padding:4px 0;
-}
-.cmt-card .cmt-reply-btn:hover{text-decoration:underline;}
-.cmt-replies{margin-left:20px;padding-left:12px;border-left:2px solid var(--brd-l);}
-
 /* References */
 .ref-list{counter-reset:ref;}
 .ref-item{display:flex;gap:6px;padding:7px 0;border-bottom:1px solid var(--brd-l);font-size:0.76rem;color:var(--tx2);line-height:1.5;}
@@ -1084,45 +1032,6 @@ imfRisk = min(80%, max(5%,
     <div class="ref-item reveal d6" data-i18n="source_18">US-Israel threatens recovery — <a href="https://economynext.com/" target="_blank">EconomyNext</a></div>
     <div class="ref-item reveal d1" data-i18n="source_19">IMF Fourth Review — <a href="https://www.imf.org/" target="_blank">IMF</a></div>
     <div class="ref-item reveal d2" data-i18n="source_20">Failed tests, confidential docs — <a href="https://www.sundaytimes.lk/" target="_blank">Sunday Times</a></div>
-  </div>
-</div>
-</section>
-
-<!-- COMMENTS (Supabase-backed via Cloudflare Worker) -->
-<section class="section" id="comments" data-nav-label="Discussion" data-nav-year="Community" data-nav-era="#2d5a27">
-<div class="container">
-  <div class="sec-head reveal"><h2><span class="sec-num">09</span> <span data-i18n="section_discussion">Discussion</span></h2></div>
-
-  <!-- Identity form (collapsed by default) -->
-  <div class="cmt-identity reveal" id="cmt-identity">
-    <div class="cmt-identity-toggle" onclick="document.getElementById('cmt-identity-fields').style.display=document.getElementById('cmt-identity-fields').style.display==='none'?'flex':'none'">
-      <span id="cmt-user-label" style="font-size:0.76rem;color:var(--txm);">Set your identity to comment</span>
-      <span style="font-size:0.7rem;color:var(--gold);font-weight:600;cursor:pointer;">▾</span>
-    </div>
-    <div class="cmt-identity-fields" id="cmt-identity-fields" style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-      <input type="text" id="cmt-name" placeholder="Your name" class="cmt-field" style="flex:1;min-width:120px;">
-      <input type="email" id="cmt-email" placeholder="Email (not shown publicly)" class="cmt-field" style="flex:1;min-width:160px;">
-      <button class="btn btn-primary" onclick="saveCmtUser()" style="padding:8px 16px;font-size:0.72rem;" data-i18n="comment_save_identity">Save</button>
-    </div>
-  </div>
-
-  <!-- Comment form -->
-  <div class="cmt-form reveal">
-    <textarea class="cmt-input" id="cmt-text" placeholder="Share your analysis or perspective..." data-i18n="comment_placeholder" maxlength="5000"></textarea>
-    <div class="cmt-act">
-      <span id="cmt-reply-indicator" style="font-size:0.68rem;color:var(--gold);display:none;">Replying to comment <span id="cmt-reply-ref"></span> <button onclick="cancelReply()" style="background:none;border:none;color:var(--rm);cursor:pointer;font-size:0.68rem;">✕ cancel</button></span>
-      <span style="flex:1;"></span>
-      <span id="cmt-char" style="font-size:0.62rem;color:var(--txm);font-family:var(--mono);">0/5000</span>
-      <button class="btn btn-primary" onclick="submitCmt()" id="cmt-submit-btn" data-i18n="comment_button">Post Comment</button>
-    </div>
-  </div>
-
-  <!-- Comment count -->
-  <div id="cmt-count" style="font-size:0.72rem;color:var(--txm);margin:12px 0 8px;font-weight:600;"></div>
-
-  <!-- Comments list -->
-  <div id="cmt-list">
-    <div style="text-align:center;padding:20px;color:var(--txm);font-size:0.8rem;" id="cmt-loading" data-i18n="comment_loading">Loading comments...</div>
   </div>
 </div>
 </section>
@@ -1791,131 +1700,6 @@ function runSim(){
   });
 }
 
-// ---- Comments (Supabase via Cloudflare Worker) ----
-var CMT_WORKER = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
-var CMT_DOSSIER = 'galanguru-coal-dossier';
-var CMT_DOSSIER = 'galanguru-coal-dossier';
-var cmtReplyTo = null;
-
-function saveCmtUser(){
-  var n=document.getElementById('cmt-name').value.trim();
-  var e=document.getElementById('cmt-email').value.trim();
-  if(!n||!e){alert('Please enter both name and email.');return;}
-  localStorage.setItem('analyst_comment_user',JSON.stringify({displayName:n,email:e}));
-  document.getElementById('cmt-user-label').textContent='Posting as '+n;
-  document.getElementById('cmt-identity-fields').style.display='none';
-}
-
-function restoreCmtUser(){
-  try{
-    var u=JSON.parse(localStorage.getItem('analyst_comment_user')||'{}');
-    if(u.displayName&&u.email){
-      document.getElementById('cmt-name').value=u.displayName;
-      document.getElementById('cmt-email').value=u.email;
-      document.getElementById('cmt-user-label').textContent='Posting as '+u.displayName;
-      document.getElementById('cmt-identity-fields').style.display='none';
-    }
-  }catch(e){}
-}
-
-function setReply(id,name){
-  cmtReplyTo=id;
-  document.getElementById('cmt-reply-ref').textContent=name;
-  document.getElementById('cmt-reply-indicator').style.display='inline';
-  document.getElementById('cmt-text').focus();
-}
-function cancelReply(){
-  cmtReplyTo=null;
-  document.getElementById('cmt-reply-indicator').style.display='none';
-}
-
-async function submitCmt(){
-  var u;
-  try{u=JSON.parse(localStorage.getItem('analyst_comment_user')||'{}');}catch(e){u={};}
-  if(!u.displayName||!u.email){alert('Please set your identity first.');return;}
-  var txt=document.getElementById('cmt-text').value.trim();
-  if(!txt){alert('Please write a comment.');return;}
-  // Rate limit: 3 per 15 min
-  var rlKey='analyst_cmt_rl_'+CMT_DOSSIER;
-  var rl;try{rl=JSON.parse(localStorage.getItem(rlKey)||'{"t":[]}');}catch(e){rl={t:[]};}
-  var now=Date.now();rl.t=rl.t.filter(function(t){return now-t<900000;});
-  if(rl.t.length>=3){alert('You are commenting too frequently. Please wait.');return;}
-
-  var btn=document.getElementById('cmt-submit-btn');
-  btn.disabled=true;btn.textContent='Posting...';
-  try{
-    var resp=await fetch(CMT_WORKER+'/api/comments/create',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        dossierId:CMT_DOSSIER,
-        parentId:cmtReplyTo||null,
-        authorEmail:u.email,
-        authorName:u.displayName,
-        commentText:txt,
-        level:cmtReplyTo?2:1
-      })
-    });
-    if(!resp.ok){var err=await resp.json();throw new Error(err.error||'Failed');}
-    rl.t.push(now);localStorage.setItem(rlKey,JSON.stringify(rl));
-    document.getElementById('cmt-text').value='';
-    cancelReply();updateCharCount();
-    loadCmts();
-  }catch(e){
-    alert('Error posting comment: '+e.message);
-  }finally{
-    btn.disabled=false;btn.textContent='Post Comment';
-  }
-}
-
-async function loadCmts(){
-  var list=document.getElementById('cmt-list');
-  list.innerHTML='<div style="text-align:center;padding:16px;color:var(--txm);font-size:0.8rem;">Loading comments...</div>';
-  try{
-    var resp=await fetch(CMT_WORKER+'/api/comments/list?dossier='+encodeURIComponent(CMT_DOSSIER));
-    if(!resp.ok)throw new Error('API '+resp.status);
-    var data=await resp.json();
-    var comments=data.comments||[];
-    document.getElementById('cmt-count').textContent=comments.length+' comment'+(comments.length!==1?'s':'');
-    if(comments.length===0){
-      list.innerHTML='<div style="text-align:center;padding:20px;color:var(--txm);font-size:0.8rem;">Be the first to contribute. Comments moderated for quality.</div>';
-      return;
-    }
-    var roots=comments.filter(function(c){return !c.parent_id;});
-    list.innerHTML='';
-    roots.forEach(function(c){
-      var replies=comments.filter(function(r){return r.parent_id===c.id;});
-      list.appendChild(renderCmt(c));
-      if(replies.length>0){
-        var rDiv=document.createElement('div');rDiv.className='cmt-replies';
-        replies.forEach(function(r){rDiv.appendChild(renderCmt(r));});
-        list.appendChild(rDiv);
-      }
-    });
-  }catch(e){
-    list.innerHTML='<div style="text-align:center;padding:16px;color:var(--txm);font-size:0.8rem;">Be the first to contribute. Comments moderated for quality.</div>';
-  }
-}
-
-function renderCmt(c){
-  var card=document.createElement('div');card.className='cmt-card';
-  var initials=(c.author_name||'A').split(' ').map(function(n){return n[0];}).join('').toUpperCase().slice(0,2);
-  var d=new Date(c.created_at);
-  var timeStr=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-  card.innerHTML='<div class="cmt-head"><div class="cmt-avatar">'+initials+'</div><span class="cmt-author">'+(c.author_name||'Anonymous')+'</span><span class="cmt-time">'+timeStr+'</span></div><div class="cmt-body">'+escCmt(c.body)+'</div><div class="cmt-actions"><button class="cmt-reply-btn" onclick="setReply(\''+c.id+'\',\''+(c.author_name||'').replace(/'/g,"\\'")+'\')">Reply</button></div>';
-  return card;
-}
-
-function escCmt(t){var d=document.createElement('div');d.textContent=t;return d.innerHTML;}
-function updateCharCount(){
-  var ta=document.getElementById('cmt-text');
-  var ct=document.getElementById('cmt-char');
-  if(ta&&ct)ct.textContent=ta.value.length+'/5000';
-}
-document.addEventListener('DOMContentLoaded',function(){
-  var ta=document.getElementById('cmt-text');
-  if(ta)ta.addEventListener('input',updateCharCount);
-});
-
 // ---- Animated counters ----
 function animateCounters(){
   document.querySelectorAll('.counter').forEach(function(el){
@@ -1982,7 +1766,7 @@ function updateOilDisplay(priceStr){
 document.addEventListener('DOMContentLoaded',function(){
   storeOriginalText();
   renderCoalChart();runSim();initReveal();
-  fetchOilPrice();restoreCmtUser();loadCmts();
+  fetchOilPrice();
   var ticking=false;
   // Throttled scroll handler
   window.addEventListener('scroll',function(){
@@ -2010,8 +1794,7 @@ document.addEventListener('DOMContentLoaded',function(){
     {"id":"simulator","label":"Simulator","year":"Interactive","era":"#2d5a27"},
     {"id":"scenarios","label":"Scenarios","year":"Projections","era":"#a67c00"},
     {"id":"cascading","label":"Cascading Crises","year":"Systemic","era":"#8b1a1a"},
-    {"id":"sources","label":"Sources","year":"References","era":"#2d5a27"},
-    {"id":"comments","label":"Discussion","year":"Community","era":"#2d5a27"}
+    {"id":"sources","label":"Sources","year":"References","era":"#2d5a27"}
   ],
   "story": [
     {"at":0.02,"text":"Sri Lanka's coal procurement under scrutiny"},
@@ -2025,8 +1808,7 @@ document.addEventListener('DOMContentLoaded',function(){
     {"at":0.66,"text":"Cascading crises — debt, power, politics"},
     {"at":0.75,"text":"Systemic fragility exposed"},
     {"at":0.84,"text":"Sources and methodology"},
-    {"at":0.92,"text":"Join the discussion"},
-    {"at":0.98,"text":"What happens next?"}
+    {"at":0.95,"text":"What happens next?"}
   ]
 }
 </script>
