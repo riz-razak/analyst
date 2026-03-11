@@ -193,7 +193,16 @@ body {
 <div class="toolbar">
   <label style="font-size:0.8rem; font-weight:600;">Dossier:</label>
   <select id="dossier-select">
-    <option value="womens-day-betrayal" selected>Women's Day Betrayal</option>
+    <option value="__all" selected>All Dossiers</option>
+    <option value="caravan-fresh">Caravan Fresh</option>
+    <option value="sri-lanka-cricket-corruption">Sri Lanka Cricket Corruption</option>
+    <option value="happy-womaniser-day">The Women's Day Betrayal</option>
+    <option value="easter-sunday-attacks-suresh-sallay">Easter Sunday Attacks</option>
+    <option value="iran-us-israel-war">Iran-US-Israel War</option>
+    <option value="mp-accountability">MP Accountability</option>
+    <option value="sri-lanka-hormuz-crisis">Sri Lanka Hormuz Crisis</option>
+    <option value="anatta-bamiyan">The Form Was Empty</option>
+    <option value="galanguru-coal-corruption">Galanguru Coal Corruption</option>
   </select>
   <label style="font-size:0.8rem; font-weight:600;">Status:</label>
   <select id="status-filter">
@@ -213,6 +222,38 @@ body {
 
 <script>
 var API = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
+var REVIEWER_EMAIL = 'riz@dgtl.lk';
+
+var ALL_DOSSIER_SLUGS = [
+  'caravan-fresh',
+  'sri-lanka-cricket-corruption',
+  'happy-womaniser-day',
+  'easter-sunday-attacks-suresh-sallay',
+  'iran-us-israel-war',
+  'mp-accountability',
+  'sri-lanka-hormuz-crisis',
+  'anatta-bamiyan',
+  'galanguru-coal-corruption',
+];
+
+function fetchForDossier(dossierId, status) {
+  var url = API + '/api/submissions/list?dossierId=' + dossierId;
+  if (status) url += '&status=' + status;
+  return fetch(url)
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      // Tag each submission with its dossier for cross-dossier view
+      if (data.submissions) {
+        data.submissions.forEach(function(s) {
+          if (!s.dossierId) s.dossierId = dossierId;
+        });
+      }
+      return data;
+    })
+    .catch(function() {
+      return { total: 0, filtered: 0, submissions: [] };
+    });
+}
 
 function loadSubmissions() {
   var dossierId = document.getElementById('dossier-select').value;
@@ -220,25 +261,53 @@ function loadSubmissions() {
   var container = document.getElementById('submissions-container');
   container.innerHTML = '<div class="loading">Loading...</div>';
 
-  var url = API + '/api/submissions/list?dossierId=' + dossierId;
-  if (status) url += '&status=' + status;
-
-  fetch(url)
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      document.getElementById('stats').textContent = data.total + ' total · ' + data.filtered + ' shown';
-
-      if (!data.submissions || data.submissions.length === 0) {
-        container.innerHTML = '<div class="empty-state"><h2>No submissions found</h2><p>No evidence submissions match the current filter.</p></div>';
-        return;
-      }
-
-      container.innerHTML = data.submissions.map(renderCard).join('');
-    })
-    .catch(function(err) {
-      container.innerHTML = '<div class="empty-state"><h2>Error loading</h2><p>' + err.message + '</p></div>';
+  var promise;
+  if (dossierId === '__all') {
+    // Query all dossiers in parallel and merge
+    promise = Promise.all(ALL_DOSSIER_SLUGS.map(function(slug) {
+      return fetchForDossier(slug, status);
+    })).then(function(results) {
+      var totalCount = 0;
+      var allSubs = [];
+      results.forEach(function(data) {
+        totalCount += data.total || 0;
+        if (data.submissions) allSubs = allSubs.concat(data.submissions);
+      });
+      // Sort newest first
+      allSubs.sort(function(a, b) {
+        return (b.submittedAt || 0) - (a.submittedAt || 0);
+      });
+      return { total: totalCount, filtered: allSubs.length, submissions: allSubs };
     });
+  } else {
+    promise = fetchForDossier(dossierId, status);
+  }
+
+  promise.then(function(data) {
+    document.getElementById('stats').textContent = data.total + ' total · ' + data.filtered + ' shown';
+
+    if (!data.submissions || data.submissions.length === 0) {
+      container.innerHTML = '<div class="empty-state"><h2>No submissions found</h2><p>No evidence submissions match the current filter.</p></div>';
+      return;
+    }
+
+    container.innerHTML = data.submissions.map(renderCard).join('');
+  })
+  .catch(function(err) {
+    container.innerHTML = '<div class="empty-state"><h2>Error loading</h2><p>' + err.message + '</p></div>';
+  });
 }
+
+// Map slugs to labels for the dossier badge in "All Dossiers" view
+var DOSSIER_LABELS = {};
+(function() {
+  var sel = document.getElementById('dossier-select');
+  for (var i = 0; i < sel.options.length; i++) {
+    if (sel.options[i].value !== '__all') {
+      DOSSIER_LABELS[sel.options[i].value] = sel.options[i].textContent;
+    }
+  }
+})();
 
 function renderCard(sub) {
   var badgeClass = {
@@ -249,10 +318,37 @@ function renderCard(sub) {
   }[sub.status] || 'badge-pending';
 
   var date = new Date(sub.submittedAt).toLocaleString();
+  var selectedDossier = document.getElementById('dossier-select').value;
+  var dossierTag = '';
+  if (selectedDossier === '__all' && sub.dossierId) {
+    var label = DOSSIER_LABELS[sub.dossierId] || sub.dossierId;
+    dossierTag = '  <span style="font-size:0.7rem; padding:2px 8px; background:#f0f0f0; border-radius:8px; color:var(--text-secondary);">' + escHtml(label) + '</span>';
+  }
+
+  // Build review audit trail
+  var reviewHtml = '';
+  if (sub.review) {
+    var reviewBadgeClass = {
+      under_review: 'badge-review',
+      accepted: 'badge-accepted',
+      rejected: 'badge-rejected',
+    }[sub.review.action] || '';
+    var reviewDate = sub.review.reviewedAt ? new Date(sub.review.reviewedAt).toLocaleString() : 'unknown date';
+    reviewHtml = '<div style="padding:12px 16px; background:var(--bg); border-radius:8px; margin-bottom:14px; font-size:0.8rem; border-left:3px solid '
+      + (sub.review.action === 'rejected' ? 'var(--red)' : sub.review.action === 'accepted' ? 'var(--forest)' : 'var(--blue)') + ';">'
+      + '<div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">'
+      + '  <span class="badge ' + reviewBadgeClass + '">' + escHtml(sub.review.action.replace('_', ' ')) + '</span>'
+      + '  <span style="font-weight:600;">' + escHtml(sub.review.reviewerEmail) + '</span>'
+      + '  <span style="color:var(--text-secondary); margin-left:auto;">' + reviewDate + '</span>'
+      + '</div>'
+      + (sub.review.notes ? '<div style="margin-top:4px; padding:8px 10px; background:white; border-radius:6px; white-space:pre-wrap;">' + escHtml(sub.review.notes) + '</div>' : '<div style="margin-top:4px; color:var(--text-secondary); font-style:italic;">No review notes provided</div>')
+      + '</div>';
+  }
 
   return '<div class="sub-card" id="card-' + sub.id + '">'
     + '<div class="sub-header">'
     + '  <span class="badge ' + badgeClass + '">' + sub.status.replace('_', ' ') + '</span>'
+    + dossierTag
     + '  <span class="sub-id">' + sub.id + '</span>'
     + '  <span class="sub-date">' + date + '</span>'
     + '</div>'
@@ -272,19 +368,41 @@ function renderCard(sub) {
     + '  <span class="perm-tag ' + (sub.permissions.attributeName ? 'perm-yes' : 'perm-no') + '">Public attribution: ' + (sub.permissions.attributeName ? 'YES' : 'NO') + '</span>'
     + '  <span class="perm-tag ' + (sub.permissions.contactForFollowUp ? 'perm-yes' : 'perm-no') + '">Contact OK: ' + (sub.permissions.contactForFollowUp ? 'YES' : 'NO') + '</span>'
     + '</div>'
-    + (sub.review ? '<div style="padding:10px 14px;background:var(--bg);border-radius:8px;margin-bottom:14px;font-size:0.8rem;"><strong>Review:</strong> ' + escHtml(sub.review.action) + ' by ' + escHtml(sub.review.reviewerEmail) + ' — ' + escHtml(sub.review.notes) + '</div>' : '')
+    + reviewHtml
     + '<div class="sub-actions">'
-    + '  <textarea id="notes-' + sub.id + '" placeholder="Review notes..."></textarea>'
-    + '  <button class="btn-review" onclick="reviewSub(\'' + sub.id + '\', \'under_review\')">Review</button>'
-    + '  <button class="btn-accept" onclick="reviewSub(\'' + sub.id + '\', \'accepted\')">Accept</button>'
-    + '  <button class="btn-reject" onclick="reviewSub(\'' + sub.id + '\', \'rejected\')">Reject</button>'
+    + '  <textarea id="notes-' + sub.id + '" placeholder="Review notes (required for rejections)..."></textarea>'
+    + '  <button class="btn-review" onclick="reviewSub(\'' + sub.id + '\', \'' + (sub.dossierId || '') + '\', \'under_review\')">Review</button>'
+    + '  <button class="btn-accept" onclick="reviewSub(\'' + sub.id + '\', \'' + (sub.dossierId || '') + '\', \'accepted\')">Accept</button>'
+    + '  <button class="btn-reject" onclick="reviewSub(\'' + sub.id + '\', \'' + (sub.dossierId || '') + '\', \'rejected\')">Reject</button>'
     + '</div>'
     + '</div>';
 }
 
-function reviewSub(submissionId, action) {
-  var dossierId = document.getElementById('dossier-select').value;
+function reviewSub(submissionId, subDossierId, action) {
+  // Resolve the actual dossierId — use the submission's own dossierId if available,
+  // otherwise fall back to the dropdown (for single-dossier view)
+  var dossierId = subDossierId || document.getElementById('dossier-select').value;
+  if (dossierId === '__all') {
+    alert('Cannot review from All Dossiers view without a specific dossier. Please select the specific dossier first.');
+    return;
+  }
+
   var notes = document.getElementById('notes-' + submissionId).value;
+
+  // Enforce mandatory notes for rejections
+  if (action === 'rejected' && !notes.trim()) {
+    alert('Rejection requires review notes explaining the reason. This is required for accountability.');
+    document.getElementById('notes-' + submissionId).focus();
+    document.getElementById('notes-' + submissionId).style.borderColor = 'var(--red)';
+    return;
+  }
+
+  // Confirm rejection
+  if (action === 'rejected') {
+    if (!confirm('Reject this submission? This will be logged with your identity and notes for the audit trail.')) {
+      return;
+    }
+  }
 
   fetch(API + '/api/submissions/review', {
     method: 'POST',
@@ -294,7 +412,7 @@ function reviewSub(submissionId, action) {
       submissionId: submissionId,
       action: action,
       reviewNotes: notes,
-      reviewerEmail: 'admin',
+      reviewerEmail: REVIEWER_EMAIL,
     }),
   })
   .then(function(r) { return r.json(); })
