@@ -115,7 +115,7 @@
     `;
 
     const closeBtn = panel.querySelector('.comments-panel-close');
-    closeBtn.addEventListener('click', togglePanel);
+    closeBtn.addEventListener('click', closePanel);
 
     return panel;
   }
@@ -130,11 +130,37 @@
 
     const isOpen = panel.classList.contains('open');
     if (isOpen) {
-      panel.classList.remove('open');
+      closePanel();
     } else {
-      panel.classList.add('open');
-      loadComments();
+      openPanel();
     }
+  }
+
+  function openPanel() {
+    const panel = document.getElementById('comments-panel');
+    if (!panel || panel.classList.contains('open')) return;
+    panel.classList.add('open');
+    loadComments();
+    // Add click-outside listener after a tick (so the opening click doesn't immediately close)
+    setTimeout(function() {
+      document.addEventListener('click', handleClickOutside, true);
+    }, 0);
+  }
+
+  function closePanel() {
+    const panel = document.getElementById('comments-panel');
+    if (!panel) return;
+    panel.classList.remove('open');
+    document.removeEventListener('click', handleClickOutside, true);
+  }
+
+  function handleClickOutside(e) {
+    const panel = document.getElementById('comments-panel');
+    const fab = document.getElementById('comments-fab');
+    if (!panel || !panel.classList.contains('open')) return;
+    // If click is inside the panel or on the FAB, ignore
+    if (panel.contains(e.target) || (fab && fab.contains(e.target))) return;
+    closePanel();
   }
 
   // ─────────────────────────────────────────────
@@ -474,6 +500,11 @@
     document.getElementById('comment-name').addEventListener('change', saveUserIdentity);
     document.getElementById('comment-text').addEventListener('input', updateCharCount);
     document.getElementById('comment-submit').addEventListener('click', submitComment);
+
+    // Close panel on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closePanel();
+    });
 
     console.log('Comments v3 initialized for dossier:', dossierId);
   }
