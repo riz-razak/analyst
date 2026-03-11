@@ -1,0 +1,589 @@
+{
+  "translations": [
+    {
+      "key": "disclaimer-title-en",
+      "en": "⚠️ Disclaimer",
+      "si": "⚠️ වියාචනය"
+    },
+    {
+      "key": "disclaimer-body-en-1",
+      "en": "This is a citizen journalism dossier compiled from publicly available sources. It does not constitute legal advice or a formal accusation. All claims are described as allegations unless verified by a court of law.",
+      "si": "මෙය ප්‍රසිද්ධියේ ලබා ගත හැකි මූලාශ්‍රවලින් සම්පාදනය කරන ලද පුරවැසි පුවත්පත් කලාව පිළිබඳ ලේඛනයකි. එය නීති උපදෙස් හෝ විධිමත් චෝදනාවක් නොවේ. අධිකරණයක් විසින් සත්‍යාපනය නොකළහොත් සියලුම හිමිකම් පෑම් චෝදනා ලෙස විස්තර කෙරේ."
+    },
+    {
+      "key": "disclaimer-body-en-2",
+      "en": "The compiler is not the originator of any allegations. All evidence was sourced from publicly accessible posts, articles, and commentary already in the public domain.",
+      "si": "සම්පාදකයා කිසිදු චෝදනාවක ආරම්භකයා නොවේ. සියලුම සාක්ෂි ලබාගෙන ඇත්තේ දැනටමත් පොදු වසමේ ඇති ප්‍රසිද්ධියේ ප්‍රවේශ විය හැකි සටහන්, ලිපි සහ විවරණ මගිනි."
+    },
+    {
+      "key": "disclaimer-body-en-3",
+      "en": "This document exercises free expression and public-interest journalism, raising questions of editorial accountability at a state-owned publication.",
+      "si": "මෙම ලේඛනය නිදහස් ප්‍රකාශනය සහ මහජන අවශ්‍යතා පිළිබඳ පුවත්පත් කලාව ක්‍රියාත්මක කරන අතර, රජය සතු ප්‍රකාශනයක කතුවැකි වගවීම පිළිබඳ ප්‍රශ්න මතු කරයි."
+    },
+    {
+      "key": "block-4",
+      "en": "ඔබේ යුටෝපියාව පහළවන තුරු බලාහිදින්නට නොහැකි නිසා මේ මොහොතේ යථාර්ථය තුළ කළ හැක්ක කරන්නට සිදුවිය!",
+      "si": "ඔබේ යුටෝපියාව පහළ වන තුරු බලාහිදින්නට නොහැකි නිසා මේ මොහොතේ යථාර්ථය තුළ ඇති විය හැක සිදුවිය!"
+    },
+    {
+      "key": "block-5",
+      "en": "\"Because we cannot wait until your utopia arrives, what can be done in this moment's reality must be done!\"",
+      "si": "\"ඔබගේ යුතෝපියාව පැමිණෙන තෙක් අපට බලා සිටිය නොහැකි නිසා, මේ මොහොතේ යථාර්ථයේ කළ හැකි දේ කළ යුතුයි!\""
+    },
+    {
+      "key": "block-6",
+      "en": "— Vincika De Saram, August 24, 2021",
+      "si": "- වින්චිකා ද සේරම්, අගෝස්තු 24, 2021"
+    },
+    {
+      "key": "hero-title-en",
+      "en": "HappyWomaniser Day!",
+      "si": "සුභ කාන්තා දිනයක් වේවා!"
+    },
+    {
+      "key": "block-8",
+      "en": "Performative Philosophers & Neofeminist Allies",
+      "si": "රංගන දාර්ශනිකයන් සහ නව ස්ත්‍රීවාදී සහචරයින්"
+    },
+    {
+      "key": "hero-subtitle-en",
+      "en": "On International Women's Day 2026, journalist Anuradha Perera and the Sunday Observer platformed Vangeesa Sumanasekara — a man with documented sexual harassment allegations — to celebrate Simone de Beauvoir's feminist philosophy. Vincika De Saram and others had publicly posted screenshot evidence years earlier. When confronted, the journalist blamed the victim.",
+      "si": "2026 ජාත්‍යන්තර කාන්තා දිනයේදී, මාධ්‍යවේදී අනුරාධා පෙරේරා සහ සන්ඩේ ඔබ්සර්වර්, සිමෝන් ඩි බියුවෝර්ගේ ස්ත්‍රීවාදී දර්ශනය සැමරීම සඳහා ලේඛනගත ලිංගික අතවර චෝදනා ඇති මිනිසෙකු වන වන්ගීසා සුමනසේකර වේදිකා ගත කළහ. වින්සිකා ද සේරම් සහ තවත් අය වසර ගණනාවකට පෙර තිරපිටපත් සාක්ෂි ප්‍රසිද්ධියේ පළ කර තිබුණි. මුහුණට මුහුණ දුන් විට, මාධ්‍යවේදියා වින්දිතයාට දොස් පැවරීය."
+    },
+    {
+      "key": "block-10",
+      "en": "Sources",
+      "si": "මූලාශ්‍ර"
+    },
+    {
+      "key": "block-11",
+      "en": "Years of Allegations",
+      "si": "චෝදනාවල වසර ගණන"
+    },
+    {
+      "key": "block-12",
+      "en": "Journal Entries",
+      "si": "ජර්නල් සටහන්"
+    },
+    {
+      "key": "block-13",
+      "en": "Named Victims",
+      "si": "නම් කරන ලද වින්දිතයින්"
+    },
+    {
+      "key": "s1-label-en",
+      "en": "Section 01",
+      "si": "01 කොටස"
+    },
+    {
+      "key": "s1-h2-en",
+      "en": "The Incident",
+      "si": "සිද්ධිය"
+    },
+    {
+      "key": "s1-desc-en",
+      "en": "What happened on International Women's Day 2026",
+      "si": "2026 ජාත්‍යන්තර කාන්තා දිනයේදී සිදු වූ දේ"
+    },
+    {
+      "key": "s1-card1-body",
+      "en": "On March 8, 2026, the Sunday Observer's Observer MUSE supplement published a Women's Day feature [S2] titled \"One is not born, but rather becomes a woman\" — celebrating Simone de Beauvoir's feminist philosophy.",
+      "si": "2026 මාර්තු 8 වන දින, ඉරිදා ඔබ්සර්වර් හි ඔබ්සර්වර් MUSE අතිරේකය, සිමෝන් ද බියුවොයර්ගේ ස්ත්‍රීවාදී දර්ශනය සමරමින් \"යමෙකු ඉපදෙන්නේ නැත, නමුත් කාන්තාවක් බවට පත්වේ\" යන මාතෘකාවෙන් යුත් කාන්තා දින විශේෂාංගයක් [S2] ප්‍රකාශයට පත් කළේය."
+    },
+    {
+      "key": "s1-card2-title",
+      "en": "The Platforming",
+      "si": "වේදිකාකරණය"
+    },
+    {
+      "key": "s1-card2-body",
+      "en": "Among the featured \"resource persons\" was Vangeesa Sumanasekara, described as a \"thinker\" [S2] — a man with documented sexual harassment allegations [S3] dating to at least 2021, with screenshot evidence from multiple women [S8, S9].",
+      "si": "විශේෂාංගගත \"සම්පත් පුද්ගලයින්\" අතර \"චින්තකයෙකු\" ලෙස විස්තර කර ඇති වන්ගීස සුමනසේකර ද විය [S2] - අවම වශයෙන් 2021 දක්වා දිවෙන ලේඛනගත ලිංගික අතවර චෝදනා [S3] ඇති, බහු කාන්තාවන්ගෙන් ලබාගත් තිරපිටපත් සාක්ෂි සහිත මිනිසෙකි [S8, S9]."
+    },
+    {
+      "key": "s1-card3-title",
+      "en": "The Promotion",
+      "si": "ප්‍රවර්ධනය"
+    },
+    {
+      "key": "s1-card3-body",
+      "en": "Anuradha Perera shared the article on Facebook [S1], tagging all resource persons including Vangeesa Sumanasekara, alongside Deepthi Kumara Gunarathne, Swarna Mallawarachchi, Prasanna Vithanage, and Dhananjaya Karunarathne.",
+      "si": "දීප්ති කුමාර ගුණරත්න, ස්වර්ණා මල්ලවාරච්චි, ප්‍රසන්න විතානගේ සහ ධනංජය කරුණාරත්න සමඟ වංගීස සුමනසේකර ඇතුළු සියලුම සම්පත් දායකයින් ටැග් කරමින් අනුරාධ පෙරේරා එම ලිපිය ෆේස්බුක් [S1] හි බෙදා ගත්තේය."
+    },
+    {
+      "key": "s1-card4-title",
+      "en": "The Contradiction",
+      "si": "පරස්පරතාව"
+    },
+    {
+      "key": "s1-card4-body",
+      "en": "A Women's Day article invoking de Beauvoir's feminist philosophy chose to celebrate an individual with documented harassment allegations against women. The irony is not incidental — it is structural.",
+      "si": "ඩි බියුවෝර්ගේ ස්ත්‍රීවාදී දර්ශනය මතුකරමින් කාන්තා දින ලිපියක් කාන්තාවන්ට එරෙහිව ලේඛනගත හිරිහැර චෝදනා ඇති පුද්ගලයෙකු සැමරීමට තෝරා ගත්තේය. උත්ප්‍රාසය අහම්බයක් නොවේ - එය ව්‍යුහාත්මක ය."
+    },
+    {
+      "key": "smoking-gun-title-en",
+      "en": "The Smoking Gun: Multiple Women's Screenshot Evidence",
+      "si": "දුම් දමන තුවක්කුව: බහු කාන්තා තිරපිටපත් සාක්ෂි"
+    },
+    {
+      "key": "block-25",
+      "en": "Confirmed: Sheltered behind his father, Gamini Sumanasekara",
+      "si": "තහවුරු කරන ලදී: ඔහුගේ පියා වන ගාමිණී සුමනසේකර පිටුපස නවාතැන් ගෙන ඇත."
+    },
+    {
+      "key": "block-26",
+      "en": "Vincika De Saram's March 2026 callout states: \"when a complaint was filed, he hid behind his father like a coward.\" The father has been confirmed as Gamini Sumanasekara — a veteran journalist, former editor of Divayina newspaper, and member of the State Literary Advisory Board. This identification is corroborated by a 2021 Sinhala-language exposé blog [S16] which explicitly names Gamini Sumanasekara as the father and documents the father-son ideological dynamic. Status: Confirmed via multiple independent sources.",
+      "si": "වින්සිකා ද සේරම්ගේ 2026 මාර්තු ප්‍රකාශයේ මෙසේ සඳහන් වේ: \"පැමිණිල්ලක් ගොනු කළ විට, ඔහු බියගුල්ලෙකු මෙන් තම පියා පිටුපස සැඟවී සිටියේය.\" පියා ගාමිණී සුමනසේකර ලෙස තහවුරු කර ඇත - ප්‍රවීණ මාධ්‍යවේදියෙකු, දිවයින පුවත්පතේ හිටපු කර්තෘ සහ රාජ්‍ය සාහිත්‍ය උපදේශක මණ්ඩලයේ සාමාජිකයෙකි. මෙම හඳුනාගැනීම 2021 සිංහල භාෂා හෙළිදරව් කිරීමේ බ්ලොග් අඩවියක් [S16] මගින් සනාථ කරනු ලැබේ, එය ගාමිණී සුමනසේකර පියා ලෙස පැහැදිලිව නම් කරන අතර පිය-පුතු දෘෂ්ටිවාදාත්මක ගතිකය ලේඛනගත කරයි. තත්ත්වය: බහු ස්වාධීන මූලාශ්‍ර හරහා තහවුරු කර ඇත."
+    },
+    {
+      "key": "block-27",
+      "en": "🏛️ Political Dimensions — What Commentators Have Said",
+      "si": "🏛️ දේශපාලන මානයන් - විචාරකයින් පවසා ඇති දේ"
+    },
+    {
+      "key": "block-28",
+      "en": "The Sunday Observer is a government-owned national newspaper. Commentator Sasanka Perera — in a comment on Melani Gunathilaka's post [S14] — wrote that publication of the article \"sponsored by the government's own newspaper\" while the President participated in a women's rally \"exposes the hypocrisy of some opinion-makers,\" and asked to know the response of \"the Prime Minister and Minister Paul-Raj both long-term vocal advocates of women's rights.\" These are the views of a third-party commentator on public social media, not findings of this dossier.",
+      "si": "සන්ඩේ ඔබ්සර්වර් යනු රජයට අයත් ජාතික පුවත්පතකි. විචාරක සසංක පෙරේරා - මෙලනි ගුණතිලකගේ සටහන [S14] පිළිබඳ අදහස් දැක්වීමක - ජනාධිපතිනිය කාන්තා රැලියකට සහභාගී වෙමින් සිටියදී \"රජයේම පුවත්පත විසින් අනුග්‍රහය දක්වන ලද\" ලිපිය ප්‍රකාශයට පත් කිරීම \"සමහර මත දරන්නන්ගේ කුහකකම හෙළිදරව් කරන\" බව ලිවූ අතර \"කාන්තා අයිතිවාසිකම් වෙනුවෙන් දිගු කාලීනව හඬ නගන අගමැති සහ අමාත්‍ය පෝල්-රාජ් යන දෙදෙනාගේම ප්‍රතිචාරය දැන ගැනීමට ඉල්ලා සිටියේය. මේවා මෙම ලේඛනයේ සොයාගැනීම් නොව, පොදු සමාජ මාධ්‍ය පිළිබඳ තෙවන පාර්ශවීය විචාරකයෙකුගේ අදහස් වේ."
+    },
+    {
+      "key": "block-29",
+      "en": "The Record",
+      "si": "වාර්තාව"
+    },
+    {
+      "key": "block-30",
+      "en": "Vincika's Journal — Ten Days That Shook a Movement",
+      "si": "වින්සිකාගේ දිනපොත - ව්‍යාපාරයක් සොලවා දැමූ දස දින"
+    },
+    {
+      "key": "block-31",
+      "en": "Between August 19 and September 28, 2021, Vincika De Saram published ten consecutive posts naming Vangeesa Sumanasekara. Screenshots. Video. Poetry. A trilingual call to solidarity. Not one has been retracted. Not one has been legally challenged.",
+      "si": "2021 අගෝස්තු 19 සිට සැප්තැම්බර් 28 දක්වා කාලය තුළ, වින්සිකා ද සේරම් විසින් වන්ගීස සුමනසේකර නම් කරමින් අඛණ්ඩව පළ කිරීම් දහයක් ප්‍රකාශයට පත් කරන ලදී. තිරපිටපත්. වීඩියෝ. කවි. සහයෝගීතාවය සඳහා ත්‍රිභාෂා ඇමතුමක්. එකක්වත් ඉල්ලා අස්කර ගෙන නැත. එකක්වත් නීතිමය වශයෙන් අභියෝගයට ලක් කර නොමැත."
+    },
+    {
+      "key": "block-32",
+      "en": "\"There's really no such thing as the voiceless. There are only the deliberately silenced, or the preferably unheard.\"",
+      "si": "\"ඇත්තටම හඬක් නැති අය කියලා දෙයක් නැහැ. හිතාමතාම නිහඬ කළ අය හෝ වඩාත් සුදුසු ලෙස නොඇසෙන අය පමණයි ඉන්නේ.\""
+    },
+    {
+      "key": "block-33",
+      "en": "— Arundhati Roy (shared by Vincika, August 22, 2021)",
+      "si": "— අරුන්දතී රෝයි (වින්සිකා විසින් බෙදා ගන්නා ලදී, 2021 අගෝස්තු 22)"
+    },
+    {
+      "key": "block-34",
+      "en": "The First Accusation",
+      "si": "පළමු චෝදනාව"
+    },
+    {
+      "key": "block-35",
+      "en": "\"Today, I'm going to expose a SEXUAL HARASSMENT attempt by the so called Activist VANGEESA SUMANASEKARA!\" — with Messenger screenshots: \"show your stuff,\" \"show me your pussy.\"",
+      "si": "\"අද, මම ඊනියා ක්‍රියාකාරිනී වංගීස සුමනසේකරගේ ලිංගික හිරිහැර කිරීමේ උත්සාහයක් හෙළි කරන්න යනවා!\" — Messenger තිරපිටපත් සමඟ: \"ඔබේ දේවල් පෙන්වන්න,\" \"ඔබේ පුකේ මට පෙන්වන්න.\""
+    },
+    {
+      "key": "block-36",
+      "en": "The Video",
+      "si": "වීඩියෝව"
+    },
+    {
+      "key": "block-37",
+      "en": "Sinhala-language video post directly naming Vangeesa Sumanasekara. Lakmali Hemachandra commented.",
+      "si": "වංගීස සුමනසේකර කෙලින්ම නම් කරමින් සිංහල භාෂා වීඩියෝ සටහන. ලක්මාලි හේමචන්ද්‍ර අදහස් දැක්වූවාය."
+    },
+    {
+      "key": "block-38",
+      "en": "The Voiceless",
+      "si": "හඬක් නැති"
+    },
+    {
+      "key": "block-39",
+      "en": "Detailed Sinhala narration of the harassment. Shared with an Arundhati Roy quote about the \"deliberately silenced.\" Tagged Geethika, Madhubhashini, Lanka, Lakmali, Amali.",
+      "si": "හිරිහැරය පිළිබඳ සවිස්තරාත්මක සිංහල විස්තරය. \"හිතාමතාම නිහඬ කරන ලද\" අය පිළිබඳ අරුන්දතී රෝයි උපුටා දැක්වීමක් සමඟ බෙදා ගන්නා ලදී. ගීතිකා, මධුභාෂිණි, ලංකා, ලක්මාලි, අමාලි යන ටැග් කර ඇත."
+    },
+    {
+      "key": "block-40",
+      "en": "Performative Philosophers",
+      "si": "රංගන දාර්ශනිකයන්"
+    },
+    {
+      "key": "block-41",
+      "en": "\"I talk Marx Kant Gramsci Badiou. I want to garb ur ass\" — her image connected the philosophical persona to the predator. The intellectual mask and the hand beneath it.",
+      "si": "\"මම මාක්ස් කාන්ට් ග්‍රාම්ස්චි බදියු වගේ කතා කරනවා. මට ඔයාගේ බූරුවව අන්දන්න ඕන\" - ඇගේ ප්‍රතිරූපය දාර්ශනික පෞරුෂය විලෝපිකයාට සම්බන්ධ කළා. බුද්ධිමය වෙස් මුහුණ සහ ඊට යටින් ඇති අත."
+    },
+    {
+      "key": "block-42",
+      "en": "#MeTooLK Is Born",
+      "si": "#MeTooLK උපත ලබයි"
+    },
+    {
+      "key": "block-43",
+      "en": "\"I am posting this to state that I am a safe person to talk to.\" — Trilingual declaration in Sinhala, Tamil, and English. Four days after going public, she built a bridge for others.",
+      "si": "\"මම මෙය පළ කරන්නේ මා කතා කිරීමට ආරක්ෂිත පුද්ගලයෙක් බව ප්‍රකාශ කිරීමටයි.\" — සිංහල, දෙමළ සහ ඉංග්‍රීසි භාෂාවෙන් ත්‍රිභාෂා ප්‍රකාශය. ප්‍රසිද්ධියට පත් වී දින හතරකට පසු, ඇය අන් අය සඳහා පාලමක් ගොඩනැගුවාය."
+    },
+    {
+      "key": "block-44",
+      "en": "The Warning",
+      "si": "අවවාදයයි"
+    },
+    {
+      "key": "block-45",
+      "en": "Tagged Geethika, Lakmali, Emy, Madhubhashini, Lanka, Amali. Image: \"Be careful — Don't unzip your self for the cum words of crooks.\"",
+      "si": "ගීතිකා, ලක්මාලි, එමි, මධුභාෂිණි, ලංකා, අමාලි යන ටැග් කර ඇත. රූපය: \"ප්‍රවේශම් වන්න — වංචනිකයන්ගේ කම්මැලි වචන සඳහා ඔබේම සිප් එක විවෘත නොකරන්න.\""
+    },
+    {
+      "key": "block-46",
+      "en": "Utopia",
+      "si": "යුටෝපියාව"
+    },
+    {
+      "key": "block-47",
+      "en": "\"Because we cannot wait until your utopia arrives, what can be done in this moment's reality must be done!\" — Pink background, Sinhala text. Comments from Madhubhashini, Prasanna Abeywickrama.",
+      "si": "\"ඔබේ යුතෝපියාව පැමිණෙන තෙක් අපට බලා සිටිය නොහැකි නිසා, මේ මොහොතේ යථාර්ථයේ කළ හැකි දේ කළ යුතුයි!\" — රෝස පසුබිම, සිංහල පෙළ. මධුභාෂිණී, ප්‍රසන්න අබේවික්‍රමගේ අදහස්."
+    },
+    {
+      "key": "block-48",
+      "en": "Academic Hypocrisy",
+      "si": "ශාස්ත්‍රීය කුහකකම"
+    },
+    {
+      "key": "block-49",
+      "en": "Criticised \"professors, philosophers\" as hypocrites hiding behind institutional and intellectual frameworks. The shared content is no longer available — but the post remains.",
+      "si": "ආයතනික හා බුද්ධිමය රාමු පිටුපස සැඟවී සිටින කුහකයන් ලෙස \"මහාචාර්යවරුන්, දාර්ශනිකයන්\" විවේචනය කරන ලදී. බෙදාගත් අන්තර්ගතය තවදුරටත් ලබා ගත නොහැක - නමුත් සටහන එලෙසම පවතී."
+    },
+    {
+      "key": "block-50",
+      "en": "\"She Is Me… I Am Her… Who Are You???\"",
+      "si": "\"ඇය මමයි... මම ඇයයි... ඔයා කවුද???\""
+    },
+    {
+      "key": "block-51",
+      "en": "English-language poem-manifesto about sexual violence. Direct reference to \"being asked to show her stuff and pussy by a so called philosophical activist!!\"",
+      "si": "ලිංගික හිංසනය පිළිබඳ ඉංග්‍රීසි භාෂා කවි ප්‍රකාශනය. \"ඊනියා දාර්ශනික ක්‍රියාකාරිනියක් විසින් ඇගේ දේවල් සහ පුකේ පෙන්වන්නැයි ඉල්ලා සිටීම\" පිළිබඳ සෘජු යොමුව!!"
+    },
+    {
+      "key": "block-52",
+      "en": "The Reckoning Continues",
+      "si": "ගණන් බැලීම දිගටම පවතී"
+    },
+    {
+      "key": "block-53",
+      "en": "Sinhala post mentioning Lakmali, Geethika, Madhubhashini. Tagged Amali Wedagedara. The shared content is no longer available — but the record persists.",
+      "si": "ලක්මාලි, ගීතිකා, මධුභාෂිණි සඳහන් කරන සිංහල සටහන. අමාලි වෙදගෙදර ටැග් කර ඇත. බෙදාගත් අන්තර්ගතය තවදුරටත් ලබා ගත නොහැක — නමුත් වාර්තාව පවතී."
+    },
+    {
+      "key": "block-54",
+      "en": "Ten posts. Forty days. Screenshots, video, poetry, trilingual solidarity calls. Not one retraction. Not one legal challenge. And four and a half years later, the Sunday Observer chose this man to speak about women.",
+      "si": "සටහන් දහයක්. දින හතළිහක්. තිරපිටපත්, වීඩියෝ, කවි, ත්‍රිභාෂා සහයෝගීතා ඇමතුම්. එක් ඉල්ලා අස්කර ගැනීමක් නොවේ. එක් නීතිමය අභියෝගයක් නොවේ. වසර හතරහමාරකට පසු, සන්ඩේ ඔබ්සර්වර් පුවත්පත කාන්තාවන් ගැන කතා කිරීමට මෙම මිනිසා තෝරා ගත්තේය."
+    },
+    {
+      "key": "s2-label-en",
+      "en": "Section 02",
+      "si": "02 කොටස"
+    },
+    {
+      "key": "s2-h2-en",
+      "en": "Timeline of Events",
+      "si": "සිදුවීම් කාලරේඛාව"
+    },
+    {
+      "key": "s2-desc-en",
+      "en": "From early allegations to the Women's Day incident",
+      "si": "මුල් චෝදනාවල සිට කාන්තා දින සිදුවීම දක්වා"
+    },
+    {
+      "key": "block-58",
+      "en": "Whispered Allegations & Facebook Controversies",
+      "si": "රහසින් කරන ලද චෝදනා සහ ෆේස්බුක් මතභේද"
+    },
+    {
+      "key": "block-59",
+      "en": "Per Prabha Manuratne's account [S3], Sumanasekara's \"alleged behaviour has sparked controversy on Facebook\" over multiple years, with \"little action beyond that.\"",
+      "si": "ප්‍රභා මනුරත්නගේ ගිණුමට [S3] අනුව, සුමනසේකරගේ \"චෝදනා කරන ලද හැසිරීම වසර ගණනාවක් තිස්සේ ෆේස්බුක් හි මතභේදයට තුඩු දී ඇති\" අතර, \"ඊට එහා ගිය ක්‍රියාමාර්ග ඉතා අල්පය.\""
+    },
+    {
+      "key": "block-60",
+      "en": "Sri Lanka's #MeToo Wave Begins",
+      "si": "ශ්‍රී ලංකාවේ #MeToo රැල්ල ආරම්භ වේ"
+    },
+    {
+      "key": "block-61",
+      "en": "Women in Sri Lankan media began coming forward. Senior journalists joined discussions on redress mechanisms. Al Jazeera covered the movement [S6].",
+      "si": "ශ්‍රී ලංකාවේ මාධ්‍ය ක්ෂේත්‍රයේ කාන්තාවන් ඉදිරියට පැමිණීමට පටන් ගත්හ. ජ්‍යෙෂ්ඨ මාධ්‍යවේදීන් සහන යාන්ත්‍රණයන් පිළිබඳ සාකච්ඡාවලට එක් විය. අල් ජසීරා නාලිකාව [S6] ව්‍යාපාරය ආවරණය කළේය."
+    },
+    {
+      "key": "block-62",
+      "en": "🔥 Emy Vithanage Releases Screenshot",
+      "si": "🔥 එමි විතානගේ තිර රුව නිකුත් කරයි"
+    },
+    {
+      "key": "block-63",
+      "en": "Emy Vithanage publicly released a screenshot of an uninvited sex-chat initiated by Vangeesa Sumanasekara [S3].",
+      "si": "වන්ගීස සුමනසේකර [S3] විසින් ආරම්භ කරන ලද අනාරාධිත ලිංගික කතාබහක තිර රුවක් එමී විතානගේ ප්‍රසිද්ධියේ නිකුත් කළේය."
+    },
+    {
+      "key": "block-64",
+      "en": "Prabha Manuratne Publishes Condemnation",
+      "si": "ප්‍රභා මනුරත්න හෙලාදැකීම ප්‍රකාශ කරයි"
+    },
+    {
+      "key": "block-65",
+      "en": "Academic published a detailed article providing unconditional condemnation [S3]. Read article.",
+      "si": "කොන්දේසි විරහිතව හෙළා දකින [S3] සවිස්තරාත්මක ලිපියක් Academic විසින් ප්‍රකාශයට පත් කරන ලදී. ලිපිය කියවන්න."
+    },
+    {
+      "key": "block-66",
+      "en": "🔥 Two Women Post Screenshot Evidence on Same Day",
+      "si": "🔥 කාන්තාවන් දෙදෙනෙක් එකම දිනයේ තිරපිටපත් සාක්ෂි පළ කරති"
+    },
+    {
+      "key": "block-67",
+      "en": "Vincika De Saram publicly posted screenshots of Messenger conversation showing explicit sexual messages, with a 21-second screen recording [S8]. On the same day, Sandali Costa independently shared her own Messenger screenshots (in Sinhala) documenting an identical pattern of unsolicited sexual contact [S12]. Two separate victims, one day, same perpetrator.",
+      "si": "වින්සිකා ද සේරම්, තත්පර 21ක තිර පටිගත කිරීමක් [S8] සමඟින්, පැහැදිලි ලිංගික පණිවිඩ පෙන්වන Messenger සංවාදයේ තිරපිටපත් ප්‍රසිද්ධියේ පළ කළාය. එදිනම, සඳලි කොස්තා ස්වාධීනව ඇයගේම Messenger තිරපිටපත් (සිංහලෙන්) බෙදා ගත්තා, අනවශ්‍ය ලිංගික සම්බන්ධතා වල සමාන රටාවක් [S12] ලේඛනගත කළා. වෙනම වින්දිතයින් දෙදෙනෙක්, එක් දිනක්, එකම අපරාධකරු."
+    },
+    {
+      "key": "block-68",
+      "en": "Geethika Dharmasinghe: \"A Serial Offender\"",
+      "si": "ගීතිකා ධර්මසිංහ: \"අඛණ්ඩ වරදකරුවෙක්\""
+    },
+    {
+      "key": "block-69",
+      "en": "Geethika Dharmasinghe shared a post by Lakmali Hemachandra [S15]: \"In a parallel universe where left actually wants women to claim their politics, a serial offender like Vangeesa Sumanasekara will think a million times before opening his mouth about sex offences far from drawing comparisons. Here of course he makes a joke out of all women and we're supposed to feel flattered we get to associate ourselves with such great leftist legends. *Slow clap*\" This post was amplified by human rights lawyer Swasthika Arulingam — lending institutional-class credibility to the accusation.",
+      "si": "ගීතිකා ධර්මසිංහ ලක්මාලි හේමචන්ද්‍ර විසින් [S15] කරන ලද සටහනක් බෙදා ගත්තා: \"වාමාංශිකයින්ට ඇත්තටම කාන්තාවන් තම දේශපාලනයට හිමිකම් කීමට අවශ්‍ය වන සමාන්තර විශ්වයක, වන්ගීස සුමනසේකර වැනි අනුක්‍රමික වැරදිකරුවෙකු ලිංගික අපරාධ ගැන කට ඇරීමට පෙර මිලියන වාරයක් සිතනු ඇත, සැසඳීම් කිරීමට වඩා. මෙහිදී ඔහු සියලු කාන්තාවන්ගෙන් විහිළුවක් කරන අතර අපට එවැනි ශ්‍රේෂ්ඨ වාමාංශික පුරාවෘත්තයන් සමඟ සම්බන්ධ වීමට ලැබීම ගැන අපි සතුටු විය යුතුය. *මන්දගාමී අත්පුඩි*\" මෙම සටහන මානව හිමිකම් නීතිඥ ස්වස්තික අරුලිංගම් විසින් විස්තාරණය කරන ලදී - චෝදනාවට ආයතනික පන්තියේ විශ්වසනීයත්වය ලබා දෙයි."
+    },
+    {
+      "key": "block-70",
+      "en": "Allegations Remain in Public Record",
+      "si": "චෝදනා පොදු වාර්තාවල පවතී."
+    },
+    {
+      "key": "block-71",
+      "en": "No retraction, legal challenge, or exoneration known. Sumanasekara continued to contribute to Groundviews [S7].",
+      "si": "ඉල්ලා අස්කර ගැනීමක්, නීතිමය අභියෝගයක් හෝ නිදොස් කිරීමක් නොදනී. සුමනසේකර Groundviews [S7] වෙත දායක වීම දිගටම කරගෙන ගියේය."
+    },
+    {
+      "key": "block-72",
+      "en": "🔥 Observer Muse Platforms Sumanasekara on Women's Day",
+      "si": "🔥 කාන්තා දිනයේදී ඔබ්සර්වර් මියුස් වේදිකා සුමනසේකර"
+    },
+    {
+      "key": "block-73",
+      "en": "Sunday Observer publishes Women's Day feature with Sumanasekara as \"thinker\" [S2]. View article.",
+      "si": "සුමනසේකර \"චින්තිකාවක්\" ලෙස [S2] කාන්තා දින විශේෂාංගය සන්ඩේ ඔබ්සර්වර් විසින් ප්‍රකාශයට පත් කරයි. ලිපිය බලන්න."
+    },
+    {
+      "key": "block-74",
+      "en": "Immediate Public Backlash",
+      "si": "ක්ෂණික මහජන ප්‍රතිචාරය"
+    },
+    {
+      "key": "block-75",
+      "en": "Melani Gunathilaka [S4], Vincika De Saram [S9], Janindu de Zoysa, and others call it out. View posts.",
+      "si": "මෙලනි ගුණතිලක [S4], වින්චිකා ද සේරම් [S9], ජනිඳු ද සොයිසා සහ තවත් අය එය හඳුන්වති. පෝස්ට් බලන්න."
+    },
+    {
+      "key": "block-76",
+      "en": "Prabha Manuratne: \"At Least 2\"",
+      "si": "ප්‍රභා මනුරත්න: \"අවම වශයෙන් 2\""
+    },
+    {
+      "key": "block-77",
+      "en": "The original whistleblower comments: \"not 'a man' it should be 'men'. There are at least 2 there.\" [S4]",
+      "si": "මුල් තොරතුරු හෙළි කරන්නා මෙසේ අදහස් දක්වයි: \"'මිනිසෙක්' නොවේ, එය 'පිරිමි' විය යුතුය. එහි අවම වශයෙන් දෙදෙනෙකු සිටී.\" [S4]"
+    },
+    {
+      "key": "block-78",
+      "en": "🔥 Anuradha Perera Issues Victim-Blaming Defence",
+      "si": "🔥 අනුරාධා පෙරේරා වින්දිතයාට චෝදනා කරමින් ආරක්ෂාව ලබා දෙයි"
+    },
+    {
+      "key": "block-79",
+      "en": "Anuradha Perera issues a public statement [S13] calling the harassment \"childish,\" questioning why the victim \"played the victim role,\" and saying she is \"pleased\" the article went viral. She stands by her editorial decisions. Janindu de Zoysa reveals Sumanasekara had also messaged him and \"not only one woman but many through social media\" [S14].",
+      "si": "අනුරාධා පෙරේරා ප්‍රසිද්ධ ප්‍රකාශයක් නිකුත් කරමින් [S13] හිරිහැරය \"ළමා\" ලෙස හඳුන්වමින්, වින්දිතයා \"වින්දිතයාගේ භූමිකාව රඟපෑවේ\" මන්දැයි ප්‍රශ්න කරමින් සහ ලිපිය වෛරස් වීම ගැන ඇය \"සතුටින්\" සිටින බව පවසයි. ඇය තම කතුවැකි තීරණ වෙනුවෙන් පෙනී සිටී. සුමනසේකර තමාට සහ \"එක් කාන්තාවක් පමණක් නොව සමාජ මාධ්‍ය හරහා බොහෝ දෙනෙකුට\" [S14] පණිවිඩ යැවූ බව ජනිඳු ද සොයිසා හෙළි කරයි."
+    },
+    {
+      "key": "s3-label-en",
+      "en": "Section 03",
+      "si": "03 වන කොටස"
+    },
+    {
+      "key": "s3-h2-en",
+      "en": "Cast of Characters",
+      "si": "චරිත නිරූපණය"
+    },
+    {
+      "key": "block-82",
+      "en": "Section 04",
+      "si": "04 වන කොටස"
+    },
+    {
+      "key": "block-83",
+      "en": "Journalist Under Review: Anuradha Perera",
+      "si": "සමාලෝචනයට ලක්වන මාධ්‍යවේදිනිය: අනුරාධා පෙරේරා"
+    },
+    {
+      "key": "block-84",
+      "en": "Questions of editorial judgment and journalistic integrity",
+      "si": "කතුවැකි විනිශ්චය සහ මාධ්‍ය අඛණ්ඩතාව පිළිබඳ ප්‍රශ්න"
+    },
+    {
+      "key": "block-85",
+      "en": "The Article's Premise",
+      "si": "ලිපියේ පරිශ්‍රය"
+    },
+    {
+      "key": "block-86",
+      "en": "\"One is not born, but rather becomes, a woman.\"— Simone de Beauvoir, The Second Sex",
+      "si": "\"යමෙකු ඉපදෙන්නේ නැත, නමුත් කාන්තාවක් බවට පත්වේ.\" - සිමෝන් ද බියුවොයර්, දෙවන ලිංගිකත්වය"
+    },
+    {
+      "key": "block-87",
+      "en": "The Journalist's Response",
+      "si": "මාධ්‍යවේදියාගේ ප්‍රතිචාරය"
+    },
+    {
+      "key": "block-88",
+      "en": "\"Why did this woman play the victim role?\"— Anuradha Perera, March 9, 2026 [S13]",
+      "si": "\"මේ කාන්තාව වින්දිතයාගේ චරිතය රඟපෑවේ ඇයි?\"— අනුරාධා පෙරේරා, 2026 මාර්තු 9 [S13]"
+    },
+    {
+      "key": "block-89",
+      "en": "An article celebrating the philosopher who said women are made, not born — featuring a man women say harassed them. And a journalist who, when confronted, asked why the woman didn't just accept it.",
+      "si": "කාන්තාවන් ඉපදෙන්නේ නැත, නිර්මාණය වන බව පැවසූ දාර්ශනිකයා සමරන ලිපියක් - කාන්තාවන් තමන්ට හිරිහැර කළ බව පවසන පිරිමියෙකු ඇතුළත් ලිපියක්. සහ මුහුණට මුහුණ හමු වූ විට, කාන්තාව එය පිළි නොගත්තේ මන්දැයි විමසූ මාධ්‍යවේදියෙක්."
+    },
+    {
+      "key": "block-90",
+      "en": "Journalistic Integrity Questions",
+      "si": "ජනමාධ්‍ය අඛණ්ඩතාව පිළිබඳ ප්‍රශ්න"
+    },
+    {
+      "key": "block-91",
+      "en": "Was due diligence conducted?",
+      "si": "නිසි පරීක්ෂාවක් සිදු කළාද?"
+    },
+    {
+      "key": "block-92",
+      "en": "A basic search for \"Vangeesa Sumanasekara\" surfaces the sexual harassment allegations immediately [S3]. Either due diligence was not performed, or the allegations were knowingly disregarded.",
+      "si": "\"වංගීස සුමනසේකර\" සඳහා මූලික සෙවුමක් කළ විට ලිංගික අතවර චෝදනා වහාම මතු වේ [S3]. නිසි කඩිසරකමක් සිදු කර නොමැති අතර, නැතහොත් චෝදනා දැනුවත්ව නොසලකා හැර ඇත."
+    },
+    {
+      "key": "block-93",
+      "en": "Was there editorial oversight?",
+      "si": "කතුවැකි අධීක්ෂණයක් තිබුණාද?"
+    },
+    {
+      "key": "block-94",
+      "en": "The Sunday Observer is state-owned [S11]. Featuring an individual with documented harassment allegations [S3] in a Women's Day article raises questions about editorial review at Lake House.",
+      "si": "සන්ඩේ ඔබ්සර්වර් පුවත්පත රජයට අයත් [S11]. කාන්තා දින ලිපියක ලේඛනගත හිරිහැර චෝදනා [S3] ඇති පුද්ගලයෙකු ඉදිරිපත් කිරීම ලේක් හවුස් හි කතුවැකි සමාලෝචනය පිළිබඳ ප්‍රශ්න මතු කරයි."
+    },
+    {
+      "key": "block-95",
+      "en": "⚠️ The Response — Victim Blaming on Record",
+      "si": "⚠️ ප්‍රතිචාරය — වින්දිතයා වාර්තාවට දොස් පැවරීම"
+    },
+    {
+      "key": "block-96",
+      "en": "On March 9, 2026, Anuradha Perera issued a public Facebook statement [S13] defending her editorial choice. She did not apologise. She described Vangeesa's harassment as a \"childish\" conversation \"between two adults who willingly had a conversation through an inbox.\" She asked: \"Why did this woman play the victim role?\" She stated she was \"actually pleased that this situation caused the article to go viral.\" She stood by her \"editorial decisions and the platform provided to all our resource persons.\"",
+      "si": "2026 මාර්තු 9 වන දින, අනුරාධා පෙරේරා ඇගේ කතුවැකි තේරීම ආරක්ෂා කරමින් ප්‍රසිද්ධ ෆේස්බුක් ප්‍රකාශයක් [S13] නිකුත් කළාය. ඇය සමාව අයැද සිටියේ නැත. ඇය වැන්ගීසාගේ හිරිහැරය විස්තර කළේ \"එක්ස්පෝට් එකක් හරහා කැමැත්තෙන් සංවාදයක් පැවැත්වූ වැඩිහිටියන් දෙදෙනෙකු අතර\" \"ළමා\" සංවාදයක් ලෙසයි. ඇය ඇසුවාය: \"මෙම කාන්තාව වින්දිත භූමිකාව රඟපෑවේ ඇයි?\" ඇය පැවසුවේ \"මෙම තත්වය ලිපිය වෛරස් වීමට හේතු වීම ගැන ඇය සැබවින්ම සතුටු වන\" බවයි. ඇය ඇගේ \"කතුවැකි තීරණ සහ අපගේ සියලුම සම්පත්දායකයින්ට ලබා දී ඇති වේදිකාව\" වෙනුවෙන් පෙනී සිටියාය."
+    },
+    {
+      "key": "block-97",
+      "en": "Section 05",
+      "si": "05 වන කොටස"
+    },
+    {
+      "key": "block-98",
+      "en": "Voice of the People",
+      "si": "ජනතාවගේ හඬ"
+    },
+    {
+      "key": "block-99",
+      "en": "\"I was the subject of severe sexual violence twice in my life.\" She survived, she wrote, \"because when I told the story to my friends and sisters they believed me. They did not ask me silly questions like 'why didn't you go to the police?'\" Of the journalist: \"Instead of apologising the journalist started victim blaming... publicly interrogating my friend Vincika De Saram on 'the current status' of the police complaint.\" Her devastating closer: \"Ironically Vangeesa Sumanasekera was asked to comment on the 'myth of free women: A critique of equality and agency'. I did not know whether to laugh or cry when I saw this.\"",
+      "si": "\"මගේ ජීවිතේ දෙපාරක් මම දරුණු ලිංගික හිංසනයකට ලක් වුණා.\" ඇය දිවි ගලවා ගත් බව ඇය ලිව්වා, \"මම මගේ මිතුරන්ට සහ සහෝදරියන්ට කතාව කිව්වම ඔවුන් මාව විශ්වාස කළා. 'ඇයි ඔයා පොලිසියට ගියේ නැත්තේ?' වගේ මෝඩ ප්‍රශ්න ඔවුන් මගෙන් ඇහුවේ නැහැ.\" මාධ්‍යවේදියා ගැන: \"මාධ්‍යවේදියා වින්දිතයාට දොස් පැවරීමට පටන් ගත්තා... පොලිස් පැමිණිල්ලේ 'වත්මන් තත්ත්වය' ගැන මගේ මිතුරිය වින්සිකා ද සේරම්ගෙන් ප්‍රසිද්ධියේ ප්‍රශ්න කළා.\" ඇගේ විනාශකාරී සමීප කතාව: \"උත්ප්‍රාසාත්මක ලෙස වංගීස සුමනසේකරට 'නිදහස් කාන්තාවන් පිළිබඳ මිථ්‍යාව: සමානාත්මතාවය සහ ස්වාධීනත්වය පිළිබඳ විවේචනයක්' ගැන අදහස් දැක්වීමට ඉල්ලා සිටියේය. මෙය දුටු විට සිනාසෙන්නද අඬන්නද කියලා මට තේරුණේ නැහැ.\""
+    },
+    {
+      "key": "block-100",
+      "en": "Comment on Melani Gunathilaka's post — March 10, 2026 [S18]",
+      "si": "මෙලනි ගුණතිලකගේ පළ කිරීම පිළිබඳ අදහස — මාර්තු 10, 2026 [S18]"
+    },
+    {
+      "key": "block-101",
+      "en": "Section 06",
+      "si": "06 වන කොටස"
+    },
+    {
+      "key": "block-102",
+      "en": "Unanswered Questions",
+      "si": "පිළිතුරු නොලැබුණු ප්‍රශ්න"
+    },
+    {
+      "key": "block-103",
+      "en": "Questions that demand answers from those responsible",
+      "si": "වගකිවයුත්තන්ගෙන් පිළිතුරු ඉල්ලා සිටින ප්‍රශ්න"
+    },
+    {
+      "key": "block-104",
+      "en": "Did Anuradha Perera conduct any background research on Vangeesa Sumanasekara? A basic search surfaces the allegations immediately.",
+      "si": "වන්ගීස සුමනසේකර සම්බන්ධයෙන් අනුරාධා පෙරේරා කිසියම් පසුබිම් පර්යේෂණයක් සිදු කළාද? මූලික සෙවුමකින් චෝදනා වහාම මතු වේ."
+    },
+    {
+      "key": "block-105",
+      "en": "Was the Sunday Observer editorial board aware of the allegations? Who approved his inclusion?",
+      "si": "සන්ඩේ ඔබ්සර්වර් කර්තෘ මණ්ඩලය චෝදනා ගැන දැන සිටියාද? ඔහුගේ ඇතුළත් කිරීම අනුමත කළේ කවුද?"
+    },
+    {
+      "key": "block-106",
+      "en": "What are the editorial vetting procedures at Observer MUSE? Were they followed?",
+      "si": "ඔබ්සර්වර් මියුස් හි කතුවැකි පරීක්ෂා කිරීමේ ක්‍රියා පටිපාටි මොනවාද? ඒවා අනුගමනය කළේද?"
+    },
+    {
+      "key": "block-107",
+      "en": "Who are the \"at least 2\" individuals Prabha Manuratne referenced? Are there additional accused in the article?",
+      "si": "ප්‍රභා මනුරත්න සඳහන් කරන \"අවම වශයෙන් දෙදෙනෙකු\" කවුද? ලිපියේ අමතර චූදිතයන් සිටීද?"
+    },
+    {
+      "key": "block-108",
+      "en": "Will the Sunday Observer issue a correction, retraction, or public statement?",
+      "si": "සන්ඩේ ඔබ්සර්වර් පුවත්පත නිවැරදි කිරීමක්, ඉල්ලා අස්කර ගැනීමක් හෝ ප්‍රසිද්ධ ප්‍රකාශයක් නිකුත් කරයිද?"
+    },
+    {
+      "key": "block-109",
+      "en": "What accountability exists within Lake House, a state-owned corporation, for editorial failures that contradict the values their publication claims to celebrate?",
+      "si": "රජය සතු සංස්ථාවක් වන ලේක් හවුස් ආයතනය, ඔවුන්ගේ ප්‍රකාශනය සැමරීමට කියා සිටින වටිනාකම්වලට පටහැනි කතුවැකි අසාර්ථකත්වයන් සඳහා කුමන වගකීමක් තිබේද?"
+    },
+    {
+      "key": "block-110",
+      "en": "Anuradha Perera's public statement [S13] describes harassment as a \"childish\" conversation and asks \"why did this woman play the victim role?\" — does the Sunday Observer endorse this characterisation?",
+      "si": "අනුරාධා පෙරේරාගේ ප්‍රසිද්ධ ප්‍රකාශය [S13] හිරිහැර කිරීම \"ළමා\" සංවාදයක් ලෙස විස්තර කරන අතර \"මෙම කාන්තාව වින්දිතයාගේ භූමිකාව රඟපෑවේ ඇයි?\" යනුවෙන් අසයි - සන්ඩේ ඔබ්සර්වර් මෙම චරිත නිරූපණය අනුමත කරයිද?"
+    },
+    {
+      "key": "block-111",
+      "en": "Janindu de Zoysa states he was also personally approached by Vangeesa Sumanasekara via social media [S14]. How many people was Sumanasekara messaging, and who else knew?",
+      "si": "ජනිඳු ද සොයිසා පවසන්නේ වංගීස සුමනසේකර සමාජ මාධ්‍ය හරහා තමාට පෞද්ගලිකව සම්බන්ධ වූ බවයි [S14]. සුමනසේකර කී දෙනෙකුට පණිවිඩ යවමින් සිටියාද, වෙන කවුද දැන සිටියේ?"
+    },
+    {
+      "key": "block-112",
+      "en": "Anuradha Perera acknowledges she was aware of the incident before publication. Does the Sunday Observer consider this editorial negligence or editorial policy?",
+      "si": "ප්‍රකාශනයට පෙර සිද්ධිය පිළිබඳව තමා දැන සිටි බව අනුරාධා පෙරේරා පිළිගනී. සන්ඩේ ඔබ්සර්වර් පුවත්පත මෙම කතුවැකි නොසැලකිල්ල හෝ කතුවැකි ප්‍රතිපත්තිය සලකා බලනවාද?"
+    },
+    {
+      "key": "block-113",
+      "en": "Do You Have Evidence?",
+      "si": "ඔබ සතුව සාක්ෂි තිබේද?"
+    },
+    {
+      "key": "block-114",
+      "en": "Screenshots, documents, firsthand accounts — all submissions are confidentially reviewed before inclusion. Help strengthen the public record.",
+      "si": "තිරපිටපත්, ලේඛන, සෘජු ගිණුම් - සියලුම ඉදිරිපත් කිරීම් ඇතුළත් කිරීමට පෙර රහසිගතව සමාලෝචනය කෙරේ. පොදු වාර්තාව ශක්තිමත් කිරීමට උපකාරී වේ."
+    },
+    {
+      "key": "block-115",
+      "en": "Section 07",
+      "si": "07 වන කොටස"
+    },
+    {
+      "key": "block-116",
+      "en": "The compiler is not the originator of any allegations. All allegations are attributed to their original sources. This document exercises free expression and public-interest reporting.",
+      "si": "සම්පාදකයා කිසිදු චෝදනාවක ආරම්භකයා නොවේ. සියලුම චෝදනා ඒවායේ මුල් මූලාශ්‍රවලට ආරෝපණය කර ඇත. මෙම ලේඛනය නිදහස් ප්‍රකාශනය සහ මහජන අවශ්‍යතා වාර්තාකරණය ක්‍රියාත්මක කරයි."
+    }
+  ]
+}
