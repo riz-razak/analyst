@@ -2336,6 +2336,255 @@ async function handleCommentsList(request, env) {
 }
 
 /**
+ * SPAM FILTER: Configuration & Functions
+ * Compact production-quality filter for comment moderation
+ * No external dependencies — synchronous content, identity, and abuse checks only
+ */
+
+const SPAM_THRESHOLDS = {
+  AUTO_APPROVE: 15,    // Score < 15: auto-approve
+  AUTO_REJECT: 60,     // Score >= 60: auto-reject
+};
+
+const SPAM_KEYWORDS = [
+  'viagra', 'cialis', 'casino', 'poker', 'betting', 'forex', 'bitcoin',
+  'cryptocurrency', 'crypto', 'nft', 'defi', 'loan', 'mortgage', 'payday',
+  'weight loss', 'diet pills', 'cbd', 'make money fast', 'work from home',
+  'get rich quick', 'mlm', 'click here', 'act now', 'limited time',
+];
+
+const THREAT_KEYWORDS = [
+  'kill', 'death', 'rape', 'bomb', 'gun', 'shoot', 'stab', 'harm',
+  'destroy', 'attack', 'violence', 'terrorist',
+];
+
+const PROFANITY_WORDS = [
+  'shit', 'fuck', 'fucking', 'motherfucker', 'asshole', 'bastard',
+  'bitch', 'cunt', 'damn', 'hell', 'cock', 'dick', 'pussy', 'whore',
+];
+
+const DISPOSABLE_EMAIL_DOMAINS = [
+  'tempmail.com', '10minutemail.com', 'throwaway.email', 'mailinator.com',
+  'temp-mail.org', 'guerrillamail.com', 'maildrop.cc', 'yopmail.com',
+  'fakeinbox.com', 'trashmail.com', 'minute-mail.com', 'mail.tm',
+];
+
+const SPAM_DOMAINS = [
+  'bitly.com', 'tinyurl.com', 'bit.ly', 'ow.ly', 'goo.gl',
+  'casino-online.bet', 'poker-site.cc', 'pharma-cheap.net',
+];
+
+/**
+ * Extract URLs from text
+ */
+function extractURLs(text) {
+  const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/gi;
+  return (text.match(urlRegex) || []).map(url => url.toLowerCase());
+}
+
+/**
+ * Check if text contains URLs
+ */
+function containsURLs(text) {
+  return /(https?:\/\/|www\.)/i.test(text);
+}
+
+/**
+ * Validate author identity
+ */
+function validateIdentity(authorName, authorEmail) {
+  const signals = [];
+  let score = 0;
+
+  if (!authorName || authorName.length < 2) {
+    signals.push({ type: 'invalid_name_too_short', score: 15 });
+    score += 15;
+  } else if (authorName.length > 100) {
+    signals.push({ type: 'invalid_name_too_long', score: 15 });
+    score += 15;
+  }
+
+  if (containsURLs(authorName)) {
+    signals.push({ type: 'url_in_name', score: 25 });
+    score += 25;
+  }
+
+  if (/^\d+$/.test(authorName.replace(/\s/g, ''))) {
+    signals.push({ type: 'all_numbers_name', score: 20 });
+    score += 20;
+  }
+
+  // Check email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(authorEmail)) {
+    signals.push({ type: 'invalid_email_format', score: 20 });
+    score += 20;
+  } else {
+    const emailDomain = authorEmail.split('@')[1]?.toLowerCase();
+    if (DISPOSABLE_EMAIL_DOMAINS.includes(emailDomain)) {
+      signals.push({ type: 'disposable_email', score: 25 });
+      score += 25;
+    }
+  }
+
+  return { signals, score };
+}
+
+/**
+ * Analyze comment content for spam indicators
+ */
+function analyzeContent(commentText) {
+  const signals = [];
+  let score = 0;
+
+  if (!commentText || commentText.length < 5) {
+    signals.push({ type: 'empty_or_very_short', score: 15 });
+    score += 15;
+    return { signals, score };
+  }
+
+  // URL/link spam detection
+  const urls = extractURLs(commentText);
+  const uniqueUrls = [...new Set(urls)];
+
+  if (uniqueUrls.length > 2) {
+    const extraUrls = uniqueUrls.length - 2;
+    const urlScore = extraUrls * 15;
+    signals.push({ type: 'excessive_urls', details: { count: uniqueUrls.length }, score: urlScore });
+    score += urlScore;
+  }
+
+  // Check for known spam domains
+  const spamDomainMatches = uniqueUrls.filter(url => {
+    try {
+      const urlObj = new URL(url.startsWith('http') ? url : 'http://' + url);
+      return SPAM_DOMAINS.some(spamDomain => urlObj.hostname.includes(spamDomain));
+    } catch {
+      return false;
+    }
+  });
+
+  if (spamDomainMatches.length > 0) {
+    signals.push({ type: 'spam_domain_detected', score: 35 });
+    score += 35;
+  }
+
+  // Short comment with URLs
+  if (uniqueUrls.length > 0 && commentText.length < 20) {
+    signals.push({ type: 'short_comment_with_url', score: 20 });
+    score += 20;
+  }
+
+  // Keyword-based spam detection
+  const lowerText = commentText.toLowerCase();
+  const foundSpamKeywords = SPAM_KEYWORDS.filter(keyword => lowerText.includes(keyword));
+
+  if (foundSpamKeywords.length > 0) {
+    const keywordScore = foundSpamKeywords.length > 1 ? 25 : 15;
+    signals.push({ type: 'spam_keywords_detected', details: { keywords: foundSpamKeywords }, score: keywordScore });
+    score += keywordScore;
+  }
+
+  // Repetitive character patterns
+  const repetitiveMatch = commentText.match(/(.)\1{3,}/g);
+  if (repetitiveMatch) {
+    signals.push({ type: 'repetitive_characters', score: 15 });
+    score += 15;
+  }
+
+  // ALL CAPS detection
+  const alphaChars = commentText.match(/[a-zA-Z]/g) || [];
+  const capsChars = commentText.match(/[A-Z]/g) || [];
+  if (alphaChars.length > 10) {
+    const capsRatio = capsChars.length / alphaChars.length;
+    if (capsRatio > 0.7) {
+      signals.push({ type: 'excessive_caps', score: 10 });
+      score += 10;
+    }
+  }
+
+  return { signals, score };
+}
+
+/**
+ * Detect profanity, threats, and harassment
+ */
+function detectAbuse(commentText, authorName) {
+  const signals = [];
+  let score = 0;
+  const lowerText = commentText.toLowerCase();
+
+  // Profanity check
+  const foundProfanity = PROFANITY_WORDS.filter(word =>
+    new RegExp(`\\b${word}\\b`, 'i').test(lowerText)
+  );
+
+  if (foundProfanity.length > 0) {
+    signals.push({ type: 'profanity_detected', score: 30 });
+    score += 30;
+  }
+
+  // Threat/violence detection
+  const foundThreats = THREAT_KEYWORDS.filter(keyword => lowerText.includes(keyword));
+
+  if (foundThreats.length > 0) {
+    signals.push({ type: 'threat_detected', score: 40 });
+    score += 40;
+  }
+
+  // Harassment patterns
+  const harassmentPatterns = [
+    /you (are )?( a |an )?(idiot|moron|dumb|stupid|retard)/i,
+    /you should (die|kill yourself|kys)/i,
+  ];
+
+  const hasHarassment = harassmentPatterns.some(pattern => pattern.test(commentText));
+  if (hasHarassment) {
+    signals.push({ type: 'harassment_detected', score: 35 });
+    score += 35;
+  }
+
+  return { signals, score };
+}
+
+/**
+ * Comprehensive spam analysis
+ * @returns {Object} { score, signals, verdict }
+ */
+function analyzeComment(authorName, authorEmail, commentText) {
+  const signals = [];
+  let score = 0;
+
+  // 1. Identity validation
+  const identityChecks = validateIdentity(authorName, authorEmail);
+  signals.push(...identityChecks.signals);
+  score += identityChecks.score;
+
+  // 2. Content analysis
+  const contentChecks = analyzeContent(commentText);
+  signals.push(...contentChecks.signals);
+  score += contentChecks.score;
+
+  // 3. Abuse detection
+  const abuseChecks = detectAbuse(commentText, authorName);
+  signals.push(...abuseChecks.signals);
+  score += abuseChecks.score;
+
+  // Cap score at 100
+  score = Math.min(score, 100);
+
+  // Determine verdict
+  let verdict = 'moderate';
+  if (score < SPAM_THRESHOLDS.AUTO_APPROVE) {
+    verdict = 'approve';
+  } else if (score >= SPAM_THRESHOLDS.AUTO_REJECT) {
+    verdict = 'reject';
+  }
+
+  return { score, signals, verdict };
+}
+
+/**
  * COMMENTS: CREATE
  * POST /api/comments/create
  * Create a new comment
@@ -2404,7 +2653,10 @@ async function handleCommentCreate(request, env) {
       }
     }
 
-    const createCommentData = {
+    // ── RUN SPAM FILTER ──
+    const spamAnalysis = analyzeComment(authorName, authorEmail, commentText);
+
+    let createCommentData = {
       dossier_id: dossierId,
       parent_id: parentId || null,
       author_email: authorEmail,
@@ -2415,6 +2667,30 @@ async function handleCommentCreate(request, env) {
       approved: false,
       flagged: false,
     };
+
+    // Auto-reject if verdict is 'reject'
+    if (spamAnalysis.verdict === 'reject') {
+      return jsonResponse({
+        error: 'Comment rejected',
+        reason: 'spam',
+        score: spamAnalysis.score,
+      }, 403);
+    }
+
+    // Set approval status based on spam verdict
+    if (spamAnalysis.verdict === 'approve') {
+      createCommentData.approved = true;
+    } else if (spamAnalysis.verdict === 'moderate') {
+      createCommentData.approved = false;
+    }
+
+    // Store spam analysis in moderation_note as JSON
+    createCommentData.moderation_note = JSON.stringify({
+      spam_score: spamAnalysis.score,
+      spam_signals: spamAnalysis.signals,
+      spam_verdict: spamAnalysis.verdict,
+      analyzed_at: new Date().toISOString(),
+    });
 
     const resp = await fetch(`${SUPABASE_URL}/rest/v1/comments`, {
       method: 'POST',

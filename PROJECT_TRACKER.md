@@ -1,5 +1,5 @@
 # analyst.rizrazak.com — Living Project Tracker
-**Last updated:** 2026-03-11 (session 5)
+**Last updated:** 2026-03-11 (session 6)
 **Managed by:** Claude (Cowork)
 **Repo:** `riz-razak/analyst` → GitHub Pages → `analyst.rizrazak.com`
 
@@ -43,21 +43,33 @@
   - Category badges in admin panel: grid view, table view, CMS dossier manager
   - `dossiers.json` updated with `category` field for all dossiers
 
-- [x] **Comments System v3 — deployed** *(2026-03-11)*
+- [x] **Comments System v3 — deployed + rolled out to all dossiers** *(2026-03-11)*
   - SQL: `comment_users`, `moderation_log`, `comment_notifications` tables + RLS + views
   - Worker: `/api/comments/list`, `/create`, `/moderate`, `/pending` endpoints
   - Frontend: `_shared/comments-v3.js` (487 lines) + `comments-v3.css` — FAB + slide-out panel
   - Admin: moderation queue view `#/comments-mod` with approve/reject/flag
   - Threading: 3 levels, collapse/expand, rate limiting (3 per 15min)
-  - Integrated on `sri-lanka-cricket-corruption` — remaining dossiers need rollout
-  - ⚠️ Requires: run `supabase/migrations/002_comments_phase3.sql` on Supabase
+  - ✅ SQL migration `002_comments_phase3.sql` executed on Supabase
+  - ✅ Rolled out to all 8 dossier pages (commit `0416c24`)
 
-- [ ] **DGTL OS Phase 1 — Kanban boards** *(2026-03-11, code complete)*
+- [x] **DGTL OS Phase 1 — Kanban boards deployed** *(2026-03-11)*
   - SQL: `workspaces`, `projects`, `boards`, `board_columns`, `tasks`, `members`, `activity_log` tables
   - Seed data: DGTL workspace, 3 projects (Analyst/WarenYan/Kunatu), 4 boards, default columns
   - Worker: 7 endpoints — projects list/detail, boards detail, tasks CRUD, task move, add column
   - Admin: Boards list `#/boards` + Kanban detail `#/boards/:id` with HTML5 drag-drop
-  - ⚠️ Requires: run `supabase/migrations/003_dgtl_os_phase1.sql` on Supabase
+  - ✅ SQL migration `003_dgtl_os_phase1.sql` executed on Supabase
+  - ✅ Kanban Supabase config fix: hardcoded credentials (commit `0416c24`)
+
+- [x] **Shared Privacy Banner + IP Anonymisation** *(2026-03-11)*
+  - Shared component: `_shared/privacy-banner.css` + `_shared/privacy-banner.js`
+  - GDPR/PDPA-compliant consent banner with "Understood" / "Decline Analytics" buttons
+  - 180-day IP retention policy (PDPA + defamation statute compromise)
+  - `window.AnalystPrivacy` public API: `.consented`, `.ip`, `.geo`, `.retentionDays`, `.hashIP(salt)`
+  - IP anonymisation: `anonymise_old_ips()` Supabase RPC function (SHA-256 hash)
+  - Worker cron trigger: daily 3am UTC via `scheduled()` handler + `/api/privacy/anonymise`
+  - ✅ SQL migration `004_ip_anonymisation_cron.sql` executed on Supabase
+  - ✅ Integrated across all 8 dossier pages (commit `50a364d`)
+  - ✅ `wrangler.toml` cron: `["0 3 * * *"]`
 
 - [x] **Caravan Fresh — Pledge portal iframe embed verified** *(2026-03-11)*
   - iframe loads `pledge-portal.html?lang=` with bilingual param passing ✅
@@ -141,7 +153,12 @@
 | Evidence Protocol | ✅ Created | `EVIDENCE_PROTOCOL.md` — full pipeline reference with verdict system |
 | Ethics Protocol | ✅ Created | `ETHICS_PROTOCOL.md` — source protection, victim-centered reporting |
 | Shared Evidence System | ✅ Created | `_shared/evidence-system.css` + `_shared/evidence-system.js` |
+| Shared Components | ✅ Live | `_shared/` — narrative-timeline, category-system, comments-v3, privacy-banner |
 | Admin dashboard | ✅ Phase 0 live | CMS Overview + Dossier Manager at `#/cms` |
+| Comments v3 | ✅ All 8 dossiers | FAB + slide-out panel, Supabase-backed |
+| Kanban boards | ✅ Supabase live | 3 projects, 4 boards, admin `#/boards` |
+| Privacy banner | ✅ All 8 dossiers | Shared component, 180-day retention, consent mgmt |
+| IP anonymisation | ✅ Cron active | Daily 3am UTC, SHA-256 hash via Worker `scheduled()` |
 | Infrastructure Monitor | ✅ Live | `/architecture-census/` — all 9 services healthy |
 | Email worker | ✅ Cloudflare Worker | Pledge confirmation emails |
 | GitHub API write access | ⚠️ PAT via localStorage | `GITHUB_TOKEN` Worker secret not yet set |
