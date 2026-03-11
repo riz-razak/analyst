@@ -31,6 +31,8 @@ rules = [
 GITHUB_REPO = "riz-razak/analyst"
 GITHUB_BRANCH = "main"
 ENVIRONMENT = "production"
+SUPABASE_URL = "https://ogunznqyfmxkmmwizpfy.supabase.co"
+#
 # NOTE: Email sending requires a Cloudflare secret (not stored in wrangler.toml):
 #   wrangler secret put RESEND_API_KEY --env production
 # Get your free API key at https://resend.com (3,000 emails/month free)
@@ -40,6 +42,11 @@ ENVIRONMENT = "production"
 #   wrangler secret put GITHUB_TOKEN --env production
 # Create at https://github.com/settings/tokens (fine-grained)
 # Scopes needed: Contents (read & write) on riz-razak/analyst
+#
+# NOTE: Supabase Auth — JWT verification + comments API:
+#   wrangler secret put SUPABASE_SERVICE_KEY --env production
+#   wrangler secret put SUPABASE_JWT_SECRET --env production
+# Get from Supabase dashboard: Settings → API Keys (service_role) + JWT Keys (legacy secret)
 
 [env.development.vars]
 GITHUB_REPO = "riz-razak/analyst"
