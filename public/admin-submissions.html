@@ -242,7 +242,7 @@ body {
 <div class="header">
   <h1>Evidence Submissions Review</h1>
   <div>
-    <a href="/admin-preview.html">â Back to CMS</a>
+    <a href="/admin-preview.html">â← Back to CMS</a>
   </div>
 </div>
 
@@ -267,6 +267,14 @@ body {
     <option value="under_review">Under Review</option>
     <option value="accepted">Accepted</option>
     <option value="rejected">Rejected</option>
+  </select>
+  <input type="text" id="search-box" class="search-box" placeholder="Search by name, email, description..." oninput="filterAndSort()">
+  <select id="sort-select" class="sort-select" onchange="filterAndSort()">
+    <option value="newest">Newest first</option>
+    <option value="oldest">Oldest first</option>
+    <option value="dossier">By dossier</option>
+    <option value="status">By status</option>
+    <option value="name">By submitter</option>
   </select>
   <button onclick="loadSubmissions()" style="padding:8px 16px; background:var(--forest); color:white; border:none; border-radius:8px; font-size:0.8rem; font-weight:600; font-family:inherit; cursor:pointer;">Refresh</button>
   <div class="stats" id="stats"></div>
