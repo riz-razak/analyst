@@ -229,15 +229,15 @@ body.sinhala [lang-en-inline] { display: none !important; }
 
 /* ===== SECTIONS ===== */
 .section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
-/* Offset for LHS sidenav on desktop */
+/* Offset for LHS sidenav on desktop — must match sidenav specificity */
 @media (min-width: 1024px) {
-  .section {
+  body.side-nav-active .section {
     max-width: 900px;
-    /* Center in the space right of the 220px sidenav; clamp to 240px min */
+    /* Center 900px content in the space right of the 220px sidenav */
     margin-left: max(240px, calc(50vw - 340px));
     margin-right: auto;
   }
-  .stat-bar { padding-left: 240px; }
+  body.side-nav-active .stat-bar { padding-left: 240px; }
 }
 .section-label {
   display: inline-block; font-size: 0.65rem; font-weight: 700;
