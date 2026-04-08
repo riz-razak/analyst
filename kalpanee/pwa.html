@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#2D6A4F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>KAC Council Tracker</title>
+<style>
+:root{--bg:#FAFAF8;--surface:#FFFFFF;--border:#E5E1DA;--text:#1A1A2E;--text2:#4A4A5A;--accent:#2D6A4F;--earth:#C4A35A;--red:#D4644A;--green:#3A9D6A}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+.hdr{background:var(--accent);color:#fff;padding:16px 16px 12px;position:sticky;top:0;z-index:20}
+.hdr h1{font-size:16px;font-weight:700;letter-spacing:-.3px}
+.hdr .sub{font-size:11px;opacity:.7;margin-top:2px}
+.nav{display:flex;overflow-x:auto;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:48px;z-index:19;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:0 0 auto;padding:9px 12px;font-size:11px;font-weight:500;color:var(--text2);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+.nav button.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+.wrap{max-width:600px;margin:0 auto;padding:16px 12px 80px}
+.panel{display:none}.panel.on{display:block}
+.sec-title{font-size:14px;font-weight:700;margin:16px 0 8px;color:var(--text)}
+.sec-title:first-child{margin-top:0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px}
+.card h3{font-size:12px;font-weight:700;margin-bottom:6px}
+.perf{cursor:pointer;-webkit-user-select:none;user-select:none}
+.perf .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.perf .num{font-size:10px;font-weight:700;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 6px;white-space:nowrap}
+.perf .title{font-size:12.5px;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.perf .artist{font-size:11px;color:var(--text2);flex:0 0 auto}
+.perf .detail{display:none;margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:11.5px;color:var(--text2)}
+.perf.open .detail{display:block}
+.badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.3px}
+.badge.done{background:#E8F5EE;color:var(--accent)}
+.badge.pending{background:#FFF5EB;color:var(--earth)}
+.badge.break{background:var(--bg);color:var(--text2);border:1px solid var(--border)}
+.perf-tap{font-size:10px;color:var(--text2);opacity:.5;flex:0 0 auto}
+textarea{width:100%;font-family:inherit;font-size:12px;line-height:1.6;border:1px solid var(--border);border-radius:6px;padding:10px 12px;background:var(--bg);color:var(--text);resize:vertical;min-height:60px;-webkit-appearance:none}
+textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
+textarea::placeholder{color:#aaa}
+.label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:4px;display:block}
+.node-card h3{color:var(--accent)}
+.node-card .lead-tag{font-size:10px;color:var(--text2);font-weight:400;margin-left:6px}
+.mara-log .q{font-size:12px;color:var(--text);margin-bottom:4px;font-style:italic}
+.mara-log .a{font-size:11px;color:var(--text2);margin-bottom:2px}
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.status-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.status-item .name{font-size:12px;font-weight:700}
+.status-item .role{font-size:10px;color:var(--text2);margin-top:2px}
+.status-item .st{font-size:10px;font-weight:600;margin-top:4px}
+.status-item .st.active{color:var(--green)}
+.status-item .st.standby{color:var(--earth)}
+.round-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px;border-left:3px solid var(--accent)}
+.round-item h4{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.round-item .desc{font-size:11.5px;color:var(--text2)}
+.round-item .team{font-size:10px;color:var(--text2);opacity:.6;margin-top:4px}
+.pattern{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f5f4f2}
+.pattern:last-child{border-bottom:none}
+.pattern input[type=checkbox]{flex:0 0 18px;margin-top:2px;accent-color:var(--accent);width:18px;height:18px}
+.pattern .info{flex:1}
+.pattern .info strong{font-size:12px;display:block}
+.pattern .info span{font-size:11px;color:var(--text2)}
+.agent-standalone{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px}
+@media(max-width:380px){.hdr h1{font-size:14px}.wrap{padding:12px 8px 60px}}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+<h1>Kalpanee's Art Circle — Council Tracker</h1>
+<div class="sub">8 Apr 2026 · Monarch, Colombo 03 · 7:00 PM</div>
+</div>
+
+<div class="nav" id="nav">
+<button class="on" data-p="timeline">Timeline</button>
+<button data-p="nodes">Nodes</button>
+<button data-p="mara">Mara</button>
+<button data-p="council">Council</button>
+<button data-p="rounds">Rounds</button>
+<button data-p="patterns">Patterns</button>
+</div>
+
+<div class="wrap">
+
+<div class="panel on" id="p-timeline"></div>
+<div class="panel" id="p-nodes"></div>
+<div class="panel" id="p-mara"></div>
+<div class="panel" id="p-council"></div>
+<div class="panel" id="p-rounds"></div>
+<div class="panel" id="p-patterns"></div>
+
+</div>
+
+<script>
+const PERFS=[
+{id:1,title:"Art Is Not Important",artist:"Vehe",node:"N1",lead:"Ajitha"},
+{id:2,title:"Henry V Prologue",artist:"Arj",node:"N2",lead:"Ajitha"},
+{id:3,title:"Open Poetry",artist:"Sam",node:"—",lead:"—"},
+{id:4,title:"Clytemnestra",artist:"Tania S",node:"N3",lead:"Buddhaghosa"},
+{id:5,title:"Female Stereotypes",artist:"Tanya W",node:"N4",lead:"Lumen"},
+{id:6,title:"Perfect For Display",artist:"Natalie",node:"N6",lead:"Atsuko"},
+{id:7,title:"Iris Dena",artist:"Dylan",node:"—",lead:"—"},
+{id:8,title:"Who the SWRD are we?",artist:"David",node:"N7",lead:"Vishwa"},
+{id:9,title:"Marriage Horoscopes",artist:"Tanya W",node:"N5",lead:"Vishwa"},
+{id:10,title:"Fumbling Words",artist:"Mika",node:"N8",lead:"Nāgārjuna"},
+{id:11,title:"Any Minute",artist:"Lydia & Kal",node:"—",lead:"—"},
+{id:12,title:"Moon Over Jaipur",artist:"Sam",node:"—",lead:"—"},
+{id:13,title:"Perf #13",artist:"TBA",node:"—",lead:"—"},
+{id:14,title:"Perf #14",artist:"TBA",node:"—",lead:"—"},
+{id:15,title:"Perf #15",artist:"TBA",node:"—",lead:"—"},
+{id:16,title:"Perf #16",artist:"TBA",node:"—",lead:"—"},
+{id:17,title:"Perf #17",artist:"TBA",node:"—",lead:"—"},
+{id:18,title:"Perf #18",artist:"TBA",node:"—",lead:"—"},
+{id:19,title:"Perf #19",artist:"TBA",node:"—",lead:"—"},
+{id:20,title:"Perf #20",artist:"TBA",node:"—",lead:"—"}
+];
+
+const NODES=[
+{id:"N1",name:"Art vs Importance",lead:"Ajitha",perf:"Vehe",
+summary:"Declaring art unimportant is itself an artistic act — paradox as defence of aesthetic autonomy. Wilde/Adorno lineage: art's refusal to justify itself IS its most radical function."},
+{id:"N2",name:"Power & Performance",lead:"Ajitha",perf:"Arj",
+summary:"Henry V Prologue as meta-theatre: audience co-creates power by supplying imagination. Austin's performative utterance — speech that brings reality into being."},
+{id:"N3",name:"Greek Tragedy & Agency",lead:"Buddhaghosa",perf:"Tania S",
+summary:"Clytemnestra kills with calculation, justifies publicly, and isn't wrong. Tragic agency: capacity to act within fated constraints. Gendered villainy: ambition read as monstrous."},
+{id:"N4",name:"Female Stereotypes",lead:"Lumen",perf:"Tanya W",
+summary:"Double bind — traditional virtues vs modern demands. Butler: gender is repeated performance. Spoken word enacts the stereotypes it names, occupying subject and object simultaneously."},
+{id:"N5",name:"Marriage & Astrology",lead:"Vishwa",perf:"Tanya W",
+summary:"Porondam as social technology encoding caste/class into cosmic law. Agency paradox: 'arranged love' with retroactive astrological validation. Bourdieu's symbolic violence."},
+{id:"N6",name:"Identity & Display",lead:"Atsuko",perf:"Natalie",
+summary:"Perfect for everything except existence. Goffman: all interaction is theatre. Baudrillard: display self replaces real self. Digital eliminates backstage entirely."},
+{id:"N7",name:"Collective Identity",lead:"Vishwa",perf:"David",
+summary:"SWRD's 1956 Act re-engineered who counted as 'the people'. Founding fracture: 'we' means different things to different communities. 68 years, no honest answer."},
+{id:"N8",name:"Fumbling Words",lead:"Nāgārjuna",perf:"Mika",
+summary:"Wittgenstein: limits of language = limits of world. Derrida: meaning deferred. Beckett: fail again, fail better. Nāgārjuna: fixed positions collapse under examination. Stumble = truth."},
+{id:"N9",name:"The Break (Liminal Space)",lead:"Nāgārjuna",perf:"Structural",
+summary:"Scheduled break as van Gennep's limen. Turner's communitas: hierarchy dissolves, anti-structure emerges. The most charged moment — performer/audience become just people."}
+];
+
+const MARA=[
+{node:"N1",challenge:"You say art isn't important, then perform it for an audience. The sharing presupposes it matters to someone else — so which are you lying about: the importance, or the loneliness?"},
+{node:"N2",challenge:"The Prologue apologises for the theatre's smallness but never for the war. You're asked to fill in horses and cannons — never corpses. What is this training you to overlook?"},
+{node:"N3",challenge:"You admire Clytemnestra's agency. She also murders Cassandra — a slave with even less power — purely because she can. At what point does 'resistance' become doing exactly what patriarchy does?"},
+{node:"N4",challenge:"A woman recites a poem about stereotypes and we call it subversion? Butler says repetition constitutes gender — so isn't every performance, even the 'rebellious' one, still reinforcing the category?"},
+{node:"N5",challenge:"You're attacking porondam as social control, but in a world of dissolving relationships, maybe porondam is the last institution taking commitment seriously. Perhaps the problem isn't the matching — it's that we forgot how to stay matched."},
+{node:"N6",challenge:"You're romanticising a pre-display 'authentic self' that never existed. Goffman showed us ALL identity is performance. Natalie's poem is performing the genre of lamenting authenticity — which is itself a display."},
+{node:"N7",challenge:"You want this conversation in English, at an art event, with people who agree with you. That's echo chamber with better lighting. Go tell your thesis to a trishaw driver in Maharagama. Stay long enough to hear why."},
+{node:"N8",challenge:"You've constructed an elaborate philosophical defence of failure. How convenient. Mika fumbles because Mika is human, not because she integrated second-century Madhyamaka. Sometimes a stumble is just a stumble."},
+{node:"N9",challenge:"You've romanticised a cigarette break. Turner studied initiation rituals in remote African societies, not Colombo art intermissions. Don't baptise the mundane with theory it hasn't earned."}
+];
+
+const ROUNDS=[
+{q:"Is art a form of dissent or catharsis?",lead:"Ajitha",team:"Mara, Lumen",nodes:"N1+N2"},
+{q:"Can performed gender ever escape the stereotype?",lead:"Lumen",team:"Priya, Buddhaghosa",nodes:"N4+N5"},
+{q:"What does Sri Lankan identity mean when founding myths are contested?",lead:"Vishwa",team:"Ajitha, Atsuko",nodes:"N7"},
+{q:"Is all communication fumbling?",lead:"Nāgārjuna",team:"Buddhaghosa, Priya",nodes:"N8"},
+{q:"Synthesis: What did tonight's art reveal that debate cannot?",lead:"Priya",team:"Full council",nodes:"All"}
+];
+
+const PATTERNS=[
+{name:"Performance Paradox",desc:"Everything is performance, including the denial of it"},
+{name:"Authority Gap",desc:"Who performs power survives; who doesn't, doesn't"},
+{name:"The Gap",desc:"Meaning lives in what doesn't arrive, not what does"},
+{name:"SL Specificity",desc:"These questions bite differently here, or they don't bite at all"},
+{name:"Liminality",desc:"The break was the most important moment — hierarchy dissolved"}
+];
+
+function state(key,val){
+  if(val===undefined)return localStorage.getItem('kac-'+key)||'';
+  localStorage.setItem('kac-'+key,val);
+  return val;
+}
+
+function renderTimeline(){
+  let h='<div class="sec-title">Event Timeline</div>';
+  let first=true;
+  PERFS.forEach(p=>{
+    if(first){first=false}
+    h+=`<div class="card perf" data-id="${p.id}">
+      <div class="row">
+        <span class="num">#${p.id}</span>
+        <span class="title">${p.title}</span>
+        <span class="artist">${p.artist}</span>
+        <span class="perf-tap">&#9662;</span>
+      </div>
+      <div class="detail">
+        <div style="margin-bottom:6px">
+          <span class="badge pending" data-pid="${p.id}">PENDING</span>
+          ${p.node!=='—'?`<span style="margin-left:8px;font-size:11px;color:var(--accent);font-weight:600">${p.node}</span> <span style="font-size:10px;color:var(--text2)">→ ${p.lead}</span>`:''}
+        </div>
+        <div style="margin-top:6px"><span class="label">Priya notes</span>
+        <textarea placeholder="Observations..." data-note="perf-${p.id}">${state('perf-'+p.id)}</textarea></div>
+      </div>
+    </div>`;
+    if(p.id===10){
+      h+=`<div class="card" style="text-align:center;background:var(--bg);border-style:dashed">
+        <span class="badge break">BREAK</span>
+        <div style="font-size:11px;color:var(--text2);margin-top:6px">N9: The Break (Liminal Space) — Track communitas formation</div>
+        <div style="margin-top:6px"><textarea placeholder="Break observations..." data-note="break">${state('break')}</textarea></div>
+      </div>`;
+    }
+  });
+  document.getElementById('p-timeline').innerHTML=h;
+  document.querySelectorAll('.perf').forEach(el=>{
+    el.querySelector('.row').addEventListener('click',()=>el.classList.toggle('open'));
+  });
+  document.querySelectorAll('.badge[data-pid]').forEach(b=>{
+    b.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(b.classList.contains('pending')){b.classList.remove('pending');b.classList.add('done');b.textContent='DONE';}
+      else{b.classList.remove('done');b.classList.add('pending');b.textContent='PENDING';}
+    });
+  });
+  saveNotes();
+}
+
+function renderNodes(){
+  let h='<div class="sec-title">Per-Node Quick Notes (N1–N9)</div>';
+  NODES.forEach(n=>{
+    h+=`<div class="card node-card">
+      <h3>${n.id}: ${n.name} <span class="lead-tag">Lead: ${n.lead} · ${n.perf}</span></h3>
+      <div style="font-size:11.5px;color:var(--text2);margin-bottom:8px">${n.summary}</div>
+      <span class="label">Priya's synthesis notes:</span>
+      <textarea placeholder="Connections, cross-node links, observations..." data-note="node-${n.id}">${state('node-'+n.id)}</textarea>
+    </div>`;
+  });
+  document.getElementById('p-nodes').innerHTML=h;
+  saveNotes();
+}
+
+function renderMara(){
+  let h='<div class="sec-title">Mara\'s Adversarial Log</div>';
+  MARA.forEach(m=>{
+    h+=`<div class="card mara-log">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <span style="font-size:11px;font-weight:700;color:var(--red)">${m.node}</span>
+      </div>
+      <div class="q">&ldquo;${m.challenge}&rdquo;</div>
+      <div style="margin-top:6px"><span class="label">Mara live notes:</span>
+      <textarea placeholder="Gap detected, reality check..." data-note="mara-${m.node}">${state('mara-'+m.node)}</textarea></div>
+    </div>`;
+  });
+  document.getElementById('p-mara').innerHTML=h;
+  saveNotes();
+}
+
+function renderCouncil(){
+  document.getElementById('p-council').innerHTML=`
+    <div class="sec-title">Council Status</div>
+    <div class="status-grid">
+      <div class="status-item">
+        <div class="name">Priya #9</div>
+        <div class="role">Synthesis Lead</div>
+        <div class="st active">&#9679; ACTIVE — tracking, notes, synthesis</div>
+      </div>
+      <div class="status-item">
+        <div class="name">Mara #14</div>
+        <div class="role">Adversarial Tracker</div>
+        <div class="st active">&#9679; ACTIVE — per-node challenges</div>
+      </div>
+      <div class="status-item" style="grid-column:span 2">
+        <div class="name">Vidura #32</div>
+        <div class="role">Knowledge Cataloguer</div>
+        <div class="st standby">&#9675; STANDBY — activates post-session for tagging, provenance, cross-reference</div>
+      </div>
+    </div>
+    <div class="sec-title" style="margin-top:16px">Standing Directives</div>
+    <div class="agent-standalone">
+      <div style="font-size:11.5px;color:var(--text2);line-height:1.8">
+        <strong>SD-VOICE-7:</strong> Two-round minimum for open questions<br>
+        <strong>Moral Patiency:</strong> All agents as moral patients<br>
+        <strong>Brahmaviharas:</strong> Metta, Karuṇā, Muditā, Upekkhā as operational test<br>
+        <strong>Mara audit:</strong> "Genuine or strategic?" — permanent, no expiry<br>
+        <strong>Mission subordination:</strong> All agent rights yield to human welfare
+      </div>
+    </div>`;
+}
+
+function renderRounds(){
+  let h='<div class="sec-title">5 Philosophy Rounds (Post-Session)</div>';
+  ROUNDS.forEach((r,i)=>{
+    h+=`<div class="round-item">
+      <h4>R${i+1}: ${r.q}</h4>
+      <div class="desc">Drawing from ${r.nodes}</div>
+      <div class="team">Lead: ${r.lead} · Respondents: ${r.team}</div>
+    </div>`;
+  });
+  document.getElementById('p-rounds').innerHTML=h;
+}
+
+function renderPatterns(){
+  let h='<div class="sec-title">Core Patterns</div><div class="card">';
+  PATTERNS.forEach((p,i)=>{
+    const saved=state('pat-'+i);
+    h+=`<div class="pattern">
+      <input type="checkbox" id="pat${i}" data-pat="${i}" ${saved==='1'?'checked':''}>
+      <label class="info" for="pat${i}"><strong>${p.name}</strong><span>${p.desc}</span></label>
+    </div>`;
+  });
+  h+='</div>';
+  document.getElementById('p-patterns').innerHTML=h;
+  document.querySelectorAll('[data-pat]').forEach(cb=>{
+    cb.addEventListener('change',()=>state('pat-'+cb.dataset.pat,cb.checked?'1':'0'));
+  });
+}
+
+function saveNotes(){
+  document.querySelectorAll('textarea[data-note]').forEach(ta=>{
+    ta.addEventListener('input',()=>state(ta.dataset.note,ta.value));
+  });
+}
+
+function switchPanel(p){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  document.querySelectorAll('.panel').forEach(el=>el.classList.toggle('on',el.id==='p-'+p));
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>switchPanel(b.dataset.p)));
+
+renderTimeline();
+renderNodes();
+renderMara();
+renderCouncil();
+renderRounds();
+renderPatterns();
+</script>
+</body>
+</html>

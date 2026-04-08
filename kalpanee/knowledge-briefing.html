@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalpanee's Art Circle — Philosophy Briefing</title>
+<style>
+:root {
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --border: #E5E1DA;
+  --text: #1A1A2E;
+  --text-secondary: #4A4A5A;
+  --text-tertiary: #6B6B7B;
+  --accent: #2D6A4F;
+  --earth: #C4A35A;
+  --red: #D4644A;
+  --orange: #E88D2A;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; font-size:13px; -webkit-font-smoothing:antialiased; }
+
+.header { background:var(--accent); color:#fff; padding:24px 20px 20px; }
+.header h1 { font-size:20px; font-weight:700; letter-spacing:-0.3px; }
+.header .meta { opacity:0.75; font-size:12px; margin-top:4px; }
+.header .meta span { margin-right:16px; }
+
+.tabs-wrap { background:var(--surface); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:10; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+.tabs-wrap::-webkit-scrollbar { display:none; }
+.tabs { display:flex; gap:0; padding:0 12px; min-width:max-content; }
+.tab { padding:10px 14px; font-size:12px; font-weight:500; color:var(--text-secondary); cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.15s ease; user-select:none; -webkit-tap-highlight-color:transparent; }
+.tab:hover { color:var(--text); background:rgba(45,106,79,0.04); }
+.tab.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:600; }
+.tab .num { display:inline-block; width:18px; height:18px; line-height:18px; text-align:center; border-radius:5px; font-size:10px; font-weight:700; margin-right:6px; background:#f0ede8; color:var(--text-secondary); }
+.tab.active .num { background:var(--accent); color:#fff; }
+
+.content { max-width:720px; margin:0 auto; padding:20px 16px 40px; }
+.node { display:none; }
+.node.active { display:block; animation:fadeIn 0.12s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+
+.node-header { margin-bottom:18px; }
+.node-header h2 { font-size:18px; font-weight:700; color:var(--text); }
+.node-header .lead { font-size:11.5px; color:var(--accent); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-top:3px; }
+.node-header .source { font-size:12px; color:var(--text-tertiary); margin-top:2px; }
+
+.card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin-bottom:12px; }
+.card h3 { font-size:12.5px; font-weight:700; color:var(--text); margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.card h3 .icon { font-size:13px; }
+
+.summary-text { color:var(--text-secondary); font-size:13px; line-height:1.7; }
+
+.concepts { list-style:none; }
+.concepts li { padding:6px 0; border-bottom:1px solid #f5f4f2; font-size:12.5px; display:flex; gap:8px; }
+.concepts li:last-child { border-bottom:none; }
+.concepts li strong { color:var(--accent); white-space:nowrap; flex-shrink:0; font-weight:600; }
+
+.talk-list { list-style:none; counter-reset:talk; }
+.talk-list li { padding:8px 0 8px 28px; position:relative; font-size:12.5px; color:var(--text-secondary); line-height:1.65; border-bottom:1px solid #f5f4f2; }
+.talk-list li:last-child { border-bottom:none; }
+.talk-list li::before { counter-increment:talk; content:counter(talk); position:absolute; left:0; top:8px; width:20px; height:20px; background:var(--bg); border:1px solid var(--border); border-radius:50%; font-size:10px; font-weight:700; color:var(--text-tertiary); display:flex; align-items:center; justify-content:center; }
+
+.deeper { font-size:12.5px; color:var(--text-secondary); line-height:1.75; }
+.deeper p { margin-bottom:10px; }
+.deeper p:last-child { margin-bottom:0; }
+
+.xref { font-size:12px; color:var(--text-tertiary); }
+.xref a { color:var(--accent); text-decoration:none; font-weight:600; }
+.xref a:hover { text-decoration:underline; }
+
+.mara-card { background:#FFF9F5; border-color:#F0E0D0; }
+.mara-card h3 { color:var(--red); }
+.mara-challenge { font-size:12.5px; color:var(--text-secondary); line-height:1.7; font-style:italic; }
+
+.rounds-section { margin-top:28px; border-top:2px solid var(--border); padding-top:20px; }
+.rounds-section h2 { font-size:16px; font-weight:700; margin-bottom:14px; color:var(--text); }
+.round-item { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px; border-left:3px solid var(--accent); }
+.round-item h4 { font-size:12.5px; font-weight:700; color:var(--accent); margin-bottom:4px; }
+.round-item .desc { font-size:12px; color:var(--text-secondary); }
+.round-item .team { font-size:11px; color:var(--text-tertiary); margin-top:3px; }
+
+.footer { text-align:center; padding:24px 16px 32px; color:var(--text-tertiary); font-size:11.5px; border-top:1px solid var(--border); max-width:720px; margin:0 auto; }
+
+@media (max-width:480px) {
+  .header h1 { font-size:17px; }
+  .content { padding:16px 12px 32px; }
+  .card { padding:14px 14px; }
+  .tab { padding:8px 10px; font-size:11.5px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Kalpanee's Art Circle</h1>
+  <div class="meta">
+    <span>8 Apr 2026</span>
+    <span>Monarch, Colombo 03</span>
+    <span>7:00 PM sharp</span>
+  </div>
+</div>
+
+<div class="tabs-wrap" id="tabsWrap">
+  <div class="tabs" id="tabs"></div>
+</div>
+
+<div class="content" id="content"></div>
+
+<div class="footer">
+  Philosophy Council Briefing &middot; Yan DGTL &middot; Priya + Mara tracking active
+</div>
+
+<script>
+const NODES = [
+  {
+    id:"N1", label:"Art vs Importance", lead:"Ajitha", source:'Performance #1 &mdash; Vehe: "Art Is Not Important"',
+    summary:`The piece opens with a deliberate paradox: declaring art unimportant is itself an artistic act that proves art's irreducibility to utility. This isn't nihilism &mdash; it's a defence of art's autonomy from the demand that everything must <em>do</em> something. As the night's first provocation, it clears ground by asking: what if art matters <em>because</em> it refuses to matter in the way everything else does?`,
+    concepts:[
+      ["Aesthetic Autonomy","art's right to exist without justification beyond itself"],
+      ["Anti-Instrumentalism","art's value collapses when forced into service of external ends"],
+      ["Useful Uselessness","art's 'uselessness' is its most radical political function"]
+    ],
+    talk:[
+      "If art became 'important' in the way policy or profit are important, would we have lost the very thing that made it worth defending?",
+      "Tonight's second node asks what happens when performance <em>does</em> claim power &mdash; but power always demands justification. Does art escape by refusing to justify itself?",
+      "Is 'art is not important' a surrender, or the strongest possible claim art can make?"
+    ],
+    deeper:`<p>The paradox at this node's heart has a long philosophical lineage. <strong>Oscar Wilde</strong> argued in the preface to <em>The Picture of Dorian Gray</em> (1890) that "all art is quite useless" &mdash; and meant it as the highest praise. For Wilde, the moment art becomes morally or politically instrumental, it ceases to be art and becomes propaganda.</p><p><strong>Theodor Adorno</strong> extended this in <em>Aesthetic Theory</em> (1970), arguing that authentic artworks resist integration into the culture industry precisely through their formal autonomy. <strong>Kant</strong>, two centuries earlier, located beauty in "purposiveness without purpose."</p><p>In Sri Lanka, this tension lives between state-sponsored "cultural development" and practices that resist commodification. Traditional <strong>Kandyan dance</strong> (<em>Ves Natuma</em>) originated as part of the <em>Esala Perahera</em> &mdash; sacred ritual whose meaning dissolves if you ask "what is this for?" in instrumental terms. Contemporary artists like <strong>Chandraguptha Thenuwara</strong> work in this same space: art that matters by refusing categories that would make it "important." The danger: "art for art's sake" can become a luxury position available only to those who don't need art to survive.</p>`,
+    xref:["N2 (Power & Performance)","N3 (Greek Tragedy)"],
+    mara:`You say art isn't important. Then why are you performing it in front of an audience instead of alone in your room? The very act of sharing presupposes that it matters to someone other than you &mdash; so which are you lying about: the importance, or the loneliness?`
+  },
+  {
+    id:"N2", label:"Power & Performance", lead:"Ajitha", source:'Performance #2 &mdash; Arj: Henry V Prologue',
+    summary:`Shakespeare's <em>Henry V</em> Prologue is one of theatre's most naked confessions about what performance actually <em>does</em>: it admits the stage is inadequate, then asks the audience to fill the gap with their own imagination. That request &mdash; "O for a Muse of fire" &mdash; is also a request for complicity. The audience doesn't just watch power being performed; they <em>co-create</em> it.`,
+    concepts:[
+      ["Meta-Theatre","performance acknowledges its own artifice and draws attention to its conditions"],
+      ["Political Legitimation","stories about rulers transform raw force into authorised power"],
+      ["Performative Utterance","speech that brings reality into being rather than describing it"]
+    ],
+    talk:[
+      "When the Chorus asks us to 'work your thoughts' and conjure armies from 'two or three wooden O's,' is that democratic participation or manipulation?",
+      "Node N1 said art shouldn't be important &mdash; but Henry V uses artifice to <em>become</em> king. Which argument wins?",
+      "In Sri Lanka today, who holds the 'Muse of fire'? Who gets to ask audiences to imagine their version of the nation?"
+    ],
+    deeper:`<p>The <em>Henry V</em> Prologue (1599) arrives at Shakespeare's career pivot &mdash; his second tetralogy tracing England's descent from Richard II's failure through civil war to Henry V's triumphant nationalism. <strong>Stephen Greenblatt</strong> (<em>Shakespearean Negotiations</em>, 1988) reads these plays as exercises in "social energy": circulation of power through narrative form. Henry isn't just portrayed as king; the <em>play itself</em> performs legitimation work, and the Prologue recruits the audience as co-conspirators.</p><p><strong>J.L. Austin's</strong> performative utterance (<em>How to Do Things With Words</em>, 1962): some speech acts don't describe the world &mdash; they change it. "I pronounce you married" creates a marriage; "think when we talk of horses that you see them" creates a battlefield. <strong>Judith Butler</strong> extends this: identity itself is performatively constituted through repeated enactment.</p><p>In Sri Lanka, consider how national narratives are performed into existence: independence speeches, victory addresses, annual pageants. Each asks audiences to supply imagination that transforms words into shared reality. <strong>Regi Siriwardena's</strong> essays on language and power examine exactly this dynamic &mdash; how English-educated elites performed nationhood through rhetoric that excluded those who couldn't access that language. The Prologue's honesty ("can this cockpit hold / The vasty fields of France?") is more than most such performances offer.</p>`,
+    xref:["N1 (Art vs Importance)","N3 (Greek Tragedy & Agency)","N7 (Collective Identity)"],
+    mara:`The Prologue apologises for the theatre's smallness and asks you to compensate with your imagination. But notice: it never apologises for the <em>war</em>. You're asked to fill in the horses and cannons &mdash; never the corpses. What exactly is this training you to overlook?`
+  },
+  {
+    id:"N3", label:"Greek Tragedy & Agency", lead:"Buddhaghosa", source:'Performance #4 &mdash; Tania S: Aeschylus\' Agamemnon &mdash; Clytemnestra\'s Triumph',
+    summary:`Aeschylus' <em>Agamemnon</em> gives Western literature one of its most disturbing propositions: a woman who kills with calculation, justifies herself publicly, rules in her husband's place &mdash; and who is, by the play's logic, <em>not wrong</em>. Clytemnestra's agency is terrifying precisely because it's rational. She builds her case, executes her plan, defends it before the citizen-chorus.`,
+    concepts:[
+      ["Tragic Agency","capacity to act meaningfully within fated or structurally imposed constraints"],
+      ["Gendered Villainy","women's ambition read as monstrous where men's equivalent actions read as heroic"],
+      ["Chorus as Collective Conscience","communal values that hesitate, judge, and often fail to prevent what they foresee"]
+    ],
+    talk:[
+      "Clytemnestra murders her husband to avenge their daughter's sacrifice. Why do we still argue hero vs villain after 2,500 years?",
+      "Node N2 showed us a man using performance to legitimise power. Clytemnestra does the same &mdash; Aeschylus frames her as a monster. What's the difference?",
+      "The Chorus knows something is wrong. They sing warnings. And they do nothing. Who does that remind you of?"
+    ],
+    deeper:`<p><strong>Martha Nussbaum</strong> (<em>The Fragility of Goodness</em>, 1986) reads Clytemnestra as Aeschylus' exploration of private ethical claims colliding with public political necessity. Her agency is terrifying because it's rational: she builds her case, executes her plan, justifies herself before citizens.</p><p><strong>Anne Carson</strong> (<em>Grief Lessons</em>, 2006): the Greek word <em>m&emacr;nis</em> &mdash; wrath &mdash; opens the <em>Iliad</em> too, but Achilles' wrath is celebrated while Clytemnestra's is pathologised. The double standard isn't subtle. <strong>Simon Goldhill</strong> argues the Argive elders represent failure of patriarchal civic order: old men who sense catastrophe unfolding but lack capacity to intervene. Their complicity-through-passivity is perhaps the play's deepest critique.</p><p>Sri Lankan resonance: how women who occupy public space with uncompromising ambition are narrativised &mdash; in media, politics, everyday conversation. The vocabulary of monstrosity attaches readily to women's anger in ways it doesn't to men's. What makes Clytemnestra endure is that Aeschylus refused to make her simple. She cannot be resolved.</p>`,
+    xref:["N1 (Art vs Importance)","N2 (Power & Performance)","N4 (Female Stereotypes)"],
+    mara:`You admire Clytemnestra's agency. She also murders Cassandra &mdash; a Trojan princess, a slave, a woman with even less power than she has &mdash; purely because she can. At what point does 'resistance against patriarchy' become 'doing exactly what patriarchy does, just with a different face'?`
+  },
+  {
+    id:"N4", label:"Female Stereotypes", lead:"Lumen", source:'Performance #5 &mdash; Tanya W: Female Stereotypes (Spoken Word)',
+    summary:`Female stereotypes in Sri Lanka operate as a double bind &mdash; women expected to embody traditional virtues (modesty, domesticity, obedience) while navigating modern spaces demanding the opposite. Tanya's spoken word doesn't just <em>describe</em> these contradictions; it <em>enacts</em> them, using her body and voice on stage to make visible what society prefers invisible.`,
+    concepts:[
+      ["Gender Performativity (Butler)","gender is something you <em>do</em> repeatedly until it feels natural &mdash; stereotypes are the enforced choreography"],
+      ["The Double Bind (Bateson)","every available response is wrong; being 'too traditional' or 'too modern' both attract sanction"],
+      ["Subversive Repetition","repeating a stereotype with deliberate distortion until the script loses its grip"]
+    ],
+    talk:[
+      "Every stereotype carries an unspoken threat: deviate from 'good daughter / good wife / good mother,' and the social cost is immediate. Who wrote these scripts?",
+      "The stereotype isn't just an idea &mdash; it's embedded in language (&#3482;&#3515;&#3482;&#3512;&#3495;&#3512;), family expectations, workplace microaggressions.",
+      "If gender is performed (Butler), then every performance is also potentially a re-performance &mdash; a chance to do it differently."
+    ],
+    deeper:`<p><strong>Judith Butler's</strong> <em>Gender Trouble</em> (1990): gender identity is not stable interior truth but repeated performance, socially regulated. When Tanya stands on stage naming stereotypes projected onto her body, she demonstrates performativity itself. The audience sees a woman performing the act of refusing performance. That tension <em>is</em> the argument.</p><p><strong>Simone de Beauvoir:</strong> "One is not born, but rather becomes, a woman." In Sri Lanka, <strong>Kumari Jayawardena's</strong> <em>Feminism and Nationalism in the Third World</em> (1986) documents how women's movements negotiated between colonial modernity and indigenous tradition &mdash; neither fully liberating. The "Sri Lankan woman" was partly constructed by reformist men who wanted women educated enough to be mothers but not empowered enough to challenge patriarchy.</p><p>Tanya's piece is poetry, not lecture. Spoken word operates through embodiment, rhythm, breath, pause &mdash; reaching audiences cognitively <em>and</em> somatically. When a woman performs her own stereotyping on stage, she occupies object and subject simultaneously. She cannot be reduced to the stereotype because she is actively undoing it in front of you.</p>`,
+    xref:["N5 (Marriage & Astrology)","N6 (Identity & Display)","N2 (Power & Language)"],
+    mara:`A woman gets on stage, recites a poem about stereotypes, and we call it 'subversion'? Isn't she performing the same script with better lighting? Butler says repetition constitutes gender &mdash; so isn't every performance, even the 'rebellious' one, still reinforcing the category? Maybe the real radical act would be silence.`
+  },
+  {
+    id:"N5", label:"Marriage & Astrology", lead:"Vishwa", source:'Performance #9 &mdash; Tanya W: Marriage Horoscopes (Poetry)',
+    summary:`Porondam matching sits at the intersection of cosmic determinism and social control &mdash; a system claiming to read celestial alignment but enforcing caste, class, and kinship boundaries under spiritual compatibility. The question isn't whether astrology "works" &mdash; it's whose interests it serves when it does.`,
+    concepts:[
+      ["Porondam as Social Technology","horoscope matching functions as pre-approved filtering encoding hierarchy into cosmic law"],
+      ["Agency Paradox","young Sri Lankans claim 'choice' while submitting to porondam &mdash; free <em>and</em> determined simultaneously"],
+      ["Astrological Capitalism","marriage industry transforms spiritual practice into commodity chain"]
+    ],
+    talk:[
+      "We treat porondam like physics &mdash; immutable, objective, written in stars. But porondam has been rewritten across history to serve different elites. If stars don't change, why does interpretation?",
+      "Most marriages now are 'arranged love' &mdash; families approve after couples choose, using porondam as retroactive validation. Who's fooling whom?",
+      "What does it mean to outsource your most intimate decision to a calculation? When calculation says 'no' but gut says 'yes' &mdash; which authority wins?"
+    ],
+    deeper:`<p>Porondam evaluates partners across twenty categories &mdash; intellectual compatibility (<em>ganaya</em>), sexual harmony (<em>chutiya</em>), longevity (<em>ayushaya</em>) &mdash; assigning scores determining marital viability. On surface: holistic assessment. Beneath: remarkably efficient tool for maintaining endogamy. High-caste families don't need to say "we don't marry outside our group" &mdash; stars simply won't align. This is what <strong>Pierre Bourdieu</strong> calls <em>symbolic violence</em>: domination presenting itself as natural.</p><p><strong>Kumari Jayawardena</strong>'s historical work shows Sri Lankan marriage practices were never static &mdash; colonial administrators, Buddhist revivalists, middle-class reformers each reshaped them. The "traditional" porondam we defend is itself recent consolidation. Meanwhile, <strong>Ulrich Beck's</strong> "negotiated family" describes urban Sri Lanka: individuals negotiating between inherited structures and chosen affinities, producing <strong>Anthony Giddens'</strong> "pure relationship" sustained only by mutual satisfaction. Porondam is the ghost at that table.</p>`,
+    xref:["N4 (Female Stereotypes)","N6 (Identity & Display)","N1 (Truth & Power)"],
+    mara:`You're attacking porondam as social control, but consider: in a world where relationships dissolve over text messages, maybe porondam is the last institution taking commitment seriously enough to vet it cosmically. Perhaps the problem isn't the matching &mdash; it's that we've forgotten how to stay matched.`
+  },
+  {
+    id:"N6", label:"Identity & Display", lead:"Atsuko", source:'Performance #6 &mdash; Natalie: Perfect For Display (Poetry)',
+    summary:`To be perfect <em>for display</em> is to be perfect for everything except actual existence. We have become curators of ourselves, assembling versions that look complete from outside while feeling hollow within. Social media accelerated this from occasional performance to continuous condition.`,
+    concepts:[
+      ["Presentation of Self (Goffman)","all social interaction is theatrical; front stage vs backstage regions"],
+      ["Simulacrum (Baudrillard)","copy without original &mdash; displayed self becomes more real than person displaying it"],
+      ["Liquid Modernity (Bauman)","identities must be constantly updated, discarded, recomposed &mdash; never finished, always on display"]
+    ],
+    talk:[
+      "'Perfect For Display' &mdash; notice the preposition. Not 'perfect.' Perfect <em>for</em> something external. Is that art, or is that a cage?",
+      "Every platform trains us in thumbnails: right angle, right caption, right aesthetic. If you're <em>manufacturing</em> authenticity, is it still authentic?",
+      "Natalie writes about being on display, performs to an audience who will post about it. Recursion complete: performance about performance, performed, reperformed online. Where does 'real' Natalie begin?"
+    ],
+    deeper:`<p><strong>Erving Goffman's</strong> <em>Presentation of Self in Everyday Life</em> (1959): all social interaction is theatrical; we manage impressions like actors managing performances. But what happens when digital technology eliminates the backstage? Instagram stories, WhatsApp status, LinkedIn profiles create 24/7 front stage with no intermission.</p><p><strong>Jean Baudrillard's</strong> <em>Simulacra and Simulation</em> (1981): the map replaces territory. Curated digital self becomes more vivid, persistent, socially consequential than embodied person. <strong>Zygmunt Bauman's</strong> <em>Liquid Modernity</em> (2000): identities must remain adaptable, upgradeable, disposable. Pressure to be "perfect for display" = pressure to be perpetually marketable to audience that already scrolled past.</p><p>Natalie's poem sits at intersection of three thinkers. "Perfect for Display" is pure Goffman &mdash; naming condition of existing as representation. Anguish beneath is pure Baudrillard &mdash; suspicion that display consumed the displayed. Context of reception (shared, liked, screenshotted) is pure Bauman &mdash; poem becoming another artifact in endless stream of displayable content. Medium ate message and is wearing its skin.</p>`,
+    xref:["N4 (Female Stereotypes)","N5 (Marriage Profiles)","N3 (Art & Authenticity)"],
+    mara:`You're romanticizing a pre-display 'authentic self' that never existed. Goffman showed us <em>all</em> identity is performance &mdash; there was never a backstage, only better-hidden stage. Natalie's poem isn't lamenting loss of authenticity; it's performing the <em>genre</em> of lamenting authenticity, which is itself a display. Keep digging.`
+  },
+  {
+    id:"N7", label:"Collective Identity", lead:"Vishwa", source:'Performance #8 &mdash; David: "Who the SWRD are we?" (Spoken Word)',
+    summary:`When David asks "Who the SWRD are we?", he's excavating the founding fracture of modern Sri Lankan identity. S.W.R.D. Bandaranaike's 1956 Sinhala Only Act didn't just change official language &mdash; it re-engineered who counted as "the people" and who became outsider overnight. Sixty-eight years later, that question still has no honest answer.`,
+    concepts:[
+      ["Founding Fracture","moment origin story splits into competing irreconcilable narratives about belonging"],
+      ["Linguistic Citizenship","full membership requires fluency in dominant language &mdash; unspoken rule"],
+      ["Contested Mythos","nation's origin stories become battlegrounds instead of shared ground"]
+    ],
+    talk:[
+      "Every time you say 'we' in this room, pause: who did you just erase? The pronoun is never neutral.",
+      "Bandaranaike didn't invent Sinhala nationalism &mdash; he weaponized smoldering anxiety into state policy. Question isn't right/wrong; it's whether we've examined cost.",
+      "Martin Wickramasinghe argued true cultural revival requires engagement with modernity, not retreat into romanticized pasts. Was 1956 revival or regression? Depends which 'we'."
+    ],
+    deeper:`<p>S.W.R.D. Bandaranaike's 1956 electoral victory on "Sinhala Only" remains the most consequential rupture in post-independence Sri Lankan history. The Act replaced English (effectively sidelined Tamil) as sole official language within twenty-four hours. Not merely administrative &mdash; ontological. It declared nation had singular linguistic soul, and that soul was Sinhala Buddhist. Defenders framed it as decolonization's final act. Critics recognized it immediately as majoritarian exclusion dressed as liberation.</p><p><strong>Martin Wickramasinghe</strong>, towering intellectual of Sinhala modernism, occupied deeply ambivalent position. Championed Sinhala cultural renewal but warned against "reactionary nationalism" &mdash; confusing linguistic pride with ethnic supremacy. His critique anticipated darkest turns: when identity becomes zero-sum game, culture becomes weapon. He died in 1976, three years before war proving warnings devastatingly correct.</p><p>"Who are we?" cannot be answered without confronting it has never meant same thing to everyone. For Sinhala Buddhist majority, "we" carries weight of civilizational narrative spanning millennia. For Tamils, Muslims, Burghers, others, "we" has always been conditional &mdash; granted, revoked, renegotiated depending on who holds power. The monologue's profanity ("SWRD") isn't shock value &mdash; it's sound of someone refusing founder's name remain sacred while legacy bleeds.</p>`,
+    xref:["N8 (Fumbling Words)","N9 (Liminal Space)","N2 (Political Legitimation)"],
+    mara:`You want this conversation in English, at an art event, with people who agree with you. That's not honesty &mdash; it's echo chamber with better lighting. Go tell your thesis to trishaw driver in Maharagama who voted for exactly what Bandaranaike promised. Stay long enough to hear why. Then tell me if analysis survived.`
+  },
+  {
+    id:"N8", label:"Fumbling Words", lead:"N&#257;g&#257;rjuna", source:'Performance #10 &mdash; Mika: Fumbling Words (Poetry)',
+    summary:`Mika's poem doesn't fail at expression &mdash; it demonstrates that failure is the only honest mode. Wittgenstein: limits of my language are limits of my world. Derrida: meaning always deferred, never arriving. Beckett: entire oeuvre on impossibility of saying what we mean. N&#257;g&#257;rjuna arrived at same truth fifteen hundred years earlier: stumble is where truth lives.`,
+    concepts:[
+      ["Language Games (Wittgenstein)","meaning arises from use within forms of life, not words matching pre-existing realities"],
+      ["Diff&#233;rance (Derrida)","meaning endlessly deferred through signifier chains, never reaching final signified"],
+      ["Apoha (Exclusion)","we know things only by what they're not &mdash; negation more truthful than assertion"]
+    ],
+    talk:[
+      "Every poet here has felt gap between line in head and line leaving mouth. That gap isn't failure &mdash; proof consciousness exceeds language. Own the fumble.",
+      "Beckett wrote 'fail again, fail better' not as resignation but discipline. Fluency is often absence of honesty.",
+      "If N&#257;g&#257;rjuna is right that fixed positions self-destruct under examination, most truthful speech acknowledges its own instability."
+    ],
+    deeper:`<p><strong>Ludwig Wittgenstein's</strong> <em>Philosophical Investigations</em>: meaning is use, embedded in "forms of life," not words corresponding to objects. "Limits of my language mean limits of my world" appears in <em>Tractatus</em>; implications deepen later: if I cannot articulate experience, it doesn't exist in any socially recognizable form. Fumble = collision with architectural limits of language.</p><p><strong>Jacques Derrida's</strong> diff&#233;rance combines "to differ" and "to defer" &mdash; signifiers point to other signifiers in endless chain, meaning perpetually postponed. No transcendental signified anchoring language to stable meaning. Every utterance haunted by what it cannot say.</p><p><strong>Samuel Beckett</strong> dramatized relentlessly: characters speak because they must, knowing speech cannot deliver clarity they crave. Eloquence inseparable from recorded failures &mdash; stutter IS statement.</p><p><strong>N&#257;g&#257;rjuna's</strong> <em>M&#363;lamadhyamakak&#257;rik&#257;</em>: method of prasa&#7749;ga (reductio ad absurdum) shows any affirmative position collapses into contradiction. Emptiness (&#347;&#363;nyat&#257;) = recognition no phenomenon possesses independent existence. Applied to language: no word captures reality; every designation provisional. Philosopher who speaks confidently speaks falsely. One who stumbles, catches themselves mid-sentence &mdash; closer to how things are.</p>`,
+    xref:["N7 (Language as barrier)","N9 (Liminal speech)"],
+    mara:`You've constructed elaborate philosophical defense of failure. How convenient. Mika fumbles because Mika is human, not because Mika integrated second-century Madhyamaka philosophy. Don't dress vulnerability up as epistemology. Sometimes a stumble is just a stumble.`
+  },
+  {
+    id:"N9", label:"The Break (Liminal Space)", lead:"N&#257;g&#257;rjuna", source:'Structural &mdash; Scheduled break between sets',
+    summary:`The scheduled break isn't empty time &mdash; it's the event's most charged moment. Anthropologically: liminal space where normal structures suspend and something else becomes possible. Victor Turner called this <em>communitas</em> &mdash; anti-structure emerging when hierarchy dissolves. Break is where audience stops watching and starts becoming community.`,
+    concepts:[
+      ["Liminality (Turner/van Gennep)","'betwixt-and-between': old identities dissolved, new ones haven't formed"],
+      ["Communitas","intense egalitarian bond among people sharing liminal experience, unmediated by status"],
+      ["Anti-Structure","liminality doesn't suspend structure &mdash; it generates its opposite"]
+    ],
+    talk:[
+      "Notice during break: performer and audience now just people standing near each other with plastic cups. That leveling IS the point.",
+      "Van Gennep: separation &rarr; transition (limen=threshold) &rarr; incorporation. This break is your limen. What you incorporate depends on what you allow yourself to become.",
+      "Performer/audience, lead/support, known/unknown &mdash; all conventionally real but inherently empty. Break lets you feel that emptiness directly."
+    ],
+    deeper:`<p><strong>Arnold van Gennep's</strong> <em>Les Rites de Passage</em> (1909): every significant social transition moves through separation (leaving old status), <em>limen</em> (threshold where normal categories don't apply), incorporation (entering new status). Liminal phase structurally invisible &mdash; belongs nowhere in established order. Initiates, pilgrims, vision questers, refugees, <em>and audiences at intermission</em> &mdash; all occupy betwixt-and-between. Neither what they were nor what they'll become.</p><p><strong>Victor Turner</strong> transformed van Gennep's anthropology into theory of social dynamics (<em>The Ritual Process</em>, 1969): liminality generates <em>communitas</em> &mdash; direct unmediated bond between people stripped of status markers. Doctor and patient, professor and student, featured artist and audience meet as undifferentiated humans. This is anti-structure: not absence of structure but its active counterpoint. Communitas cannot be commanded &mdash; it emerges or it doesn't.</p><p>For tonight: break between sets is designed liminal moment. First set separated audience from ordinary evening. Break suspends performer-audience dyad. What happens in suspension shapes what second set means. Community forming (or not) in break is invisible infrastructure of everything following. N&#257;g&#257;rjuna would recognize: self walking in and self walking out are empty constructions. Break is where emptiness becomes palpable &mdash; where genuine connection becomes possible precisely because constructed selves stepped aside.</p>`,
+    xref:["N7 (Communitas as raw collective identity)","N8 (New modes of speaking emerge in threshold)"],
+    mara:`You've romanticized a cigarette break. People go outside to smoke, check phones, complain about heat, wonder when next set starts. That's not communitas &mdash; crowd waiting for entertainment. Turner studied initiation rituals in remote African societies, not Colombo art intermissions. Don't baptize mundane with theory it hasn't earned.`
+  }
+];
+
+const ROUNDS = [
+  { q:"Is art a form of dissent or catharsis?", lead:"Ajitha", team:"Mara, Lumen", nodes:"N1+N2" },
+  { q:"Can performed gender ever escape the stereotype?", lead:"Lumen", team:"Priya, Buddhaghosa", nodes:"N4+N5" },
+  { q:"What does Sri Lankan identity mean when founding myths are contested?", lead:"Vishwa", team:"Ajitha, Atsuko", nodes:"N7" },
+  { q:"Is all communication fumbling &mdash; the gap between intention and expression?", lead:"N&#257;g&#257;rjuna", team:"Buddhaghosa, Priya", nodes:"N8" },
+  { q:"Synthesis: What did tonight's art reveal that debate cannot?", lead:"Priya", team:"Full council", nodes:"All" }
+];
+
+function renderTabs() {
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = NODES.map((n,i) =>
+    '<div class="tab'+(i===0?' active':'')+'" data-i="'+i+'">'+
+      '<span class="num">'+n.id+'</span>'+n.label+
+    '</div>'
+  ).join('');
+  tabsEl.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => switchTab(parseInt(t.dataset.i)));
+  });
+}
+
+function renderNode(i) {
+  const n = NODES[i];
+  return `
+    <div class="node-header">
+      <h2>${n.id}: ${n.label}</h2>
+      <div class="lead">Lead: ${n.lead}</div>
+      <div class="source">${n.source}</div>
+    </div>
+    <div class="card"><h3><span class="icon">&#128214;</span> Quick Summary</h3><div class="summary-text">${n.summary}</div></div>
+    <div class="card"><h3><span class="icon">&#128295;</span> Key Concepts</h3><ul class="concepts">${n.concepts.map(c => `<li><strong>${c[0]}</strong> ${c[1]}</li>`).join('')}</ul></div>
+    <div class="card"><h3><span class="icon">&#128172;</span> Talking Points</h3><ol class="talk-list">${n.talk.map(t => `<li>${t}</li>`).join('')}</ol></div>
+    <details class="card"><h3 style="cursor:pointer">&#128218; Deeper Reading</h3><summary style="cursor:pointer;font-size:12px;color:var(--text-tertiary);margin-top:-8px;">Click to expand research</summary><div class="deeper" style="margin-top:12px">${n.deeper}</div></details>
+    <div class="card"><h3><span class="icon">&#128279;</span> Cross-References</h3><div class="xref">Connects to: ${n.xref.map(x => `<a href="#" onclick="switchTab(${NODES.findIndex(n=>n.label.includes(x.split('(')[0]))});return false">${x}</a>`).join(' &middot; ')}</div></div>
+    <div class="card mara-card"><h3><span class="icon">&#9876;</span> Mara's Challenge</h3><div class="mara-challenge">&ldquo;${n.mara}&rdquo;</div></div>`;
+}
+
+function renderRounds() {
+  return `
+    <div class="rounds-section">
+      <h2>&#9783; Philosophy Rounds (Post-Session Synthesis)</h2>
+      ${ROUNDS.map((r,i) => `
+        <div class="round-item">
+          <h4>R${i+1}: ${r.q}</h4>
+          <div class="desc">Drawing from ${r.nodes}</div>
+          <div class="team">Lead: ${r.lead} &middot; Respondents: ${r.team}</div>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+function switchTab(i) {
+  document.querySelectorAll('.tab').forEach((t,ii) => t.classList.toggle('active', ii===i));
+  const content = document.getElementById('content');
+  content.innerHTML = renderNode(i) + renderRounds();
+  document.getElementById('tabsWrap').scrollLeft = document.querySelectorAll('.tab')[i].offsetLeft - 60;
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+renderTabs();
+switchTab(0);
+</script>
+</body>
+</html>
