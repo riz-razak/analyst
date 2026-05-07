@@ -21,6 +21,14 @@ export default {
     }
 
     try {
+      if (path === '/auth/me') {
+        return handleAuthMe(request, env);
+      } else if (path === '/auth/session') {
+        return handleAuthSession(request);
+      } else if (path === '/auth/logout') {
+        return handleAuthLogout(request);
+      }
+
       // ── Dossier visibility gate (Worker Route on analyst.rizrazak.com/*) ──
       // Dossiers live at root: /womens-day-betrayal/, /caravan-fresh/, etc.
       // This checks the KV visibility map for hidden dossiers.
@@ -249,6 +257,144 @@ async function handleAcquireLock(request, env) {
 
   return new Response(JSON.stringify({ success: true, lock }), {
     headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+async function handleAuthMe(request, env) {
+  const url = new URL(request.url);
+  const requiredRight = url.searchParams.get('right');
+  const cookieHeader = request.headers.get('Cookie') || '';
+  const token = parseCookie(cookieHeader, 'sb-token');
+
+  if (!token) return authJson({ authenticated: false, admin: false, rights: [] }, 200);
+
+  const payload = env.SUPABASE_JWT_SECRET ? await verifySupabaseJWT(token, env.SUPABASE_JWT_SECRET) : decodeSupabaseJWT(token);
+  if (!payload) return authJson({ authenticated: false, admin: false, rights: [] }, 200);
+
+  const aal = payload.aal || payload.amr_aal || 'aal1';
+  const app = payload.app_metadata || {};
+  const user = payload.user_metadata || {};
+  const rights = collectYanRights(app);
+  const role = app.role || app.yan_role || user.role || null;
+  const admin = aal === 'aal2' && hasYanAdminAccess({ rights, role, app, requiredRight });
+
+  return authJson({
+    authenticated: true,
+    admin,
+    aal,
+    required_right: requiredRight,
+    rights,
+    user: {
+      id: payload.sub || null,
+      email: payload.email || user.email || null,
+      name: user.full_name || user.name || payload.email || 'Yan member',
+    },
+  }, 200);
+}
+
+async function handleAuthSession(request) {
+  if (request.method !== 'POST') return authJson({ ok: false, error: 'Method not allowed' }, 405);
+
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return authJson({ ok: false, error: 'Invalid JSON body' }, 400);
+  }
+
+  const { access_token, refresh_token } = body;
+  if (!access_token || !refresh_token) return authJson({ ok: false, error: 'access_token and refresh_token are required' }, 400);
+
+  let accessExp;
+  try {
+    accessExp = decodeSupabaseJWT(access_token)?.exp;
+  } catch {
+    accessExp = Math.floor(Date.now() / 1000) + 3600;
+  }
+
+  const host = new URL(request.url).host;
+  const secureFlag = host.includes('localhost') ? '' : '; Secure';
+  const accessMaxAge = Math.max(0, (accessExp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
+  const refreshMaxAge = 60 * 60 * 24 * 30;
+  const headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+  headers.append('Set-Cookie', `sb-token=${encodeURIComponent(access_token)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${accessMaxAge}`);
+  headers.append('Set-Cookie', `sb-refresh=${encodeURIComponent(refresh_token)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${refreshMaxAge}`);
+  return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
+}
+
+async function handleAuthLogout(request) {
+  const url = new URL(request.url);
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  const headers = new Headers({ 'Cache-Control': 'no-store' });
+  headers.append('Set-Cookie', `sb-token=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0`);
+  headers.append('Set-Cookie', `sb-refresh=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0`);
+  headers.set('Location', '/login.html?logged_out=1');
+  return new Response(null, { status: 302, headers });
+}
+
+function collectYanRights(app) {
+  const raw = [app.rights, app.yan_rights, app.analyst_rights, app.permissions, app.member_rights];
+  const rights = new Set();
+  raw.forEach(value => {
+    if (Array.isArray(value)) value.forEach(item => rights.add(String(item)));
+    else if (value && typeof value === 'object') Object.entries(value).forEach(([key, enabled]) => { if (enabled) rights.add(key); });
+    else if (typeof value === 'string') rights.add(value);
+  });
+  return [...rights];
+}
+
+function hasYanAdminAccess({ rights, role, app, requiredRight }) {
+  if (role && ['owner', 'founder', 'admin', 'super_admin', 'yan_admin'].includes(String(role))) return true;
+  if (app.is_admin === true || app.admin === true || app.yan_admin === true) return true;
+  if (requiredRight && rights.includes(requiredRight)) return true;
+  return rights.some(right => ['yan.admin', 'yan.people.admin', 'analyst.admin', 'analyst.oracle.admin', 'oracle.admin'].includes(right));
+}
+
+async function verifySupabaseJWT(token, secret) {
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return null;
+    const [headerB64, payloadB64, signatureB64] = parts;
+    const encoder = new TextEncoder();
+    const keyData = encoder.encode(secret);
+    const cryptoKey = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
+    const valid = await crypto.subtle.verify('HMAC', cryptoKey, base64UrlDecode(signatureB64), encoder.encode(`${headerB64}.${payloadB64}`));
+    if (!valid) return null;
+    return decodeSupabasePayload(payloadB64);
+  } catch {
+    return null;
+  }
+}
+
+function decodeSupabaseJWT(token) {
+  const payload = decodeSupabasePayload(token.split('.')[1]);
+  const now = Math.floor(Date.now() / 1000);
+  if (payload.exp && payload.exp < now) return null;
+  return payload;
+}
+
+function decodeSupabasePayload(payloadB64) {
+  return JSON.parse(new TextDecoder().decode(base64UrlDecode(payloadB64)));
+}
+
+function base64UrlDecode(str) {
+  const base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+  const padded = base64.padEnd(base64.length + (4 - (base64.length % 4)) % 4, '=');
+  const binary = atob(padded);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes.buffer;
+}
+
+function parseCookie(cookieHeader, name) {
+  const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${name}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function authJson(data, status) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
   });
 }
 
