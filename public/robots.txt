@@ -2,6 +2,9 @@ User-agent: *
 Allow: /
 
 # Block admin and private pages
+Disallow: /admin-preview.html
+Disallow: /architecture-census/
+Disallow: /waren-yan/
 Disallow: /sri-lanka-cricket-corruption/analytics.html
 Disallow: /sri-lanka-cricket-corruption/sources.html
 

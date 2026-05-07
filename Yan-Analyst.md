@@ -82,6 +82,14 @@ Important shared systems include:
 - `privacy-banner.css` / `privacy-banner.js`
 - `dossier-theme.js`, `dossier-lang.js`, `dossier-analytics.js`
 
+## Editorial And Admin Direction
+
+- Every published article must have a thumbnail and a hero image. The hero image may be derived from the main image until the asset pipeline is formalized.
+- Do not add public navigation to internal monitors, admin analytics, or unreleased project portals.
+- The admin panel is the near-term control plane for article text/copy and image/thumbnail updates, but those editing surfaces must require login.
+- Prioritize mapping the backend and unifying admin access with the current Yan-Vada member login flow.
+- Do not expose unreleased Yan project details, working names, or old project names in public pages. Keep Riz Razak / The Analyst as the salient public brand until the migration is decided.
+
 ## Working Rules
 
 - Prefer small, direct changes.

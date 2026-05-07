@@ -13,13 +13,13 @@ const fallbackStripSets = [
   ],
   [
     { gradient: 'g9', kicker: 'Tool', kickerVariant: 'tool', title: 'Hormuz Oracle', meta: 'Scenario model' },
-    { gradient: 'g10', kicker: 'Archive', kickerVariant: 'intel', title: 'Architecture Census', meta: 'Infrastructure monitor' },
+    { gradient: 'g10', kicker: 'Archive', kickerVariant: 'intel', title: 'Editorial Standards', meta: 'Publishing workflow' },
     { gradient: 'g11', kicker: 'Philosophy', title: 'Anatta, Bamiyan, and Non-Self', meta: 'Essay' },
   ],
   [
     { gradient: 'g5', kicker: 'Accountability', title: 'Caravan Fresh Case Study', meta: 'Consumer advocacy' },
     { gradient: 'g12', kicker: 'Media', title: 'Happy Womaniser Day!', meta: 'Press ethics' },
-    { gradient: 'g6', kicker: 'Portal', kickerVariant: 'tool', title: 'WarenYan Document Portal', meta: 'Internal archive' },
+    { gradient: 'g6', kicker: 'Visuals', kickerVariant: 'tool', title: 'Article image standard', meta: 'Thumbnail + hero required' },
   ],
 ]
 
@@ -50,9 +50,9 @@ const tools = {
     },
   ],
   inlineTools: [
-    { name: 'Architecture Census', href: '/architecture-census/', status: 'pinned', tag: 'Monitor' },
-    { name: 'WarenYan Portal', href: '/waren-yan/', status: 'pinned', tag: 'Portal' },
-    { name: 'Admin Preview', href: '/admin-preview.html', status: 'default', tag: 'Admin' },
+    { name: 'Submit Evidence', href: '/admin-submissions.html', status: 'pinned', tag: 'Intake' },
+    { name: 'Editorial Standards', href: '#ethics', status: 'default', tag: 'Policy' },
+    { name: 'Corrections', href: '#corrections', status: 'default', tag: 'Trust' },
   ],
 }
 
@@ -77,6 +77,7 @@ const normalizeDossier = (dossier, index) => {
     readTime: dossier.readTime || `${Math.max(8, Math.min(28, (dossier.sections || 6) * 2))} min`,
     sourceLabel: dossier.sourceLabel || (sourceCount ? `${sourceCount} sections` : 'Source register'),
     thumbnail: dossier.thumbnail || dossier.thumbnailUrl,
+    heroImage: dossier.heroImage || dossier.heroImageUrl || dossier.thumbnail || dossier.thumbnailUrl,
     url: dossier.contentUrl || `/${dossier.id}`,
   }
 }
@@ -234,9 +235,10 @@ function GradientImage({ item, className }) {
 }
 
 function Hero({ dossier, navigate }) {
+  const heroVisual = { ...dossier, thumbnail: dossier.heroImage || dossier.thumbnail }
   return (
     <section className="hero" aria-label="Featured investigation">
-      <GradientImage item={dossier} className="hero__img" />
+      <GradientImage item={heroVisual} className="hero__img" />
       <div className="hero__grad" />
       <article className="hero__card" onClick={() => navigate(dossier.url)}>
         <div className="kicker">Featured Investigation</div>

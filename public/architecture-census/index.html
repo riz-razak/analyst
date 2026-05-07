@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Infrastructure Monitor â The Analyst Platform</title>
-  <meta name="description" content="Live infrastructure monitoring dashboard for the DGTL ecosystem.">
+  <title>Architecture Monitor - Internal Admin View</title>
+  <meta name="description" content="Internal platform health monitor for Analyst admin operations.">
+  <meta name="robots" content="noindex,nofollow,noarchive">
   <link rel="icon" href="/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -30,7 +31,28 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; }
 
-    /* ââ Header ââ */
+    .internal-banner {
+      background: rgba(212,175,55,0.12);
+      border-bottom: 1px solid rgba(212,175,55,0.3);
+      color: var(--warning);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 1.4px;
+      padding: 10px 24px;
+      text-transform: uppercase;
+    }
+
+    .internal-note {
+      background: rgba(93,138,158,0.08);
+      border: 1px solid rgba(93,138,158,0.22);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 13px;
+      margin: 24px;
+      padding: 14px 16px;
+    }
+
+    /* Header */
     .dash-header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 20px 24px;
@@ -195,11 +217,13 @@
 </head>
 <body>
 
-<!-- ââ HEADER ââ -->
+<div class="internal-banner">Internal admin monitor - unlisted pending unified Yan-Vada member login</div>
+
+<!-- HEADER -->
 <header class="dash-header">
   <div class="dash-header-left">
     <span class="dash-logo">Analyst</span>
-    <span class="dash-title">Infrastructure Monitor</span>
+    <span class="dash-title">Architecture Monitor</span>
   </div>
   <div class="dash-header-right">
     <span id="last-checked" style="font-family: var(--mono); font-size: 10px; color: var(--text-dim);"></span>
@@ -213,6 +237,10 @@
     </div>
   </div>
 </header>
+
+<div class="internal-note">
+  This monitor is retained for admin operations only. It is blocked from indexing and removed from public navigation until login, backend health checks, and the admin control plane are unified.
+</div>
 
 <!-- ââ STATUS BAR ââ -->
 <div class="status-bar" id="status-bar">

@@ -2053,14 +2053,14 @@
                     <div style="font-size: 12px; font-weight: 500; color: #F59E0B;">WIP</div>
                 </div>
 
-                <!-- Waren Yan -->
+                <!-- Restricted project -->
                 <div style="display: flex; align-items: flex-start; gap: 12px;">
-                    <div style="width: 8px; height: 8px; background-color: #10B981; border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
+                    <div style="width: 8px; height: 8px; background-color: #9CA3AF; border-radius: 50%; margin-top: 6px; flex-shrink: 0;"></div>
                     <div style="flex: 1;">
-                        <div style="font-size: 14px; font-weight: 500; color: #1F2937;"><a href="https://yan.rizrazak.com/ops/" target="_blank" style="color: inherit; text-decoration: none;">Waren Yan</a></div>
-                        <div style="font-size: 13px; color: #6B7280; margin-top: 2px;">Cloudflare Pages &middot; yan.rizrazak.com</div>
+                        <div style="font-size: 14px; font-weight: 500; color: #1F2937;">Restricted project</div>
+                        <div style="font-size: 13px; color: #6B7280; margin-top: 2px;">Hidden pending formal launch and admin login unification</div>
                     </div>
-                    <div style="font-size: 12px; font-weight: 500; color: #10B981;">Live</div>
+                    <div style="font-size: 12px; font-weight: 500; color: #6B7280;">Private</div>
                 </div>
             </div>
         </div>
@@ -2622,6 +2622,9 @@
 </div>
 
 <div class="view" id="view-analytics">
+    <div style="margin-bottom: 16px; padding: 12px 16px; background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 8px; color: #92400E; font-size: 13px;">
+        Admin-only analytics view. This route now requires signed-in admin verification and will be unified with the Yan-Vada member login before public operational use.
+    </div>
     <!-- Period Selector -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
         <div style="display: flex; gap: 4px; background: #F3F4F6; border-radius: 8px; padding: 3px;">
@@ -3974,41 +3977,6 @@
 // APP REGISTRY — Single source of truth for all apps
 // ════════════════════════════════════════════════════════════════
 const APP_REGISTRY = [
-    {
-        id: 'yan',
-        name: 'Waren Yan',
-        nameSi: 'Warenà¶ºà¶±à·',
-        tagline: 'SL ride-hailing ops platform',
-        icon: 'Y',
-        accent: '#5D8A5E',
-        accentDark: '#2D6A4F',
-        accentGrad: 'linear-gradient(135deg, #5D8A5E 0%, #D4AF37 100%)',
-        status: 'live',
-        stack: ['Vite', 'Cloudflare Pages', 'Supabase', 'GitHub Actions'],
-        repo: 'riz-razak/yan',
-        subdomain: 'yan.rizrazak.com',
-        portal: {
-            tabs: [
-                { id: 'dashboard', label: 'Mission Control', type: 'iframe', url: 'https://yan.rizrazak.com/ops/' },
-                { id: 'docs', label: 'Documents', type: 'iframe', url: 'https://yan.rizrazak.com/ops/planning/' },
-                { id: 'info', label: 'Project Info', type: 'component' }
-            ],
-            defaultTab: 'dashboard'
-        },
-        phases: [
-            { label: 'Plan', done: true },
-            { label: 'Develop', done: true },
-            { label: 'Deploy', done: true },
-            { label: 'Launch', done: false, current: true }
-        ],
-        deploy: { method: 'git push origin main', pipeline: 'GitHub Actions → CF Pages' },
-        links: [
-            { label: 'Ops Dashboard', url: 'https://yan.rizrazak.com/ops/', primary: true },
-            { label: 'Planning Docs', url: 'https://yan.rizrazak.com/ops/planning/' },
-            { label: 'CF Pages', url: 'https://yan-eat.pages.dev' }
-        ],
-        modules: ['SL Crisis Scenarios', 'Subscription Pricing', 'Competitive Intelligence', 'Mapping Costs', 'Risk Matrix', 'Funding Pipeline']
-    },
     {
         id: 'kunatu',
         name: 'Kunatu',
@@ -5748,7 +5716,7 @@ function showEmailToast(msg, type) {
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
                     <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
-                    <span>Firebase deploy Waren Yan</span>
+                    <span>Map backend for restricted project</span>
                 </label>
                 <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #1F2937;">
                     <input type="checkbox" class="task-checkbox" style="width: 18px; height: 18px; cursor: pointer; accent-color: #1B4D2E;">
@@ -5812,10 +5780,10 @@ function showEmailToast(msg, type) {
         // Route Configuration
         const routes = {
             '/dashboard': { view: 'dashboard', title: 'Dashboard', private: false },
-            '/analytics': { view: 'analytics', title: 'Analytics', private: false },
-            '/cms': { view: 'cms', title: 'CMS', private: false },
-            '/cms/dossiers': { view: 'cms-dossiers', title: 'CMS', private: false },
-            '/cms/dossiers/:id': { view: 'cms-dossier-edit', title: 'CMS', private: false },
+            '/analytics': { view: 'analytics', title: 'Analytics', private: true },
+            '/cms': { view: 'cms', title: 'CMS', private: true },
+            '/cms/dossiers': { view: 'cms-dossiers', title: 'CMS', private: true },
+            '/cms/dossiers/:id': { view: 'cms-dossier-edit', title: 'CMS', private: true },
             '/dossiers': { view: 'dossiers', title: 'Dossiers', private: false },
             '/dossiers/:id': { view: 'dossier-detail', title: 'Dossier', private: false },
             '/seo': { view: 'seo', title: 'SEO', private: false },
