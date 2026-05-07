@@ -1,3 +1,4 @@
 {"ts":"2026-05-07T09:45:00Z","actor":"priya","event":"canonical_target_set","details":{"url":"https://analyst.rizrazak.com/oracle/","preserve_legacy_urls":false}}
 {"ts":"2026-05-07T09:45:00Z","actor":"leader","event":"reference_mode_initialized","details":{"verified_scoring":false,"scheduled_ingestion":false,"sandbox_enabled":true}}
 {"ts":"2026-05-07T10:23:36.825Z","actor":"oracle-data-refresh","event":"reference_forecast_refresh","details":{"checked_sources":8,"reachable_sources":4,"forecast_id":"OFH-2026-05-07","open_questions":4,"review_due":0,"scored_forecasts":0,"verified_scoring":false}}
+{"ts":"2026-05-07T15:37:24.662Z","actor":"oracle-data-refresh","event":"reference_forecast_refresh","details":{"checked_sources":8,"reachable_sources":5,"forecast_id":"OFH-2026-05-07","open_questions":4,"review_due":0,"scored_forecasts":0,"verified_scoring":false}}
