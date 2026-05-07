@@ -17,7 +17,12 @@ export async function onRequestGet(context) {
   }
 
   const jwtSecret = env.SUPABASE_JWT_SECRET;
-  const payload = jwtSecret ? await verifyJWT(token, jwtSecret) : decodeJWT(token);
+  if (!jwtSecret) {
+    console.error('[auth/me] SUPABASE_JWT_SECRET not set; refusing session introspection');
+    return json({ authenticated: false, admin: false, rights: [], error: 'auth_backend_not_configured' }, 503);
+  }
+
+  const payload = await verifyJWT(token, jwtSecret);
 
   if (!payload) {
     return json({ authenticated: false, admin: false, rights: [] }, 200);
@@ -27,8 +32,7 @@ export async function onRequestGet(context) {
   const app = payload.app_metadata || {};
   const user = payload.user_metadata || {};
   const rights = collectRights(app);
-  const role = app.role || app.yan_role || user.role || null;
-  const admin = aal === 'aal2' && hasAdminAccess({ rights, role, app, requiredRight });
+  const admin = aal === 'aal2' && hasAdminAccess({ rights, requiredRight });
 
   return json({
     authenticated: true,
@@ -66,17 +70,22 @@ function collectRights(app) {
   return [...rights];
 }
 
-function hasAdminAccess({ rights, role, app, requiredRight }) {
-  const adminRoles = new Set(['owner', 'founder', 'admin', 'super_admin', 'yan_admin']);
-  if (role && adminRoles.has(String(role))) return true;
-  if (app.is_admin === true || app.admin === true || app.yan_admin === true) return true;
-  if (requiredRight && rights.includes(requiredRight)) return true;
-  return rights.some(right => [
-    'yan.admin',
-    'yan.people.admin',
-    'analyst.admin',
+function hasAdminAccess({ rights, requiredRight }) {
+  const analystRights = rights.filter(right => right.startsWith('analyst.'));
+  if (analystRights.includes('analyst.admin')) return true;
+  if (requiredRight) return requiredRight.startsWith('analyst.') && analystRights.includes(requiredRight);
+  return analystRights.some(right => [
+    'analyst.cms.read',
+    'analyst.cms.write',
+    'analyst.comments.moderate',
+    'analyst.infra.admin',
     'analyst.oracle.admin',
-    'oracle.admin'
+    'analyst.privacy.admin',
+    'analyst.projects.read',
+    'analyst.projects.write',
+    'analyst.submissions.read',
+    'analyst.submissions.review',
+    'analyst.thumbnail.write',
   ].includes(right));
 }
 
@@ -90,6 +99,9 @@ async function verifyJWT(token, secret) {
     const parts = token.split('.');
     if (parts.length !== 3) return null;
     const [headerB64, payloadB64, signatureB64] = parts;
+    const header = decodePayload(headerB64);
+    if (header.alg !== 'HS256') return null;
+
     const encoder = new TextEncoder();
     const keyData = encoder.encode(secret);
     const cryptoKey = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
@@ -100,15 +112,7 @@ async function verifyJWT(token, secret) {
       encoder.encode(`${headerB64}.${payloadB64}`)
     );
     if (!valid) return null;
-    return decodePayload(payloadB64);
-  } catch {
-    return null;
-  }
-}
-
-function decodeJWT(token) {
-  try {
-    const payload = decodePayload(token.split('.')[1]);
+    const payload = decodePayload(payloadB64);
     const now = Math.floor(Date.now() / 1000);
     if (payload.exp && payload.exp < now) return null;
     return payload;

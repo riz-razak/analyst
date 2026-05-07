@@ -18,6 +18,15 @@ const PROTECTED_PATHS = [
   '/admin-submissions.html',
 ];
 
+const PROTECTED_PATH_RIGHTS = new Map([
+  ['/admin-preview.html', ['analyst.admin', 'analyst.cms.read', 'analyst.cms.write']],
+  ['/admin-submissions.html', ['analyst.admin', 'analyst.submissions.read', 'analyst.submissions.review']],
+]);
+
+const PROTECTED_PREFIX_RIGHTS = [
+  { prefix: '/admin/', rights: ['analyst.admin'] },
+];
+
 // Prefix patterns that require authentication
 const PROTECTED_PREFIXES = [
   '/admin/',
@@ -72,9 +81,8 @@ export async function onRequest(context) {
   // Verify the JWT and check AAL2
   const jwtSecret = env.SUPABASE_JWT_SECRET;
   if (!jwtSecret) {
-    // Dev fallback: if no secret configured, let through with warning
-    console.warn('[auth] SUPABASE_JWT_SECRET not set — skipping JWT verification');
-    return next();
+    console.error('[auth] SUPABASE_JWT_SECRET not set; refusing protected request');
+    return authUnavailable();
   }
 
   const payload = await verifyJWT(token, jwtSecret);
@@ -88,6 +96,14 @@ export async function onRequest(context) {
   const aal = payload.aal || payload.amr_aal || 'aal1';
   if (aal !== 'aal2') {
     return redirectToLogin(url, true);
+  }
+
+  const requiredRights = getRequiredRights(path);
+  if (requiredRights.length > 0) {
+    const rights = collectRights(payload.app_metadata || {});
+    if (!hasAnyAnalystRight(rights, requiredRights)) {
+      return forbidden();
+    }
   }
 
   // All checks passed — serve the page
@@ -109,6 +125,42 @@ function isPublicPath(path) {
   return false;
 }
 
+function getRequiredRights(path) {
+  const directRights = PROTECTED_PATH_RIGHTS.get(path);
+  if (directRights) return directRights;
+
+  const prefixMatch = PROTECTED_PREFIX_RIGHTS.find(entry => path.startsWith(entry.prefix));
+  return prefixMatch ? prefixMatch.rights : [];
+}
+
+function collectRights(app) {
+  const raw = [
+    app.rights,
+    app.yan_rights,
+    app.analyst_rights,
+    app.permissions,
+    app.member_rights,
+  ];
+
+  const rights = new Set();
+  for (const value of raw) {
+    if (Array.isArray(value)) value.forEach(item => rights.add(String(item)));
+    else if (value && typeof value === 'object') {
+      Object.entries(value).forEach(([key, enabled]) => {
+        if (enabled) rights.add(key);
+      });
+    }
+    else if (typeof value === 'string') rights.add(value);
+  }
+  return [...rights];
+}
+
+function hasAnyAnalystRight(rights, requiredRights) {
+  const rightSet = new Set(rights.filter(right => right.startsWith('analyst.')));
+  if (rightSet.has('analyst.admin')) return true;
+  return requiredRights.some(right => rightSet.has(right));
+}
+
 function parseCookie(cookieHeader, name) {
   const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${name}=([^;]*)`));
   return match ? decodeURIComponent(match[1]) : null;
@@ -123,6 +175,20 @@ function redirectToLogin(url, mfaRequired = false) {
   );
 }
 
+function forbidden() {
+  return new Response('Forbidden', {
+    status: 403,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+  });
+}
+
+function authUnavailable() {
+  return new Response('Authentication is not configured', {
+    status: 503,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+  });
+}
+
 /**
  * Verify a Supabase JWT using the HMAC-SHA256 secret.
  * Returns the decoded payload, or null if invalid/expired.
@@ -133,6 +199,10 @@ async function verifyJWT(token, secret) {
     if (parts.length !== 3) return null;
 
     const [headerB64, payloadB64, signatureB64] = parts;
+
+    const headerJson = new TextDecoder().decode(base64UrlDecode(headerB64));
+    const header = JSON.parse(headerJson);
+    if (header.alg !== 'HS256') return null;
 
     // Verify signature
     const encoder = new TextEncoder();

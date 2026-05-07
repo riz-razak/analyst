@@ -320,7 +320,7 @@
     <!-- ─── STEP 1: Shared sign-in options ─── -->
     <div class="panel active" id="panelPassword">
       <div class="card-title">Sign in</div>
-      <div class="card-sub">Use email sign-in for Analyst admin access.</div>
+      <div class="card-sub">Use your Yan member sign-in to continue to Analyst and Oracle admin tools.</div>
 
       <div class="alert alert-error" id="errPassword"></div>
       <div class="alert alert-success" id="magicLinkNotice"></div>
@@ -333,7 +333,7 @@
           <span class="sso-mark"></span> Continue with Apple
         </button>
       </div>
-      <p class="auth-note" id="oauthDisabledNote">Google and Apple sign-in are hidden until those providers are enabled in Supabase Auth.</p>
+      <p class="auth-note" id="oauthDisabledNote">Google and Apple sign-in are hidden until central auth.yan.lk provider tests pass.</p>
 
       <hr class="divider">
 
@@ -348,8 +348,10 @@
         </button>
       </div>
 
+      <p class="auth-note">Use the same email connected to your Yan invitation or rights.</p>
+
       <button class="password-toggle" type="button" onclick="togglePasswordFields()" id="passwordToggle">
-        Use password and authenticator instead
+        Use legacy password and authenticator instead
       </button>
 
       <div id="passwordFields" style="display:none">
@@ -428,7 +430,7 @@ let mfaFactorId   = null;  // holds the enrolled TOTP factor ID
 
 // ─── URL Params ───────────────────────────────────────────────────────────────
 const params = new URLSearchParams(window.location.search);
-const nextUrl = safeNext(params.get('next') || '/sri-lanka-cricket-corruption/analytics.html');
+const nextUrl = safeNext(params.get('next') || '/');
 
 if (params.get('logged_out')) {
   document.getElementById('loggedOutNotice').classList.add('show');
@@ -446,7 +448,7 @@ if (OAUTH_SIGNIN_ENABLED) {
 handleAuthCallback();
 
 function safeNext(value) {
-  return value && value.startsWith('/') && !value.startsWith('//') ? value : '/sri-lanka-cricket-corruption/analytics.html';
+  return value && value.startsWith('/') && !value.startsWith('//') ? value : '/';
 }
 
 async function handleAuthCallback() {
@@ -472,6 +474,10 @@ async function handleAuthCallback() {
 }
 
 async function handleOAuth(provider) {
+  if (!OAUTH_SIGNIN_ENABLED) {
+    showAlert('errPassword', 'Google and Apple sign-in are disabled until central auth.yan.lk provider tests pass.');
+    return;
+  }
   clearAlert('errPassword');
   clearAlert('magicLinkNotice');
   const buttonId = provider === 'apple' ? 'btnApple' : 'btnGoogle';
@@ -499,7 +505,7 @@ async function handleMagicLink() {
   const { error } = await withTimeout(
     sb.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo, shouldCreateUser: false },
+      options: { emailRedirectTo, shouldCreateUser: true },
     }),
     12000,
     'Email sign-in did not respond. Check Supabase Auth email provider settings and try again.'
@@ -523,7 +529,7 @@ function togglePasswordFields() {
   const toggle = document.getElementById('passwordToggle');
   const isOpen = fields.style.display !== 'none';
   fields.style.display = isOpen ? 'none' : 'block';
-  toggle.textContent = isOpen ? 'Use password and authenticator instead' : 'Hide password sign-in';
+  toggle.textContent = isOpen ? 'Use legacy password and authenticator instead' : 'Hide password sign-in';
 }
 
 // ─── Step 1: Email + Password ─────────────────────────────────────────────────

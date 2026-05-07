@@ -285,8 +285,7 @@ body {
 </div>
 
 <script>
-var API = 'https://analyst-collaborative-cms.riz-1cb.workers.dev';
-var REVIEWER_EMAIL = 'riz@dgtl.lk';
+var API = '';
 
 var ALL_DOSSIER_SLUGS = [
   'caravan-fresh',
@@ -304,7 +303,12 @@ function fetchForDossier(dossierId, status) {
   var url = API + '/api/submissions/list?dossierId=' + dossierId;
   if (status) url += '&status=' + status;
   return fetch(url)
-    .then(function(r) { return r.json(); })
+    .then(function(r) {
+      return r.json().catch(function() { return {}; }).then(function(data) {
+        if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+        return data;
+      });
+    })
     .then(function(data) {
       // Tag each submission with its dossier for cross-dossier view
       if (data.submissions) {
@@ -313,9 +317,6 @@ function fetchForDossier(dossierId, status) {
         });
       }
       return data;
-    })
-    .catch(function() {
-      return { total: 0, filtered: 0, submissions: [] };
     });
 }
 
@@ -476,10 +477,14 @@ function reviewSub(submissionId, subDossierId, action) {
       submissionId: submissionId,
       action: action,
       reviewNotes: notes,
-      reviewerEmail: REVIEWER_EMAIL,
     }),
   })
-  .then(function(r) { return r.json(); })
+  .then(function(r) {
+    return r.json().catch(function() { return {}; }).then(function(data) {
+      if (!r.ok) throw new Error(data.error || ('HTTP ' + r.status));
+      return data;
+    });
+  })
   .then(function(data) {
     if (data.success) {
       loadSubmissions();

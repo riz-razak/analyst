@@ -24,7 +24,7 @@ export default {
       if (path === '/auth/me') {
         return handleAuthMe(request, env);
       } else if (path === '/auth/session') {
-        return handleAuthSession(request);
+        return handleAuthSession(request, env);
       } else if (path === '/auth/logout') {
         return handleAuthLogout(request);
       }
@@ -57,6 +57,14 @@ export default {
         return fetch(request);
       }
 
+      let analystSession = null;
+      const requiredRights = getRequiredAnalystRights(path, request.method);
+      if (requiredRights.length > 0) {
+        const authResult = await requireAnalystRights(request, env, requiredRights);
+        if (authResult instanceof Response) return authResult;
+        analystSession = authResult;
+      }
+
       // Route handlers
       if (path === '/api/session/acquire-lock') {
         return handleAcquireLock(request, env);
@@ -79,7 +87,7 @@ export default {
       } else if (path === '/api/submissions/list') {
         return handleListSubmissions(request, env);
       } else if (path === '/api/submissions/review') {
-        return handleReviewSubmission(request, env, ctx);
+        return handleReviewSubmission(request, env, ctx, analystSession);
       } else if (path === '/api/otp/send') {
         return handleOtpSend(request, env);
       } else if (path === '/api/otp/verify') {
@@ -263,20 +271,18 @@ async function handleAcquireLock(request, env) {
 async function handleAuthMe(request, env) {
   const url = new URL(request.url);
   const requiredRight = url.searchParams.get('right');
-  const cookieHeader = request.headers.get('Cookie') || '';
-  const token = parseCookie(cookieHeader, 'sb-token');
 
-  if (!token) return authJson({ authenticated: false, admin: false, rights: [] }, 200);
+  const session = await getVerifiedAnalystSession(request, env);
+  if (!session.ok) {
+    const status = session.error === 'missing_secret' ? 503 : 200;
+    const error = session.error === 'missing_secret' ? { error: 'auth_backend_not_configured' } : {};
+    return authJson({ authenticated: false, admin: false, rights: [], ...error }, status);
+  }
 
-  const payload = env.SUPABASE_JWT_SECRET ? await verifySupabaseJWT(token, env.SUPABASE_JWT_SECRET) : decodeSupabaseJWT(token);
-  if (!payload) return authJson({ authenticated: false, admin: false, rights: [] }, 200);
-
+  const { payload, rights } = session;
   const aal = payload.aal || payload.amr_aal || 'aal1';
-  const app = payload.app_metadata || {};
   const user = payload.user_metadata || {};
-  const rights = collectYanRights(app);
-  const role = app.role || app.yan_role || user.role || null;
-  const admin = aal === 'aal2' && hasYanAdminAccess({ rights, role, app, requiredRight });
+  const admin = aal === 'aal2' && hasYanAdminAccess({ rights, requiredRight });
 
   return authJson({
     authenticated: true,
@@ -292,8 +298,13 @@ async function handleAuthMe(request, env) {
   }, 200);
 }
 
-async function handleAuthSession(request) {
+async function handleAuthSession(request, env) {
   if (request.method !== 'POST') return authJson({ ok: false, error: 'Method not allowed' }, 405);
+
+  if (!env.SUPABASE_JWT_SECRET) {
+    console.error('[auth/session] SUPABASE_JWT_SECRET not set; refusing session creation');
+    return authJson({ ok: false, error: 'Auth backend not configured' }, 503);
+  }
 
   let body;
   try {
@@ -305,16 +316,19 @@ async function handleAuthSession(request) {
   const { access_token, refresh_token } = body;
   if (!access_token || !refresh_token) return authJson({ ok: false, error: 'access_token and refresh_token are required' }, 400);
 
-  let accessExp;
-  try {
-    accessExp = decodeSupabaseJWT(access_token)?.exp;
-  } catch {
-    accessExp = Math.floor(Date.now() / 1000) + 3600;
+  const payload = await verifySupabaseJWT(access_token, env.SUPABASE_JWT_SECRET);
+  if (!payload) {
+    return authJson({ ok: false, error: 'Invalid access token' }, 401);
+  }
+
+  const aal = payload.aal || payload.amr_aal || 'aal1';
+  if (aal !== 'aal2') {
+    return authJson({ ok: false, error: 'MFA verification required' }, 403);
   }
 
   const host = new URL(request.url).host;
   const secureFlag = host.includes('localhost') ? '' : '; Secure';
-  const accessMaxAge = Math.max(0, (accessExp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
+  const accessMaxAge = Math.max(0, (payload.exp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
   const refreshMaxAge = 60 * 60 * 24 * 30;
   const headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
   headers.append('Set-Cookie', `sb-token=${encodeURIComponent(access_token)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${accessMaxAge}`);
@@ -343,11 +357,150 @@ function collectYanRights(app) {
   return [...rights];
 }
 
-function hasYanAdminAccess({ rights, role, app, requiredRight }) {
-  if (role && ['owner', 'founder', 'admin', 'super_admin', 'yan_admin'].includes(String(role))) return true;
-  if (app.is_admin === true || app.admin === true || app.yan_admin === true) return true;
-  if (requiredRight && rights.includes(requiredRight)) return true;
-  return rights.some(right => ['yan.admin', 'yan.people.admin', 'analyst.admin', 'analyst.oracle.admin', 'oracle.admin'].includes(right));
+function hasYanAdminAccess({ rights, requiredRight }) {
+  const analystRights = rights.filter(right => right.startsWith('analyst.'));
+  if (analystRights.includes('analyst.admin')) return true;
+  if (requiredRight) return requiredRight.startsWith('analyst.') && analystRights.includes(requiredRight);
+  return analystRights.some(right => [
+    'analyst.cms.read',
+    'analyst.cms.write',
+    'analyst.comments.moderate',
+    'analyst.infra.admin',
+    'analyst.oracle.admin',
+    'analyst.privacy.admin',
+    'analyst.projects.read',
+    'analyst.projects.write',
+    'analyst.submissions.read',
+    'analyst.submissions.review',
+    'analyst.thumbnail.write',
+  ].includes(right));
+}
+
+function getRequiredAnalystRights(path, method) {
+  const normalizedMethod = method.toUpperCase();
+  const writeMethod = !['GET', 'HEAD', 'OPTIONS'].includes(normalizedMethod);
+
+  if (path.startsWith('/api/session/')) {
+    return writeMethod ? ['analyst.admin', 'analyst.cms.write'] : ['analyst.admin', 'analyst.cms.read', 'analyst.cms.write'];
+  }
+  if (path === '/api/github/file') {
+    return writeMethod ? ['analyst.admin', 'analyst.cms.write'] : ['analyst.admin', 'analyst.cms.read', 'analyst.cms.write'];
+  }
+  if (path === '/api/dossier/visibility') {
+    return writeMethod ? ['analyst.admin', 'analyst.cms.write'] : ['analyst.admin', 'analyst.cms.read', 'analyst.cms.write'];
+  }
+  if (path === '/api/submissions/list') {
+    return ['analyst.admin', 'analyst.submissions.read', 'analyst.submissions.review'];
+  }
+  if (path === '/api/submissions/review') {
+    return ['analyst.admin', 'analyst.submissions.review'];
+  }
+  if (path === '/api/email-templates/preview' || path === '/api/email-templates/test') {
+    return ['analyst.admin', 'analyst.cms.write'];
+  }
+  if (path === '/api/comments/moderate' || path === '/api/comments/pending') {
+    return ['analyst.admin', 'analyst.comments.moderate'];
+  }
+  if (path === '/api/thumbnail/generate' || path === '/api/thumbnail/upload') {
+    return ['analyst.admin', 'analyst.cms.write', 'analyst.thumbnail.write'];
+  }
+  if (path === '/api/infra/health' || path === '/api/infra/proxy-check') {
+    return ['analyst.admin', 'analyst.infra.admin'];
+  }
+  if (path === '/api/privacy/anonymise') {
+    return ['analyst.admin', 'analyst.privacy.admin'];
+  }
+  if (path === '/api/projects' || /^\/api\/projects\/[^/]+$/.test(path)) {
+    return writeMethod ? ['analyst.admin', 'analyst.projects.write'] : ['analyst.admin', 'analyst.projects.read', 'analyst.projects.write'];
+  }
+  if (/^\/api\/boards\/[^/]+(\/columns)?$/.test(path)) {
+    return writeMethod ? ['analyst.admin', 'analyst.projects.write'] : ['analyst.admin', 'analyst.projects.read', 'analyst.projects.write'];
+  }
+  if (path === '/api/tasks/create' || /^\/api\/tasks\/[^/]+(\/move)?$/.test(path)) {
+    return ['analyst.admin', 'analyst.projects.write'];
+  }
+
+  return [];
+}
+
+async function requireAnalystRights(request, env, requiredRights) {
+  const session = await getVerifiedAnalystSession(request, env);
+  if (!session.ok) {
+    const status = session.error === 'missing_secret' ? 503 : 401;
+    return jsonResponse({ error: session.error === 'missing_secret' ? 'Auth backend not configured' : 'Unauthorized' }, status);
+  }
+
+  if (session.aal !== 'aal2') {
+    return jsonResponse({ error: 'MFA verification required' }, 403);
+  }
+
+  if (session.tokenSource === 'cookie' && isUnsafeMethod(request.method) && !hasSameOriginMutation(request)) {
+    return jsonResponse({ error: 'Invalid request origin' }, 403);
+  }
+
+  if (!hasAnyAnalystRight(session.rights, requiredRights)) {
+    return jsonResponse({ error: 'Forbidden' }, 403);
+  }
+
+  return session;
+}
+
+async function getVerifiedAnalystSession(request, env) {
+  if (!env.SUPABASE_JWT_SECRET) {
+    console.error('[auth] SUPABASE_JWT_SECRET not set; refusing protected request');
+    return { ok: false, error: 'missing_secret' };
+  }
+
+  const tokenInfo = getSupabaseRequestToken(request);
+  if (!tokenInfo) return { ok: false, error: 'missing_token' };
+
+  const payload = await verifySupabaseJWT(tokenInfo.token, env.SUPABASE_JWT_SECRET);
+  if (!payload) return { ok: false, error: 'invalid_token' };
+
+  const rights = collectYanRights(payload.app_metadata || {});
+  const aal = payload.aal || payload.amr_aal || 'aal1';
+  return { ok: true, payload, rights, aal, tokenSource: tokenInfo.source };
+}
+
+function getSupabaseRequestToken(request) {
+  const authHeader = request.headers.get('Authorization') || '';
+  const bearerMatch = authHeader.match(/^Bearer\s+(.+)$/i);
+  if (bearerMatch) return { token: bearerMatch[1].trim(), source: 'authorization' };
+
+  const cookieHeader = request.headers.get('Cookie') || '';
+  const cookieToken = parseCookie(cookieHeader, 'sb-token');
+  return cookieToken ? { token: cookieToken, source: 'cookie' } : null;
+}
+
+function hasAnyAnalystRight(rights, requiredRights) {
+  const analystRights = new Set(rights.filter(right => right.startsWith('analyst.')));
+  if (analystRights.has('analyst.admin')) return true;
+  return requiredRights.some(right => analystRights.has(right));
+}
+
+function isUnsafeMethod(method) {
+  return !['GET', 'HEAD', 'OPTIONS'].includes(method.toUpperCase());
+}
+
+function hasSameOriginMutation(request) {
+  const requestOrigin = new URL(request.url).origin;
+  const origin = request.headers.get('Origin');
+  if (origin) return origin === requestOrigin;
+
+  const referer = request.headers.get('Referer');
+  if (!referer) return false;
+
+  try {
+    return new URL(referer).origin === requestOrigin;
+  } catch {
+    return false;
+  }
+}
+
+function getSessionEmail(session) {
+  const payload = session?.payload || {};
+  const user = payload.user_metadata || {};
+  return payload.email || user.email || payload.sub || 'unknown';
 }
 
 async function verifySupabaseJWT(token, secret) {
@@ -355,22 +508,21 @@ async function verifySupabaseJWT(token, secret) {
     const parts = token.split('.');
     if (parts.length !== 3) return null;
     const [headerB64, payloadB64, signatureB64] = parts;
+    const header = decodeSupabasePayload(headerB64);
+    if (header.alg !== 'HS256') return null;
+
     const encoder = new TextEncoder();
     const keyData = encoder.encode(secret);
     const cryptoKey = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
     const valid = await crypto.subtle.verify('HMAC', cryptoKey, base64UrlDecode(signatureB64), encoder.encode(`${headerB64}.${payloadB64}`));
     if (!valid) return null;
-    return decodeSupabasePayload(payloadB64);
+    const payload = decodeSupabasePayload(payloadB64);
+    const now = Math.floor(Date.now() / 1000);
+    if (payload.exp && payload.exp < now) return null;
+    return payload;
   } catch {
     return null;
   }
-}
-
-function decodeSupabaseJWT(token) {
-  const payload = decodeSupabasePayload(token.split('.')[1]);
-  const now = Math.floor(Date.now() / 1000);
-  if (payload.exp && payload.exp < now) return null;
-  return payload;
 }
 
 function decodeSupabasePayload(payloadB64) {
@@ -1357,12 +1509,13 @@ async function handleListSubmissions(request, env) {
  * REVIEW SUBMISSION (Admin — requires auth)
  * Accept, reject, or mark as under review
  */
-async function handleReviewSubmission(request, env, ctx) {
+async function handleReviewSubmission(request, env, ctx, analystSession) {
   if (request.method !== 'POST') {
     return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
   }
 
-  const { dossierId, submissionId, action, reviewNotes, reviewerEmail } = await request.json();
+  const { dossierId, submissionId, action, reviewNotes } = await request.json();
+  const reviewerEmail = getSessionEmail(analystSession);
 
   if (!dossierId || !submissionId || !action) {
     return corsResponse(JSON.stringify({ error: 'Missing required fields' }), 400);
@@ -1388,7 +1541,7 @@ async function handleReviewSubmission(request, env, ctx) {
   submission.review = {
     action,
     notes: reviewNotes || '',
-    reviewerEmail: reviewerEmail || 'admin',
+    reviewerEmail,
     reviewedAt: Date.now(),
   };
 
@@ -1958,7 +2111,7 @@ async function handleInfraProxyCheck(request, env) {
 /**
  * GET /api/github/file?path=[path]
  * Fetch a file from GitHub repository
- * Uses env.GITHUB_TOKEN or X-GitHub-Token header
+ * Uses the server-side GITHUB_TOKEN secret only.
  */
 async function handleGitHubFileGet(request, env) {
   const url = new URL(request.url);
@@ -1968,10 +2121,13 @@ async function handleGitHubFileGet(request, env) {
     return jsonResponse({ error: 'path parameter required' }, 400);
   }
 
-  // Get GitHub token from env or request header
-  const token = env.GITHUB_TOKEN || request.headers.get('X-GitHub-Token');
+  if (!isAllowedGitHubCMSPath(filePath)) {
+    return jsonResponse({ error: 'path is not allowed for CMS reads' }, 400);
+  }
+
+  const token = env.GITHUB_TOKEN;
   if (!token) {
-    return jsonResponse({ error: 'GitHub token not configured' }, 401);
+    return jsonResponse({ error: 'GitHub token not configured' }, 503);
   }
 
   const repo = env.GITHUB_REPO || 'riz-razak/analyst';
@@ -2065,10 +2221,9 @@ async function handleGitHubFilePut(request, env) {
     return jsonResponse({ error: 'path is not allowed for CMS writes' }, 400);
   }
 
-  // Get GitHub token from env or request header
-  const token = env.GITHUB_TOKEN || request.headers.get('X-GitHub-Token');
+  const token = env.GITHUB_TOKEN;
   if (!token) {
-    return jsonResponse({ error: 'GitHub token not configured' }, 401);
+    return jsonResponse({ error: 'GitHub token not configured' }, 503);
   }
 
   const repo = env.GITHUB_REPO || 'riz-razak/analyst';
