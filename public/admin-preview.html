@@ -6210,7 +6210,11 @@ function showEmailToast(msg, type) {
             navigateToRoute(window.location.hash);
         });
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (typeof hydrateDossierRegistry === 'function') {
+                await hydrateDossierRegistry();
+            }
+
             // Initialize with current hash or default
             const initialHash = window.location.hash || '#/dashboard';
             navigateToRoute(initialHash);
@@ -6583,6 +6587,37 @@ const dossiersData = [
         hasContent: false
     }
 ];
+
+let dossierRegistryHydrationPromise = null;
+
+async function hydrateDossierRegistry() {
+    if (dossierRegistryHydrationPromise) return dossierRegistryHydrationPromise;
+
+    dossierRegistryHydrationPromise = fetch('/data/dossiers.json?cb=' + Date.now())
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to load dossier registry');
+            return response.json();
+        })
+        .then(registry => {
+            const registryDossiers = Array.isArray(registry.dossiers) ? registry.dossiers : [];
+            registryDossiers.forEach(registryDossier => {
+                const embeddedDossier = dossiersData.find(d => d.id === registryDossier.id);
+                if (!embeddedDossier) return;
+
+                Object.assign(embeddedDossier, registryDossier);
+                embeddedDossier.slug = embeddedDossier.slug || embeddedDossier.id;
+                embeddedDossier.fbUrl = embeddedDossier.fbUrl || '';
+                embeddedDossier.author = embeddedDossier.author || (Array.isArray(embeddedDossier.authors) ? embeddedDossier.authors.join(', ') : '');
+                embeddedDossier.tags = Array.isArray(embeddedDossier.tags) ? embeddedDossier.tags : [];
+                embeddedDossier.hasContent = embeddedDossier.hasContent !== false;
+            });
+        })
+        .catch(error => {
+            console.warn('[Admin] Dossier registry hydration failed; using embedded metadata.', error);
+        });
+
+    return dossierRegistryHydrationPromise;
+}
 
 // Dossier view state (extends main appState)
 Object.assign(appState, {
@@ -7699,8 +7734,7 @@ function renderSidebarDossiers() {
     if (badge) badge.textContent = dossiersData.length;
 }
 
-// Call immediately since dossiersData is already defined above
-renderSidebarDossiers();
+// Rendered during shell initialization after dossier registry hydration.
 
 // Re-apply active nav state to the dynamically rendered sidebar items
 if (window.location.hash) {
@@ -8319,7 +8353,8 @@ async function updateDossierImageRegistry(dossierId, kind, publicPath) {
     );
 }
 
-function initializeAdminShell() {
+async function initializeAdminShell() {
+    await hydrateDossierRegistry();
     loadStatusOverrides();
     if (typeof setupToolbar === 'function') setupToolbar();
     if (typeof setupDetailView === 'function') setupDetailView();
