@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export function useInfiniteScroll(items, itemsPerPage = 12) {
   const [displayCount, setDisplayCount] = useState(itemsPerPage)

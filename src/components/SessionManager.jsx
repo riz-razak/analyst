@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * SessionManager - Collaborative Editing Session Handler
  * Manages locks, autosave, heartbeats, and handoff
@@ -86,6 +87,8 @@ export function useCollaborativeSession(dossierId, userId, userEmail) {
       }));
       return false;
     }
+  // startHeartbeat/startAutosave/startStatusCheck are stable in this hook scope.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dossierId, userId, userEmail]);
 
   /**
@@ -336,7 +339,7 @@ export function useCollaborativeSession(dossierId, userId, userEmail) {
  * SessionIndicator Component
  * Shows lock status, who's editing, time remaining
  */
-export function SessionIndicator({ sessionState, dossierId }) {
+export function SessionIndicator({ sessionState }) {
   const formatTime = (ms) => {
     if (!ms) return '';
     const minutes = Math.floor(ms / 60000);

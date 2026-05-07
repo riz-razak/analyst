@@ -1,5 +1,4 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { getTagColor } from '../styles/theme'
 
 const styles = {
   page: {
@@ -104,7 +103,7 @@ const styles = {
   },
 }
 
-export default function DossierPage({ dossiers, theme, toggleTheme }) {
+export default function DossierPage({ dossiers }) {
   const { id } = useParams()
   const navigate = useNavigate()
   const dossier = dossiers.find(d => d.id === id)
