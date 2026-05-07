@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magazine v6 — Navigation Variants (N1, N2, N3)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --jungle:#1B3A2D;--canopy:#3D7A5A;--terracotta:#A0522D;--plaster:#F5F1E6;
+  --ochre:#C9A96E;--near-black:#1A1815;--stone:#7A6F65;--white:#FFFFFF;
+  --border:#E5DDD0;--border-light:#EDE8DE;--surface:#FAF8F2;--surface-hover:#F0EDE4;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'Inter',-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono','SF Mono',monospace;
+  --radius-sm:3px;--radius-md:6px;
+  --shadow-lift:0 4px 20px rgba(26,24,21,0.08);
+  --t:0.15s ease;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--font-body);background:var(--plaster);color:var(--near-black);line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* VARIANT SWITCHER */
+.variant-sw{position:sticky;top:0;z-index:101;background:var(--jungle);padding:12px 32px;display:flex;align-items:center;gap:12px;}
+.variant-sw strong{color:#fff;font-family:var(--font-body);font-weight:600;font-size:13px;margin-right:8px;}
+.variant-sw button{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.7);padding:6px 14px;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;transition:var(--t);}
+.variant-sw button:hover{background:rgba(255,255,255,0.15);}
+.variant-sw button.on{background:var(--terracotta);border-color:var(--terracotta);color:#fff;}
+
+.variant{display:none;}.variant.on{display:block;}
+
+/* ============================================
+   SHARED STYLES (ALL VARIANTS)
+   ============================================ */
+
+.tag{display:inline-block;font-family:var(--font-mono);font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.6px;padding:3px 8px;border-radius:var(--radius-sm);background:var(--surface);color:var(--stone);border:1px solid var(--border-light);}
+.tg{background:rgba(61,122,90,0.08);color:var(--canopy);border-color:rgba(61,122,90,0.15);}
+.tt{background:rgba(160,82,45,0.08);color:var(--terracotta);border-color:rgba(160,82,45,0.15);}
+.tw{background:rgba(201,169,110,0.12);color:#8B7340;border-color:rgba(201,169,110,0.2);}
+.meta{font-family:var(--font-mono);font-size:11px;color:var(--stone);letter-spacing:0.3px;}
+.kicker{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--terracotta);font-weight:500;}
+.kicker::before{content:'';display:inline-block;width:16px;height:2px;background:var(--terracotta);margin-right:6px;vertical-align:middle;}
+.dot{width:26px;height:26px;border-radius:50%;background:var(--canopy);display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;flex-shrink:0;}
+.g1{background:linear-gradient(135deg,#1B3A2D,#3D7A5A)}.g2{background:linear-gradient(135deg,#A0522D,#C9A96E)}.g3{background:linear-gradient(135deg,#2F2B28,#7A6F65)}.g4{background:linear-gradient(135deg,#3D7A5A,#C9A96E)}.g5{background:linear-gradient(135deg,#1B3A2D,#A0522D)}.g6{background:linear-gradient(135deg,#7A6F65,#C9A96E)}.g7{background:linear-gradient(135deg,#C9A96E,#A0522D)}.g8{background:linear-gradient(135deg,#1B3A2D,#2F2B28)}
+
+.pagination{display:flex;align-items:center;justify-content:center;gap:4px;padding:40px 0;}
+.pagination button{width:36px;height:36px;border:1px solid var(--border);background:var(--white);color:var(--near-black);font-family:var(--font-mono);font-size:12px;border-radius:var(--radius-sm);cursor:pointer;transition:var(--t);}
+.pagination button:hover{background:var(--surface-hover);}
+.pagination button.pg{background:var(--jungle);color:#fff;border-color:var(--jungle);}
+.footer{border-top:1px solid var(--border);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;font-family:var(--font-mono);font-size:11px;color:var(--stone);}
+
+.nameplate{padding:14px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--jungle);}
+.nameplate__loc{font-family:var(--font-mono);font-size:10px;color:var(--stone);text-transform:uppercase;letter-spacing:1px;min-width:120px;}
+.nameplate__brand{text-align:center;flex:1;}
+.nameplate__brand h1{font-family:var(--font-display);font-weight:800;font-size:28px;color:var(--jungle);display:inline;}
+.np-dot{color:var(--terracotta);font-family:var(--font-display);font-size:28px;font-weight:700;margin-left:3px;}
+.nameplate__date{font-family:var(--font-mono);font-size:10px;color:var(--stone);text-transform:uppercase;letter-spacing:1px;text-align:right;min-width:120px;}
+
+.hero{position:relative;height:480px;overflow:visible;margin-bottom:56px;}
+.hero__img{width:100%;height:100%;}
+.hero__grad{position:absolute;top:0;bottom:0;left:0;width:55%;background:linear-gradient(90deg,rgba(27,58,45,0.15) 0%,transparent 100%);}
+.hero__card{position:absolute;bottom:-44px;left:48px;width:520px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:28px 32px;box-shadow:var(--shadow-lift);}
+.hero__card .kicker{margin-bottom:10px;}
+.hero__card-title{font-family:var(--font-display);font-weight:800;font-size:28px;line-height:1.15;color:var(--near-black);margin-bottom:10px;}
+.hero__card-excerpt{font-size:14px;line-height:1.6;color:var(--stone);margin-bottom:16px;}
+.hero__card-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;padding:12px 0;border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light);margin-bottom:12px;}
+.mk{display:flex;align-items:baseline;gap:6px;}
+.mk__k{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.6px;color:var(--stone);width:56px;flex-shrink:0;}
+.mk__v{font-size:12px;color:var(--near-black);font-weight:500;}
+.mk__v--hi{color:var(--terracotta);font-weight:600;}
+
+.strip{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;border-bottom:2px solid var(--jungle);}
+.strip__rule{background:var(--border);}
+.strip__item{padding:16px 24px;cursor:pointer;display:flex;gap:12px;transition:var(--t);}
+.strip__item:first-child{padding-left:48px;}
+.strip__item:last-child{padding-right:48px;}
+.strip__item:hover .strip__title{color:var(--canopy);}
+.strip__thumb{width:76px;height:76px;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0;}
+.strip__kicker{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--terracotta);font-weight:500;margin-bottom:3px;}
+.strip__title{font-family:var(--font-display);font-weight:700;font-size:14px;line-height:1.3;color:var(--near-black);transition:var(--t);}
+.strip__meta{font-family:var(--font-mono);font-size:10px;color:var(--stone);margin-top:3px;}
+
+.filter-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 0 12px;border-bottom:1px solid var(--border);margin-bottom:24px;}
+.filter-bar__label{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--stone);}
+.filter-bar__tabs{display:flex;gap:4px;}
+.filter-bar__tabs button{font-family:var(--font-mono);font-size:10px;padding:5px 12px;border:1px solid var(--border);background:var(--white);color:var(--stone);border-radius:var(--radius-sm);cursor:pointer;transition:var(--t);}
+.filter-bar__tabs button:hover{background:var(--surface-hover);}
+.filter-bar__tabs button.on{background:var(--jungle);color:#fff;border-color:var(--jungle);}
+
+.cat-head{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;margin-top:28px;}
+.cat-head:first-of-type{margin-top:0;}
+.cat-head__title{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--stone);}
+.cat-head__badge{font-family:var(--font-mono);font-size:9px;padding:2px 7px;border-radius:var(--radius-sm);}
+.cat-head__badge--chr{background:rgba(61,122,90,0.08);color:var(--canopy);border:1px solid rgba(61,122,90,0.12);}
+.cat-head__badge--algo{background:rgba(201,169,110,0.1);color:#8B7340;border:1px solid rgba(201,169,110,0.15);}
+
+.sec-label{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--stone);padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:14px;}
+
+.sb-item{display:grid;grid-template-columns:56px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--border-light);cursor:pointer;}
+.sb-item:hover .sb-title{color:var(--canopy);}
+.sb-thumb{aspect-ratio:1;border-radius:var(--radius-sm);overflow:hidden;}
+.sb-title{font-weight:600;font-size:12px;line-height:1.35;color:var(--near-black);transition:var(--t);}
+.sb-meta{font-family:var(--font-mono);font-size:10px;color:var(--stone);}
+
+.stats{margin-top:20px;background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:14px;}
+.stats__label{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--stone);margin-bottom:8px;}
+.stats__row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--border-light);}
+.stats__row:last-child{border-bottom:none;}
+.stats__k{font-family:var(--font-mono);font-size:10px;color:var(--stone);}
+.stats__v{font-family:var(--font-display);font-weight:800;font-size:18px;color:var(--jungle);}
+
+.tools-section{margin-top:20px;}
+.tools-label{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:var(--stone);padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:12px;}
+.tool-feature{background:var(--jungle);border-radius:var(--radius-md);padding:16px;margin-bottom:10px;cursor:pointer;transition:var(--t);text-decoration:none;display:block;}
+.tool-feature:hover{opacity:0.95;}
+.tool-feature__pinned{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.8px;color:var(--ochre);margin-bottom:6px;display:flex;align-items:center;gap:4px;}
+.tool-feature__pinned::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ochre);display:inline-block;}
+.tool-feature__name{font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--plaster);margin-bottom:4px;}
+.tool-feature__desc{font-size:11px;line-height:1.45;color:rgba(245,241,230,0.6);margin-bottom:8px;}
+.tool-feature__meta{display:flex;gap:8px;}
+.tool-feature__badge{font-family:var(--font-mono);font-size:9px;padding:2px 7px;border-radius:var(--radius-sm);background:rgba(245,241,230,0.1);color:rgba(245,241,230,0.6);border:1px solid rgba(245,241,230,0.15);}
+.tool-feature__badge--live{background:rgba(52,199,89,0.15);color:#7DDFB0;border-color:rgba(52,199,89,0.25);}
+.tool-inline{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-light);cursor:pointer;transition:var(--t);}
+.tool-inline:last-child{border-bottom:none;}
+.tool-inline:hover .tool-inline__name{color:var(--canopy);}
+.tool-inline__dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.tool-inline__dot--live{background:#34C759;}
+.tool-inline__dot--pinned{background:var(--terracotta);}
+.tool-inline__name{font-weight:500;font-size:12px;color:var(--near-black);flex:1;transition:var(--t);}
+.tool-inline__tag{font-family:var(--font-mono);font-size:9px;color:var(--stone);}
+
+.wrap{max-width:1280px;margin:0 auto;padding:0 48px;}
+.body-grid{display:grid;grid-template-columns:1fr 300px;gap:0;}
+.main{padding-right:32px;border-right:1px solid var(--border);}
+.side{padding-left:24px;}
+.cols{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;gap:0;}
+.cols__rule{background:var(--border);}
+.col{padding:0 16px;}
+.col:first-child{padding-left:0;}
+.col:last-child{padding-right:0;}
+.art{padding:12px 0;border-bottom:1px solid var(--border-light);cursor:pointer;}
+.art:first-of-type{padding-top:0;}
+.art:last-child{border-bottom:none;}
+.art:hover .art__title{color:var(--canopy);}
+.art__thumb{aspect-ratio:16/9;border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden;}
+.art__title{font-family:var(--font-display);font-weight:700;font-size:15px;line-height:1.25;color:var(--near-black);margin:3px 0 4px;transition:var(--t);}
+.art__excerpt{font-size:12px;line-height:1.5;color:var(--stone);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:4px;}
+.art__meta{font-family:var(--font-mono);font-size:10px;color:var(--stone);}
+
+/* ============================================
+   N1 — NAMEPLATE INTEGRATED
+   ============================================ */
+
+.n1-nameplate{padding:14px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--jungle);position:relative;}
+.n1-hamburger{background:none;border:none;font-size:20px;color:var(--jungle);cursor:pointer;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;margin-right:16px;transition:var(--t);}
+.n1-hamburger:hover{color:var(--canopy);}
+.n1-nameplate__left{display:flex;align-items:center;gap:0;}
+.n1-nameplate__center{flex:1;text-align:center;}
+.n1-nameplate__center h1{font-family:var(--font-display);font-weight:800;font-size:28px;color:var(--jungle);display:inline;}
+.n1-nameplate__right{display:flex;align-items:center;gap:16px;}
+.n1-view-switcher{background:var(--surface);border:1px solid var(--border);padding:6px 12px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:11px;cursor:pointer;color:var(--stone);transition:var(--t);display:flex;align-items:center;gap:6px;}
+.n1-view-switcher:hover{background:var(--surface-hover);}
+.n1-view-switcher.fyp{background:var(--jungle);color:var(--plaster);border-color:var(--jungle);}
+
+.n1-menu-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(26,24,21,0.5);opacity:0;pointer-events:none;transition:var(--t);z-index:199;}
+.n1-menu-overlay.open{opacity:1;pointer-events:auto;}
+.n1-menu{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--jungle);padding:24px;overflow-y:auto;transform:translateX(-100%);transition:var(--t);z-index:200;}
+.n1-menu.open{transform:translateX(0);}
+.n1-menu__close{background:none;border:none;color:var(--plaster);font-size:24px;cursor:pointer;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;transition:var(--t);}
+.n1-menu__close:hover{opacity:0.7;}
+.n1-menu__item{display:block;color:var(--plaster);padding:12px 0;font-family:var(--font-body);font-size:14px;border-bottom:1px solid rgba(245,241,230,0.1);text-decoration:none;transition:var(--t);}
+.n1-menu__item:hover{color:var(--ochre);}
+.n1-menu__section{margin-top:24px;border-top:1px solid rgba(245,241,230,0.15);padding-top:16px;}
+.n1-menu__label{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(245,241,230,0.5);margin-bottom:12px;display:block;}
+.n1-menu__toggle{background:rgba(245,241,230,0.1);border:1px solid rgba(245,241,230,0.15);color:var(--plaster);padding:8px 12px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:11px;cursor:pointer;width:100%;margin-bottom:8px;transition:var(--t);}
+.n1-menu__toggle:hover{background:rgba(245,241,230,0.15);}
+
+/* ============================================
+   N2 — THIN UTILITY BAR
+   ============================================ */
+
+.n2-util-bar{background:var(--jungle);height:32px;display:flex;align-items:center;padding:0 32px;gap:16px;border-bottom:1px solid rgba(61,122,90,0.3);}
+.n2-hamburger{background:none;border:none;color:var(--plaster);font-size:18px;cursor:pointer;padding:0;width:24px;height:24px;display:flex;align-items:center;justify-content:center;transition:var(--t);}
+.n2-hamburger:hover{color:var(--ochre);}
+.n2-breadcrumb{color:rgba(245,241,230,0.6);font-family:var(--font-mono);font-size:10px;flex:1;}
+.n2-view-switcher{background:rgba(245,241,230,0.08);border:1px solid rgba(245,241,230,0.15);color:var(--plaster);padding:5px 12px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:10px;cursor:pointer;transition:var(--t);display:flex;align-items:center;gap:6px;}
+.n2-view-switcher:hover{background:rgba(245,241,230,0.15);}
+.n2-view-switcher.fyp{background:var(--ochre);color:var(--jungle);border-color:var(--ochre);}
+
+.n2-menu-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(26,24,21,0.5);opacity:0;pointer-events:none;transition:var(--t);z-index:199;}
+.n2-menu-overlay.open{opacity:1;pointer-events:auto;}
+.n2-menu{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--jungle);padding:24px;overflow-y:auto;transform:translateX(-100%);transition:var(--t);z-index:200;}
+.n2-menu.open{transform:translateX(0);}
+.n2-menu__close{background:none;border:none;color:var(--plaster);font-size:24px;cursor:pointer;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;transition:var(--t);}
+.n2-menu__close:hover{opacity:0.7;}
+.n2-menu__item{display:block;color:var(--plaster);padding:12px 0;font-family:var(--font-body);font-size:14px;border-bottom:1px solid rgba(245,241,230,0.1);text-decoration:none;transition:var(--t);}
+.n2-menu__item:hover{color:var(--ochre);}
+.n2-menu__section{margin-top:24px;border-top:1px solid rgba(245,241,230,0.15);padding-top:16px;}
+.n2-menu__label{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(245,241,230,0.5);margin-bottom:12px;display:block;}
+.n2-menu__toggle{background:rgba(245,241,230,0.1);border:1px solid rgba(245,241,230,0.15);color:var(--plaster);padding:8px 12px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:11px;cursor:pointer;width:100%;margin-bottom:8px;transition:var(--t);}
+.n2-menu__toggle:hover{background:rgba(245,241,230,0.15);}
+
+/* ============================================
+   N3 — FLOATING CONTROLS
+   ============================================ */
+
+.n3-floating-hamburger{position:fixed;top:20px;left:20px;width:40px;height:40px;background:var(--jungle);border-radius:50%;border:none;color:var(--plaster);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;box-shadow:0 2px 12px rgba(26,24,21,0.15);transition:var(--t);}
+.n3-floating-hamburger:hover{box-shadow:0 4px 16px rgba(26,24,21,0.25);}
+.n3-floating-view{position:fixed;top:20px;right:20px;width:40px;height:40px;background:var(--white);border:1px solid var(--border);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;box-shadow:0 2px 12px rgba(26,24,21,0.15);transition:var(--t);}
+.n3-floating-view:hover{box-shadow:0 4px 16px rgba(26,24,21,0.25);}
+.n3-floating-view.fyp{background:var(--jungle);border-color:var(--jungle);color:var(--plaster);}
+.n3-floating-view span{display:flex;align-items:center;justify-content:center;font-size:14px;}
+
+.n3-menu-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(26,24,21,0.6);opacity:0;pointer-events:none;transition:var(--t);z-index:199;}
+.n3-menu-overlay.open{opacity:1;pointer-events:auto;}
+.n3-menu{position:fixed;top:0;left:0;width:100%;background:var(--jungle);padding:60px 24px 24px;transform:translateY(-100%);transition:var(--t);z-index:200;max-height:80vh;overflow-y:auto;}
+.n3-menu.open{transform:translateY(0);}
+.n3-menu__close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--plaster);font-size:28px;cursor:pointer;padding:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;transition:var(--t);}
+.n3-menu__close:hover{opacity:0.7;}
+.n3-menu__item{display:block;color:var(--plaster);padding:16px 0;font-family:var(--font-body);font-size:16px;border-bottom:1px solid rgba(245,241,230,0.1);text-decoration:none;transition:var(--t);}
+.n3-menu__item:hover{color:var(--ochre);}
+.n3-menu__section{margin-top:24px;border-top:1px solid rgba(245,241,230,0.15);padding-top:16px;}
+.n3-menu__label{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(245,241,230,0.5);margin-bottom:12px;display:block;}
+.n3-menu__toggle{background:rgba(245,241,230,0.1);border:1px solid rgba(245,241,230,0.15);color:var(--plaster);padding:10px 14px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:11px;cursor:pointer;width:100%;margin-bottom:8px;transition:var(--t);}
+.n3-menu__toggle:hover{background:rgba(245,241,230,0.15);}
+
+/* FYP VIEW */
+.fyp-feed{display:grid;grid-template-columns:1fr;gap:24px;}
+.fyp-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;cursor:pointer;transition:var(--t);}
+.fyp-card:hover{box-shadow:var(--shadow-lift);border-color:var(--canopy);}
+.fyp-card__img{width:100%;aspect-ratio:16/9;overflow:hidden;}
+.fyp-card__body{padding:20px;}
+.fyp-card__kicker{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--terracotta);font-weight:500;margin-bottom:8px;}
+.fyp-card__title{font-family:var(--font-display);font-weight:800;font-size:20px;line-height:1.25;color:var(--near-black);margin-bottom:10px;}
+.fyp-card__excerpt{font-size:14px;line-height:1.6;color:var(--stone);margin-bottom:12px;}
+.fyp-card__meta{display:flex;gap:16px;font-family:var(--font-mono);font-size:10px;color:var(--stone);margin-bottom:12px;}
+.fyp-card__tags{display:flex;gap:8px;}
+.fyp-pagination{display:flex;align-items:center;justify-content:center;gap:4px;padding:40px 0;}
+.fyp-pagination button{width:36px;height:36px;border:1px solid var(--border);background:var(--white);color:var(--near-black);font-family:var(--font-mono);font-size:12px;border-radius:var(--radius-sm);cursor:pointer;transition:var(--t);}
+.fyp-pagination button:hover{background:var(--surface-hover);}
+.fyp-pagination button.pg{background:var(--jungle);color:#fff;border-color:var(--jungle);}
+
+/* MEDIA QUERIES */
+@media (max-width:768px) {
+  .strip{grid-template-columns:1fr;}
+  .strip__rule{display:none;}
+  .strip__item{padding:16px 24px !important;}
+  .cols{grid-template-columns:1fr;}
+  .cols__rule{display:none;}
+  .col{padding:0 !important;}
+  .body-grid{grid-template-columns:1fr;}
+  .main{border-right:none;padding-right:0;}
+  .side{padding-left:0;margin-top:24px;}
+  .hero__card{width:calc(100% - 96px);left:48px;}
+}
+</style>
+</head>
+<body>
+
+<div class="variant-sw">
+  <strong>Navigation Variants</strong>
+  <button class="on" onclick="switchVariant('n1')">N1 · Nameplate Integrated</button>
+  <button onclick="switchVariant('n2')">N2 · Thin Utility Bar</button>
+  <button onclick="switchVariant('n3')">N3 · Floating Controls</button>
+</div>
+
+<!-- ============================================
+     N1 — NAMEPLATE INTEGRATED
+     ============================================ -->
+<div class="variant on" id="variant-n1">
+  <div class="n1-nameplate">
+    <div class="n1-nameplate__left">
+      <button class="n1-hamburger" onclick="n1MenuToggle()">☰</button>
+      <div class="nameplate__loc">Colombo, Sri Lanka</div>
+    </div>
+    <div class="n1-nameplate__center">
+      <h1>The Analyst</h1><span class="np-dot">&middot;</span>
+    </div>
+    <div class="n1-nameplate__right">
+      <div class="nameplate__date">Thursday, 12 March 2026</div>
+      <button class="n1-view-switcher" onclick="n1ViewToggle()"><span id="n1-view-label">Magazine</span> ↔</button>
+    </div>
+  </div>
+
+  <div class="n1-menu-overlay" id="n1-overlay" onclick="n1MenuToggle()"></div>
+  <div class="n1-menu" id="n1-menu">
+    <button class="n1-menu__close" onclick="n1MenuToggle()">✕</button>
+    <a href="#" class="n1-menu__item">Home</a>
+    <a href="#" class="n1-menu__item">Dossiers</a>
+    <a href="#" class="n1-menu__item">Tools</a>
+    <a href="#" class="n1-menu__item">About</a>
+    <div class="n1-menu__section">
+      <label class="n1-menu__label">Language</label>
+      <button class="n1-menu__toggle">English · Sinhala</button>
+    </div>
+    <div class="n1-menu__section">
+      <label class="n1-menu__label">Appearance</label>
+      <button class="n1-menu__toggle">Light Mode</button>
+    </div>
+  </div>
+
+  <div id="n1-magazine">
+    <div class="hero"><div class="hero__img g1"></div><div class="hero__grad"></div>
+      <div class="hero__card">
+        <div class="kicker">Featured Investigation</div>
+        <div class="hero__card-title">The Adani–Sri Lanka Port Deal: What the Contracts Actually Say</div>
+        <div class="hero__card-excerpt">A line-by-line analysis of the Colombo West Terminal agreement reveals clauses that contradict public statements by both governments.</div>
+        <div class="hero__card-meta"><div class="mk"><span class="mk__k">Author</span><span class="mk__v">Riz Razak</span></div><div class="mk"><span class="mk__k">Published</span><span class="mk__v">8 Mar 2026</span></div><div class="mk"><span class="mk__k">Read</span><span class="mk__v">18 minutes</span></div><div class="mk"><span class="mk__k">Sources</span><span class="mk__v mk__v--hi">3 independent</span></div></div>
+        <div style="display:flex;gap:5px;"><span class="tag tg">Governance</span><span class="tag tt">Exclusive</span><span class="tag tw">Geopolitics</span></div>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div class="strip__item"><div class="strip__thumb g2"></div><div><div class="strip__kicker">Corruption</div><div class="strip__title">Rajapaksa Foundation Money Trail</div><div class="strip__meta">5 Mar · 14 min</div></div></div>
+      <div class="strip__rule"></div>
+      <div class="strip__item"><div class="strip__thumb g3"></div><div><div class="strip__kicker">Intelligence</div><div class="strip__title">RAW vs ISI: Shadow War in the North</div><div class="strip__meta">2 Mar · 22 min</div></div></div>
+      <div class="strip__rule"></div>
+      <div class="strip__item"><div class="strip__thumb g4"></div><div><div class="strip__kicker">Economy</div><div class="strip__title">IMF Conditionality vs Sovereignty</div><div class="strip__meta">28 Feb · 16 min</div></div></div>
+    </div>
+
+    <div class="wrap">
+      <div class="body-grid">
+        <div class="main">
+          <div class="filter-bar"><div class="filter-bar__label">Dossiers</div><div class="filter-bar__tabs"><button class="on">All</button><button>This Week</button><button>This Month</button></div></div>
+          <div class="cols">
+            <div class="col">
+              <div class="cat-head"><span class="cat-head__title">Latest</span><span class="cat-head__badge cat-head__badge--chr">Chronological</span></div>
+              <div class="art"><div class="art__thumb g5"></div><div class="art__title">Chinese Naval Base Theory: Evidence Assessment</div><div class="art__excerpt">Separating signal from noise in the Hambantota Port debate.</div><div class="art__meta">25 Feb · 20 min</div></div>
+              <div class="art"><div class="art__title">Anti-Corruption Commission: Toothless by Design</div><div class="art__meta">14 Feb · 15 min</div></div>
+              <div class="art"><div class="art__title">Colombo Port City: Jurisdiction Vacuum</div><div class="art__meta">12 Feb · 15 min</div></div>
+            </div>
+            <div class="cols__rule"></div>
+            <div class="col">
+              <div class="cat-head"><span class="cat-head__title">Governance & Power</span><span class="cat-head__badge cat-head__badge--algo">For you</span></div>
+              <div class="art"><div class="art__thumb g6"></div><div class="art__title">Easter Bombing Trial: Three Years of Delay</div><div class="art__excerpt">Court records show 47 postponements.</div><div class="art__meta">22 Feb · 25 min</div></div>
+              <div class="art"><div class="art__title">Military-Business Complex: Post-War Land Grabs</div><div class="art__meta">10 Feb · 22 min</div></div>
+              <div class="art"><div class="art__title">Fishing Rights as Geopolitical Leverage</div><div class="art__meta">8 Feb · 10 min</div></div>
+            </div>
+            <div class="cols__rule"></div>
+            <div class="col">
+              <div class="cat-head"><span class="cat-head__title">Economy & Trade</span><span class="cat-head__badge cat-head__badge--algo">For you</span></div>
+              <div class="art"><div class="art__thumb g7"></div><div class="art__title">Sri Lanka's Lithium Play: Mineralogy Rights</div><div class="art__excerpt">Geological surveys in the Central Highlands.</div><div class="art__meta">18 Feb · 12 min</div></div>
+              <div class="art"><div class="art__title">Debt-for-Equity: Infrastructure Deal Playbook</div><div class="art__meta">6 Feb · 11 min</div></div>
+              <div class="art"><div class="art__title">Satellite Evidence Over Hambantota</div><div class="art__meta">4 Feb · 14 min</div></div>
+            </div>
+          </div>
+          <div class="pagination"><button>&larr;</button><button class="pg">1</button><button>2</button><button>3</button><button>4</button><button>&rarr;</button></div>
+        </div>
+
+        <div class="side">
+          <div class="sec-label">Trending</div>
+          <div class="sb-item"><div class="sb-thumb g8"></div><div><div class="sb-title">Buddhist Nationalism's New Political Vehicle</div><div class="sb-meta">4.2k reads</div></div></div>
+          <div class="sb-item"><div class="sb-thumb g4"></div><div><div class="sb-title">Tamil Diaspora Lobbying: Ottawa to Geneva</div><div class="sb-meta">3.1k reads</div></div></div>
+          <div class="sb-item"><div class="sb-thumb g2"></div><div><div class="sb-title">Rajapaksa Foundation Money Trail</div><div class="sb-meta">2.8k reads</div></div></div>
+
+          <div class="stats">
+            <div class="stats__label">Platform Intelligence</div>
+            <div class="stats__row"><span class="stats__k">Dossiers</span><span class="stats__v">16</span></div>
+            <div class="stats__row"><span class="stats__k">Total reads</span><span class="stats__v">42k</span></div>
+            <div class="stats__row"><span class="stats__k">Exclusives</span><span class="stats__v">3</span></div>
+          </div>
+
+          <div class="tools-section">
+            <div class="tools-label">Tools & Dashboards</div>
+            <a class="tool-feature" href="#">
+              <div class="tool-feature__pinned">Editor Pinned</div>
+              <div class="tool-feature__name">Hormuz Oracle</div>
+              <div class="tool-feature__desc">Crisis scenario predictions — 3 probability-weighted outcomes for Sri Lanka's energy supply chain.</div>
+              <div class="tool-feature__meta"><span class="tool-feature__badge tool-feature__badge--live">Live</span><span class="tool-feature__badge">Updated 6 Mar</span></div>
+            </a>
+            <a class="tool-inline" href="#" style="text-decoration:none;"><span class="tool-inline__dot tool-inline__dot--live"></span><span class="tool-inline__name">Shipping Lane Monitor</span><span class="tool-inline__tag">Live</span></a>
+            <div class="tool-inline"><span class="tool-inline__dot tool-inline__dot--live"></span><span class="tool-inline__name">Investigation Timeline</span><span class="tool-inline__tag">New</span></div>
+            <div class="tool-inline"><span class="tool-inline__dot tool-inline__dot--live"></span><span class="tool-inline__name">Fuel Reserve Tracker</span><span class="tool-inline__tag">Live</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="n1-fyp" style="display:none;">
+    <div style="padding:24px 48px;">
+      <div class="fyp-feed">
+        <div class="fyp-card"><div class="fyp-card__img g1"></div><div class="fyp-card__body"><div class="fyp-card__kicker">Featured</div><div class="fyp-card__title">The Adani–Sri Lanka Port Deal: What the Contracts Actually Say</div><div class="fyp-card__excerpt">A line-by-line analysis of the Colombo West Terminal agreement reveals clauses that contradict public statements by both governments.</div><div class="fyp-card__meta"><span>Riz Razak</span><span>8 Mar 2026</span><span>18 min read</span></div><div class="fyp-card__tags"><span class="tag tg">Governance</span><span class="tag tt">Exclusive</span></div></div></div>
+        <div class="fyp-card"><div class="fyp-card__img g2"></div><div class="fyp-card__body"><div class="fyp-card__kicker">Corruption</div><div class="fyp-card__title">Rajapaksa Foundation Money Trail</div><div class="fyp-card__excerpt">A deep investigation into the financial networks behind the family empire.</div><div class="fyp-card__meta"><span>Field Team</span><span>5 Mar 2026</span><span>14 min read</span></div><div class="fyp-card__tags"><span class="tag tg">Finance</span></div></div></div>
+        <div class="fyp-card"><div class="fyp-card__img g3"></div><div class="fyp-card__body"><div class="fyp-card__kicker">Intelligence</div><div class="fyp-card__title">RAW vs ISI: Shadow War in the North</div><div class="fyp-card__excerpt">Evidence of covert intelligence operations along the Tamil Nadu border.</div><div class="fyp-card__meta"><span>Analysis Team</span><span>2 Mar 2026</span><span>22 min read</span></div><div class="fyp-card__tags"><span class="tag tt">Geopolitics</span></div></div></div>
+      </div>
+      <div class="fyp-pagination"><button>&larr;</button><button class="pg">1</button><button>2</button><button>3</button><button>&rarr;</button></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>analyst.rizrazak.com · Dig deep. Stay free.</span><span>&copy; 2026 Riz Razak</span></div>
+</div>
+
+<!-- ============================================
+     N2 — THIN UTILITY BAR
+     ============================================ -->
+<div class="variant" id="variant-n2">
+  <div class="n2-util-bar">
+    <button class="n2-hamburger" onclick="n2MenuToggle()">☰</button>
+    <div class="n2-breadcrumb">Colombo, Sri Lanka</div>
+    <button class="n2-view-switcher" onclick="n2ViewToggle()"><span id="n2-view-label">Magazine</span> ↔</button>
+  </div>
+
+  <div class="n2-menu-overlay" id="n2-overlay" onclick="n2MenuToggle()"></div>
+  <div class="n2-menu" id="n2-menu">
+    <button class="n2-menu__close" onclick="n2MenuToggle()">✕</button>
+    <a href="#" class="n2-menu__item">Home</a>
+    <a href="#" class="n2-menu__item">Dossiers</a>
+    <a href="#" class="n2-menu__item">Tools</a>
+    <a href="#" class="n2-menu__item">About</a>
+    <div class="n2-menu__section">
+      <label class="n2-menu__label">Language</label>
+      <button class="n2-menu__toggle">English · Sinhala</button>
+    </div>
+    <div class="n2-menu__section">
+      <label class="n2-menu__label">Appearance</label>
+      <button class="n2-menu__toggle">Light Mode</button>
+    </div>
+  </div>
+
+  <div class="nameplate"><div class="nameplate__loc"></div><div class="nameplate__brand"><h1>The Analyst</h1><span class="np-dot">&middot;</span></div><div class="nameplate__date">Thursday, 12 March 2026</div></div>
+
+  <div id="n2-magazine">
+    <div class="hero"><div class="hero__img g1"></div><div class="hero__grad"></div>
+      <div class="hero__card">
+        <div class="kicker">Featured Investigation</div>
+        <div class="hero__card-title">The Adani–Sri Lanka Port Deal: What the Contracts Actually Say</div>
+        <div class="hero__card-excerpt">A line-by-line analysis of the Colombo West Terminal agreement reveals clauses that contradict public statements by both governments.</div>
+        <div class="hero__card-meta"><div class="mk"><span class="mk__k">Author</span><span class="mk__v">Riz Razak</span></div><div class="mk"><span class="mk__k">Published</span><span class="mk__v">8 Mar 2026</span></div><div class="mk"><span class="mk__k">Read</span><span class="mk__v">18 minutes</span></div><div class="mk"><span class="mk__k">Sources</span><span class="mk__v mk__v--hi">3 independent</span></div></div>
+        <div style="display:flex;gap:5px;"><span class="tag tg">Governance</span><span class="tag tt">Exclusive</span><span class="tag tw">Geopolitics</span></div>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div class="strip__item"><div class="strip__thumb g2"></div><div><div class="strip__kicker">Corruption</div><div class="strip__title">Rajapaksa Foundation Money Trail</div><div class="strip__meta">5 Mar · 14 min</div></div></div>
+      <div class="strip__rule"></div>
+      <div class="strip__item"><div class="strip__thumb g3"></div><div><div class="strip__kicker">Intelligence</div><div class="strip__title">RAW vs ISI: Shadow War in the North</div><div class="strip__meta">2 Mar · 22 min</div></div></div>
+      <div class="strip__rule"></div>
+      <div class="strip__item"><div class="strip__thumb g4"></div><div><div class="strip__kicker">Economy</div><div class="strip__title">IMF Conditionality vs Sovereignty</div><div class="strip__meta">28 Feb · 16 min</div></div></div>
+    </div>
+
+    <div class="wrap">
+      <div class="body-grid">
+        <div class="main">
+          <div class="filter-bar"><div class="filter-bar__label">Dossiers</div><div class="filter-bar__tabs"><button class="on">All</button><button>This Week</button><button>This Month</button></div></div>
+          <div class="cols">
+            <div class="col">
+              <div class="cat-head"><span class="cat-head__title">Latest</span><span class="cat-head__badge cat-head__badge--chr">Chronological</span></div>
+              <div class="art"><div class="art__thumb g5"></div><div class="art__title">Chinese Naval Base Theory: Evidence Assessment</div><div class="art__excerpt">Separating signal from noise in the Hambantota Port debate.</div><div class="art__meta">25 Feb · 20 min</div></div>
+              <div class="art"><div class="art__title">Anti-Corruption Commission: Toothless by Design</div><div class="art__meta">14 Feb · 15 min</div></div>
+              <div class="art"><div class="art__title">Colombo Port City: Jurisdiction Vacuum</div><div class="art__meta">12 Feb · 15 min</div></div>
+            </div>
+            <div class="cols__rule"></div>
+            <div class="col">
+              <div class="cat-head"><span class="cat-head__title">Governance & Power</span><span class="cat-head__badge cat-head__badge--algo">For you</span></div>
+              <div class="art"><div class="art__thumb g6"></div><div class="art__title">Easter Bombing Trial: Three Years of Delay</div><div class="art__excerpt">Court records show 47 postponements.</div><div class="art__meta">22 Feb · 25 min</div></div>
+              <div class="art"><div class="art__title">Military-Business Complex: Post-War Land Grabs</div><div class="art__meta">10 Feb · 22 min</div></div>
+              <div class="art"><div class="art__title">Fishing Rights as Geopolitical Leverage</div><div class="art__meta">8 Feb · 10 min</div></div>
+            </div>
+            <div class="cols__rule"></div>
+            <div class="col">
+              <div class="cat-head"><span class="cat-head__title">Economy & Trade</span><span class="cat-head__badge cat-head__badge--algo">For you</span></div>
+              <div class="art"><div class="art__thumb g7"></div><div class="art__title">Sri Lanka's Lithium Play: Mineralogy Rights</div><div class="art__excerpt">Geological surveys in the Central Highlands.</div><div class="art__meta">18 Feb · 12 min</div></div>
+              <div class="art"><div class="art__title">Debt-for-Equity: Infrastructure Deal Playbook</div><div class="art__meta">6 Feb · 11 min</div></div>
+              <div class="art"><div class="art__title">Satellite Evidence Over Hambantota</div><div class="art__meta">4 Feb · 14 min</div></div>
+            </div>
+          </div>
+          <div class="pagination"><button>&larr;</button><button class="pg">1</button><button>2</button><button>3</button><button>4</button><button>&rarr;</button></div>
+        </div>
+
+        <div class="side">
+          <div class="sec-label">Trending</div>
+          <div class="sb-item"><div class="sb-thumb g8"></div><div><div class="sb-title">Buddhist Nationalism's New Political Vehicle</div><div class="sb-meta">4.2k reads</div></div></div>
+          <div class="sb-item"><div class="sb-thumb g4"></div><div><div class="sb-title">Tamil Diaspora Lobbying: Ottawa to Geneva</div><div class="sb-meta">3.1k reads</div></div></div>
+          <div class="sb-item"><div class="sb-thumb g2"></div><div><div class="sb-title">Rajapaksa Foundation Money Trail</div><div class="sb-meta">2.8k reads</div></div></div>
+
+          <div class="stats">
+            <div class="stats__label">Platform Intelligence</div>
+            <div class="stats__row"><span class="stats__k">Dossiers</span><span class="stats__v">16</span></div>
+            <div class="stats__row"><span class="stats__k">Total reads</span><span class="stats__v">42k</span></div>
+            <div class="stats__row"><span class="stats__k">Exclusives</span><span class="stats__v">3</span></div>
+          </div>
+
+          <div class="tools-section">
+            <div class="tools-label">Tools & Dashboards</div>
+            <a class="tool-feature" href="#">
+              <div class="tool-feature__pinned">Editor Pinned</div>
+              <div class="tool-feature__name">Hormuz Oracle</div>
+              <div class="tool-feature__desc">Crisis scenario predictions — 3 probability-weighted outcomes for Sri Lanka's energy supply chain.</div>
+              <div class="tool-feature__meta"><span class="tool-feature__badge tool-feature__badge--live">Live</span><span class="tool-feature__badge">Updated 6 Mar</span></div>
+            </a>
+            <a class="tool-inline" href="#" style="text-decoration:none;"><span class="tool-inline__dot tool-inline__dot--live"></span><span class="tool-inline__name">Shipping Lane Monitor</span><span class="tool-inline__tag">Live</span></a>
+            <div class="tool-inline"><span class="tool-inline__dot tool-inline__dot--live"></span><span class="tool-inline__name">Investigation Timeline</span><span class="tool-inline__tag">New</span></div>
+            <div class="tool-inline"><span class="tool-inline__dot tool-inline__dot--live"></span><span class="tool-inline__name">Fuel Reserve Tracker</span><span class="tool-inline__tag">Live</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="n2-fyp" style="display:none;">
+    <div style="padding:24px 48px;">
+      <div class="fyp-feed">
+        <div class="fyp-card"><div class="fyp-card__img g1"></div><div class="fyp-card__body"><div class="fyp-card__kicker">Featured</div><div class="fyp-card__title">The Adani–Sri Lanka Port Deal: What the Contracts Actually Say</div><div class="fyp-card__excerpt">A line-by-line analysis of the Colombo West Terminal agreement reveals clauses that contradict public statements by both governments.</div><div class="fyp-card__meta"><span>Riz Razak</span><span>8 Mar 2026</span><span>18 min read</span></div><div class="fyp-card__tags"><span class="tag tg">Governance</span><span class="tag tt">Exclusive</span></div></div></div>
+        <div class="fyp-card"><div class="fyp-card__img g2"></div><div class="fyp-card__body"><div class="fyp-card__kicker">Corruption</div><div class="fyp-card__title">Rajapaksa Foundation Money Trail</div><div class="fyp-card__excerpt">A deep investigation into the financial networks behind the family empire.</div><div class="fyp-card__meta"><span>Field Team</span><span>5 Mar 2026</span><span>14 min read</span></div><div class="fyp-card__tags"><span class="tag tg">Finance</span></div></div></div>
+        <div class="fyp-card"><div class="fyp-card__img g3"></div><div class="fyp-card__body"><div class="fyp-card__kicker">Intelligence</div><div class="fyp-card__title">RAW vs ISI: Shadow War in the North</div><div class="fyp-card__excerpt">Evidence of covert intelligence operations along the Tamil Nadu border.</div><div class="fyp-card__meta"><span>Analysis Team</span><span>2 Mar 2026</span><span>22 min read</span></div><div class="fyp-card__tags"><span class="tag tt">Geopolitics</span></div></div></div>
+      </div>
+      <div class="fyp-pagination"><button>&larr;</button><button class="pg">1</button><button>2</button><button>3</button><button>&rarr;</button></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>analyst.rizrazak.com · Dig deep. Stay free.</span><span>&copy; 2026 Riz Razak</span></div>
+</div>
+
+<!-- ============================================
+     N3 — FLOATING CONTROLS
+     ============================================ -->
+<div class="variant" id="variant-n3">
+  <button class="n3-floating-hamburger" onclick="n3MenuToggle()">☰</button>
+  <button class="n3-floating-view" onclick="n3ViewToggle()"><span id="n3-view-icon">📰</span></button>
+
+  <div class="n3-menu-overlay" id="n3-overlay" onclick="n3MenuToggle()"></div>
+  <div class="n3-menu" id="n3-menu">
+    <button class="n3-menu__close" onclick="n3MenuToggle()">✕</button>
+    <a href="#" class="n3-menu__item">Home</a>
+    <a href="#" class="n3-menu__item">Dossiers</a>
+    <a href="#" class="n3-menu__item">Tools</a>
+    <a href="#" class="n3-menu__item">About</a>
+    <div class="n3-menu__section">
+      <label class="n3-menu__label">Language</label>
+      <button class="n3-menu__toggle">English · Sinhala</button>
+    </div>
+    <div class="n3-menu__section">
+      <label class="n3-menu__label">Appearance</label>
+      <button class="n3-menu__toggle">Light Mode</button>
+    </div>
+  </div>
+
+  <div class="nameplate"><div class="nameplate__loc">Colombo, Sri Lanka</div><div class="nameplate__brand"><h1>The Analyst</h1><span class="np-dot">&middot;</span></div><div class="nameplate__date">Thursday, 12 March 2026</div></div>
+
+  <div id="n3-magazine">
+    <div class="hero"><div class="hero__img g1"></div><div class="hero__grad"></div>
+      <div class="hero__card">
+        <div class="kicker">Featured Investigation</div>
+        <div class="hero__card-title">The Adani–Sri Lanka Port Deal: What the Contracts Actually Say</div>
+        <div class="hero__card-excerpt">A line-by-line analysis of the Colombo West Terminal agreement reveals clauses that contradict public statements by both governments.</div>
+        <div class="hero__card-meta"><div class="mk"><span class="mk__k">Author</span><span class="mk__v">Riz Razak</span></div><div class="mk"><span class="mk__k">Published</span><span class="mk__v">8 Mar 2026</span></div><div class="mk"><span class="mk__k">Read</span><span class="mk__v">18 minutes</span></div><div class="mk"><span class="mk__k">Sources</span><span class="mk__v mk__v--hi">3 independent</span></div></div>
+        <div style="display:flex;gap:5px;"><span class="tag tg">Governance</span><span class="tag tt">Exclusive</span><span class="tag tw">Geopolitics</span></div>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div class="strip__item"><div class="strip__thumb g2"></div><div><div class="strip__kicker">Corruption</div><div class="strip__title">Rajapaksa Foundation Money Trail</div><div class="strip__meta">5 Mar · 14 min</div></div></div>
+      <div class="strip__rule"></div>
+      <div class="strip__item"><div class="strip__thumb g3"></div><div><div class="strip__kicker">Intelligence</div><div class="strip__title">RAW vs ISI: Shadow War in the North</div><div class="strip__meta">2 Mar · 22 min</div></div></div>
+      <div class="strip__rule"></div>
+      <div class="strip__item"><div class="strip__thumb g4"></div><div><div class="strip__kicker">Economy</div><div class="strip__title">IMF Conditionality vs Sovereignty</div><div class="strip__meta">28 Feb · 16 min</div></div></div>
+    </div>
+
+    <div class="wrap">
+      <div class="body-grid">
+        <div class="main">
+          <div class="filter-bar"><div class="filter-bar__label">Dossiers</div><div class="filter-bar__tabs"><button class="on">All</button><button>This Week</button><button>This Month</button></div></div>
+          <div class="cols">
+            <div class="col">
+              <div class="cat-head"><span class="cat-head__title">Latest</span><span class="cat-head__badge cat-head__badge--chr">Chronological</span></div>
+              <div class="art"><div class="art__thumb g5"></div><div class="art__title">Chinese Naval Base Theory: Evidence Assessment</div><div class="art__excerpt">Separating signal from noise in the Hambantota Port debate.</div><div class="art__meta">25 Feb · 20 min</div></div>
+              <div class="art"><div class="art__title">Anti-Corruption Commission: Toothless by Design</div><div class="art__meta">14 Feb · 15 min</div></div>
+              <div class="art"><div class="art__title">Colombo Port City: Jurisdiction Vacuum</div><div class="art__meta">12 Feb · 15 min</div></div>
+            </div>
+            <div class="cols__rule"></div>
+            <div class="col">
+              <div class="cat-head"><span class="cat-head__title">Governance & Power</span><span class="cat-head__badge cat-head__badge--algo">For you</span></div>
+              <div class="art"><div class="art__thumb g6"></div><div class="art__title">Easter Bombing Trial: Three Years of Delay</div><div class="art__excerpt">Court records show 47 postponements.</div><div class="art__meta">22 Feb · 25 min</div></div>
+              <div class="art"><div class="art__title">Military-Business Complex: Post-War Land Grabs</div><div class="art__meta">10 Feb · 22 min</div></div>
+              <div class="art"><div class="art__title">Fishing Rights as Geopolitical Leverage</div><div class="art__meta">8 Feb · 10 min</div></div>
+            </div>
+            <div class="cols__rule"></div>
+            <div class="col">
+              <div class="cat-head"><span class="cat-head__title">Economy & Trade</span><span class="cat-head__badge cat-head__badge--algo">For you</span></div>
+              <div class="art"><div class="art__thumb g7"></div><div class="art__title">Sri Lanka's Lithium Play: Mineralogy Rights</div><div class="art__excerpt">Geological surveys in the Central Highlands.</div><div class="art__meta">18 Feb · 12 min</div></div>
+              <div class="art"><div class="art__title">Debt-for-Equity: Infrastructure Deal Playbook</div><div class="art__meta">6 Feb · 11 min</div></div>
+              <div class="art"><div class="art__title">Satellite Evidence Over Hambantota</div><div class="art__meta">4 Feb · 14 min</div></div>
+            </div>
+          </div>
+          <div class="pagination"><button>&larr;</button><button class="pg">1</button><button>2</button><button>3</button><button>4</button><button>&rarr;</button></div>
+        </div>
+
+        <div class="side">
+          <div class="sec-label">Trending</div>
+          <div class="sb-item"><div class="sb-thumb g8"></div><div><div class="sb-title">Buddhist Nationalism's New Political Vehicle</div><div class="sb-meta">4.2k reads</div></div></div>
+          <div class="sb-item"><div class="sb-thumb g4"></div><div><div class="sb-title">Tamil Diaspora Lobbying: Ottawa to Geneva</div><div class="sb-meta">3.1k reads</div></div></div>
+          <div class="sb-item"><div class="sb-thumb g2"></div><div><div class="sb-title">Rajapaksa Foundation Money Trail</div><div class="sb-meta">2.8k reads</div></div></div>
+
+          <div class="stats">
+            <div class="stats__label">Platform Intelligence</div>
+            <div class="stats__row"><span class="stats__k">Dossiers</span><span class="stats__v">16</span></div>
+            <div class="stats__row"><span class="stats__k">Total reads</span><span class="stats__v">42k</span></div>
+            <div class="stats__row"><span class="stats__k">Exclusives</span><span class="stats__v">3</span></div>
+          </div>
+
+          <div class="tools-section">
+            <div class="tools-label">Tools & Dashboards</div>
+            <a class="tool-feature" href="#">
+              <div class="tool-feature__pinned">Editor Pinned</div>
+              <div class="tool-feature__name">Hormuz Oracle</div>
+              <div class="tool-feature__desc">Crisis scenario predictions — 3 probability-weighted outcomes for Sri Lanka's energy supply chain.</div>
+              <div class="tool-feature__meta"><span class="tool-feature__badge tool-feature__badge--live">Live</span><span class="tool-feature__badge">Updated 6 Mar</span></div>
+            </a>
+            <a class="tool-inline" href="#" style="text-decoration:none;"><span class="tool-inline__dot tool-inline__dot--live"></span><span class="tool-inline__name">Shipping Lane Monitor</span><span class="tool-inline__tag">Live</span></a>
+            <div class="tool-inline"><span class="tool-inline__dot tool-inline__dot--live"></span><span class="tool-inline__name">Investigation Timeline</span><span class="tool-inline__tag">New</span></div>
+            <div class="tool-inline"><span class="tool-inline__dot tool-inline__dot--live"></span><span class="tool-inline__name">Fuel Reserve Tracker</span><span class="tool-inline__tag">Live</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="n3-fyp" style="display:none;">
+    <div style="padding:24px 48px;">
+      <div class="fyp-feed">
+        <div class="fyp-card"><div class="fyp-card__img g1"></div><div class="fyp-card__body"><div class="fyp-card__kicker">Featured</div><div class="fyp-card__title">The Adani–Sri Lanka Port Deal: What the Contracts Actually Say</div><div class="fyp-card__excerpt">A line-by-line analysis of the Colombo West Terminal agreement reveals clauses that contradict public statements by both governments.</div><div class="fyp-card__meta"><span>Riz Razak</span><span>8 Mar 2026</span><span>18 min read</span></div><div class="fyp-card__tags"><span class="tag tg">Governance</span><span class="tag tt">Exclusive</span></div></div></div>
+        <div class="fyp-card"><div class="fyp-card__img g2"></div><div class="fyp-card__body"><div class="fyp-card__kicker">Corruption</div><div class="fyp-card__title">Rajapaksa Foundation Money Trail</div><div class="fyp-card__excerpt">A deep investigation into the financial networks behind the family empire.</div><div class="fyp-card__meta"><span>Field Team</span><span>5 Mar 2026</span><span>14 min read</span></div><div class="fyp-card__tags"><span class="tag tg">Finance</span></div></div></div>
+        <div class="fyp-card"><div class="fyp-card__img g3"></div><div class="fyp-card__body"><div class="fyp-card__kicker">Intelligence</div><div class="fyp-card__title">RAW vs ISI: Shadow War in the North</div><div class="fyp-card__excerpt">Evidence of covert intelligence operations along the Tamil Nadu border.</div><div class="fyp-card__meta"><span>Analysis Team</span><span>2 Mar 2026</span><span>22 min read</span></div><div class="fyp-card__tags"><span class="tag tt">Geopolitics</span></div></div></div>
+      </div>
+      <div class="fyp-pagination"><button>&larr;</button><button class="pg">1</button><button>2</button><button>3</button><button>&rarr;</button></div>
+    </div>
+  </div>
+
+  <div class="footer"><span>analyst.rizrazak.com · Dig deep. Stay free.</span><span>&copy; 2026 Riz Razak</span></div>
+</div>
+
+<script>
+function switchVariant(v){
+  document.querySelectorAll('.variant').forEach(el=>el.classList.remove('on'));
+  document.querySelectorAll('.variant-sw button').forEach(b=>b.classList.remove('on'));
+  document.getElementById('variant-'+v).classList.add('on');
+  event.target.classList.add('on');
+  window.scrollTo(0,0);
+}
+
+// N1 Functions
+function n1MenuToggle(){
+  document.getElementById('n1-menu').classList.toggle('open');
+  document.getElementById('n1-overlay').classList.toggle('open');
+}
+
+function n1ViewToggle(){
+  const mag=document.getElementById('n1-magazine');
+  const fyp=document.getElementById('n1-fyp');
+  const label=document.getElementById('n1-view-label');
+  const btn=document.querySelector('.n1-view-switcher');
+  if(mag.style.display==='none'){
+    mag.style.display='block';
+    fyp.style.display='none';
+    label.textContent='Magazine';
+    btn.classList.remove('fyp');
+  }else{
+    mag.style.display='none';
+    fyp.style.display='block';
+    label.textContent='FYP';
+    btn.classList.add('fyp');
+  }
+}
+
+// N2 Functions
+function n2MenuToggle(){
+  document.getElementById('n2-menu').classList.toggle('open');
+  document.getElementById('n2-overlay').classList.toggle('open');
+}
+
+function n2ViewToggle(){
+  const mag=document.getElementById('n2-magazine');
+  const fyp=document.getElementById('n2-fyp');
+  const label=document.getElementById('n2-view-label');
+  const btn=document.querySelector('.n2-view-switcher');
+  if(mag.style.display==='none'){
+    mag.style.display='block';
+    fyp.style.display='none';
+    label.textContent='Magazine';
+    btn.classList.remove('fyp');
+  }else{
+    mag.style.display='none';
+    fyp.style.display='block';
+    label.textContent='FYP';
+    btn.classList.add('fyp');
+  }
+}
+
+// N3 Functions
+function n3MenuToggle(){
+  document.getElementById('n3-menu').classList.toggle('open');
+  document.getElementById('n3-overlay').classList.toggle('open');
+}
+
+function n3ViewToggle(){
+  const mag=document.getElementById('n3-magazine');
+  const fyp=document.getElementById('n3-fyp');
+  const icon=document.getElementById('n3-view-icon');
+  const btn=document.querySelector('.n3-floating-view');
+  if(mag.style.display==='none'){
+    mag.style.display='block';
+    fyp.style.display='none';
+    icon.textContent='📰';
+    btn.classList.remove('fyp');
+  }else{
+    mag.style.display='none';
+    fyp.style.display='block';
+    icon.textContent='📌';
+    btn.classList.add('fyp');
+  }
+}
+
+// Close menus when clicking menu items
+document.addEventListener('click',function(e){
+  if(e.target.classList.contains('n1-menu__item')||e.target.classList.contains('n1-menu__toggle')){
+    document.getElementById('n1-menu').classList.remove('open');
+    document.getElementById('n1-overlay').classList.remove('open');
+  }
+  if(e.target.classList.contains('n2-menu__item')||e.target.classList.contains('n2-menu__toggle')){
+    document.getElementById('n2-menu').classList.remove('open');
+    document.getElementById('n2-overlay').classList.remove('open');
+  }
+  if(e.target.classList.contains('n3-menu__item')||e.target.classList.contains('n3-menu__toggle')){
+    document.getElementById('n3-menu').classList.remove('open');
+    document.getElementById('n3-overlay').classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>

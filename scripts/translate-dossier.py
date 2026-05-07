@@ -37,9 +37,12 @@
     2. NMT (Neural Machine Translation) — fallback if TLLM unsupported
 
   POLICY:
-    Low-fidelity translations (basic Google Translate, Claude API, manual AI)
+    Low-fidelity translations (basic Google Translate, non-approved AI APIs, manual AI)
     are BANNED for analyst.rizrazak.com content. This script enforces the
-    approved pipeline. See CLAUDE.md for full policy.
+    approved pipeline. Do not use any LLM provider as the default translation
+    fallback; model/provider cascades are merit-ranked and reserved for
+    non-translation tasks unless explicitly approved. See Yan-Analyst.md for
+    full policy.
 ═══════════════════════════════════════════════════════════════════════════
 """
 

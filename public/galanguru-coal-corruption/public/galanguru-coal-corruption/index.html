@@ -1139,7 +1139,7 @@ imfRisk = min(80%, max(5%,
 // Strategy: collect ALL text → fire parallel requests in bursts of 30 → cache → inject
 // Tested: 6 keys in 467ms parallel. ~258 keys ÷ 30 = 9 bursts ≈ 4s total.
 const translateCache = {};
-// ── Pre-loaded Claude translations (Opus 4.6) — instant switch, no API ──
+// -- Pre-loaded Sinhala translations (legacy cache; requires Google translation audit) --
 Object.assign(translateCache, {
   "si:nav_title": "ලේඛනාගාරය",
   "si:nav_back": "← ආපසු",

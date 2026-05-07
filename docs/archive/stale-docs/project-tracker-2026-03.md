@@ -1,6 +1,6 @@
 # analyst.rizrazak.com — Living Project Tracker
 **Last updated:** 2026-03-11 (session 7)
-**Managed by:** Claude (Cowork)
+**Managed by:** Legacy Cowork session
 **Repo:** `riz-razak/analyst` → GitHub Pages → `analyst.rizrazak.com`
 
 ---
@@ -194,7 +194,7 @@
 
 ---
 
-## 📋 PROCESS RULES (Claude standing instructions)
+## 📋 PROCESS RULES (archived standing instructions)
 
 1. **This file must be updated at the end of every working session** — cross off completed items, add newly discovered issues
 2. **Never deploy without verifying** on the live site after commit
