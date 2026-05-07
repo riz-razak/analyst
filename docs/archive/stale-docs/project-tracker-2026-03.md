@@ -1,4 +1,6 @@
 # analyst.rizrazak.com — Living Project Tracker
+> **STATUS: HISTORICAL ONLY / DO NOT IMPLEMENT.** This tracker predates the Yan People identity model and contains legacy browser PAT/localStorage and old admin-auth assumptions. Current authority: `/Users/rizrazak/Code/yan/YAN_PEOPLE_IDENTITY_MODEL.md` and `/Users/rizrazak/Code/the-analyst/Yan-Analyst.md`.
+
 **Last updated:** 2026-03-11 (session 7)
 **Managed by:** Legacy Cowork session
 **Repo:** `riz-razak/analyst` → GitHub Pages → `analyst.rizrazak.com`

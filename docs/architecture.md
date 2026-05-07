@@ -1,4 +1,6 @@
 # analyst.rizrazak.com — Platform Architecture Document
+> **STATUS: STALE FOR AUTH/CMS/WORKER IMPLEMENTATION.** Use this as a March 2026 platform map only. Current admin identity authority is `/Users/rizrazak/Code/yan/YAN_PEOPLE_IDENTITY_MODEL.md`; Analyst-specific boundary is `/Users/rizrazak/Code/the-analyst/Yan-Analyst.md`. Do not implement browser PAT, parallel admin/member stores, or Pages-middleware-only auth from this document.
+
 **Version:** 1.0 | **Date:** 2026-03-11 | **Purpose:** Inform homepage redesign (Magazine + Command Centre)
 
 ---

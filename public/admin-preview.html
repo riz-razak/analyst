@@ -1896,6 +1896,16 @@
                     </div>
                     <div class="nav-item-label">Dossier Manager</div>
                 </a>
+                <a href="#/cms/images" class="nav-item" data-nav="cms-images">
+                    <div class="nav-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="12" height="10" rx="1.5"/>
+                            <circle cx="5.5" cy="6.5" r="1.2"/>
+                            <path d="M3.5 12l3.2-3.2 2.1 2.1 1.5-1.5L13 12"/>
+                        </svg>
+                    </div>
+                    <div class="nav-item-label">Image Manager</div>
+                </a>
             </div>
 
             <!-- Apps Section -->
@@ -2514,16 +2524,20 @@
                 <a href="#/cms/dossiers" style="display: inline-block; margin-top: 12px; color: #10B981; text-decoration: none; font-size: 12px; font-weight: 500;">Open Manager →</a>
             </div>
 
-            <div class="card" style="padding: 24px; opacity: 0.6; border: 1px solid #E5E7EB;">
+            <div class="card" style="padding: 24px; border: 2px solid #3B82F6; background: linear-gradient(135deg, #EFF6FF 0%, #FFFFFF 100%);">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#9CA3AF" stroke-width="1.5">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#3B82F6" stroke-width="1.5">
                         <rect x="4" y="4" width="24" height="24" rx="2"/>
                         <circle cx="10" cy="10" r="2"/>
                     </svg>
-                    <span style="background: #F3F4F6; color: #6B7280; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;">Coming Soon</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="9" fill="#3B82F6" stroke="#3B82F6"/>
+                        <path d="M7 10l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
                 <h3 style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 6px;">Image Manager</h3>
                 <p style="font-size: 12px; color: #6B7280; line-height: 1.5;">Upload and manage images used in dossiers</p>
+                <a href="#/cms/images" style="display: inline-block; margin-top: 12px; color: #2563EB; text-decoration: none; font-size: 12px; font-weight: 500;">Open Manager →</a>
             </div>
 
             <div class="card" style="padding: 24px; opacity: 0.6; border: 1px solid #E5E7EB;">
@@ -2536,6 +2550,27 @@
                 <h3 style="font-size: 14px; font-weight: 600; color: #1F2937; margin-bottom: 6px;">Deploy</h3>
                 <p style="font-size: 12px; color: #6B7280; line-height: 1.5;">Build and deploy changes to production</p>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- CMS Image Manager View -->
+<div class="view" id="view-cms-images">
+    <div style="max-width: 1400px;">
+        <div style="display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 24px;">
+            <div>
+                <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">Image Manager</h1>
+                <p style="color: #6B7280; margin: 0;">Upload thumbnail and hero images, then update the dossier registry in GitHub.</p>
+            </div>
+            <button id="cms-images-refresh-btn" style="padding: 10px 14px; border-radius: 6px; border: 1px solid #D1D5DB; background: #FFFFFF; color: #1F2937; font-size: 13px; font-weight: 600; cursor: pointer;">Refresh Registry</button>
+        </div>
+
+        <div id="cms-images-token-warning" style="display: none; margin-bottom: 16px; padding: 12px 14px; border-radius: 8px; border: 1px solid #FBBF24; background: #FFFBEB; color: #92400E; font-size: 13px;">
+            GitHub token required. Add and test your token in <a href="#/cms" style="color: #92400E; font-weight: 700;">CMS Overview</a> before uploading images.
+        </div>
+
+        <div id="cms-images-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;">
+            <!-- Dynamically populated -->
         </div>
     </div>
 </div>
@@ -5784,6 +5819,8 @@ function showEmailToast(msg, type) {
             '/cms': { view: 'cms', title: 'CMS', private: true },
             '/cms/dossiers': { view: 'cms-dossiers', title: 'CMS', private: true },
             '/cms/dossiers/:id': { view: 'cms-dossier-edit', title: 'CMS', private: true },
+            '/cms/images': { view: 'cms-images', title: 'Images', private: true },
+            '/cms/images/:id': { view: 'cms-images', title: 'Images', private: true },
             '/dossiers': { view: 'dossiers', title: 'Dossiers', private: false },
             '/dossiers/:id': { view: 'dossier-detail', title: 'Dossier', private: false },
             '/seo': { view: 'seo', title: 'SEO', private: false },
@@ -6115,6 +6152,9 @@ function showEmailToast(msg, type) {
             }
             if (routeInfo.view === 'cms-dossier-edit' && routeInfo.id && typeof loadCMSDossierEdit === 'function') {
                 loadCMSDossierEdit(routeInfo.id);
+            }
+            if (routeInfo.view === 'cms-images' && typeof renderCMSImages === 'function') {
+                renderCMSImages(routeInfo.id);
             }
 
         }
@@ -7702,30 +7742,6 @@ function setupDossierSearch() {
 
 
 // ========================================
-// INITIALIZATION
-// ========================================
-
-// Run setup functions on load (navigation handled by shell DOMContentLoaded)
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        loadStatusOverrides();   // apply any saved Hide/Publish changes
-        if (typeof setupToolbar === 'function') setupToolbar();
-        if (typeof setupDetailView === 'function') setupDetailView();
-        if (typeof updateSortHeaders === 'function') updateSortHeaders();
-        renderSidebarDossiers();
-        setupDossierSearch();
-    });
-} else {
-    loadStatusOverrides();       // apply any saved Hide/Publish changes
-    if (typeof setupToolbar === 'function') setupToolbar();
-    if (typeof setupDetailView === 'function') setupDetailView();
-    if (typeof updateSortHeaders === 'function') updateSortHeaders();
-    renderSidebarDossiers();
-    setupDossierSearch();
-    setupCMS();
-}
-
-// ========================================
 // CMS - Content Management System
 // ========================================
 
@@ -7812,6 +7828,11 @@ function setupCMS() {
     const visibilityBtn = document.getElementById('cms-toggle-visibility-btn');
     if (visibilityBtn) {
         visibilityBtn.addEventListener('click', toggleCMSDossierVisibility);
+    }
+
+    const imagesRefreshBtn = document.getElementById('cms-images-refresh-btn');
+    if (imagesRefreshBtn) {
+        imagesRefreshBtn.addEventListener('click', () => renderCMSImages());
     }
 }
 
@@ -8090,6 +8111,228 @@ async function toggleCMSDossierVisibility() {
     } catch (err) {
         showToast('Error updating visibility: ' + err.message);
     }
+}
+
+function getCMSToken() {
+    return localStorage.getItem(GITHUB_TOKEN_KEY) || '';
+}
+
+function encodeUTF8Base64(text) {
+    return btoa(unescape(encodeURIComponent(text)));
+}
+
+function getImageExtension(file) {
+    const byType = {
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/webp': 'webp'
+    };
+    if (byType[file.type]) return byType[file.type];
+    const ext = (file.name.split('.').pop() || '').toLowerCase();
+    return ['jpg', 'jpeg', 'png', 'webp'].includes(ext) ? (ext === 'jpeg' ? 'jpg' : ext) : '';
+}
+
+function renderCMSImages(scopedSlug) {
+    const container = document.getElementById('cms-images-list');
+    const warning = document.getElementById('cms-images-token-warning');
+    if (!container) return;
+
+    const token = getCMSToken();
+    if (warning) warning.style.display = token ? 'none' : 'block';
+
+    const dossiers = scopedSlug ? dossiersData.filter(d => d.id === scopedSlug) : dossiersData;
+    if (!dossiers.length) {
+        container.innerHTML = '<div class="view-placeholder" style="grid-column: 1/-1;">No matching dossier found.</div>';
+        return;
+    }
+
+    container.innerHTML = dossiers.map(dossier => {
+        const thumbnailUrl = dossier.thumbnailUrl || '/images/og-card.png';
+        const heroImageUrl = dossier.heroImageUrl || dossier.thumbnailUrl || '/images/og-card.png';
+        const thumbnailComplete = !!dossier.thumbnailUrl && dossier.thumbnailUrl !== '/images/og-card.png';
+        const heroComplete = !!dossier.heroImageUrl && dossier.heroImageUrl !== '/images/og-card.png';
+        return `
+            <div class="card" style="padding: 18px;">
+                <div style="display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 14px;">
+                    <div>
+                        <h3 style="font-size: 15px; font-weight: 700; color: #1F2937; margin: 0 0 4px 0;">${dossier.title}</h3>
+                        <div style="font-size: 11px; color: #6B7280; font-family: monospace;">${dossier.id}</div>
+                    </div>
+                    <span style="background: ${thumbnailComplete && heroComplete ? '#DCFCE7' : '#FEF3C7'}; color: ${thumbnailComplete && heroComplete ? '#065F46' : '#92400E'}; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; white-space: nowrap;">${thumbnailComplete && heroComplete ? 'Complete' : 'Needs Images'}</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+                    ${renderCMSImageSlot(dossier, 'thumbnail', thumbnailUrl, thumbnailComplete)}
+                    ${renderCMSImageSlot(dossier, 'hero', heroImageUrl, heroComplete)}
+                </div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <button onclick="uploadCMSImage('${dossier.id}', 'thumbnail')" style="flex: 1; min-width: 130px; padding: 9px 10px; background: #1B4D2E; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Upload Thumbnail</button>
+                    <button onclick="uploadCMSImage('${dossier.id}', 'hero')" style="flex: 1; min-width: 130px; padding: 9px 10px; background: #2563EB; color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">Upload Hero</button>
+                    <a href="#/cms/dossiers/${dossier.id}" style="padding: 9px 10px; background: #F3F4F6; color: #1F2937; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none;">Edit Copy</a>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderCMSImageSlot(dossier, kind, url, complete) {
+    const label = kind === 'hero' ? 'Hero' : 'Thumbnail';
+    return `
+        <div style="border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; background: #F9FAFB;">
+            <div style="aspect-ratio: 16/9; background: #E5E7EB; overflow: hidden;">
+                <img src="${url}" alt="${label} for ${dossier.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.parentElement.style.background='#FEE2E2';" />
+            </div>
+            <div style="padding: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 5px;">
+                    <span style="font-size: 11px; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: 0.04em;">${label}</span>
+                    <span style="font-size: 10px; font-weight: 700; color: ${complete ? '#065F46' : '#92400E'};">${complete ? 'Set' : 'Fallback'}</span>
+                </div>
+                <div title="${url}" style="font-size: 11px; color: #6B7280; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${url}</div>
+            </div>
+        </div>
+    `;
+}
+
+function uploadCMSImage(dossierId, kind) {
+    const token = getCMSToken();
+    if (!token) {
+        showToast('GitHub token required. Set it in CMS Overview.');
+        window.location.hash = '#/cms';
+        return;
+    }
+
+    const dossier = dossiersData.find(d => d.id === dossierId);
+    if (!dossier) {
+        showToast('Unknown dossier: ' + dossierId);
+        return;
+    }
+
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/jpeg,image/png,image/webp';
+    input.addEventListener('change', async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const ext = getImageExtension(file);
+        if (!ext) {
+            showToast('Use JPG, PNG, or WebP only.');
+            return;
+        }
+        if (file.size > 8 * 1024 * 1024) {
+            showToast('Image too large. Keep uploads under 8 MB.');
+            return;
+        }
+
+        try {
+            showToast(`Uploading ${kind} image...`);
+            const dataUrl = await readFileAsDataURL(file);
+            const imageBase64 = dataUrl.split(',')[1];
+            const folder = kind === 'hero' ? 'heroes' : 'thumbnails';
+            const publicPath = `/images/${folder}/${dossierId}.${ext}`;
+            const githubPath = `public${publicPath}`;
+
+            await putGitHubFile(githubPath, imageBase64, null, `Upload ${kind} image for ${dossierId}`);
+            await updateDossierImageRegistry(dossierId, kind, publicPath);
+
+            dossier[kind === 'hero' ? 'heroImageUrl' : 'thumbnailUrl'] = publicPath;
+            renderCMSImages(appState.currentRoute === `#/cms/images/${dossierId}` ? dossierId : null);
+            showToast(`${kind === 'hero' ? 'Hero' : 'Thumbnail'} uploaded and registry updated.`);
+        } catch (err) {
+            showToast('Image upload failed: ' + err.message);
+        }
+    });
+    input.click();
+}
+
+function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error || new Error('Failed to read file'));
+        reader.readAsDataURL(file);
+    });
+}
+
+async function putGitHubFile(path, contentBase64, sha, message) {
+    const token = getCMSToken();
+    let currentSha = sha;
+    if (!currentSha) {
+        const existing = await fetch(`/api/github/file?path=${encodeURIComponent(path)}`, {
+            headers: { 'X-GitHub-Token': token }
+        });
+        if (existing.ok) {
+            const data = await existing.json();
+            currentSha = data.sha;
+        } else if (existing.status !== 404) {
+            const error = await existing.json().catch(() => ({}));
+            throw new Error(error.error || `Failed to check existing file: ${existing.status}`);
+        }
+    }
+
+    const response = await fetch('/api/github/file', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-GitHub-Token': token
+        },
+        body: JSON.stringify({ path, content: contentBase64, sha: currentSha || null, message })
+    });
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.error || response.statusText);
+    }
+    return response.json();
+}
+
+async function updateDossierImageRegistry(dossierId, kind, publicPath) {
+    const token = getCMSToken();
+    const registryPath = 'public/data/dossiers.json';
+    const response = await fetch(`/api/github/file?path=${encodeURIComponent(registryPath)}`, {
+        headers: { 'X-GitHub-Token': token }
+    });
+    if (!response.ok) {
+        throw new Error('Failed to load dossier registry');
+    }
+
+    const file = await response.json();
+    const registry = JSON.parse(file.content);
+    const record = registry.dossiers.find(d => d.id === dossierId);
+    if (!record) {
+        throw new Error('Dossier not found in registry');
+    }
+
+    if (kind === 'hero') {
+        record.heroImageUrl = publicPath;
+    } else {
+        record.thumbnailUrl = publicPath;
+        if (!record.heroImageUrl || record.heroImageUrl === '/images/og-card.png') {
+            record.heroImageUrl = publicPath;
+        }
+    }
+    registry.lastUpdated = new Date().toISOString().slice(0, 10);
+
+    await putGitHubFile(
+        registryPath,
+        encodeUTF8Base64(JSON.stringify(registry, null, 2) + '\n'),
+        file.sha,
+        `Update ${kind} image registry for ${dossierId}`
+    );
+}
+
+function initializeAdminShell() {
+    loadStatusOverrides();
+    if (typeof setupToolbar === 'function') setupToolbar();
+    if (typeof setupDetailView === 'function') setupDetailView();
+    if (typeof updateSortHeaders === 'function') updateSortHeaders();
+    renderSidebarDossiers();
+    setupDossierSearch();
+    setupCMS();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAdminShell);
+} else {
+    initializeAdminShell();
 }</script>
 
 <!-- ═══════════════════════════════════════════════════════════════

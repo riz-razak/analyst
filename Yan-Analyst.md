@@ -90,6 +90,18 @@ Important shared systems include:
 - Prioritize mapping the backend and unifying admin access with the current Yan-Vada member login flow.
 - Do not expose unreleased Yan project details, working names, or old project names in public pages. Keep Riz Razak / The Analyst as the salient public brand until the migration is decided.
 
+## Member Management Boundary
+
+**BRAND/AUTH LOCK:** Analyst must not expose Yan-Vada project language or create a parallel member store. Analyst access becomes an `analyst` product membership plus `analyst.*` rights under the Yan People model.
+
+- `/Users/rizrazak/Code/yan/YAN.md` is the central Yan instruction/control layer. Keep it high-level; do not add Analyst/Yan-Vada member schema, rights, invite, or migration details there.
+- `/Users/rizrazak/Code/yan/YAN_PEOPLE_IDENTITY_MODEL.md` is the central model for People, products, memberships, labels, rights, reauth, and Yan as the eventual ultimate database authority.
+- Analyst must not create a parallel member/admin store. Reuse the current Yan-Vada member/auth/profile model when centralizing admin access.
+- Analyst access should become a product membership on the shared People model, with `analyst.*` rights and optional `analyst.*` labels. Labels and primary product are metadata only, never authorization.
+- Platform-specific implementation details belong inside the relevant project repo. For current member management, use `/Users/rizrazak/Code/Yan-Vada` as the implementation reference.
+- Known partner/admin preapprovals should be handled by project-local Yan-Vada Supabase migrations, not by browser allowlists or Analyst-only state.
+- Before expanding CMS/admin capability, harden the Analyst Worker: server-side shared auth/rights, no browser PAT fallback, explicit route allowlist, same-origin CORS, CSRF on state-changing admin routes, and audit logging.
+
 ## Working Rules
 
 - Prefer small, direct changes.

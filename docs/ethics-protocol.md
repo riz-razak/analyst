@@ -1,4 +1,6 @@
 # Ethics & Source Protection Protocol
+> **STATUS: EDITORIAL-ACTIVE, SECURITY/STORAGE GUIDANCE NEEDS PEOPLE-WORKER REVIEW.** Source-protection principles remain active. Any privileged admin, evidence, storage, identity, or CMS implementation must defer to `/Users/rizrazak/Code/yan/YAN_PEOPLE_IDENTITY_MODEL.md` and Analyst Worker hardening requirements in `Yan-Analyst.md`.
+
 **Platform:** analyst.rizrazak.com
 **Repo:** `riz-razak/analyst` → GitHub Pages
 **Created:** 2026-03-09 (session 4)

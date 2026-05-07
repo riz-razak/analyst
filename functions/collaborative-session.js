@@ -2057,8 +2057,12 @@ async function handleGitHubFilePut(request, env) {
 
   const { path, content, sha, message } = body;
 
-  if (!path || !content || !sha || !message) {
-    return jsonResponse({ error: 'path, content, sha, and message are required' }, 400);
+  if (!path || !content || !message) {
+    return jsonResponse({ error: 'path, content, and message are required' }, 400);
+  }
+
+  if (!isAllowedGitHubCMSPath(path)) {
+    return jsonResponse({ error: 'path is not allowed for CMS writes' }, 400);
   }
 
   // Get GitHub token from env or request header
@@ -2092,7 +2096,7 @@ async function handleGitHubFilePut(request, env) {
       body: JSON.stringify({
         message,
         content,
-        sha,
+        ...(sha ? { sha } : {}),
         branch,
         committer: {
           name: 'Analyst CMS',
@@ -2122,6 +2126,15 @@ async function handleGitHubFilePut(request, env) {
     console.error('GitHub file put error:', error);
     return jsonResponse({ error: error.message }, 500);
   }
+}
+
+function isAllowedGitHubCMSPath(path) {
+  if (typeof path !== 'string') return false;
+  if (path.includes('..') || path.startsWith('/') || path.includes('\\')) return false;
+  if (path === 'public/data/dossiers.json') return true;
+  if (/^public\/[^/]+\/index\.html$/.test(path)) return true;
+  if (/^public\/images\/(thumbnails|heroes)\/[a-z0-9-]+\.(jpg|jpeg|png|webp)$/.test(path)) return true;
+  return false;
 }
 
 /**
