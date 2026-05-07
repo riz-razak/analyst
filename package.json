@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "oracle:update-data": "node scripts/update-oracle-data.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

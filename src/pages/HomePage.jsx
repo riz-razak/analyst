@@ -45,8 +45,8 @@ const tools = {
     {
       name: 'Hormuz Oracle',
       description: 'Probability-weighted crisis scenarios for SL energy supply',
-      href: 'https://oracle-v7.pages.dev',
-      badges: ['Reference', 'External'],
+      href: '/oracle/',
+      badges: ['Reference', 'Analyst'],
     },
   ],
   inlineTools: [

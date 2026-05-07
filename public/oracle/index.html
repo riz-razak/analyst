@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Oracle of Hormuz — reference geopolitical scenario model for The Analyst" />
+  <meta property="og:title" content="Oracle of Hormuz — Geopolitical Intelligence" />
+  <meta property="og:description" content="Reference scenario model for Iran-US-Israel/Hormuz risk and Sri Lanka exposure" />
+  <meta property="og:type" content="website" />
+
+  <!-- Security headers via meta -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <title>Oracle of Hormuz</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f8f7f4;
+      color: #1a202c;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    #root {
+      min-height: 100vh;
+    }
+    .oracle-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .oracle-loading-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #8b6914;
+      animation: pulse-load 1.5s ease-in-out infinite;
+    }
+    .oracle-loading-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: #4a5568;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+    @keyframes pulse-load {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+  </style>
+  <script type="module" crossorigin src="/oracle/assets/index-DEoRsIyg.js"></script>
+  <link rel="modulepreload" crossorigin href="/oracle/assets/react-vendor-D_qtgxxU.js">
+  <link rel="modulepreload" crossorigin href="/oracle/assets/charts-Dpxw1biK.js">
+</head>
+<body>
+  <div id="root">
+    <div class="oracle-loading">
+      <div class="oracle-loading-dot"></div>
+      <div class="oracle-loading-text">Oracle Initializing</div>
+    </div>
+  </div>
+</body>
+</html>

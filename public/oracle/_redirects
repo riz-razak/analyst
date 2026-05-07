@@ -1,0 +1,2 @@
+# SPA fallback for Analyst /oracle/ static sub-app
+/oracle/*  /oracle/index.html  200

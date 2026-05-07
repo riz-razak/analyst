@@ -1,0 +1,40 @@
+name: Oracle Data Refresh
+
+on:
+  schedule:
+    - cron: '15 1,13 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: oracle-data-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run oracle:update-data
+
+      - name: Commit refreshed Oracle data
+        run: |-
+          if git diff --quiet -- public/oracle/data; then
+            echo "No Oracle data changes."
+            exit 0
+          fi
+
+          git add public/oracle/data
+          git -c user.name="oracle-data-refresh" \
+            -c user.email="actions@users.noreply.github.com" \
+            commit -m "Update Oracle data refresh"
+          git push

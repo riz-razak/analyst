@@ -1,0 +1,80 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-05-07T10:08:46.813Z",
+  "source_groups": [
+    {
+      "group": "Hormuz and regional conflict",
+      "sources": [
+        {
+          "name": "Reuters Middle East",
+          "url": "https://www.reuters.com/world/middle-east/",
+          "status": "to_wire",
+          "last_checked_at": "2026-05-07T10:08:46.813Z",
+          "last_http_status": 401,
+          "last_check_ok": false
+        },
+        {
+          "name": "IAEA Iran focus",
+          "url": "https://www.iaea.org/newscenter/focus/iran",
+          "status": "to_wire",
+          "last_checked_at": "2026-05-07T10:08:46.813Z",
+          "last_http_status": 403,
+          "last_check_ok": false
+        },
+        {
+          "name": "CENTCOM press releases",
+          "url": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/",
+          "status": "to_wire",
+          "last_checked_at": "2026-05-07T10:08:46.813Z",
+          "last_http_status": 403,
+          "last_check_ok": false
+        },
+        {
+          "name": "EIA Open Data",
+          "url": "https://www.eia.gov/opendata/",
+          "status": "to_wire",
+          "last_checked_at": "2026-05-07T10:08:46.813Z",
+          "last_http_status": 200,
+          "last_check_ok": true
+        }
+      ]
+    },
+    {
+      "group": "Sri Lanka exposure",
+      "sources": [
+        {
+          "name": "Sri Lanka Ports Authority",
+          "url": "https://www.slpa.lk/",
+          "status": "to_wire",
+          "last_checked_at": "2026-05-07T10:08:46.813Z",
+          "last_http_status": 200,
+          "last_check_ok": true
+        },
+        {
+          "name": "IMF Sri Lanka",
+          "url": "https://www.imf.org/en/Countries/LKA",
+          "status": "to_wire",
+          "last_checked_at": "2026-05-07T10:08:46.813Z",
+          "last_http_status": 200,
+          "last_check_ok": true
+        },
+        {
+          "name": "CBSL statistics and publications",
+          "url": "https://www.cbsl.gov.lk/",
+          "status": "to_wire",
+          "last_checked_at": "2026-05-07T10:08:46.813Z",
+          "last_http_status": 200,
+          "last_check_ok": true
+        },
+        {
+          "name": "AIS maritime API",
+          "url": "https://www.marinetraffic.com/",
+          "status": "requires_access",
+          "last_checked_at": "2026-05-07T10:08:46.813Z",
+          "last_http_status": 403,
+          "last_check_ok": false
+        }
+      ]
+    }
+  ]
+}

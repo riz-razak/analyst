@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-05-07T09:45:00Z",
+  "model_name": "Oracle of Hormuz",
+  "model_version": "7.1-reference",
+  "mode": "reference",
+  "canonical_url": "https://analyst.rizrazak.com/oracle/",
+  "scenarios": [
+    { "id": "plc", "name": "Protracted Limited Conflict", "baseline": 0.40 },
+    { "id": "epc", "name": "Economic Pressure Ceasefire", "baseline": 0.25 },
+    { "id": "irc", "name": "Iranian Regime Collapse", "baseline": 0.15 },
+    { "id": "rc", "name": "Regional Conflagration", "baseline": 0.10 },
+    { "id": "nte", "name": "Nuclear Threshold", "baseline": 0.07 },
+    { "id": "udc", "name": "US Domestic Crisis", "baseline": 0.03 }
+  ],
+  "automation_state": {
+    "source_ingestion": "pending",
+    "daily_forecast_generation": "pending",
+    "outcome_scoring": "pending",
+    "audit_logging": "initialized",
+    "frontend_json_loading": "initialized"
+  },
+  "known_limitations": [
+    "No scheduled ingestion is active yet.",
+    "No official forecast history has been scored.",
+    "Manual factor controls are sandbox-only.",
+    "Historical hardcoded sample ledger entries require citation review before use."
+  ]
+}

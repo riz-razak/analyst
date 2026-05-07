@@ -274,7 +274,7 @@ Three card types stacked:
 - Tool name: "Hormuz Oracle" (Playfair 700 14px, plaster)
 - Description: scenario summary
 - Badges: "Live" (green tint) + "Updated 6 Mar"
-- Links to actual tool (e.g., oracle-v7.pages.dev)
+- Links to actual tool (e.g., /oracle/)
 
 **Tool Inline List:**
 - Compact rows: colored dot (green=live, terracotta=pinned) + name + tag
@@ -529,7 +529,7 @@ Located at `/public/data/dossiers.json`. Fetched by `useDossiers()` hook. Each d
     {
       "name": "Hormuz Oracle",
       "description": "3 probability-weighted crisis scenarios for SL energy supply",
-      "href": "https://oracle-v7.pages.dev",
+      "href": "/oracle/",
       "pinned": true,
       "live": true,
       "lastUpdated": "6 Mar"
