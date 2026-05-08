@@ -571,8 +571,18 @@ async function startMFAEnroll() {
 
   document.getElementById('qrWrap').innerHTML = '<div class="loading-placeholder">Generating QR code…</div>';
 
-  // Enroll a new TOTP factor
-  const { data, error } = await sb.auth.mfa.enroll({ factorType: 'totp', friendlyName: 'Analyst Platform' });
+  const friendlyName = 'Analyst Platform';
+  let { data, error } = await enrollTotpFactor(friendlyName);
+
+  if (isDuplicateFriendlyNameError(error)) {
+    await removeStaleTotpFactors(friendlyName);
+    ({ data, error } = await enrollTotpFactor(friendlyName));
+  }
+
+  if (isDuplicateFriendlyNameError(error)) {
+    const suffix = String(Date.now()).slice(-6);
+    ({ data, error } = await enrollTotpFactor(`${friendlyName} ${suffix}`));
+  }
 
   if (error) {
     document.getElementById('qrWrap').innerHTML = '';
@@ -604,6 +614,32 @@ async function startMFAEnroll() {
   }
 
   document.getElementById('enrollCode').focus();
+}
+
+async function enrollTotpFactor(friendlyName) {
+  return sb.auth.mfa.enroll({ factorType: 'totp', friendlyName });
+}
+
+function isDuplicateFriendlyNameError(error) {
+  return /friendly name|already exists/i.test(error?.message || '');
+}
+
+function getFactorFriendlyName(factor) {
+  return factor?.friendly_name || factor?.friendlyName || '';
+}
+
+async function removeStaleTotpFactors(friendlyName) {
+  const { data, error } = await sb.auth.mfa.listFactors();
+  if (error) return;
+
+  const staleFactors = (data?.totp || []).filter(factor => {
+    const name = getFactorFriendlyName(factor);
+    return factor.status !== 'verified' && (!name || name === friendlyName);
+  });
+
+  for (const factor of staleFactors) {
+    await sb.auth.mfa.unenroll({ factorId: factor.id }).catch(() => {});
+  }
 }
 
 async function verifyEnrollment() {
