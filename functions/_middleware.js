@@ -91,7 +91,7 @@ export async function onRequest(context) {
     return authUnavailable();
   }
 
-  const payload = await verifyJWT(token, jwtSecret);
+  const payload = await verifyJWT(token, jwtSecret, env);
 
   if (!payload) {
     // Token invalid or expired
@@ -196,10 +196,11 @@ function authUnavailable() {
 }
 
 /**
- * Verify a Supabase JWT using the HMAC-SHA256 secret.
+ * Verify a Supabase JWT using the HMAC-SHA256 secret, falling back to
+ * Supabase Auth token introspection for projects using non-HS256 signing.
  * Returns the decoded payload, or null if invalid/expired.
  */
-async function verifyJWT(token, secret) {
+async function verifyJWT(token, secret, env) {
   try {
     const parts = token.split('.');
     if (parts.length !== 3) return null;
@@ -208,36 +209,63 @@ async function verifyJWT(token, secret) {
 
     const headerJson = new TextDecoder().decode(base64UrlDecode(headerB64));
     const header = JSON.parse(headerJson);
-    if (header.alg !== 'HS256') return null;
 
-    // Verify signature
-    const encoder = new TextEncoder();
-    const keyData = encoder.encode(secret);
-    const cryptoKey = await crypto.subtle.importKey(
-      'raw',
-      keyData,
-      { name: 'HMAC', hash: 'SHA-256' },
-      false,
-      ['verify']
-    );
+    if (header.alg === 'HS256') {
+      // Verify signature
+      const encoder = new TextEncoder();
+      const keyData = encoder.encode(secret);
+      const cryptoKey = await crypto.subtle.importKey(
+        'raw',
+        keyData,
+        { name: 'HMAC', hash: 'SHA-256' },
+        false,
+        ['verify']
+      );
 
-    const signingInput = encoder.encode(`${headerB64}.${payloadB64}`);
-    const signature = base64UrlDecode(signatureB64);
+      const signingInput = encoder.encode(`${headerB64}.${payloadB64}`);
+      const signature = base64UrlDecode(signatureB64);
 
-    const valid = await crypto.subtle.verify('HMAC', cryptoKey, signature, signingInput);
-    if (!valid) return null;
+      const valid = await crypto.subtle.verify('HMAC', cryptoKey, signature, signingInput);
+      if (valid) return decodeVerifiedPayload(payloadB64);
+    }
 
-    // Decode payload
-    const payloadJson = new TextDecoder().decode(base64UrlDecode(payloadB64));
-    const payload = JSON.parse(payloadJson);
-
-    // Check expiry
-    const now = Math.floor(Date.now() / 1000);
-    if (payload.exp && payload.exp < now) return null;
-
-    return payload;
+    return validateSupabaseAccessToken(token, env);
   } catch (e) {
     console.error('[auth] JWT verification error:', e.message);
+    return null;
+  }
+}
+
+function decodeVerifiedPayload(payloadB64) {
+  const payloadJson = new TextDecoder().decode(base64UrlDecode(payloadB64));
+  const payload = JSON.parse(payloadJson);
+  const now = Math.floor(Date.now() / 1000);
+  if (payload.exp && payload.exp < now) return null;
+  return payload;
+}
+
+async function validateSupabaseAccessToken(token, env) {
+  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) return null;
+
+  try {
+    const response = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, {
+      headers: {
+        apikey: env.SUPABASE_SERVICE_KEY,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) return null;
+
+    const user = await response.json();
+    const payload = decodeVerifiedPayload(token.split('.')[1]);
+    if (!payload) return null;
+
+    payload.sub = payload.sub || user.id;
+    payload.email = payload.email || user.email;
+    payload.app_metadata = payload.app_metadata || user.app_metadata || {};
+    payload.user_metadata = payload.user_metadata || user.user_metadata || {};
+    return payload;
+  } catch {
     return null;
   }
 }

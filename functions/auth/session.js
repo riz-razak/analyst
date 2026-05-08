@@ -35,7 +35,7 @@ export async function onRequestPost(context) {
     return jsonError(400, 'access_token and refresh_token are required');
   }
 
-  const payload = await verifyJWT(access_token, jwtSecret);
+  const payload = await verifyJWT(access_token, jwtSecret, env);
   if (!payload) {
     return jsonError(401, 'Invalid access token');
   }
@@ -139,27 +139,59 @@ function hasAnyAnalystRight(rights) {
   ].some(right => analystRights.has(right));
 }
 
-async function verifyJWT(token, secret) {
+async function verifyJWT(token, secret, env) {
   try {
     const parts = token.split('.');
     if (parts.length !== 3) return null;
     const [headerB64, payloadB64, signatureB64] = parts;
     const header = decodePayload(headerB64);
-    if (header.alg !== 'HS256') return null;
 
-    const encoder = new TextEncoder();
-    const keyData = encoder.encode(secret);
-    const cryptoKey = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
-    const valid = await crypto.subtle.verify(
-      'HMAC',
-      cryptoKey,
-      base64UrlDecode(signatureB64),
-      encoder.encode(`${headerB64}.${payloadB64}`)
-    );
-    if (!valid) return null;
-    const payload = decodePayload(payloadB64);
-    const now = Math.floor(Date.now() / 1000);
-    if (payload.exp && payload.exp < now) return null;
+    if (header.alg === 'HS256') {
+      const encoder = new TextEncoder();
+      const keyData = encoder.encode(secret);
+      const cryptoKey = await crypto.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']);
+      const valid = await crypto.subtle.verify(
+        'HMAC',
+        cryptoKey,
+        base64UrlDecode(signatureB64),
+        encoder.encode(`${headerB64}.${payloadB64}`)
+      );
+      if (valid) return decodeVerifiedPayload(payloadB64);
+    }
+
+    return validateSupabaseAccessToken(token, env);
+  } catch {
+    return null;
+  }
+}
+
+function decodeVerifiedPayload(payloadB64) {
+  const payload = decodePayload(payloadB64);
+  const now = Math.floor(Date.now() / 1000);
+  if (payload.exp && payload.exp < now) return null;
+  return payload;
+}
+
+async function validateSupabaseAccessToken(token, env) {
+  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) return null;
+
+  try {
+    const response = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, {
+      headers: {
+        apikey: env.SUPABASE_SERVICE_KEY,
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) return null;
+
+    const user = await response.json();
+    const payload = decodeVerifiedPayload(token.split('.')[1]);
+    if (!payload) return null;
+
+    payload.sub = payload.sub || user.id;
+    payload.email = payload.email || user.email;
+    payload.app_metadata = payload.app_metadata || user.app_metadata || {};
+    payload.user_metadata = payload.user_metadata || user.user_metadata || {};
     return payload;
   } catch {
     return null;
