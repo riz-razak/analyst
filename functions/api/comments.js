@@ -124,21 +124,33 @@ export async function onRequestPost(context) {
 
   // Rate limit: 3 comments per 15 minutes per IP
   const clientIP = request.headers.get('CF-Connecting-IP') || 'unknown';
-  const rlKey = `comment_rl:${clientIP}`;
-  let rateRecord = null;
-  if (env.SESSION_STORE) {
-    try {
-      rateRecord = await env.SESSION_STORE.get(rlKey, 'json');
-      if (rateRecord?.count >= 3) {
-        return jsonResponse(429, { error: 'Too many comments. Try again later.' });
-      }
-    } catch (error) {
-      console.error('[comments] Rate-limit read error:', error.message);
+  const ipHash = await hashIP(clientIP);
+  const windowStart = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+
+  const rateRes = await fetch(
+    `${env.SUPABASE_URL}/rest/v1/dossier_comments?` +
+    `ip_hash=eq.${encodeURIComponent(ipHash)}` +
+    `&created_at=gte.${encodeURIComponent(windowStart)}` +
+    `&select=id`,
+    {
+      headers: {
+        'apikey': env.SUPABASE_SERVICE_KEY,
+        'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`,
+        'Prefer': 'count=exact',
+      },
     }
+  );
+
+  if (!rateRes.ok) {
+    console.error('[comments] Rate-limit query failed:', await rateRes.text());
+    return jsonResponse(503, { error: 'Comment rate limit unavailable' });
   }
 
-  // Hash the IP (never store raw)
-  const ipHash = await hashIP(clientIP);
+  const totalFromHeader = parseInt(rateRes.headers.get('content-range')?.split('/')[1] || '', 10);
+  const recentCount = Number.isFinite(totalFromHeader) ? totalFromHeader : (await rateRes.json()).length;
+  if (recentCount >= 3) {
+    return jsonResponse(429, { error: 'Too many comments. Try again later.' });
+  }
 
   // Get UA
   const ua = (request.headers.get('User-Agent') || '').slice(0, 120);
@@ -178,14 +190,6 @@ export async function onRequestPost(context) {
       }
 
       return jsonResponse(502, { error: 'Database write failed' });
-    }
-
-    if (env.SESSION_STORE) {
-      try {
-        await env.SESSION_STORE.put(rlKey, JSON.stringify({ count: (rateRecord?.count || 0) + 1 }), { expirationTtl: 15 * 60 });
-      } catch (error) {
-        console.error('[comments] Rate-limit write error:', error.message);
-      }
     }
 
     return jsonResponse(201, { ok: true, id, status: 'pending' });
