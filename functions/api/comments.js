@@ -108,6 +108,10 @@ export async function onRequestPost(context) {
     return jsonResponse(400, { error: 'id, dossier_id, and text are required' });
   }
 
+  if (!/^[A-Za-z0-9_-]{1,80}$/.test(String(id))) {
+    return jsonResponse(400, { error: 'Invalid comment id' });
+  }
+
   if (typeof text !== 'string' || text.length < 10 || text.length > 2000) {
     return jsonResponse(400, { error: 'Comment must be 10-2000 characters' });
   }
@@ -121,6 +125,17 @@ export async function onRequestPost(context) {
   // Rate limit: 3 comments per 15 minutes per IP
   const clientIP = request.headers.get('CF-Connecting-IP') || 'unknown';
   const rlKey = `comment_rl:${clientIP}`;
+  let rateRecord = null;
+  if (env.SESSION_STORE) {
+    try {
+      rateRecord = await env.SESSION_STORE.get(rlKey, 'json');
+      if (rateRecord?.count >= 3) {
+        return jsonResponse(429, { error: 'Too many comments. Try again later.' });
+      }
+    } catch (error) {
+      console.error('[comments] Rate-limit read error:', error.message);
+    }
+  }
 
   // Hash the IP (never store raw)
   const ipHash = await hashIP(clientIP);
@@ -163,6 +178,14 @@ export async function onRequestPost(context) {
       }
 
       return jsonResponse(502, { error: 'Database write failed' });
+    }
+
+    if (env.SESSION_STORE) {
+      try {
+        await env.SESSION_STORE.put(rlKey, JSON.stringify({ count: (rateRecord?.count || 0) + 1 }), { expirationTtl: 15 * 60 });
+      } catch (error) {
+        console.error('[comments] Rate-limit write error:', error.message);
+      }
     }
 
     return jsonResponse(201, { ok: true, id, status: 'pending' });

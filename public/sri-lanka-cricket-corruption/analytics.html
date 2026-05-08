@@ -1136,26 +1136,29 @@ function renderCommentList(){
   }
 
   list.innerHTML = filtered.map(c=>{
+    const status = ['pending', 'approved', 'flagged', 'rejected'].includes(c.status) ? c.status : 'pending';
+    const idHtml = escHtml(c.id || '');
+    const idJs = escJs(c.id || '');
     const d = new Date(c.created_at);
     const ts = d.toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
     const moderatedInfo = c.moderated_at ? `<span class="cc-tos">Moderated by ${escHtml(c.moderated_by||'admin')}</span>` : '';
-    const actionBtns = c.status === 'pending'
-      ? `<button class="cc-btn approve" onclick="approveComment('${c.id}')">✓ Approve</button>
-         <button class="cc-btn flag" onclick="flagComment('${c.id}')">🚩 Flag</button>
-         <button class="cc-btn reject" onclick="rejectComment('${c.id}')">✕ Reject</button>`
-      : c.status === 'approved'
-      ? `<button class="cc-btn unapprove" onclick="unapproveComment('${c.id}')">↩ Unapprove</button>
-         <button class="cc-btn flag" onclick="flagComment('${c.id}')">🚩 Flag</button>`
-      : c.status === 'flagged'
-      ? `<button class="cc-btn approve" onclick="approveComment('${c.id}')">✓ Approve</button>
-         <button class="cc-btn reject" onclick="rejectComment('${c.id}')">✕ Reject</button>`
-      : `<button class="cc-btn approve" onclick="approveComment('${c.id}')">↩ Restore</button>`;
+    const actionBtns = status === 'pending'
+      ? `<button class="cc-btn approve" onclick="approveComment('${idJs}')">✓ Approve</button>
+         <button class="cc-btn flag" onclick="flagComment('${idJs}')">🚩 Flag</button>
+         <button class="cc-btn reject" onclick="rejectComment('${idJs}')">✕ Reject</button>`
+      : status === 'approved'
+      ? `<button class="cc-btn unapprove" onclick="unapproveComment('${idJs}')">↩ Unapprove</button>
+         <button class="cc-btn flag" onclick="flagComment('${idJs}')">🚩 Flag</button>`
+      : status === 'flagged'
+      ? `<button class="cc-btn approve" onclick="approveComment('${idJs}')">✓ Approve</button>
+         <button class="cc-btn reject" onclick="rejectComment('${idJs}')">✕ Reject</button>`
+      : `<button class="cc-btn approve" onclick="approveComment('${idJs}')">↩ Restore</button>`;
 
-    return `<div class="cc ${c.status||'pending'}">
+    return `<div class="cc ${status}">
       <div class="cc-header">
         <div class="cc-meta">
-          <span class="cc-id">#${c.id}</span>
-          <span class="cc-status ${c.status||'pending'}">${(c.status||'pending').toUpperCase()}</span>
+          <span class="cc-id">#${idHtml}</span>
+          <span class="cc-status ${status}">${status.toUpperCase()}</span>
           <span class="cc-time">${ts}</span>
           ${moderatedInfo}
         </div>
@@ -1174,6 +1177,7 @@ function renderCommentList(){
 }
 
 function escHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function escJs(s){ return String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/[\r\n]/g, ''); }
 
 // ── LOAD DASHBOARD ──
 async function loadDashboard(){
