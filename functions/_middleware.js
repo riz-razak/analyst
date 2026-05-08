@@ -191,8 +191,12 @@ function addRightsFromValue(rights, value, prefix = '') {
 
 function normalizeRightKey(value, prefix = '') {
   const right = String(value).trim();
-  if (!right || !prefix || right.includes('.')) return right;
+  if (!right || !prefix || hasKnownProductPrefix(right)) return right;
   return `${prefix}${right}`;
+}
+
+function hasKnownProductPrefix(right) {
+  return /^(analyst|yan|yan_vada|braincentre|dgtl)\./.test(right);
 }
 
 function addBundleFallbackRights(rights, bundleKey) {
