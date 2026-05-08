@@ -3062,22 +3062,18 @@ async function handleCommentModerate(request, env) {
     return jsonResponse({ error: 'Invalid JSON' }, 400);
   }
 
-  const { commentId, action, reason, adminToken } = body;
+  const { commentId, action, reason } = body;
 
   if (!commentId || !action) {
     return jsonResponse({ error: 'Missing commentId or action' }, 400);
   }
 
-  const ADMIN_TOKEN = 'admin-token-placeholder';
-  if (adminToken !== ADMIN_TOKEN) {
-    return jsonResponse({ error: 'Unauthorized' }, 401);
-  }
-
   const SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+  const SUPABASE_KEY = getSupabaseServerKey(env);
 
   try {
     let updateData = {};
+    let method = 'PATCH';
 
     if (action === 'approved') {
       updateData = { approved: true, flagged: false };
@@ -3085,19 +3081,23 @@ async function handleCommentModerate(request, env) {
       updateData = { approved: false, flagged: false };
     } else if (action === 'flagged') {
       updateData = { flagged: true, flagged_reason: reason };
+    } else if (action === 'deleted') {
+      method = 'DELETE';
+    } else {
+      return jsonResponse({ error: 'Invalid action' }, 400);
     }
 
     const resp = await fetch(
       `${SUPABASE_URL}/rest/v1/comments?id=eq.${encodeURIComponent(commentId)}`,
       {
-        method: 'PATCH',
+        method,
         headers: {
           'apikey': SUPABASE_KEY,
           'Authorization': `Bearer ${SUPABASE_KEY}`,
           'Content-Type': 'application/json',
           'Prefer': 'return=representation',
         },
-        body: JSON.stringify(updateData),
+        ...(method === 'DELETE' ? {} : { body: JSON.stringify(updateData) }),
       }
     );
 
@@ -3105,8 +3105,8 @@ async function handleCommentModerate(request, env) {
       return jsonResponse({ error: `Moderation failed: ${resp.status}` }, resp.status);
     }
 
-    const updated = await resp.json();
-    return jsonResponse({ success: true, comment: updated[0] });
+    const updated = method === 'DELETE' ? [] : await resp.json();
+    return jsonResponse({ success: true, comment: updated[0] || null });
   } catch (e) {
     return jsonResponse({ error: e.message }, 500);
   }
@@ -3122,20 +3122,12 @@ async function handleCommentsPending(request, env) {
     return jsonResponse({ error: 'Method not allowed' }, 405);
   }
 
-  const url = new URL(request.url);
-  const adminToken = url.searchParams.get('adminToken');
-
-  const ADMIN_TOKEN = 'admin-token-placeholder';
-  if (adminToken !== ADMIN_TOKEN) {
-    return jsonResponse({ error: 'Unauthorized' }, 401);
-  }
-
   const SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+  const SUPABASE_KEY = getSupabaseServerKey(env);
 
   try {
     const resp = await fetch(
-      `${SUPABASE_URL}/rest/v1/pending_comments?select=*&order=created_at.asc`,
+      `${SUPABASE_URL}/rest/v1/comments?select=*&order=created_at.desc`,
       {
         method: 'GET',
         headers: {
@@ -3154,6 +3146,10 @@ async function handleCommentsPending(request, env) {
   } catch (e) {
     return jsonResponse({ error: e.message }, 500);
   }
+}
+
+function getSupabaseServerKey(env) {
+  return env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
 }
 
 /**
