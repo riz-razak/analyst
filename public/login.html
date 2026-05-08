@@ -414,6 +414,7 @@ const SUPABASE_URL      = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
 const SUPABASE_SESSION_STORAGE_KEY = 'analyst-admin-preauth';
 const OAUTH_SIGNIN_ENABLED = false;
+const MAGIC_LINK_BUTTON_LABEL = 'Email me a sign-in link';
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 const { createClient } = supabase;
@@ -444,6 +445,8 @@ const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 let currentSession = null; // holds { access_token, refresh_token } after step 1
 let mfaFactorId   = null;  // holds the enrolled TOTP factor ID
 let mfaVerifyInFlight = false;
+let magicLinkCooldownTimer = null;
+let magicLinkCooldownRemaining = 0;
 
 // ─── URL Params ───────────────────────────────────────────────────────────────
 const params = new URLSearchParams(window.location.search);
@@ -530,7 +533,7 @@ async function handleAuthCallback() {
 
   const { data, error } = await sb.auth.getSession();
   if (error || !data?.session) {
-    setLoading('btnMagicLink', false, 'Email me a sign-in link');
+    setLoading('btnMagicLink', false, MAGIC_LINK_BUTTON_LABEL);
     setLoading('btnGoogle', false, '<span class="sso-mark">G</span> Continue with Google');
     setLoading('btnApple', false, '<span class="sso-mark"></span> Continue with Apple');
     showAlert('errPassword', friendlyError(error) || 'Could not complete sign-in. Request a fresh link and try again.');
@@ -570,6 +573,11 @@ async function handleMagicLink() {
   clearAlert('errPassword');
   clearAlert('magicLinkNotice');
 
+  if (magicLinkCooldownRemaining > 0) {
+    renderMagicLinkCooldown();
+    return;
+  }
+
   if (!email) return showAlert('errPassword', 'Enter your email address first.');
 
   setLoading('btnMagicLink', true, 'Requesting link…');
@@ -582,10 +590,67 @@ async function handleMagicLink() {
     12000,
     'Email sign-in did not respond. Check Supabase Auth email provider settings and try again.'
   );
-  setLoading('btnMagicLink', false, 'Email me a sign-in link');
+  setLoading('btnMagicLink', false, MAGIC_LINK_BUTTON_LABEL);
 
-  if (error) return showAlert('errPassword', friendlyError(error));
+  if (error) {
+    const cooldownSeconds = extractCooldownSeconds(error);
+    if (cooldownSeconds) {
+      startMagicLinkCooldown(cooldownSeconds);
+      return;
+    }
+    return showAlert('errPassword', friendlyError(error));
+  }
   showAlert('magicLinkNotice', 'If this email has access, a sign-in link will arrive shortly.', 'success');
+}
+
+function extractCooldownSeconds(error) {
+  const message = error?.message || String(error || '');
+  const patterns = [
+    /after\s+(\d+)\s+seconds?/i,
+    /in\s+(\d+)\s+seconds?/i,
+    /(\d+)\s+seconds?/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = message.match(pattern);
+    if (!match) continue;
+    const seconds = Number(match[1]);
+    if (Number.isFinite(seconds) && seconds > 0) return Math.min(3600, Math.ceil(seconds));
+  }
+  return 0;
+}
+
+function startMagicLinkCooldown(seconds) {
+  clearMagicLinkCooldown();
+  magicLinkCooldownRemaining = seconds;
+  renderMagicLinkCooldown();
+  magicLinkCooldownTimer = setInterval(() => {
+    magicLinkCooldownRemaining -= 1;
+    if (magicLinkCooldownRemaining <= 0) {
+      clearMagicLinkCooldown();
+      setLoading('btnMagicLink', false, MAGIC_LINK_BUTTON_LABEL);
+      showAlert('errPassword', 'You can request a new sign-in link now.', 'info');
+      return;
+    }
+    renderMagicLinkCooldown();
+  }, 1000);
+}
+
+function clearMagicLinkCooldown() {
+  if (magicLinkCooldownTimer) clearInterval(magicLinkCooldownTimer);
+  magicLinkCooldownTimer = null;
+  magicLinkCooldownRemaining = 0;
+}
+
+function renderMagicLinkCooldown() {
+  const seconds = Math.max(1, magicLinkCooldownRemaining);
+  const unit = seconds === 1 ? 'second' : 'seconds';
+  const btn = document.getElementById('btnMagicLink');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = `Try again in ${seconds}s`;
+  }
+  showAlert('errPassword', `For security, you can request another sign-in link in ${seconds} ${unit}.`);
 }
 
 function withTimeout(promise, timeoutMs, message) {
@@ -635,7 +700,7 @@ async function handleSignIn() {
 }
 
 async function continueAfterPrimaryAuth() {
-  setLoading('btnMagicLink', false, 'Email me a sign-in link');
+  setLoading('btnMagicLink', false, MAGIC_LINK_BUTTON_LABEL);
   setLoading('btnGoogle', false, '<span class="sso-mark">G</span> Continue with Google');
   setLoading('btnApple', false, '<span class="sso-mark"></span> Continue with Apple');
 
@@ -911,7 +976,7 @@ function setLoading(btnId, loading, label) {
 function friendlyError(error) {
   const msg = (error?.message || '').toLowerCase();
   if (error?.name === 'AbortError' || msg.includes('aborted') || msg.includes('timed out')) {
-    return 'The sign-in request timed out. Refresh and enter a fresh authenticator code.';
+    return 'The sign-in request timed out. Refresh and try again.';
   }
   if (msg.includes('invalid login') || msg.includes('invalid email') || msg.includes('wrong password')) {
     return 'Invalid email or password. Please try again.';
@@ -920,6 +985,8 @@ function friendlyError(error) {
     return 'Please confirm your email address before signing in.';
   }
   if (msg.includes('too many requests') || msg.includes('rate limit')) {
+    const cooldownSeconds = extractCooldownSeconds(error);
+    if (cooldownSeconds) return `Too many attempts. Try again in ${cooldownSeconds} seconds.`;
     return 'Too many attempts. Please wait a moment and try again.';
   }
   return error?.message || 'An error occurred. Please try again.';
