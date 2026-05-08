@@ -443,6 +443,7 @@ const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 // State
 let currentSession = null; // holds { access_token, refresh_token } after step 1
 let mfaFactorId   = null;  // holds the enrolled TOTP factor ID
+let mfaVerifyInFlight = false;
 
 // ─── URL Params ───────────────────────────────────────────────────────────────
 const params = new URLSearchParams(window.location.search);
@@ -461,14 +462,68 @@ if (OAUTH_SIGNIN_ENABLED) {
   document.getElementById('oauthDisabledNote').style.display = 'none';
 }
 
-handleAuthCallback();
+handleInitialAuthState();
 
 function safeNext(value) {
   return value && value.startsWith('/') && !value.startsWith('//') ? value : '/';
 }
 
+async function handleInitialAuthState() {
+  const callbackHasSessionPayload = hasAuthCallbackSessionPayload();
+  if (!callbackHasSessionPayload && (await redirectIfServerSession())) return;
+  await handleAuthCallback();
+}
+
+function hasAuthCallbackSessionPayload() {
+  const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  return Boolean(hashParams.get('access_token') || hashParams.get('refresh_token') || params.get('code'));
+}
+
+async function redirectIfServerSession() {
+  try {
+    const response = await fetch('/auth/me?right=analyst.admin', {
+      credentials: 'same-origin',
+      cache: 'no-store',
+    });
+    const session = await response.json().catch(() => null);
+    if (session?.authenticated && session?.admin && session?.aal === 'aal2') {
+      window.location.replace(nextUrl);
+      return true;
+    }
+  } catch {}
+  return false;
+}
+
+function getAuthCallbackError() {
+  const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+  const code = hashParams.get('error_code') || '';
+  const description = hashParams.get('error_description') || hashParams.get('error') || '';
+  const text = `${code} ${description}`.toLowerCase();
+
+  if (!text.trim()) return '';
+  if (text.includes('otp_expired') || text.includes('expired')) {
+    return 'This email sign-in link is invalid or expired. Request a fresh link or use legacy password sign-in.';
+  }
+  return description || 'Could not complete sign-in. Request a fresh link and try again.';
+}
+
+function clearAuthCallbackUrl() {
+  const cleanUrl = new URL(window.location.href);
+  cleanUrl.searchParams.delete('auth_callback');
+  cleanUrl.hash = '';
+  window.history.replaceState(null, '', cleanUrl.toString());
+}
+
 async function handleAuthCallback() {
   if (!params.get('auth_callback') && !window.location.hash) return;
+
+  const callbackError = getAuthCallbackError();
+  if (callbackError) {
+    showAlert('errPassword', callbackError);
+    clearAuthCallbackUrl();
+    return;
+  }
+
   setLoading('btnMagicLink', true, 'Finishing…');
   setLoading('btnGoogle', true, 'Finishing…');
   setLoading('btnApple', true, 'Finishing…');
@@ -479,6 +534,7 @@ async function handleAuthCallback() {
     setLoading('btnGoogle', false, '<span class="sso-mark">G</span> Continue with Google');
     setLoading('btnApple', false, '<span class="sso-mark"></span> Continue with Apple');
     showAlert('errPassword', friendlyError(error) || 'Could not complete sign-in. Request a fresh link and try again.');
+    clearAuthCallbackUrl();
     return;
   }
 
@@ -632,34 +688,60 @@ async function handleMFAVerify() {
     return showAlert('errMFA', 'Please enter the 6-digit code from your authenticator app.');
   }
 
+  if (mfaVerifyInFlight) return;
+  mfaVerifyInFlight = true;
+
   setLoading('btnVerifyMFA', true, 'Verifying…');
 
-  // Create a challenge then verify it
-  const { data: challengeData, error: challengeErr } = await sb.auth.mfa.challenge({ factorId: mfaFactorId });
+  try {
+    // Create a challenge then verify it
+    const { data: challengeData, error: challengeErr } = await withTimeout(
+      sb.auth.mfa.challenge({ factorId: mfaFactorId }),
+      12000,
+      'Authenticator verification timed out. Please enter the latest code and try again.'
+    );
 
-  if (challengeErr) {
+    if (challengeErr) {
+      mfaVerifyInFlight = false;
+      setLoading('btnVerifyMFA', false, 'Verify');
+      return showAlert('errMFA', friendlyError(challengeErr));
+    }
+
+    const { data: verifyData, error: verifyErr } = await withTimeout(
+      sb.auth.mfa.verify({
+        factorId:    mfaFactorId,
+        challengeId: challengeData.id,
+        code,
+      }),
+      12000,
+      'Authenticator verification timed out. Please enter the latest code and try again.'
+    );
+
+    if (verifyErr) {
+      mfaVerifyInFlight = false;
+      setLoading('btnVerifyMFA', false, 'Verify');
+      return showAlert('errMFA', friendlyError(verifyErr));
+    }
+
+    const session = verifyData?.session;
+    if (!session?.access_token || !session?.refresh_token) {
+      mfaVerifyInFlight = false;
+      setLoading('btnVerifyMFA', false, 'Verify');
+      return showAlert('errMFA', 'Authenticator verified, but no session was returned. Please sign in again.');
+    }
+
+    // MFA verified — update session tokens (Supabase upgrades the JWT to aal2)
+    currentSession = {
+      access_token:  session.access_token,
+      refresh_token: session.refresh_token,
+    };
+
+    await finalizeLogin();
+  } catch (error) {
+    mfaVerifyInFlight = false;
     setLoading('btnVerifyMFA', false, 'Verify');
-    return showAlert('errMFA', friendlyError(challengeErr));
+    showAlert('errMFA', friendlyError(error));
   }
-
-  const { data: verifyData, error: verifyErr } = await sb.auth.mfa.verify({
-    factorId:    mfaFactorId,
-    challengeId: challengeData.id,
-    code,
-  });
-
-  if (verifyErr) {
-    setLoading('btnVerifyMFA', false, 'Verify');
-    return showAlert('errMFA', 'Incorrect code. Please try again.');
-  }
-
-  // MFA verified — update session tokens (Supabase upgrades the JWT to aal2)
-  currentSession = {
-    access_token:  verifyData.session.access_token,
-    refresh_token: verifyData.session.refresh_token,
-  };
-
-  await finalizeLogin();
 }
 
 // ─── Finalize: POST tokens to edge function → set httpOnly cookies ────────────
@@ -668,11 +750,11 @@ async function finalizeLogin() {
   setLoading('btnSignIn', true, 'Finishing…');
 
   try {
-    const res = await fetch('/auth/session', {
+    const res = await fetchWithTimeout('/auth/session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(currentSession),
-    });
+    }, 12000);
 
     const json = await res.json();
 
@@ -686,10 +768,21 @@ async function finalizeLogin() {
     window.location.replace(nextUrl);
 
   } catch (e) {
+    mfaVerifyInFlight = false;
     setLoading('btnVerifyMFA', false, 'Verify');
     setLoading('btnSignIn', false, 'Sign in');
     showAlert('errMFA', 'Could not establish session. Please try again.');
     showAlert('errPassword', 'Could not establish session. Please try again.');
+  }
+}
+
+async function fetchWithTimeout(url, options, timeoutMs) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
   }
 }
 
@@ -724,6 +817,7 @@ function showPanel(panelId, noMfa = false) {
 function backToPassword() {
   currentSession = null;
   mfaFactorId = null;
+  mfaVerifyInFlight = false;
   clearAlert('errMFA');
   clearAlert('errPassword');
   document.getElementById('totpCode').value = '';

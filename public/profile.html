@@ -495,10 +495,12 @@ const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 const profileParams = new URLSearchParams(window.location.search);
 const returnTo = safeNext(profileParams.get('next') || '/admin-preview.html');
 
-// Profile needs the pre-MFA Supabase session from this tab to enroll or manage TOTP.
-// Once MFA is verified, /auth/session creates the httpOnly admin cookie used by CMS.
+// MFA setup uses a temporary Supabase browser session. After verification,
+// /auth/session creates the httpOnly admin cookie used by CMS and login clears
+// the browser session to keep tokens out of script-readable storage.
 
 let enrollFactorId = null; // holds the id of the factor being enrolled
+let hasBrowserAuthSession = false;
 
 function safeNext(value) {
   return value && value.startsWith('/') && !value.startsWith('//') ? value : '/admin-preview.html';
@@ -506,12 +508,27 @@ function safeNext(value) {
 
 async function init() {
   try {
-    // Attempt session from this tab's pre-auth storage.
+    const session = await getBrowserAuthSession();
+    if (!session) {
+      const serverSession = await getServerSession();
+      if (isAal2AdminSession(serverSession)) {
+        showUserInfo(serverSession.user || { email: 'authenticated user', id: null });
+        if (profileParams.get('setup_mfa') === '1') {
+          window.location.replace(returnTo);
+          return;
+        }
+        showServerVerifiedMFA();
+        return;
+      }
+
+      showUserInfo(serverSession?.user || { email: 'authenticated user', id: null });
+      showSecuritySessionMissing();
+      return;
+    }
+
     const { data: { user }, error } = await sb.auth.getUser();
 
     if (error || !user) {
-      // No valid session in memory — we're relying on the edge cookie
-      // Show a generic "Authenticated" state and let operations proceed
       showUserInfo({ email: 'authenticated user', id: null });
     } else {
       showUserInfo(user);
@@ -523,9 +540,42 @@ async function init() {
   await loadMFAStatus();
 }
 
+async function getBrowserAuthSession() {
+  try {
+    const { data } = await sb.auth.getSession();
+    hasBrowserAuthSession = Boolean(data?.session);
+    return data?.session || null;
+  } catch {
+    hasBrowserAuthSession = false;
+    return null;
+  }
+}
+
+async function getServerSession() {
+  try {
+    const response = await fetch('/auth/me?right=analyst.admin', {
+      credentials: 'same-origin',
+      cache: 'no-store',
+    });
+    return await response.json().catch(() => null);
+  } catch {
+    return null;
+  }
+}
+
+function isAal2AdminSession(session) {
+  return Boolean(session?.authenticated && session?.admin && session?.aal === 'aal2');
+}
+
+function showServerVerifiedMFA() {
+  document.getElementById('mfaLoading').style.display = 'none';
+  document.getElementById('mfaNotEnrolled').style.display = 'none';
+  document.getElementById('mfaEnrolled').style.display = 'block';
+}
+
 function showUserInfo(user) {
   const email = user.email || user.user_metadata?.email || 'authenticated user';
-  const name  = user.user_metadata?.full_name || user.user_metadata?.name || email.split('@')[0];
+  const name  = user.user_metadata?.full_name || user.user_metadata?.name || user.name || email.split('@')[0];
   const initials = name.slice(0, 2).toUpperCase();
 
   document.getElementById('userAvatar').textContent = initials;
@@ -539,11 +589,20 @@ async function loadMFAStatus() {
   document.getElementById('mfaEnrolled').style.display = 'none';
   document.getElementById('mfaNotEnrolled').style.display = 'none';
 
+  if (!hasBrowserAuthSession && !(await getBrowserAuthSession())) {
+    showSecuritySessionMissing();
+    return;
+  }
+
   const { data, error } = await sb.auth.mfa.listFactors();
 
   document.getElementById('mfaLoading').style.display = 'none';
 
   if (error) {
+    if (isMissingAuthSessionError(error)) {
+      showSecuritySessionMissing();
+      return;
+    }
     document.getElementById('mfaNotEnrolled').style.display = 'block';
     return;
   }
@@ -569,6 +628,11 @@ async function startMFAEnroll() {
   clearAlert('errEnroll');
   clearAlert('okEnroll');
 
+  if (!hasBrowserAuthSession && !(await getBrowserAuthSession())) {
+    showSecuritySessionMissing();
+    return;
+  }
+
   document.getElementById('qrWrap').innerHTML = '<div class="loading-placeholder">Generating QR code…</div>';
 
   const friendlyName = 'Analyst Platform';
@@ -586,22 +650,37 @@ async function startMFAEnroll() {
 
   if (error) {
     document.getElementById('qrWrap').innerHTML = '';
+    if (isMissingAuthSessionError(error)) {
+      showSecuritySessionMissing();
+      return;
+    }
     return showAlert('errEnroll', 'Could not start enrollment: ' + error.message);
   }
 
   enrollFactorId = data.id;
   const totpUri  = data.totp?.uri;
+  const qrCode   = data.totp?.qr_code;
   const secret   = data.totp?.secret;
 
   // Render QR code
   const qrWrap = document.getElementById('qrWrap');
   qrWrap.innerHTML = '';
 
-  const canvas = document.createElement('canvas');
-  qrWrap.appendChild(canvas);
-
   try {
-    await QRCode.toCanvas(canvas, totpUri, { width: 180, margin: 2, color: { dark: '#ffffff', light: '#181c26' } });
+    if (qrCode) {
+      const img = document.createElement('img');
+      img.alt = 'Authenticator QR code';
+      img.src = qrCode.trim().startsWith('<svg')
+        ? `data:image/svg+xml;charset=utf-8,${encodeURIComponent(qrCode)}`
+        : qrCode;
+      qrWrap.appendChild(img);
+    } else if (totpUri && window.QRCode?.toCanvas) {
+      const canvas = document.createElement('canvas');
+      qrWrap.appendChild(canvas);
+      await QRCode.toCanvas(canvas, totpUri, { width: 180, margin: 2, color: { dark: '#ffffff', light: '#181c26' } });
+    } else {
+      throw new Error('QR code unavailable');
+    }
   } catch (e) {
     qrWrap.innerHTML = `<p style="color:var(--muted);font-size:13px">Could not render QR code. Use secret below.</p>`;
   }
@@ -645,6 +724,11 @@ async function removeStaleTotpFactors(friendlyName) {
 async function verifyEnrollment() {
   const code = document.getElementById('enrollCode').value.replace(/\D/g, '');
   clearAlert('errEnroll');
+
+  if (!hasBrowserAuthSession && !(await getBrowserAuthSession())) {
+    showSecuritySessionMissing();
+    return;
+  }
 
   if (!code || code.length !== 6) {
     return showAlert('errEnroll', 'Please enter the 6-digit code from your authenticator app.');
@@ -739,6 +823,10 @@ async function removeMFA() {
   clearAlert('errMfaRemove');
   clearAlert('okMfaRemove');
 
+  if (!hasBrowserAuthSession && !(await getBrowserAuthSession())) {
+    return showAlert('errMfaRemove', 'Sign in again from this tab to change your authenticator.');
+  }
+
   const { data, error: listErr } = await sb.auth.mfa.listFactors();
   if (listErr) return showAlert('errMfaRemove', 'Could not load factors: ' + listErr.message);
 
@@ -767,6 +855,10 @@ async function changePassword() {
   clearAlert('errPw');
   clearAlert('okPw');
 
+  if (!hasBrowserAuthSession && !(await getBrowserAuthSession())) {
+    return showAlert('errPw', 'Sign in again from this tab to change your password.');
+  }
+
   if (!newPw || newPw.length < 8) {
     return showAlert('errPw', 'Password must be at least 8 characters.');
   }
@@ -794,6 +886,11 @@ async function changePassword() {
 async function signOutAll() {
   setLoading('btnSignOutAll', true, 'Signing out…');
 
+  if (!hasBrowserAuthSession && !(await getBrowserAuthSession())) {
+    window.location.href = '/auth/logout';
+    return;
+  }
+
   await sb.auth.signOut({ scope: 'global' });
 
   // Clear cookies via edge function then redirect
@@ -803,6 +900,30 @@ async function signOutAll() {
 // ─── UI helpers ───────────────────────────────────────────────────────────────
 function toggleSection(id) {
   document.getElementById(id).classList.toggle('open');
+}
+
+function showSecuritySessionMissing() {
+  document.getElementById('mfaLoading').style.display = 'none';
+  document.getElementById('mfaEnrolled').style.display = 'none';
+  document.getElementById('mfaNotEnrolled').style.display = 'block';
+  document.getElementById('enrollFlow').classList.add('open');
+  document.getElementById('qrWrap').innerHTML = '';
+
+  const statusBadge = document.querySelector('#mfaNotEnrolled .status-badge');
+  const setupButton = document.querySelector('#mfaNotEnrolled .expand-btn');
+  if (statusBadge) statusBadge.innerHTML = '<span class="status-dot"></span> Sign-in required';
+  if (setupButton) setupButton.style.display = 'none';
+
+  const loginUrl = `/login.html?next=${encodeURIComponent(returnTo)}`;
+  showAlert(
+    'errEnroll',
+    'Sign in with password first to set up 2FA. This page cannot enroll an authenticator from an existing admin cookie.'
+  );
+  document.getElementById('qrWrap').innerHTML = `<a class="btn btn-primary" href="${loginUrl}">Sign in to set up 2FA</a>`;
+}
+
+function isMissingAuthSessionError(error) {
+  return /auth session missing|not authenticated|invalid jwt|jwt expired/i.test(error?.message || '');
 }
 
 function showAlert(id, msg, type = 'error') {
