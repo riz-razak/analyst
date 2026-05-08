@@ -301,6 +301,10 @@ async function handleAuthMe(request, env) {
 async function handleAuthSession(request, env) {
   if (request.method !== 'POST') return authJson({ ok: false, error: 'Method not allowed' }, 405);
 
+  if (!hasSameOriginMutation(request)) {
+    return authJson({ ok: false, error: 'Invalid request origin' }, 403);
+  }
+
   if (!env.SUPABASE_JWT_SECRET) {
     console.error('[auth/session] SUPABASE_JWT_SECRET not set; refusing session creation');
     return authJson({ ok: false, error: 'Auth backend not configured' }, 503);

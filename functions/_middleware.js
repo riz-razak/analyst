@@ -52,6 +52,12 @@ export async function onRequest(context) {
     return next();
   }
 
+  // First-time MFA enrollment uses a temporary Supabase browser session before
+  // the httpOnly AAL2 admin cookie exists.
+  if (path === '/profile.html' && url.searchParams.get('setup_mfa') === '1') {
+    return next();
+  }
+
   // ── Dossier visibility check ──────────────────────────────────
   // If this is a dossier page, check if it's hidden via the Worker
   const dossierSlug = extractDossierSlug(path);
