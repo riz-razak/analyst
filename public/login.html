@@ -869,7 +869,7 @@ async function finalizeLogin() {
     const json = await res.json();
 
     if (!json.ok) {
-      throw new Error(sessionErrorMessage(json.error));
+      throw new Error(sessionErrorMessage(json.error, json.diagnostics));
     }
 
     await sb.auth.signOut({ scope: 'local' }).catch(() => {});
@@ -887,9 +887,10 @@ async function finalizeLogin() {
   }
 }
 
-function sessionErrorMessage(error) {
+function sessionErrorMessage(error, diagnostics = {}) {
   if (error === 'rights_lookup_unavailable') {
-    return 'Signed in, but Analyst rights lookup is unavailable. Check the Worker Supabase service key and People table access.';
+    const detail = rightsDiagnosticsMessage(diagnostics);
+    return `Signed in, but Analyst rights lookup is unavailable.${detail} Check the Worker Supabase service key and People table access.`;
   }
   if (error === 'no_analyst_membership') {
     return 'Signed in, but this account has no active Analyst membership.';
@@ -907,6 +908,23 @@ function sessionErrorMessage(error) {
     return 'Could not establish session from this page. Refresh and try again.';
   }
   return error || 'Session storage failed';
+}
+
+function rightsDiagnosticsMessage(diagnostics = {}) {
+  const parts = [];
+
+  if (diagnostics.rest_status) {
+    const table = diagnostics.rest_table ? ` on ${diagnostics.rest_table}` : '';
+    parts.push(`REST ${diagnostics.rest_status}${table}`);
+  }
+  if (diagnostics.service_key) {
+    parts.push(`service key ${diagnostics.service_key}`);
+  }
+  if (diagnostics.service_ref_matches_url === false) {
+    parts.push('service key project does not match SUPABASE_URL');
+  }
+
+  return parts.length ? ` (${parts.join('; ')}).` : '';
 }
 
 async function fetchWithTimeout(url, options, timeoutMs) {

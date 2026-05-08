@@ -60,6 +60,7 @@ export async function onRequestGet(context) {
     required_right: requiredRight,
     rights,
     ...(rightsError ? { rights_error: rightsError } : {}),
+    ...(rightsError ? { rights_diagnostics: getSafeAnalystAccessDiagnostics(access) } : {}),
     user: {
       id: payload.sub || null,
       email: payload.email || user.email || null,
@@ -134,23 +135,26 @@ async function fetchPeopleAnalystAccess(payload, env) {
     rights: [],
     serviceKeyPresent: !!serviceKey,
     supabaseUrlPresent: !!supabaseUrl,
+    supabaseRef: getSupabaseProjectRef(supabaseUrl),
+    serviceKeyRef: getJwtPayloadValue(serviceKey, 'ref'),
+    serviceKeyRole: getJwtPayloadValue(serviceKey, 'role'),
     personCount: 0,
     membershipCount: 0,
   };
 
   if (!email) return { ...summary, peopleStatus: 'no_membership' };
-  if (!serviceKey || !supabaseUrl) return { ...summary, peopleStatus: 'lookup_unavailable' };
+  if (!serviceKey || !supabaseUrl) return analystLookupFailure(summary);
 
   const personIds = new Set();
   const people = await fetchSupabaseRestResult(env, `people?primary_email=eq.${encodeURIComponent(email)}&person_status=eq.active&select=id`);
-  if (!people.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: people.status };
+  if (!people.ok) return analystLookupFailure(summary, people);
   people.rows.forEach(person => personIds.add(person.id));
 
   const identities = await fetchSupabaseRestResult(env, `identity_emails?normalized_email=eq.${encodeURIComponent(email.toLowerCase())}&select=person_id`);
-  if (!identities.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: identities.status };
+  if (!identities.ok) return analystLookupFailure(summary, identities);
   for (const identity of identities.rows) {
     const rows = await fetchSupabaseRestResult(env, `people?id=eq.${encodeURIComponent(identity.person_id)}&person_status=eq.active&select=id`);
-    if (!rows.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: rows.status };
+    if (!rows.ok) return analystLookupFailure(summary, rows);
     if (rows.rows[0]?.id) personIds.add(rows.rows[0].id);
   }
 
@@ -163,7 +167,7 @@ async function fetchPeopleAnalystAccess(payload, env) {
       env,
       `product_memberships?person_id=eq.${encodeURIComponent(personId)}&product_key=eq.analyst&membership_status=eq.active&select=id,access_bundle_key`
     );
-    if (!memberships.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: memberships.status };
+    if (!memberships.ok) return analystLookupFailure(summary, memberships);
 
     for (const membership of memberships.rows) {
       summary.membershipCount += 1;
@@ -173,13 +177,13 @@ async function fetchPeopleAnalystAccess(payload, env) {
           env,
           `access_bundles?product_key=eq.analyst&bundle_key=eq.${encodeURIComponent(membership.access_bundle_key)}&select=rights`
         );
-        if (!bundles.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: bundles.status };
+        if (!bundles.ok) return analystLookupFailure(summary, bundles);
         addRightsFromValue(rights, bundles.rows[0]?.rights, 'analyst.');
         addBundleFallbackRights(rights, membership.access_bundle_key);
       }
 
       const overrides = await fetchSupabaseRestResult(env, `right_overrides?membership_id=eq.${encodeURIComponent(membership.id)}&select=right_key,value`);
-      if (!overrides.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: overrides.status };
+      if (!overrides.ok) return analystLookupFailure(summary, overrides);
       overrides.rows.forEach(override => {
         const right = normalizeRightKey(override.right_key, 'analyst.');
         if (override.value) rights.add(right);
@@ -198,6 +202,15 @@ async function fetchPeopleAnalystAccess(payload, env) {
   };
 }
 
+function analystLookupFailure(summary, restResult = {}) {
+  return {
+    ...summary,
+    peopleStatus: 'lookup_unavailable',
+    ...(restResult.status ? { restStatus: restResult.status } : {}),
+    ...(restResult.table ? { restTable: restResult.table } : {}),
+  };
+}
+
 function getPayloadEmail(payload) {
   return String(payload.email || payload.user_metadata?.email || payload.app_metadata?.email || '').trim().toLowerCase();
 }
@@ -206,7 +219,7 @@ async function fetchSupabaseRestResult(env, path) {
   const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
   const serviceKey = env.SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_ROLE_KEY;
   const table = path.split('?')[0];
-  if (!supabaseUrl || !serviceKey) return { ok: false, status: 'not_configured', rows: [] };
+  if (!supabaseUrl || !serviceKey) return { ok: false, status: 'not_configured', table, rows: [] };
 
   let response;
   try {
@@ -219,20 +232,20 @@ async function fetchSupabaseRestResult(env, path) {
     });
   } catch (error) {
     console.error(`[auth/rights] Supabase REST request failed for ${table}: ${error.message}`);
-    return { ok: false, status: 'request_failed', rows: [] };
+    return { ok: false, status: 'request_failed', table, rows: [] };
   }
 
   if (!response.ok) {
     console.error(`[auth/rights] Supabase REST returned ${response.status} for ${table}`);
-    return { ok: false, status: `http_${response.status}`, rows: [] };
+    return { ok: false, status: `http_${response.status}`, table, rows: [] };
   }
 
   try {
     const rows = await response.json();
-    return { ok: true, status: 'ok', rows: Array.isArray(rows) ? rows : [] };
+    return { ok: true, status: 'ok', table, rows: Array.isArray(rows) ? rows : [] };
   } catch (error) {
     console.error(`[auth/rights] Supabase REST JSON parse failed for ${table}: ${error.message}`);
-    return { ok: false, status: 'invalid_json', rows: [] };
+    return { ok: false, status: 'invalid_json', table, rows: [] };
   }
 }
 
@@ -245,6 +258,44 @@ function getAnalystAccessError(access = {}) {
   if (access.peopleStatus === 'lookup_unavailable') return 'rights_lookup_unavailable';
   if (access.peopleStatus === 'no_membership') return 'no_analyst_membership';
   return 'no_analyst_rights';
+}
+
+function getSafeAnalystAccessDiagnostics(access = {}) {
+  const diagnostics = {
+    people_status: access.peopleStatus || 'unknown',
+    service_key: access.serviceKeyPresent ? 'present' : 'missing',
+    supabase_url: access.supabaseUrlPresent ? 'present' : 'missing',
+    people: access.personCount || 0,
+    memberships: access.membershipCount || 0,
+    token_analyst_rights: access.tokenAnalystRightCount || 0,
+    analyst_rights: access.analystRightCount || 0,
+  };
+
+  if (access.restStatus) diagnostics.rest_status = access.restStatus;
+  if (access.restTable) diagnostics.rest_table = access.restTable;
+  if (access.supabaseRef) diagnostics.supabase_ref = access.supabaseRef;
+  if (access.serviceKeyRole) diagnostics.service_key_role = access.serviceKeyRole;
+  if (access.serviceKeyRef) diagnostics.service_key_ref = access.serviceKeyRef;
+  if (access.supabaseRef && access.serviceKeyRef) {
+    diagnostics.service_ref_matches_url = access.supabaseRef === access.serviceKeyRef;
+  }
+  return diagnostics;
+}
+
+function getSupabaseProjectRef(supabaseUrl) {
+  const match = String(supabaseUrl || '').match(/^https:\/\/([^.]+)\.supabase\.co\/?/);
+  return match ? match[1] : null;
+}
+
+function getJwtPayloadValue(jwt, key) {
+  try {
+    const payloadB64 = String(jwt || '').split('.')[1];
+    if (!payloadB64) return null;
+    const payload = decodePayload(payloadB64);
+    return payload?.[key] || null;
+  } catch {
+    return null;
+  }
 }
 
 function hasAdminAccess({ rights, requiredRight }) {
@@ -303,7 +354,7 @@ function decodeVerifiedPayload(payloadB64) {
 
 async function validateSupabaseAccessToken(token, env) {
   const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
-  const apiKey = env.SUPABASE_ANON_KEY || env.SUPABASE_SERVICE_KEY || FALLBACK_SUPABASE_ANON_KEY;
+  const apiKey = env.SUPABASE_ANON_KEY || FALLBACK_SUPABASE_ANON_KEY;
   if (!supabaseUrl || !apiKey) return null;
 
   try {

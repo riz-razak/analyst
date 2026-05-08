@@ -43,10 +43,11 @@ SUPABASE_URL = "https://ogunznqyfmxkmmwizpfy.supabase.co"
 # Create at https://github.com/settings/tokens (fine-grained)
 # Scopes needed: Contents (read & write) on riz-razak/analyst
 #
-# NOTE: Supabase Auth — JWT verification + comments API:
+# NOTE: Supabase Auth — JWT verification, token introspection, and People REST lookup:
+#   wrangler secret put SUPABASE_ANON_KEY --env production
 #   wrangler secret put SUPABASE_SERVICE_KEY --env production
 #   wrangler secret put SUPABASE_JWT_SECRET --env production
-# Get from Supabase dashboard: Settings → API Keys (service_role) + JWT Keys (legacy secret)
+# Get from Supabase dashboard: Settings → API Keys (legacy anon + service_role) + JWT Keys (legacy secret)
 
 [env.development.vars]
 GITHUB_REPO = "riz-razak/analyst"
