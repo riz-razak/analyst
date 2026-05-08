@@ -8,6 +8,9 @@
  *   SUPABASE_JWT_SECRET  — from Supabase: Project Settings → API → JWT Settings
  */
 
+const FALLBACK_SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
+const FALLBACK_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+
 // Paths that require authentication (AAL2)
 const PROTECTED_PATHS = [
   '/sri-lanka-cricket-corruption/analytics.html',
@@ -245,12 +248,14 @@ function decodeVerifiedPayload(payloadB64) {
 }
 
 async function validateSupabaseAccessToken(token, env) {
-  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) return null;
+  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
+  const apiKey = env.SUPABASE_ANON_KEY || env.SUPABASE_SERVICE_KEY || FALLBACK_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !apiKey) return null;
 
   try {
-    const response = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, {
+    const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
       headers: {
-        apikey: env.SUPABASE_SERVICE_KEY,
+        apikey: apiKey,
         Authorization: `Bearer ${token}`,
       },
     });

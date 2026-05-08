@@ -745,13 +745,48 @@ async function handleMFAVerify() {
 }
 
 async function getVerifiedMFASession(verifyData) {
-  if (verifyData?.session) return verifyData.session;
+  const candidates = [];
+  if (verifyData?.session) candidates.push(verifyData.session);
   if (verifyData?.access_token && verifyData?.refresh_token) {
-    return { access_token: verifyData.access_token, refresh_token: verifyData.refresh_token };
+    candidates.push({ access_token: verifyData.access_token, refresh_token: verifyData.refresh_token });
   }
 
-  const { data } = await sb.auth.getSession();
-  return data?.session || null;
+  const immediate = await sb.auth.getSession();
+  if (immediate.data?.session) candidates.push(immediate.data.session);
+
+  for (const session of candidates) {
+    if (isAal2Session(session)) return session;
+  }
+
+  // Supabase can update its stored session just after mfa.verify resolves.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await delay(150);
+    const { data } = await sb.auth.getSession();
+    if (isAal2Session(data?.session)) return data.session;
+  }
+
+  return null;
+}
+
+function isAal2Session(session) {
+  if (!session?.access_token || !session?.refresh_token) return false;
+  const payload = decodeJwtPayload(session.access_token);
+  return (payload?.aal || payload?.amr_aal) === 'aal2';
+}
+
+function decodeJwtPayload(token) {
+  try {
+    const payload = token.split('.')[1];
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const padded = base64.padEnd(base64.length + (4 - (base64.length % 4)) % 4, '=');
+    return JSON.parse(atob(padded));
+  } catch {
+    return null;
+  }
+}
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // ─── Finalize: POST tokens to edge function → set httpOnly cookies ────────────
