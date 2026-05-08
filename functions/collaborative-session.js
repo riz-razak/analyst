@@ -3070,6 +3070,9 @@ async function handleCommentModerate(request, env) {
 
   const SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
   const SUPABASE_KEY = getSupabaseServerKey(env);
+  if (!SUPABASE_KEY) {
+    return jsonResponse({ error: 'Supabase service key not configured' }, 503);
+  }
 
   try {
     let updateData = {};
@@ -3124,6 +3127,9 @@ async function handleCommentsPending(request, env) {
 
   const SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
   const SUPABASE_KEY = getSupabaseServerKey(env);
+  if (!SUPABASE_KEY) {
+    return jsonResponse({ error: 'Supabase service key not configured' }, 503);
+  }
 
   try {
     const resp = await fetch(
@@ -3149,7 +3155,7 @@ async function handleCommentsPending(request, env) {
 }
 
 function getSupabaseServerKey(env) {
-  return env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+  return env.SUPABASE_SERVICE_KEY || '';
 }
 
 /**

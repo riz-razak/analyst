@@ -2,7 +2,7 @@
  * Admin Moderation API — /api/moderate
  *
  * Protected by JWT cookie verification (same as _middleware.js).
- * Only authenticated users with AAL2 (2FA verified) can access.
+ * Only AAL2 users with analyst.admin or analyst.comments.moderate can access.
  *
  * GET  /api/moderate?dossier_id=sri-lanka-cricket-corruption[&status=pending]
  *      → returns ALL comments (or filtered by status) for admin view
@@ -45,6 +45,8 @@ async function requireAuth(request, env) {
     const payload = JSON.parse(new TextDecoder().decode(base64UrlDecode(payloadB64)));
     if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) return false;
     if ((payload.aal || 'aal1') !== 'aal2') return false;
+    const rights = collectRights(payload.app_metadata || {});
+    if (!hasCommentModerationRight(rights)) return false;
 
     return payload; // Return the decoded payload (contains email, sub, etc.)
   } catch {
@@ -150,6 +152,10 @@ export async function onRequestPatch(context) {
     return jsonResponse(401, { error: 'Authentication required (AAL2)' });
   }
 
+  if (!hasSameOriginMutation(request)) {
+    return jsonResponse(403, { error: 'Invalid request origin' });
+  }
+
   if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) {
     return jsonResponse(503, { error: 'Backend not configured' });
   }
@@ -225,8 +231,50 @@ export async function onRequestOptions() {
 function jsonResponse(status, data) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
   });
+}
+
+function collectRights(app) {
+  const raw = [
+    app.rights,
+    app.yan_rights,
+    app.analyst_rights,
+    app.permissions,
+    app.member_rights,
+  ];
+
+  const rights = new Set();
+  for (const value of raw) {
+    if (Array.isArray(value)) value.forEach(item => rights.add(String(item)));
+    else if (value && typeof value === 'object') {
+      Object.entries(value).forEach(([key, enabled]) => {
+        if (enabled) rights.add(key);
+      });
+    }
+    else if (typeof value === 'string') rights.add(value);
+  }
+  return [...rights];
+}
+
+function hasCommentModerationRight(rights) {
+  const rightSet = new Set(rights.filter(right => right.startsWith('analyst.')));
+  return rightSet.has('analyst.admin') || rightSet.has('analyst.comments.moderate');
+}
+
+function hasSameOriginMutation(request) {
+  const requestOrigin = new URL(request.url).origin;
+  const origin = request.headers.get('Origin');
+  if (origin) return origin === requestOrigin;
+
+  const referer = request.headers.get('Referer');
+  if (!referer) return false;
+
+  try {
+    return new URL(referer).origin === requestOrigin;
+  } catch {
+    return false;
+  }
 }
 
 function base64UrlDecode(str) {

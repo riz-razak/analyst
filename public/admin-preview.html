@@ -4658,23 +4658,38 @@ renderAppsSidebar();
         container.innerHTML = filtered.map(c => {
             const status = c.flagged ? 'flagged' : c.approved ? 'approved' : 'pending';
             const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
-            const time = new Date(c.created_at).toLocaleString();
-            const name = c.display_name || c.author_email || 'Anonymous';
-            const bodyEsc = (c.body || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const idEsc = escapeJs(c.id || '');
+            const time = escapeHtml(new Date(c.created_at).toLocaleString());
+            const name = escapeHtml(c.display_name || c.author_email || 'Anonymous');
+            const dossier = escapeHtml(c.dossier_id || 'unknown');
+            const bodyEsc = escapeHtml(c.body || '');
             const actions = status === 'approved' ? '' :
                 '<div class="uc-actions">' +
-                '<button class="uc-act uc-approve" onclick="window._ucModerate(\'' + c.id + '\', true, false)">Approve</button>' +
-                (status !== 'flagged' ? '<button class="uc-act uc-flag" onclick="window._ucModerate(\'' + c.id + '\', false, true)">Flag</button>' : '') +
-                '<button class="uc-act uc-reject" onclick="window._ucDelete(\'' + c.id + '\')">Delete</button>' +
+                '<button class="uc-act uc-approve" onclick="window._ucModerate(\'' + idEsc + '\', true, false)">Approve</button>' +
+                (status !== 'flagged' ? '<button class="uc-act uc-flag" onclick="window._ucModerate(\'' + idEsc + '\', false, true)">Flag</button>' : '') +
+                '<button class="uc-act uc-reject" onclick="window._ucDelete(\'' + idEsc + '\')">Delete</button>' +
                 '</div>';
             return '<div class="uc-card ' + status + '">' +
                 '<div class="uc-card-top"><span class="uc-author">' + name + '</span><span class="uc-time">' + time + '</span></div>' +
-                '<span class="uc-dossier">' + (c.dossier_id || 'unknown') + '</span>' +
+                '<span class="uc-dossier">' + dossier + '</span>' +
                 '<div class="uc-body">' + bodyEsc + '</div>' +
                 '<span class="uc-status ' + status + '">' + statusLabel + '</span>' +
                 actions +
                 '</div>';
         }).join('');
+    }
+
+    function escapeHtml(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function escapeJs(value) {
+        return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/[\r\n]/g, '');
     }
 
     function showToast(msg) {
