@@ -759,7 +759,7 @@ async function finalizeLogin() {
     const json = await res.json();
 
     if (!json.ok) {
-      throw new Error(json.error || 'Session storage failed');
+      throw new Error(sessionErrorMessage(json.error));
     }
 
     await sb.auth.signOut({ scope: 'local' }).catch(() => {});
@@ -771,9 +771,23 @@ async function finalizeLogin() {
     mfaVerifyInFlight = false;
     setLoading('btnVerifyMFA', false, 'Verify');
     setLoading('btnSignIn', false, 'Sign in');
-    showAlert('errMFA', 'Could not establish session. Please try again.');
-    showAlert('errPassword', 'Could not establish session. Please try again.');
+    const message = friendlyError(e);
+    showAlert('errMFA', message);
+    showAlert('errPassword', message);
   }
+}
+
+function sessionErrorMessage(error) {
+  if (error === 'Forbidden') {
+    return 'Signed in, but this account does not have Analyst access rights.';
+  }
+  if (error === 'MFA verification required') {
+    return 'Authenticator verification did not upgrade the session. Enter the latest code and try again.';
+  }
+  if (error === 'Invalid request origin') {
+    return 'Could not establish session from this page. Refresh and try again.';
+  }
+  return error || 'Session storage failed';
 }
 
 async function fetchWithTimeout(url, options, timeoutMs) {
@@ -851,6 +865,9 @@ function setLoading(btnId, loading, label) {
 
 function friendlyError(error) {
   const msg = (error?.message || '').toLowerCase();
+  if (error?.name === 'AbortError' || msg.includes('aborted') || msg.includes('timed out')) {
+    return 'The sign-in request timed out. Refresh and enter a fresh authenticator code.';
+  }
   if (msg.includes('invalid login') || msg.includes('invalid email') || msg.includes('wrong password')) {
     return 'Invalid email or password. Please try again.';
   }
