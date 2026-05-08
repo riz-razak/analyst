@@ -723,7 +723,7 @@ async function handleMFAVerify() {
       return showAlert('errMFA', friendlyError(verifyErr));
     }
 
-    const session = verifyData?.session;
+    const session = await getVerifiedMFASession(verifyData);
     if (!session?.access_token || !session?.refresh_token) {
       mfaVerifyInFlight = false;
       setLoading('btnVerifyMFA', false, 'Verify');
@@ -742,6 +742,16 @@ async function handleMFAVerify() {
     setLoading('btnVerifyMFA', false, 'Verify');
     showAlert('errMFA', friendlyError(error));
   }
+}
+
+async function getVerifiedMFASession(verifyData) {
+  if (verifyData?.session) return verifyData.session;
+  if (verifyData?.access_token && verifyData?.refresh_token) {
+    return { access_token: verifyData.access_token, refresh_token: verifyData.refresh_token };
+  }
+
+  const { data } = await sb.auth.getSession();
+  return data?.session || null;
 }
 
 // ─── Finalize: POST tokens to edge function → set httpOnly cookies ────────────
