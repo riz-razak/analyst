@@ -45,6 +45,11 @@ export async function onRequestPost(context) {
     return jsonError(403, 'MFA verification required');
   }
 
+  const rights = collectRights(payload.app_metadata || {});
+  if (!hasAnyAnalystRight(rights)) {
+    return jsonError(403, 'Forbidden');
+  }
+
   const accessExp = payload.exp || Math.floor(Date.now() / 1000) + 3600;
 
   const accessMaxAge = Math.max(0, accessExp - Math.floor(Date.now() / 1000));
@@ -92,6 +97,46 @@ function hasSameOriginMutation(request, url) {
   } catch {
     return false;
   }
+}
+
+function collectRights(app) {
+  const raw = [
+    app.rights,
+    app.yan_rights,
+    app.analyst_rights,
+    app.permissions,
+    app.member_rights,
+  ];
+
+  const rights = new Set();
+  for (const value of raw) {
+    if (Array.isArray(value)) value.forEach(item => rights.add(String(item)));
+    else if (value && typeof value === 'object') {
+      Object.entries(value).forEach(([key, enabled]) => {
+        if (enabled) rights.add(key);
+      });
+    }
+    else if (typeof value === 'string') rights.add(value);
+  }
+  return [...rights];
+}
+
+function hasAnyAnalystRight(rights) {
+  const analystRights = new Set(rights.filter(right => right.startsWith('analyst.')));
+  if (analystRights.has('analyst.admin')) return true;
+  return [
+    'analyst.cms.read',
+    'analyst.cms.write',
+    'analyst.comments.moderate',
+    'analyst.infra.admin',
+    'analyst.oracle.admin',
+    'analyst.privacy.admin',
+    'analyst.projects.read',
+    'analyst.projects.write',
+    'analyst.submissions.read',
+    'analyst.submissions.review',
+    'analyst.thumbnail.write',
+  ].some(right => analystRights.has(right));
 }
 
 async function verifyJWT(token, secret) {

@@ -330,6 +330,11 @@ async function handleAuthSession(request, env) {
     return authJson({ ok: false, error: 'MFA verification required' }, 403);
   }
 
+  const rights = collectYanRights(payload.app_metadata || {});
+  if (!hasYanAdminAccess({ rights })) {
+    return authJson({ ok: false, error: 'Forbidden' }, 403);
+  }
+
   const host = new URL(request.url).host;
   const secureFlag = host.includes('localhost') ? '' : '; Secure';
   const accessMaxAge = Math.max(0, (payload.exp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
