@@ -481,7 +481,7 @@ function hasAuthCallbackSessionPayload() {
 
 async function redirectIfServerSession() {
   try {
-    const response = await fetch('/auth/me?right=analyst.admin', {
+    const response = await fetch('/auth/me?right=analyst.admin.access', {
       credentials: 'same-origin',
       cache: 'no-store',
     });

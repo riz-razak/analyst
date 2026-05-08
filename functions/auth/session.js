@@ -9,6 +9,12 @@
  */
 const FALLBACK_SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
 const FALLBACK_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+const ANALYST_ADMIN_RIGHTS = ['analyst.admin', 'analyst.admin.access'];
+const ANALYST_BUNDLE_RIGHTS = {
+  'analyst.admin': ['analyst.admin.access'],
+  'analyst.editor': ['analyst.cms.edit', 'analyst.cms.publish', 'analyst.assets.manage', 'analyst.evidence.review'],
+  'analyst.moderator': ['analyst.comments.moderate'],
+};
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -44,11 +50,11 @@ export async function onRequestPost(context) {
   }
 
   const aal = payload.aal || payload.amr_aal || 'aal1';
-  if (aal !== 'aal2') {
+  if (!isAal2(aal)) {
     return jsonError(403, 'MFA verification required');
   }
 
-  const rights = collectRights(payload.app_metadata || {});
+  const rights = await resolveAnalystRights(payload, env);
   if (!hasAnyAnalystRight(rights)) {
     return jsonError(403, 'Forbidden');
   }
@@ -102,44 +108,122 @@ function hasSameOriginMutation(request, url) {
   }
 }
 
-function collectRights(app) {
-  const raw = [
-    app.rights,
-    app.yan_rights,
-    app.analyst_rights,
-    app.permissions,
-    app.member_rights,
-  ];
+function collectRights(source = {}) {
+  const rights = new Set();
+  [source.rights, source.yan_rights, source.permissions, source.member_rights]
+    .forEach(value => addRightsFromValue(rights, value));
+  addRightsFromValue(rights, source.analyst_rights, 'analyst.');
+  return [...rights];
+}
+
+async function resolveAnalystRights(payload, env) {
+  const rights = new Set([
+    ...collectRights(payload),
+    ...collectRights(payload.app_metadata || {}),
+  ]);
+
+  if (![...rights].some(right => right.startsWith('analyst.'))) {
+    const peopleRights = await fetchPeopleAnalystRights(payload, env);
+    peopleRights.forEach(right => rights.add(right));
+  }
+
+  return [...rights].sort();
+}
+
+function addRightsFromValue(rights, value, prefix = '') {
+  if (Array.isArray(value)) value.forEach(item => rights.add(normalizeRightKey(item, prefix)));
+  else if (value && typeof value === 'object') {
+    Object.entries(value).forEach(([key, enabled]) => {
+      if (enabled) rights.add(normalizeRightKey(key, prefix));
+    });
+  }
+  else if (typeof value === 'string') rights.add(normalizeRightKey(value, prefix));
+}
+
+function normalizeRightKey(value, prefix = '') {
+  const right = String(value).trim();
+  if (!right || !prefix || right.includes('.')) return right;
+  return `${prefix}${right}`;
+}
+
+function addBundleFallbackRights(rights, bundleKey) {
+  const normalized = normalizeRightKey(bundleKey, 'analyst.');
+  (ANALYST_BUNDLE_RIGHTS[normalized] || []).forEach(right => rights.add(right));
+}
+
+async function fetchPeopleAnalystRights(payload, env) {
+  const email = getPayloadEmail(payload);
+  const serviceKey = env.SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_ROLE_KEY;
+  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
+  if (!email || !serviceKey || !supabaseUrl) return [];
+
+  const personIds = new Set();
+  const people = await fetchSupabaseRest(env, `people?primary_email=eq.${encodeURIComponent(email)}&person_status=eq.active&select=id`);
+  (people || []).forEach(person => personIds.add(person.id));
+
+  const identities = await fetchSupabaseRest(env, `identity_emails?normalized_email=eq.${encodeURIComponent(email.toLowerCase())}&select=person_id`);
+  for (const identity of identities || []) {
+    const rows = await fetchSupabaseRest(env, `people?id=eq.${encodeURIComponent(identity.person_id)}&person_status=eq.active&select=id`);
+    if (rows?.[0]?.id) personIds.add(rows[0].id);
+  }
 
   const rights = new Set();
-  for (const value of raw) {
-    if (Array.isArray(value)) value.forEach(item => rights.add(String(item)));
-    else if (value && typeof value === 'object') {
-      Object.entries(value).forEach(([key, enabled]) => {
-        if (enabled) rights.add(key);
-      });
+  for (const personId of personIds) {
+    const memberships = await fetchSupabaseRest(
+      env,
+      `product_memberships?person_id=eq.${encodeURIComponent(personId)}&product_key=eq.analyst&membership_status=eq.active&select=id,access_bundle_key`
+    );
+    const membership = memberships?.[0];
+    if (!membership) continue;
+
+    if (membership.access_bundle_key) {
+      const bundles = await fetchSupabaseRest(
+        env,
+        `access_bundles?product_key=eq.analyst&bundle_key=eq.${encodeURIComponent(membership.access_bundle_key)}&select=rights`
+      );
+      addRightsFromValue(rights, bundles?.[0]?.rights, 'analyst.');
+      addBundleFallbackRights(rights, membership.access_bundle_key);
     }
-    else if (typeof value === 'string') rights.add(value);
+
+    const overrides = await fetchSupabaseRest(env, `right_overrides?membership_id=eq.${encodeURIComponent(membership.id)}&select=right_key,value`);
+    (overrides || []).forEach(override => {
+      const right = normalizeRightKey(override.right_key, 'analyst.');
+      if (override.value) rights.add(right);
+      else rights.delete(right);
+    });
   }
-  return [...rights];
+
+  return [...rights].filter(right => right.startsWith('analyst.'));
+}
+
+function getPayloadEmail(payload) {
+  return String(payload.email || payload.user_metadata?.email || payload.app_metadata?.email || '').trim().toLowerCase();
+}
+
+async function fetchSupabaseRest(env, path) {
+  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
+  const serviceKey = env.SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !serviceKey) return null;
+
+  const response = await fetch(`${supabaseUrl.replace(/\/+$/, '')}/rest/v1/${path}`, {
+    headers: {
+      apikey: serviceKey,
+      Authorization: `Bearer ${serviceKey}`,
+      Accept: 'application/json',
+    },
+  });
+  if (!response.ok) return null;
+  return response.json();
 }
 
 function hasAnyAnalystRight(rights) {
   const analystRights = new Set(rights.filter(right => right.startsWith('analyst.')));
-  if (analystRights.has('analyst.admin')) return true;
-  return [
-    'analyst.cms.read',
-    'analyst.cms.write',
-    'analyst.comments.moderate',
-    'analyst.infra.admin',
-    'analyst.oracle.admin',
-    'analyst.privacy.admin',
-    'analyst.projects.read',
-    'analyst.projects.write',
-    'analyst.submissions.read',
-    'analyst.submissions.review',
-    'analyst.thumbnail.write',
-  ].some(right => analystRights.has(right));
+  if (ANALYST_ADMIN_RIGHTS.some(right => analystRights.has(right))) return true;
+  return analystRights.size > 0;
+}
+
+function isAal2(aal) {
+  return aal === 'aal2' || aal === 2 || aal === '2';
 }
 
 async function verifyJWT(token, secret, env) {
