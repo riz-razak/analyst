@@ -5941,6 +5941,8 @@ function showEmailToast(msg, type) {
             currentView: 'dashboard',
             pendingPrivateRoute: null,
             privateAuthed: false,
+            sessionChecked: false,
+            sessionAuthenticated: false,
             menuCollapse: {}
         };
 
@@ -6018,6 +6020,9 @@ function showEmailToast(msg, type) {
                 const data = await response.json().catch(() => ({}));
 
                 if (response.status === 503) {
+                    appState.privateAuthed = false;
+                    appState.sessionAuthenticated = false;
+                    appState.sessionChecked = true;
                     updateSessionStatus({
                         tone: 'is-error',
                         status: 'Auth not configured',
@@ -6027,10 +6032,13 @@ function showEmailToast(msg, type) {
                         actionText: 'Sign in',
                         actionHref: getLoginHref()
                     });
-                    return;
+                    return false;
                 }
 
                 if (!response.ok) {
+                    appState.privateAuthed = false;
+                    appState.sessionAuthenticated = false;
+                    appState.sessionChecked = true;
                     updateSessionStatus({
                         tone: 'is-error',
                         status: 'Session check failed',
@@ -6040,10 +6048,13 @@ function showEmailToast(msg, type) {
                         actionText: 'Sign in',
                         actionHref: getLoginHref()
                     });
-                    return;
+                    return false;
                 }
 
                 if (!data.authenticated) {
+                    appState.privateAuthed = false;
+                    appState.sessionAuthenticated = false;
+                    appState.sessionChecked = true;
                     updateSessionStatus({
                         tone: 'is-warning',
                         status: 'Not signed in',
@@ -6053,7 +6064,7 @@ function showEmailToast(msg, type) {
                         actionText: 'Sign in',
                         actionHref: getLoginHref()
                     });
-                    return;
+                    return false;
                 }
 
                 const user = data.user || {};
@@ -6066,6 +6077,10 @@ function showEmailToast(msg, type) {
                 const hasAccess = data.admin === true || analystRights.length > 0;
                 const rightsLabel = analystRights.length === 1 ? '1 Analyst right' : analystRights.length + ' Analyst rights';
 
+                appState.privateAuthed = hasMfa && hasAccess;
+                appState.sessionAuthenticated = true;
+                appState.sessionChecked = true;
+
                 updateSessionStatus({
                     tone: hasMfa && hasAccess ? 'is-ok' : 'is-warning',
                     status: hasMfa && hasAccess ? 'Signed in' : (hasMfa ? 'Signed in, limited rights' : 'Signed in, MFA needed'),
@@ -6076,7 +6091,11 @@ function showEmailToast(msg, type) {
                     actionHref: '/auth/logout',
                     title: analystRights.length ? analystRights.join(', ') : 'No Analyst rights found in this session'
                 });
+                return appState.privateAuthed;
             } catch (err) {
+                appState.privateAuthed = false;
+                appState.sessionAuthenticated = false;
+                appState.sessionChecked = true;
                 updateSessionStatus({
                     tone: 'is-error',
                     status: 'Session check failed',
@@ -6086,6 +6105,7 @@ function showEmailToast(msg, type) {
                     actionText: 'Sign in',
                     actionHref: getLoginHref()
                 });
+                return false;
             }
         }
 
@@ -6298,13 +6318,30 @@ function showEmailToast(msg, type) {
         }
 
         // Navigation
-        function navigateToRoute(hash) {
+        async function navigateToRoute(hash) {
             const routeInfo = parseRoute(hash);
 
-            // Check if route requires authentication
+            // Private routes require the real Analyst admin session cookie, not the legacy email OTP modal.
             if (routeInfo.private && !appState.privateAuthed) {
-                showTotpModal(hash);
-                return;
+                if (!appState.sessionChecked) await hydrateSessionStatus();
+                if (!appState.privateAuthed) {
+                    window.location.href = getLoginHref();
+                    return;
+                }
+            }
+
+            if (document.getElementById('totp-modal')?.classList.contains('active')) {
+                document.getElementById('totp-modal').classList.remove('active');
+                clearTotpInputs();
+            }
+
+            if (appState.pendingPrivateRoute) {
+                appState.pendingPrivateRoute = null;
+            }
+
+            if (otpResendTimer) {
+                clearInterval(otpResendTimer);
+                otpResendTimer = null;
             }
 
             appState.currentRoute = hash;
@@ -6451,7 +6488,7 @@ function showEmailToast(msg, type) {
         });
 
         document.addEventListener('DOMContentLoaded', async () => {
-            hydrateSessionStatus();
+            await hydrateSessionStatus();
 
             if (typeof hydrateDossierRegistry === 'function') {
                 await hydrateDossierRegistry();

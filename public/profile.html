@@ -467,40 +467,46 @@
 // Must match the values in login.html
 const SUPABASE_URL      = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+const SUPABASE_SESSION_STORAGE_KEY = 'analyst-admin-preauth';
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 const { createClient } = supabase;
+const authSessionStorage = {
+  getItem(key) {
+    try { return window.sessionStorage.getItem(key); } catch { return null; }
+  },
+  setItem(key, value) {
+    try { window.sessionStorage.setItem(key, value); } catch {}
+  },
+  removeItem(key) {
+    try { window.sessionStorage.removeItem(key); } catch {}
+  }
+};
 const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
-    persistSession: false,
+    persistSession: true,
     autoRefreshToken: false,
-    detectSessionInUrl: false,
+    detectSessionInUrl: true,
+    storage: authSessionStorage,
+    storageKey: SUPABASE_SESSION_STORAGE_KEY,
   }
 });
 
-// Profile page is protected by edge middleware, so if we reach here,
-// the user is authenticated. However, we need to get the session from
-// the cookie — since the cookie is httpOnly, we can't read it in JS.
-// Instead, we verify identity by calling Supabase's getUser() with the
-// token we reconstruct from the cookie via a session refresh.
-//
-// Strategy: attempt a getUser() call. If it fails (token expired),
-// redirect to /login.html?next=/profile.html
+const profileParams = new URLSearchParams(window.location.search);
+const returnTo = safeNext(profileParams.get('next') || '/admin-preview.html');
+
+// Profile needs the pre-MFA Supabase session from this tab to enroll or manage TOTP.
+// Once MFA is verified, /auth/session creates the httpOnly admin cookie used by CMS.
 
 let enrollFactorId = null; // holds the id of the factor being enrolled
 
-async function init() {
-  // Try to get user info via session refresh
-  // Since we can't read the httpOnly cookie, we rely on Supabase's
-  // pkce/session detection OR we use the refresh token flow via the edge
-  //
-  // For profile page, we call a lightweight whoami endpoint
-  // that reads the cookie server-side and returns user info.
-  // If that's not available yet, we show the user info as "Authenticated"
-  // and let the profile functions work directly.
+function safeNext(value) {
+  return value && value.startsWith('/') && !value.startsWith('//') ? value : '/admin-preview.html';
+}
 
+async function init() {
   try {
-    // Attempt session — Supabase will use any in-memory token
+    // Attempt session from this tab's pre-auth storage.
     const { data: { user }, error } = await sb.auth.getUser();
 
     if (error || !user) {
@@ -621,7 +627,7 @@ async function verifyEnrollment() {
     return showAlert('errEnroll', challengeErr.message);
   }
 
-  const { error: verifyErr } = await sb.auth.mfa.verify({
+  const { data: verifyData, error: verifyErr } = await sb.auth.mfa.verify({
     factorId:    enrollFactorId,
     challengeId: challengeData.id,
     code,
@@ -636,20 +642,53 @@ async function verifyEnrollment() {
   showAlert('okEnroll', '✓ Authenticator enrolled successfully! Your account is now protected with 2FA.');
   document.getElementById('enrollFlow').classList.remove('open');
 
-  // Refresh session cookies with upgraded AAL2 token
+  // Refresh server cookies with the upgraded AAL2 token, then discard the browser-held pre-auth session.
   const { data: sessionData } = await sb.auth.getSession();
-  if (sessionData?.session) {
-    await fetch('/auth/session', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_token:  sessionData.session.access_token,
-        refresh_token: sessionData.session.refresh_token,
-      }),
-    });
+  const session = normalizeSession(verifyData) || sessionData?.session;
+  if (!session) {
+    showAlert('errEnroll', 'Authenticator enrolled, but the admin session was not created. Sign in again with password and authenticator.');
+    return;
+  }
+
+  const synced = await syncServerSession(session);
+  if (!synced) return;
+  if (profileParams.get('setup_mfa') === '1') {
+    await sb.auth.signOut({ scope: 'local' }).catch(() => {});
+    window.location.replace(returnTo);
+    return;
   }
 
   await loadMFAStatus();
+}
+
+function normalizeSession(data) {
+  if (data?.session) return data.session;
+  if (data?.access_token && data?.refresh_token) {
+    return { access_token: data.access_token, refresh_token: data.refresh_token };
+  }
+  return null;
+}
+
+async function syncServerSession(session) {
+  try {
+    const response = await fetch('/auth/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token,
+      }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.ok) {
+      showAlert('errEnroll', data.error || 'Authenticator enrolled, but the admin session was not created. Sign in again with password and authenticator.');
+      return false;
+    }
+    return true;
+  } catch (error) {
+    showAlert('errEnroll', 'Authenticator enrolled, but the admin session was not created. Sign in again with password and authenticator.');
+    return false;
+  }
 }
 
 function cancelEnroll() {
