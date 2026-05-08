@@ -888,6 +888,15 @@ async function finalizeLogin() {
 }
 
 function sessionErrorMessage(error) {
+  if (error === 'rights_lookup_unavailable') {
+    return 'Signed in, but Analyst rights lookup is unavailable. Check the Worker Supabase service key and People table access.';
+  }
+  if (error === 'no_analyst_membership') {
+    return 'Signed in, but this account has no active Analyst membership.';
+  }
+  if (error === 'no_analyst_rights') {
+    return 'Signed in, but this Analyst membership does not grant access rights.';
+  }
   if (error === 'Forbidden') {
     return 'Signed in, but this account does not have Analyst access rights.';
   }

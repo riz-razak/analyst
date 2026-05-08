@@ -54,9 +54,13 @@ export async function onRequestPost(context) {
     return jsonError(403, 'MFA verification required');
   }
 
-  const rights = await resolveAnalystRights(payload, env);
+  const access = await resolveAnalystAccess(payload, env);
+  const rights = access.rights;
+  logAnalystRightsResolution('auth/session', access);
   if (!hasAnyAnalystRight(rights)) {
-    return jsonError(403, 'Forbidden');
+    const error = getAnalystAccessError(access);
+    console.warn(`[auth/session] Analyst session denied: ${error}; ${formatAnalystAccessSummary(access)}`);
+    return jsonError(statusForAnalystAccessError(error), error);
   }
 
   const accessExp = payload.exp || Math.floor(Date.now() / 1000) + 3600;
@@ -116,18 +120,28 @@ function collectRights(source = {}) {
   return [...rights];
 }
 
-async function resolveAnalystRights(payload, env) {
+async function resolveAnalystAccess(payload, env) {
   const rights = new Set([
     ...collectRights(payload),
     ...collectRights(payload.app_metadata || {}),
   ]);
+  const tokenAnalystRightCount = [...rights].filter(right => right.startsWith('analyst.')).length;
 
-  if (![...rights].some(right => right.startsWith('analyst.'))) {
-    const peopleRights = await fetchPeopleAnalystRights(payload, env);
-    peopleRights.forEach(right => rights.add(right));
-  }
+  const peopleAccess = await fetchPeopleAnalystAccess(payload, env);
+  peopleAccess.rights.forEach(right => rights.add(right));
 
-  return [...rights].sort();
+  const sortedRights = [...rights].sort();
+  return {
+    ...peopleAccess,
+    rights: sortedRights,
+    tokenAnalystRightCount,
+    analystRightCount: sortedRights.filter(right => right.startsWith('analyst.')).length,
+  };
+}
+
+async function resolveAnalystRights(payload, env) {
+  const access = await resolveAnalystAccess(payload, env);
+  return access.rights;
 }
 
 function addRightsFromValue(rights, value, prefix = '') {
@@ -155,69 +169,139 @@ function addBundleFallbackRights(rights, bundleKey) {
   (ANALYST_BUNDLE_RIGHTS[normalized] || []).forEach(right => rights.add(right));
 }
 
-async function fetchPeopleAnalystRights(payload, env) {
+async function fetchPeopleAnalystAccess(payload, env) {
   const email = getPayloadEmail(payload);
   const serviceKey = env.SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_ROLE_KEY;
   const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
-  if (!email || !serviceKey || !supabaseUrl) return [];
+  const summary = {
+    peopleStatus: 'ok',
+    rights: [],
+    serviceKeyPresent: !!serviceKey,
+    supabaseUrlPresent: !!supabaseUrl,
+    personCount: 0,
+    membershipCount: 0,
+  };
+
+  if (!email) return { ...summary, peopleStatus: 'no_membership' };
+  if (!serviceKey || !supabaseUrl) return { ...summary, peopleStatus: 'lookup_unavailable' };
 
   const personIds = new Set();
-  const people = await fetchSupabaseRest(env, `people?primary_email=eq.${encodeURIComponent(email)}&person_status=eq.active&select=id`);
-  (people || []).forEach(person => personIds.add(person.id));
+  const people = await fetchSupabaseRestResult(env, `people?primary_email=eq.${encodeURIComponent(email)}&person_status=eq.active&select=id`);
+  if (!people.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: people.status };
+  people.rows.forEach(person => personIds.add(person.id));
 
-  const identities = await fetchSupabaseRest(env, `identity_emails?normalized_email=eq.${encodeURIComponent(email.toLowerCase())}&select=person_id`);
-  for (const identity of identities || []) {
-    const rows = await fetchSupabaseRest(env, `people?id=eq.${encodeURIComponent(identity.person_id)}&person_status=eq.active&select=id`);
-    if (rows?.[0]?.id) personIds.add(rows[0].id);
+  const identities = await fetchSupabaseRestResult(env, `identity_emails?normalized_email=eq.${encodeURIComponent(email.toLowerCase())}&select=person_id`);
+  if (!identities.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: identities.status };
+  for (const identity of identities.rows) {
+    const rows = await fetchSupabaseRestResult(env, `people?id=eq.${encodeURIComponent(identity.person_id)}&person_status=eq.active&select=id`);
+    if (!rows.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: rows.status };
+    if (rows.rows[0]?.id) personIds.add(rows.rows[0].id);
   }
+
+  summary.personCount = personIds.size;
+  if (personIds.size === 0) return { ...summary, peopleStatus: 'no_membership' };
 
   const rights = new Set();
   for (const personId of personIds) {
-    const memberships = await fetchSupabaseRest(
+    const memberships = await fetchSupabaseRestResult(
       env,
       `product_memberships?person_id=eq.${encodeURIComponent(personId)}&product_key=eq.analyst&membership_status=eq.active&select=id,access_bundle_key`
     );
-    const membership = memberships?.[0];
-    if (!membership) continue;
+    if (!memberships.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: memberships.status };
 
-    if (membership.access_bundle_key) {
-      const bundles = await fetchSupabaseRest(
-        env,
-        `access_bundles?product_key=eq.analyst&bundle_key=eq.${encodeURIComponent(membership.access_bundle_key)}&select=rights`
-      );
-      addRightsFromValue(rights, bundles?.[0]?.rights, 'analyst.');
-      addBundleFallbackRights(rights, membership.access_bundle_key);
+    for (const membership of memberships.rows) {
+      summary.membershipCount += 1;
+
+      if (membership.access_bundle_key) {
+        const bundles = await fetchSupabaseRestResult(
+          env,
+          `access_bundles?product_key=eq.analyst&bundle_key=eq.${encodeURIComponent(membership.access_bundle_key)}&select=rights`
+        );
+        if (!bundles.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: bundles.status };
+        addRightsFromValue(rights, bundles.rows[0]?.rights, 'analyst.');
+        addBundleFallbackRights(rights, membership.access_bundle_key);
+      }
+
+      const overrides = await fetchSupabaseRestResult(env, `right_overrides?membership_id=eq.${encodeURIComponent(membership.id)}&select=right_key,value`);
+      if (!overrides.ok) return { ...summary, peopleStatus: 'lookup_unavailable', restStatus: overrides.status };
+      overrides.rows.forEach(override => {
+        const right = normalizeRightKey(override.right_key, 'analyst.');
+        if (override.value) rights.add(right);
+        else rights.delete(right);
+      });
     }
-
-    const overrides = await fetchSupabaseRest(env, `right_overrides?membership_id=eq.${encodeURIComponent(membership.id)}&select=right_key,value`);
-    (overrides || []).forEach(override => {
-      const right = normalizeRightKey(override.right_key, 'analyst.');
-      if (override.value) rights.add(right);
-      else rights.delete(right);
-    });
   }
 
-  return [...rights].filter(right => right.startsWith('analyst.'));
+  if (summary.membershipCount === 0) return { ...summary, peopleStatus: 'no_membership' };
+
+  const analystRights = [...rights].filter(right => right.startsWith('analyst.')).sort();
+  return {
+    ...summary,
+    peopleStatus: analystRights.length > 0 ? 'ok' : 'no_rights',
+    rights: analystRights,
+  };
 }
 
 function getPayloadEmail(payload) {
   return String(payload.email || payload.user_metadata?.email || payload.app_metadata?.email || '').trim().toLowerCase();
 }
 
-async function fetchSupabaseRest(env, path) {
+async function fetchSupabaseRestResult(env, path) {
   const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
   const serviceKey = env.SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!supabaseUrl || !serviceKey) return null;
+  const table = path.split('?')[0];
+  if (!supabaseUrl || !serviceKey) return { ok: false, status: 'not_configured', rows: [] };
 
-  const response = await fetch(`${supabaseUrl.replace(/\/+$/, '')}/rest/v1/${path}`, {
-    headers: {
-      apikey: serviceKey,
-      Authorization: `Bearer ${serviceKey}`,
-      Accept: 'application/json',
-    },
-  });
-  if (!response.ok) return null;
-  return response.json();
+  let response;
+  try {
+    response = await fetch(`${supabaseUrl.replace(/\/+$/, '')}/rest/v1/${path}`, {
+      headers: {
+        apikey: serviceKey,
+        Authorization: `Bearer ${serviceKey}`,
+        Accept: 'application/json',
+      },
+    });
+  } catch (error) {
+    console.error(`[auth/rights] Supabase REST request failed for ${table}: ${error.message}`);
+    return { ok: false, status: 'request_failed', rows: [] };
+  }
+
+  if (!response.ok) {
+    console.error(`[auth/rights] Supabase REST returned ${response.status} for ${table}`);
+    return { ok: false, status: `http_${response.status}`, rows: [] };
+  }
+
+  try {
+    const rows = await response.json();
+    return { ok: true, status: 'ok', rows: Array.isArray(rows) ? rows : [] };
+  } catch (error) {
+    console.error(`[auth/rights] Supabase REST JSON parse failed for ${table}: ${error.message}`);
+    return { ok: false, status: 'invalid_json', rows: [] };
+  }
+}
+
+async function fetchSupabaseRest(env, path) {
+  const result = await fetchSupabaseRestResult(env, path);
+  return result.ok ? result.rows : null;
+}
+
+function getAnalystAccessError(access = {}) {
+  if (access.peopleStatus === 'lookup_unavailable') return 'rights_lookup_unavailable';
+  if (access.peopleStatus === 'no_membership') return 'no_analyst_membership';
+  return 'no_analyst_rights';
+}
+
+function statusForAnalystAccessError(error) {
+  return error === 'rights_lookup_unavailable' ? 503 : 403;
+}
+
+function formatAnalystAccessSummary(access = {}) {
+  const restStatus = access.restStatus ? `; rest_status=${access.restStatus}` : '';
+  return `people_status=${access.peopleStatus || 'unknown'}; service_key=${access.serviceKeyPresent ? 'present' : 'missing'}; people=${access.personCount || 0}; memberships=${access.membershipCount || 0}; token_analyst_rights=${access.tokenAnalystRightCount || 0}; analyst_rights=${access.analystRightCount || 0}${restStatus}`;
+}
+
+function logAnalystRightsResolution(scope, access = {}) {
+  console.info(`[${scope}] Analyst rights resolved: ${formatAnalystAccessSummary(access)}`);
 }
 
 function hasAnyAnalystRight(rights) {
