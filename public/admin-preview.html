@@ -242,6 +242,7 @@
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
+            gap: 16px;
             padding: 0 32px;
             flex-shrink: 0;
         }
@@ -250,6 +251,119 @@
             font-size: 18px;
             font-weight: 600;
             color: var(--text-primary);
+        }
+
+        .session-pill {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            max-width: 360px;
+            padding: 7px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            background: #FFFFFF;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .session-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: var(--text-light);
+        }
+
+        .session-pill-text {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .session-pill.is-ok,
+        .session-card.is-ok {
+            border-color: #BBF7D0;
+            background: #F0FDF4;
+            color: #065F46;
+        }
+
+        .session-pill.is-ok .session-dot,
+        .session-card.is-ok .session-dot { background: #10B981; }
+
+        .session-pill.is-warning,
+        .session-card.is-warning {
+            border-color: #FDE68A;
+            background: #FFFBEB;
+            color: #92400E;
+        }
+
+        .session-pill.is-warning .session-dot,
+        .session-card.is-warning .session-dot { background: #F59E0B; }
+
+        .session-pill.is-error,
+        .session-card.is-error {
+            border-color: #FECACA;
+            background: #FEF2F2;
+            color: #991B1B;
+        }
+
+        .session-pill.is-error .session-dot,
+        .session-card.is-error .session-dot { background: #EF4444; }
+
+        .session-card {
+            margin-top: 16px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: #FFFFFF;
+            color: var(--text-secondary);
+        }
+
+        .session-card-kicker {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: inherit;
+            opacity: 0.72;
+            margin-bottom: 8px;
+        }
+
+        .session-card-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .session-card-email {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .session-card-meta {
+            margin-top: 4px;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .session-action {
+            display: inline-flex;
+            margin-top: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
 
         /* Views Container */
@@ -1674,6 +1788,11 @@
             font-size: 16px;
             text-align: center;
         }
+        .session-pill {
+            max-width: 128px;
+            padding: 6px 8px;
+            font-size: 11px;
+        }
 
         /* Views container: tighter padding */
         .views-container {
@@ -1956,6 +2075,17 @@
             </div>
 
             <div class="sidebar-spacer"></div>
+
+            <div class="session-card is-warning" id="session-card" aria-live="polite">
+                <div class="session-card-kicker">Session</div>
+                <div class="session-card-status">
+                    <span class="session-dot"></span>
+                    <span id="session-card-status">Checking session</span>
+                </div>
+                <div class="session-card-email" id="session-card-email">Verifying...</div>
+                <div class="session-card-meta" id="session-card-meta">Checking Analyst access.</div>
+                <a class="session-action" id="session-action" href="/auth/logout">Sign out</a>
+            </div>
         </aside>
 
         <!-- Sidebar backdrop (mobile only) -->
@@ -1981,6 +2111,10 @@
                     </svg>
                 </a>
                 <div class="topbar-title" id="topbar-title">Dashboard</div>
+                <div class="session-pill is-warning" id="session-pill" title="Checking session">
+                    <span class="session-dot"></span>
+                    <span class="session-pill-text" id="session-pill-text">Checking session</span>
+                </div>
             </header>
 
             <!-- Views Container -->
@@ -5833,6 +5967,128 @@ function showEmailToast(msg, type) {
             '/private/tasks': { view: 'private-tasks', title: 'Private Tasks', private: true }
         };
 
+        function getLoginHref() {
+            const next = window.location.pathname + window.location.search + window.location.hash;
+            return '/login.html?next=' + encodeURIComponent(next);
+        }
+
+        function setSessionTone(tone) {
+            ['session-pill', 'session-card'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.classList.remove('is-ok', 'is-warning', 'is-error');
+                el.classList.add(tone);
+            });
+        }
+
+        function updateSessionStatus({ tone, status, pillText, email, meta, actionText, actionHref, title }) {
+            setSessionTone(tone);
+
+            const pill = document.getElementById('session-pill');
+            const pillTextEl = document.getElementById('session-pill-text');
+            const cardStatus = document.getElementById('session-card-status');
+            const cardEmail = document.getElementById('session-card-email');
+            const cardMeta = document.getElementById('session-card-meta');
+            const action = document.getElementById('session-action');
+
+            if (pill) pill.title = title || status;
+            if (pillTextEl) pillTextEl.textContent = pillText || status;
+            if (cardStatus) cardStatus.textContent = status;
+            if (cardEmail) cardEmail.textContent = email;
+            if (cardMeta) cardMeta.textContent = meta;
+            if (action) {
+                action.textContent = actionText;
+                action.href = actionHref;
+            }
+        }
+
+        async function hydrateSessionStatus() {
+            updateSessionStatus({
+                tone: 'is-warning',
+                status: 'Checking session',
+                pillText: 'Checking session',
+                email: 'Verifying...',
+                meta: 'Checking Analyst access.',
+                actionText: 'Sign out',
+                actionHref: '/auth/logout'
+            });
+
+            try {
+                const response = await fetch('/auth/me', { cache: 'no-store', credentials: 'include' });
+                const data = await response.json().catch(() => ({}));
+
+                if (response.status === 503) {
+                    updateSessionStatus({
+                        tone: 'is-error',
+                        status: 'Auth not configured',
+                        pillText: 'Auth config error',
+                        email: 'SUPABASE_JWT_SECRET missing',
+                        meta: 'Protected auth is failing closed.',
+                        actionText: 'Sign in',
+                        actionHref: getLoginHref()
+                    });
+                    return;
+                }
+
+                if (!response.ok) {
+                    updateSessionStatus({
+                        tone: 'is-error',
+                        status: 'Session check failed',
+                        pillText: 'Session error',
+                        email: 'HTTP ' + response.status,
+                        meta: data.error || 'Could not verify the current session.',
+                        actionText: 'Sign in',
+                        actionHref: getLoginHref()
+                    });
+                    return;
+                }
+
+                if (!data.authenticated) {
+                    updateSessionStatus({
+                        tone: 'is-warning',
+                        status: 'Not signed in',
+                        pillText: 'Not signed in',
+                        email: 'No active admin session',
+                        meta: 'Use Analyst login to continue.',
+                        actionText: 'Sign in',
+                        actionHref: getLoginHref()
+                    });
+                    return;
+                }
+
+                const user = data.user || {};
+                const email = user.email || user.id || 'Signed-in member';
+                const aal = data.aal || 'unknown';
+                const aalLabel = String(aal).toUpperCase();
+                const rights = Array.isArray(data.rights) ? data.rights : [];
+                const analystRights = rights.filter(right => String(right).startsWith('analyst.'));
+                const hasMfa = aal === 'aal2';
+                const hasAccess = data.admin === true || analystRights.length > 0;
+                const rightsLabel = analystRights.length === 1 ? '1 Analyst right' : analystRights.length + ' Analyst rights';
+
+                updateSessionStatus({
+                    tone: hasMfa && hasAccess ? 'is-ok' : 'is-warning',
+                    status: hasMfa && hasAccess ? 'Signed in' : (hasMfa ? 'Signed in, limited rights' : 'Signed in, MFA needed'),
+                    pillText: email + ' · ' + aalLabel,
+                    email,
+                    meta: aalLabel + ' · ' + rightsLabel,
+                    actionText: 'Sign out',
+                    actionHref: '/auth/logout',
+                    title: analystRights.length ? analystRights.join(', ') : 'No Analyst rights found in this session'
+                });
+            } catch (err) {
+                updateSessionStatus({
+                    tone: 'is-error',
+                    status: 'Session check failed',
+                    pillText: 'Session error',
+                    email: 'Could not reach /auth/me',
+                    meta: err.message || 'Network error.',
+                    actionText: 'Sign in',
+                    actionHref: getLoginHref()
+                });
+            }
+        }
+
         // ── OTP Config ──────────────────────────────────────────────────────
         const OTP_WORKER = '';
         const OTP_COOLDOWN = 60; // seconds
@@ -6195,6 +6451,8 @@ function showEmailToast(msg, type) {
         });
 
         document.addEventListener('DOMContentLoaded', async () => {
+            hydrateSessionStatus();
+
             if (typeof hydrateDossierRegistry === 'function') {
                 await hydrateDossierRegistry();
             }
@@ -6234,6 +6492,8 @@ function showEmailToast(msg, type) {
                     document.getElementById('totp-modal').classList.remove('active');
                 }
             });
+
+            window.setInterval(hydrateSessionStatus, 5 * 60 * 1000);
         });
 // ========================================
 // MOBILE SIDEBAR TOGGLE
