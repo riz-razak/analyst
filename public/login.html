@@ -863,6 +863,7 @@ async function finalizeLogin() {
     const res = await fetchWithTimeout('/auth/session', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
       body: JSON.stringify(currentSession),
     }, 12000);
 
@@ -871,6 +872,8 @@ async function finalizeLogin() {
     if (!json.ok) {
       throw new Error(sessionErrorMessage(json.error, json.diagnostics));
     }
+
+    await verifyServerSessionCookie();
 
     await sb.auth.signOut({ scope: 'local' }).catch(() => {});
 
@@ -884,6 +887,18 @@ async function finalizeLogin() {
     const message = friendlyError(e);
     showAlert('errMFA', message);
     showAlert('errPassword', message);
+  }
+}
+
+async function verifyServerSessionCookie() {
+  const response = await fetch('/auth/me?right=analyst.admin.access', {
+    credentials: 'same-origin',
+    cache: 'no-store',
+  });
+  const session = await response.json().catch(() => null);
+
+  if (!response.ok || !session?.authenticated || !session?.admin || session?.aal !== 'aal2') {
+    throw new Error('Signed in, but the admin session cookie was not stored. Clear site data for analyst.rizrazak.com and sign in again.');
   }
 }
 

@@ -372,12 +372,22 @@ async function handleAuthSession(request, env) {
 
 async function handleAuthLogout(request) {
   const url = new URL(request.url);
-  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
   const headers = new Headers({ 'Cache-Control': 'no-store' });
-  headers.append('Set-Cookie', `sb-token=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0`);
-  headers.append('Set-Cookie', `sb-refresh=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0`);
+  appendClearedAuthCookies(headers, url);
   headers.set('Location', '/login.html?logged_out=1');
   return new Response(null, { status: 302, headers });
+}
+
+function appendClearedAuthCookies(headers, url) {
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  const names = ['sb-token', 'sb-refresh'];
+  const domains = ['', '; Domain=rizrazak.com', '; Domain=.rizrazak.com'];
+
+  names.forEach(name => {
+    domains.forEach(domain => {
+      headers.append('Set-Cookie', `${name}=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0${domain}`);
+    });
+  });
 }
 
 function collectYanRights(source = {}) {
@@ -705,26 +715,30 @@ async function getVerifiedAnalystSession(request, env) {
     return { ok: false, error: 'missing_secret' };
   }
 
-  const tokenInfo = getSupabaseRequestToken(request);
-  if (!tokenInfo) return { ok: false, error: 'missing_token' };
+  const tokenInfos = getSupabaseRequestTokens(request);
+  if (tokenInfos.length === 0) return { ok: false, error: 'missing_token' };
 
-  const payload = await verifySupabaseJWT(tokenInfo.token, env.SUPABASE_JWT_SECRET, env);
-  if (!payload) return { ok: false, error: 'invalid_token' };
+  for (const tokenInfo of tokenInfos) {
+    const payload = await verifySupabaseJWT(tokenInfo.token, env.SUPABASE_JWT_SECRET, env);
+    if (!payload) continue;
 
-  const access = await resolveAnalystAccess(payload, env);
-  const rights = access.rights;
-  const aal = payload.aal || payload.amr_aal || 'aal1';
-  return { ok: true, payload, rights, access, aal, tokenSource: tokenInfo.source };
+    const access = await resolveAnalystAccess(payload, env);
+    const rights = access.rights;
+    const aal = payload.aal || payload.amr_aal || 'aal1';
+    return { ok: true, payload, rights, access, aal, tokenSource: tokenInfo.source };
+  }
+
+  return { ok: false, error: 'invalid_token' };
 }
 
-function getSupabaseRequestToken(request) {
+function getSupabaseRequestTokens(request) {
   const authHeader = request.headers.get('Authorization') || '';
   const bearerMatch = authHeader.match(/^Bearer\s+(.+)$/i);
-  if (bearerMatch) return { token: bearerMatch[1].trim(), source: 'authorization' };
+  if (bearerMatch) return [{ token: bearerMatch[1].trim(), source: 'authorization' }];
 
   const cookieHeader = request.headers.get('Cookie') || '';
-  const cookieToken = parseCookie(cookieHeader, 'sb-token');
-  return cookieToken ? { token: cookieToken, source: 'cookie' } : null;
+  return parseCookies(cookieHeader, 'sb-token')
+    .map(token => ({ token, source: 'cookie' }));
 }
 
 function hasAnyAnalystRight(rights, requiredRights) {
@@ -837,8 +851,22 @@ function base64UrlDecode(str) {
 }
 
 function parseCookie(cookieHeader, name) {
-  const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${name}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : null;
+  const values = parseCookies(cookieHeader, name);
+  return values.length ? values[values.length - 1] : null;
+}
+
+function parseCookies(cookieHeader, name) {
+  return String(cookieHeader || '')
+    .split(';')
+    .map(part => part.trim())
+    .filter(Boolean)
+    .map(part => {
+      const index = part.indexOf('=');
+      return index === -1 ? null : [part.slice(0, index), part.slice(index + 1)];
+    })
+    .filter(pair => pair && pair[0] === name)
+    .map(pair => decodeURIComponent(pair[1]))
+    .filter(Boolean);
 }
 
 function authJson(data, status) {

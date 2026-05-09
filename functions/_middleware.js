@@ -96,9 +96,9 @@ export async function onRequest(context) {
 
   // Get the JWT from the httpOnly cookie
   const cookieHeader = request.headers.get('Cookie') || '';
-  const token = parseCookie(cookieHeader, 'sb-token');
+  const tokens = parseCookies(cookieHeader, 'sb-token');
 
-  if (!token) {
+  if (tokens.length === 0) {
     return redirectToLogin(url);
   }
 
@@ -109,7 +109,7 @@ export async function onRequest(context) {
     return authUnavailable();
   }
 
-  const payload = await verifyJWT(token, jwtSecret, env);
+  const payload = await getFirstVerifiedPayload(tokens, jwtSecret, env);
 
   if (!payload) {
     // Token invalid or expired
@@ -135,6 +135,14 @@ export async function onRequest(context) {
 
   // All checks passed — serve the page
   return next();
+}
+
+async function getFirstVerifiedPayload(tokens, jwtSecret, env) {
+  for (const token of tokens) {
+    const payload = await verifyJWT(token, jwtSecret, env);
+    if (payload) return payload;
+  }
+  return null;
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -415,8 +423,22 @@ function isAal2(aal) {
 }
 
 function parseCookie(cookieHeader, name) {
-  const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${name}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : null;
+  const values = parseCookies(cookieHeader, name);
+  return values.length ? values[values.length - 1] : null;
+}
+
+function parseCookies(cookieHeader, name) {
+  return String(cookieHeader || '')
+    .split(';')
+    .map(part => part.trim())
+    .filter(Boolean)
+    .map(part => {
+      const index = part.indexOf('=');
+      return index === -1 ? null : [part.slice(0, index), part.slice(index + 1)];
+    })
+    .filter(pair => pair && pair[0] === name)
+    .map(pair => decodeURIComponent(pair[1]))
+    .filter(Boolean);
 }
 
 function redirectToLogin(url, mfaRequired = false) {

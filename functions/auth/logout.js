@@ -11,13 +11,12 @@ export async function onRequest(context) {
   const isSecure = !host.includes('localhost');
   const secureFlag = isSecure ? '; Secure' : '';
 
-  // Clear both cookies by setting Max-Age=0
-  const clearToken   = `sb-token=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0`;
-  const clearRefresh = `sb-refresh=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0`;
-
   const headers = new Headers();
-  headers.append('Set-Cookie', clearToken);
-  headers.append('Set-Cookie', clearRefresh);
+  ['sb-token', 'sb-refresh'].forEach(name => {
+    ['', '; Domain=rizrazak.com', '; Domain=.rizrazak.com'].forEach(domain => {
+      headers.append('Set-Cookie', `${name}=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0${domain}`);
+    });
+  });
   headers.set('Location', '/login.html?logged_out=1');
   headers.set('Cache-Control', 'no-store');
 

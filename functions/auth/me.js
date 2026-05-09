@@ -28,9 +28,9 @@ export async function onRequestGet(context) {
   const url = new URL(request.url);
   const requiredRight = url.searchParams.get('right');
   const cookieHeader = request.headers.get('Cookie') || '';
-  const token = parseCookie(cookieHeader, 'sb-token');
+  const tokens = parseCookies(cookieHeader, 'sb-token');
 
-  if (!token) {
+  if (tokens.length === 0) {
     return json({ authenticated: false, admin: false, rights: [] }, 200);
   }
 
@@ -40,7 +40,7 @@ export async function onRequestGet(context) {
     return json({ authenticated: false, admin: false, rights: [], error: 'auth_backend_not_configured' }, 503);
   }
 
-  const payload = await verifyJWT(token, jwtSecret, env);
+  const payload = await getFirstVerifiedPayload(tokens, jwtSecret, env);
 
   if (!payload) {
     return json({ authenticated: false, admin: false, rights: [] }, 200);
@@ -67,6 +67,14 @@ export async function onRequestGet(context) {
       name: user.full_name || user.name || payload.email || 'Yan member'
     }
   }, 200);
+}
+
+async function getFirstVerifiedPayload(tokens, jwtSecret, env) {
+  for (const token of tokens) {
+    const payload = await verifyJWT(token, jwtSecret, env);
+    if (payload) return payload;
+  }
+  return null;
 }
 
 function collectRights(source = {}) {
@@ -315,8 +323,22 @@ function isAal2(aal) {
 }
 
 function parseCookie(cookieHeader, name) {
-  const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${name}=([^;]*)`));
-  return match ? decodeURIComponent(match[1]) : null;
+  const values = parseCookies(cookieHeader, name);
+  return values.length ? values[values.length - 1] : null;
+}
+
+function parseCookies(cookieHeader, name) {
+  return String(cookieHeader || '')
+    .split(';')
+    .map(part => part.trim())
+    .filter(Boolean)
+    .map(part => {
+      const index = part.indexOf('=');
+      return index === -1 ? null : [part.slice(0, index), part.slice(index + 1)];
+    })
+    .filter(pair => pair && pair[0] === name)
+    .map(pair => decodeURIComponent(pair[1]))
+    .filter(Boolean);
 }
 
 async function verifyJWT(token, secret, env) {
