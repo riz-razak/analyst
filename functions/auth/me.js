@@ -40,16 +40,15 @@ export async function onRequestGet(context) {
     return json({ authenticated: false, admin: false, rights: [], error: 'auth_backend_not_configured' }, 503);
   }
 
-  const payload = await getFirstVerifiedPayload(tokens, jwtSecret, env);
+  const session = await getBestVerifiedSession(tokens, jwtSecret, env);
 
-  if (!payload) {
+  if (!session) {
     return json({ authenticated: false, admin: false, rights: [] }, 200);
   }
 
+  const { payload, access, rights } = session;
   const aal = payload.aal || payload.amr_aal || 'aal1';
   const user = payload.user_metadata || {};
-  const access = await resolveAnalystAccess(payload, env);
-  const rights = access.rights;
   const admin = isAal2(aal) && hasAdminAccess({ rights, requiredRight });
   const rightsError = admin ? null : getAnalystAccessError(access);
 
@@ -69,12 +68,29 @@ export async function onRequestGet(context) {
   }, 200);
 }
 
-async function getFirstVerifiedPayload(tokens, jwtSecret, env) {
+async function getBestVerifiedSession(tokens, jwtSecret, env) {
+  const candidates = [];
   for (const token of tokens) {
     const payload = await verifyJWT(token, jwtSecret, env);
-    if (payload) return payload;
+    if (!payload) continue;
+    const access = await resolveAnalystAccess(payload, env);
+    const rights = access.rights;
+    const aal = payload.aal || payload.amr_aal || 'aal1';
+    candidates.push({ payload, access, rights, aal, score: scoreSession(payload, rights, aal) });
   }
-  return null;
+  if (!candidates.length) return null;
+  candidates.sort((a, b) => b.score - a.score);
+  return candidates[0];
+}
+
+function scoreSession(payload, rights, aal) {
+  const analystRightCount = rights.filter(right => right.startsWith('analyst.')).length;
+  let score = 0;
+  if (isAal2(aal)) score += 1000000;
+  if (hasAdminAccess({ rights, requiredRight: 'analyst.admin' })) score += 100000;
+  score += analystRightCount * 100;
+  score += Math.min(Number(payload.exp || 0), 9999999999) / 100000;
+  return score;
 }
 
 function collectRights(source = {}) {

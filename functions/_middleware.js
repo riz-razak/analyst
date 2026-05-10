@@ -109,23 +109,21 @@ export async function onRequest(context) {
     return authUnavailable();
   }
 
-  const payload = await getFirstVerifiedPayload(tokens, jwtSecret, env);
+  const session = await getBestVerifiedSession(tokens, jwtSecret, env);
 
-  if (!payload) {
+  if (!session) {
     // Token invalid or expired
     return redirectToLogin(url);
   }
 
   // Check MFA assurance level — must be aal2 (password + TOTP verified)
-  const aal = payload.aal || payload.amr_aal || 'aal1';
+  const { payload, access, rights, aal } = session;
   if (!isAal2(aal)) {
     return redirectToLogin(url, true);
   }
 
   const requiredRights = getRequiredRights(path);
   if (requiredRights.length > 0) {
-    const access = await resolveAnalystAccess(payload, env);
-    const rights = access.rights;
     if (!hasAnyAnalystRight(rights, requiredRights)) {
       const error = getAnalystAccessError(access);
       console.warn(`[auth] Analyst page denied: ${error}; ${formatAnalystAccessSummary(access)}`);
@@ -137,12 +135,29 @@ export async function onRequest(context) {
   return next();
 }
 
-async function getFirstVerifiedPayload(tokens, jwtSecret, env) {
+async function getBestVerifiedSession(tokens, jwtSecret, env) {
+  const candidates = [];
   for (const token of tokens) {
     const payload = await verifyJWT(token, jwtSecret, env);
-    if (payload) return payload;
+    if (!payload) continue;
+    const access = await resolveAnalystAccess(payload, env);
+    const rights = access.rights;
+    const aal = payload.aal || payload.amr_aal || 'aal1';
+    candidates.push({ payload, access, rights, aal, score: scoreSession(payload, rights, aal) });
   }
-  return null;
+  if (!candidates.length) return null;
+  candidates.sort((a, b) => b.score - a.score);
+  return candidates[0];
+}
+
+function scoreSession(payload, rights, aal) {
+  const analystRightCount = rights.filter(right => right.startsWith('analyst.')).length;
+  let score = 0;
+  if (isAal2(aal)) score += 1000000;
+  if (hasAnyAnalystRight(rights, ['analyst.admin'])) score += 100000;
+  score += analystRightCount * 100;
+  score += Math.min(Number(payload.exp || 0), 9999999999) / 100000;
+  return score;
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

@@ -53,6 +53,12 @@ export default {
       // For any non-API request on the main site, check and pass through.
       const host = url.hostname;
       if (host !== 'analyst-collaborative-cms.riz-1cb.workers.dev' && !path.startsWith('/api/')) {
+        const pageRights = getRequiredAnalystPageRights(path);
+        if (pageRights.length > 0) {
+          const authResult = await requireAnalystPageRights(request, env, pageRights);
+          if (authResult instanceof Response) return authResult;
+        }
+
         // 301 redirect old /dossiers/* URLs to new root-level paths
         if (path.startsWith('/dossiers/')) {
           const newPath = path.replace('/dossiers/', '/');
@@ -289,18 +295,19 @@ async function handleAcquireLock(request, env) {
 async function handleAuthMe(request, env) {
   const url = new URL(request.url);
   const requiredRight = url.searchParams.get('right');
+  const debug = url.searchParams.get('debug') === '1';
 
   const session = await getVerifiedAnalystSession(request, env);
   if (!session.ok) {
     const status = session.error === 'missing_secret' ? 503 : 200;
     const error = session.error === 'missing_secret' ? { error: 'auth_backend_not_configured' } : {};
-    return authJson({ authenticated: false, admin: false, rights: [], ...error }, status);
+    return authJson({ authenticated: false, admin: false, rights: [], ...error }, status, debugAuthHeaders(session, debug));
   }
 
   const { payload, rights, access } = session;
   const aal = payload.aal || payload.amr_aal || 'aal1';
   const user = payload.user_metadata || {};
-  const admin = aal === 'aal2' && hasYanAdminAccess({ rights, requiredRight });
+  const admin = isAal2(aal) && hasYanAdminAccess({ rights, requiredRight });
   const rightsError = admin ? null : getAnalystAccessError(access);
 
   return authJson({
@@ -316,7 +323,7 @@ async function handleAuthMe(request, env) {
       email: payload.email || user.email || null,
       name: user.full_name || user.name || payload.email || 'Yan member',
     },
-  }, 200);
+  }, 200, debugAuthHeaders(session, debug));
 }
 
 async function handleAuthSession(request, env) {
@@ -360,11 +367,13 @@ async function handleAuthSession(request, env) {
     return authJson({ ok: false, error, diagnostics: getSafeAnalystAccessDiagnostics(access) }, statusForAnalystAccessError(error));
   }
 
-  const host = new URL(request.url).host;
+  const url = new URL(request.url);
+  const host = url.host;
   const secureFlag = host.includes('localhost') ? '' : '; Secure';
   const accessMaxAge = Math.max(0, (payload.exp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
   const refreshMaxAge = 60 * 60 * 24 * 30;
   const headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+  appendClearedAuthCookies(headers, url);
   headers.append('Set-Cookie', `sb-token=${encodeURIComponent(access_token)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${accessMaxAge}`);
   headers.append('Set-Cookie', `sb-refresh=${encodeURIComponent(refresh_token)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${refreshMaxAge}`);
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
@@ -381,7 +390,12 @@ async function handleAuthLogout(request) {
 function appendClearedAuthCookies(headers, url) {
   const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
   const names = ['sb-token', 'sb-refresh'];
-  const domains = ['', '; Domain=rizrazak.com', '; Domain=.rizrazak.com'];
+  const domains = new Set(['']);
+  if (!url.hostname.includes('localhost')) {
+    domains.add(`; Domain=${url.hostname}`);
+    domains.add('; Domain=rizrazak.com');
+    domains.add('; Domain=.rizrazak.com');
+  }
 
   names.forEach(name => {
     domains.forEach(domain => {
@@ -685,6 +699,52 @@ function getRequiredAnalystRights(path, method) {
   return [];
 }
 
+function getRequiredAnalystPageRights(path) {
+  if (path === '/admin-preview.html') return ['analyst.admin'];
+  if (path === '/admin-submissions.html') return ['analyst.admin', 'analyst.submissions.read', 'analyst.submissions.review'];
+  if (path.startsWith('/admin/')) return ['analyst.admin'];
+  return [];
+}
+
+async function requireAnalystPageRights(request, env, requiredRights) {
+  const url = new URL(request.url);
+  const session = await getVerifiedAnalystSession(request, env);
+  if (!session.ok) {
+    if (session.error === 'missing_secret') return authUnavailablePage();
+    return redirectToLogin(url);
+  }
+
+  if (!isAal2(session.aal)) return redirectToLogin(url, true);
+
+  if (!hasAnyAnalystRight(session.rights, requiredRights)) {
+    const error = getAnalystAccessError(session.access);
+    console.warn(`[auth] Analyst page denied: ${error}; ${formatAnalystAccessSummary(session.access)}`);
+    return forbiddenPage(error, statusForAnalystAccessError(error));
+  }
+
+  return session;
+}
+
+function redirectToLogin(url, mfaRequired = false) {
+  const next = encodeURIComponent(url.pathname + url.search + url.hash);
+  const mfaParam = mfaRequired ? '&mfa=required' : '';
+  return Response.redirect(`${url.origin}/login.html?next=${next}${mfaParam}`, 302);
+}
+
+function authUnavailablePage() {
+  return new Response('Analyst auth is not configured.', {
+    status: 503,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+  });
+}
+
+function forbiddenPage(error, status = 403) {
+  return new Response(`Analyst admin access denied: ${error}`, {
+    status,
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+  });
+}
+
 async function requireAnalystRights(request, env, requiredRights) {
   const session = await getVerifiedAnalystSession(request, env);
   if (!session.ok) {
@@ -712,23 +772,58 @@ async function requireAnalystRights(request, env, requiredRights) {
 async function getVerifiedAnalystSession(request, env) {
   if (!env.SUPABASE_JWT_SECRET) {
     console.error('[auth] SUPABASE_JWT_SECRET not set; refusing protected request');
-    return { ok: false, error: 'missing_secret' };
+    return { ok: false, error: 'missing_secret', tokenCount: 0 };
   }
 
   const tokenInfos = getSupabaseRequestTokens(request);
-  if (tokenInfos.length === 0) return { ok: false, error: 'missing_token' };
+  if (tokenInfos.length === 0) return { ok: false, error: 'missing_token', tokenCount: 0 };
 
-  for (const tokenInfo of tokenInfos) {
+  const candidates = [];
+  for (let index = 0; index < tokenInfos.length; index += 1) {
+    const tokenInfo = tokenInfos[index];
     const payload = await verifySupabaseJWT(tokenInfo.token, env.SUPABASE_JWT_SECRET, env);
     if (!payload) continue;
 
     const access = await resolveAnalystAccess(payload, env);
     const rights = access.rights;
     const aal = payload.aal || payload.amr_aal || 'aal1';
-    return { ok: true, payload, rights, access, aal, tokenSource: tokenInfo.source };
+    candidates.push({
+      ok: true,
+      payload,
+      rights,
+      access,
+      aal,
+      tokenSource: tokenInfo.source,
+      tokenIndex: index,
+      tokenCount: tokenInfos.length,
+      tokenScore: scoreAnalystSession(payload, rights, aal),
+    });
   }
 
-  return { ok: false, error: 'invalid_token' };
+  if (candidates.length === 0) return { ok: false, error: 'invalid_token', tokenCount: tokenInfos.length };
+
+  candidates.sort((a, b) => b.tokenScore - a.tokenScore);
+  const selected = candidates[0];
+  if (tokenInfos.length > 1) {
+    const rightsCount = selected.rights.filter(right => right.startsWith('analyst.')).length;
+    console.info(`[auth] Multiple Analyst session cookies found: count=${tokenInfos.length}; selected_index=${selected.tokenIndex}; aal=${selected.aal}; rights=${rightsCount}`);
+  }
+  return selected;
+}
+
+function scoreAnalystSession(payload, rights, aal) {
+  const analystRightCount = rights.filter(right => right.startsWith('analyst.')).length;
+  let score = 0;
+  if (isAal2(aal)) score += 1000000;
+  if (hasAnalystAdminRight(rights)) score += 100000;
+  score += analystRightCount * 100;
+  score += Math.min(Number(payload.exp || 0), 9999999999) / 100000;
+  return score;
+}
+
+function hasAnalystAdminRight(rights) {
+  const analystRights = new Set(rights.filter(right => right.startsWith('analyst.')));
+  return hasAliasedRight(analystRights, 'analyst.admin');
 }
 
 function getSupabaseRequestTokens(request) {
@@ -869,11 +964,31 @@ function parseCookies(cookieHeader, name) {
     .filter(Boolean);
 }
 
-function authJson(data, status) {
+function authJson(data, status, extraHeaders = {}) {
+  const headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
+  Object.entries(extraHeaders).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) headers.set(key, String(value));
+  });
   return new Response(JSON.stringify(data), {
     status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' },
+    headers,
   });
+}
+
+function debugAuthHeaders(session, enabled) {
+  if (!enabled) return {};
+  const headers = {
+    'X-Analyst-Auth-Token-Count': session?.tokenCount || 0,
+  };
+  if (!session?.ok) {
+    headers['X-Analyst-Auth-Error'] = session?.error || 'unknown';
+    return headers;
+  }
+  headers['X-Analyst-Auth-Selected-AAL'] = session.aal || 'unknown';
+  headers['X-Analyst-Auth-Selected-Index'] = session.tokenIndex ?? 0;
+  headers['X-Analyst-Auth-Rights-Count'] = session.rights.filter(right => right.startsWith('analyst.')).length;
+  headers['X-Analyst-Auth-Admin'] = hasAnalystAdminRight(session.rights) ? 'true' : 'false';
+  return headers;
 }
 
 /**

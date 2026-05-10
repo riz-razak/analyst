@@ -75,6 +75,7 @@ export async function onRequestPost(context) {
     'Content-Type': 'application/json',
     'Cache-Control': 'no-store',
   });
+  appendClearedAuthCookies(headers, url);
   headers.append('Set-Cookie', `sb-token=${encodeURIComponent(access_token)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${accessMaxAge}`);
   headers.append('Set-Cookie', `sb-refresh=${encodeURIComponent(refresh_token)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${refreshMaxAge}`);
 
@@ -114,6 +115,23 @@ function hasSameOriginMutation(request, url) {
   } catch {
     return false;
   }
+}
+
+function appendClearedAuthCookies(headers, url) {
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  const names = ['sb-token', 'sb-refresh'];
+  const domains = new Set(['']);
+  if (!url.hostname.includes('localhost')) {
+    domains.add(`; Domain=${url.hostname}`);
+    domains.add('; Domain=rizrazak.com');
+    domains.add('; Domain=.rizrazak.com');
+  }
+
+  names.forEach(name => {
+    domains.forEach(domain => {
+      headers.append('Set-Cookie', `${name}=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0${domain}`);
+    });
+  });
 }
 
 function collectRights(source = {}) {
