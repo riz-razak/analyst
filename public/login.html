@@ -857,7 +857,7 @@ async function finalizeLogin() {
 
     await verifyServerSessionCookie();
 
-    await sb.auth.signOut({ scope: 'local' }).catch(() => {});
+    clearBrowserPreauthSession();
 
     // Redirect to the originally-requested page
     window.location.replace(nextUrl);
@@ -870,6 +870,12 @@ async function finalizeLogin() {
     showAlert('errMFA', message);
     showAlert('errPassword', message);
   }
+}
+
+function clearBrowserPreauthSession() {
+  // Do not call Supabase signOut here: that revokes the refresh token stored in
+  // the HttpOnly server cookie and causes a login loop after the access token expires.
+  try { window.sessionStorage.removeItem(SUPABASE_SESSION_STORAGE_KEY); } catch {}
 }
 
 async function verifyServerSessionCookie() {

@@ -12,6 +12,7 @@ The current breakdown was product-local session hygiene:
 - Login writes an HttpOnly `sb-token` access cookie and `sb-refresh` refresh cookie.
 - `/auth/me`, the homepage menu, and login auto-redirect only trusted `sb-token`.
 - When `sb-token` expired but `sb-refresh` still existed, an already-open admin tab could appear active while new tabs fell back to login.
+- `login.html` also called Supabase `signOut({ scope: 'local' })` after setting server cookies, which can revoke the refresh token that the server cookie needs.
 - The correct short-term fix is to refresh the server session from `sb-refresh`, rotate both cookies, and then continue without forcing a new sign-in.
 
 ## Direction

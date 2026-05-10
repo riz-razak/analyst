@@ -303,7 +303,7 @@ async function handleAuthMe(request, env) {
   if (!session.ok) {
     const status = session.error === 'missing_secret' ? 503 : 200;
     const error = session.error === 'missing_secret' ? { error: 'auth_backend_not_configured' } : {};
-    return authJson({ authenticated: false, admin: false, rights: [], ...error }, status, debugAuthHeaders(session, debug));
+    return authJson({ authenticated: false, admin: false, rights: [], ...error, ...(debug ? { auth_debug: safeAuthDebug(session) } : {}) }, status, debugAuthHeaders(session, debug));
   }
 
   const { payload, rights, access } = session;
@@ -325,6 +325,7 @@ async function handleAuthMe(request, env) {
       email: payload.email || user.email || null,
       name: user.full_name || user.name || payload.email || 'Yan member',
     },
+    ...(debug ? { auth_debug: safeAuthDebug(session) } : {}),
   }, 200, debugAuthHeaders(session, debug), session.setCookies || []);
 }
 
@@ -1094,6 +1095,24 @@ function debugAuthHeaders(session, enabled) {
   headers['X-Analyst-Auth-Admin'] = hasAnalystAdminRight(session.rights) ? 'true' : 'false';
   if (session.refreshed) headers['X-Analyst-Auth-Refreshed'] = 'true';
   return headers;
+}
+
+function safeAuthDebug(session) {
+  const debug = {
+    ok: Boolean(session?.ok),
+    token_count: session?.tokenCount || 0,
+    refresh_token_count: session?.refreshTokenCount || 0,
+  };
+  if (!session?.ok) {
+    debug.error = session?.error || 'unknown';
+    return debug;
+  }
+  debug.aal = session.aal || 'unknown';
+  debug.selected_index = session.tokenIndex ?? 0;
+  debug.analyst_rights_count = session.rights.filter(right => right.startsWith('analyst.')).length;
+  debug.admin = hasAnalystAdminRight(session.rights);
+  debug.refreshed = Boolean(session.refreshed);
+  return debug;
 }
 
 /**
