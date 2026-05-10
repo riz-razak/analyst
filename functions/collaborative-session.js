@@ -53,10 +53,12 @@ export default {
       // For any non-API request on the main site, check and pass through.
       const host = url.hostname;
       if (host !== 'analyst-collaborative-cms.riz-1cb.workers.dev' && !path.startsWith('/api/')) {
+        let pageSession = null;
         const pageRights = getRequiredAnalystPageRights(path);
         if (pageRights.length > 0) {
           const authResult = await requireAnalystPageRights(request, env, pageRights);
           if (authResult instanceof Response) return authResult;
+          pageSession = authResult;
         }
 
         // 301 redirect old /dossiers/* URLs to new root-level paths
@@ -78,7 +80,7 @@ export default {
           }
         }
         // Not a hidden dossier (or not a dossier at all) — pass through to origin
-        return fetch(request);
+        return withSessionCookies(await fetch(request), pageSession);
       }
 
       let analystSession = null;
@@ -323,7 +325,7 @@ async function handleAuthMe(request, env) {
       email: payload.email || user.email || null,
       name: user.full_name || user.name || payload.email || 'Yan member',
     },
-  }, 200, debugAuthHeaders(session, debug));
+  }, 200, debugAuthHeaders(session, debug), session.setCookies || []);
 }
 
 async function handleAuthSession(request, env) {
@@ -368,14 +370,10 @@ async function handleAuthSession(request, env) {
   }
 
   const url = new URL(request.url);
-  const host = url.host;
-  const secureFlag = host.includes('localhost') ? '' : '; Secure';
   const accessMaxAge = Math.max(0, (payload.exp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
   const refreshMaxAge = 60 * 60 * 24 * 30;
   const headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
-  appendClearedAuthCookies(headers, url);
-  headers.append('Set-Cookie', `sb-token=${encodeURIComponent(access_token)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${accessMaxAge}`);
-  headers.append('Set-Cookie', `sb-refresh=${encodeURIComponent(refresh_token)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${refreshMaxAge}`);
+  appendAuthSessionCookies(headers, url, access_token, refresh_token, accessMaxAge, refreshMaxAge);
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
 }
 
@@ -388,6 +386,23 @@ async function handleAuthLogout(request) {
 }
 
 function appendClearedAuthCookies(headers, url) {
+  buildClearedAuthCookies(url).forEach(cookie => headers.append('Set-Cookie', cookie));
+}
+
+function appendAuthSessionCookies(headers, url, accessToken, refreshToken, accessMaxAge, refreshMaxAge = 60 * 60 * 24 * 30) {
+  buildAuthSessionCookies(url, accessToken, refreshToken, accessMaxAge, refreshMaxAge).forEach(cookie => headers.append('Set-Cookie', cookie));
+}
+
+function buildAuthSessionCookies(url, accessToken, refreshToken, accessMaxAge, refreshMaxAge = 60 * 60 * 24 * 30) {
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  return [
+    ...buildClearedAuthCookies(url),
+    `sb-token=${encodeURIComponent(accessToken)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${accessMaxAge}`,
+    `sb-refresh=${encodeURIComponent(refreshToken)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${refreshMaxAge}`,
+  ];
+}
+
+function buildClearedAuthCookies(url) {
   const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
   const names = ['sb-token', 'sb-refresh'];
   const domains = new Set(['']);
@@ -397,11 +412,13 @@ function appendClearedAuthCookies(headers, url) {
     domains.add('; Domain=.rizrazak.com');
   }
 
+  const cookies = [];
   names.forEach(name => {
     domains.forEach(domain => {
-      headers.append('Set-Cookie', `${name}=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0${domain}`);
+      cookies.push(`${name}=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0${domain}`);
     });
   });
+  return cookies;
 }
 
 function collectYanRights(source = {}) {
@@ -776,8 +793,6 @@ async function getVerifiedAnalystSession(request, env) {
   }
 
   const tokenInfos = getSupabaseRequestTokens(request);
-  if (tokenInfos.length === 0) return { ok: false, error: 'missing_token', tokenCount: 0 };
-
   const candidates = [];
   for (let index = 0; index < tokenInfos.length; index += 1) {
     const tokenInfo = tokenInfos[index];
@@ -800,7 +815,46 @@ async function getVerifiedAnalystSession(request, env) {
     });
   }
 
-  if (candidates.length === 0) return { ok: false, error: 'invalid_token', tokenCount: tokenInfos.length };
+  if (candidates.length === 0) {
+    const refreshed = await refreshSupabaseSessionFromCookie(request, env);
+    if (!refreshed.ok) {
+      return {
+        ok: false,
+        error: tokenInfos.length ? refreshed.error || 'invalid_token' : refreshed.error || 'missing_token',
+        tokenCount: tokenInfos.length,
+        refreshTokenCount: refreshed.refreshTokenCount || 0,
+      };
+    }
+
+    const refreshedPayload = await verifySupabaseJWT(refreshed.accessToken, env.SUPABASE_JWT_SECRET, env);
+    if (!refreshedPayload) {
+      return {
+        ok: false,
+        error: 'refresh_invalid_token',
+        tokenCount: tokenInfos.length,
+        refreshTokenCount: refreshed.refreshTokenCount || 0,
+      };
+    }
+
+    const access = await resolveAnalystAccess(refreshedPayload, env);
+    const rights = access.rights;
+    const aal = refreshedPayload.aal || refreshedPayload.amr_aal || 'aal1';
+    const accessMaxAge = Math.max(0, (refreshedPayload.exp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
+    return {
+      ok: true,
+      payload: refreshedPayload,
+      rights,
+      access,
+      aal,
+      tokenSource: 'refresh_cookie',
+      tokenIndex: 0,
+      tokenCount: tokenInfos.length,
+      refreshTokenCount: refreshed.refreshTokenCount || 0,
+      refreshed: true,
+      setCookies: buildAuthSessionCookies(new URL(request.url), refreshed.accessToken, refreshed.refreshToken, accessMaxAge),
+      tokenScore: scoreAnalystSession(refreshedPayload, rights, aal),
+    };
+  }
 
   candidates.sort((a, b) => b.tokenScore - a.tokenScore);
   const selected = candidates[0];
@@ -809,6 +863,43 @@ async function getVerifiedAnalystSession(request, env) {
     console.info(`[auth] Multiple Analyst session cookies found: count=${tokenInfos.length}; selected_index=${selected.tokenIndex}; aal=${selected.aal}; rights=${rightsCount}`);
   }
   return selected;
+}
+
+async function refreshSupabaseSessionFromCookie(request, env) {
+  const cookieHeader = request.headers.get('Cookie') || '';
+  const refreshTokens = parseCookies(cookieHeader, 'sb-refresh');
+  if (refreshTokens.length === 0) return { ok: false, error: 'missing_token', refreshTokenCount: 0 };
+
+  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
+  const apiKey = env.SUPABASE_ANON_KEY || FALLBACK_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !apiKey) return { ok: false, error: 'auth_backend_not_configured', refreshTokenCount: refreshTokens.length };
+
+  for (const refreshToken of [...refreshTokens].reverse()) {
+    try {
+      const response = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=refresh_token`, {
+        method: 'POST',
+        headers: {
+          apikey: apiKey,
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      });
+
+      if (!response.ok) continue;
+      const data = await response.json().catch(() => null);
+      if (data?.access_token && data?.refresh_token) {
+        return {
+          ok: true,
+          accessToken: data.access_token,
+          refreshToken: data.refresh_token,
+          refreshTokenCount: refreshTokens.length,
+        };
+      }
+    } catch {}
+  }
+
+  return { ok: false, error: 'refresh_failed', refreshTokenCount: refreshTokens.length };
 }
 
 function scoreAnalystSession(payload, rights, aal) {
@@ -964,13 +1055,25 @@ function parseCookies(cookieHeader, name) {
     .filter(Boolean);
 }
 
-function authJson(data, status, extraHeaders = {}) {
+function authJson(data, status, extraHeaders = {}, setCookies = []) {
   const headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
   Object.entries(extraHeaders).forEach(([key, value]) => {
     if (value !== undefined && value !== null) headers.set(key, String(value));
   });
+  setCookies.forEach(cookie => headers.append('Set-Cookie', cookie));
   return new Response(JSON.stringify(data), {
     status,
+    headers,
+  });
+}
+
+function withSessionCookies(response, session) {
+  if (!session?.setCookies?.length) return response;
+  const headers = new Headers(response.headers);
+  session.setCookies.forEach(cookie => headers.append('Set-Cookie', cookie));
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
     headers,
   });
 }
@@ -980,6 +1083,7 @@ function debugAuthHeaders(session, enabled) {
   const headers = {
     'X-Analyst-Auth-Token-Count': session?.tokenCount || 0,
   };
+  if (session?.refreshTokenCount !== undefined) headers['X-Analyst-Auth-Refresh-Token-Count'] = session.refreshTokenCount;
   if (!session?.ok) {
     headers['X-Analyst-Auth-Error'] = session?.error || 'unknown';
     return headers;
@@ -988,6 +1092,7 @@ function debugAuthHeaders(session, enabled) {
   headers['X-Analyst-Auth-Selected-Index'] = session.tokenIndex ?? 0;
   headers['X-Analyst-Auth-Rights-Count'] = session.rights.filter(right => right.startsWith('analyst.')).length;
   headers['X-Analyst-Auth-Admin'] = hasAnalystAdminRight(session.rights) ? 'true' : 'false';
+  if (session.refreshed) headers['X-Analyst-Auth-Refreshed'] = 'true';
   return headers;
 }
 

@@ -98,10 +98,6 @@ export async function onRequest(context) {
   const cookieHeader = request.headers.get('Cookie') || '';
   const tokens = parseCookies(cookieHeader, 'sb-token');
 
-  if (tokens.length === 0) {
-    return redirectToLogin(url);
-  }
-
   // Verify the JWT and check AAL2
   const jwtSecret = env.SUPABASE_JWT_SECRET;
   if (!jwtSecret) {
@@ -109,7 +105,7 @@ export async function onRequest(context) {
     return authUnavailable();
   }
 
-  const session = await getBestVerifiedSession(tokens, jwtSecret, env);
+  const session = await getBestVerifiedSession(tokens, jwtSecret, env, request);
 
   if (!session) {
     // Token invalid or expired
@@ -132,10 +128,10 @@ export async function onRequest(context) {
   }
 
   // All checks passed — serve the page
-  return next();
+  return withSessionCookies(await next(), session);
 }
 
-async function getBestVerifiedSession(tokens, jwtSecret, env) {
+async function getBestVerifiedSession(tokens, jwtSecret, env, request) {
   const candidates = [];
   for (const token of tokens) {
     const payload = await verifyJWT(token, jwtSecret, env);
@@ -145,9 +141,102 @@ async function getBestVerifiedSession(tokens, jwtSecret, env) {
     const aal = payload.aal || payload.amr_aal || 'aal1';
     candidates.push({ payload, access, rights, aal, score: scoreSession(payload, rights, aal) });
   }
-  if (!candidates.length) return null;
+  if (!candidates.length) return refreshVerifiedSession(request, jwtSecret, env);
   candidates.sort((a, b) => b.score - a.score);
   return candidates[0];
+}
+
+async function refreshVerifiedSession(request, jwtSecret, env) {
+  const refreshed = await refreshSupabaseSessionFromCookie(request, env);
+  if (!refreshed.ok) return null;
+
+  const payload = await verifyJWT(refreshed.accessToken, jwtSecret, env);
+  if (!payload) return null;
+
+  const access = await resolveAnalystAccess(payload, env);
+  const rights = access.rights;
+  const aal = payload.aal || payload.amr_aal || 'aal1';
+  const accessMaxAge = Math.max(0, (payload.exp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
+
+  return {
+    payload,
+    access,
+    rights,
+    aal,
+    score: scoreSession(payload, rights, aal),
+    setCookies: buildAuthSessionCookies(new URL(request.url), refreshed.accessToken, refreshed.refreshToken, accessMaxAge),
+  };
+}
+
+async function refreshSupabaseSessionFromCookie(request, env) {
+  const cookieHeader = request.headers.get('Cookie') || '';
+  const refreshTokens = parseCookies(cookieHeader, 'sb-refresh');
+  if (refreshTokens.length === 0) return { ok: false };
+
+  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
+  const apiKey = env.SUPABASE_ANON_KEY || FALLBACK_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !apiKey) return { ok: false };
+
+  for (const refreshToken of [...refreshTokens].reverse()) {
+    try {
+      const response = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=refresh_token`, {
+        method: 'POST',
+        headers: {
+          apikey: apiKey,
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      });
+      if (!response.ok) continue;
+
+      const data = await response.json().catch(() => null);
+      if (data?.access_token && data?.refresh_token) {
+        return { ok: true, accessToken: data.access_token, refreshToken: data.refresh_token };
+      }
+    } catch {}
+  }
+
+  return { ok: false };
+}
+
+function buildAuthSessionCookies(url, accessToken, refreshToken, accessMaxAge, refreshMaxAge = 60 * 60 * 24 * 30) {
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  return [
+    ...buildClearedAuthCookies(url),
+    `sb-token=${encodeURIComponent(accessToken)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${accessMaxAge}`,
+    `sb-refresh=${encodeURIComponent(refreshToken)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${refreshMaxAge}`,
+  ];
+}
+
+function buildClearedAuthCookies(url) {
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  const names = ['sb-token', 'sb-refresh'];
+  const domains = new Set(['']);
+  if (!url.hostname.includes('localhost')) {
+    domains.add(`; Domain=${url.hostname}`);
+    domains.add('; Domain=rizrazak.com');
+    domains.add('; Domain=.rizrazak.com');
+  }
+
+  const cookies = [];
+  names.forEach(name => {
+    domains.forEach(domain => {
+      cookies.push(`${name}=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0${domain}`);
+    });
+  });
+  return cookies;
+}
+
+function withSessionCookies(response, session) {
+  if (!session?.setCookies?.length) return response;
+  const headers = new Headers(response.headers);
+  session.setCookies.forEach(cookie => headers.append('Set-Cookie', cookie));
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }
 
 function scoreSession(payload, rights, aal) {

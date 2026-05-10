@@ -209,6 +209,20 @@ function MenuPanel({ open, onClose, theme, toggleTheme }) {
       <nav className="menu-panel" aria-label="Site menu" onClick={event => event.stopPropagation()}>
         <button className="menu-close" type="button" onClick={onClose} aria-label="Close menu">&times;</button>
 
+        <div className="menu-label">Account</div>
+        {authState.loading ? (
+          <div className="menu-status">Checking session</div>
+        ) : authState.authenticated ? (
+          <>
+            <div className="menu-session"><span>Signed in</span><span className="menu-link__sub">{authState.user?.email || 'Analyst member'}</span></div>
+            {authState.admin && <a className="menu-link menu-link--acct" href="/admin-preview.html">Admin Dashboard<span className="menu-link__sub">CMS and publishing tools</span></a>}
+            <a className="menu-link" href="/profile.html">Account & MFA<span className="menu-link__sub">Profile, password, and two-factor access</span></a>
+            <a className="menu-link" href="/auth/logout">Sign out<span className="menu-link__sub">Clear this browser session</span></a>
+          </>
+        ) : (
+          <a className="menu-link menu-link--acct" href="/login.html?next=%2Fadmin-preview.html">Sign in<span className="menu-link__sub">Admin dashboard and protected tools</span></a>
+        )}
+
         <div className="menu-label">Navigate</div>
         <a className="menu-link" href="/">Home</a>
         <a className="menu-link" href="#dossiers">Dossiers<span className="menu-link__sub">Published investigations and essays</span></a>
@@ -219,20 +233,6 @@ function MenuPanel({ open, onClose, theme, toggleTheme }) {
         <a className="menu-link menu-link--acct" href="#accountability">MP Accountability Tracker<span className="menu-link__sub">Formerly Pavura.lk · planned section</span></a>
         <a className="menu-link" href="#corrections">Corrections & Retractions<span className="menu-link__sub">Editorial transparency log</span></a>
         <a className="menu-link" href="/admin-submissions.html">Submit Evidence<span className="menu-link__sub">Evidence intake queue</span></a>
-
-        <div className="menu-label">Account</div>
-        {authState.loading ? (
-          <div className="menu-status">Checking session</div>
-        ) : authState.authenticated ? (
-          <>
-            <div className="menu-session"><span>Signed in</span><span className="menu-link__sub">{authState.user?.email || 'Analyst member'}</span></div>
-            {authState.admin && <a className="menu-link menu-link--acct" href="/admin-preview.html">Admin Dashboard<span className="menu-link__sub">CMS and publishing tools</span></a>}
-            <a className="menu-link" href="/profile.html">Security & MFA<span className="menu-link__sub">Manage two-factor access</span></a>
-            <a className="menu-link" href="/auth/logout">Sign out<span className="menu-link__sub">Clear this browser session</span></a>
-          </>
-        ) : (
-          <a className="menu-link menu-link--acct" href="/login.html?next=%2Fadmin-preview.html">Sign in<span className="menu-link__sub">Admin dashboard and protected tools</span></a>
-        )}
 
         <div className="menu-label">Preferences</div>
         <div className="menu-toggle-row"><span>සිංහල / English</span><span className="menu-note">Soon</span></div>

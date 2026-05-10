@@ -30,17 +30,13 @@ export async function onRequestGet(context) {
   const cookieHeader = request.headers.get('Cookie') || '';
   const tokens = parseCookies(cookieHeader, 'sb-token');
 
-  if (tokens.length === 0) {
-    return json({ authenticated: false, admin: false, rights: [] }, 200);
-  }
-
   const jwtSecret = env.SUPABASE_JWT_SECRET;
   if (!jwtSecret) {
     console.error('[auth/me] SUPABASE_JWT_SECRET not set; refusing session introspection');
     return json({ authenticated: false, admin: false, rights: [], error: 'auth_backend_not_configured' }, 503);
   }
 
-  const session = await getBestVerifiedSession(tokens, jwtSecret, env);
+  const session = await getBestVerifiedSession(tokens, jwtSecret, env, request);
 
   if (!session) {
     return json({ authenticated: false, admin: false, rights: [] }, 200);
@@ -65,10 +61,10 @@ export async function onRequestGet(context) {
       email: payload.email || user.email || null,
       name: user.full_name || user.name || payload.email || 'Yan member'
     }
-  }, 200);
+  }, 200, session.setCookies || []);
 }
 
-async function getBestVerifiedSession(tokens, jwtSecret, env) {
+async function getBestVerifiedSession(tokens, jwtSecret, env, request) {
   const candidates = [];
   for (const token of tokens) {
     const payload = await verifyJWT(token, jwtSecret, env);
@@ -78,9 +74,91 @@ async function getBestVerifiedSession(tokens, jwtSecret, env) {
     const aal = payload.aal || payload.amr_aal || 'aal1';
     candidates.push({ payload, access, rights, aal, score: scoreSession(payload, rights, aal) });
   }
-  if (!candidates.length) return null;
+  if (!candidates.length) return refreshVerifiedSession(request, jwtSecret, env);
   candidates.sort((a, b) => b.score - a.score);
   return candidates[0];
+}
+
+async function refreshVerifiedSession(request, jwtSecret, env) {
+  const refreshed = await refreshSupabaseSessionFromCookie(request, env);
+  if (!refreshed.ok) return null;
+
+  const payload = await verifyJWT(refreshed.accessToken, jwtSecret, env);
+  if (!payload) return null;
+
+  const access = await resolveAnalystAccess(payload, env);
+  const rights = access.rights;
+  const aal = payload.aal || payload.amr_aal || 'aal1';
+  const accessMaxAge = Math.max(0, (payload.exp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
+
+  return {
+    payload,
+    access,
+    rights,
+    aal,
+    score: scoreSession(payload, rights, aal),
+    setCookies: buildAuthSessionCookies(new URL(request.url), refreshed.accessToken, refreshed.refreshToken, accessMaxAge),
+  };
+}
+
+async function refreshSupabaseSessionFromCookie(request, env) {
+  const cookieHeader = request.headers.get('Cookie') || '';
+  const refreshTokens = parseCookies(cookieHeader, 'sb-refresh');
+  if (refreshTokens.length === 0) return { ok: false };
+
+  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
+  const apiKey = env.SUPABASE_ANON_KEY || FALLBACK_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !apiKey) return { ok: false };
+
+  for (const refreshToken of [...refreshTokens].reverse()) {
+    try {
+      const response = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=refresh_token`, {
+        method: 'POST',
+        headers: {
+          apikey: apiKey,
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      });
+      if (!response.ok) continue;
+
+      const data = await response.json().catch(() => null);
+      if (data?.access_token && data?.refresh_token) {
+        return { ok: true, accessToken: data.access_token, refreshToken: data.refresh_token };
+      }
+    } catch {}
+  }
+
+  return { ok: false };
+}
+
+function buildAuthSessionCookies(url, accessToken, refreshToken, accessMaxAge, refreshMaxAge = 60 * 60 * 24 * 30) {
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  return [
+    ...buildClearedAuthCookies(url),
+    `sb-token=${encodeURIComponent(accessToken)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${accessMaxAge}`,
+    `sb-refresh=${encodeURIComponent(refreshToken)}; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=${refreshMaxAge}`,
+  ];
+}
+
+function buildClearedAuthCookies(url) {
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  const names = ['sb-token', 'sb-refresh'];
+  const domains = new Set(['']);
+  if (!url.hostname.includes('localhost')) {
+    domains.add(`; Domain=${url.hostname}`);
+    domains.add('; Domain=rizrazak.com');
+    domains.add('; Domain=.rizrazak.com');
+  }
+
+  const cookies = [];
+  names.forEach(name => {
+    domains.forEach(domain => {
+      cookies.push(`${name}=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0${domain}`);
+    });
+  });
+  return cookies;
 }
 
 function scoreSession(payload, rights, aal) {
@@ -431,12 +509,15 @@ function base64UrlDecode(str) {
   return bytes.buffer;
 }
 
-function json(data, status) {
+function json(data, status, setCookies = []) {
+  const headers = new Headers({
+    'Content-Type': 'application/json; charset=utf-8',
+    'Cache-Control': 'no-store'
+  });
+  setCookies.forEach(cookie => headers.append('Set-Cookie', cookie));
+
   return new Response(JSON.stringify(data), {
     status,
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'no-store'
-    }
+    headers
   });
 }
