@@ -196,17 +196,6 @@
       display: grid;
       gap: 10px;
     }
-    .password-toggle {
-      width: 100%;
-      margin: 16px 0 0;
-      background: transparent;
-      border: 0;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 13px;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
     .auth-note {
       color: var(--muted);
       font-size: 12px;
@@ -317,13 +306,40 @@
       <div class="step-dot" id="dot2"></div>
     </div>
 
-    <!-- ─── STEP 1: Shared sign-in options ─── -->
+    <!-- ─── STEP 1: Password sign-in ─── -->
     <div class="panel active" id="panelPassword">
       <div class="card-title">Sign in</div>
-      <div class="card-sub">Use your Yan member sign-in to continue to Analyst and Oracle admin tools.</div>
+      <div class="card-sub">Use your Yan email, password, and authenticator code to continue to Analyst admin tools.</div>
 
       <div class="alert alert-error" id="errPassword"></div>
       <div class="alert alert-success" id="magicLinkNotice"></div>
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" autofocus>
+      </div>
+
+      <div id="passwordFields">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+
+        <button class="btn btn-primary" id="btnSignIn" onclick="handleSignIn()">
+          Sign in with password
+        </button>
+      </div>
+
+      <p class="auth-note">Use the same email connected to your Yan invitation or rights. MFA is required after password sign-in.</p>
+
+      <hr class="divider">
+
+      <div class="magic-link-row">
+        <button class="btn btn-ghost" id="btnMagicLink" onclick="handleMagicLink()">
+          Email me a sign-in link
+        </button>
+      </div>
+      <p class="auth-note">Magic links remain available as a fallback when password sign-in is unavailable.</p>
 
       <div class="sso-group hidden" id="oauthOptions">
         <button class="btn btn-sso" id="btnGoogle" onclick="handleOAuth('google')">
@@ -335,37 +351,6 @@
       </div>
       <p class="auth-note" id="oauthDisabledNote">Google and Apple sign-in are hidden until central auth.yan.lk provider tests pass.</p>
 
-      <hr class="divider">
-
-      <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" id="email" placeholder="you@example.com" autocomplete="email" autofocus>
-      </div>
-
-      <div class="magic-link-row">
-        <button class="btn btn-primary" id="btnMagicLink" onclick="handleMagicLink()">
-          Email me a sign-in link
-        </button>
-      </div>
-
-      <p class="auth-note">Use the same email connected to your Yan invitation or rights.</p>
-
-      <button class="password-toggle" type="button" onclick="togglePasswordFields()" id="passwordToggle">
-        Use legacy password and authenticator instead
-      </button>
-
-      <div id="passwordFields" style="display:none">
-        <hr class="divider">
-
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
-        </div>
-
-        <button class="btn btn-primary" id="btnSignIn" onclick="handleSignIn()">
-          Sign in with password
-        </button>
-      </div>
     </div>
 
     <!-- ─── STEP 2: TOTP / 2FA ─── -->
@@ -384,7 +369,12 @@
                maxlength="6"
                inputmode="numeric"
                pattern="[0-9]{6}"
-               autocomplete="one-time-code">
+               autocomplete="off"
+               autocapitalize="off"
+               spellcheck="false"
+               data-1p-ignore="true"
+               data-lpignore="true"
+               data-form-type="other">
       </div>
 
       <button class="btn btn-primary" id="btnVerifyMFA" onclick="handleMFAVerify()">
@@ -661,14 +651,6 @@ function withTimeout(promise, timeoutMs, message) {
   return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
-function togglePasswordFields() {
-  const fields = document.getElementById('passwordFields');
-  const toggle = document.getElementById('passwordToggle');
-  const isOpen = fields.style.display !== 'none';
-  fields.style.display = isOpen ? 'none' : 'block';
-  toggle.textContent = isOpen ? 'Use legacy password and authenticator instead' : 'Hide password sign-in';
-}
-
 // ─── Step 1: Email + Password ─────────────────────────────────────────────────
 async function handleSignIn() {
   const email    = document.getElementById('email').value.trim();
@@ -883,7 +865,7 @@ async function finalizeLogin() {
   } catch (e) {
     mfaVerifyInFlight = false;
     setLoading('btnVerifyMFA', false, 'Verify');
-    setLoading('btnSignIn', false, 'Sign in');
+    setLoading('btnSignIn', false, 'Sign in with password');
     const message = friendlyError(e);
     showAlert('errMFA', message);
     showAlert('errPassword', message);
@@ -1040,9 +1022,7 @@ document.getElementById('password').addEventListener('keydown', e => {
 });
 document.getElementById('email').addEventListener('keydown', e => {
   if (e.key === 'Enter') {
-    const passwordFieldsOpen = document.getElementById('passwordFields').style.display !== 'none';
-    if (passwordFieldsOpen) handleSignIn();
-    else handleMagicLink();
+    handleSignIn();
   }
 });
 document.getElementById('totpCode').addEventListener('keydown', e => {

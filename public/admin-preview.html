@@ -60,6 +60,24 @@
             line-height: 1.5;
         }
 
+        body.auth-checking .dashboard-container {
+            visibility: hidden;
+        }
+
+        body.auth-checking::before {
+            content: 'Checking Analyst session...';
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-main);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 9999;
+        }
+
         /* Layout Container */
         .dashboard-container {
             display: flex;
@@ -1905,7 +1923,7 @@
     <!-- Umami Analytics -->
     <script defer src="https://umami-analytics-plum-theta.vercel.app/script.js" data-website-id="c092a262-c652-46b8-a06b-a07a18e67b25"></script>
 </head>
-<body>
+<body class="auth-checking">
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -5946,7 +5964,9 @@ function showEmailToast(msg, type) {
     </div>
 
     <script>
-// Application State
+        const ADMIN_RIGHT = 'analyst.admin.access';
+
+        // Application State
         const appState = {
             currentRoute: '',
             currentView: 'dashboard',
@@ -6027,7 +6047,7 @@ function showEmailToast(msg, type) {
             });
 
             try {
-                const response = await fetch('/auth/me', { cache: 'no-store', credentials: 'include' });
+                const response = await fetch('/auth/me?right=' + encodeURIComponent(ADMIN_RIGHT), { cache: 'no-store', credentials: 'same-origin' });
                 const data = await response.json().catch(() => ({}));
 
                 if (response.status === 503) {
@@ -6085,7 +6105,7 @@ function showEmailToast(msg, type) {
                 const rights = Array.isArray(data.rights) ? data.rights : [];
                 const analystRights = rights.filter(right => String(right).startsWith('analyst.'));
                 const hasMfa = aal === 'aal2';
-                const hasAccess = data.admin === true || analystRights.length > 0;
+                const hasAccess = data.admin === true;
                 const rightsLabel = analystRights.length === 1 ? '1 Analyst right' : analystRights.length + ' Analyst rights';
 
                 appState.privateAuthed = hasMfa && hasAccess;
@@ -6094,13 +6114,13 @@ function showEmailToast(msg, type) {
 
                 updateSessionStatus({
                     tone: hasMfa && hasAccess ? 'is-ok' : 'is-warning',
-                    status: hasMfa && hasAccess ? 'Signed in' : (hasMfa ? 'Signed in, limited rights' : 'Signed in, MFA needed'),
+                    status: hasMfa && hasAccess ? 'Signed in' : (hasMfa ? 'Signed in, admin right missing' : 'Signed in, MFA needed'),
                     pillText: email + ' · ' + aalLabel,
                     email,
                     meta: aalLabel + ' · ' + rightsLabel,
                     actionText: 'Sign out',
                     actionHref: '/auth/logout',
-                    title: analystRights.length ? analystRights.join(', ') : 'No Analyst rights found in this session'
+                    title: analystRights.length ? analystRights.join(', ') : 'No Analyst admin right found in this session'
                 });
                 return appState.privateAuthed;
             } catch (err) {
@@ -6336,7 +6356,7 @@ function showEmailToast(msg, type) {
             if (routeInfo.private && !appState.privateAuthed) {
                 if (!appState.sessionChecked) await hydrateSessionStatus();
                 if (!appState.privateAuthed) {
-                    window.location.href = getLoginHref();
+                    window.location.replace(getLoginHref());
                     return;
                 }
             }
@@ -6499,15 +6519,27 @@ function showEmailToast(msg, type) {
         });
 
         document.addEventListener('DOMContentLoaded', async () => {
-            await hydrateSessionStatus();
+            const sessionOk = await hydrateSessionStatus();
+            if (!sessionOk) {
+                window.location.replace(getLoginHref());
+                return;
+            }
 
             if (typeof hydrateDossierRegistry === 'function') {
-                await hydrateDossierRegistry();
+                try {
+                    await hydrateDossierRegistry();
+                } catch (err) {
+                    console.warn('Dossier registry hydration failed:', err);
+                }
             }
 
             // Initialize with current hash or default
             const initialHash = window.location.hash || '#/dashboard';
-            navigateToRoute(initialHash);
+            try {
+                await navigateToRoute(initialHash);
+            } finally {
+                document.body.classList.remove('auth-checking');
+            }
 
             // Setup nav item clicks (also close sidebar on mobile)
             document.querySelectorAll('.nav-item').forEach(item => {
