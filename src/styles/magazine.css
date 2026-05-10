@@ -63,6 +63,9 @@
 .menu-link:hover { color: var(--ochre); padding-left: 6px; }
 .menu-link__sub { color: rgba(245,241,230,0.4); display: block; font-family: var(--font-mono); font-size: 10px; margin-top: 2px; }
 .menu-link--acct { color: var(--ochre); font-weight: 600; }
+.menu-status, .menu-session { border-bottom: 1px solid rgba(245,241,230,0.06); color: var(--plaster); font-size: 14px; padding: 10px 0; }
+.menu-status { color: rgba(245,241,230,0.55); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase; }
+.menu-session span:first-child { color: var(--plaster); display: block; font-size: 15px; font-weight: 500; }
 .menu-toggle-row { align-items: center; border-bottom: 1px solid rgba(245,241,230,0.06); color: var(--plaster); display: flex; font-size: 14px; justify-content: space-between; padding: 10px 0; }
 .menu-note { color: rgba(245,241,230,0.45); font-family: var(--font-mono); font-size: 10px; }
 .menu-toggle { background: rgba(245,241,230,0.12); border: 1px solid rgba(245,241,230,0.15); border-radius: 11px; cursor: pointer; height: 22px; position: relative; width: 40px; }
