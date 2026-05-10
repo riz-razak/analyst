@@ -3,6 +3,8 @@
 Date: 2026-05-10
 Status: steering/tech alignment draft
 
+Companion audit/contract: `docs/central-auth-constituent-audit.md`
+
 ## Immediate Analyst Finding
 
 Analyst sessions are not IP- or device-identified today. They are browser-profile cookies on `analyst.rizrazak.com`.

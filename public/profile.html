@@ -773,7 +773,7 @@ async function verifyEnrollment() {
   const synced = await syncServerSession(session);
   if (!synced) return;
   if (profileParams.get('setup_mfa') === '1') {
-    await sb.auth.signOut({ scope: 'local' }).catch(() => {});
+    clearBrowserPreauthSession();
     window.location.replace(returnTo);
     return;
   }
@@ -809,6 +809,12 @@ async function syncServerSession(session) {
     showAlert('errEnroll', 'Authenticator enrolled, but the admin session was not created. Sign in again with password and authenticator.');
     return false;
   }
+}
+
+function clearBrowserPreauthSession() {
+  // Do not call Supabase signOut here: it can revoke the refresh token that
+  // /auth/session just stored in the HttpOnly server cookie.
+  try { window.sessionStorage.removeItem(SUPABASE_SESSION_STORAGE_KEY); } catch {}
 }
 
 function cancelEnroll() {

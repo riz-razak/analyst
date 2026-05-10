@@ -1,6 +1,5 @@
 name = "analyst-collaborative-cms"
-type = "service"
-main = "functions/_middleware.js"
+main = "functions/collaborative-session.js"
 compatibility_date = "2025-03-09"
 
 # Daily cron: anonymise IPs older than 180 days (3am UTC)
@@ -19,13 +18,6 @@ kv_namespaces = [
 [build]
 cwd = "."
 command = "npm run build"
-watch_paths = ["src/**/*.jsx", "src/**/*.js"]
-
-[build.upload]
-main = "dist/index.js"
-rules = [
-  { type = "Text", globs = ["**/*.js", "**/*.json"] }
-]
 
 [env.production.vars]
 GITHUB_REPO = "riz-razak/analyst"
