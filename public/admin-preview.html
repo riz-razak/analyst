@@ -3376,7 +3376,7 @@
         if (sparkSvg) {
             const pts = d.sparkline;
             const lastPt = pts.split(" ").pop();
-            const coords = lastPt.split(",");
+            const coords = lastPt.replace(/^L/, "").split(",");
             sparkSvg.querySelector(".spark-area").setAttribute("d", pts + " L600,140 L0,140 Z");
             sparkSvg.querySelector(".spark-line").setAttribute("d", pts);
             sparkSvg.querySelector(".spark-dot").setAttribute("cx", coords[0]);
@@ -6005,6 +6005,10 @@ function showEmailToast(msg, type) {
             return '/login.html?next=' + encodeURIComponent(next);
         }
 
+        function isAal2Value(aal) {
+            return aal === 'aal2' || aal === 2 || aal === '2';
+        }
+
         function setSessionTone(tone) {
             ['session-pill', 'session-card'].forEach(id => {
                 const el = document.getElementById(id);
@@ -6104,7 +6108,7 @@ function showEmailToast(msg, type) {
                 const aalLabel = String(aal).toUpperCase();
                 const rights = Array.isArray(data.rights) ? data.rights : [];
                 const analystRights = rights.filter(right => String(right).startsWith('analyst.'));
-                const hasMfa = aal === 'aal2';
+                const hasMfa = isAal2Value(aal);
                 const hasAccess = data.admin === true;
                 const rightsLabel = analystRights.length === 1 ? '1 Analyst right' : analystRights.length + ' Analyst rights';
 
@@ -7637,39 +7641,44 @@ function setupDetailView() {
     });
 
     // Manage FB video button
-    document.getElementById('manage-fb-btn').addEventListener('click', () => {
-        document.getElementById('fb-video-panel').classList.add('open');
+    const fbPanel = document.getElementById('fb-video-panel');
+    document.getElementById('manage-fb-btn')?.addEventListener('click', () => {
+        fbPanel?.classList.add('open');
     });
 
     // FB panel close
-    document.getElementById('fb-panel-close').addEventListener('click', () => {
-        document.getElementById('fb-video-panel').classList.remove('open');
+    document.getElementById('fb-panel-close')?.addEventListener('click', () => {
+        fbPanel?.classList.remove('open');
     });
 
     // FB save button
-    document.getElementById('fb-save-btn').addEventListener('click', () => {
+    document.getElementById('fb-save-btn')?.addEventListener('click', () => {
         const dossier = dossiersData.find(d => d.id === appState.currentDossierId);
         if (!dossier) return;
 
-        const url = document.getElementById('fb-panel-url').value;
+        const panelUrlInput = document.getElementById('fb-panel-url');
+        if (!panelUrlInput) return;
+
+        const url = panelUrlInput.value;
         dossier.fbUrl = url;
         document.getElementById('detail-fb-url').value = url;
 
         showToast('Facebook video updated');
-        document.getElementById('fb-video-panel').classList.remove('open');
+        fbPanel?.classList.remove('open');
     });
 
     // FB remove button
-    document.getElementById('fb-remove-btn').addEventListener('click', () => {
+    document.getElementById('fb-remove-btn')?.addEventListener('click', () => {
         const dossier = dossiersData.find(d => d.id === appState.currentDossierId);
         if (!dossier) return;
 
         dossier.fbUrl = '';
         document.getElementById('detail-fb-url').value = '';
-        document.getElementById('fb-panel-url').value = '';
+        const panelUrlInput = document.getElementById('fb-panel-url');
+        if (panelUrlInput) panelUrlInput.value = '';
 
         showToast('Facebook video removed');
-        document.getElementById('fb-video-panel').classList.remove('open');
+        fbPanel?.classList.remove('open');
     });
 
     // ═══════════════════════════════════════════════════════════

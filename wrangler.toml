@@ -2,11 +2,8 @@ name = "analyst-collaborative-cms"
 main = "functions/collaborative-session.js"
 compatibility_date = "2025-03-09"
 
-# Daily cron: anonymise IPs older than 180 days (3am UTC)
-[triggers]
-crons = ["0 3 * * *"]
-
-[env.production]
+# Production currently runs on the base Worker script. Do not deploy with
+# --env production unless all production secrets are first replicated there.
 routes = [
   { pattern = "analyst.rizrazak.com/*", zone_name = "rizrazak.com" }
 ]
@@ -15,31 +12,44 @@ kv_namespaces = [
   { binding = "DRAFT_STORE", id = "11fe938b97104d39800a2aa3afe8d699", preview_id = "11fe938b97104d39800a2aa3afe8d699" }
 ]
 
-[build]
-cwd = "."
-command = "npm run build"
-
-[env.production.vars]
+[vars]
 GITHUB_REPO = "riz-razak/analyst"
 GITHUB_BRANCH = "main"
 ENVIRONMENT = "production"
 SUPABASE_URL = "https://ogunznqyfmxkmmwizpfy.supabase.co"
-#
+ANALYST_UNIFIED_AUTH_ENABLED = "true"
+# Legacy Supabase login is retired by default. Set ANALYST_LEGACY_AUTH_ENABLED
+# as an emergency env var/secret only if a rollback needs /login.html?legacy=1.
+AUTH_UNIFIED_ISSUER = "https://auth.yan.lk"
+AUTH_UNIFIED_CLIENT_ID = "analyst"
+AUTH_UNIFIED_REDIRECT_URI = "https://analyst.rizrazak.com/auth/unified/callback"
+
 # NOTE: Email sending requires a Cloudflare secret (not stored in wrangler.toml):
-#   wrangler secret put RESEND_API_KEY --env production
+#   wrangler secret put RESEND_API_KEY
 # Get your free API key at https://resend.com (3,000 emails/month free)
 # Also verify submissions@analyst.rizrazak.com in Resend dashboard
 #
 # NOTE: CMS publish-to-GitHub requires a fine-grained GitHub PAT:
-#   wrangler secret put GITHUB_TOKEN --env production
+#   wrangler secret put GITHUB_TOKEN
 # Create at https://github.com/settings/tokens (fine-grained)
 # Scopes needed: Contents (read & write) on riz-razak/analyst
 #
 # NOTE: Supabase Auth — JWT verification, token introspection, and People REST lookup:
-#   wrangler secret put SUPABASE_ANON_KEY --env production
-#   wrangler secret put SUPABASE_SERVICE_KEY --env production
-#   wrangler secret put SUPABASE_JWT_SECRET --env production
-# Get from Supabase dashboard: Settings → API Keys (legacy anon + service_role) + JWT Keys (legacy secret)
+#   wrangler secret put SUPABASE_ANON_KEY
+#   wrangler secret put SUPABASE_SERVICE_KEY
+#   wrangler secret put SUPABASE_JWT_SECRET
+# Get from Supabase dashboard: Settings -> API Keys (legacy anon + service_role) + JWT Keys (legacy secret)
+#
+# NOTE: Unified central auth local session signing:
+#   wrangler secret put ANALYST_SESSION_SIGNING_SECRET
+
+# Daily cron: anonymise IPs older than 180 days (3am UTC)
+[triggers]
+crons = ["0 3 * * *"]
+
+[build]
+cwd = "."
+command = "npm run build"
 
 [env.development.vars]
 GITHUB_REPO = "riz-razak/analyst"

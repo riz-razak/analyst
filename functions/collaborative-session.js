@@ -21,6 +21,13 @@ const ANALYST_BUNDLE_RIGHTS = {
   'analyst.editor': ['analyst.cms.edit', 'analyst.cms.publish', 'analyst.assets.manage', 'analyst.evidence.review'],
   'analyst.moderator': ['analyst.comments.moderate'],
 };
+const UNIFIED_ATTEMPT_COOKIE = '__Host-analyst_auth_attempt';
+const UNIFIED_SESSION_COOKIE = '__Host-analyst_session';
+const UNIFIED_RETRY_COOKIE = '__Host-analyst_auth_retry';
+const UNIFIED_REQUIRED_RIGHT = 'analyst.admin.access';
+const UNIFIED_DEFAULT_NEXT = '/admin-preview.html';
+const LEGACY_REAUTH_WINDOW_SECONDS = 15 * 60;
+const encoder = new TextEncoder();
 
 export default {
   async fetch(request, env, ctx) {
@@ -45,6 +52,10 @@ export default {
         return handleAuthSession(request, env);
       } else if (path === '/auth/logout') {
         return handleAuthLogout(request);
+      } else if (path === '/auth/unified/start') {
+        return handleUnifiedStart(request, env);
+      } else if (path === '/auth/unified/callback') {
+        return handleUnifiedCallback(request, env);
       }
 
       // ── Dossier visibility gate (Worker Route on analyst.rizrazak.com/*) ──
@@ -53,6 +64,10 @@ export default {
       // For any non-API request on the main site, check and pass through.
       const host = url.hostname;
       if (host !== 'analyst-collaborative-cms.riz-1cb.workers.dev' && !path.startsWith('/api/')) {
+        if (path === '/login.html' && shouldRedirectLegacyLogin(url, env)) {
+          return redirectToUnifiedStart(url, safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT));
+        }
+
         let pageSession = null;
         const pageRights = getRequiredAnalystPageRights(path);
         if (pageRights.length > 0) {
@@ -307,7 +322,7 @@ async function handleAuthMe(request, env) {
   }
 
   const { payload, rights, access } = session;
-  const aal = payload.aal || payload.amr_aal || 'aal1';
+  const aal = normalizeAal(payload.aal || payload.amr_aal || 'aal1');
   const user = payload.user_metadata || {};
   const admin = isAal2(aal) && hasYanAdminAccess({ rights, requiredRight });
   const rightsError = admin ? null : getAnalystAccessError(access);
@@ -361,6 +376,11 @@ async function handleAuthSession(request, env) {
     return authJson({ ok: false, error: 'MFA verification required' }, 403);
   }
 
+  const legacyReauthExpiresAt = legacyMfaFreshnessExpiresAt(payload, env);
+  if (!Number.isFinite(legacyReauthExpiresAt) || legacyReauthExpiresAt <= Date.now()) {
+    return authJson({ ok: false, error: 'MFA verification required' }, 403);
+  }
+
   const access = await resolveAnalystAccess(payload, env);
   const rights = access.rights;
   logAnalystRightsResolution('auth/session', access);
@@ -371,8 +391,9 @@ async function handleAuthSession(request, env) {
   }
 
   const url = new URL(request.url);
-  const accessMaxAge = Math.max(0, (payload.exp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
-  const refreshMaxAge = 60 * 60 * 24 * 30;
+  const nowSeconds = Math.floor(Date.now() / 1000);
+  const accessMaxAge = Math.max(0, Math.min((payload.exp || nowSeconds + 3600) - nowSeconds, Math.floor((legacyReauthExpiresAt - Date.now()) / 1000)));
+  const refreshMaxAge = accessMaxAge;
   const headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
   appendAuthSessionCookies(headers, url, access_token, refresh_token, accessMaxAge, refreshMaxAge);
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
@@ -382,12 +403,96 @@ async function handleAuthLogout(request) {
   const url = new URL(request.url);
   const headers = new Headers({ 'Cache-Control': 'no-store' });
   appendClearedAuthCookies(headers, url);
-  headers.set('Location', '/login.html?logged_out=1');
+  headers.append('Set-Cookie', clearCookie(UNIFIED_ATTEMPT_COOKIE, url));
+  headers.append('Set-Cookie', clearCookie(UNIFIED_SESSION_COOKIE, url));
+  headers.set('Location', '/login.html?logged_out=1&legacy=1');
   return new Response(null, { status: 302, headers });
+}
+
+async function handleUnifiedStart(request, env) {
+  const url = new URL(request.url);
+  const origin = url.origin;
+  const fail = (error) => Response.redirect(`${origin}/login.html?legacy=1&error=${encodeURIComponent(error)}&next=${encodeURIComponent(safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT))}`, 302);
+
+  try {
+    const config = requireUnifiedConfig(env);
+    const next = safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT);
+    const attempt = await createUnifiedAttempt(env, next);
+    const authorizeUrl = new URL(`${config.issuer}/authorize`);
+    authorizeUrl.searchParams.set('response_type', 'code');
+    authorizeUrl.searchParams.set('client_id', config.clientId);
+    authorizeUrl.searchParams.set('redirect_uri', config.redirectUri);
+    authorizeUrl.searchParams.set('scope', 'openid profile email rights');
+    authorizeUrl.searchParams.set('state', attempt.state);
+    authorizeUrl.searchParams.set('nonce', attempt.nonce);
+    authorizeUrl.searchParams.set('code_challenge', attempt.codeChallenge);
+    authorizeUrl.searchParams.set('code_challenge_method', 'S256');
+    authorizeUrl.searchParams.set('acr_values', 'urn:yan:aal:2');
+    authorizeUrl.searchParams.set('reauth', 'if_needed');
+    authorizeUrl.searchParams.set('next', next);
+
+    const headers = new Headers({ Location: authorizeUrl.toString(), 'Cache-Control': 'no-store' });
+    headers.append('Set-Cookie', attempt.cookie);
+    return new Response(null, { status: 302, headers });
+  } catch (error) {
+    return fail(error instanceof Error ? error.message : 'unified_auth_failed');
+  }
+}
+
+async function handleUnifiedCallback(request, env) {
+  const url = new URL(request.url);
+  const responseHeaders = new Headers({ 'Cache-Control': 'no-store' });
+  let fallbackNext = UNIFIED_DEFAULT_NEXT;
+  const fail = (error) => {
+    responseHeaders.append('Set-Cookie', clearCookie(UNIFIED_ATTEMPT_COOKIE, url));
+    if (['missing_auth_attempt', 'invalid_auth_attempt'].includes(error) && parseCookie(request.headers.get('Cookie') || '', UNIFIED_RETRY_COOKIE) !== '1') {
+      responseHeaders.append('Set-Cookie', `${UNIFIED_RETRY_COOKIE}=1; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=120`);
+      responseHeaders.set('Location', `/auth/unified/start?next=${encodeURIComponent(fallbackNext)}`);
+      return new Response(null, { status: 302, headers: responseHeaders });
+    }
+    responseHeaders.append('Set-Cookie', clearCookie(UNIFIED_RETRY_COOKIE, url));
+    if (!legacyAuthEnabled(env)) {
+      responseHeaders.set('Content-Type', 'text/plain; charset=utf-8');
+      return new Response(`Unified auth failed: ${safePublicAuthError(error)}\nRetry: /auth/unified/start?next=${encodeURIComponent(fallbackNext)}\n`, { status: 400, headers: responseHeaders });
+    }
+    responseHeaders.set('Location', `/login.html?legacy=1&error=${encodeURIComponent(error)}&next=${encodeURIComponent(fallbackNext)}`);
+    return new Response(null, { status: 302, headers: responseHeaders });
+  };
+
+  try {
+    const oauthError = url.searchParams.get('error');
+    if (oauthError) return fail(oauthError);
+
+    const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
+    if (!code || !state) return fail('missing_code');
+
+    const attempt = await readUnifiedAttempt(request, env);
+    fallbackNext = safeNext(attempt.next, UNIFIED_DEFAULT_NEXT);
+    if (state !== attempt.state) return fail('invalid_state');
+
+    const token = await exchangeUnifiedCode(env, code, attempt.codeVerifier);
+    const claims = await verifyUnifiedToken(env, token, attempt.nonce);
+    const access = await resolveAnalystAccess(unifiedClaimsToPayload(claims), env);
+    if (!access.rights.includes(UNIFIED_REQUIRED_RIGHT)) return fail(getAnalystAccessError(access));
+
+    responseHeaders.append('Set-Cookie', clearCookie(UNIFIED_ATTEMPT_COOKIE, url));
+    responseHeaders.append('Set-Cookie', clearCookie(UNIFIED_RETRY_COOKIE, url));
+    appendClearedLegacyAuthCookies(responseHeaders, url);
+    responseHeaders.append('Set-Cookie', await createUnifiedSessionCookie(env, claims, access.rights, url));
+    responseHeaders.set('Location', safeNext(attempt.next, UNIFIED_DEFAULT_NEXT));
+    return new Response(null, { status: 302, headers: responseHeaders });
+  } catch (error) {
+    return fail(error instanceof Error ? error.message : 'unified_auth_failed');
+  }
 }
 
 function appendClearedAuthCookies(headers, url) {
   buildClearedAuthCookies(url).forEach(cookie => headers.append('Set-Cookie', cookie));
+}
+
+function appendClearedLegacyAuthCookies(headers, url) {
+  buildClearedAuthCookies(url, ['sb-token', 'sb-refresh']).forEach(cookie => headers.append('Set-Cookie', cookie));
 }
 
 function appendAuthSessionCookies(headers, url, accessToken, refreshToken, accessMaxAge, refreshMaxAge = 60 * 60 * 24 * 30) {
@@ -403,9 +508,8 @@ function buildAuthSessionCookies(url, accessToken, refreshToken, accessMaxAge, r
   ];
 }
 
-function buildClearedAuthCookies(url) {
+function buildClearedAuthCookies(url, names = ['sb-token', 'sb-refresh', UNIFIED_ATTEMPT_COOKIE, UNIFIED_SESSION_COOKIE, UNIFIED_RETRY_COOKIE]) {
   const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
-  const names = ['sb-token', 'sb-refresh'];
   const domains = new Set(['']);
   if (!url.hostname.includes('localhost')) {
     domains.add(`; Domain=${url.hostname}`);
@@ -420,6 +524,251 @@ function buildClearedAuthCookies(url) {
     });
   });
   return cookies;
+}
+
+function shouldRedirectLegacyLogin(url, env) {
+  if (!unifiedAuthEnabled(env)) return false;
+  if (legacyAuthEnabled(env)) {
+    if (url.searchParams.get('legacy') === '1') return false;
+    if (url.searchParams.get('auth_callback') === '1') return false;
+  }
+  return true;
+}
+
+function redirectToUnifiedStart(url, next) {
+  return Response.redirect(`${url.origin}/auth/unified/start?next=${encodeURIComponent(safeNext(next, UNIFIED_DEFAULT_NEXT))}`, 302);
+}
+
+function unifiedAuthEnabled(env) {
+  return env.ANALYST_UNIFIED_AUTH_ENABLED === 'true';
+}
+
+function legacyAuthEnabled(env) {
+  return env.ANALYST_LEGACY_AUTH_ENABLED === 'true';
+}
+
+function safePublicAuthError(error) {
+  return /^[a-z0-9_]+$/i.test(String(error || '')) ? String(error) : 'unified_auth_failed';
+}
+
+function requireUnifiedConfig(env) {
+  if (!unifiedAuthEnabled(env)) throw new Error('unified_auth_disabled');
+  for (const key of ['AUTH_UNIFIED_ISSUER', 'AUTH_UNIFIED_CLIENT_ID', 'AUTH_UNIFIED_REDIRECT_URI', 'ANALYST_SESSION_SIGNING_SECRET']) {
+    if (!env[key]) throw new Error('unified_auth_not_configured');
+  }
+  return {
+    issuer: env.AUTH_UNIFIED_ISSUER.replace(/\/+$/, ''),
+    clientId: env.AUTH_UNIFIED_CLIENT_ID,
+    tokenAudience: env.AUTH_UNIFIED_TOKEN_AUDIENCE || env.AUTH_UNIFIED_CLIENT_ID,
+    redirectUri: env.AUTH_UNIFIED_REDIRECT_URI,
+  };
+}
+
+function safeNext(value, fallback = '/') {
+  if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//')) return fallback;
+  if (/[\u0000-\u001f\u007f\\]/.test(value)) return fallback;
+  let decoded = value;
+  for (let i = 0; i < 2; i += 1) {
+    try { decoded = decodeURIComponent(decoded); } catch { return fallback; }
+    if (!decoded.startsWith('/') || decoded.startsWith('//') || /[\u0000-\u001f\u007f\\]/.test(decoded)) return fallback;
+  }
+  return value;
+}
+
+async function createUnifiedAttempt(env, next) {
+  requireUnifiedConfig(env);
+  const codeVerifier = randomToken(64);
+  const state = randomToken(32);
+  const nonce = randomToken(32);
+  const codeChallenge = await pkceChallenge(codeVerifier);
+  const expiresAt = Date.now() + 5 * 60 * 1000;
+  const value = await signUnifiedCookiePayload(env, { typ: 'analyst_auth_attempt', state, nonce, codeVerifier, next, expiresAt });
+  return {
+    state,
+    nonce,
+    codeChallenge,
+    cookie: `${UNIFIED_ATTEMPT_COOKIE}=${encodeURIComponent(value)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=300`,
+  };
+}
+
+async function readUnifiedAttempt(request, env) {
+  const value = parseCookie(request.headers.get('Cookie') || '', UNIFIED_ATTEMPT_COOKIE);
+  if (!value) throw new Error('missing_auth_attempt');
+  const payload = await verifyUnifiedCookiePayload(env, value);
+  if (payload.typ !== 'analyst_auth_attempt' || Date.now() > payload.expiresAt) throw new Error('invalid_auth_attempt');
+  return payload;
+}
+
+async function exchangeUnifiedCode(env, code, codeVerifier) {
+  const config = requireUnifiedConfig(env);
+  const body = new URLSearchParams({
+    grant_type: 'authorization_code',
+    code,
+    client_id: config.clientId,
+    redirect_uri: config.redirectUri,
+    code_verifier: codeVerifier,
+  });
+  const response = await fetch(`${config.issuer}/token`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data.id_token) throw new Error('unified_token_exchange_failed');
+  return String(data.id_token);
+}
+
+async function verifyUnifiedToken(env, token, expectedNonce) {
+  const config = requireUnifiedConfig(env);
+  const [encodedHeader, encodedPayload, encodedSignature] = token.split('.');
+  if (!encodedHeader || !encodedPayload || !encodedSignature) throw new Error('invalid_unified_token');
+  const header = parseBase64UrlJson(encodedHeader);
+  if (header.alg !== 'ES256' || !header.kid) throw new Error('invalid_unified_token');
+
+  const jwksResponse = await fetch(`${config.issuer}/.well-known/jwks.json`);
+  if (!jwksResponse.ok) throw new Error('unified_jwks_failed');
+  const jwks = await jwksResponse.json().catch(() => ({}));
+  const jwk = Array.isArray(jwks.keys) ? jwks.keys.find(key => key.kid === header.kid) : null;
+  if (!jwk || jwk.kty !== 'EC' || jwk.crv !== 'P-256' || jwk.use !== 'sig') throw new Error('invalid_unified_key');
+
+  const key = await crypto.subtle.importKey('jwk', jwk, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify']);
+  const ok = await crypto.subtle.verify(
+    { name: 'ECDSA', hash: 'SHA-256' },
+    key,
+    base64UrlDecode(encodedSignature),
+    encoder.encode(`${encodedHeader}.${encodedPayload}`),
+  );
+  if (!ok) throw new Error('invalid_unified_token');
+
+  const claims = parseBase64UrlJson(encodedPayload);
+  const now = Math.floor(Date.now() / 1000);
+  if (claims.iss !== config.issuer || claims.aud !== config.tokenAudience || claims.client_id !== config.clientId || claims.exp <= now) throw new Error('invalid_unified_token');
+  if (!claims.iat || claims.iat > now + 60 || claims.exp - claims.iat > 600) throw new Error('invalid_unified_token');
+  if (claims.nonce !== expectedNonce || claims.product !== 'analyst' || claims.membership_status !== 'active') throw new Error('invalid_unified_token');
+  if (claims.token_use !== 'product_assertion' || !claims.sub || !claims.email) throw new Error('invalid_unified_token');
+  if (!isAal2(claims.aal) || !Array.isArray(claims.rights) || !claims.rights.includes(UNIFIED_REQUIRED_RIGHT)) throw new Error('analyst_admin_access_required');
+  if (!freshReauth(claims.reauth_expires_at)) throw new Error('reauth_required');
+  return claims;
+}
+
+async function createUnifiedSessionCookie(env, claims, rights, url) {
+  const reauthExpiresAt = Date.parse(String(claims.reauth_expires_at || ''));
+  const maxAgeSeconds = Math.max(1, Math.min(30 * 60, Math.floor((reauthExpiresAt - Date.now()) / 1000)));
+  const expiresAt = Date.now() + maxAgeSeconds * 1000;
+  const value = await signUnifiedCookiePayload(env, {
+    typ: 'analyst_session',
+    personId: claims.sub,
+    email: String(claims.email).toLowerCase(),
+    product: 'analyst',
+    aal: claims.aal,
+    rights,
+    name: claims.name || null,
+    sourceJti: claims.jti || null,
+    reauthExpiresAt: claims.reauth_expires_at || null,
+    jti: crypto.randomUUID(),
+    expiresAt,
+  });
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  return `${UNIFIED_SESSION_COOKIE}=${encodeURIComponent(value)}; Path=/; HttpOnly${secureFlag}; SameSite=Lax; Max-Age=${maxAgeSeconds}`;
+}
+
+async function getUnifiedAnalystSession(request, env) {
+  if (!unifiedAuthEnabled(env) || !env.ANALYST_SESSION_SIGNING_SECRET) return null;
+  const value = parseCookie(request.headers.get('Cookie') || '', UNIFIED_SESSION_COOKIE);
+  if (!value) return null;
+  const cookiePayload = await verifyUnifiedCookiePayload(env, value).catch(() => null);
+  if (!cookiePayload || cookiePayload.typ !== 'analyst_session' || cookiePayload.product !== 'analyst' || Date.now() > cookiePayload.expiresAt) return null;
+  if (!freshReauth(cookiePayload.reauthExpiresAt)) return null;
+
+  const payload = unifiedCookieToPayload(cookiePayload);
+  const access = await resolveAnalystAccess(payload, env);
+  const rights = access.rights;
+  return {
+    ok: true,
+    payload,
+    rights,
+    access,
+    aal: payload.aal,
+    tokenSource: 'unified_cookie',
+    tokenIndex: 0,
+    tokenCount: 1,
+    tokenScore: scoreAnalystSession(payload, rights, payload.aal),
+  };
+}
+
+function unifiedClaimsToPayload(claims) {
+  return {
+    sub: claims.sub,
+    email: String(claims.email || '').toLowerCase(),
+    aal: claims.aal,
+    exp: claims.exp,
+    rights: Array.isArray(claims.rights) ? claims.rights : [],
+    user_metadata: { name: claims.name || claims.email },
+  };
+}
+
+function unifiedCookieToPayload(cookiePayload) {
+  return {
+    sub: cookiePayload.personId,
+    email: String(cookiePayload.email || '').toLowerCase(),
+    aal: cookiePayload.aal,
+    exp: Math.floor(cookiePayload.expiresAt / 1000),
+    rights: Array.isArray(cookiePayload.rights) ? cookiePayload.rights : [],
+    user_metadata: { name: cookiePayload.name || cookiePayload.email },
+  };
+}
+
+async function signUnifiedCookiePayload(env, payload) {
+  const encodedPayload = base64UrlBytes(encoder.encode(JSON.stringify(payload)));
+  const signature = await unifiedHmac(env, encodedPayload);
+  return `${encodedPayload}.${signature}`;
+}
+
+async function verifyUnifiedCookiePayload(env, value) {
+  const [encodedPayload, signature] = String(value).split('.');
+  if (!encodedPayload || !signature) throw new Error('invalid_cookie');
+  const expected = await unifiedHmac(env, encodedPayload);
+  if (!timingSafeEqual(signature, expected)) throw new Error('invalid_cookie');
+  return parseBase64UrlJson(encodedPayload);
+}
+
+async function unifiedHmac(env, value) {
+  const key = await crypto.subtle.importKey('raw', encoder.encode(env.ANALYST_SESSION_SIGNING_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(value));
+  return base64UrlBytes(new Uint8Array(signature));
+}
+
+async function pkceChallenge(verifier) {
+  const hash = await crypto.subtle.digest('SHA-256', encoder.encode(verifier));
+  return base64UrlBytes(new Uint8Array(hash));
+}
+
+function randomToken(bytes) {
+  const data = new Uint8Array(bytes);
+  crypto.getRandomValues(data);
+  return base64UrlBytes(data);
+}
+
+function clearCookie(name, url) {
+  const secureFlag = url.host.includes('localhost') ? '' : '; Secure';
+  return `${name}=; Path=/; HttpOnly${secureFlag}; SameSite=Lax; Max-Age=0`;
+}
+
+function parseBase64UrlJson(value) {
+  return JSON.parse(new TextDecoder().decode(base64UrlDecode(value)));
+}
+
+function base64UrlBytes(value) {
+  let binary = '';
+  for (const byte of value) binary += String.fromCharCode(byte);
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+}
+
+function timingSafeEqual(left, right) {
+  if (left.length !== right.length) return false;
+  let result = 0;
+  for (let index = 0; index < left.length; index += 1) result |= left.charCodeAt(index) ^ right.charCodeAt(index);
+  return result === 0;
 }
 
 function collectYanRights(source = {}) {
@@ -608,6 +957,7 @@ async function fetchSupabaseRest(env, path) {
 function getAnalystAccessError(access = {}) {
   if (access.peopleStatus === 'lookup_unavailable') return 'rights_lookup_unavailable';
   if (access.peopleStatus === 'no_membership') return 'no_analyst_membership';
+  if ((access.analystRightCount || 0) > 0) return 'missing_analyst_admin_access';
   return 'no_analyst_rights';
 }
 
@@ -663,11 +1013,8 @@ function logAnalystRightsResolution(scope, access = {}) {
   console.info(`[${scope}] Analyst rights resolved: ${formatAnalystAccessSummary(access)}`);
 }
 
-function hasYanAdminAccess({ rights, requiredRight }) {
-  const analystRights = new Set(rights.filter(right => right.startsWith('analyst.')));
-  if (hasAliasedRight(analystRights, 'analyst.admin')) return true;
-  if (requiredRight) return requiredRight.startsWith('analyst.') && hasAliasedRight(analystRights, requiredRight);
-  return analystRights.size > 0;
+function hasYanAdminAccess({ rights }) {
+  return hasAnalystAdminRight(rights);
 }
 
 function getRequiredAnalystRights(path, method) {
@@ -729,10 +1076,10 @@ async function requireAnalystPageRights(request, env, requiredRights) {
   const session = await getVerifiedAnalystSession(request, env);
   if (!session.ok) {
     if (session.error === 'missing_secret') return authUnavailablePage();
-    return redirectToLogin(url);
+    return redirectToLogin(url, env);
   }
 
-  if (!isAal2(session.aal)) return redirectToLogin(url, true);
+  if (!isAal2(session.aal)) return redirectToLogin(url, env, true);
 
   if (!hasAnyAnalystRight(session.rights, requiredRights)) {
     const error = getAnalystAccessError(session.access);
@@ -743,7 +1090,8 @@ async function requireAnalystPageRights(request, env, requiredRights) {
   return session;
 }
 
-function redirectToLogin(url, mfaRequired = false) {
+function redirectToLogin(url, env, mfaRequired = false) {
+  if (unifiedAuthEnabled(env)) return redirectToUnifiedStart(url, url.pathname + url.search + url.hash);
   const next = encodeURIComponent(url.pathname + url.search + url.hash);
   const mfaParam = mfaRequired ? '&mfa=required' : '';
   return Response.redirect(`${url.origin}/login.html?next=${next}${mfaParam}`, 302);
@@ -774,7 +1122,7 @@ async function requireAnalystRights(request, env, requiredRights) {
     return jsonResponse({ error: 'MFA verification required' }, 403);
   }
 
-  if (session.tokenSource === 'cookie' && isUnsafeMethod(request.method) && !hasSameOriginMutation(request)) {
+  if (isCookieBackedSession(session.tokenSource) && isUnsafeMethod(request.method) && !hasSameOriginMutation(request)) {
     return jsonResponse({ error: 'Invalid request origin' }, 403);
   }
 
@@ -788,12 +1136,17 @@ async function requireAnalystRights(request, env, requiredRights) {
 }
 
 async function getVerifiedAnalystSession(request, env) {
-  if (!env.SUPABASE_JWT_SECRET) {
-    console.error('[auth] SUPABASE_JWT_SECRET not set; refusing protected request');
-    return { ok: false, error: 'missing_secret', tokenCount: 0 };
-  }
+  const unifiedSession = await getUnifiedAnalystSession(request, env);
+  if (unifiedSession) return unifiedSession;
 
   const tokenInfos = getSupabaseRequestTokens(request);
+  const refreshTokenCount = parseCookies(request.headers.get('Cookie') || '', 'sb-refresh').length;
+  if (!env.SUPABASE_JWT_SECRET) {
+    if (tokenInfos.length === 0 && refreshTokenCount === 0) return { ok: false, error: 'missing_token', tokenCount: 0, refreshTokenCount: 0 };
+    console.error('[auth] SUPABASE_JWT_SECRET not set; refusing protected request');
+    return { ok: false, error: 'missing_secret', tokenCount: tokenInfos.length, refreshTokenCount };
+  }
+
   const candidates = [];
   for (let index = 0; index < tokenInfos.length; index += 1) {
     const tokenInfo = tokenInfos[index];
@@ -803,6 +1156,7 @@ async function getVerifiedAnalystSession(request, env) {
     const access = await resolveAnalystAccess(payload, env);
     const rights = access.rights;
     const aal = payload.aal || payload.amr_aal || 'aal1';
+    if (isAal2(aal) && !freshLegacyMfa(payload, env)) continue;
     candidates.push({
       ok: true,
       payload,
@@ -840,7 +1194,19 @@ async function getVerifiedAnalystSession(request, env) {
     const access = await resolveAnalystAccess(refreshedPayload, env);
     const rights = access.rights;
     const aal = refreshedPayload.aal || refreshedPayload.amr_aal || 'aal1';
-    const accessMaxAge = Math.max(0, (refreshedPayload.exp || Math.floor(Date.now() / 1000) + 3600) - Math.floor(Date.now() / 1000));
+    const legacyReauthExpiresAt = legacyMfaFreshnessExpiresAt(refreshedPayload, env);
+    if (isAal2(aal) && (!Number.isFinite(legacyReauthExpiresAt) || legacyReauthExpiresAt <= Date.now())) {
+      return {
+        ok: false,
+        error: 'reauth_required',
+        tokenCount: tokenInfos.length,
+        refreshTokenCount: refreshed.refreshTokenCount || 0,
+      };
+    }
+    const nowSeconds = Math.floor(Date.now() / 1000);
+    const tokenMaxAge = (refreshedPayload.exp || nowSeconds + 3600) - nowSeconds;
+    const freshnessMaxAge = Number.isFinite(legacyReauthExpiresAt) ? Math.floor((legacyReauthExpiresAt - Date.now()) / 1000) : tokenMaxAge;
+    const accessMaxAge = Math.max(0, Math.min(tokenMaxAge, freshnessMaxAge));
     return {
       ok: true,
       payload: refreshedPayload,
@@ -852,7 +1218,7 @@ async function getVerifiedAnalystSession(request, env) {
       tokenCount: tokenInfos.length,
       refreshTokenCount: refreshed.refreshTokenCount || 0,
       refreshed: true,
-      setCookies: buildAuthSessionCookies(new URL(request.url), refreshed.accessToken, refreshed.refreshToken, accessMaxAge),
+      setCookies: buildAuthSessionCookies(new URL(request.url), refreshed.accessToken, refreshed.refreshToken, accessMaxAge, accessMaxAge),
       tokenScore: scoreAnalystSession(refreshedPayload, rights, aal),
     };
   }
@@ -914,8 +1280,7 @@ function scoreAnalystSession(payload, rights, aal) {
 }
 
 function hasAnalystAdminRight(rights) {
-  const analystRights = new Set(rights.filter(right => right.startsWith('analyst.')));
-  return hasAliasedRight(analystRights, 'analyst.admin');
+  return rights.includes(UNIFIED_REQUIRED_RIGHT);
 }
 
 function getSupabaseRequestTokens(request) {
@@ -930,7 +1295,9 @@ function getSupabaseRequestTokens(request) {
 
 function hasAnyAnalystRight(rights, requiredRights) {
   const analystRights = new Set(rights.filter(right => right.startsWith('analyst.')));
-  if (hasAliasedRight(analystRights, 'analyst.admin')) return true;
+  if (requiredRights.includes('analyst.admin') || requiredRights.includes(UNIFIED_REQUIRED_RIGHT)) {
+    return analystRights.has(UNIFIED_REQUIRED_RIGHT);
+  }
   return requiredRights.some(right => hasAliasedRight(analystRights, right));
 }
 
@@ -943,8 +1310,62 @@ function isAal2(aal) {
   return aal === 'aal2' || aal === 2 || aal === '2';
 }
 
+function normalizeAal(aal) {
+  return isAal2(aal) ? 'aal2' : 'aal1';
+}
+
+function freshReauth(value) {
+  const expiresAt = value ? Date.parse(String(value)) : NaN;
+  return Number.isFinite(expiresAt) && expiresAt > Date.now();
+}
+
+function freshLegacyMfa(payload, env) {
+  const expiresAt = legacyMfaFreshnessExpiresAt(payload, env);
+  return Number.isFinite(expiresAt) && expiresAt > Date.now();
+}
+
+function legacyMfaFreshnessExpiresAt(payload, env) {
+  const explicitExpiresAt = timestampMillis(payload?.reauth_expires_at);
+  if (Number.isFinite(explicitExpiresAt)) return explicitExpiresAt;
+
+  const verifiedAt = latestLegacyMfaVerifiedAt(payload);
+  if (!Number.isFinite(verifiedAt)) return NaN;
+  return verifiedAt + legacyReauthWindowSeconds(env) * 1000;
+}
+
+function latestLegacyMfaVerifiedAt(payload = {}) {
+  const candidates = [timestampMillis(payload.aal2_verified_at), timestampMillis(payload.reauth_at)];
+  if (Array.isArray(payload.amr)) {
+    payload.amr.forEach(item => {
+      const method = String(item?.method || '').toLowerCase();
+      if (['totp', 'webauthn', 'mfa', 'otp'].includes(method)) {
+        candidates.push(timestampMillis(item.timestamp ?? item.time ?? item.verified_at));
+      }
+    });
+  }
+  return Math.max(...candidates.filter(Number.isFinite));
+}
+
+function legacyReauthWindowSeconds(env) {
+  const value = Number(env.ANALYST_LEGACY_REAUTH_WINDOW_SECONDS || LEGACY_REAUTH_WINDOW_SECONDS);
+  if (!Number.isFinite(value)) return LEGACY_REAUTH_WINDOW_SECONDS;
+  return Math.min(60 * 60, Math.max(60, Math.floor(value)));
+}
+
+function timestampMillis(value) {
+  if (typeof value === 'number' && Number.isFinite(value)) return value < 1000000000000 ? value * 1000 : value;
+  if (typeof value !== 'string' || !value.trim()) return NaN;
+  const numeric = Number(value);
+  if (Number.isFinite(numeric)) return numeric < 1000000000000 ? numeric * 1000 : numeric;
+  return Date.parse(value);
+}
+
 function isUnsafeMethod(method) {
   return !['GET', 'HEAD', 'OPTIONS'].includes(method.toUpperCase());
+}
+
+function isCookieBackedSession(source) {
+  return ['cookie', 'refresh_cookie', 'unified_cookie'].includes(source);
 }
 
 function hasSameOriginMutation(request) {
@@ -1527,9 +1948,8 @@ async function handleOtpSend(request, env) {
 
   // Send email via Resend
   if (!env.RESEND_API_KEY) {
-    console.warn('[otp] RESEND_API_KEY not set — OTP code:', code);
-    // Dev fallback: still return success so UI works even without email
-    return corsResponse(JSON.stringify({ success: true, dev: true }), 200);
+    console.warn('[otp] RESEND_API_KEY not set — OTP email not sent');
+    return corsResponse(JSON.stringify({ error: 'Email backend not configured' }), 503);
   }
 
   // Send directly via Resend API (bypasses FROM_ADDRESS which needs domain verification)

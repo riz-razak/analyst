@@ -1,7 +1,7 @@
 # Central Auth Constituent Audit And Adapter Contract
 
 Date: 2026-05-11
-Status: implementation audit and migration contract draft
+Status: Analyst unified-auth adapter deployed; desktop and mobile authenticated browser QA passed; legacy fallback retired by default
 
 Canonical upstream docs:
 
@@ -21,7 +21,7 @@ Target local cookies:
 | --- | --- | --- |
 | `auth.yan.lk` | `__Host-yan_auth` | Implemented in dark Worker reference. Login UI/session creation is not live. |
 | Yan-Vada | `__Host-yan_vada_session` | Implemented in unified adapter behind flags. Legacy Supabase cookie flow still exists. |
-| Analyst | `__Host-analyst_session` | Not implemented yet. Current production uses `sb-token` and `sb-refresh`. |
+| Analyst | `__Host-analyst_session` | Deployed on the live base Worker. Legacy `sb-token` and `sb-refresh` remain only behind emergency `ANALYST_LEGACY_AUTH_ENABLED=true`. |
 | Braincentre | `__Host-braincentre_session` | Not implemented. Product/auth direction must be locked before build. |
 
 ## Round 1: Current State
@@ -49,14 +49,20 @@ Confirmed Analyst fixes now in place:
 - Login no longer calls Supabase `signOut` after setting server cookies.
 - Profile MFA setup now also clears only tab-local preauth state after server cookie sync, avoiding refresh-token revocation.
 
-Analyst gaps before central migration:
+Analyst central migration status:
 
-- Product cookie still uses `sb-token` and `sb-refresh`, not `__Host-analyst_session`.
-- No `/auth/unified/start` or `/auth/unified/callback` adapter yet.
+- `/auth/unified/start` and `/auth/unified/callback` are deployed on `analyst-collaborative-cms`.
+- `https://analyst.rizrazak.com/login.html` and `?legacy=1` redirect to the unified start path unless emergency `ANALYST_LEGACY_AUTH_ENABLED=true` is set.
+- The unified callback verifies state, nonce, PKCE token exchange, JWKS assertion, product, active membership, AAL2, and `analyst.admin.access` before minting `__Host-analyst_session`.
+- Analyst admin pages/APIs require AAL2 and explicit `analyst.admin.access`; narrower scoped Analyst rights do not satisfy the admin gate.
+- The live Worker uses the base script, not `--env production`; deploy with `npx wrangler deploy --env=""` unless production secrets are replicated into an env-suffixed Worker.
+
+Analyst remaining gaps:
+
+- Legacy product cookie fallback still exists behind emergency `ANALYST_LEGACY_AUTH_ENABLED=true`; remove the old Supabase login UI after the emergency rollback window closes.
 - `profile.html` security actions still depend on a temporary Supabase browser session.
 - Legacy route OTP UI still exists in `admin-preview.html` even though server auth now gates the page.
 - GitHub/CMS privileged writes must continue moving to server-held credentials and explicit `analyst.*` rights.
-- Active deploy uses `functions/collaborative-session.js`; `wrangler.toml` still points at a different entry, so deployment source drift remains.
 
 ### Yan-Vada
 
@@ -94,19 +100,17 @@ Current implementation reference:
 
 | Surface | File/path | Current behavior |
 | --- | --- | --- |
-| Worker | `/Users/rizrazak/Code/yan/apps/auth/src/index.ts` | Dark Worker with `/authorize`, `/token`, `/userinfo`, `/introspect`, `/logout`, OIDC config, JWKS. |
+| Worker | `/Users/rizrazak/Code/yan/apps/auth/src/index.ts` | Live Worker with `/login`, `/authorize`, `/token`, `/userinfo`, `/introspect`, `/logout`, OIDC config, JWKS, central MFA, and account cards. |
 | Session cookie | `__Host-yan_auth` | Read by `/authorize`, revoked by `/logout`. |
 | Code flow | `/authorize` and `/token` | Validates client, redirect URI, state, nonce, PKCE, local next path, product membership, and rights snapshot. |
 | Assertion | ES256 JWT | `token_use=product_assertion`, product, membership, rights, AAL, nonce, issuer, audience, client id. |
 | Data source | Yan People tables | Reads `people`, `product_memberships`, `access_bundles`, `right_overrides`, audit table. |
 
-`auth.yan.lk` gaps:
+`auth.yan.lk` remaining gaps:
 
-- `/login` returns `login_not_enabled`; the central user-facing login/MFA UI is not live.
-- Auth session creation is not visible in the dark Worker reference yet.
-- Client registry and People tables must exist in the target Supabase project before real product traffic.
+- Authenticated Analyst product-card QA is still pending after the Analyst card mapping deploy.
 - Introspection requires a configured server token.
-- Provider linking, recovery, Apple relay handling, and central profile UI are not implemented yet.
+- Google/Apple provider linking, recovery, and Apple relay handling remain dark until central provider QA passes.
 
 ### Braincentre
 
@@ -239,15 +243,37 @@ Braincentre central UI direction:
 ## Rollout Order
 
 1. Keep Analyst stabilization in place and verify the profile MFA setup fix in browser.
-2. Resolve the Analyst Worker deploy-source drift so the active Worker entry is unambiguous.
-3. Finish `auth.yan.lk` dark login/session creation and client registry.
-4. Smoke-test `auth.yan.lk` authorize/token/JWKS/userinfo with a non-production client.
-5. Enable Yan-Vada unified adapter behind `AUTH_UNIFIED_ENABLED=true` in a controlled environment.
-6. Add Analyst `/auth/unified/start` and `/auth/unified/callback` behind `ANALYST_UNIFIED_AUTH_ENABLED=false`.
-7. Migrate Analyst from `sb-token`/`sb-refresh` to `__Host-analyst_session` after parallel soak.
-8. Make Braincentre a first-class `braincentre` product in Yan People before any Braincentre admin build goes live.
-9. Enable Google centrally only after smoke tests pass.
-10. Enable Apple later only after relay email and account-linking policy tests pass.
+2. Complete authenticated Analyst browser QA for central login/MFA and local session handoff.
+3. Keep emergency legacy auth disabled unless a rollback is needed.
+4. Finish central provider QA before showing Google or Apple.
+5. Make Braincentre a first-class `braincentre` product in Yan People before any Braincentre admin build goes live.
+6. Enable Google centrally only after smoke tests pass.
+7. Enable Apple later only after relay email and account-linking policy tests pass.
+
+## Analyst Rollout Record
+
+Completed on 2026-05-11:
+
+- Deployed Analyst Worker `cdc63471-62e1-410b-bf6a-d8ad9d16de32` to `analyst-collaborative-cms`.
+- Set `ANALYST_SESSION_SIGNING_SECRET` on the live base Worker without storing the value in repo.
+- Applied Supabase migration `005_activate_analyst_auth_client.sql` to activate the `analyst` broker client.
+- Deployed `yan-auth` Worker `9f58eb77-6b17-4d2c-8003-456941f974d8` with Analyst product-card routing to `/auth/unified/start?next=%2Fadmin-preview.html`.
+- Verified `auth.yan.lk` health and deep health return `200`.
+- Verified Analyst anonymous `/auth/me`, legacy fallback login, login/admin redirects into unified auth, start redirect to broker authorize, broker authorize redirect to central login, invalid callback fallback, and anonymous protected API denial.
+- Deployed Analyst Worker `6627a375-8974-4348-838b-74156b82aa49` with fresh-reauth-capped product sessions, numeric/string AAL2 normalization, legacy cookie cleanup on unified callback, and preserved `next` fallback on callback errors.
+- Deployed `yan-auth` Worker `f723c0a3-2357-4a1d-9d6b-2845f4867cb5` with QR-first MFA setup, non-blocking QR rendering, six-digit auto-submit, guarded enrollment/verification submits, token reauth freshness checks, and `max_age=0` loop prevention after MFA.
+- Re-ran unauthenticated production smoke for auth health, deep health, OIDC metadata, JWKS, Analyst anonymous `/auth/me`, legacy fallback login, unified redirects, invalid callback fallback, and anonymous protected API denial.
+- Completed desktop Chrome authenticated browser QA: central login/MFA returned to `/admin-preview.html` without a loop, `/auth/me?right=analyst.admin.access` returned `authenticated: true`, `admin: true`, `aal: "aal2"`, and `rights: ["analyst.admin.access"]`, and a same-origin protected session-lock mutation returned `200` for acquire and release.
+- Deployed Analyst Worker `664854b9-0f39-4ef1-b816-3f6d96416993` to remove admin-preview console noise from missing Facebook panel handlers and invalid sparkline SVG coordinates; post-deploy unauthenticated smoke still passed.
+- Deployed Analyst Worker `f807571d-65c4-4571-95bd-6e82e6b5c69c` so mobile callbacks that lose the short Analyst attempt cookie retry unified start once instead of falling into legacy login; post-deploy smoke confirmed missing-attempt callbacks redirect to `/auth/unified/start`.
+- Completed mobile browser QA: central login/MFA returned to `/admin-preview.html`, the admin shell showed `AAL2` and the Analyst right, and `/auth/me?right=analyst.admin.access` returned `authenticated: true`, `admin: true`, `aal: "aal2"`, and `rights: ["analyst.admin.access"]`.
+- Completed short safe production watch: 5 synthetic rounds across auth health, deep health, Analyst anonymous auth state, unified redirects, missing-attempt retry, and protected API denial passed with zero failures.
+- Deployed Analyst Worker `1f3a810c-1efa-484e-8008-dd2043464163` to retire legacy login by default; `login.html?legacy=1` and `login.html?auth_callback=1` now redirect to unified start unless `ANALYST_LEGACY_AUTH_ENABLED=true` is explicitly set. Post-deploy smoke passed and exhausted missing-attempt retry now returns a no-store `400` error response instead of looping through legacy.
+- Deployed Analyst Worker `0bc24eab-2614-484d-b3f8-e897a10e0a94` to remove the legacy OTP dev fallback that logged one-time codes when `RESEND_API_KEY` was missing; post-deploy smoke passed.
+
+Pending:
+
+- Observe production for auth regressions during the emergency rollback window, then remove the old Supabase login UI and related product cookie fallback code.
 
 ## Stress Test Checklist
 
@@ -270,6 +296,6 @@ Required before central auth is considered ready:
 
 - Browser QA: enroll MFA from Analyst `profile.html?setup_mfa=1` and confirm the session survives access-token expiry without a login loop.
 - Analyst code: decide whether to remove or demote the legacy OTP modal from `admin-preview.html` now that server auth gates the page.
-- Analyst deploy: align `wrangler.toml` with the deploy workflow's active `functions/collaborative-session.js` entry.
-- Yan auth: implement central login/session creation for the dark Worker.
+- Analyst deploy: keep using the base Worker target (`npx wrangler deploy --env=""`) unless all production secrets are intentionally moved to an env-suffixed Worker.
+- Yan auth: complete authenticated product-card QA for Analyst.
 - Yan docs: canonicalize Braincentre architecture source and mark old client-side PIN/admin-role auth as superseded by Yan People rights.

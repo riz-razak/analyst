@@ -461,6 +461,10 @@ function safeNext(value) {
   return value && value.startsWith('/') && !value.startsWith('//') ? value : '/';
 }
 
+function isAal2Value(aal) {
+  return aal === 'aal2' || aal === 2 || aal === '2';
+}
+
 async function handleInitialAuthState() {
   const callbackHasSessionPayload = hasAuthCallbackSessionPayload();
   if (!callbackHasSessionPayload && (await redirectIfServerSession())) return;
@@ -479,7 +483,7 @@ async function redirectIfServerSession() {
       cache: 'no-store',
     });
     const session = await response.json().catch(() => null);
-    if (session?.authenticated && session?.admin && session?.aal === 'aal2') {
+    if (session?.authenticated && session?.admin && isAal2Value(session?.aal)) {
       window.location.replace(nextUrl);
       return true;
     }
@@ -885,7 +889,7 @@ async function verifyServerSessionCookie() {
   });
   const session = await response.json().catch(() => null);
 
-  if (!response.ok || !session?.authenticated || !session?.admin || session?.aal !== 'aal2') {
+  if (!response.ok || !session?.authenticated || !session?.admin || !isAal2Value(session?.aal)) {
     throw new Error('Signed in, but the admin session cookie was not stored. Clear site data for analyst.rizrazak.com and sign in again.');
   }
 }

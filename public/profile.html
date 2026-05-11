@@ -506,6 +506,10 @@ function safeNext(value) {
   return value && value.startsWith('/') && !value.startsWith('//') ? value : '/admin-preview.html';
 }
 
+function isAal2Value(aal) {
+  return aal === 'aal2' || aal === 2 || aal === '2';
+}
+
 async function init() {
   try {
     const session = await getBrowserAuthSession();
@@ -564,7 +568,7 @@ async function getServerSession() {
 }
 
 function isAal2AdminSession(session) {
-  return Boolean(session?.authenticated && session?.admin && session?.aal === 'aal2');
+  return Boolean(session?.authenticated && session?.admin && isAal2Value(session?.aal));
 }
 
 function showServerVerifiedMFA() {
