@@ -239,8 +239,11 @@
     cfg.story.forEach(function(sl) {
       var wrap = el('div', 'sn-story-label');
       wrap.setAttribute('data-fade', 'hidden');
+      wrap.setAttribute('title', sl.text);
+      wrap.setAttribute('aria-label', sl.text);
       el('span', 'sn-sl-tick', wrap);
       var txt = el('span', 'sn-sl-text', wrap);
+      txt.setAttribute('title', sl.text);
       txt.textContent = sl.text;
       storyTrack.appendChild(wrap);
       storyEls.push({ el: wrap, at: sl.at, safe: true, text: sl.text });
