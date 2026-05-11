@@ -1,9 +1,9 @@
 /**
  * GET /auth/me
  *
- * Lightweight Yan-compatible session introspection for public apps that need
- * to hide admin controls. Authorization still belongs server-side; this only
- * exposes safe user/session state derived from the signed httpOnly JWT cookie.
+ * Legacy Pages Function session introspection. The live site uses
+ * functions/collaborative-session.js and central auth; this handler stays
+ * fail-closed unless ANALYST_LEGACY_AUTH_ENABLED=true is deliberately set.
  */
 const FALLBACK_SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
 const FALLBACK_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
@@ -25,6 +25,10 @@ const ANALYST_BUNDLE_RIGHTS = {
 
 export async function onRequestGet(context) {
   const { request, env } = context;
+  if (!legacyAuthEnabled(env)) {
+    return json({ authenticated: false, admin: false, rights: [], error: 'legacy_auth_disabled' }, 200);
+  }
+
   const url = new URL(request.url);
   const requiredRight = url.searchParams.get('right');
   const cookieHeader = request.headers.get('Cookie') || '';
@@ -507,6 +511,10 @@ function base64UrlDecode(str) {
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
   return bytes.buffer;
+}
+
+function legacyAuthEnabled(env) {
+  return env.ANALYST_LEGACY_AUTH_ENABLED === 'true';
 }
 
 function json(data, status, setCookies = []) {

@@ -1,11 +1,9 @@
 /**
  * POST /auth/session
  *
- * Called by login.html after Supabase email+password + TOTP verification.
- * Accepts { access_token, refresh_token } in the request body and
- * stores both as httpOnly Secure SameSite=Strict cookies.
- *
- * This keeps JWTs out of localStorage (XSS-resistant).
+ * Legacy Pages Function session creation. The live site uses central auth in
+ * functions/collaborative-session.js; this handler stays fail-closed unless
+ * ANALYST_LEGACY_AUTH_ENABLED=true is deliberately set for rollback.
  */
 const FALLBACK_SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
 const FALLBACK_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
@@ -24,6 +22,10 @@ export async function onRequestPost(context) {
 
   if (!hasSameOriginMutation(request, url)) {
     return jsonError(403, 'Invalid request origin');
+  }
+
+  if (!legacyAuthEnabled(env)) {
+    return jsonError(410, 'legacy_auth_disabled');
   }
 
   const jwtSecret = env.SUPABASE_JWT_SECRET;
@@ -459,4 +461,8 @@ function base64UrlDecode(str) {
   const bytes = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
   return bytes.buffer;
+}
+
+function legacyAuthEnabled(env) {
+  return env.ANALYST_LEGACY_AUTH_ENABLED === 'true';
 }

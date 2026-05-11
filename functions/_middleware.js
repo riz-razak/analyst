@@ -1,8 +1,9 @@
 /**
  * Cloudflare Pages Middleware — Authentication Gate
  *
- * Verifies the Supabase JWT stored in a httpOnly cookie before serving
- * any protected path. Requires AAL2 (password + TOTP both satisfied).
+ * Legacy Pages middleware. The live site uses the base Worker in
+ * functions/collaborative-session.js. This path stays fail-closed unless
+ * ANALYST_LEGACY_AUTH_ENABLED=true is deliberately set for rollback.
  *
  * Environment variables required (set in Cloudflare Pages → Settings):
  *   SUPABASE_JWT_SECRET  — from Supabase: Project Settings → API → JWT Settings
@@ -70,9 +71,8 @@ export async function onRequest(context) {
     return next();
   }
 
-  // First-time MFA enrollment uses a temporary Supabase browser session before
-  // the httpOnly AAL2 admin cookie exists.
-  if (path === '/profile.html' && url.searchParams.get('setup_mfa') === '1') {
+  // First-time MFA enrollment belongs to the legacy Supabase rollback path only.
+  if (legacyAuthEnabled(env) && path === '/profile.html' && url.searchParams.get('setup_mfa') === '1') {
     return next();
   }
 
@@ -92,6 +92,10 @@ export async function onRequest(context) {
   // Check if this path is protected
   if (!isProtectedPath(path)) {
     return next();
+  }
+
+  if (!legacyAuthEnabled(env)) {
+    return redirectToUnifiedLogin(url);
   }
 
   // Get the JWT from the httpOnly cookie
@@ -552,6 +556,15 @@ function redirectToLogin(url, mfaRequired = false) {
     `${url.origin}/login.html?next=${next}${mfaParam}`,
     302
   );
+}
+
+function redirectToUnifiedLogin(url) {
+  const next = encodeURIComponent(url.pathname + url.search);
+  return Response.redirect(`${url.origin}/auth/unified/start?next=${next}`, 302);
+}
+
+function legacyAuthEnabled(env) {
+  return env.ANALYST_LEGACY_AUTH_ENABLED === 'true';
 }
 
 function forbidden(message = 'Forbidden', status = 403) {

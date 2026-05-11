@@ -1,7 +1,7 @@
 # Central Auth Constituent Audit And Adapter Contract
 
-Date: 2026-05-11
-Status: Analyst unified-auth adapter deployed; desktop and mobile authenticated browser QA passed; legacy fallback retired by default
+Date: 2026-05-12
+Status: Analyst unified-auth adapter deployed; desktop and mobile authenticated browser QA passed; legacy fallback and stale Pages auth are disabled by default
 
 Canonical upstream docs:
 
@@ -32,12 +32,12 @@ Current routes and surfaces:
 
 | Surface | File/path | Current behavior |
 | --- | --- | --- |
-| Login UI | `public/login.html` | Password, magic link fallback, MFA step, Google/Apple hidden. Posts AAL2 tokens to `/auth/session`. |
-| Session creation | `functions/collaborative-session.js` `/auth/session` | Same-origin POST, verifies Supabase JWT and AAL2, checks Analyst People rights, sets `sb-token` and `sb-refresh`. |
-| Session state | `functions/collaborative-session.js` `/auth/me` | Checks cookies/bearer token, refreshes from `sb-refresh`, returns safe account/right state and optional safe debug diagnostics. |
-| Logout | `/auth/logout` | Clears `sb-token` and `sb-refresh` variants, redirects to login. |
+| Login UI | `/auth/login` and `/auth/unified/start` | Default sign-in redirects to `auth.yan.lk`; `public/login.html` is legacy rollback-only. |
+| Session creation | `functions/collaborative-session.js` `/auth/unified/callback` | Verifies central state, nonce, PKCE, JWKS assertion, product, membership, AAL2, and `analyst.admin.access`, then sets `__Host-analyst_session`. `/auth/session` returns `410 legacy_auth_disabled` unless rollback is enabled. |
+| Session state | `functions/collaborative-session.js` `/auth/me` | Checks the local unified session first and returns safe account/right state. Legacy Supabase cookie fallback is gated behind `ANALYST_LEGACY_AUTH_ENABLED=true`. |
+| Logout | `/auth/logout` | Clears unified and legacy cookie variants, then redirects to `/auth/signed-out`. |
 | Homepage account menu | `src/pages/HomePage.jsx` | Account section at top. Shows sign in, signed-in email, admin dashboard, profile/MFA, sign out. |
-| Profile/security | `public/profile.html` | Supabase browser session is still needed for MFA enrollment/password change. Server cookie is synced via `/auth/session`. |
+| Profile/security | `https://auth.yan.lk/login` | Product account links now point to central Yan. `public/profile.html` is retained only for emergency legacy rollback and redirects centrally by default. |
 | Admin shell badge | `public/admin-preview.html` | Calls `/auth/me?right=analyst.admin.access`, shows email/AAL/right count, keeps private route state aligned with server auth. |
 | Protected admin pages | Worker route | `/admin-preview.html`, `/admin-submissions.html`, and `/admin/` are gated server-side before static fetch. |
 
@@ -59,8 +59,8 @@ Analyst central migration status:
 
 Analyst remaining gaps:
 
-- Legacy product cookie fallback still exists behind emergency `ANALYST_LEGACY_AUTH_ENABLED=true`; remove the old Supabase login UI after the emergency rollback window closes.
-- `profile.html` security actions still depend on a temporary Supabase browser session.
+- Legacy product cookie fallback still exists behind emergency `ANALYST_LEGACY_AUTH_ENABLED=true`; remove the old Supabase login/profile UI after the emergency rollback window closes.
+- Central Yan still needs a dedicated profile/security page beyond the current login/account-card surface.
 - Legacy route OTP UI still exists in `admin-preview.html` even though server auth now gates the page.
 - GitHub/CMS privileged writes must continue moving to server-held credentials and explicit `analyst.*` rights.
 
@@ -270,10 +270,12 @@ Completed on 2026-05-11:
 - Completed short safe production watch: 5 synthetic rounds across auth health, deep health, Analyst anonymous auth state, unified redirects, missing-attempt retry, and protected API denial passed with zero failures.
 - Deployed Analyst Worker `1f3a810c-1efa-484e-8008-dd2043464163` to retire legacy login by default; `login.html?legacy=1` and `login.html?auth_callback=1` now redirect to unified start unless `ANALYST_LEGACY_AUTH_ENABLED=true` is explicitly set. Post-deploy smoke passed and exhausted missing-attempt retry now returns a no-store `400` error response instead of looping through legacy.
 - Deployed Analyst Worker `0bc24eab-2614-484d-b3f8-e897a10e0a94` to remove the legacy OTP dev fallback that logged one-time codes when `RESEND_API_KEY` was missing; post-deploy smoke passed.
+- Deployed Analyst Worker `10b63324-75b7-48ef-b98e-aab435205c6e` to route `/auth/logout` to `/auth/signed-out`, add `/auth/login`, clear unified retry cookies, return `410 legacy_auth_disabled` from `/auth/session`, and remove legacy fallback from unified-start failure. Post-deploy smoke passed.
+- Deployed Analyst Worker `a574be31-68f7-43ee-af08-6ccd44710c0d` to redirect `/profile.html` to central Yan account by default while leaving it available only for emergency legacy rollback. Guarded dormant Pages Function auth files so accidental Pages-style deploys fail closed unless `ANALYST_LEGACY_AUTH_ENABLED=true` is deliberately set. Added `docs/analyst-auth-rollout-runbook.md` for deploy, smoke, and rollback steps, then dry-ran `wrangler versions deploy <version-id>@100 --env="" --dry-run` successfully.
 
 Pending:
 
-- Observe production for auth regressions during the emergency rollback window, then remove the old Supabase login UI and related product cookie fallback code.
+- Observe production for auth regressions during the emergency rollback window, then remove the old Supabase login/profile UI and related product cookie fallback code.
 
 ## Stress Test Checklist
 
@@ -294,7 +296,7 @@ Required before central auth is considered ready:
 
 ## Immediate Follow-Ups
 
-- Browser QA: enroll MFA from Analyst `profile.html?setup_mfa=1` and confirm the session survives access-token expiry without a login loop.
+- Browser QA: confirm central Yan account/profile/security coverage before deleting legacy `profile.html`.
 - Analyst code: decide whether to remove or demote the legacy OTP modal from `admin-preview.html` now that server auth gates the page.
 - Analyst deploy: keep using the base Worker target (`npx wrangler deploy --env=""`) unless all production secrets are intentionally moved to an env-suffixed Worker.
 - Yan auth: complete authenticated product-card QA for Analyst.

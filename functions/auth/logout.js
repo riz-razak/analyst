@@ -1,7 +1,7 @@
 /**
  * GET /auth/logout
  *
- * Clears the sb-token and sb-refresh cookies and redirects to the signed-out page.
+ * Clears legacy and unified auth cookies and redirects to the signed-out page.
  * Safe to call from a plain <a href="/auth/logout"> link.
  */
 export async function onRequest(context) {
@@ -12,7 +12,7 @@ export async function onRequest(context) {
   const secureFlag = isSecure ? '; Secure' : '';
 
   const headers = new Headers();
-  ['sb-token', 'sb-refresh'].forEach(name => {
+  ['sb-token', 'sb-refresh', '__Host-analyst_auth_attempt', '__Host-analyst_session', '__Host-analyst_auth_retry'].forEach(name => {
     ['', '; Domain=rizrazak.com', '; Domain=.rizrazak.com'].forEach(domain => {
       headers.append('Set-Cookie', `${name}=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0${domain}`);
     });

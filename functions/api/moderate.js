@@ -1,8 +1,8 @@
 /**
  * Admin Moderation API — /api/moderate
  *
- * Protected by JWT cookie verification (same as _middleware.js).
- * Only AAL2 users with analyst.admin or analyst.comments.moderate can access.
+ * Legacy Pages Function. The live Worker handles moderation routes through
+ * central auth; this handler stays fail-closed unless ANALYST_LEGACY_AUTH_ENABLED=true.
  *
  * GET  /api/moderate?dossier_id=sri-lanka-cricket-corruption[&status=pending]
  *      → returns ALL comments (or filtered by status) for admin view
@@ -19,6 +19,8 @@
 
 // ─── Auth check ─────────────────────────────────────────────────────────────
 async function requireAuth(request, env) {
+  if (env.ANALYST_LEGACY_AUTH_ENABLED !== 'true') return false;
+
   const cookieHeader = request.headers.get('Cookie') || '';
   const match = cookieHeader.match(/(?:^|;\s*)sb-token=([^;]*)/);
   const token = match ? decodeURIComponent(match[1]) : null;

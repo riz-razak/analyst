@@ -71,6 +71,9 @@ export default {
         if (path === '/login.html' && shouldRedirectLegacyLogin(url, env)) {
           return redirectToUnifiedStart(url, safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT));
         }
+        if (path === '/profile.html' && !legacyAuthEnabled(env)) {
+          return Response.redirect(centralAuthLoginUrl(env), 302);
+        }
 
         let pageSession = null;
         const pageRights = getRequiredAnalystPageRights(path);
@@ -422,6 +425,11 @@ function handleAuthLogin(request, env) {
   const url = new URL(request.url);
   if (!unifiedAuthEnabled(env)) return Response.redirect(`${url.origin}/login.html?next=${encodeURIComponent(safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT))}`, 302);
   return redirectToUnifiedStart(url, safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT));
+}
+
+function centralAuthLoginUrl(env) {
+  const issuer = String(env.AUTH_UNIFIED_ISSUER || 'https://auth.yan.lk').replace(/\/+$/, '');
+  return `${issuer}/login`;
 }
 
 function handleSignedOut(request, env) {
