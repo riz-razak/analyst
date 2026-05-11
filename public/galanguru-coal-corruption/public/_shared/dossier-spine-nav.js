@@ -101,6 +101,7 @@
   // ── STATE ───────────────────────────────────────────────────────────────
   var items = [];       // { id, el, railLink, hbarLink, panelLink, band, hband, mark }
   var storyEls = [];    // { el, at, safe }
+  var storyPopover = null;
   var ticking = false;
   var EXCLUSION = 18;
   var mode = cfg.mode;
@@ -248,9 +249,11 @@
       txt.setAttribute('title', sl.text);
       txt.textContent = sl.text;
       storyTrack.appendChild(wrap);
-      storyEls.push({ el: wrap, at: sl.at, safe: true, text: sl.text });
+      storyEls.push({ el: wrap, textEl: txt, at: sl.at, safe: true, text: sl.text });
     });
   }
+
+  storyPopover = el('div', 'sn-story-popover');
 
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -266,6 +269,7 @@
   document.body.insertBefore(panel, insertRef);
   document.body.insertBefore(mobileContext, insertRef);
   document.body.appendChild(fab);
+  document.body.appendChild(storyPopover);
 
   // Set initial mode
   applyMode(mode);
@@ -360,6 +364,49 @@
 
   requestAnimationFrame(computeSafe);
   window.addEventListener('resize', function() { requestAnimationFrame(computeSafe); });
+
+  function hideStoryPopover() {
+    if (storyPopover) storyPopover.classList.remove('show');
+  }
+
+  function updateStoryPopover(event) {
+    if (!storyPopover || isMobile()) return;
+
+    var hit = null;
+    for (var i = 0; i < storyEls.length; i++) {
+      var sl = storyEls[i];
+      var fade = sl.el.getAttribute('data-fade');
+      if (fade !== 'active' && fade !== 'passed-1' && fade !== 'upcoming-1') continue;
+
+      var rect = sl.textEl.getBoundingClientRect();
+      var pad = 8;
+      if (
+        event.clientX >= rect.left - pad && event.clientX <= rect.right + pad &&
+        event.clientY >= rect.top - pad && event.clientY <= rect.bottom + pad
+      ) {
+        hit = sl;
+        break;
+      }
+    }
+
+    if (!hit) {
+      hideStoryPopover();
+      return;
+    }
+
+    storyPopover.textContent = hit.text;
+    storyPopover.classList.add('show');
+
+    var width = storyPopover.offsetWidth || 260;
+    var height = storyPopover.offsetHeight || 60;
+    var left = Math.min(event.clientX + 14, window.innerWidth - width - 12);
+    var top = Math.min(event.clientY + 14, window.innerHeight - height - 12);
+    storyPopover.style.left = Math.max(12, left) + 'px';
+    storyPopover.style.top = Math.max(12, top) + 'px';
+  }
+
+  document.addEventListener('pointermove', updateStoryPopover, { passive: true });
+  document.addEventListener('pointerleave', hideStoryPopover, { passive: true });
 
 
   // ═══════════════════════════════════════════════════════════════════════

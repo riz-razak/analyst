@@ -247,6 +247,34 @@
   opacity: 1;
   transform: translateY(0);
 }
+.sn-story-label::before,
+.sn-story-label::after {
+  display: none;
+}
+.sn-story-popover {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2000;
+  width: 260px;
+  max-width: min(320px, calc(100vw - 24px));
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(26,18,8,0.96);
+  color: #fffaf0;
+  box-shadow: 0 10px 30px rgba(26,18,8,0.25);
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  pointer-events: none;
+}
+.sn-story-popover.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 
 /* ── Vertical — Desktop ≥768 ───────────────────────────────────────── */
