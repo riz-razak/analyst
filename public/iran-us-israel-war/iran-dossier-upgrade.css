@@ -1,0 +1,293 @@
+/* Iran dossier UI upgrade: aligns the legacy dossier with current Analyst rails. */
+:root {
+  --sn-bg: rgba(247,245,237,0.96);
+  --sn-bg-solid: #f7f5ed;
+  --sn-border: #d8d3c6;
+  --sn-text: #6f7168;
+  --sn-text-muted: #7a7a6e;
+  --sn-active: #2d5a27;
+  --sn-active-mid: #4a7c59;
+  --sn-fill-from: #7da56d;
+  --sn-fill-via: #2d5a27;
+  --sn-fill-to: #a88700;
+  --sn-fab-bg: #2d5a27;
+  --sn-fab-shadow: rgba(45,90,39,0.35);
+}
+
+html {
+  scroll-padding-top: 92px;
+}
+
+body {
+  background:
+    radial-gradient(circle at 75% 8%, rgba(168,135,0,0.07), transparent 26rem),
+    linear-gradient(180deg, #f7f5ed 0%, #f4f4fa 38%, #f7f5ed 100%);
+  overflow-x: hidden;
+}
+
+body.sn-vertical {
+  transition: padding-left 0.35s ease;
+}
+
+body.sn-vertical header,
+body.sn-vertical .hero,
+body.sn-vertical .stat-grid,
+body.sn-vertical .pledge-cta,
+body.sn-vertical .subscribe-bar,
+body.sn-vertical footer {
+  margin-left: calc(-1 * var(--sn-rail-w));
+  width: calc(100% + var(--sn-rail-w));
+}
+
+body.sn-vertical .hero {
+  padding-left: calc(var(--sn-rail-w) + clamp(1.25rem, 5vw, 5rem));
+  padding-right: clamp(1.25rem, 5vw, 5rem);
+}
+
+header {
+  z-index: 700;
+  box-shadow: 0 1px 0 rgba(26,26,46,0.04);
+}
+
+header .header-inner {
+  height: 52px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.header-tags {
+  overflow: hidden;
+}
+
+.header-tags .tag {
+  cursor: default;
+  padding: 3px 7px;
+  border-radius: 999px;
+  line-height: 1.1;
+}
+
+.header-controls {
+  justify-content: flex-end;
+  max-width: 1180px;
+  margin: 0 auto;
+  border-top: 0;
+}
+
+nav.section-nav,
+#sectionNav {
+  display: none;
+}
+
+.spine-rail {
+  z-index: 900;
+}
+
+.sn-dname,
+.sn-dyear {
+  letter-spacing: 0.03em;
+}
+
+.sn-item.active .sn-dname {
+  color: #2d5a27;
+}
+
+.hero {
+  max-width: none;
+  min-height: min(720px, calc(100svh - 52px));
+  margin: 0;
+  padding: clamp(5rem, 10vw, 8rem) clamp(1.25rem, 5vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(204,32,32,0.20), transparent 18rem),
+    radial-gradient(circle at 72% 30%, rgba(168,135,0,0.16), transparent 20rem),
+    linear-gradient(135deg, #150b0b 0%, #241414 44%, #0f1020 100%);
+  color: #fffaf0;
+  text-align: center;
+  border-bottom: 1px solid rgba(168,135,0,0.25);
+}
+
+.hero h1,
+.hero p,
+.hero .hero-meta,
+.hero .badge {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero h1 {
+  color: #fffaf0;
+  font-size: clamp(2.6rem, 7vw, 5.6rem);
+  letter-spacing: -0.05em;
+}
+
+.hero-subtitle {
+  color: rgba(255,250,240,0.80);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+  color: rgba(255,250,240,0.68);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-grid {
+  max-width: 1100px;
+  margin: 2rem auto 0;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+}
+
+section:not(.hero) {
+  max-width: 920px;
+  scroll-margin-top: 96px;
+  padding-left: clamp(1rem, 3vw, 2rem);
+  padding-right: clamp(1rem, 3vw, 2rem);
+}
+
+section:not(.hero) > h2 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+}
+
+section:not(.hero) > p,
+section:not(.hero) li {
+  font-size: clamp(1rem, 1.7vw, 1.1rem);
+}
+
+.table-responsive,
+.data-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin: var(--spacing-lg) 0;
+  background: rgba(255,255,255,0.36);
+}
+
+.table-responsive .data-table,
+.data-table-responsive .data-table {
+  margin: 0;
+  min-width: 760px;
+  border: 0;
+}
+
+.data-table th,
+.data-table td {
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.data-table thead th {
+  background: rgba(224,224,236,0.88);
+}
+
+.callout-box.info {
+  border-left-color: var(--color-gold);
+}
+
+.callout-box.warning {
+  border-left-color: var(--color-amber);
+  background: rgba(217,119,6,0.08);
+}
+
+.callout-box.danger {
+  border-left-color: var(--color-red);
+  background: rgba(204,32,32,0.08);
+}
+
+.callout-box.success {
+  border-left-color: var(--color-green);
+  background: rgba(45,122,62,0.08);
+}
+
+.callout-box.quote {
+  border-left-color: var(--color-gold);
+  font-style: italic;
+}
+
+.scenario-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.scenario-prob {
+  color: var(--color-gold);
+  font-family: var(--font-mono);
+  font-weight: 800;
+}
+
+.subscribe-bar,
+footer {
+  padding-left: clamp(1rem, 5vw, 2rem);
+  padding-right: clamp(1rem, 5vw, 2rem);
+}
+
+.subscribe-inner,
+footer > * {
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 767px) {
+  html {
+    scroll-padding-top: 84px;
+  }
+
+  body.sn-vertical header,
+  body.sn-vertical .hero,
+  body.sn-vertical .stat-grid,
+  body.sn-vertical .pledge-cta,
+  body.sn-vertical .subscribe-bar,
+  body.sn-vertical footer {
+    margin-left: calc(-1 * var(--sn-rail-w));
+  }
+
+  header .header-inner {
+    height: 44px;
+  }
+
+  .header-controls {
+    justify-content: flex-start;
+    padding-left: calc(var(--sn-rail-w) + 12px);
+  }
+
+  .hero {
+    padding-left: calc(var(--sn-rail-w) + 1rem);
+    text-align: left;
+  }
+
+  .hero h1,
+  .hero p,
+  .hero .hero-meta,
+  .hero .badge {
+    margin-left: 0;
+  }
+
+  .hero-meta {
+    justify-content: flex-start;
+  }
+
+  .table-responsive .data-table,
+  .data-table-responsive .data-table {
+    min-width: 680px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section {
+    animation: none;
+    opacity: 1;
+  }
+}
