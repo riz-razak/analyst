@@ -52,6 +52,10 @@ export default {
         return handleAuthSession(request, env);
       } else if (path === '/auth/logout') {
         return handleAuthLogout(request);
+      } else if (path === '/auth/login') {
+        return handleAuthLogin(request, env);
+      } else if (path === '/auth/signed-out') {
+        return handleSignedOut(request, env);
       } else if (path === '/auth/unified/start') {
         return handleUnifiedStart(request, env);
       } else if (path === '/auth/unified/callback') {
@@ -347,6 +351,10 @@ async function handleAuthMe(request, env) {
 async function handleAuthSession(request, env) {
   if (request.method !== 'POST') return authJson({ ok: false, error: 'Method not allowed' }, 405);
 
+  if (!legacyAuthEnabled(env)) {
+    return authJson({ ok: false, error: 'legacy_auth_disabled' }, 410);
+  }
+
   if (!hasSameOriginMutation(request)) {
     return authJson({ ok: false, error: 'Invalid request origin' }, 403);
   }
@@ -405,14 +413,51 @@ async function handleAuthLogout(request) {
   appendClearedAuthCookies(headers, url);
   headers.append('Set-Cookie', clearCookie(UNIFIED_ATTEMPT_COOKIE, url));
   headers.append('Set-Cookie', clearCookie(UNIFIED_SESSION_COOKIE, url));
-  headers.set('Location', '/login.html?logged_out=1&legacy=1');
+  headers.append('Set-Cookie', clearCookie(UNIFIED_RETRY_COOKIE, url));
+  headers.set('Location', '/auth/signed-out');
   return new Response(null, { status: 302, headers });
+}
+
+function handleAuthLogin(request, env) {
+  const url = new URL(request.url);
+  if (!unifiedAuthEnabled(env)) return Response.redirect(`${url.origin}/login.html?next=${encodeURIComponent(safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT))}`, 302);
+  return redirectToUnifiedStart(url, safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT));
+}
+
+function handleSignedOut(request, env) {
+  const url = new URL(request.url);
+  const next = safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT);
+  const signInHref = unifiedAuthEnabled(env)
+    ? `/auth/unified/start?next=${encodeURIComponent(next)}`
+    : `/login.html?next=${encodeURIComponent(next)}`;
+  return new Response(`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Signed Out - Analyst</title>
+  <style>
+    :root { color-scheme: light dark; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: #0f1412; color: #f5f2ea; }
+    main { box-sizing: border-box; width: min(100% - 32px, 460px); padding: 32px; border: 1px solid rgba(245,242,234,0.14); border-radius: 28px; background: rgba(255,255,255,0.05); box-shadow: 0 24px 80px rgba(0,0,0,0.34); }
+    h1 { margin: 0 0 12px; font-size: clamp(2rem, 8vw, 3.4rem); line-height: 0.98; letter-spacing: -0.06em; }
+    p { margin: 0 0 24px; color: rgba(245,242,234,0.72); line-height: 1.55; }
+    a { display: inline-flex; justify-content: center; width: 100%; box-sizing: border-box; padding: 14px 18px; border-radius: 999px; background: #bde65a; color: #13200d; font-weight: 800; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Signed out</h1>
+    <p>Your Analyst session on this browser has been cleared. Central Yan sign-in may still be active for other products.</p>
+    <a href="${signInHref}">Sign in again</a>
+  </main>
+</body>
+</html>`, { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
 }
 
 async function handleUnifiedStart(request, env) {
   const url = new URL(request.url);
-  const origin = url.origin;
-  const fail = (error) => Response.redirect(`${origin}/login.html?legacy=1&error=${encodeURIComponent(error)}&next=${encodeURIComponent(safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT))}`, 302);
+  const fail = (error) => new Response(`Unified auth unavailable: ${safePublicAuthError(error)}\n`, { status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } });
 
   try {
     const config = requireUnifiedConfig(env);
@@ -1141,6 +1186,10 @@ async function getVerifiedAnalystSession(request, env) {
 
   const tokenInfos = getSupabaseRequestTokens(request);
   const refreshTokenCount = parseCookies(request.headers.get('Cookie') || '', 'sb-refresh').length;
+  if (!legacyAuthEnabled(env)) {
+    return { ok: false, error: tokenInfos.length || refreshTokenCount ? 'legacy_auth_disabled' : 'missing_token', tokenCount: tokenInfos.length, refreshTokenCount };
+  }
+
   if (!env.SUPABASE_JWT_SECRET) {
     if (tokenInfos.length === 0 && refreshTokenCount === 0) return { ok: false, error: 'missing_token', tokenCount: 0, refreshTokenCount: 0 };
     console.error('[auth] SUPABASE_JWT_SECRET not set; refusing protected request');

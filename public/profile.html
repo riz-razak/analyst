@@ -924,12 +924,12 @@ function showSecuritySessionMissing() {
   if (statusBadge) statusBadge.innerHTML = '<span class="status-dot"></span> Sign-in required';
   if (setupButton) setupButton.style.display = 'none';
 
-  const loginUrl = `/login.html?next=${encodeURIComponent(returnTo)}`;
+  const loginUrl = `/auth/unified/start?next=${encodeURIComponent(returnTo)}`;
   showAlert(
     'errEnroll',
-    'Sign in with password first to set up 2FA. This page cannot enroll an authenticator from an existing admin cookie.'
+    'Two-factor setup now happens through central Yan sign-in. Continue to Analyst admin to complete any required MFA step.'
   );
-  document.getElementById('qrWrap').innerHTML = `<a class="btn btn-primary" href="${loginUrl}">Sign in to set up 2FA</a>`;
+  document.getElementById('qrWrap').innerHTML = `<a class="btn btn-primary" href="${loginUrl}">Continue with Yan sign-in</a>`;
 }
 
 function isMissingAuthSessionError(error) {

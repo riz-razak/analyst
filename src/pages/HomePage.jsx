@@ -216,11 +216,11 @@ function MenuPanel({ open, onClose, theme, toggleTheme }) {
           <>
             <div className="menu-session"><span>Signed in</span><span className="menu-link__sub">{authState.user?.email || 'Analyst member'}</span></div>
             {authState.admin && <a className="menu-link menu-link--acct" href="/admin-preview.html">Admin Dashboard<span className="menu-link__sub">CMS and publishing tools</span></a>}
-            <a className="menu-link" href="/profile.html">Account & MFA<span className="menu-link__sub">Profile, password, and two-factor access</span></a>
+            <a className="menu-link" href="https://auth.yan.lk/login">Yan Account<span className="menu-link__sub">Central profile and security</span></a>
             <a className="menu-link" href="/auth/logout">Sign out<span className="menu-link__sub">Clear this browser session</span></a>
           </>
         ) : (
-          <a className="menu-link menu-link--acct" href="/login.html?next=%2Fadmin-preview.html">Sign in<span className="menu-link__sub">Admin dashboard and protected tools</span></a>
+          <a className="menu-link menu-link--acct" href="/auth/unified/start?next=%2Fadmin-preview.html">Sign in<span className="menu-link__sub">Admin dashboard and protected tools</span></a>
         )}
 
         <div className="menu-label">Navigate</div>

@@ -1,7 +1,7 @@
 /**
  * GET /auth/logout
  *
- * Clears the sb-token and sb-refresh cookies and redirects to /login.html.
+ * Clears the sb-token and sb-refresh cookies and redirects to the signed-out page.
  * Safe to call from a plain <a href="/auth/logout"> link.
  */
 export async function onRequest(context) {
@@ -17,7 +17,7 @@ export async function onRequest(context) {
       headers.append('Set-Cookie', `${name}=; HttpOnly${secureFlag}; SameSite=Strict; Path=/; Max-Age=0${domain}`);
     });
   });
-  headers.set('Location', '/login.html?logged_out=1');
+  headers.set('Location', '/auth/signed-out');
   headers.set('Cache-Control', 'no-store');
 
   return new Response(null, { status: 302, headers });

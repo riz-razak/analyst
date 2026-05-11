@@ -6002,7 +6002,7 @@ function showEmailToast(msg, type) {
 
         function getLoginHref() {
             const next = window.location.pathname + window.location.search + window.location.hash;
-            return '/login.html?next=' + encodeURIComponent(next);
+            return '/auth/unified/start?next=' + encodeURIComponent(next);
         }
 
         function isAal2Value(aal) {
@@ -6062,7 +6062,7 @@ function showEmailToast(msg, type) {
                         tone: 'is-error',
                         status: 'Auth not configured',
                         pillText: 'Auth config error',
-                        email: 'SUPABASE_JWT_SECRET missing',
+                        email: 'Unified auth unavailable',
                         meta: 'Protected auth is failing closed.',
                         actionText: 'Sign in',
                         actionHref: getLoginHref()
