@@ -239,6 +239,7 @@
     cfg.story.forEach(function(sl) {
       var wrap = el('div', 'sn-story-label');
       wrap.setAttribute('data-fade', 'hidden');
+      wrap.setAttribute('data-full', sl.text);
       wrap.setAttribute('title', sl.text);
       wrap.setAttribute('aria-label', sl.text);
       el('span', 'sn-sl-tick', wrap);
