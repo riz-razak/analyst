@@ -31,13 +31,14 @@ const ANALYST_BUNDLE_RIGHTS = {
 const PROTECTED_PATHS = [
   '/sri-lanka-cricket-corruption/analytics.html',
   '/sri-lanka-cricket-corruption/sources.html',
-  '/sri-lanka-cricket-corruption/kalathma-scandal.html',
   '/profile.html',
   '/admin-preview.html',
   '/admin-submissions.html',
 ];
 
 const PROTECTED_PATH_RIGHTS = new Map([
+  ['/sri-lanka-cricket-corruption/analytics.html', ['analyst.admin']],
+  ['/sri-lanka-cricket-corruption/sources.html', ['analyst.admin']],
   ['/admin-preview.html', ['analyst.admin', 'analyst.cms.read', 'analyst.cms.write']],
   ['/admin-submissions.html', ['analyst.admin', 'analyst.submissions.read', 'analyst.submissions.review']],
 ]);

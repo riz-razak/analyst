@@ -2,7 +2,8 @@
  * Admin Moderation API — /api/moderate
  *
  * Legacy Pages Function. The live Worker handles moderation routes through
- * central auth; this handler stays fail-closed unless ANALYST_LEGACY_AUTH_ENABLED=true.
+ * central auth; this handler stays fail-closed unless both legacy auth and
+ * legacy moderation are deliberately enabled for incident rollback.
  *
  * GET  /api/moderate?dossier_id=sri-lanka-cricket-corruption[&status=pending]
  *      → returns ALL comments (or filtered by status) for admin view
@@ -20,6 +21,7 @@
 // ─── Auth check ─────────────────────────────────────────────────────────────
 async function requireAuth(request, env) {
   if (env.ANALYST_LEGACY_AUTH_ENABLED !== 'true') return false;
+  if (env.ANALYST_LEGACY_MODERATE_ENABLED !== 'true') return false;
 
   const cookieHeader = request.headers.get('Cookie') || '';
   const match = cookieHeader.match(/(?:^|;\s*)sb-token=([^;]*)/);

@@ -8,6 +8,7 @@ Date: 2026-05-12
 - Live route: `analyst.rizrazak.com/*`.
 - Deploy production from the base Worker config only: `npx wrangler deploy --env=""`.
 - Do not deploy production with `--env production` unless production secrets are intentionally replicated to that environment.
+- GitHub Actions must deploy with Wrangler as well. Do not upload the Worker through the raw script API because that can drop `wrangler.toml` vars and disable unified auth.
 
 ## Current State
 
@@ -15,6 +16,7 @@ Date: 2026-05-12
 - Analyst mints product-local `__Host-analyst_session` cookies from central product assertions.
 - Legacy Supabase login/session code is disabled unless `ANALYST_LEGACY_AUTH_ENABLED=true` is deliberately set.
 - `public/login.html` and `public/profile.html` remain in the repo only for emergency legacy rollback.
+- Private cricket analytics/source-log pages are gated by the same central Analyst admin session as the main admin shell.
 
 ## Pre-Deploy Checks
 
@@ -49,6 +51,9 @@ Minimum unauthenticated checks:
 - `/auth/session` returns `410 legacy_auth_disabled` while legacy auth is disabled.
 - `/auth/me?right=analyst.admin.access` returns a safe unauthenticated state without a session.
 - `/profile.html` redirects to `https://auth.yan.lk/login` while legacy auth is disabled.
+- `/sri-lanka-cricket-corruption/analytics.html` and `/sri-lanka-cricket-corruption/sources.html` redirect to central auth without a session.
+- `/sri-lanka-cricket-corruption/kalathma-scandal.html` remains public.
+- `/api/otp/send` denies anonymous requests.
 
 Authenticated browser checks:
 
@@ -61,6 +66,7 @@ Authenticated browser checks:
 Prefer feature rollback before version rollback:
 
 1. If only legacy Supabase auth must be restored, set `ANALYST_LEGACY_AUTH_ENABLED=true` on the live base Worker and redeploy the base Worker. Confirm `SUPABASE_JWT_SECRET`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_KEY` are still present. Do not expose Google/Apple provider UI.
+   Set `ANALYST_LEGACY_MODERATE_ENABLED=true` only if the obsolete Pages `/api/moderate` endpoint is explicitly needed during an incident.
 2. If the deployed Worker version itself is bad, list recent versions with `npx wrangler versions list --env=""`.
 3. Rehearse the selected rollback version with `npx wrangler versions deploy <version-id>@100 --env="" --dry-run`.
 4. Roll traffic back with `npx wrangler versions deploy <version-id>@100 --env="" --yes --message "Rollback Analyst auth"`.

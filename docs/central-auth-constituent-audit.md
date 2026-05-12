@@ -272,10 +272,12 @@ Completed on 2026-05-11:
 - Deployed Analyst Worker `0bc24eab-2614-484d-b3f8-e897a10e0a94` to remove the legacy OTP dev fallback that logged one-time codes when `RESEND_API_KEY` was missing; post-deploy smoke passed.
 - Deployed Analyst Worker `10b63324-75b7-48ef-b98e-aab435205c6e` to route `/auth/logout` to `/auth/signed-out`, add `/auth/login`, clear unified retry cookies, return `410 legacy_auth_disabled` from `/auth/session`, and remove legacy fallback from unified-start failure. Post-deploy smoke passed.
 - Deployed Analyst Worker `a574be31-68f7-43ee-af08-6ccd44710c0d` to redirect `/profile.html` to central Yan account by default while leaving it available only for emergency legacy rollback. Guarded dormant Pages Function auth files so accidental Pages-style deploys fail closed unless `ANALYST_LEGACY_AUTH_ENABLED=true` is deliberately set. Added `docs/analyst-auth-rollout-runbook.md` for deploy, smoke, and rollback steps, then dry-ran `wrangler versions deploy <version-id>@100 --env="" --dry-run` successfully.
+- Deployed Analyst Worker `7d0387cc-e599-43a3-bff5-4532d9e0dadd` after the raw script-API GitHub workflow stripped Worker vars and disabled unified auth. The remediation replaced that workflow with `npx wrangler deploy --env=""`, restored central auth vars, gated cricket analytics/source-log pages behind central Analyst admin, and required central admin auth plus same-origin for legacy OTP endpoints. Post-deploy smoke confirmed unified redirects, legacy login redirect, private page gates, public case-file access, `410 legacy_auth_disabled`, and anonymous OTP denial.
 
 Pending:
 
 - Observe production for auth regressions during the emergency rollback window, then remove the old Supabase login/profile UI and related product cookie fallback code.
+- Re-run authenticated browser QA after the `7d0387cc-e599-43a3-bff5-4532d9e0dadd` remediation to confirm central login/MFA still returns to `/admin-preview.html` and the newly gated analytics/source pages.
 
 ## Stress Test Checklist
 

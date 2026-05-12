@@ -21,6 +21,10 @@ const ANALYST_BUNDLE_RIGHTS = {
   'analyst.editor': ['analyst.cms.edit', 'analyst.cms.publish', 'analyst.assets.manage', 'analyst.evidence.review'],
   'analyst.moderator': ['analyst.comments.moderate'],
 };
+const PRIVATE_ANALYST_PAGES = new Set([
+  '/sri-lanka-cricket-corruption/analytics.html',
+  '/sri-lanka-cricket-corruption/sources.html',
+]);
 const UNIFIED_ATTEMPT_COOKIE = '__Host-analyst_auth_attempt';
 const UNIFIED_SESSION_COOKIE = '__Host-analyst_session';
 const UNIFIED_RETRY_COOKIE = '__Host-analyst_auth_retry';
@@ -1095,6 +1099,9 @@ function getRequiredAnalystRights(path, method) {
   if (path === '/api/comments/moderate' || path === '/api/comments/pending') {
     return ['analyst.admin', 'analyst.comments.moderate'];
   }
+  if (path === '/api/otp/send' || path === '/api/otp/verify') {
+    return ['analyst.admin'];
+  }
   if (path === '/api/thumbnail/generate' || path === '/api/thumbnail/upload') {
     return ['analyst.admin', 'analyst.cms.write', 'analyst.thumbnail.write'];
   }
@@ -1118,6 +1125,7 @@ function getRequiredAnalystRights(path, method) {
 }
 
 function getRequiredAnalystPageRights(path) {
+  if (PRIVATE_ANALYST_PAGES.has(path)) return ['analyst.admin'];
   if (path === '/admin-preview.html') return ['analyst.admin'];
   if (path === '/admin-submissions.html') return ['analyst.admin', 'analyst.submissions.read', 'analyst.submissions.review'];
   if (path.startsWith('/admin/')) return ['analyst.admin'];
@@ -1981,6 +1989,9 @@ async function handleOtpSend(request, env) {
   if (request.method !== 'POST') {
     return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
   }
+  if (!hasSameOriginMutation(request)) {
+    return corsResponse(JSON.stringify({ error: 'Invalid request origin' }), 403);
+  }
 
   // Cooldown check — don't resend within 60s
   const existing = await env.SESSION_STORE.get(OTP_KV_KEY, 'json');
@@ -2062,6 +2073,9 @@ async function handleOtpSend(request, env) {
 async function handleOtpVerify(request, env) {
   if (request.method !== 'POST') {
     return corsResponse(JSON.stringify({ error: 'Method not allowed' }), 405);
+  }
+  if (!hasSameOriginMutation(request)) {
+    return corsResponse(JSON.stringify({ error: 'Invalid request origin' }), 403);
   }
 
   const body = await request.json();
