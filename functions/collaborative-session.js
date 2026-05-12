@@ -502,7 +502,7 @@ async function handleUnifiedCallback(request, env) {
   let fallbackNext = UNIFIED_DEFAULT_NEXT;
   const fail = (error) => {
     responseHeaders.append('Set-Cookie', clearCookie(UNIFIED_ATTEMPT_COOKIE, url));
-    if (['missing_auth_attempt', 'invalid_auth_attempt'].includes(error) && parseCookie(request.headers.get('Cookie') || '', UNIFIED_RETRY_COOKIE) !== '1') {
+    if (['missing_auth_attempt', 'invalid_auth_attempt', 'invalid_state'].includes(error) && parseCookie(request.headers.get('Cookie') || '', UNIFIED_RETRY_COOKIE) !== '1') {
       responseHeaders.append('Set-Cookie', `${UNIFIED_RETRY_COOKIE}=1; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=120`);
       responseHeaders.set('Location', `/auth/unified/start?next=${encodeURIComponent(fallbackNext)}`);
       return new Response(null, { status: 302, headers: responseHeaders });
