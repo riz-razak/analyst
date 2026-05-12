@@ -48,7 +48,7 @@ Minimum unauthenticated checks:
 - `/auth/signed-out` returns `200` with `Cache-Control: no-store`.
 - `/auth/login?next=%2Fadmin-preview.html` redirects to `/auth/unified/start`.
 - `/auth/unified/start?next=%2Fadmin-preview.html` redirects to `https://auth.yan.lk/authorize`.
-- `/auth/session` returns `410 legacy_auth_disabled` while legacy auth is disabled.
+- `POST /auth/session` returns `410 legacy_auth_disabled` while legacy auth is disabled; `GET /auth/session` is method-not-allowed.
 - `/auth/me?right=analyst.admin.access` returns a safe unauthenticated state without a session.
 - `/profile.html` redirects to `https://auth.yan.lk/login` while legacy auth is disabled.
 - `/sri-lanka-cricket-corruption/analytics.html` and `/sri-lanka-cricket-corruption/sources.html` redirect to central auth without a session.
@@ -59,6 +59,7 @@ Authenticated browser checks:
 
 - Central login plus MFA returns to `/admin-preview.html` without a loop.
 - `/auth/me?right=analyst.admin.access` returns `authenticated: true`, `admin: true`, AAL2, and `analyst.admin.access`.
+- Product sign-out clears the local Analyst session, lands on `/auth/signed-out`, and a fresh visit to `/admin-preview.html` redirects back to central auth.
 - A protected same-origin admin mutation succeeds only after the central session is present.
 
 ## Rollback

@@ -252,7 +252,7 @@ Braincentre central UI direction:
 
 ## Analyst Rollout Record
 
-Completed on 2026-05-11:
+Completed through 2026-05-12:
 
 - Deployed Analyst Worker `cdc63471-62e1-410b-bf6a-d8ad9d16de32` to `analyst-collaborative-cms`.
 - Set `ANALYST_SESSION_SIGNING_SECRET` on the live base Worker without storing the value in repo.
@@ -273,11 +273,17 @@ Completed on 2026-05-11:
 - Deployed Analyst Worker `10b63324-75b7-48ef-b98e-aab435205c6e` to route `/auth/logout` to `/auth/signed-out`, add `/auth/login`, clear unified retry cookies, return `410 legacy_auth_disabled` from `/auth/session`, and remove legacy fallback from unified-start failure. Post-deploy smoke passed.
 - Deployed Analyst Worker `a574be31-68f7-43ee-af08-6ccd44710c0d` to redirect `/profile.html` to central Yan account by default while leaving it available only for emergency legacy rollback. Guarded dormant Pages Function auth files so accidental Pages-style deploys fail closed unless `ANALYST_LEGACY_AUTH_ENABLED=true` is deliberately set. Added `docs/analyst-auth-rollout-runbook.md` for deploy, smoke, and rollback steps, then dry-ran `wrangler versions deploy <version-id>@100 --env="" --dry-run` successfully.
 - Deployed Analyst Worker `7d0387cc-e599-43a3-bff5-4532d9e0dadd` after the raw script-API GitHub workflow stripped Worker vars and disabled unified auth. The remediation replaced that workflow with `npx wrangler deploy --env=""`, restored central auth vars, gated cricket analytics/source-log pages behind central Analyst admin, and required central admin auth plus same-origin for legacy OTP endpoints. Post-deploy smoke confirmed unified redirects, legacy login redirect, private page gates, public case-file access, `410 legacy_auth_disabled`, and anonymous OTP denial.
+- Deployed `yan-auth` Worker `7f2680b4-a6b3-4d91-8b21-3576edc4152b` to recover misplaced Analyst admin paths on the broker host by redirecting them to the Analyst unified start path.
+- Deployed Analyst Worker `f389260d-daea-4db3-be4f-5ceaabbbf02c` to retry stale or missing Analyst auth callbacks once through `/auth/unified/start` while still failing closed after the retry guard is exhausted.
+- Completed post-remediation desktop browser QA: central login/MFA returned to `/admin-preview.html`, the admin shell showed `riz@dgtl.lk`, `AAL2`, and the Analyst admin right, and authenticated `analytics.html` plus `sources.html` loaded after central auth.
+- Verified the sign-out/re-entry path at HTTP level: `/auth/logout` redirects to `/auth/signed-out`, clears Analyst local auth cookies, `/auth/signed-out` is `200` with `Cache-Control: no-store`, and a fresh unauthenticated `/admin-preview.html` visit redirects to `/auth/unified/start?next=%2Fadmin-preview.html`.
+- Completed a corrected 5-round sanitized production watch across `auth.yan.lk/healthz`, deep health, OIDC metadata, JWKS, Analyst logout, signed-out page, auth login/unified redirects, legacy login/profile redirects, private page gates, public case-file access, anonymous auth state, `POST /auth/session` legacy-disable response, and anonymous OTP denial with zero failures.
+- Applied Supabase migration `006_auth_login_rate_limits.sql` to project `ogunznqyfmxkmmwizpfy` and deployed `yan-auth` Worker `1d1369ed-96ca-442e-a2a6-5c96bf53af23` with broker-side Magic Link send limits by hashed email, hashed IP, and hashed client/IP bucket. RPC smoke verified the second disposable attempt blocked with `Retry-After`, then cleanup verified zero disposable rows remained. Post-deploy broker/Analyst smoke and a 5-round production watch passed with zero failures.
 
 Pending:
 
 - Observe production for auth regressions during the emergency rollback window, then remove the old Supabase login/profile UI and related product cookie fallback code.
-- Re-run authenticated browser QA after the `7d0387cc-e599-43a3-bff5-4532d9e0dadd` remediation to confirm central login/MFA still returns to `/admin-preview.html` and the newly gated analytics/source pages.
+- Complete the browser-only sign-out click check from an authenticated desktop session, then revisit `/admin-preview.html` and confirm it returns to central auth rather than loading the dashboard.
 
 ## Stress Test Checklist
 
@@ -298,7 +304,7 @@ Required before central auth is considered ready:
 
 ## Immediate Follow-Ups
 
-- Browser QA: confirm central Yan account/profile/security coverage before deleting legacy `profile.html`.
+- Browser QA: complete the authenticated desktop sign-out/re-entry click check and confirm central Yan account/profile/security coverage before deleting legacy `profile.html`.
 - Analyst code: decide whether to remove or demote the legacy OTP modal from `admin-preview.html` now that server auth gates the page.
 - Analyst deploy: keep using the base Worker target (`npx wrangler deploy --env=""`) unless all production secrets are intentionally moved to an env-suffixed Worker.
 - Yan auth: complete authenticated product-card QA for Analyst.
