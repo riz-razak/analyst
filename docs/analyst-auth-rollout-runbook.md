@@ -2,6 +2,10 @@
 
 Date: 2026-05-12
 
+Latest handover: `docs/handoff/2026-05-14-analyst-auth-session-handover.md`.
+
+Use this runbook for deploy, smoke, and rollback execution. Use the handover for current session context and next checks.
+
 ## Production Target
 
 - Live Worker: `analyst-collaborative-cms`.

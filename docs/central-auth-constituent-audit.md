@@ -3,6 +3,8 @@
 Date: 2026-05-12
 Status: Analyst unified-auth adapter deployed; desktop and mobile authenticated browser QA passed; legacy fallback and stale Pages auth are disabled by default
 
+Latest Analyst-specific handover: `docs/handoff/2026-05-14-analyst-auth-session-handover.md`.
+
 Canonical upstream docs:
 
 - `/Users/rizrazak/Code/yan/YAN_PEOPLE_IDENTITY_MODEL.md`
@@ -282,6 +284,7 @@ Completed through 2026-05-12:
 
 Pending:
 
+- Keep the 2026-05-14 Analyst handover current if any auth rollout, rollback, or smoke-test behavior changes.
 - Observe production for auth regressions during the emergency rollback window, then remove the old Supabase login/profile UI and related product cookie fallback code.
 - Complete the browser-only sign-out click check from an authenticated desktop session, then revisit `/admin-preview.html` and confirm it returns to central auth rather than loading the dashboard.
 
