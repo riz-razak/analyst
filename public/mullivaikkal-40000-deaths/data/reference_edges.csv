@@ -1,0 +1,75 @@
+edge_id,source_entity_or_url,target_entity_or_url,edge_type,claim_id,instance_id,evidence_level,evidence_url_id,can_visualize_as_funding,risk_label,notes
+E001,SEO-N001,SEO-N004,direct_citation,,,CAPTURED,,NO,citation_or_propagation_route,Wikipedia Panel report page restates the core UN claim.
+E002,SEO-N001,SEO-N005,direct_citation,,,CAPTURED,,NO,citation_or_propagation_route,Mullivaikkal massacre stacks the UN Panel with Petrie and media.
+E003,SEO-N001,SEO-N007,direct_citation,,,CAPTURED,,NO,citation_or_propagation_route,Remembrance page uses media routes to carry the UN claim.
+E004,SEO-N001,SEO-N008,direct_citation,,,CAPTURED,,NO,citation_or_propagation_route,Casualties page is the cleanest Wikipedia route preserving the UN ceiling.
+E005,SEO-N005,SEO-N010,mirror,,,CAPTURED,,NO,citation_or_propagation_route,DBpedia mirrors the event page.
+E006,SEO-N005,SEO-N011,mirror,,,CAPTURED,,NO,citation_or_propagation_route,Everything Explained mirrors Wikipedia-style content.
+E007,SEO-N001,SEO-N012,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Amnesty compresses the place label while invoking UN estimates.
+E008,SEO-N001,SEO-N013,context_only,,,CAPTURED,,NO,citation_or_propagation_route,HRW preserves a cleaner final-months formulation.
+E009,SEO-N014,SEO-N009,context_only,,,CAPTURED,,NO,citation_or_propagation_route,ICG strengthens the incident environment for the war-crimes page.
+E010,SEO-N015,SEO-N016,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Paranagama builds on the domestic-commission critique lane.
+E011,SEO-N016,SEO-N017,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Naseby popularizes the lower-count critique in parliamentary space.
+E012,SEO-N021,SEO-N006,direct_citation,,,CAPTURED,,NO,citation_or_propagation_route,Tamil genocide page cites the ITJP high-number route.
+E013,SEO-N021,SEO-N023,direct_citation,,,CAPTURED,,NO,citation_or_propagation_route,Movement consensus document uses the high-number route.
+E014,SEO-N021,SEO-N024,direct_citation,,,CAPTURED,,NO,citation_or_propagation_route,Community-media remembrance coverage carries the number forward.
+E015,SEO-N020,SEO-N027,context_only,,,INFERRED,,NO,citation_or_propagation_route,Advocacy landscape plausibly feeds legislative recognition but the lobbying path is not yet documented.
+E016,SEO-N027,SEO-N028,political_recognition,,,CAPTURED,,NO,citation_or_propagation_route,Ontario recognition sits inside the wider Canada recognition ecosystem.
+E017,SEO-N006,SEO-N027,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Wikipedia and legislative text reinforce each other in public search environments.
+E018,SEO-N025,SEO-N001,direct_citation,,,CAPTURED,,NO,citation_or_propagation_route,Groundviews counter lane directly attacks hardening of the Panel wording.
+E019,SEO-N030,SEO-N020,context_only,,,CAPTURED,,NO,citation_or_propagation_route,"Funding visibility for PEARL, not message causation."
+E020,SEO-N032,SEO-N031,context_only,,,INFERRED,,NO,citation_or_propagation_route,Corporate and organizational routes overlap but exact page-level message flow is not yet captured.
+E021,SEO-N033,SEO-N006,context_only,,,ROUTE_ONLY,,NO,citation_or_propagation_route,Exact page-level linkage still needs capture.
+E022,SEO-N029,SEO-N012,context_only,,,INFERRED,,NO,citation_or_propagation_route,Viral post uses a compressed wording lane similar to high-authority NGO or memorial usage.
+E023,SEO-N029,SEO-N005,social_amplification,,,INFERRED,,NO,citation_or_propagation_route,The post fits the public shorthand environment even if the exact citation path is unknown.
+E024,SEO-N034,SEO-N029,context_only,,,ROUTE_ONLY,,NO,citation_or_propagation_route,No ad evidence captured yet.
+E025,SEO-N035,SEO-N022,context_only,,,ROUTE_ONLY,,NO,citation_or_propagation_route,No ad evidence captured yet.
+E026,SEO-N005,SEO-N036,mirror,,,CAPTURED,,NO,citation_or_propagation_route,Wiki2 mirrors Wikipedia-style event wording.
+E027,SEO-N014,SEO-N037,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Sri Lanka Brief republishes the dead-and-missing accounting frame.
+E028,SEO-N001,SEO-N038,context_only,,,CAPTURED,,NO,citation_or_propagation_route,The Diplomat carries a cautious version of the UN panel route.
+E029,SEO-N007,SEO-N039,context_only,,,INFERRED,,NO,citation_or_propagation_route,Institutional remembrance framing likely draws from the annual remembrance discourse.
+E030,SEO-N001,SEO-N040,context_only,,,CAPTURED,,NO,citation_or_propagation_route,PEARL remembrance statement carries the UN estimate into advocacy memory work.
+E031,SEO-N021,SEO-N040,context_only,,,CAPTURED,,NO,citation_or_propagation_route,PEARL remembrance statement couples the UN estimate with higher missing routes.
+E032,SEO-N020,SEO-N041,context_only,,,CAPTURED,,NO,citation_or_propagation_route,PEARL legal brief deepens the genocide-and-numbers synthesis.
+E033,SEO-N027,SEO-N042,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Bill text and debate reinforce one another.
+E034,SEO-N042,SEO-N028,political_recognition,,,CAPTURED,,NO,citation_or_propagation_route,Ontario debate sits inside the broader Canada recognition network.
+E035,SEO-N043,SEO-N042,political_recognition,,,CAPTURED,,NO,citation_or_propagation_route,Earlier Ontario debates prime later legislative text.
+E036,SEO-N005,SEO-N044,social_amplification,,,CAPTURED,,NO,citation_or_propagation_route,Reddit thread inherits compressed Wikipedia-like range language.
+E037,SEO-N006,SEO-N045,social_amplification,,,CAPTURED,,NO,citation_or_propagation_route,Reddit explainer reflects Wikipedia plus advocacy ladders.
+E038,SEO-N021,SEO-N046,direct_citation,,,CAPTURED,,NO,citation_or_propagation_route,Google Groups archive bundles TamilNet/video/higher-number routes.
+E039,SEO-N047,SEO-N005,search_surface,,,INFERRED,,NO,citation_or_propagation_route,Documentary framing likely reinforces later search-surface certainty.
+E040,SEO-N012,SEO-N048,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Diaspora archive repost amplifies Amnesty wording.
+E041,SEO-N013,SEO-N049,context_only,,,INFERRED,,NO,citation_or_propagation_route,Maktoob article appears to bridge HRW/remembrance language into social sharing.
+E042,SEO-N008,SEO-N050,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Broad-war Wikipedia page stacks multiple final-phase numeric lanes.
+E043,SEO-N002,SEO-N051,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Petrie summary page helps fuse different report outputs.
+E044,SEO-N005,SEO-N052,context_only,,,CAPTURED,,NO,citation_or_propagation_route,List page hardens event framing into a taxonomy entry.
+E045,SEO-N047,SEO-N053,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Documentary route becomes part of Wikipedia memory infrastructure.
+E046,SEO-N054,SEO-N001,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Weiss route popularizes the high estimate outside formal UN prose.
+E047,SEO-N017,SEO-N055,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Lower-count counter-propagation has its own media-memory route.
+E048,SEO-N050,SEO-N056,context_only,,,INFERRED,,NO,citation_or_propagation_route,Wikidata can carry broad-war numeric fields into knowledge surfaces.
+E049,SEO-N009,SEO-N057,mirror,,,CAPTURED,,NO,citation_or_propagation_route,Fandom mirror turns war-crimes page content into another SEO surface.
+E050,SEO-N027,SEO-N064,political_recognition,,,CAPTURED,,NO,citation_or_propagation_route,Municipal proclamation inherits province-level recognition framing.
+E051,SEO-N028,SEO-N065,political_recognition,,,CAPTURED,,NO,citation_or_propagation_route,U.S. political route expands recognition and denominator ambiguity.
+E052,SEO-N066,SEO-N028,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Scottish motion shows cross-jurisdictional recognition hardening.
+E053,SEO-N001,SEO-N067,context_only,,,CAPTURED,,NO,citation_or_propagation_route,UN-hosted NGO submission converts cautious and advocacy numbers into one authority surface.
+E054,SEO-N021,SEO-N068,context_only,,,CAPTURED,,NO,citation_or_propagation_route,UN-hosted NGO submission amplifies the highest-number route.
+E055,SEO-N018,SEO-N058,context_only,,,CAPTURED,,NO,citation_or_propagation_route,MFA uses official and rebuttal routes to attack the upper estimate.
+E056,SEO-N018,SEO-N059,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Lower observed counts are used rhetorically as near-ceilings.
+E057,SEO-N017,SEO-N061,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Naseby lane is republished through Defence.lk.
+E058,SEO-N017,SEO-N062,context_only,,,CAPTURED,,NO,citation_or_propagation_route,MFA repackages the lower-count parliamentary route.
+E059,SEO-N016,SEO-N063,context_only,,,CAPTURED,,NO,citation_or_propagation_route,Narrative III provides a more intellectual state counter-route.
+FE-N001,FUND-N001,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-030,NO,funding_visibility_causation_unproven,PEARL fabricated casualty numbers for money or paid for this specific narrative without further proof.
+FE-N002,FUND-N002,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-076,NO,funding_visibility_causation_unproven,That public engagement proves propaganda causation.
+FE-N003,FUND-N003,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-031,NO,funding_visibility_causation_unproven,GTF funding caused the 40000 claim without documented spend or message trail.
+FE-N004,FUND-N004,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-032,NO,funding_visibility_causation_unproven,This alone proves coordinated campaign funding or control.
+FE-N005,FUND-N005,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,ROUTE_TO_VERIFY,URL-077,NO,funding_visibility_causation_unproven,Any one company route equals the full BTF ecosystem.
+FE-N006,FUND-N006,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-033,NO,funding_visibility_causation_unproven,Corporate existence proves illegal funding or fabricated claims.
+FE-N007,FUND-N007,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-028,NO,funding_visibility_causation_unproven,A PM statement is a legal genocide finding or proof of casualty numbers.
+FE-N008,FUND-N008,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-027,NO,funding_visibility_causation_unproven,Legislation proves the casualty numbers or genocide as adjudicated fact.
+FE-N009,FUND-N009,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-078,NO,funding_visibility_causation_unproven,Funding alone invalidates HRW evidence or proves fabrication.
+FE-N010,FUND-N010,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-079,NO,funding_visibility_causation_unproven,Funding alone invalidates Amnesty evidence or proves fabrication.
+FE-N011,FUND-N011,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED_AS_CLASS,URL-080,CONTEXT_ONLY,funding_visibility_causation_unproven,State sources are automatically false or uniquely propagandistic.
+FE-N012,FUND-N012,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED,URL-017,NO,funding_visibility_causation_unproven,Only diaspora advocacy is politically networked abroad.
+FE-N013,FUND-N013,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,ROUTE_ONLY,URL-034,CONTEXT_ONLY,funding_visibility_causation_unproven,No ads found until a proper query is run.
+FE-N014,FUND-N014,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,ROUTE_ONLY,URL-035,CONTEXT_ONLY,funding_visibility_causation_unproven,No ads found until a proper query is run.
+FE-N015,FUND-N015,CLAIM_ECOSYSTEM,incentive_context,FUND-C001,,CAPTURED_AS_CLASS,URL-081,CONTEXT_ONLY,funding_visibility_causation_unproven,This class alone proves a coordinated paymaster or a fabricated number.

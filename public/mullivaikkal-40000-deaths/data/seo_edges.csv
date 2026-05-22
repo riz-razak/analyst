@@ -1,0 +1,69 @@
+edge_id,source_node,target_node,edge_type,claim_carried,evidence_status,notes
+E001,SEO-N001,SEO-N004,citation,as many as 40000 may have been killed,CAPTURED,Wikipedia Panel report page restates the core UN claim.
+E002,SEO-N001,SEO-N005,citation_stack,40000 source basis,CAPTURED,Mullivaikkal massacre stacks the UN Panel with Petrie and media.
+E003,SEO-N001,SEO-N007,media_mediated_citation,as many as 40000 may have been killed,CAPTURED,Remembrance page uses media routes to carry the UN claim.
+E004,SEO-N001,SEO-N008,direct_citation,multiple casualty ranges including 40000,CAPTURED,Casualties page is the cleanest Wikipedia route preserving the UN ceiling.
+E005,SEO-N005,SEO-N010,semantic_mirror,Mullivaikkal massacre entity,CAPTURED,DBpedia mirrors the event page.
+E006,SEO-N005,SEO-N011,content_mirror,40000-70000 fatalities,CAPTURED,Everything Explained mirrors Wikipedia-style content.
+E007,SEO-N001,SEO-N012,ngo_restated_compression,at Mullivaikkal killing at least 40000 according to UN estimates,CAPTURED,Amnesty compresses the place label while invoking UN estimates.
+E008,SEO-N001,SEO-N013,ngo_restated_upper_estimate,up to 40000 civilians were killed in the final months,CAPTURED,HRW preserves a cleaner final-months formulation.
+E009,SEO-N014,SEO-N009,pattern_support,war-crimes pattern and civilian attacks,CAPTURED,ICG strengthens the incident environment for the war-crimes page.
+E010,SEO-N015,SEO-N016,domestic_review_to_counter,disputed figures and non-verification,CAPTURED,Paranagama builds on the domestic-commission critique lane.
+E011,SEO-N016,SEO-N017,political_counter_echo,lower-count dispatch framing,CAPTURED,Naseby popularizes the lower-count critique in parliamentary space.
+E012,SEO-N021,SEO-N006,citation,169796,CAPTURED,Tamil genocide page cites the ITJP high-number route.
+E013,SEO-N021,SEO-N023,citation,169796 / unaccounted,CAPTURED,Movement consensus document uses the high-number route.
+E014,SEO-N021,SEO-N024,citation,169796 unaccounted and presumed dead,CAPTURED,Community-media remembrance coverage carries the number forward.
+E015,SEO-N020,SEO-N027,advocacy_to_politics,genocide recognition argument,INFERRED,Advocacy landscape plausibly feeds legislative recognition but the lobbying path is not yet documented.
+E016,SEO-N027,SEO-N028,host_country_recognition,Tamil Genocide Remembrance Day and genocide language,CAPTURED,Ontario recognition sits inside the wider Canada recognition ecosystem.
+E017,SEO-N006,SEO-N027,political_feedback,genocide frame and numerical ranges,CAPTURED,Wikipedia and legislative text reinforce each other in public search environments.
+E018,SEO-N025,SEO-N001,counter_citation,Darusman 40000 critique,CAPTURED,Groundviews counter lane directly attacks hardening of the Panel wording.
+E019,SEO-N030,SEO-N020,funding_context,PEARL advocacy infrastructure,CAPTURED,"Funding visibility for PEARL, not message causation."
+E020,SEO-N032,SEO-N031,organization_context,UK Tamil advocacy ecosystem,INFERRED,Corporate and organizational routes overlap but exact page-level message flow is not yet captured.
+E021,SEO-N033,SEO-N006,political_advocacy_context,TGTE genocide/accountability advocacy,ROUTE_ONLY,Exact page-level linkage still needs capture.
+E022,SEO-N029,SEO-N012,language_parallel,40000 Mullivaikkal social shorthand,INFERRED,Viral post uses a compressed wording lane similar to high-authority NGO or memorial usage.
+E023,SEO-N029,SEO-N005,social_diffusion,40000-70000 and Mullivaikkal shorthand ecosystem,INFERRED,The post fits the public shorthand environment even if the exact citation path is unknown.
+E024,SEO-N034,SEO-N029,ad_check_needed,possible paid social amplification,ROUTE_ONLY,No ad evidence captured yet.
+E025,SEO-N035,SEO-N022,ad_check_needed,possible search/video promotion,ROUTE_ONLY,No ad evidence captured yet.
+E026,SEO-N005,SEO-N036,content_mirror,40000-70000 fatalities,CAPTURED,Wiki2 mirrors Wikipedia-style event wording.
+E027,SEO-N014,SEO-N037,republished_accounting,70000 unaccounted for,CAPTURED,Sri Lanka Brief republishes the dead-and-missing accounting frame.
+E028,SEO-N001,SEO-N038,international_media_restated_upper_estimate,up to 40000 civilians may have been killed,CAPTURED,The Diplomat carries a cautious version of the UN panel route.
+E029,SEO-N007,SEO-N039,memorial_institutionalization,estimated 40000 Tamil civilians were massacred,INFERRED,Institutional remembrance framing likely draws from the annual remembrance discourse.
+E030,SEO-N001,SEO-N040,advocacy_stack,UN estimated 40000 civilians killed,CAPTURED,PEARL remembrance statement carries the UN estimate into advocacy memory work.
+E031,SEO-N021,SEO-N040,advocacy_stack,146679 unaccounted,CAPTURED,PEARL remembrance statement couples the UN estimate with higher missing routes.
+E032,SEO-N020,SEO-N041,legal_advocacy_synthesis,40000 killed and up to 169796 unaccounted for,CAPTURED,PEARL legal brief deepens the genocide-and-numbers synthesis.
+E033,SEO-N027,SEO-N042,legislative_debate_feedback,40000 to 146679 genocide frame,CAPTURED,Bill text and debate reinforce one another.
+E034,SEO-N042,SEO-N028,host_country_recognition,debate to recognition ecosystem,CAPTURED,Ontario debate sits inside the broader Canada recognition network.
+E035,SEO-N043,SEO-N042,recognition_precedent,40000 to 146679 genocide memorial language,CAPTURED,Earlier Ontario debates prime later legislative text.
+E036,SEO-N005,SEO-N044,social_diffusion,UN estimates 40000-70000,CAPTURED,Reddit thread inherits compressed Wikipedia-like range language.
+E037,SEO-N006,SEO-N045,social_diffusion,40000 plus higher group estimates,CAPTURED,Reddit explainer reflects Wikipedia plus advocacy ladders.
+E038,SEO-N021,SEO-N046,forum_archive_citation,more than 70000 / Petrie route,CAPTURED,Google Groups archive bundles TamilNet/video/higher-number routes.
+E039,SEO-N047,SEO-N005,documentary_to_search_surface,up to 40000 civilians died in final weeks,INFERRED,Documentary framing likely reinforces later search-surface certainty.
+E040,SEO-N012,SEO-N048,repost_amplification,at least 40000 civilians according to UN estimates,CAPTURED,Diaspora archive repost amplifies Amnesty wording.
+E041,SEO-N013,SEO-N049,media_bridge,40000 civilians may have died,INFERRED,Maktoob article appears to bridge HRW/remembrance language into social sharing.
+E042,SEO-N008,SEO-N050,broad_hub_stack,40000 killed / 70000 unaccounted / 169796 killed,CAPTURED,Broad-war Wikipedia page stacks multiple final-phase numeric lanes.
+E043,SEO-N002,SEO-N051,report_summary_stack,40000 plus 70000 unaccounted,CAPTURED,Petrie summary page helps fuse different report outputs.
+E044,SEO-N005,SEO-N052,list_taxonomy,40000-70000 massacre label,CAPTURED,List page hardens event framing into a taxonomy entry.
+E045,SEO-N047,SEO-N053,documentary_memory,40000 Tamils killed,CAPTURED,Documentary route becomes part of Wikipedia memory infrastructure.
+E046,SEO-N054,SEO-N001,book_popularization,up to 40000 civilians may have been killed,CAPTURED,Weiss route popularizes the high estimate outside formal UN prose.
+E047,SEO-N017,SEO-N055,counter_documentary_echo,7000 casualties counter to 40000,CAPTURED,Lower-count counter-propagation has its own media-memory route.
+E048,SEO-N050,SEO-N056,knowledge_graph_spillover,broad-war denominator and casualty structure,INFERRED,Wikidata can carry broad-war numeric fields into knowledge surfaces.
+E049,SEO-N009,SEO-N057,fandom_mirror,40000 / 146000 / 169796 stack,CAPTURED,Fandom mirror turns war-crimes page content into another SEO surface.
+E050,SEO-N027,SEO-N064,municipal_recognition_diffusion,over 40000 Tamil civilians lost their lives,CAPTURED,Municipal proclamation inherits province-level recognition framing.
+E051,SEO-N028,SEO-N065,federal_recognition_bridge,genocide recognition in political space,CAPTURED,U.S. political route expands recognition and denominator ambiguity.
+E052,SEO-N066,SEO-N028,transnational_political_feedback,70000 to 146000 as documented by UN and rights organisations,CAPTURED,Scottish motion shows cross-jurisdictional recognition hardening.
+E053,SEO-N001,SEO-N067,authority_laundering,40000 may have been killed -> 175000 killed,CAPTURED,UN-hosted NGO submission converts cautious and advocacy numbers into one authority surface.
+E054,SEO-N021,SEO-N068,authority_laundering,169000+ innocent Tamil people,CAPTURED,UN-hosted NGO submission amplifies the highest-number route.
+E055,SEO-N018,SEO-N058,official_counter_use,hypothetical 40000 civilian deaths,CAPTURED,MFA uses official and rebuttal routes to attack the upper estimate.
+E056,SEO-N018,SEO-N059,official_counter_use,7721 deaths including LTTE combatants,CAPTURED,Lower observed counts are used rhetorically as near-ceilings.
+E057,SEO-N017,SEO-N061,official_counter_repackaging,40000 deaths did not take place,CAPTURED,Naseby lane is republished through Defence.lk.
+E058,SEO-N017,SEO-N062,official_counter_repackaging,maximum 6000 to 7000 deaths,CAPTURED,MFA repackages the lower-count parliamentary route.
+E059,SEO-N016,SEO-N063,methodology_counter,question the methodology,CAPTURED,Narrative III provides a more intellectual state counter-route.
+E075,SEO-N003,SEO-N006,incident_context,"OISL supports incident/accountability context, not a 40000 death-count claim",CAPTURED,OISL chain repair.
+E076,SEO-N003,SEO-N020,incident_context,"OISL feeds legal/accountability stack, not casualty-total proof",CAPTURED,OISL chain repair.
+E080,SEO-N069,SEO-N012,weak_link,OHCHR 2024 disappearance report linked by Amnesty is not death-toll proof,CAPTURED,Amnesty/OHCHR weak-link audit.
+E081,SEO-N070,SEO-N005,media_context,"Guardian May 11 is media witness context, not audited total",CAPTURED,Media citation-stack route.
+E082,SEO-N071,SEO-N005,media_context,"Guardian May 19 is media witness context, not audited total",CAPTURED,Media citation-stack route.
+E085,CLUSTER-PEARL,SEO-N020,cluster_member,PEARL legal brief child route,CAPTURED,Duplicate consolidation.
+E086,CLUSTER-PEARL,SEO-N040,cluster_member,PEARL remembrance child route,CAPTURED,Duplicate consolidation.
+E087,CLUSTER-PEARL,SEO-N041,cluster_member,PEARL justice-for-genocide child route,CAPTURED,Duplicate consolidation.
+E089,CLUSTER-BTF,SEO-N032,cluster_member,BTF company route child,CAPTURED,Duplicate consolidation.

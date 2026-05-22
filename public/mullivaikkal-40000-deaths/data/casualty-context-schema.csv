@@ -1,0 +1,14 @@
+field,applies_to,purpose,controlled_values,default_for_CAS_003,public_use
+source_wording_population,casualty_numbers,Preserve exactly how the source describes the affected population,"civilian|Tamil civilian|civilian_and_unknown_mix|combatant_and_civilian_not_separated",civilian,Show source wording before public paraphrase
+civilian_ethnicity_context,casualty_numbers,Record contextual ethnicity without rewriting the source wording,"overwhelmingly_tamil|mixed_unknown|not_applicable",overwhelmingly_tamil,Use as context note
+ethnicity_explicit_in_source,casualty_numbers,Show whether ethnicity appears in the specific cited source sentence,"YES|NO|MIXED",MIXED,Prevents silent source inflation
+ethnicity_quantified,casualty_numbers,Record whether ethnicity was numerically separated,"YES|NO",NO,Blocks exact Tamil-civilian conversion unless sourced
+includes_sinhala_muslim_materially,casualty_numbers,Check if Sinhala/Muslim civilians are material to this denominator,"YES|NO_EVIDENCE|UNKNOWN|NOT_THIS_DENOMINATOR",NO_EVIDENCE,Prevents islandwide denominator confusion
+combatant_separation_status,casualty_numbers,Show civilian/combatant separation quality,"cleanly_separated|source_claims_civilian_but_context_contested|not_separated|unknown",source_claims_civilian_but_context_contested,Prevents overconfident civilian status claims
+death_cause_class,casualty_numbers,Separate death toll from cause attribution,"shelling|shooting|deprivation|disappearance|mixed|unknown|not_allocated",not_allocated,Do not assign all deaths to one cause
+perpetrator_attribution,casualty_numbers,Separate total estimate from perpetrator attribution,"state_forces|LTTE|mixed|not_allocated|incident_specific",not_allocated,Use incident-specific attribution only
+intent_evidence_level,casualty_numbers,Separate death toll from intent finding,"court_found|reasonable_grounds|credible_allegation|context_only|not_assessed",not_assessed,Blocks genocide/intent shortcut
+ihl_violation_type,claims,Classify legal theory only where sourced,"direct_attack|indiscriminate|disproportionate|failure_of_precaution|deprivation|human_shielding|disappearance|requires_incident_specific_source",requires_incident_specific_source,Use for evidence cards
+court_or_investigation_status,claims,Show legal posture,"court_finding|UN_reasonable_grounds|credible_allegation|advocacy_argument|political_recognition|not_assessed",not_assessed,Prevents legal overclaim
+collateral_claim_allowed,claims,Gate use of collateral language,"YES|NO|ONLY_AS_CLAIM_BY_SOURCE",NO,Do not normalize collateral framing
+intentional_killing_claim_allowed,claims,Gate use of intentional killing language,"YES_INCIDENT_SPECIFIC|NO_FOR_TOTAL|NO",NO_FOR_TOTAL,Do not apply intentional killing to total estimate

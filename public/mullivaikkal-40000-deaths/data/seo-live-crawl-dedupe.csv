@@ -1,0 +1,2 @@
+dedupe_id,canonical_group_id,url_ids,normalized_domain_group,content_hash_group,claim_fingerprint_group,mirror_family,copied_title_family,collapse_in_public,keep_as_raw_row,reason,notes
+D001,WIKI-MULLIVAIKKAL,"E009,E010,E011,E012",wikipedia/mirror,wiki-mirror-family,mullivaikkal-range-family,yes,yes,true,true,"These rows are propagation siblings, not independent proof.",Keep all raw rows but collapse in public summaries and visuals.

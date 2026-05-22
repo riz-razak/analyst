@@ -1,0 +1,8 @@
+internal_field,internal_value,public_label,short_badge,severity,color,table_label,inspector_label,definition,frontend_action
+fact_check_signal,Source-safe,Source supports this,Supported,1,green,Claim check,Fact-check status,Original source supports the claim if caveats remain visible,show_as_supported
+fact_check_signal,Safe with caveat,Needs qualifier,Qualifier,2,lightgreen,Claim check,Fact-check status,Usable only when category geography time window and wording limits are visible,show_caveat
+fact_check_signal,Derivative,Repeated source,Repeated,2,yellow,Claim check,Fact-check status,Repeats another source and is useful for propagation but not original proof,show_derivative
+fact_check_signal,Category-risk,Mixed categories,Mixed,3,orange,Claim check,Fact-check status,Claim blends deaths missing unaccounted models legal recognition or geography,show_warning
+fact_check_signal,Misleading as stated,Not supported as written,Not supported,4,red,Claim check,Fact-check status,Displayed wording overstates changes or outruns the source meaning,show_misleading
+fact_check_signal,Unverified,Needs checking,Check,5,grey,Claim check,Fact-check status,Exact wording provenance link or source chain still needs capture,show_unverified
+fact_check_signal,Broken route,Broken or missing link,Broken/missing,6,black,Claim check,Fact-check status,The URL is missing inaccessible removed or not enough text is captured,show_broken

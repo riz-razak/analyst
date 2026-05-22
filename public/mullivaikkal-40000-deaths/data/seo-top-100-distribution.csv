@@ -1,0 +1,66 @@
+measure,segment,count,share_percent
+source_table,seo-graph-nodes,68,68.0
+source_table,exact-phrase-serp-capture,19,19.0
+source_table,wikipedia-revision-citation-audit,12,12.0
+source_table,viral-post-claim-sheet,1,1.0
+domain_class,wikipedia,24,24.0
+domain_class,host_government,6,6.0
+domain_class,state_official,6,6.0
+domain_class,diaspora_advocacy,4,4.0
+domain_class,UN,3,3.0
+domain_class,seo_mirror,3,3.0
+domain_class,ngo,3,3.0
+domain_class,social,3,3.0
+domain_class,funding,3,3.0
+domain_class,knowledge_graph,2,2.0
+domain_class,state_or_domestic_commission,2,2.0
+domain_class,platform,2,2.0
+domain_class,un_hosted_advocacy,2,2.0
+domain_class,seo mirror,2,2.0
+domain_class,social/forum,2,2.0
+domain_class,host_political_counter,1,1.0
+domain_class,state_statistics,1,1.0
+domain_class,humanitarian,1,1.0
+domain_class,advocacy_data,1,1.0
+domain_class,seo_memorial,1,1.0
+domain_class,movement_consensus,1,1.0
+domain_class,tamil_media_community,1,1.0
+domain_class,counter_narrative,1,1.0
+domain_class,independent_commentary,1,1.0
+domain_class,republished_ngo_media,1,1.0
+domain_class,international_media,1,1.0
+domain_class,international_memorial_institution,1,1.0
+domain_class,social_archive,1,1.0
+domain_class,documentary_media,1,1.0
+domain_class,diaspora_archive,1,1.0
+domain_class,indian_media_social_bridge,1,1.0
+domain_class,wikipedia_broad_hub,1,1.0
+domain_class,wikipedia_report_interpreter,1,1.0
+domain_class,municipal_government,1,1.0
+domain_class,primary-extract/republication,1,1.0
+domain_class,tamil media/community,1,1.0
+domain_class,advocacy seo,1,1.0
+domain_class,ngo/republished analysis,1,1.0
+domain_class,media/official summary,1,1.0
+domain_class,media/counter-report,1,1.0
+domain_class,advocacy/community,1,1.0
+domain_class,host-government,1,1.0
+domain_class,mirror/media,1,1.0
+domain_class,video/documentary,1,1.0
+domain_class,petition/advocacy,1,1.0
+domain_class,republished analysis,1,1.0
+domain_class,institutional memorial,1,1.0
+domain_class,facebook/local,1,1.0
+hardens_un_claim,YES,35,35.0
+hardens_un_claim,NO,32,32.0
+hardens_un_claim,UNKNOWN,19,19.0
+hardens_un_claim,MILD,8,8.0
+hardens_un_claim,MIXED,6,6.0
+collapses_category,YES,39,39.0
+collapses_category,NO,35,35.0
+collapses_category,UNKNOWN,19,19.0
+collapses_category,MIXED,7,7.0
+capture_method,existing_graph_capture,68,68.0
+capture_method,existing_phrase_capture_not_live_serp,19,19.0
+capture_method,existing_wikipedia_audit,12,12.0
+capture_method,user_supplied_local_object,1,1.0

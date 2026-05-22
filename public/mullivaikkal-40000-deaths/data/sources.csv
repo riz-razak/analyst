@@ -1,0 +1,66 @@
+source_id,title,url,type,source_class,reliability_note,campaign_use
+MUL-S001,UN Panel 2011,https://www.law.umich.edu/facultyhome/drwcasebook/Documents/Documents/Report%20of%20the%20Panel%20of%20Experts%20on%20Accountability%20in%20Sri%20Lanka.pdf,UN report,primary_un_linked,Core source for cautious upper estimate; not exact or Mullivaikkal-only,hub_page_origin
+MUL-S003,Petrie/Internal Review 2012,https://digitallibrary.un.org/record/737299/files/The_Internal_Review_Panel_report_on_Sri_Lanka.pdf,UN internal review,un_context,UN failure and under-reporting context; not a new death count,unaccounted_context
+MUL-S004,OISL 2015,https://www.ohchr.org/sites/default/files/documents/hrbodies/hrcouncil/sessions-regular/session30/documents/a-hrc-30-crp-2.pdf,OHCHR investigation,un_legal_factual,Strong incident/legal pattern source; not a total casualty audit,accountability_context
+MUL-S007,DCS EVE-2011,https://www.statistics.gov.lk/Resource/en/Population/Vital_Statistics/EVE2011_FinalReport.pdf,official statistics,state_official,Lower official enumeration; not a battlefield casualty ceiling,counter_route
+MUL-S013,Paranagama Commission,https://www.parliament.lk/uploads/documents/paperspresented/report-of-paranagama.pdf,domestic commission,state_commission,Adversarial critique of high estimates; incentive context required,counter_route
+MUL-S014,Lord Naseby Hansard,https://hansard.parliament.uk/Lords/2017-10-12/debates/14CAA83D-8895-4182-8C4F-D964E0A5B399/SriLanka,parliamentary debate,host_counter_route,Lower-count political route; not full independent count,counter_route
+MUL-S006,Amnesty Mullivaikkal 2024,https://www.amnesty.org/en/latest/news/2024/05/sri-lanka-fifteen-years-after-the-end-of-war-victims-still-await-justice-at-mullivaikkal/,NGO statement,ngo,High-authority NGO but location-compression risk,hardening_example
+MUL-S009,Human Rights Watch 2024,https://www.hrw.org/news/2024/05/14/15-years-sri-lankas-conflict-ended-no-justice-war-crimes,NGO statement,ngo,Cleaner derivative restatement of UN estimate,supporting_context
+MUL-S017,ITJP death toll brief,https://itjpsl.com/assets/ITJP_death_toll_A4_v6.pdf,advocacy data brief,advocacy_model,High-number model route; category labels required,high_number_explainer
+SEO-N005,Wikipedia Mullivaikkal massacre,https://en.wikipedia.org/wiki/Mullivaikkal_massacre,hub,wikipedia_hub,Captured surface in internal top-100 evidence set; not proof of independent corroboration,seo_power_network
+SEO-N006,Wikipedia Tamil genocide,https://en.wikipedia.org/wiki/Tamil_genocide,hub,wikipedia_hub,Captured surface in internal top-100 evidence set; not proof of independent corroboration,seo_power_network
+SEO-N010,DBpedia Mullivaikkal massacre,https://dbpedia.org/page/Mullivaikkal_massacre,mirror,knowledge_graph,Captured surface in internal top-100 evidence set; not proof of independent corroboration,seo_power_network
+SEO-N036,Wiki2 Mullivaikkal massacre,https://wiki2.org/en/Mullivaikkal_massacre,mirror,seo_mirror,Captured surface in internal top-100 evidence set; not proof of independent corroboration,seo_power_network
+SEO-N050,Wikipedia Sri Lankan civil war,https://en.wikipedia.org/wiki/Sri_Lankan_civil_war,hub,wikipedia_broad_hub,Captured surface in internal top-100 evidence set; not proof of independent corroboration,seo_power_network
+SEO-N057,Fandom war-crimes mirror,https://military-history.fandom.com/wiki/War_crimes_during_the_final_stages_of_the_Sri_Lankan_Civil_War,mirror,seo_mirror,Captured surface in internal top-100 evidence set; not proof of independent corroboration,seo_power_network
+SEO-N027,Ontario Bill 104,https://www.ola.org/en/legislative-business/bills/parliament-42/session-1/bill-104,legislation,host_government,Powerful political-recognition and number-hardening node,seo_power_network
+SEO-N066,Scottish Parliament motion S6M-19300,https://www.parliament.scot/chamber-and-committees/votes-and-motions/S6M-19300,parliamentary motion,host_government,Strong authority inflation and category-collapse route,seo_power_network
+FUND-N001,PEARL IRS 990 route,https://projects.propublica.org/nonprofits/organizations/263697312,financial filing,stakeholder_context,Shows organizational/financial capacity; not message causation,stakeholder_map
+MUL-S005,International Crisis Group War Crimes in Sri Lanka,https://www.crisisgroup.org/sites/default/files/191-war-crimes-in-sri-lanka.pdf,NGO investigation,secondary_investigation,Pattern/accountability source; not a clean casualty calculator,accountability_context
+MUL-S008,Guardian Rajiva Wijesinha interview,https://www.theguardian.com/world/2009/jun/04/sri-lanka-civilians-tigers-battle,media interview,state_position,Early official lower estimate route; not independent methodology,counter_route
+MUL-S015,Viral Sinhala Facebook post and supplied screenshot,local:screenshot,local social object,local_object,Object of inquiry; AI/provenance/funding claims remain hypotheses,viral_claim_dossier
+MUL-S019,LLRC final report,https://www.peace-srilanka.org/images/publications/LLRC-Report-in-Sri-lanka.pdf,domestic commission,state_commission,Records disputed estimates and non-verification posture,counter_route
+MUL-S021,ICRC Vanni case study,https://casebook.icrc.org/case-study/sri-lanka-conflict-vanni,humanitarian case study,humanitarian_context,Strong context for civilian entrapment and humanitarian law; not casualty arithmetic,humanitarian_context
+MUL-S027,HRW Besieged Displaced and Detained,https://www.hrw.org/report/2008/12/23/besieged-displaced-and-detained/plight-civilians-sri-lankas-vanni-region,NGO investigation,ethnicity_context,Identifies trapped Vanni civilians as ethnic Tamil civilians; not a death-toll source,civilian_ethnicity_context
+MUL-S028,HRW War on the Displaced,https://www.hrw.org/report/2009/02/19/war-displaced/sri-lankan-army-and-ltte-abuses-against-civilians-vanni,NGO investigation,conduct_context,"Context for Tamil civilian entrapment, LTTE restrictions, alleged shelling, and laws-of-war risks; not a final death-toll calculator",intent_and_conduct_context
+MUL-S029,Amnesty civilians under attack March 2009,https://www.amnesty.org/en/latest/press-release/2009/03/sri-lanka-thousands-civilians-under-attack-fighting-intensifies-2009032-0/,NGO warning,conduct_context,"Contemporary warning on trapped civilians, LTTE hostage/buffer allegations, and war-crime framing for deliberate attacks on civilians",intent_and_conduct_context
+MUL-S030,OHCHR 2024 enforced disappearances report,https://www.ohchr.org/sites/default/files/documents/hrbodies/hrcouncil/sri-lanka/report-accountability-enforced-disappearances-sri-lanka-may2024-en.pdf,OHCHR report,disappearance_accountability,Strong for enforced-disappearances/accountability context; not a Mullivaikkal casualty-number source,amnesty_weak_link_context
+MUL-S031,Guardian May 11 2009 safe-zone civilian-death report,https://www.theguardian.com/world/2009/may/11/sri-lanka-civilian-deaths,contemporary media report,media_witness_route,Useful for incident/civilian-harm context and verification-limit/truth-degradation example; not audited casualty total,media_citation_route
+MUL-S032,Guardian May 19 2009 final-stage witness report,https://www.theguardian.com/world/2009/may/19/sri-lankan-war,contemporary media report,media_witness_route,Useful for witness/final-stage context and truth-degradation example; not audited casualty total,media_citation_route
+TERM-S009,OHCHR Genocide Convention text,https://www.ohchr.org/en/instruments-mechanisms/instruments/convention-prevention-and-punishment-crime-genocide,UN treaty text,legal_definition,Official treaty source for genocide definition and Article IX ICJ dispute clause; OHCHR is not the adjudicating court,terminology_legal_authority
+TERM-S010,ICC Rome Statute official text,https://www.icc-cpi.int/sites/default/files/2024-05/Rome-Statute-eng.pdf,international criminal court treaty,legal_jurisdiction,Official ICC source for individual criminal jurisdiction over genocide where jurisdiction exists,terminology_legal_authority
+TERM-S011,ICJ Genocide Convention jurisdiction context,https://www.icj-cij.org/node/106180,international court/state responsibility,legal_jurisdiction,Official ICJ source for state-party disputes and state responsibility under the Genocide Convention,terminology_legal_authority
+TERM-S012,Sinhala Wikipedia ethnic cleansing terminology route,https://si.wikipedia.org/wiki/%E0%B6%A2%E0%B6%B1%E0%B7%80%E0%B7%8F%E0%B6%BB%E0%B7%8A%E0%B6%9C%E0%B7%92%E0%B6%9A_%E0%B6%B4%E0%B7%8F%E0%B6%BB%E0%B7%92%E0%B7%81%E0%B7%94%E0%B6%AF%E0%B7%8A%E0%B6%B0%E0%B6%9A%E0%B6%BB%E0%B6%AB%E0%B6%BA,Sinhala encyclopedia route,terminology_route,Shows Sinhala renderings for Ethnic cleansing; useful as terminology route only and not proof of settled everyday use,terminology_translation_context
+
+SEO-N020,PEARL genocide legal brief,https://pearlaction.org/genocide-legal-briefing/,advocacy legal brief,diaspora_advocacy,Legal advocacy argument; not a tribunal finding.,seo_power_network
+
+SEO-N022,Genocide Against Tamils Mullivaikkal,https://genocideagainsttamils.com/massacres/mullivaikkal-2009/,memorial page,seo_memorial,Memorial SEO taxonomy node.,seo_power_network
+
+SEO-N023,Tamil Conferences declaration,https://tamilconferences.org/consensus/declaration-of-common-principles-of-tamils/,movement declaration,movement_consensus,"Political consensus document, not neutral audit.",seo_power_network
+
+SEO-N024,Tamil Guardian remembrance coverage 2026,https://www.tamilguardian.com/content/pictures-tamil-genocide-remembrance-day-commemorated-mullivaikkal-0,community media article,tamil_media_community,Community-media amplification of higher number.,seo_power_network
+
+SEO-N025,Groundviews 2014 counter lane,https://groundviews.org/2014/04/10/generating-calamity-2008-2014-an-overview-of-tamil-nationalist-operations-and-their-marvels/,counter essay,counter_narrative,Useful but polemical adversarial node.,seo_power_network
+
+SEO-N026,Groundviews 2026 reflection,https://groundviews.org/2026/05/18/seventeen-years-after-mullivaikkal-reconsidering-justice-and-political-strategy/,commentary article,independent_commentary,Useful for current debate framing and caution against overreliance on outside narratives.,seo_power_network
+
+SEO-N031,Global Tamil Forum about,https://www.globaltamilforum.org/about-us.aspx,organization page,diaspora_advocacy,Organizational presence in the advocacy ecosystem.,stakeholder_map
+
+SEO-N032,BTF company route,https://find-and-update.company-information.service.gov.uk/company/11829919,company record,funding,"Corporate existence, not causal proof.",stakeholder_map
+
+SEO-N033,TGTE Canada corporation,https://www.canadacompanyregistry.com/companies/transnational-government-of-tamil-eelam-inc/,corporate registry,funding,Political diaspora organization route.,stakeholder_map
+
+SEO-N037,Sri Lanka Brief dead and missing route,https://srilankabrief.org/sri-lankas-dead-and-missing-the-need-for-an-accounting/,republished analysis,republished_ngo_media,Accounting-oriented but often read as a death-count lane.,seo_power_network
+
+SEO-N038,The Diplomat 2020 remembrance article,https://thediplomat.com/2020/05/sri-lankas-war-victims-still-await-justice/,international media article,international_media,High-authority international commentary surface.,seo_power_network
+
+SEO-N039,CIPDH Mullivaikkal remembrance page,https://www.cipdh.gob.ar/memorias-situadas/en/lugar-de-memoria/mullivaikkal-remembrance-day/,institutional memorial page,international_memorial_institution,Institutional memorial authority turns estimate into declarative prose.,seo_power_network
+
+SEO-N040,PEARL 2021 remembrance statement,https://pearlaction.org/tamil-genocide-remembrance-day-2021/,advocacy statement,diaspora_advocacy,Combines authoritative upper estimate with higher unaccounted route.,seo_power_network
+
+SEO-N041,PEARL 2024 justice-for-genocide summary,https://pearlaction.org/wp-content/uploads/2024/09/Justice-for-Genocide-Sri-Lankas-Responsibility-for-Genocide-Against-the-Tamil-People-in-2009.pdf,advocacy PDF,diaspora_advocacy,Major legal-advocacy synthesis node.,seo_power_network
+
+SEO-N047,Basement Films Killing Fields route,https://www.basementfilms.co.uk/work/sri-lankas-killing-fields,documentary route,documentary_media,Documentary authority node that later feeds compression.,seo_power_network
+
+SEO-N048,Ilankai Tamil Sangam Amnesty repost,https://sangam.org/amnesty-fifteen-years-after-the-end-of-war-victims-still-await-justice-at-mullivaikkal/,repost,diaspora_archive,Repost/archival amplification of Amnesty wording.,seo_power_network

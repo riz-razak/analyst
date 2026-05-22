@@ -1,0 +1,26 @@
+node_id,node_label,visual_dedupe_parent,parent_label,reason
+TOP-069,Mullivaikkal massacre / infobox_fatalities,SEO-N005,Wikipedia Mullivaikkal massacre,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-070,Mullivaikkal massacre / lead_sentence,SEO-N005,Wikipedia Mullivaikkal massacre,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-071,Mullivaikkal massacre / citation_stack,SEO-N005,Wikipedia Mullivaikkal massacre,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-083,Mullivaikkal massacre Wikipedia and mirrors/advocacy surfaces appear,SEO-N005,Wikipedia Mullivaikkal massacre,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-072,Tamil genocide / infobox_totals,SEO-N006,Wikipedia Tamil genocide,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-073,Tamil genocide / casualty_row,SEO-N006,Wikipedia Tamil genocide,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-074,Tamil genocide / frame_effect,SEO-N006,Wikipedia Tamil genocide,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-082,Tamil genocide Wikipedia and Tamil Guardian style pages appear high,SEO-N006,Wikipedia Tamil genocide,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-075,Mullivaikkal Remembrance Day / lead_sentence,SEO-N007,Wikipedia Mullivaikkal Remembrance Day,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-076,Mullivaikkal Remembrance Day / recurrence_effect,SEO-N007,Wikipedia Mullivaikkal Remembrance Day,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-077,Casualties of the Sri Lankan civil war / lead_quote,SEO-N008,Wikipedia Casualties of Sri Lankan civil war,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-078,Casualties of the Sri Lankan civil war / table_ranges,SEO-N008,Wikipedia Casualties of Sri Lankan civil war,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-079,Casualties of the Sri Lankan civil war / source_note,SEO-N008,Wikipedia Casualties of Sri Lankan civil war,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-080,War crimes during the final stages of the Sri Lankan civil war / accountability_,SEO-N009,Wikipedia War crimes during final stages,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-088,Wikipedia/mirrors likely dominate,SEO-N011,Everything Explained Mullivaikkal massacre,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-085,Genocide memorial/advocacy sites and Wikipedia dominate,SEO-N022,Genocide Against Tamils Mullivaikkal,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-084,Tamil Guardian 2026 and PEARL/ITJP routes appear,SEO-N024,Tamil Guardian remembrance coverage 2026,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-093,Ontario legislative and debate routes appear with genocide framing and number st,SEO-N027,Ontario Bill 104,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-094,"WIKI2, The Diplomat, and memorial pages appear with declarative death wording",SEO-N036,Wiki2 Mullivaikkal massacre,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-098,Accounting and memorial routes appear and often bridge ICG/Petrie language into ,SEO-N037,Sri Lanka Brief dead and missing route,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-099,Institutional memorial pages appear with declarative massacre wording and 40000 ,SEO-N039,CIPDH Mullivaikkal remembrance page,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-092,PEARL and Tamil Guardian style routes appear around ITJP language,SEO-N040,PEARL 2021 remembrance statement,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-089,Recent Reddit and social pages repeat range,SEO-N044,Reddit r/srilanka thread 2026,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-095,Multiple Reddit debate/explainer pages appear and often convert layered estimate,SEO-N045,Reddit r/srilanka explainer 2025,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph
+TOP-096,Video and documentary routes surface the number via Channel 4 and remembrance cl,SEO-N047,Basement Films Killing Fields route,same observed URL as canonical visual node; retained in evidence/capture tables but hidden from graph

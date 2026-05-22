@@ -1,0 +1,10 @@
+bucket_id,bucket,target_count,captured_seed_count,priority_queries_or_routes,primary_output,completion_status
+B001,Wikipedia Wikidata DBpedia mirrors,100,19,Mullivaikkal massacre; Tamil genocide; Sri Lankan civil war; Petrie page; casualties; remembrance; war crimes; DBpedia/Wikidata/fandom/WIKI2/WikiMili family,mirror propagation table,ROUND_2_CORE_CAPTURED
+B002,UN OHCHR UN Digital Library treaty bodies,100,19,Sri Lanka OISL; Panel of Experts; Petrie; A/HRC Sri Lanka; CED Sri Lanka disappearances,UN inventory,CAPTURED_INITIAL
+B003,International media,150,33,Reuters BBC Guardian Al Jazeera Channel 4 AP NYT Washington Post ABC Times Independent Diplomat documentary/book routes,media citation table,CORE_NODE_CAPTURED
+B004,Tamil diaspora advocacy memorial campaign sites,150,32,PEARL ITJP TGTE BTF GTF Tamil Guardian TamilNet GenocideAgainstTamils RememberMay2009 diaspora reposts UN-hosted NGO statements,advocacy domain table,ROUND_2_CORE_CAPTURED
+B005,Sri Lankan state pro-state counter-narrative sites,150,25,GoSL MoD LLRC Paranagama Naseby MFA Defence.lk LankaWeb OnLanka Daily Mirror Groundviews Thuppahi Narrative III,counter-narrative table,ROUND_2_CORE_CAPTURED
+B006,NGOs legal evidence academia,125,24,HRW Amnesty ICG HRDAG UTHR ICRC scholars Permanent Peoples Tribunal,evidence-class table,CORE_NODE_CAPTURED
+B007,Host-country political recognition,75,17,Canada PM Parliament Ontario Bill 104 Brampton US Congress Scotland UK Australia EU local councils Hansard routes,political-recognition table,ROUND_2_CORE_CAPTURED
+B008,Social forum video surfaces,150,21,Facebook Reddit YouTube X TikTok Instagram public pages May 18 hashtags forum archives documentary/video routes,social propagation table,ROUND_2_CORE_CAPTURED
+TOTAL,All high-power pages,1000,190,Full live top-1000/2000 requires SERP/backlink/API tooling; this package now has a live seed batch but does not claim a completed live crawl.,1000-link accounting model + top-100 seed capture + authority heatmap + live crawl schema + partial live seed batch,ACCOUNTING_MODEL_PARTIAL_LIVE_SEED_CAPTURED
