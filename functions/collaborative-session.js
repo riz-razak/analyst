@@ -2334,6 +2334,7 @@ async function handleLiveVisitors(request, env) {
   const url = new URL(request.url);
   let pagePath = normalizeAnalyticsPath(url.searchParams.get('path') || '/');
   let visitorId = '';
+  let recordedHeartbeat = false;
 
   if (request.method === 'POST') {
     let body = {};
@@ -2353,11 +2354,13 @@ async function handleLiveVisitors(request, env) {
       path: pagePath,
       updatedAt: Date.now(),
     }), { expirationTtl: LIVE_VISITOR_TTL_SECONDS });
+    recordedHeartbeat = true;
   } else if (request.method !== 'GET') {
     return liveVisitorResponse({ error: 'Method not allowed' }, 405);
   }
 
-  const liveVisitors = await countLiveVisitors(env, pagePath);
+  let liveVisitors = await countLiveVisitors(env, pagePath);
+  if (recordedHeartbeat && liveVisitors < 1) liveVisitors = 1;
   return liveVisitorResponse({
     success: true,
     path: pagePath,
