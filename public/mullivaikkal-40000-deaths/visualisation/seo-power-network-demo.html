@@ -187,10 +187,19 @@
     svg { width: 100%; height: 100%; display: block; }
 
     .layer-label {
-      font-size: 11px;
+      font-size: 9.5px;
       fill: var(--soft);
-      font-weight: 650;
+      font-weight: 760;
       letter-spacing: 0;
+      text-anchor: middle;
+      pointer-events: none;
+    }
+
+    .lane-header-bg {
+      fill: rgba(255, 255, 255, 0.92);
+      stroke: var(--border);
+      stroke-width: 1;
+      rx: 5;
     }
 
     .edge {
@@ -694,6 +703,16 @@
       funding_context: 'FUND',
       other_surface: 'OTHER'
     };
+    const layerLabelLines = {
+      source_origin: ['SOURCE', 'SPINE'],
+      other_surface: ['OTHER / CONTEXT', 'SURFACES'],
+      wiki_mirror: ['WIKIPEDIA', '/ MIRRORS'],
+      advocacy_ngo: ['NGO /', 'ADVOCACY'],
+      political_recognition: ['POLITICAL', 'RECOGNITION'],
+      counter_route: ['STATE /', 'COUNTER-ROUTES'],
+      social_viral: ['SOCIAL /', 'VIRAL'],
+      funding_context: ['FUNDING', 'CONTEXT']
+    };
     const colors = {
       source_origin: '#2D6A4F',
       wiki_mirror: '#3A7BD5',
@@ -759,7 +778,7 @@
       groups.forEach((items, layer) => {
         items.sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
         const x = laneW * (layerOrder.indexOf(layer) + 0.5);
-        const top = isMobile ? 32 : 50;
+        const top = isMobile ? 40 : 76;
         const bottomPad = isMobile ? 26 : 34;
         const rawStep = (height - top - bottomPad) / Math.max(items.length - 1, 1);
         const stepCap = isMobile ? 34 : 54;
@@ -878,9 +897,19 @@
       const route = combinedRoute(pathList);
       let html = '';
       layerOrder.forEach((layer, i) => {
-        const layerName = isMobile ? mobileLayerLabels[layer] : layerLabels[layer];
-        html += `<text class="layer-label" x="${laneW * i + (isMobile ? 4 : 10)}" y="${isMobile ? 18 : 28}">${layerName}</text>`;
-        html += `<line x1="${laneW * (i + 1)}" y1="${isMobile ? 24 : 44}" x2="${laneW * (i + 1)}" y2="${height - 18}" stroke="#E5E1DA" stroke-width="1"></line>`;
+        const x = laneW * i;
+        const midX = x + laneW / 2;
+        const headerTop = isMobile ? 6 : 12;
+        const headerHeight = isMobile ? 22 : 42;
+        const inset = isMobile ? 3 : 6;
+        const lines = isMobile ? [mobileLayerLabels[layer]] : layerLabelLines[layer];
+        html += `<g class="lane-header"><title>${escapeHtml(layerLabels[layer])}</title><rect class="lane-header-bg" x="${x + inset}" y="${headerTop}" width="${Math.max(24, laneW - inset * 2)}" height="${headerHeight}" rx="5"></rect>`;
+        lines.forEach((line, index) => {
+          const y = isMobile ? headerTop + 15 : headerTop + 16 + index * 13;
+          html += `<text class="layer-label" x="${midX}" y="${y}">${escapeHtml(line)}</text>`;
+        });
+        html += '</g>';
+        html += `<line x1="${laneW * (i + 1)}" y1="${headerTop + headerHeight + 8}" x2="${laneW * (i + 1)}" y2="${height - 18}" stroke="#E5E1DA" stroke-width="1"></line>`;
       });
       data.edges.forEach(e => {
         if (!visibleIds.has(e.source_node) || !visibleIds.has(e.target_node)) return;
