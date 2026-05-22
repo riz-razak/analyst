@@ -154,6 +154,8 @@ export default {
         return handleVisibilityCheck(request, env);
       } else if (path === '/api/analytics/live-visitors') {
         return handleLiveVisitors(request, env);
+      } else if (path === '/api/analytics/page-visits') {
+        return handlePageVisits(request, env);
       }
 
       // ── GitHub CMS endpoints ──
@@ -2252,6 +2254,7 @@ function renderSampleTemplate(tpl) {
 const VISIBILITY_KV_KEY = 'dossier:visibility';
 const LIVE_VISITOR_PREFIX = 'analytics:live';
 const LIVE_VISITOR_TTL_SECONDS = 120;
+const PAGE_VISIT_PREFIX = 'analytics:page-visits';
 
 /**
  * GET  /api/dossier/visibility         → returns full visibility map
@@ -2409,6 +2412,83 @@ function liveVisitorResponse(data, status = 200) {
     status,
     headers: {
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'no-store',
+    },
+  });
+}
+
+/**
+ * GET  /api/analytics/page-visits?path=/some-page/
+ * POST /api/analytics/page-visits
+ * Lightweight public page-visit counter.
+ *
+ * Counts approximate recorded visits per normalized path. The client records at
+ * most one visit per tab session, and the server stores only aggregate counts.
+ * It does not store IP addresses, user agents, referrers, or personal IDs.
+ */
+async function handlePageVisits(request, env) {
+  if (request.method === 'OPTIONS') return analyticsResponse('', 204);
+
+  if (!env.SESSION_STORE) {
+    return analyticsResponse({ pageVisits: null, unavailable: true }, 503);
+  }
+
+  const url = new URL(request.url);
+  let pagePath = normalizeAnalyticsPath(url.searchParams.get('path') || '/');
+  let recordedVisit = false;
+
+  if (request.method === 'POST') {
+    let body = {};
+    try {
+      body = await request.json();
+    } catch {
+      body = {};
+    }
+    pagePath = normalizeAnalyticsPath(body.path || pagePath);
+    recordedVisit = true;
+  } else if (request.method !== 'GET') {
+    return analyticsResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  const pageVisits = recordedVisit
+    ? await incrementPageVisits(env, pagePath)
+    : await readPageVisits(env, pagePath);
+
+  return analyticsResponse({
+    success: true,
+    path: pagePath,
+    pageVisits,
+    metric: 'approximate_recorded_page_visits',
+    sampledAt: new Date().toISOString(),
+  });
+}
+
+function pageVisitKey(path) {
+  return `${PAGE_VISIT_PREFIX}:${analyticsPathKey(path)}:total`;
+}
+
+async function readPageVisits(env, path) {
+  const raw = await env.SESSION_STORE.get(pageVisitKey(path));
+  const count = Number.parseInt(raw || '0', 10);
+  return Number.isFinite(count) && count > 0 ? count : 0;
+}
+
+async function incrementPageVisits(env, path) {
+  const key = pageVisitKey(path);
+  const current = await readPageVisits(env, path);
+  const next = current + 1;
+  await env.SESSION_STORE.put(key, String(next));
+  return next;
+}
+
+function analyticsResponse(data, status = 200) {
+  return new Response(typeof data === 'string' ? data : JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': typeof data === 'string' ? 'text/plain; charset=utf-8' : 'application/json',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',

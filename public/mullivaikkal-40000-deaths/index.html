@@ -513,7 +513,7 @@
           <span aria-hidden="true">/</span>
           <span class="lang-si">සිංහල</span>
         </button>
-        <span class="live" data-live-visitors aria-live="polite">Live visitors: checking</span>
+        <span class="live" data-page-visits aria-live="polite">Page visits: checking</span>
       </div>
     </div>
   </div>
@@ -721,76 +721,85 @@
       const root = document.documentElement;
       const langToggle = document.querySelector('[data-lang-toggle]');
       const translatables = Array.from(document.querySelectorAll('[data-i18n]'));
-      const liveVisitorsEl = document.querySelector('[data-live-visitors]');
-      let liveVisitorCount = null;
-      let liveVisitorUnavailable = false;
+      const pageVisitsEl = document.querySelector('[data-page-visits]');
+      let pageVisitCount = null;
+      let pageVisitUnavailable = false;
 
-      const liveVisitorText = (state) => {
+      const pageVisitText = (state) => {
         const lang = root.dataset.lang === 'si' ? 'si' : 'en';
         if (state === 'checking') {
-          return lang === 'si' ? 'සජීවී කියවන්නන්: ගණන් කරමින්' : 'Live visitors: checking';
+          return lang === 'si' ? 'පිටු පැමිණීම්: ගණන් කරමින්' : 'Page visits: checking';
         }
         if (state === 'unavailable') {
-          return lang === 'si' ? 'සජීවී කියවන්නන්: ලබා ගත නොහැක' : 'Live visitors: unavailable';
+          return lang === 'si' ? 'පිටු පැමිණීම්: ලබා ගත නොහැක' : 'Page visits: unavailable';
         }
-        const count = Number.isFinite(liveVisitorCount) ? liveVisitorCount : 0;
-        return lang === 'si' ? `සජීවී කියවන්නන්: ${count}` : `Live visitors: ${count}`;
+        const count = Number.isFinite(pageVisitCount) ? pageVisitCount : 0;
+        return lang === 'si' ? `පිටු පැමිණීම්: ${count}` : `Page visits: ${count}`;
       };
 
-      const renderLiveVisitors = () => {
-        if (!liveVisitorsEl) return;
-        if (liveVisitorUnavailable) {
-          liveVisitorsEl.textContent = liveVisitorText('unavailable');
-        } else if (liveVisitorCount === null) {
-          liveVisitorsEl.textContent = liveVisitorText('checking');
+      const renderPageVisits = () => {
+        if (!pageVisitsEl) return;
+        if (pageVisitUnavailable) {
+          pageVisitsEl.textContent = pageVisitText('unavailable');
+        } else if (pageVisitCount === null) {
+          pageVisitsEl.textContent = pageVisitText('checking');
         } else {
-          liveVisitorsEl.textContent = liveVisitorText('count');
+          pageVisitsEl.textContent = pageVisitText('count');
         }
-        liveVisitorsEl.title = root.dataset.lang === 'si'
-          ? 'අවසන් මිනිත්තු දෙක තුළ මෙම පිටුවේ පෙනී සිටි active readers ගණන.'
-          : 'Approximate active readers seen on this page in the last two minutes.';
+        pageVisitsEl.title = root.dataset.lang === 'si'
+          ? 'මෙම පිටුව සඳහා record වූ approximate page visits ගණන. මෙය live readers ගණනක් නොවේ.'
+          : 'Approximate recorded page visits for this page. This is not a live-reader count.';
       };
 
-      const getLiveVisitorId = () => {
-        const key = 'analyst-live-visitor-id';
+      const pageVisitStorageKey = () => {
+        const pathKey = window.location.pathname.replace(/[^a-zA-Z0-9/_-]/g, '_').replace(/\//g, '~');
+        return `analyst-page-visit-recorded:${pathKey}`;
+      };
+
+      const hasRecordedPageVisit = () => {
         try {
-          const existing = localStorage.getItem(key);
-          if (existing) return existing;
-          const uuid = window.crypto?.randomUUID?.();
-          const generated = (uuid || `anon_${Date.now()}_${Math.random().toString(36).slice(2)}`).replace(/[^a-zA-Z0-9_-]/g, '_');
-          localStorage.setItem(key, generated);
-          return generated;
+          const key = pageVisitStorageKey();
+          return Boolean(sessionStorage.getItem(key));
         } catch {
-          return `anon_${Date.now()}_${Math.random().toString(36).slice(2)}`.replace(/[^a-zA-Z0-9_-]/g, '_');
+          return false;
         }
       };
 
-      const refreshLiveVisitors = async () => {
-        if (!liveVisitorsEl) return;
+      const markPageVisitRecorded = () => {
         try {
-          const response = await fetch('/api/analytics/live-visitors', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          sessionStorage.setItem(pageVisitStorageKey(), String(Date.now()));
+        } catch {
+          // Ignore storage failures; the server still keeps only aggregate counts.
+        }
+      };
+
+      const refreshPageVisits = async () => {
+        if (!pageVisitsEl) return;
+        const recordVisit = !hasRecordedPageVisit();
+        const endpoint = recordVisit
+          ? '/api/analytics/page-visits'
+          : `/api/analytics/page-visits?path=${encodeURIComponent(window.location.pathname)}`;
+        try {
+          const response = await fetch(endpoint, {
+            method: recordVisit ? 'POST' : 'GET',
+            headers: recordVisit ? { 'Content-Type': 'application/json' } : {},
             cache: 'no-store',
-            body: JSON.stringify({
-              visitorId: getLiveVisitorId(),
-              path: window.location.pathname,
-            }),
+            body: recordVisit ? JSON.stringify({ path: window.location.pathname }) : undefined,
           });
-          if (!response.ok) throw new Error(`live visitor endpoint ${response.status}`);
+          if (!response.ok) throw new Error(`page visits endpoint ${response.status}`);
           const data = await response.json();
-          liveVisitorCount = Number.isFinite(data.liveVisitors) ? data.liveVisitors : null;
-          liveVisitorUnavailable = false;
+          if (recordVisit) markPageVisitRecorded();
+          pageVisitCount = Number.isFinite(data.pageVisits) ? data.pageVisits : null;
+          pageVisitUnavailable = false;
         } catch {
-          liveVisitorUnavailable = true;
+          pageVisitUnavailable = true;
         }
-        renderLiveVisitors();
+        renderPageVisits();
       };
 
-      const setupLiveVisitors = () => {
-        renderLiveVisitors();
-        refreshLiveVisitors();
-        window.setInterval(refreshLiveVisitors, 30000);
+      const setupPageVisits = () => {
+        renderPageVisits();
+        refreshPageVisits();
       };
 
       const setLang = (lang) => {
@@ -802,7 +811,7 @@
           if (typeof text === 'string' && text.length) el.textContent = text;
         });
         try { localStorage.setItem('analyst-dossier-lang', lang); } catch {}
-        renderLiveVisitors();
+        renderPageVisits();
       };
 
       const savedLang = (() => {
@@ -813,7 +822,7 @@
       langToggle?.addEventListener('click', () => {
         setLang(root.dataset.lang === 'si' ? 'en' : 'si');
       });
-      setupLiveVisitors();
+      setupPageVisits();
 
       const refIds = new Set(Array.from(document.querySelectorAll('#references tbody tr')).map(row => row.id.replace('ref-', '')));
       const pattern = /\b((?:MUL-[SC]|TERM-S|SEO-C|CAS-|RN-)\d{3})\b/g;
