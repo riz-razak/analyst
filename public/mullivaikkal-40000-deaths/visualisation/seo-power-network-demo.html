@@ -1,0 +1,1194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Follow The Sentence: SEO Source-Trace Map</title>
+  <meta name="description" content="SEO propagation map for the 40,000 Mullivaikkal claim, showing source routes, category-collapse risk, mirrors, political recognition, and evidence limits.">
+  <style>
+    :root {
+      --bg: #FAFAF8;
+      --surface: #FFFFFF;
+      --surface-hover: #F0EDE8;
+      --border: #E5E1DA;
+      --text: #1A1A2E;
+      --muted: #4A4A5A;
+      --soft: #6B6B7B;
+      --green: #2D6A4F;
+      --gold: #C4A35A;
+      --coral: #D4644A;
+      --orange: #E88D2A;
+      --blue: #3A7BD5;
+      --ink-soft: rgba(26, 26, 46, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .shell {
+      width: min(1760px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 10px 0 24px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: end;
+      padding: 4px 0 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      margin: 0 0 3px;
+      font-size: 18px;
+      letter-spacing: 0;
+      line-height: 1.2;
+      font-weight: 720;
+    }
+
+    .dek {
+      margin: 0;
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .status {
+      display: grid;
+      gap: 3px;
+      justify-items: end;
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 11px;
+    }
+
+    .badge {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 6px;
+      padding: 3px 7px;
+      font-weight: 650;
+      color: var(--green);
+    }
+
+    .method-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 6px 0;
+    }
+
+    .metric {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 7px;
+      min-height: 0;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .metric strong {
+      display: inline;
+      font-size: 13px;
+      margin-bottom: 0;
+    }
+
+    .metric span { color: var(--muted); font-size: 10px; }
+
+    .insight-strip {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 8px;
+      margin: 7px 0 5px;
+    }
+
+    .insight-card {
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: var(--surface);
+      padding: 7px 9px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .insight-card b {
+      color: var(--text);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .visual-panel {
+      height: calc(100vh - 126px);
+      min-height: 640px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      padding: 7px 9px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 4px 7px;
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    button:hover, button.active { background: var(--surface-hover); border-color: #D8D1C6; }
+    button.active { color: var(--green); font-weight: 650; }
+
+    .canvas-wrap {
+      position: relative;
+      flex: 1 1 auto;
+      height: auto;
+      min-height: 0;
+      max-height: none;
+      overflow: auto;
+    }
+
+    svg { width: 100%; height: 100%; display: block; }
+
+    .layer-label {
+      font-size: 11px;
+      fill: var(--soft);
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+
+    .edge {
+      stroke: #B8B1A6;
+      stroke-width: 1.2;
+      opacity: 0.54;
+      fill: none;
+    }
+
+    .edge.mirror { stroke: var(--blue); stroke-dasharray: 4 3; }
+    .edge.political_recognition { stroke: var(--orange); }
+    .edge.incentive_context { stroke: var(--gold); stroke-dasharray: 2 5; }
+    .edge.context_only { stroke-dasharray: 5 5; }
+    .edge.weak_link { stroke: #1A1A2E; stroke-dasharray: 2 4; }
+    .edge.cluster_member { stroke: #9B978F; stroke-width: 1; opacity: 0.42; }
+    .edge.highlight { stroke-width: 2.6; opacity: 0.96; }
+
+    .route-label {
+      font-size: 8px;
+      fill: var(--muted);
+      paint-order: stroke;
+      stroke: var(--surface);
+      stroke-width: 3px;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .node { cursor: pointer; }
+    .node circle, .node rect, .node polygon {
+      stroke: var(--surface);
+      stroke-width: 2;
+    }
+    .node.dim { opacity: 0.16; }
+    .edge.dim { opacity: 0.08; }
+    .node.selected circle, .node.selected rect, .node.selected polygon { stroke: var(--text); stroke-width: 2.5; }
+    .node.route circle, .node.route rect, .node.route polygon { stroke: var(--path-color, var(--gold)); stroke-width: 2.2; }
+
+    .node-label {
+      font-size: 9.5px;
+      fill: var(--text);
+      pointer-events: none;
+    }
+
+    .node-sub {
+      font-size: 9.5px;
+      fill: var(--soft);
+      pointer-events: none;
+    }
+
+    .node-label.muted-label { display: none; }
+    .node:hover .node-label, .node.selected .node-label { display: block; }
+
+    .cluster-hint {
+      font-size: 7.5px;
+      fill: var(--soft);
+      pointer-events: none;
+    }
+
+    .signal {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px 8px;
+      white-space: nowrap;
+      font-weight: 650;
+      color: var(--text);
+      background: var(--surface);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      background: var(--soft);
+    }
+
+    .dot.green { background: var(--green); }
+    .dot.lightgreen { background: #6D9F71; }
+    .dot.yellow { background: var(--gold); }
+    .dot.orange { background: var(--orange); }
+    .dot.red { background: var(--coral); }
+    .dot.grey { background: #9B978F; }
+    .dot.black { background: var(--text); }
+
+    .inspector {
+      padding: 10px;
+    }
+
+    .inspector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 8px;
+    }
+
+    .inspect-card {
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 8px;
+      background: var(--surface);
+    }
+
+    .pathway-bar {
+      display: grid;
+      gap: 5px;
+      padding: 6px 9px;
+      border-bottom: 1px solid var(--border);
+      background: #FBFAF8;
+    }
+
+    .pathway-help {
+      color: var(--muted);
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .pathway-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .path-chip {
+      display: grid;
+      grid-template-columns: auto minmax(68px, 1fr) auto auto;
+      gap: 5px;
+      align-items: center;
+      max-width: 180px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 4px 5px;
+      background: var(--surface);
+      color: var(--muted);
+    }
+
+    .path-chip.active {
+      border-color: var(--path-color, var(--gold));
+      box-shadow: inset 0 0 0 1px var(--path-color, var(--gold));
+    }
+
+    .path-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--path-color, var(--gold));
+    }
+
+    .path-title {
+      min-width: 0;
+    }
+
+    .path-title b {
+      display: block;
+      font-size: 11px;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .path-title span {
+      display: block;
+      font-size: 9px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .path-chip button {
+      padding: 2px 4px;
+      font-size: 9px;
+    }
+
+    .pathway-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .path-clear {
+      padding: 3px 6px;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .path-compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .path-summary {
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--path-color, var(--gold));
+      border-radius: 7px;
+      padding: 5px 6px;
+      color: var(--muted);
+      background: #FCFBF9;
+      font-size: 10px;
+      line-height: 1.25;
+    }
+
+    .path-summary b {
+      display: block;
+      font-size: 11px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .inspector h2, .section h2 {
+      margin: 0 0 7px;
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
+    .field {
+      padding: 6px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .field:first-of-type { border-top: 0; }
+    .field b { display: block; margin-bottom: 2px; font-size: 11px; }
+    .field span { color: var(--muted); overflow-wrap: anywhere; font-size: 11px; }
+
+    .legend {
+      padding: 5px 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .legend summary {
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 650;
+      list-style: none;
+    }
+
+    .legend summary::-webkit-details-marker { display: none; }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      padding-top: 5px;
+    }
+
+    .legend-item { display: flex; gap: 6px; align-items: center; color: var(--muted); font-size: 11px; }
+    .swatch { width: 8px; height: 8px; border-radius: 2px; flex: 0 0 auto; }
+
+    .section {
+      margin-top: 10px;
+      padding: 12px;
+    }
+
+    .evidence-section {
+      padding: 8px 12px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+    }
+
+    .text-link {
+      border: 0;
+      background: transparent;
+      color: var(--green);
+      padding: 0;
+      font-weight: 650;
+      text-decoration: underline;
+    }
+
+    .text-link:hover {
+      background: transparent;
+      border: 0;
+    }
+
+    .is-hidden {
+      display: none;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border-top: 1px solid var(--border);
+      max-height: 480px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      font-size: 12px;
+    }
+
+    th, td {
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 2;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    th.sortable {
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    th.sortable::after {
+      content: " ↕";
+      color: var(--soft);
+      font-weight: 500;
+    }
+
+    th.sortable[data-sort-active="asc"]::after { content: " ↑"; color: var(--green); }
+    th.sortable[data-sort-active="desc"]::after { content: " ↓"; color: var(--green); }
+
+    td { color: var(--muted); }
+    td:first-child { color: var(--text); font-weight: 650; }
+
+    .note {
+      color: var(--muted);
+      border-left: 3px solid var(--gold);
+      padding-left: 10px;
+    }
+
+    @media (max-width: 720px) {
+      header, .workspace, .grid-two { grid-template-columns: 1fr; }
+      .status { justify-items: start; }
+      .insight-strip { grid-template-columns: 1fr; }
+      .visual-panel { height: calc(100vh - 190px); min-height: 520px; overflow: hidden; }
+      .canvas-wrap { height: auto; min-height: 0; max-height: none; flex: 1 1 auto; }
+      .inspector { position: static; }
+      .legend-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: calc(100vw - 12px); max-width: 1440px; padding-top: 8px; }
+      header { gap: 8px; }
+      h1 { font-size: 15px; }
+      .dek, .status { display: none; }
+      .visual-panel { width: 100%; max-width: 100%; height: auto; min-width: 0; min-height: 0; overflow: visible; }
+      .canvas-wrap { flex: 0 0 auto; width: 100%; max-width: 100%; min-width: 0; height: auto; overflow: hidden; }
+      .insight-card { padding: 5px 7px; font-size: 10.5px; }
+      .method-strip { gap: 3px; }
+      .metric { padding: 2px 5px; }
+      .toolbar { width: 100%; max-width: 100%; min-width: 0; flex-wrap: nowrap; gap: 5px; overflow-x: auto; padding: 6px; }
+      .toolbar::-webkit-scrollbar { height: 0; }
+      .pathway-bar { width: 100%; max-width: 100%; min-width: 0; }
+      button { flex: 0 0 auto; padding: 3px 5px; font-size: 11px; white-space: nowrap; }
+      .path-chip { max-width: 150px; grid-template-columns: auto minmax(54px, 1fr) auto; }
+      .path-chip button[data-path-remove] { display: none; }
+      .legend-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <h1>Follow The Sentence: SEO Source-Trace Map</h1>
+        <p class="dek">A source-gated SEO propagation map showing how a caveated final-phase Vanni casualty figure moves through Wikipedia, backlinks/mirrors, advocacy pages, political recognition, counter-routes, and social shorthand.</p>
+      </div>
+      <div class="status">
+        <span class="badge">Evidence map</span>
+        <span>Sources remain the evidence.</span>
+      </div>
+    </header>
+
+    <section class="insight-strip" aria-label="Core reading">
+      <div class="insight-card"><b>Safe reading:</b> current evidence does not verify <b>40,000 deaths in Mullivaikkal alone</b>; it supports a caveated final-phase Vanni casualty route, not an exact place-specific count.</div>
+      <div class="insight-card"><b>Map purpose:</b> trace claim hardening and category collapse across sources, mirrors, politics, advocacy, social posts, and counter-routes.</div>
+    </section>
+
+    <section class="method-strip" aria-label="Capture summary">
+      <div class="metric"><strong id="m-nodes">0</strong><span>nodes</span></div>
+      <div class="metric"><strong id="m-edges">0</strong><span>edges</span></div>
+      <div class="metric"><strong id="m-hardening">0</strong><span>hardening</span></div>
+      <div class="metric"><strong id="m-collapse">0</strong><span>collapse</span></div>
+    </section>
+
+    <section class="workspace">
+      <div class="panel visual-panel">
+        <div class="toolbar" aria-label="Map filters">
+          <button class="active" data-filter="all">All</button>
+          <button data-filter="source_origin">Sources</button>
+          <button data-filter="wiki_mirror">Wikipedia + Backlinks / Mirrors</button>
+          <button data-filter="advocacy_ngo">NGO / Advocacy</button>
+          <button data-filter="political_recognition">Political</button>
+          <button data-filter="counter_route">Counter-routes</button>
+          <button data-filter="funding_context">Funding Context</button>
+          <button data-risk="hardening_and_category_collapse">Category Collapse</button>
+          <button data-action="clusters">Expand Clusters</button>
+          <button data-action="clear">Clear Selection</button>
+        </div>
+        <div class="pathway-bar" id="pathway-bar">
+          <div class="pathway-help">Select nodes to compare pathways.</div>
+        </div>
+        <div class="canvas-wrap">
+          <svg id="map" role="img" aria-label="SEO propagation map"></svg>
+        </div>
+        <details class="legend">
+          <summary>Legend: source / wiki / risk / political / funding / context</summary>
+          <div class="legend-grid">
+            <div class="legend-item"><span class="swatch" style="background: var(--green)"></span>Original / source route</div>
+            <div class="legend-item"><span class="swatch" style="background: var(--blue)"></span>Wikipedia / mirror route</div>
+            <div class="legend-item"><span class="swatch" style="background: var(--coral)"></span>Category-collapse risk</div>
+            <div class="legend-item"><span class="swatch" style="background: var(--orange)"></span>Political recognition</div>
+            <div class="legend-item"><span class="swatch" style="background: var(--gold)"></span>Funding visibility, causation unproven</div>
+            <div class="legend-item"><span class="swatch" style="background: #B8B1A6"></span>Context / citation route</div>
+          </div>
+        </details>
+      </div>
+
+      <aside class="panel inspector" id="inspector">
+        <h2>Evidence Inspector</h2>
+        <div class="field"><span>Select a node for claim wording, source trail, weak link, and safer wording. Internal trace map, not live crawl proof.</span></div>
+      </aside>
+    </section>
+
+    <section class="panel section evidence-section">
+      <div class="section-head">
+        <h2>Evidence Table</h2>
+        <button class="text-link" id="evidence-toggle" aria-expanded="false">Expand Evidence Table</button>
+      </div>
+      <div class="table-wrap is-hidden" id="evidence-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="sortable" data-sort-key="signal">Claim check</th>
+              <th class="sortable" data-sort-key="label">Node</th>
+              <th class="sortable" data-sort-key="layer">Layer</th>
+              <th class="sortable" data-sort-key="claim">Observed claim</th>
+              <th class="sortable" data-sort-key="source">Claimed source</th>
+              <th class="sortable" data-sort-key="trace">Trace</th>
+              <th class="sortable" data-sort-key="route">Source trail</th>
+              <th class="sortable" data-sort-key="weak">Weak link</th>
+              <th class="sortable" data-sort-key="correction">Safer wording</th>
+            </tr>
+          </thead>
+          <tbody id="node-table"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="seo-vis-data.js"></script>
+  <script>
+    const data = window.SEO_VIS_DATA;
+    const svg = document.getElementById('map');
+    const inspector = document.getElementById('inspector');
+    const pathwayBar = document.getElementById('pathway-bar');
+    const table = document.getElementById('node-table');
+    const evidenceToggle = document.getElementById('evidence-toggle');
+    const evidenceTableWrap = document.getElementById('evidence-table-wrap');
+    const layerOrder = ['source_origin', 'wiki_mirror', 'advocacy_ngo', 'political_recognition', 'counter_route', 'social_viral', 'funding_context', 'other_surface'];
+    const layerLabels = {
+      source_origin: 'SOURCE SPINE',
+      wiki_mirror: 'WIKIPEDIA / MIRRORS',
+      advocacy_ngo: 'NGO / ADVOCACY',
+      political_recognition: 'POLITICAL RECOGNITION',
+      counter_route: 'STATE / COUNTER-ROUTES',
+      social_viral: 'SOCIAL / VIRAL',
+      funding_context: 'FUNDING CONTEXT',
+      other_surface: 'OTHER SURFACES'
+    };
+    const mobileLayerLabels = {
+      source_origin: 'SRC',
+      wiki_mirror: 'WIKI',
+      advocacy_ngo: 'NGO',
+      political_recognition: 'POL',
+      counter_route: 'STATE',
+      social_viral: 'SOC',
+      funding_context: 'FUND',
+      other_surface: 'OTHER'
+    };
+    const colors = {
+      source_origin: '#2D6A4F',
+      wiki_mirror: '#3A7BD5',
+      advocacy_ngo: '#2D6A4F',
+      political_recognition: '#E88D2A',
+      counter_route: '#4A4A5A',
+      social_viral: '#D4644A',
+      funding_context: '#C4A35A',
+      other_surface: '#6B6B7B'
+    };
+
+    document.getElementById('m-nodes').textContent = data.stats.visual_nodes;
+    document.getElementById('m-edges').textContent = data.stats.visual_edges;
+    document.getElementById('m-hardening').textContent = data.stats.hardening_yes;
+    document.getElementById('m-collapse').textContent = data.stats.collapse_yes;
+
+    const byId = new Map(data.nodes.map(n => [n.node_id, n]));
+    const edgesByTarget = new Map();
+    const edgesBySource = new Map();
+    const tracesByNode = new Map();
+    data.edges.forEach(e => {
+      if (!edgesByTarget.has(e.target_node)) edgesByTarget.set(e.target_node, []);
+      edgesByTarget.get(e.target_node).push(e);
+      if (!edgesBySource.has(e.source_node)) edgesBySource.set(e.source_node, []);
+      edgesBySource.get(e.source_node).push(e);
+    });
+    (data.traces || []).forEach(t => {
+      if (!tracesByNode.has(t.observed_node_id)) tracesByNode.set(t.observed_node_id, []);
+      tracesByNode.get(t.observed_node_id).push(t);
+    });
+
+    let currentFilter = 'all';
+    let currentRisk = null;
+    let selectedIds = new Set();
+    let expandedClusters = new Set();
+    let activePathId = null;
+    let focusedPathId = null;
+    let sortState = { key: 'score', direction: 'desc' };
+    const pathPalette = ['#2D6A4F', '#D4644A', '#3A7BD5', '#E88D2A', '#7A4EAB', '#C4A35A', '#4A4A5A'];
+
+    function visibleBase(n) {
+      if (n.parent_node_id && !expandedClusters.has(n.parent_node_id)) return false;
+      if (currentRisk) return n.risk_label === currentRisk;
+      if (currentFilter === 'all') return true;
+      return n.visual_layer === currentFilter;
+    }
+
+    function activeNodes() {
+      return data.nodes.filter(visibleBase);
+    }
+
+    function layout() {
+      const viewportWidth = svg.clientWidth || window.innerWidth || 900;
+      const isMobile = viewportWidth <= 620;
+      const width = isMobile ? Math.max(340, viewportWidth) : Math.max(760, viewportWidth);
+      const groups = new Map(layerOrder.map(l => [l, []]));
+      activeNodes().forEach(n => (groups.get(n.visual_layer) || groups.get('other_surface')).push(n));
+      const heightSource = svg.clientHeight || (isMobile ? 410 : 620);
+      const height = isMobile ? Math.max(340, Math.min(440, heightSource)) : Math.max(500, Math.min(760, heightSource));
+      svg.style.height = `${height}px`;
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      const laneW = width / layerOrder.length;
+      groups.forEach((items, layer) => {
+        items.sort((a, b) => Number(b.score || 0) - Number(a.score || 0));
+        const x = laneW * (layerOrder.indexOf(layer) + 0.5);
+        const top = isMobile ? 32 : 50;
+        const bottomPad = isMobile ? 26 : 34;
+        const rawStep = (height - top - bottomPad) / Math.max(items.length - 1, 1);
+        const stepCap = isMobile ? 34 : 54;
+        const stepFloor = isMobile ? 6 : 9;
+        const cappedStep = Math.max(stepFloor, Math.min(stepCap, rawStep));
+        const step = items.length <= 6 ? rawStep : cappedStep;
+        items.forEach((n, i) => {
+          const wiggle = isMobile ? ((i % 3) - 1) * 3.5 : ((i % 4) - 1.5) * 9;
+          n.x = x + wiggle;
+          n.y = items.length === 1 ? height / 2 : top + i * step;
+        });
+      });
+      return { width, height, laneW, isMobile };
+    }
+
+    function pathStateFor(rootId, index) {
+      const routeNodes = new Set([rootId]);
+      const routeEdges = new Set();
+      const queue = [rootId];
+      let guard = 0;
+      while (queue.length && guard < 600) {
+        guard += 1;
+        const id = queue.shift();
+        (tracesByNode.get(id) || []).forEach(t => {
+          if (byId.has(t.final_source_id) && !routeNodes.has(t.final_source_id)) {
+            routeNodes.add(t.final_source_id);
+            queue.push(t.final_source_id);
+          }
+        });
+        (edgesByTarget.get(id) || []).forEach(e => {
+          routeEdges.add(e.edge_id);
+          if (byId.has(e.source_node) && !routeNodes.has(e.source_node)) {
+            routeNodes.add(e.source_node);
+            queue.push(e.source_node);
+          }
+        });
+      }
+      (edgesBySource.get(rootId) || []).forEach(e => {
+        routeEdges.add(e.edge_id);
+        if (byId.has(e.target_node)) routeNodes.add(e.target_node);
+      });
+      data.edges.forEach(e => {
+        if (routeNodes.has(e.source_node) && routeNodes.has(e.target_node)) routeEdges.add(e.edge_id);
+      });
+      const root = byId.get(rootId);
+      return {
+        rootId,
+        root,
+        index,
+        color: pathPalette[index % pathPalette.length],
+        routeNodes,
+        routeEdges,
+        sourceAnchors: Array.from(routeNodes).map(id => byId.get(id)).filter(n => n && (n.trace_status === 'source_anchor' || n.visual_layer === 'source_origin')),
+        traces: tracesByNode.get(rootId) || [],
+      };
+    }
+
+    function buildPathways() {
+      return Array.from(selectedIds).map((id, index) => pathStateFor(id, index)).filter(p => p.root);
+    }
+
+    function combinedRoute(pathList) {
+      const routeNodes = new Set();
+      const routeEdges = new Set();
+      const visiblePaths = focusedPathId ? pathList.filter(p => p.rootId === focusedPathId) : pathList;
+      visiblePaths.forEach(p => {
+        p.routeNodes.forEach(id => routeNodes.add(id));
+        p.routeEdges.forEach(id => routeEdges.add(id));
+      });
+      return { routeNodes, routeEdges, visiblePaths };
+    }
+
+    function edgePathMembership(edgeId, pathList) {
+      const visiblePaths = focusedPathId ? pathList.filter(p => p.rootId === focusedPathId) : pathList;
+      return visiblePaths.filter(p => p.routeEdges.has(edgeId));
+    }
+
+    function nodePathMembership(nodeId, pathList) {
+      const visiblePaths = focusedPathId ? pathList.filter(p => p.rootId === focusedPathId) : pathList;
+      return visiblePaths.filter(p => p.routeNodes.has(nodeId));
+    }
+
+    function nodeRadius(n) {
+      const score = Number(n.score || 0);
+      if (n.node_type === 'cluster_parent') return 14;
+      return Math.max(4, Math.min(13, 4 + score / 12));
+    }
+
+    function shape(n) {
+      const r = nodeRadius(n);
+      const color = n.risk_label === 'hardening_and_category_collapse' ? colors.social_viral : colors[n.visual_layer] || colors.other_surface;
+      if (n.node_type === 'cluster_parent') {
+        return `<rect x="${n.x - r}" y="${n.y - r}" width="${r * 2}" height="${r * 2}" rx="6" fill="${color}"></rect>`;
+      }
+      if (n.node_type === 'wikipedia_hub' || n.node_type === 'mirror_or_graph') {
+        return `<polygon points="${n.x},${n.y - r} ${n.x + r},${n.y - r / 2} ${n.x + r},${n.y + r / 2} ${n.x},${n.y + r} ${n.x - r},${n.y + r / 2} ${n.x - r},${n.y - r / 2}" fill="${color}"></polygon>`;
+      }
+      if (n.node_type === 'primary_source') {
+        return `<rect x="${n.x - r}" y="${n.y - r}" width="${r * 2}" height="${r * 2}" rx="3" fill="${color}"></rect>`;
+      }
+      return `<circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${color}"></circle>`;
+    }
+
+    function edgePath(e) {
+      const s = byId.get(e.source_node);
+      const t = byId.get(e.target_node);
+      if (!s || !t) return '';
+      const mid = (s.x + t.x) / 2;
+      return `M ${s.x} ${s.y} C ${mid} ${s.y}, ${mid} ${t.y}, ${t.x} ${t.y}`;
+    }
+
+    function render() {
+      const { width, height, laneW, isMobile } = layout();
+      const visibleIds = new Set(activeNodes().map(n => n.node_id));
+      const pathList = buildPathways();
+      const route = combinedRoute(pathList);
+      let html = '';
+      layerOrder.forEach((layer, i) => {
+        const layerName = isMobile ? mobileLayerLabels[layer] : layerLabels[layer];
+        html += `<text class="layer-label" x="${laneW * i + (isMobile ? 4 : 10)}" y="${isMobile ? 18 : 28}">${layerName}</text>`;
+        html += `<line x1="${laneW * (i + 1)}" y1="${isMobile ? 24 : 44}" x2="${laneW * (i + 1)}" y2="${height - 18}" stroke="#E5E1DA" stroke-width="1"></line>`;
+      });
+      data.edges.forEach(e => {
+        if (!visibleIds.has(e.source_node) || !visibleIds.has(e.target_node)) return;
+        const membership = edgePathMembership(e.edge_id, pathList);
+        const highlight = membership.length > 0;
+        const dim = selectedIds.size > 0 && !highlight;
+        const edgeClass = e.trace_edge_type || e.edge_type;
+        const edgeColor = membership.length > 1 ? '#1A1A2E' : (membership[0]?.color || '#B8B1A6');
+        html += `<path class="edge ${e.edge_type} ${edgeClass} ${dim ? 'dim' : ''} ${highlight ? 'highlight' : ''}" style="${highlight ? `stroke:${edgeColor}` : ''}" d="${edgePath(e)}"></path>`;
+        if (highlight && !isMobile) {
+          const s = byId.get(e.source_node);
+          const t = byId.get(e.target_node);
+          const label = e.edge_label || e.trace_edge_type || e.edge_type;
+          const prefix = membership.length === 1 ? `P${membership[0].index + 1}: ` : 'shared: ';
+          html += `<text class="route-label" x="${(s.x + t.x) / 2}" y="${(s.y + t.y) / 2 - 4}">${escapeHtml(prefix + label)}</text>`;
+        }
+      });
+      activeNodes().forEach(n => {
+        const sel = selectedIds.has(n.node_id);
+        const membership = nodePathMembership(n.node_id, pathList);
+        const onRoute = membership.length > 0;
+        const dim = selectedIds.size > 0 && !sel && !onRoute;
+        const label = n.short_label || (n.label.length > 26 ? n.label.slice(0, 23) + '...' : n.label);
+        const showLabel = isMobile
+          ? (sel || n.visual_layer === 'source_origin' || n.node_type === 'cluster_parent')
+          : (sel || onRoute || n.visual_layer === 'source_origin' || n.node_type === 'cluster_parent');
+        const clusterText = n.node_type === 'cluster_parent' ? (expandedClusters.has(n.node_id) ? 'collapse' : 'expand') : '';
+        const nodeColor = membership.length > 1 ? '#1A1A2E' : (membership[0]?.color || '#C4A35A');
+        html += `<g class="node ${dim ? 'dim' : ''} ${onRoute ? 'route' : ''} ${sel ? 'selected' : ''}" style="--path-color:${nodeColor}" data-node="${n.node_id}">${shape(n)}<title>${escapeHtml(n.label)} | ${escapeHtml(n.fact_check_signal || n.risk_label)}</title><text class="node-label ${showLabel ? '' : 'muted-label'}" x="${n.x + nodeRadius(n) + 5}" y="${n.y + 4}">${escapeHtml(label)}</text>${clusterText ? `<text class="cluster-hint" x="${n.x + nodeRadius(n) + 5}" y="${n.y + 16}">${clusterText}</text>` : ''}</g>`;
+      });
+      svg.innerHTML = html;
+      renderPathwayBar(pathList);
+      renderInspector(pathList);
+      renderTable();
+    }
+
+    function toggleNode(n) {
+      if (!n) return;
+      if (n.node_type === 'cluster_parent') {
+        if (expandedClusters.has(n.node_id)) expandedClusters.delete(n.node_id);
+        else expandedClusters.add(n.node_id);
+      }
+      if (selectedIds.has(n.node_id)) selectedIds.delete(n.node_id);
+      else {
+        selectedIds.add(n.node_id);
+        activePathId = n.node_id;
+      }
+      if (focusedPathId && !selectedIds.has(focusedPathId)) focusedPathId = null;
+      render();
+    }
+
+    function renderPathwayBar(pathList) {
+      if (!pathList.length) {
+        pathwayBar.innerHTML = '<div class="pathway-help">Select nodes to compare pathways.</div>';
+        return;
+      }
+      const chips = pathList.map(p => {
+        const anchors = p.sourceAnchors.map(n => n.short_label || n.label).slice(0, 2).join(' + ') || 'source missing';
+        return `
+          <div class="path-chip ${p.rootId === activePathId ? 'active' : ''}" style="--path-color:${p.color}" data-path="${escapeHtml(p.rootId)}">
+            <span class="path-dot"></span>
+            <span class="path-title"><b>P${p.index + 1}: ${escapeHtml(p.root.short_label || p.root.label)}</b><span>${p.routeEdges.size} links</span></span>
+            <button data-path-focus="${escapeHtml(p.rootId)}">${focusedPathId === p.rootId ? 'All' : 'Focus'}</button>
+            <button data-path-remove="${escapeHtml(p.rootId)}">Remove</button>
+          </div>
+        `;
+      }).join('');
+      pathwayBar.innerHTML = `
+        <div class="pathway-list">
+          <div class="pathway-help">${pathList.length} pathways</div>
+          ${chips}
+          <button class="path-clear" data-path-clear-all="true">Clear all pathways</button>
+        </div>
+      `;
+    }
+
+    function renderInspector(pathList) {
+      if (!selectedIds.size) {
+        inspector.innerHTML = `
+          <h2>Evidence Inspector</h2>
+          <div class="field"><span>Select a node for claim wording, source trail, weak link, and safer wording. Internal trace map, not live crawl proof.</span></div>
+        `;
+        return;
+      }
+      const compare = pathList.map(p => {
+        const anchors = p.sourceAnchors.map(n => n.short_label || n.label).join(' / ') || 'source missing';
+        const weak = p.traces.map(t => t.weak_link_reason).filter(Boolean).slice(0, 2).join(' | ') || p.root.weak_link_reason || 'No weak-link row captured.';
+        return `<div class="path-summary" style="--path-color:${p.color}"><b>P${p.index + 1}: ${escapeHtml(p.root.short_label || p.root.label)}</b><span>${p.routeEdges.size} links · source: ${escapeHtml(anchors)}<br>${escapeHtml(weak)}</span></div>`;
+      }).join('');
+      const cards = Array.from(selectedIds).map(id => byId.get(id)).filter(Boolean).map(n => inspectCard(n)).join('');
+      inspector.innerHTML = `<h2>Pathway Inspector</h2><div class="path-compare">${compare}</div><div class="inspector-grid">${cards}</div>`;
+    }
+
+    function inspectCard(n) {
+      const traces = tracesByNode.get(n.node_id) || n.source_traces || [];
+      const traceHtml = traces.length ? traces.map(t => `<div class="field"><b>${escapeHtml(t.support_type)}</b><span>${escapeHtml(t.support_status)}<br>${escapeHtml(t.weak_link_reason || '')}</span></div>`).join('') : '<div class="field"><b>Source trail</b><span>Source missing or self-anchored; mark weak until reviewed.</span></div>';
+      return `
+        <article class="inspect-card">
+          <h2>${escapeHtml(n.label)}</h2>
+          <div class="field"><b>Fact-check status</b><span>${signalMarkup(n)}</span></div>
+          <div class="field"><b>Node</b><span>${escapeHtml(n.node_id)} / ${escapeHtml(n.node_type)}</span></div>
+          <div class="field"><b>Layer</b><span>${escapeHtml(layerLabels[n.visual_layer] || n.visual_layer)}</span></div>
+          <div class="field"><b>Trace status</b><span>${escapeHtml(n.trace_status || 'not captured')}</span></div>
+          <div class="field"><b>Observed page</b><span>${linkMarkup(n.observed_url || '')}</span></div>
+          <div class="field"><b>Claimed source article</b><span>${escapeHtml(n.claimed_source_article || n.source_cited || 'Not captured')}</span></div>
+          <div class="field"><b>Claim / wording</b><span>${escapeHtml(n.claim_text || 'No claim text attached in visual subset.')}</span></div>
+          ${traceHtml}
+          <div class="field"><b>Weak link</b><span>${escapeHtml(n.weak_link_reason || 'Needs review')}</span></div>
+          <div class="field"><b>Safer wording</b><span>${escapeHtml(n.safe_correction || 'Use exact source category, geography, and qualifier before public reuse.')}</span></div>
+        </article>
+      `;
+    }
+
+    function renderTable() {
+      const rows = sortRows(activeNodes().slice());
+      table.innerHTML = rows.map(n => `
+        <tr data-node-row="${escapeHtml(n.node_id)}">
+          <td>${signalMarkup(n)}</td>
+          <td>${escapeHtml(n.label)}</td>
+          <td>${escapeHtml(layerLabels[n.visual_layer] || n.visual_layer)}</td>
+          <td>${escapeHtml(n.claim_text || n.notes || '')}</td>
+          <td>${escapeHtml(n.claimed_source_article || n.source_cited || 'Not captured')}</td>
+          <td>${escapeHtml(n.trace_status || '')}</td>
+          <td>${escapeHtml(n.original_source_article || '')}</td>
+          <td>${escapeHtml(n.weak_link_reason || 'Needs review')}</td>
+          <td>${escapeHtml(n.safe_correction || 'Use exact category and qualifier.')}</td>
+        </tr>
+      `).join('');
+      table.querySelectorAll('tr[data-node-row]').forEach(row => {
+        row.addEventListener('click', () => toggleNode(byId.get(row.dataset.nodeRow)));
+      });
+      updateSortHeaders();
+    }
+
+    function sortRows(rows) {
+      const direction = sortState.direction === 'asc' ? 1 : -1;
+      return rows.sort((a, b) => {
+        const av = sortValue(a, sortState.key);
+        const bv = sortValue(b, sortState.key);
+        if (typeof av === 'number' && typeof bv === 'number') return (av - bv) * direction;
+        return String(av).localeCompare(String(bv), undefined, { sensitivity: 'base' }) * direction;
+      });
+    }
+
+    function sortValue(n, key) {
+      const values = {
+        score: Number(n.score || 0),
+        signal: signalRank(n.fact_check_signal),
+        label: n.label,
+        layer: layerLabels[n.visual_layer] || n.visual_layer,
+        claim: n.claim_text || n.notes || '',
+        source: n.claimed_source_article || n.source_cited || '',
+        trace: n.trace_status || '',
+        route: n.original_source_article || '',
+        weak: n.weak_link_reason || '',
+        correction: n.safe_correction || ''
+      };
+      return values[key] ?? '';
+    }
+
+    function signalRank(value) {
+      const order = {
+        'Not supported as written': 1,
+        'Misleading as stated': 1,
+        'Mixed categories': 2,
+        'Category-risk': 2,
+        'Needs checking': 3,
+        'Unverified': 3,
+        'Repeated source': 4,
+        'Second-hand source': 4,
+        'Derivative': 4,
+        'Funding visibility only': 4,
+        'Needs qualifier': 5,
+        'Supported with caveat': 5,
+        'Safe with caveat': 5,
+        'Source supports this': 6,
+        'Source-safe': 6
+      };
+      return order[value] || 99;
+    }
+
+    function updateSortHeaders() {
+      document.querySelectorAll('th.sortable').forEach(th => {
+        th.removeAttribute('data-sort-active');
+        if (th.dataset.sortKey === sortState.key) th.setAttribute('data-sort-active', sortState.direction);
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+    }
+
+    function linkMarkup(value) {
+      if (!value) return 'URL not captured';
+      const escaped = escapeHtml(value);
+      if (/^https?:\/\//.test(value)) return `<a href="${escaped}" target="_blank" rel="noreferrer">${escaped}</a>`;
+      return escaped;
+    }
+
+    function signalMarkup(n) {
+      const mapped = publicSignal(n.fact_check_signal || 'Unverified');
+      const label = escapeHtml(mapped.label);
+      const color = escapeHtml(mapped.color || n.signal_color || 'grey');
+      return `<span class="signal"><span class="dot ${color}"></span>${label}</span>`;
+    }
+
+    function publicSignal(value) {
+      const map = {
+        'Source-safe': { label: 'Source supports this', color: 'green' },
+        'Safe with caveat': { label: 'Needs qualifier', color: 'lightgreen' },
+        'Supported with caveat': { label: 'Needs qualifier', color: 'lightgreen' },
+        'Needs qualifier': { label: 'Needs qualifier', color: 'lightgreen' },
+        'Derivative': { label: 'Repeated source', color: 'yellow' },
+        'Second-hand source': { label: 'Repeated source', color: 'yellow' },
+        'Repeated source': { label: 'Repeated source', color: 'yellow' },
+        'Funding visibility only': { label: 'Visibility only', color: 'yellow' },
+        'Category-risk': { label: 'Mixed categories', color: 'orange' },
+        'Mixed categories': { label: 'Mixed categories', color: 'orange' },
+        'Misleading as stated': { label: 'Not supported as written', color: 'red' },
+        'Not supported as written': { label: 'Not supported as written', color: 'red' },
+        'Unverified': { label: 'Needs checking', color: 'grey' },
+        'Needs checking': { label: 'Needs checking', color: 'grey' },
+        'Broken route': { label: 'Broken or missing link', color: 'black' },
+        'Broken link': { label: 'Broken or missing link', color: 'black' }
+      };
+      return map[value] || { label: value || 'Needs checking', color: 'grey' };
+    }
+
+    document.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        if (action === 'clear') {
+          selectedIds.clear();
+          activePathId = null;
+          focusedPathId = null;
+          render();
+          return;
+        }
+        if (action === 'clusters') {
+          const clusters = data.nodes.filter(n => n.node_type === 'cluster_parent').map(n => n.node_id);
+          const allOpen = clusters.every(id => expandedClusters.has(id));
+          clusters.forEach(id => allOpen ? expandedClusters.delete(id) : expandedClusters.add(id));
+          btn.textContent = allOpen ? 'Expand Clusters' : 'Collapse Clusters';
+          render();
+          return;
+        }
+        document.querySelectorAll('button[data-filter], button[data-risk]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter || 'all';
+        currentRisk = btn.dataset.risk || null;
+        selectedIds.clear();
+        activePathId = null;
+        focusedPathId = null;
+        render();
+      });
+    });
+
+    pathwayBar.addEventListener('click', event => {
+      if (event.target.dataset.pathClearAll) {
+        selectedIds.clear();
+        activePathId = null;
+        focusedPathId = null;
+        render();
+        return;
+      }
+      const removeId = event.target.dataset.pathRemove;
+      const focusId = event.target.dataset.pathFocus;
+      const chip = event.target.closest ? event.target.closest('.path-chip') : null;
+      if (removeId) {
+        selectedIds.delete(removeId);
+        if (activePathId === removeId) activePathId = Array.from(selectedIds).at(-1) || null;
+        if (focusedPathId === removeId) focusedPathId = null;
+        render();
+        return;
+      }
+      if (focusId) {
+        focusedPathId = focusedPathId === focusId ? null : focusId;
+        activePathId = focusId;
+        render();
+        return;
+      }
+      if (chip && chip.dataset.path) {
+        activePathId = chip.dataset.path;
+        render();
+      }
+    });
+
+    document.querySelectorAll('th.sortable').forEach(th => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sortKey;
+        if (sortState.key === key) sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+        else sortState = { key, direction: key === 'signal' ? 'asc' : 'asc' };
+        renderTable();
+      });
+    });
+
+    evidenceToggle.addEventListener('click', () => {
+      const hidden = evidenceTableWrap.classList.toggle('is-hidden');
+      evidenceToggle.textContent = hidden ? 'Expand Evidence Table' : 'Collapse Evidence Table';
+      evidenceToggle.setAttribute('aria-expanded', String(!hidden));
+    });
+
+    svg.addEventListener('click', event => {
+      const node = event.target.closest ? event.target.closest('.node') : null;
+      if (node && node.dataset.node) toggleNode(byId.get(node.dataset.node));
+    });
+
+    window.addEventListener('resize', render);
+    render();
+  </script>
+</body>
+</html>

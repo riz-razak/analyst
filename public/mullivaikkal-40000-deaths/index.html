@@ -435,6 +435,33 @@
       margin: 20px auto 20px 0;
     }
 
+    .visual-embed {
+      max-width: var(--content-measure);
+      margin: 22px auto 18px 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(26, 26, 46, .06);
+    }
+
+    .visual-embed iframe {
+      display: block;
+      width: 100%;
+      height: min(760px, calc(100vh - 110px));
+      min-height: 620px;
+      border: 0;
+      background: var(--paper);
+    }
+
+    .visual-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 720;
+    }
+
     .footer {
       padding: 26px 0 50px;
       color: var(--soft);
@@ -461,6 +488,7 @@
       .core-claim .tested { font-size: 32px; }
       .core-claim .finding { font-size: 18px; }
       aside.rail, .status-row, .lane-grid { grid-template-columns: 1fr; }
+      .visual-embed iframe { height: 620px; min-height: 620px; }
       section.chapter { padding: 30px 0 34px; }
     }
   </style>
@@ -472,6 +500,7 @@
       <nav aria-label="Dossier sections">
         <a href="#claim" data-i18n data-en="Claim" data-si="Claim">Claim</a>
         <a href="#search" data-i18n data-en="Search" data-si="Search">Search</a>
+        <a href="#seo-map" data-i18n data-en="SEO Map" data-si="SEO map">SEO Map</a>
         <a href="#source-chain" data-i18n data-en="Source Routes" data-si="Source routes">Source Routes</a>
         <a href="#words" data-i18n data-en="Words" data-si="වචන">Words</a>
         <a href="#numbers" data-i18n data-en="Numbers" data-si="ගණන්">Numbers</a>
@@ -539,6 +568,15 @@
           <p data-i18n data-en="The same problem appears in political recognition. A parliamentary motion, mayoral proclamation, or prime-ministerial statement can give dignity to memory and political visibility to a community. But it is not a casualty method. It does not transform an estimate into a verified count, and it does not turn a recognition phrase into a court finding." data-si="එම ප්‍රශ්නය political recognition වලත් පේනවා. Parliamentary motion එකක්, mayoral proclamation එකක්, හෝ prime-ministerial statement එකක් memory එකට ගෞරවයත් community එකකට political visibility එකත් දෙන්න පුළුවන්. නමුත් ඒක casualty method එකක් නෙවෙයි. Estimate එක verified count එකක් බවට හරවන්නේ නැහැ; recognition phrase එක court finding එකක් බවටත් හරවන්නේ නැහැ.">The same problem appears in political recognition. A parliamentary motion, mayoral proclamation, or prime-ministerial statement can give dignity to memory and political visibility to a community. But it is not a casualty method. It does not transform an estimate into a verified count, and it does not turn a recognition phrase into a court finding.</p>
           <p data-i18n data-en="So the SEO answer is not to shout louder. It is to build a better archive around the claim: original source pages, claim tables, Wikipedia citation audits, bilingual explainers, and correction pages that answer the phrase people actually search." data-si="ඒ නිසා SEO answer එක තවත් හයියෙන් කෑගහන එක නෙවෙයි. Claim එක වටා හොඳ archive එකක් ගොඩනගන එකයි: original source pages, claim tables, Wikipedia citation audits, bilingual explainers, සහ මිනිසුන් ඇත්තටම search කරන වාක්‍යයට පිළිතුරු දෙන correction pages.">So the SEO answer is not to shout louder. It is to build a better archive around the claim: original source pages, claim tables, Wikipedia citation audits, bilingual explainers, and correction pages that answer the phrase people actually search.</p>
           <p class="source-note"><span data-i18n data-en="Launch note:" data-si="Launch note:">Launch note:</span> <span data-i18n data-en="the wider `1,000`-link layer remains a work-in-progress URL mapping ambition. This version publishes the inspected register and reviewed seed data already captured, while keeping full fetch, dedupe, and claim assessment as the next research task." data-si="wider `1,000`-link layer එක තවම work-in-progress URL mapping ambition එකක්. මෙම version එක දැනට capture කළ inspected register සහ reviewed seed data publish කරයි; full fetch, dedupe, සහ claim assessment next research task එක ලෙස තබයි.">the wider `1,000`-link layer remains a work-in-progress URL mapping ambition. This version publishes the inspected register and reviewed seed data already captured, while keeping full fetch, dedupe, and claim assessment as the next research task.</span> <a href="data/seo-inspected-url-register.csv" target="_blank" rel="noopener noreferrer">inspected URL register</a> · <a href="data/seo-top-100-capture.csv" target="_blank" rel="noopener noreferrer">reviewed seed capture</a></p>
+        </section>
+
+        <section id="seo-map" class="chapter">
+          <h2><span data-i18n data-en="Follow The Sentence: SEO Source-Trace Map" data-si="වාක්‍යය අනුගමනය කරන්න: SEO source-trace map">Follow The Sentence: SEO Source-Trace Map</span></h2>
+          <p data-i18n data-en="The map below is the missing evidence layer: it shows how a public sentence moves from source documents into Wikipedia, mirrors, NGO/advocacy pages, political recognition, counter-routes, and social shorthand. Click a node to see its claimed source route; select more than one node to compare pathways." data-si="පහත map එක evidence layer එකයි: public sentence එකක් source documents වලින් Wikipedia, mirrors, NGO/advocacy pages, political recognition, counter-routes, සහ social shorthand වෙත යන්නේ කොහොමද කියලා පෙන්වයි. Node එකක් click කළ විට claimed source route එක පේනවා; nodes කිහිපයක් select කළ විට pathways compare කළ හැකියි.">The map below is the missing evidence layer: it shows how a public sentence moves from source documents into Wikipedia, mirrors, NGO/advocacy pages, political recognition, counter-routes, and social shorthand. Click a node to see its claimed source route; select more than one node to compare pathways.</p>
+          <div class="visual-embed">
+            <iframe src="visualisation/seo-power-network-demo.html" title="SEO source-trace map for the Mullivaikkal 40,000 claim" loading="lazy"></iframe>
+          </div>
+          <p class="source-note"><span data-i18n data-en="Map basis:" data-si="Map basis:">Map basis:</span> <a href="data/reference_visual_nodes.csv" target="_blank" rel="noopener noreferrer">visual nodes</a>, <a href="data/reference_visual_edges.csv" target="_blank" rel="noopener noreferrer">visual edges</a>, <a href="data/reference_source_traces.csv" target="_blank" rel="noopener noreferrer">source traces</a>, <span data-i18n data-en="and the" data-si="සහ">and the</span> <a href="visualisation/seo-power-network-demo.html" class="visual-link" target="_blank" rel="noopener noreferrer">full-screen map</a>.</p>
         </section>
 
         <section id="source-chain" class="chapter">
