@@ -603,6 +603,7 @@
         <div class="toolbar" aria-label="Map filters">
           <button class="active" data-filter="all">All</button>
           <button data-filter="source_origin">Sources</button>
+          <button data-filter="other_surface">Other / Context</button>
           <button data-filter="wiki_mirror">Wikipedia + Backlinks / Mirrors</button>
           <button data-filter="advocacy_ngo">NGO / Advocacy</button>
           <button data-filter="political_recognition">Political</button>
@@ -672,7 +673,7 @@
     const table = document.getElementById('node-table');
     const evidenceToggle = document.getElementById('evidence-toggle');
     const evidenceTableWrap = document.getElementById('evidence-table-wrap');
-    const layerOrder = ['source_origin', 'wiki_mirror', 'advocacy_ngo', 'political_recognition', 'counter_route', 'social_viral', 'funding_context', 'other_surface'];
+    const layerOrder = ['source_origin', 'other_surface', 'wiki_mirror', 'advocacy_ngo', 'political_recognition', 'counter_route', 'social_viral', 'funding_context'];
     const layerLabels = {
       source_origin: 'SOURCE SPINE',
       wiki_mirror: 'WIKIPEDIA / MIRRORS',
@@ -681,7 +682,7 @@
       counter_route: 'STATE / COUNTER-ROUTES',
       social_viral: 'SOCIAL / VIRAL',
       funding_context: 'FUNDING CONTEXT',
-      other_surface: 'OTHER SURFACES'
+      other_surface: 'OTHER / CONTEXT SURFACES'
     };
     const mobileLayerLabels = {
       source_origin: 'SRC',
