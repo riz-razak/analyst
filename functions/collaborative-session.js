@@ -152,6 +152,8 @@ export default {
         return handleDossierVisibility(request, env);
       } else if (path === '/api/dossier/visibility/check') {
         return handleVisibilityCheck(request, env);
+      } else if (path === '/api/analytics/live-visitors') {
+        return handleLiveVisitors(request, env);
       }
 
       // ── GitHub CMS endpoints ──
@@ -2248,6 +2250,8 @@ function renderSampleTemplate(tpl) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const VISIBILITY_KV_KEY = 'dossier:visibility';
+const LIVE_VISITOR_PREFIX = 'analytics:live';
+const LIVE_VISITOR_TTL_SECONDS = 120;
 
 /**
  * GET  /api/dossier/visibility         → returns full visibility map
@@ -2310,6 +2314,104 @@ async function handleVisibilityCheck(request, env) {
 
   // Hidden or draft — not visible
   return corsResponse(JSON.stringify({ visible: false, status }), 200);
+}
+
+/**
+ * POST /api/analytics/live-visitors
+ * Lightweight privacy-preserving presence counter.
+ *
+ * Stores only an anonymous browser-generated visitor ID, normalized path, and
+ * heartbeat timestamp in KV with a short TTL. It does not store IP addresses,
+ * user agents, referrers, or personal identifiers.
+ */
+async function handleLiveVisitors(request, env) {
+  if (request.method === 'OPTIONS') return corsResponse('', 204);
+
+  if (!env.SESSION_STORE) {
+    return liveVisitorResponse({ liveVisitors: null, unavailable: true }, 503);
+  }
+
+  const url = new URL(request.url);
+  let pagePath = normalizeAnalyticsPath(url.searchParams.get('path') || '/');
+  let visitorId = '';
+
+  if (request.method === 'POST') {
+    let body = {};
+    try {
+      body = await request.json();
+    } catch {
+      body = {};
+    }
+    pagePath = normalizeAnalyticsPath(body.path || pagePath);
+    visitorId = normalizeVisitorId(body.visitorId);
+    if (!visitorId) {
+      return liveVisitorResponse({ error: 'visitorId required' }, 400);
+    }
+
+    const key = liveVisitorKey(pagePath, visitorId);
+    await env.SESSION_STORE.put(key, JSON.stringify({
+      path: pagePath,
+      updatedAt: Date.now(),
+    }), { expirationTtl: LIVE_VISITOR_TTL_SECONDS });
+  } else if (request.method !== 'GET') {
+    return liveVisitorResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  const liveVisitors = await countLiveVisitors(env, pagePath);
+  return liveVisitorResponse({
+    success: true,
+    path: pagePath,
+    liveVisitors,
+    windowSeconds: LIVE_VISITOR_TTL_SECONDS,
+    sampledAt: new Date().toISOString(),
+  });
+}
+
+function normalizeVisitorId(value) {
+  const id = String(value || '').trim();
+  if (!/^[a-zA-Z0-9_-]{16,96}$/.test(id)) return '';
+  return id;
+}
+
+function normalizeAnalyticsPath(value) {
+  let path = String(value || '/').trim();
+  if (!path.startsWith('/')) path = `/${path}`;
+  path = path.split('#')[0].split('?')[0] || '/';
+  if (path.length > 180) path = path.slice(0, 180);
+  return path.replace(/\/{2,}/g, '/');
+}
+
+function analyticsPathKey(path) {
+  return normalizeAnalyticsPath(path).replace(/[^a-zA-Z0-9/_-]/g, '_').replace(/\//g, '~');
+}
+
+function liveVisitorKey(path, visitorId) {
+  return `${LIVE_VISITOR_PREFIX}:${analyticsPathKey(path)}:${visitorId}`;
+}
+
+async function countLiveVisitors(env, path) {
+  const prefix = `${LIVE_VISITOR_PREFIX}:${analyticsPathKey(path)}:`;
+  let count = 0;
+  let cursor;
+  do {
+    const result = await env.SESSION_STORE.list({ prefix, cursor, limit: 1000 });
+    count += result.keys.length;
+    cursor = result.list_complete ? null : result.cursor;
+  } while (cursor && count < 10000);
+  return count;
+}
+
+function liveVisitorResponse(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cache-Control': 'no-store',
+    },
+  });
 }
 
 /**

@@ -484,7 +484,7 @@
           <span aria-hidden="true">/</span>
           <span class="lang-si">සිංහල</span>
         </button>
-        <span class="live" data-i18n data-en="Live visitors: analytics pending" data-si="සජීවී කියවන්නන්: analytics තව සකස් කරමින්">Live visitors: analytics pending</span>
+        <span class="live" data-live-visitors aria-live="polite">Live visitors: checking</span>
       </div>
     </div>
   </div>
@@ -683,6 +683,77 @@
       const root = document.documentElement;
       const langToggle = document.querySelector('[data-lang-toggle]');
       const translatables = Array.from(document.querySelectorAll('[data-i18n]'));
+      const liveVisitorsEl = document.querySelector('[data-live-visitors]');
+      let liveVisitorCount = null;
+      let liveVisitorUnavailable = false;
+
+      const liveVisitorText = (state) => {
+        const lang = root.dataset.lang === 'si' ? 'si' : 'en';
+        if (state === 'checking') {
+          return lang === 'si' ? 'සජීවී කියවන්නන්: ගණන් කරමින්' : 'Live visitors: checking';
+        }
+        if (state === 'unavailable') {
+          return lang === 'si' ? 'සජීවී කියවන්නන්: ලබා ගත නොහැක' : 'Live visitors: unavailable';
+        }
+        const count = Number.isFinite(liveVisitorCount) ? liveVisitorCount : 0;
+        return lang === 'si' ? `සජීවී කියවන්නන්: ${count}` : `Live visitors: ${count}`;
+      };
+
+      const renderLiveVisitors = () => {
+        if (!liveVisitorsEl) return;
+        if (liveVisitorUnavailable) {
+          liveVisitorsEl.textContent = liveVisitorText('unavailable');
+        } else if (liveVisitorCount === null) {
+          liveVisitorsEl.textContent = liveVisitorText('checking');
+        } else {
+          liveVisitorsEl.textContent = liveVisitorText('count');
+        }
+        liveVisitorsEl.title = root.dataset.lang === 'si'
+          ? 'අවසන් මිනිත්තු දෙක තුළ මෙම පිටුවේ පෙනී සිටි active readers ගණන.'
+          : 'Approximate active readers seen on this page in the last two minutes.';
+      };
+
+      const getLiveVisitorId = () => {
+        const key = 'analyst-live-visitor-id';
+        try {
+          const existing = localStorage.getItem(key);
+          if (existing) return existing;
+          const uuid = window.crypto?.randomUUID?.();
+          const generated = (uuid || `anon_${Date.now()}_${Math.random().toString(36).slice(2)}`).replace(/[^a-zA-Z0-9_-]/g, '_');
+          localStorage.setItem(key, generated);
+          return generated;
+        } catch {
+          return `anon_${Date.now()}_${Math.random().toString(36).slice(2)}`.replace(/[^a-zA-Z0-9_-]/g, '_');
+        }
+      };
+
+      const refreshLiveVisitors = async () => {
+        if (!liveVisitorsEl) return;
+        try {
+          const response = await fetch('/api/analytics/live-visitors', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            cache: 'no-store',
+            body: JSON.stringify({
+              visitorId: getLiveVisitorId(),
+              path: window.location.pathname,
+            }),
+          });
+          if (!response.ok) throw new Error(`live visitor endpoint ${response.status}`);
+          const data = await response.json();
+          liveVisitorCount = Number.isFinite(data.liveVisitors) ? data.liveVisitors : null;
+          liveVisitorUnavailable = false;
+        } catch {
+          liveVisitorUnavailable = true;
+        }
+        renderLiveVisitors();
+      };
+
+      const setupLiveVisitors = () => {
+        renderLiveVisitors();
+        refreshLiveVisitors();
+        window.setInterval(refreshLiveVisitors, 30000);
+      };
 
       const setLang = (lang) => {
         root.dataset.lang = lang;
@@ -693,6 +764,7 @@
           if (typeof text === 'string' && text.length) el.textContent = text;
         });
         try { localStorage.setItem('analyst-dossier-lang', lang); } catch {}
+        renderLiveVisitors();
       };
 
       const savedLang = (() => {
@@ -703,6 +775,7 @@
       langToggle?.addEventListener('click', () => {
         setLang(root.dataset.lang === 'si' ? 'en' : 'si');
       });
+      setupLiveVisitors();
 
       const refIds = new Set(Array.from(document.querySelectorAll('#references tbody tr')).map(row => row.id.replace('ref-', '')));
       const pattern = /\b((?:MUL-[SC]|TERM-S|SEO-C|CAS-|RN-)\d{3})\b/g;
