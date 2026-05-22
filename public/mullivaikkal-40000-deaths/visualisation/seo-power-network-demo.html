@@ -243,6 +243,14 @@
       pointer-events: none;
     }
 
+    .node-title-link .node-label {
+      pointer-events: auto;
+      cursor: alias;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
     .node-sub {
       font-size: 9.5px;
       fill: var(--soft);
@@ -429,6 +437,19 @@
     .field:first-of-type { border-top: 0; }
     .field b { display: block; margin-bottom: 2px; font-size: 11px; }
     .field span { color: var(--muted); overflow-wrap: anywhere; font-size: 11px; }
+
+    .table-sub,
+    .mini-link-row {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    .mini-link-row a,
+    .table-sub a {
+      font-weight: 650;
+    }
 
     .legend {
       padding: 5px 8px;
@@ -938,7 +959,7 @@
           : (sel || onRoute || n.visual_layer === 'source_origin' || n.node_type === 'cluster_parent');
         const clusterText = n.node_type === 'cluster_parent' ? (expandedClusters.has(n.node_id) ? 'collapse' : 'expand') : '';
         const nodeColor = membership.length > 1 ? '#1A1A2E' : (membership[0]?.color || '#C4A35A');
-        html += `<g class="node ${dim ? 'dim' : ''} ${onRoute ? 'route' : ''} ${sel ? 'selected' : ''}" style="--path-color:${nodeColor}" data-node="${n.node_id}">${shape(n)}<title>${escapeHtml(n.label)} | ${escapeHtml(n.fact_check_signal || n.risk_label)}</title><text class="node-label ${showLabel ? '' : 'muted-label'}" x="${n.x + nodeRadius(n) + 5}" y="${n.y + 4}">${escapeHtml(label)}</text>${clusterText ? `<text class="cluster-hint" x="${n.x + nodeRadius(n) + 5}" y="${n.y + 16}">${clusterText}</text>` : ''}</g>`;
+        html += `<g class="node ${dim ? 'dim' : ''} ${onRoute ? 'route' : ''} ${sel ? 'selected' : ''}" style="--path-color:${nodeColor}" data-node="${n.node_id}">${shape(n)}<title>${escapeHtml(n.label)} | ${escapeHtml(n.fact_check_signal || n.risk_label)}</title>${nodeTitleMarkup(n, label, showLabel)}${clusterText ? `<text class="cluster-hint" x="${n.x + nodeRadius(n) + 5}" y="${n.y + 16}">${clusterText}</text>` : ''}</g>`;
       });
       svg.innerHTML = html;
       renderPathwayBar(pathList);
@@ -997,7 +1018,11 @@
       const compare = pathList.map(p => {
         const anchors = p.sourceAnchors.map(n => n.short_label || n.label).join(' / ') || 'source missing';
         const weak = p.traces.map(t => t.weak_link_reason).filter(Boolean).slice(0, 2).join(' | ') || p.root.weak_link_reason || 'No weak-link row captured.';
-        return `<div class="path-summary" style="--path-color:${p.color}"><b>P${p.index + 1}: ${escapeHtml(p.root.short_label || p.root.label)}</b><span>${p.routeEdges.size} links · source: ${escapeHtml(anchors)}<br>${escapeHtml(weak)}</span></div>`;
+        const rootLink = linkMarkup(p.root.observed_url || '', 'observed page');
+        const sourceLinks = p.sourceAnchors.length
+          ? p.sourceAnchors.map(n => `${escapeHtml(n.short_label || n.label)} ${linkMarkup(n.observed_url || '', 'open')}`).join(' · ')
+          : 'source missing';
+        return `<div class="path-summary" style="--path-color:${p.color}"><b>P${p.index + 1}: ${escapeHtml(p.root.short_label || p.root.label)}</b><span>${p.routeEdges.size} links · source: ${escapeHtml(anchors)}<br><span class="mini-link-row">Node: ${rootLink}</span><span class="mini-link-row">Final source: ${sourceLinks}</span>${escapeHtml(weak)}</span></div>`;
       }).join('');
       const cards = Array.from(selectedIds).map(id => byId.get(id)).filter(Boolean).map(n => inspectCard(n)).join('');
       inspector.innerHTML = `<h2>Pathway Inspector</h2><div class="path-compare">${compare}</div><div class="inspector-grid">${cards}</div>`;
@@ -1005,12 +1030,17 @@
 
     function inspectCard(n) {
       const traces = tracesByNode.get(n.node_id) || n.source_traces || [];
-      const traceHtml = traces.length ? traces.map(t => `<div class="field"><b>${escapeHtml(t.support_type)}</b><span>${escapeHtml(t.support_status)}<br>${escapeHtml(t.weak_link_reason || '')}</span></div>`).join('') : '<div class="field"><b>Source trail</b><span>Source missing or self-anchored; mark weak until reviewed.</span></div>';
+      const traceHtml = traces.length ? traces.map(t => {
+        const finalNode = byId.get(t.final_source_id);
+        const finalLabel = finalNode ? `${escapeHtml(finalNode.short_label || finalNode.label)} ${linkMarkup(finalNode.observed_url || '', 'open')}` : escapeHtml(t.final_source_id || 'not captured');
+        return `<div class="field"><b>${escapeHtml(t.support_type)}</b><span>${escapeHtml(t.support_status)}<br><span class="mini-link-row">Final source: ${finalLabel}</span>${escapeHtml(t.weak_link_reason || '')}</span></div>`;
+      }).join('') : '<div class="field"><b>Source trail</b><span>Source missing or self-anchored; mark weak until reviewed.</span></div>';
       return `
         <article class="inspect-card">
-          <h2>${escapeHtml(n.label)}</h2>
+          <h2>${linkMarkup(n.observed_url || '', n.label)}</h2>
           <div class="field"><b>Fact-check status</b><span>${signalMarkup(n)}</span></div>
           <div class="field"><b>Node</b><span>${escapeHtml(n.node_id)} / ${escapeHtml(n.node_type)}</span></div>
+          <div class="field"><b>Reference row</b><span>${escapeHtml(n.url_id || 'URL not captured')} · ${escapeHtml(n.link_status || n.evidence_status || 'status not captured')}</span></div>
           <div class="field"><b>Layer</b><span>${escapeHtml(layerLabels[n.visual_layer] || n.visual_layer)}</span></div>
           <div class="field"><b>Trace status</b><span>${escapeHtml(n.trace_status || 'not captured')}</span></div>
           <div class="field"><b>Observed page</b><span>${linkMarkup(n.observed_url || '')}</span></div>
@@ -1028,7 +1058,7 @@
       table.innerHTML = rows.map(n => `
         <tr data-node-row="${escapeHtml(n.node_id)}">
           <td>${signalMarkup(n)}</td>
-          <td>${escapeHtml(n.label)}</td>
+          <td><b>${linkMarkup(n.observed_url || '', n.label)}</b><span class="table-sub">${escapeHtml(n.node_id)} · ${escapeHtml(n.url_id || 'URL not captured')} · ${linkMarkup(n.observed_url || '', 'open page')}</span></td>
           <td>${escapeHtml(layerLabels[n.visual_layer] || n.visual_layer)}</td>
           <td>${escapeHtml(n.claim_text || n.notes || '')}</td>
           <td>${escapeHtml(n.claimed_source_article || n.source_cited || 'Not captured')}</td>
@@ -1102,11 +1132,23 @@
       return String(value || '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
     }
 
-    function linkMarkup(value) {
+    function linkMarkup(value, label = '') {
       if (!value) return 'URL not captured';
       const escaped = escapeHtml(value);
-      if (/^https?:\/\//.test(value)) return `<a href="${escaped}" target="_blank" rel="noreferrer">${escaped}</a>`;
+      const text = escapeHtml(label || value);
+      if (/^https?:\/\//.test(value)) return `<a href="${escaped}" target="_blank" rel="noreferrer">${text}</a>`;
       return escaped;
+    }
+
+    function nodeTitleMarkup(n, label, showLabel) {
+      const x = n.x + nodeRadius(n) + 5;
+      const y = n.y + 4;
+      const className = `node-label ${showLabel ? '' : 'muted-label'}`;
+      const text = `<text class="${className}" x="${x}" y="${y}">${escapeHtml(label)}</text>`;
+      if (/^https?:\/\//.test(n.observed_url || '')) {
+        return `<a class="node-title-link" href="${escapeHtml(n.observed_url)}" target="_blank" rel="noreferrer noopener" aria-label="Open ${escapeHtml(n.label)}">${text}</a>`;
+      }
+      return text;
     }
 
     function signalMarkup(n) {
@@ -1213,6 +1255,7 @@
     });
 
     svg.addEventListener('click', event => {
+      if (event.target.closest && event.target.closest('a.node-title-link')) return;
       const node = event.target.closest ? event.target.closest('.node') : null;
       if (node && node.dataset.node) toggleNode(byId.get(node.dataset.node));
     });
