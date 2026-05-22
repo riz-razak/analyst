@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mullivaikkal and 40,000 deaths?</title>
   <meta name="description" content="A source-gated dossier on why 40,000 deaths in Mullivaikkal alone is not verified as stated, how the phrase hardens online, and why correction must not become denial.">
+  <meta name="dossier-id" content="mullivaikkal-40000-deaths">
   <link rel="canonical" href="https://analyst.rizrazak.com/mullivaikkal-40000-deaths/">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="The Analyst">
@@ -143,6 +144,12 @@
       font-size: 12px;
       color: var(--soft);
       white-space: nowrap;
+    }
+
+    .live + .live::before {
+      content: "·";
+      margin-right: 12px;
+      color: var(--line-strong);
     }
 
     .shell {
@@ -514,6 +521,7 @@
           <span class="lang-si">සිංහල</span>
         </button>
         <span class="live" data-page-visits aria-live="polite">Page visits: checking</span>
+        <span class="live" data-live-visitors aria-live="polite">Live now: checking</span>
       </div>
     </div>
   </div>
@@ -722,8 +730,11 @@
       const langToggle = document.querySelector('[data-lang-toggle]');
       const translatables = Array.from(document.querySelectorAll('[data-i18n]'));
       const pageVisitsEl = document.querySelector('[data-page-visits]');
+      const liveVisitorsEl = document.querySelector('[data-live-visitors]');
       let pageVisitCount = null;
       let pageVisitUnavailable = false;
+      let liveVisitorCount = null;
+      let liveVisitorUnavailable = false;
 
       const pageVisitText = (state) => {
         const lang = root.dataset.lang === 'si' ? 'si' : 'en';
@@ -749,6 +760,32 @@
         pageVisitsEl.title = root.dataset.lang === 'si'
           ? 'මෙම පිටුව සඳහා record වූ approximate page visits ගණන. මෙය live readers ගණනක් නොවේ.'
           : 'Approximate recorded page visits for this page. This is not a live-reader count.';
+      };
+
+      const liveVisitorText = (state) => {
+        const lang = root.dataset.lang === 'si' ? 'si' : 'en';
+        if (state === 'checking') {
+          return lang === 'si' ? 'දැන් කියවන අය: ගණන් කරමින්' : 'Live now: checking';
+        }
+        if (state === 'unavailable') {
+          return lang === 'si' ? 'දැන් කියවන අය: ලබා ගත නොහැක' : 'Live now: unavailable';
+        }
+        const count = Number.isFinite(liveVisitorCount) ? liveVisitorCount : 0;
+        return lang === 'si' ? `දැන් කියවන අය: ${count}` : `Live now: ${count}`;
+      };
+
+      const renderLiveVisitors = () => {
+        if (!liveVisitorsEl) return;
+        if (liveVisitorUnavailable) {
+          liveVisitorsEl.textContent = liveVisitorText('unavailable');
+        } else if (liveVisitorCount === null) {
+          liveVisitorsEl.textContent = liveVisitorText('checking');
+        } else {
+          liveVisitorsEl.textContent = liveVisitorText('count');
+        }
+        liveVisitorsEl.title = root.dataset.lang === 'si'
+          ? 'අවසන් මිනිත්තු දෙක තුළ මෙම පිටුවේ පෙනී සිටි approximate active readers ගණන.'
+          : 'Approximate active readers seen on this page in the last two minutes.';
       };
 
       const pageVisitStorageKey = () => {
@@ -802,6 +839,48 @@
         refreshPageVisits();
       };
 
+      const getLiveVisitorId = () => {
+        const key = 'analyst-live-visitor-id';
+        try {
+          const existing = localStorage.getItem(key);
+          if (existing) return existing;
+          const uuid = window.crypto?.randomUUID?.();
+          const generated = (uuid || `anon_${Date.now()}_${Math.random().toString(36).slice(2)}`).replace(/[^a-zA-Z0-9_-]/g, '_');
+          localStorage.setItem(key, generated);
+          return generated;
+        } catch {
+          return `anon_${Date.now()}_${Math.random().toString(36).slice(2)}`.replace(/[^a-zA-Z0-9_-]/g, '_');
+        }
+      };
+
+      const refreshLiveVisitors = async () => {
+        if (!liveVisitorsEl) return;
+        try {
+          const response = await fetch('/api/analytics/live-visitors', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            cache: 'no-store',
+            body: JSON.stringify({
+              visitorId: getLiveVisitorId(),
+              path: window.location.pathname,
+            }),
+          });
+          if (!response.ok) throw new Error(`live visitor endpoint ${response.status}`);
+          const data = await response.json();
+          liveVisitorCount = Number.isFinite(data.liveVisitors) ? data.liveVisitors : null;
+          liveVisitorUnavailable = false;
+        } catch {
+          liveVisitorUnavailable = true;
+        }
+        renderLiveVisitors();
+      };
+
+      const setupLiveVisitors = () => {
+        renderLiveVisitors();
+        refreshLiveVisitors();
+        window.setInterval(refreshLiveVisitors, 30000);
+      };
+
       const setLang = (lang) => {
         root.dataset.lang = lang;
         root.lang = lang;
@@ -812,6 +891,7 @@
         });
         try { localStorage.setItem('analyst-dossier-lang', lang); } catch {}
         renderPageVisits();
+        renderLiveVisitors();
       };
 
       const savedLang = (() => {
@@ -823,6 +903,7 @@
         setLang(root.dataset.lang === 'si' ? 'en' : 'si');
       });
       setupPageVisits();
+      setupLiveVisitors();
 
       const refIds = new Set(Array.from(document.querySelectorAll('#references tbody tr')).map(row => row.id.replace('ref-', '')));
       const pattern = /\b((?:MUL-[SC]|TERM-S|SEO-C|CAS-|RN-)\d{3})\b/g;
@@ -857,5 +938,6 @@
       });
     })();
   </script>
+  <script data-ga="G-SCKES76007" data-clarity="vomuhyeriq" src="../_shared/dossier-analytics.js?v=6" defer></script>
 </body>
 </html>
