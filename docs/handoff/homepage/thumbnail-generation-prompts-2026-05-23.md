@@ -33,3 +33,30 @@ Option B should be slightly darker and more dramatic, with coal/port silhouettes
 Negative constraints:
 
 No cartoon politicians, no fake logos, no heavy conspiracy-board clutter, no unreadable microtext, no excessive red warning styling, no AI-glossy news-studio look.
+
+## Generated Options: Galanguru Coal Corruption
+
+- Option A implemented: `/images/thumbnails/galanguru-coal-corruption-paper-board.svg`
+- Option B held for review: `/images/thumbnails/galanguru-coal-corruption-port-board.svg`
+
+## Next Article Prompt: Happy Womaniser Day
+
+Create two horizontal 16:9 thumbnail options for an Analyst dossier titled:
+
+`Happy Womaniser Day!`
+
+Subtitle:
+
+`How a state newspaper platformed an alleged sexual predator`
+
+Visual direction:
+
+An editorial media-accountability evidence board. Use a restrained light Analyst background with cropped newspaper page surfaces, a public platform card, redacted testimony strips, and three pinned route labels: `State media platform`, `Women's Day framing`, and `Accountability gap`. Connect every label to a visible pin with restrained thread lines in three colours: muted green for civic accountability, rust for institutional failure, and pale gold for media/platform route. Keep the title large, direct, and legible. The image should feel serious and protective of victims, not sensational.
+
+Option A should be paper-led and calm for the homepage.
+
+Option B should be more dramatic, with darker editorial contrast and stronger platform/accountability routing.
+
+Negative constraints:
+
+No victim imagery, no sexualised visuals, no caricature, no courtroom fantasy, no gore, no tabloid styling, no fake newspaper mastheads that could be confused for a real publication.
