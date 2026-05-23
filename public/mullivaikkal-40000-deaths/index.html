@@ -510,7 +510,7 @@
 <body>
   <div class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="#top">The Analyst dossier</a>
+      <a class="brand" href="https://analyst.rizrazak.com/">The Analyst dossier</a>
       <nav aria-label="Dossier sections">
         <a href="#claim" data-i18n data-en="Claim" data-si="Claim">Claim</a>
         <a href="#search" data-i18n data-en="Search" data-si="Search">Search</a>
@@ -742,6 +742,7 @@
       let pageVisitUnavailable = false;
       let liveVisitorCount = null;
       let liveVisitorUnavailable = false;
+      let lastLedgerHeartbeat = 0;
 
       const pageVisitText = (state) => {
         const lang = root.dataset.lang === 'si' ? 'si' : 'en';
@@ -835,8 +836,13 @@
           if (recordVisit) markPageVisitRecorded();
           pageVisitCount = Number.isFinite(data.pageVisits) ? data.pageVisits : null;
           pageVisitUnavailable = false;
+          sendVisitLedger('page_view', {
+            counterVisit: recordVisit,
+            pageVisits: pageVisitCount,
+          });
         } catch {
           pageVisitUnavailable = true;
+          sendVisitLedger('page_view', { counterVisit: false });
         }
         renderPageVisits();
       };
@@ -860,6 +866,53 @@
         }
       };
 
+      const getUtmParams = () => {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          source: params.get('utm_source') || '',
+          medium: params.get('utm_medium') || '',
+          campaign: params.get('utm_campaign') || '',
+        };
+      };
+
+      const getLedgerSnapshot = () => ({
+        path: window.location.pathname,
+        visitorId: getLiveVisitorId(),
+        referrer: document.referrer || '',
+        language: navigator.language || '',
+        langMode: root.dataset.lang === 'si' ? 'si' : 'en',
+        viewport: {
+          width: window.innerWidth || 0,
+          height: window.innerHeight || 0,
+        },
+        userAgent: navigator.userAgent || '',
+        utm: getUtmParams(),
+      });
+
+      const sendVisitLedger = (eventType, extras = {}) => {
+        const payload = JSON.stringify({
+          ...getLedgerSnapshot(),
+          ...extras,
+          eventType,
+        });
+        const endpoint = '/api/analytics/visit-ledger';
+        if (navigator.sendBeacon) {
+          try {
+            const blob = new Blob([payload], { type: 'application/json' });
+            if (navigator.sendBeacon(endpoint, blob)) return;
+          } catch {
+            // Fall through to fetch.
+          }
+        }
+        fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          cache: 'no-store',
+          keepalive: true,
+          body: payload,
+        }).catch(() => {});
+      };
+
       const refreshLiveVisitors = async () => {
         if (!liveVisitorsEl) return;
         try {
@@ -876,6 +929,11 @@
           const data = await response.json();
           liveVisitorCount = Number.isFinite(data.liveVisitors) ? data.liveVisitors : null;
           liveVisitorUnavailable = false;
+          const now = Date.now();
+          if (now - lastLedgerHeartbeat > 60000) {
+            lastLedgerHeartbeat = now;
+            sendVisitLedger('heartbeat', { liveVisitors: liveVisitorCount });
+          }
         } catch {
           liveVisitorUnavailable = true;
         }
@@ -908,6 +966,12 @@
 
       langToggle?.addEventListener('click', () => {
         setLang(root.dataset.lang === 'si' ? 'en' : 'si');
+      });
+      window.addEventListener('pagehide', () => {
+        sendVisitLedger('page_exit', {
+          pageVisits: pageVisitCount,
+          liveVisitors: liveVisitorCount,
+        });
       });
       setupPageVisits();
       setupLiveVisitors();

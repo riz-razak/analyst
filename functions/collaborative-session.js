@@ -156,6 +156,8 @@ export default {
         return handleLiveVisitors(request, env);
       } else if (path === '/api/analytics/page-visits') {
         return handlePageVisits(request, env);
+      } else if (path === '/api/analytics/visit-ledger') {
+        return handleVisitLedger(request, env);
       }
 
       // ── GitHub CMS endpoints ──
@@ -1090,6 +1092,9 @@ function getRequiredAnalystRights(path, method) {
   }
   if (path === '/api/dossier/visibility') {
     return writeMethod ? ['analyst.admin', 'analyst.cms.write'] : ['analyst.admin', 'analyst.cms.read', 'analyst.cms.write'];
+  }
+  if (path === '/api/analytics/visit-ledger' && !writeMethod) {
+    return ['analyst.admin', 'analyst.cms.read'];
   }
   if (path === '/api/submissions/list') {
     return ['analyst.admin', 'analyst.submissions.read', 'analyst.submissions.review'];
@@ -2255,6 +2260,10 @@ const VISIBILITY_KV_KEY = 'dossier:visibility';
 const LIVE_VISITOR_PREFIX = 'analytics:live';
 const LIVE_VISITOR_TTL_SECONDS = 120;
 const PAGE_VISIT_PREFIX = 'analytics:page-visits';
+const VISIT_LEDGER_PREFIX = 'analytics:visit-ledger';
+const VISIT_LEDGER_TTL_SECONDS = 60 * 60 * 24 * 90;
+const VISIT_LEDGER_MAX_RECENT = 300;
+const VISIT_LEDGER_MAX_SESSION_IDS_PER_HOUR = 1200;
 
 /**
  * GET  /api/dossier/visibility         → returns full visibility map
@@ -2482,6 +2491,318 @@ async function incrementPageVisits(env, path) {
   const next = current + 1;
   await env.SESSION_STORE.put(key, String(next));
   return next;
+}
+
+/**
+ * POST /api/analytics/visit-ledger
+ * GET  /api/analytics/visit-ledger?path=/mullivaikkal-40000-deaths/
+ *
+ * Private graph-ready traffic ledger for internal review. The public POST stores
+ * sanitized aggregates only: no IP address, no raw user agent, and no raw
+ * browser visitor ID. The GET route is protected by Analyst auth.
+ */
+async function handleVisitLedger(request, env) {
+  if (request.method === 'OPTIONS') return analyticsResponse('', 204);
+
+  if (!env.SESSION_STORE) {
+    return analyticsResponse({ unavailable: true }, 503);
+  }
+
+  const url = new URL(request.url);
+  if (request.method === 'GET') {
+    const pagePath = normalizeAnalyticsPath(url.searchParams.get('path') || '/');
+    const summary = await readVisitLedger(env, pagePath);
+    return analyticsResponse({
+      success: true,
+      path: pagePath,
+      generatedAt: new Date().toISOString(),
+      ledger: publicVisitLedgerSummary(summary),
+    });
+  }
+
+  if (request.method !== 'POST') {
+    return analyticsResponse({ error: 'Method not allowed' }, 405);
+  }
+
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    body = {};
+  }
+
+  const pagePath = normalizeAnalyticsPath(body.path || url.searchParams.get('path') || '/');
+  const eventType = normalizeLedgerEventType(body.eventType);
+  const now = Date.now();
+  const sessionHash = await hashLedgerSessionId(pagePath, body.visitorId || body.sessionId || '');
+  const event = {
+    eventType,
+    timestamp: now,
+    iso: new Date(now).toISOString(),
+    pagePath,
+    sessionHash,
+    referrer: sanitizeLedgerReferrer(body.referrer || '', url.origin),
+    language: sanitizeLedgerToken(body.language || '', 24) || 'unknown',
+    langMode: sanitizeLedgerToken(body.langMode || '', 12) || 'unknown',
+    viewportClass: classifyLedgerViewport(body.viewport),
+    deviceClass: classifyLedgerDevice(body.userAgent || '', body.viewport),
+    sourceChannel: classifyLedgerSource(body.referrer || '', body.utm || {}),
+    utm: sanitizeLedgerUtm(body.utm || {}),
+    counterVisit: body.counterVisit === true,
+    pageVisits: Number.isFinite(body.pageVisits) ? Math.max(0, Math.floor(body.pageVisits)) : null,
+    liveVisitors: Number.isFinite(body.liveVisitors) ? Math.max(0, Math.floor(body.liveVisitors)) : null,
+  };
+
+  const summary = await recordVisitLedgerEvent(env, pagePath, event);
+  return analyticsResponse({
+    success: true,
+    path: pagePath,
+    eventType,
+    recordedAt: event.iso,
+    totals: summary.totals,
+  });
+}
+
+function visitLedgerKey(path) {
+  return `${VISIT_LEDGER_PREFIX}:${analyticsPathKey(path)}:summary`;
+}
+
+async function readVisitLedger(env, path) {
+  const existing = await env.SESSION_STORE.get(visitLedgerKey(path), 'json');
+  return normalizeVisitLedgerSummary(existing, path);
+}
+
+function normalizeVisitLedgerSummary(existing, path) {
+  return {
+    path: normalizeAnalyticsPath(existing?.path || path),
+    createdAt: existing?.createdAt || new Date().toISOString(),
+    updatedAt: existing?.updatedAt || null,
+    totals: sanitizeCountMap(existing?.totals),
+    hourly: sanitizeHourlyMap(existing?.hourly),
+    dimensions: {
+      referrers: sanitizeCountMap(existing?.dimensions?.referrers),
+      sourceChannels: sanitizeCountMap(existing?.dimensions?.sourceChannels),
+      languages: sanitizeCountMap(existing?.dimensions?.languages),
+      langModes: sanitizeCountMap(existing?.dimensions?.langModes),
+      viewportClasses: sanitizeCountMap(existing?.dimensions?.viewportClasses),
+      deviceClasses: sanitizeCountMap(existing?.dimensions?.deviceClasses),
+      utmSources: sanitizeCountMap(existing?.dimensions?.utmSources),
+      utmCampaigns: sanitizeCountMap(existing?.dimensions?.utmCampaigns),
+    },
+    recent: Array.isArray(existing?.recent) ? existing.recent.slice(-VISIT_LEDGER_MAX_RECENT) : [],
+  };
+}
+
+async function recordVisitLedgerEvent(env, path, event) {
+  const summary = await readVisitLedger(env, path);
+  const hour = hourBucketIso(event.timestamp);
+  const bucket = summary.hourly[hour] || {
+    page_view: 0,
+    heartbeat: 0,
+    page_exit: 0,
+    other: 0,
+    counterVisits: 0,
+    sessions: [],
+    referrers: {},
+    sourceChannels: {},
+    languages: {},
+    viewportClasses: {},
+    deviceClasses: {},
+  };
+
+  incrementMap(summary.totals, event.eventType);
+  incrementMap(bucket, event.eventType);
+  if (event.counterVisit) bucket.counterVisits = (bucket.counterVisits || 0) + 1;
+  addSessionHash(bucket.sessions, event.sessionHash);
+
+  incrementMap(summary.dimensions.referrers, event.referrer);
+  incrementMap(summary.dimensions.sourceChannels, event.sourceChannel);
+  incrementMap(summary.dimensions.languages, event.language);
+  incrementMap(summary.dimensions.langModes, event.langMode);
+  incrementMap(summary.dimensions.viewportClasses, event.viewportClass);
+  incrementMap(summary.dimensions.deviceClasses, event.deviceClass);
+  if (event.utm.source) incrementMap(summary.dimensions.utmSources, event.utm.source);
+  if (event.utm.campaign) incrementMap(summary.dimensions.utmCampaigns, event.utm.campaign);
+
+  incrementMap(bucket.referrers, event.referrer);
+  incrementMap(bucket.sourceChannels, event.sourceChannel);
+  incrementMap(bucket.languages, event.language);
+  incrementMap(bucket.viewportClasses, event.viewportClass);
+  incrementMap(bucket.deviceClasses, event.deviceClass);
+
+  summary.hourly[hour] = bucket;
+  summary.updatedAt = event.iso;
+  summary.recent.push({
+    timestamp: event.timestamp,
+    iso: event.iso,
+    eventType: event.eventType,
+    referrer: event.referrer,
+    sourceChannel: event.sourceChannel,
+    language: event.language,
+    langMode: event.langMode,
+    viewportClass: event.viewportClass,
+    deviceClass: event.deviceClass,
+    utm: event.utm,
+    counterVisit: event.counterVisit,
+    pageVisits: event.pageVisits,
+    liveVisitors: event.liveVisitors,
+    session: event.sessionHash ? event.sessionHash.slice(0, 12) : 'unknown',
+  });
+  summary.recent = summary.recent.slice(-VISIT_LEDGER_MAX_RECENT);
+
+  await env.SESSION_STORE.put(visitLedgerKey(path), JSON.stringify(summary), {
+    expirationTtl: VISIT_LEDGER_TTL_SECONDS,
+  });
+  return summary;
+}
+
+function publicVisitLedgerSummary(summary) {
+  const hourly = Object.fromEntries(Object.entries(summary.hourly)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([hour, bucket]) => [hour, {
+      pageViews: bucket.page_view || 0,
+      counterVisits: bucket.counterVisits || 0,
+      heartbeats: bucket.heartbeat || 0,
+      exits: bucket.page_exit || 0,
+      uniqueSessions: Array.isArray(bucket.sessions) ? bucket.sessions.length : 0,
+      referrers: bucket.referrers || {},
+      sourceChannels: bucket.sourceChannels || {},
+      languages: bucket.languages || {},
+      viewportClasses: bucket.viewportClasses || {},
+      deviceClasses: bucket.deviceClasses || {},
+    }]));
+
+  return {
+    path: summary.path,
+    createdAt: summary.createdAt,
+    updatedAt: summary.updatedAt,
+    totals: summary.totals,
+    hourly,
+    dimensions: summary.dimensions,
+    recent: summary.recent,
+    privacy: 'No raw IP addresses, raw user agents, or raw browser visitor IDs are stored.',
+  };
+}
+
+function normalizeLedgerEventType(value) {
+  const eventType = String(value || '').trim().toLowerCase().replace(/[^a-z_]/g, '');
+  return ['page_view', 'heartbeat', 'page_exit'].includes(eventType) ? eventType : 'other';
+}
+
+async function hashLedgerSessionId(path, value) {
+  const id = normalizeVisitorId(value);
+  if (!id || !globalThis.crypto?.subtle) return '';
+  const bytes = encoder.encode(`${normalizeAnalyticsPath(path)}:${id}`);
+  const digest = await globalThis.crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function sanitizeLedgerReferrer(value, origin) {
+  const raw = String(value || '').trim();
+  if (!raw) return 'direct';
+  try {
+    const ref = new URL(raw);
+    const current = new URL(origin);
+    const path = normalizeAnalyticsPath(ref.pathname || '/');
+    if (ref.hostname === current.hostname) return `internal:${path}`;
+    return `${ref.hostname}${path}`.slice(0, 180);
+  } catch {
+    return 'unknown';
+  }
+}
+
+function sanitizeLedgerToken(value, maxLength = 80) {
+  return String(value || '')
+    .trim()
+    .replace(/[^\p{L}\p{N}._:/ -]/gu, '')
+    .slice(0, maxLength);
+}
+
+function sanitizeLedgerUtm(value) {
+  const utm = value && typeof value === 'object' ? value : {};
+  return {
+    source: sanitizeLedgerToken(utm.source || utm.utm_source || '', 80),
+    medium: sanitizeLedgerToken(utm.medium || utm.utm_medium || '', 80),
+    campaign: sanitizeLedgerToken(utm.campaign || utm.utm_campaign || '', 100),
+  };
+}
+
+function classifyLedgerViewport(viewport = {}) {
+  const width = Number.parseInt(viewport.width, 10);
+  if (!Number.isFinite(width) || width <= 0) return 'unknown';
+  if (width < 640) return 'mobile';
+  if (width < 1024) return 'tablet';
+  return 'desktop';
+}
+
+function classifyLedgerDevice(userAgent = '', viewport = {}) {
+  const ua = String(userAgent || '').toLowerCase();
+  if (/ipad|tablet/.test(ua)) return 'tablet';
+  if (/mobile|iphone|android/.test(ua)) return 'mobile';
+  const width = Number.parseInt(viewport.width, 10);
+  if (Number.isFinite(width) && width > 0 && width < 700) return 'mobile';
+  return 'desktop';
+}
+
+function classifyLedgerSource(referrer, utm = {}) {
+  const source = sanitizeLedgerToken(utm.source || utm.utm_source || '', 80).toLowerCase();
+  const medium = sanitizeLedgerToken(utm.medium || utm.utm_medium || '', 80).toLowerCase();
+  const raw = String(referrer || '').toLowerCase();
+  if (source || medium) return sanitizeLedgerToken(`${source || 'utm'}:${medium || 'unknown'}`, 80);
+  if (!raw) return 'direct';
+  if (/google|bing|duckduckgo|yahoo|search/.test(raw)) return 'search';
+  if (/facebook|instagram|twitter|x\.com|tiktok|youtube|linkedin|reddit|slack|whatsapp/.test(raw)) return 'social';
+  if (/analyst\.rizrazak\.com/.test(raw)) return 'internal';
+  return 'referral';
+}
+
+function sanitizeCountMap(value) {
+  const output = {};
+  if (!value || typeof value !== 'object') return output;
+  for (const [key, count] of Object.entries(value)) {
+    const safeKey = sanitizeLedgerToken(key, 180);
+    const safeCount = Number.parseInt(count, 10);
+    if (safeKey && Number.isFinite(safeCount) && safeCount > 0) output[safeKey] = safeCount;
+  }
+  return output;
+}
+
+function sanitizeHourlyMap(value) {
+  const output = {};
+  if (!value || typeof value !== 'object') return output;
+  for (const [hour, bucket] of Object.entries(value)) {
+    if (!/^\d{4}-\d{2}-\d{2}T\d{2}:00:00\.000Z$/.test(hour) || !bucket || typeof bucket !== 'object') continue;
+    output[hour] = {
+      page_view: Number.parseInt(bucket.page_view || 0, 10) || 0,
+      heartbeat: Number.parseInt(bucket.heartbeat || 0, 10) || 0,
+      page_exit: Number.parseInt(bucket.page_exit || 0, 10) || 0,
+      other: Number.parseInt(bucket.other || 0, 10) || 0,
+      counterVisits: Number.parseInt(bucket.counterVisits || 0, 10) || 0,
+      sessions: Array.isArray(bucket.sessions) ? bucket.sessions.slice(0, VISIT_LEDGER_MAX_SESSION_IDS_PER_HOUR) : [],
+      referrers: sanitizeCountMap(bucket.referrers),
+      sourceChannels: sanitizeCountMap(bucket.sourceChannels),
+      languages: sanitizeCountMap(bucket.languages),
+      viewportClasses: sanitizeCountMap(bucket.viewportClasses),
+      deviceClasses: sanitizeCountMap(bucket.deviceClasses),
+    };
+  }
+  return output;
+}
+
+function incrementMap(map, key) {
+  const safeKey = sanitizeLedgerToken(key || 'unknown', 180) || 'unknown';
+  map[safeKey] = (Number.parseInt(map[safeKey] || 0, 10) || 0) + 1;
+}
+
+function addSessionHash(sessions, sessionHash) {
+  if (!sessionHash || !Array.isArray(sessions) || sessions.includes(sessionHash)) return;
+  if (sessions.length < VISIT_LEDGER_MAX_SESSION_IDS_PER_HOUR) sessions.push(sessionHash);
+}
+
+function hourBucketIso(timestamp) {
+  const date = new Date(timestamp);
+  date.setUTCMinutes(0, 0, 0);
+  return date.toISOString();
 }
 
 function analyticsResponse(data, status = 200) {
