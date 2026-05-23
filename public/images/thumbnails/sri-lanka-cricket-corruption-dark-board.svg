@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Sri Lanka cricket corruption dark evidence board</title>
+  <desc id="desc">A darker Analyst thumbnail for a cricket politics and corruption dossier, with scorecard fragments and institutional route labels.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#000" flood-opacity="0.34"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="#121714"/>
+  <circle cx="1244" cy="250" r="270" fill="#315f48" opacity="0.24"/>
+  <circle cx="1138" cy="654" r="250" fill="#a9683f" opacity="0.18"/>
+  <g opacity="0.22" stroke="#fff8eb" stroke-width="1">
+    <path d="M0 160H1600M0 330H1600M0 500H1600M0 670H1600"/>
+    <path d="M220 0V900M480 0V900M740 0V900M1000 0V900M1260 0V900"/>
+  </g>
+  <g filter="url(#shadow)">
+    <g transform="translate(798 104) rotate(3)">
+      <rect width="452" height="114" rx="14" fill="#fbf8ef" stroke="#d8ddcf" stroke-width="3"/>
+      <text x="28" y="50" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850" fill="#181824">Selection politics</text>
+      <rect x="28" y="74" width="310" height="10" rx="5" fill="#315f48"/>
+      <circle cx="390" cy="58" r="18" fill="#315f48"/>
+    </g>
+    <g transform="translate(934 302) rotate(-2)">
+      <rect width="404" height="114" rx="14" fill="#fbf8ef" stroke="#d8ddcf" stroke-width="3"/>
+      <text x="28" y="50" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850" fill="#181824">Money route</text>
+      <rect x="28" y="74" width="276" height="10" rx="5" fill="#c9a96e"/>
+      <circle cx="342" cy="58" r="18" fill="#c9a96e"/>
+    </g>
+    <g transform="translate(806 522) rotate(2)">
+      <rect width="560" height="116" rx="14" fill="#fbf8ef" stroke="#d8ddcf" stroke-width="3"/>
+      <text x="28" y="50" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850" fill="#181824">Institutional collapse</text>
+      <rect x="28" y="74" width="354" height="10" rx="5" fill="#a9683f"/>
+      <circle cx="490" cy="58" r="18" fill="#a9683f"/>
+    </g>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M306 654 C478 528 608 228 1174 162" stroke="#315f48" stroke-width="8"/>
+    <path d="M430 700 C642 638 756 396 1300 358" stroke="#c9a96e" stroke-width="8"/>
+    <path d="M558 724 C728 702 828 610 1270 584" stroke="#a9683f" stroke-width="8"/>
+  </g>
+  <g fill="#315f48"><circle cx="306" cy="654" r="16"/><circle cx="1174" cy="162" r="16"/></g>
+  <g fill="#c9a96e"><circle cx="430" cy="700" r="16"/><circle cx="1300" cy="358" r="16"/></g>
+  <g fill="#a9683f"><circle cx="558" cy="724" r="16"/><circle cx="1270" cy="584" r="16"/></g>
+  <g font-family="Inter, Arial, sans-serif" filter="url(#shadow)">
+    <text x="122" y="152" font-size="30" font-weight="850" letter-spacing="4" fill="#c9a96e">THE ANALYST DOSSIER</text>
+    <text x="122" y="260" font-size="76" font-weight="900" fill="#fffdf7">The Death of</text>
+    <text x="122" y="334" font-size="76" font-weight="900" fill="#fffdf7">Sri Lankan Cricket</text>
+    <text x="122" y="398" font-size="35" font-weight="850" fill="#e3cf9a">Politics, money and institutional collapse</text>
+  </g>
+</svg>

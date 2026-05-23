@@ -63,8 +63,8 @@ No victim imagery, no sexualised visuals, no caricature, no courtroom fantasy, n
 
 ## Generated Options: Happy Womaniser Day
 
-- Option A implemented: `/images/thumbnails/happy-womaniser-day-paper-board.svg`
-- Option B held for review: `/images/thumbnails/happy-womaniser-day-dark-board.svg`
+- Option A implemented: `/images/thumbnails/happy-womaniser-day-paper-board-v2.svg`
+- Option B held for review: `/images/thumbnails/happy-womaniser-day-dark-board-v2.svg`
 
 ## Next Article Prompt: Caravan Fresh Chicken Cheese Bomb
 
@@ -110,3 +110,49 @@ A restrained sports-corruption evidence board. Use cricket-scorecard fragments, 
 Negative constraints:
 
 No real player likenesses, no team logos, no betting-site style, no caricature, no overly dark mafia poster look.
+
+## Generated Options: The Death of Sri Lankan Cricket
+
+- Option A implemented: `/images/thumbnails/sri-lanka-cricket-corruption-scorecard-board.svg`
+- Option B held for review: `/images/thumbnails/sri-lanka-cricket-corruption-dark-board.svg`
+
+## Next Article Prompt: The Form Was Empty
+
+Create two horizontal 16:9 thumbnail options for an Analyst dossier titled:
+
+`The Form Was Empty`
+
+Subtitle:
+
+`Anatta, Bamiyan and non-self`
+
+Visual direction:
+
+A restrained philosophical evidence-board/memorial composition. Use soft paper fragments, a carved-empty niche silhouette, doctrine-note cards, and three pinned route labels: `Bamiyan absence`, `Non-self`, and `Empty form`. Thread colours: rust-brown for history/destruction, deep green for doctrine, and muted gold for memory/absence.
+
+Negative constraints:
+
+No photoreal sacred-object recreation, no militant imagery, no sensational destruction scene, no overly mystical glow, no unreadable Sanskrit/Pali ornamentation.
+
+## Generated Options: The Form Was Empty
+
+- Option A implemented: `/images/thumbnails/anatta-bamiyan-empty-form-board.svg`
+- Option B held for review: `/images/thumbnails/anatta-bamiyan-memorial-board.svg`
+
+## Next Article Prompt: Sri Lanka and the Hormuz Crisis
+
+Create two horizontal 16:9 thumbnail options for an Analyst dossier titled:
+
+`Sri Lanka and the Hormuz Crisis`
+
+Subtitle:
+
+`What you need to know`
+
+Visual direction:
+
+A restrained geopolitical evidence board. Use shipping-lane map fragments, fuel-price slips, port/ship silhouettes, and three pinned route labels: `Oil route`, `Price shock`, and `Sri Lanka exposure`. Thread colours: deep green for Sri Lanka/economy, gold for oil/shipping, rust for conflict risk.
+
+Negative constraints:
+
+No flags-as-decoration overload, no explosion imagery, no generic war-room dashboard, no fake live-map UI, no unreadable microtext.
