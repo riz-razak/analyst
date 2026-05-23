@@ -62,9 +62,10 @@
 
   <g font-family="Inter, Arial, sans-serif" filter="url(#shadow)">
     <text x="122" y="164" font-size="30" font-weight="850" letter-spacing="4" fill="#c9a96e">THE ANALYST DOSSIER</text>
-    <text x="122" y="288" font-size="84" font-weight="900" fill="#fffdf7">The Galanguru Files</text>
-    <text x="122" y="350" font-size="38" font-weight="850" fill="#e3cf9a">Coal, corruption and cascading crises</text>
-    <rect x="122" y="394" width="470" height="68" rx="34" fill="#fbf8ef" opacity="0.94"/>
-    <text x="152" y="438" font-size="24" font-weight="850" fill="#315f48">procurement route + public cost</text>
+    <text x="122" y="270" font-size="74" font-weight="900" fill="#fffdf7">The Galanguru</text>
+    <text x="122" y="342" font-size="74" font-weight="900" fill="#fffdf7">Files</text>
+    <text x="122" y="406" font-size="36" font-weight="850" fill="#e3cf9a">Coal, corruption and cascading crises</text>
+    <rect x="122" y="450" width="470" height="68" rx="34" fill="#fbf8ef" opacity="0.94"/>
+    <text x="152" y="494" font-size="24" font-weight="850" fill="#315f48">procurement route + public cost</text>
   </g>
 </svg>

@@ -60,3 +60,53 @@ Option B should be more dramatic, with darker editorial contrast and stronger pl
 Negative constraints:
 
 No victim imagery, no sexualised visuals, no caricature, no courtroom fantasy, no gore, no tabloid styling, no fake newspaper mastheads that could be confused for a real publication.
+
+## Generated Options: Happy Womaniser Day
+
+- Option A implemented: `/images/thumbnails/happy-womaniser-day-paper-board.svg`
+- Option B held for review: `/images/thumbnails/happy-womaniser-day-dark-board.svg`
+
+## Next Article Prompt: Caravan Fresh Chicken Cheese Bomb
+
+Create two horizontal 16:9 thumbnail options for an Analyst dossier titled:
+
+`Caravan Fresh Chicken Cheese Bomb`
+
+Subtitle:
+
+`A consumer advocacy case study`
+
+Visual direction:
+
+An editorial consumer-rights evidence board. Use complaint records, receipt-like strips, product-card silhouettes, food-safety route cards, and three pinned labels: `Complaint route`, `Food safety`, and `Corporate pressure`. Connect each label to visible pins with restrained thread lines in three colours: deep green for consumer protection, pale gold for safety/standards, and rust for corporate pressure. The image should feel like a useful civic guide, not a product attack ad.
+
+Option A should be lighter, paper-led, and homepage-friendly.
+
+Option B should be darker and more urgent, while still avoiding tabloid warning graphics.
+
+Negative constraints:
+
+No fake brand logos, no spoiled-food gore, no exaggerated illness imagery, no cartoon chicken, no shock advertising, no unreadable legal microtext.
+
+## Generated Options: Caravan Fresh Chicken Cheese Bomb
+
+- Option A implemented: `/images/thumbnails/caravan-fresh-consumer-board.svg`
+- Option B held for review: `/images/thumbnails/caravan-fresh-warning-board.svg`
+
+## Next Article Prompt: The Death of Sri Lankan Cricket
+
+Create two horizontal 16:9 thumbnail options for an Analyst dossier titled:
+
+`The Death of Sri Lankan Cricket`
+
+Subtitle:
+
+`Politics, mafia and the road to ruin`
+
+Visual direction:
+
+A restrained sports-corruption evidence board. Use cricket-scorecard fragments, boardroom paper slips, stadium floodlight silhouettes, a cracked pitch line, and three pinned route labels: `Selection politics`, `Money route`, and `Institutional collapse`. Thread colours: green for the game/public trust, gold for money/patronage, rust for political interference.
+
+Negative constraints:
+
+No real player likenesses, no team logos, no betting-site style, no caricature, no overly dark mafia poster look.
