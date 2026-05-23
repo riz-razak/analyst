@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Mullivaikkal and 40,000 deaths source-trace thumbnail</title>
+  <desc id="desc">A clean source-trace thumbnail showing a phrase moving from source documents to public surfaces.</desc>
+  <rect width="1600" height="900" fill="#fbfaf6"/>
+  <rect x="100" y="102" width="1400" height="696" rx="16" fill="#ffffff" stroke="#e1d8ca" stroke-width="4"/>
+  <g fill="none" stroke-width="3" stroke="#d8cfc1">
+    <path d="M316 202 V704"/>
+    <path d="M620 202 V704"/>
+    <path d="M942 202 V704"/>
+    <path d="M1268 202 V704"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" font-weight="800" font-size="22" fill="#6b655d">
+    <text x="190" y="174">SOURCE</text>
+    <text x="478" y="174">ROUTE</text>
+    <text x="784" y="174">PUBLIC CLAIM</text>
+    <text x="1108" y="174">SEO SURFACE</text>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-width="9">
+    <path d="M210 320 C410 320 440 430 606 430 S808 304 942 360 S1110 488 1338 488" stroke="#3d7a5a"/>
+    <path d="M214 552 C434 552 470 510 620 510 S788 608 946 570 S1130 326 1342 330" stroke="#a0522d"/>
+    <path d="M210 430 C424 386 478 384 620 430 S802 500 946 458 S1126 452 1344 416" stroke="#c9a96e"/>
+  </g>
+  <g>
+    <circle cx="210" cy="320" r="19" fill="#3d7a5a"/>
+    <circle cx="210" cy="430" r="19" fill="#c9a96e"/>
+    <circle cx="214" cy="552" r="19" fill="#a0522d"/>
+    <circle cx="620" cy="430" r="21" fill="#3d7a5a"/>
+    <circle cx="620" cy="510" r="21" fill="#a0522d"/>
+    <circle cx="942" cy="360" r="24" fill="#3d7a5a"/>
+    <circle cx="946" cy="570" r="24" fill="#a0522d"/>
+    <circle cx="1338" cy="488" r="24" fill="#3d7a5a"/>
+    <circle cx="1342" cy="330" r="24" fill="#a0522d"/>
+  </g>
+  <g font-family="Georgia, serif" fill="#181827">
+    <text x="170" y="748" font-size="64" font-weight="800">Mullivaikkal and 40,000 deaths?</text>
+  </g>
+  <text x="170" y="804" font-family="Inter, Arial, sans-serif" font-size="31" font-weight="800" fill="#2d6b4d">Follow the sentence back to the source.</text>
+</svg>

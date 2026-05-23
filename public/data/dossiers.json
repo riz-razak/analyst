@@ -1,7 +1,37 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-11",
+  "lastUpdated": "2026-05-23",
   "dossiers": [
+    {
+      "id": "mullivaikkal-40000-deaths",
+      "date": "2026-05-23",
+      "title": "Mullivaikkal and 40,000 deaths?",
+      "description": "A source-gated Analyst dossier testing why the claim that 40,000 people died in Mullivaikkal alone is not verified as stated, how the phrase hardens online, and why correction must not become denial.",
+      "authors": ["Riz Razak"],
+      "tags": ["Mullivaikkal", "Sri Lanka", "Accountability", "SEO", "War Crimes", "Media Literacy"],
+      "category": "politics",
+      "thumbnailUrl": "/images/thumbnails/mullivaikkal-40000-deaths-evidence-board.svg",
+      "heroImageUrl": "/images/thumbnails/mullivaikkal-40000-deaths-evidence-board.svg",
+      "contentUrl": "/mullivaikkal-40000-deaths/index.html",
+      "sections": 11,
+      "features": ["Source-chain audit", "SEO power map", "Casualty-number matrix", "Sinhala translation layer", "Reference table", "Private analytics ledger"],
+      "status": "published"
+    },
+    {
+      "id": "galanguru-coal-corruption",
+      "date": "2026-05-22",
+      "title": "The Galanguru Files — Coal, Corruption & Cascading Crises",
+      "description": "Interactive intelligence dossier on Sri Lanka's coal procurement scandal, NPP government accountability, and the Iran war's cascading impact on a fragile recovery.",
+      "authors": ["Riz Razak"],
+      "tags": ["Coal", "Corruption", "Sri Lanka", "NPP", "Procurement", "Energy"],
+      "category": "corruption",
+      "thumbnailUrl": "/images/thumbnails/galanguru-coal-corruption.svg",
+      "heroImageUrl": "/images/thumbnails/galanguru-coal-corruption.svg",
+      "contentUrl": "/galanguru-coal-corruption/index.html",
+      "sections": 12,
+      "features": ["Interactive intelligence dossier", "Procurement scandal analysis", "Crisis impact mapping", "Trilingual layer"],
+      "status": "published"
+    },
     {
       "id": "happy-womaniser-day",
       "date": "2026-03-08",

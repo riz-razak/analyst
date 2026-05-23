@@ -6930,7 +6930,20 @@ async function hydrateDossierRegistry() {
             const registryDossiers = Array.isArray(registry.dossiers) ? registry.dossiers : [];
             registryDossiers.forEach(registryDossier => {
                 const embeddedDossier = dossiersData.find(d => d.id === registryDossier.id);
-                if (!embeddedDossier) return;
+                if (!embeddedDossier) {
+                    const authors = Array.isArray(registryDossier.authors) ? registryDossier.authors : [registryDossier.author].filter(Boolean);
+                    dossiersData.push({
+                        ...registryDossier,
+                        slug: registryDossier.slug || registryDossier.id,
+                        author: registryDossier.author || authors.join(', ') || 'Riz Razak',
+                        tags: Array.isArray(registryDossier.tags) ? registryDossier.tags : [],
+                        fbUrl: registryDossier.fbUrl || '',
+                        thumbnailUrl: registryDossier.thumbnailUrl || registryDossier.thumbnail || '',
+                        hasContent: registryDossier.hasContent !== false,
+                        cmsFields: Array.isArray(registryDossier.cmsFields) ? registryDossier.cmsFields : []
+                    });
+                    return;
+                }
 
                 Object.assign(embeddedDossier, registryDossier);
                 embeddedDossier.slug = embeddedDossier.slug || embeddedDossier.id;
@@ -6962,6 +6975,7 @@ Object.assign(appState, {
 // ========================================
 const CATEGORY_LABELS = {
   'policy-law': 'Policy & Law',
+  'politics': 'Politics',
   'geopolitics': 'Geopolitics',
   'philosophy': 'Philosophy',
   'social-commentary': 'Social Commentary',

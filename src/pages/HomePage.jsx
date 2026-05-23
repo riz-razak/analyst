@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import '../styles/magazine.css'
 
 const FILTERS = ['All', 'This Week', 'This Month']
@@ -121,7 +122,7 @@ const getFiltered = (items, filter) => {
   })
 }
 
-function Nameplate({ view, onViewChange, menuOpen, setMenuOpen }) {
+function Nameplate({ view, menuOpen, setMenuOpen }) {
   const [location, setLocation] = useState(LOCATIONS[0])
   const [open, setOpen] = useState(false)
   const date = useMemo(() => new Intl.DateTimeFormat('en-GB', {
@@ -153,10 +154,10 @@ function Nameplate({ view, onViewChange, menuOpen, setMenuOpen }) {
 
       <div className="nameplate__right">
         <div className="view-sw" role="group" aria-label="Homepage view">
-          <button className={`view-sw__opt ${view === 'mag' ? 'view-sw__opt--active' : ''}`} type="button" onClick={() => onViewChange('mag')}>
+          <button className="view-sw__opt view-sw__opt--disabled" type="button" disabled title="Magazine view is internal for now">
             <span className="view-sw__grid" aria-hidden="true" /> Magazine
           </button>
-          <button className={`view-sw__opt ${view === 'fyp' ? 'view-sw__opt--active' : ''}`} type="button" onClick={() => onViewChange('fyp')}>
+          <button className={`view-sw__opt ${view === 'fyp' ? 'view-sw__opt--active' : ''}`} type="button" aria-pressed="true">
             <span className="view-sw__feed" aria-hidden="true" /> FYP
           </button>
         </div>
@@ -382,16 +383,20 @@ function Pagination() {
 }
 
 function FYPView({ dossiers, filter, onFilterChange, navigate }) {
+  const { displayedItems, hasMore, sentinelRef } = useInfiniteScroll(dossiers, 5)
+
   return (
-    <main className="fyp-view">
+    <main className="fyp-view" id="dossiers">
       <FilterBar label="For You" active={filter} onChange={onFilterChange} />
-      {dossiers.map(dossier => (
+      {displayedItems.map(dossier => (
         <article className="fyp-card" key={dossier.id} onClick={() => navigate(dossier.url)}>
           <GradientImage item={dossier} className="fyp-card__img" />
           <div className="fyp-card__body"><div className="fyp-card__kicker">{dossier.kicker}</div><h2 className="fyp-card__title">{dossier.title}</h2><p className="fyp-card__excerpt">{dossier.excerpt}</p><div className="fyp-card__meta"><span>{dossier.author}</span><span>{formatDate(dossier.date)}</span><span>{dossier.readTime}</span></div><div className="fyp-card__tags">{(dossier.tags || []).slice(0, 3).map((tag, index) => <span key={tag} className={`tag ${index === 0 ? 'tg' : index === 1 ? 'tt' : 'tw'}`}>{tag}</span>)}</div></div>
         </article>
       ))}
-      <Pagination />
+      <div ref={sentinelRef} className="feed-sentinel" aria-live="polite">
+        {hasMore ? 'Loading more dossiers...' : 'End of current dossier feed'}
+      </div>
     </main>
   )
 }
@@ -433,7 +438,7 @@ function MagazineFooter({ dossierCount }) {
 
 export default function HomePage({ dossiers, theme, toggleTheme }) {
   const navigate = useNavigate()
-  const [view, setView] = useState('mag')
+  const view = 'fyp'
   const [filter, setFilter] = useState('All')
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -450,10 +455,10 @@ export default function HomePage({ dossiers, theme, toggleTheme }) {
   return (
     <div className="magazine-home">
       <a className="skip-link" href="#dossiers">Skip to dossiers</a>
-      <Nameplate view={view} onViewChange={setView} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Nameplate view={view} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <MenuPanel open={menuOpen} onClose={() => setMenuOpen(false)} theme={theme} toggleTheme={toggleTheme} />
-      <AccountabilityTicker alerts={accountabilityAlerts} hidden={view === 'fyp'} />
-      {view === 'mag' ? <MagazineView dossiers={displayDossiers} filter={filter} onFilterChange={setFilter} navigate={routeTo} /> : <FYPView dossiers={displayDossiers} filter={filter} onFilterChange={setFilter} navigate={routeTo} />}
+      <AccountabilityTicker alerts={accountabilityAlerts} hidden />
+      <FYPView dossiers={displayDossiers} filter={filter} onFilterChange={setFilter} navigate={routeTo} />
       <MagazineFooter dossierCount={publishedDossiers.length} />
     </div>
   )

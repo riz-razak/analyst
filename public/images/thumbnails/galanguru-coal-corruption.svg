@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Galanguru coal corruption dossier thumbnail</title>
+  <desc id="desc">A restrained thumbnail for a coal procurement corruption dossier, showing coal, documents, and crisis paths.</desc>
+  <rect width="1600" height="900" fill="#f5f1e6"/>
+  <rect x="104" y="104" width="1392" height="692" rx="18" fill="#151814"/>
+  <circle cx="1246" cy="260" r="180" fill="#a0522d" opacity="0.28"/>
+  <circle cx="1118" cy="600" r="220" fill="#3d7a5a" opacity="0.24"/>
+  <g fill="#2a2925">
+    <path d="M160 668 L262 548 L412 668 Z"/>
+    <path d="M282 680 L430 480 L604 680 Z"/>
+    <path d="M470 688 L586 552 L724 688 Z"/>
+  </g>
+  <g fill="#ffffff" opacity="0.94">
+    <rect x="754" y="164" width="514" height="116" rx="10"/>
+    <rect x="842" y="318" width="430" height="104" rx="10"/>
+    <rect x="764" y="462" width="484" height="112" rx="10"/>
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-width="8">
+    <path d="M420 552 C574 438 654 236 790 218" stroke="#c9a96e"/>
+    <path d="M510 594 C690 560 754 376 884 370" stroke="#a0522d"/>
+    <path d="M596 636 C744 628 850 530 1018 520" stroke="#3d7a5a"/>
+  </g>
+  <g fill="#c9a96e">
+    <circle cx="420" cy="552" r="15"/>
+    <circle cx="790" cy="218" r="15"/>
+  </g>
+  <g fill="#a0522d">
+    <circle cx="510" cy="594" r="15"/>
+    <circle cx="884" cy="370" r="15"/>
+  </g>
+  <g fill="#3d7a5a">
+    <circle cx="596" cy="636" r="15"/>
+    <circle cx="1018" cy="520" r="15"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif">
+    <text x="790" y="218" font-size="28" font-weight="800" fill="#1a1815">Coal procurement</text>
+    <text x="878" y="372" font-size="28" font-weight="800" fill="#1a1815">Accountability chain</text>
+    <text x="800" y="520" font-size="28" font-weight="800" fill="#1a1815">Cascading crisis</text>
+    <text x="160" y="206" font-size="28" font-weight="800" letter-spacing="3" fill="#c9a96e">THE ANALYST DOSSIER</text>
+    <text x="160" y="308" font-size="68" font-weight="900" fill="#fffdfa">The Galanguru Files</text>
+    <text x="160" y="366" font-size="34" font-weight="800" fill="#d9c79a">Coal, corruption and cascading crises</text>
+  </g>
+</svg>
