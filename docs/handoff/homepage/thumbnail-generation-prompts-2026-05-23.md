@@ -36,8 +36,8 @@ No cartoon politicians, no fake logos, no heavy conspiracy-board clutter, no unr
 
 ## Generated Options: Galanguru Coal Corruption
 
-- Option A implemented: `/images/thumbnails/galanguru-coal-corruption-paper-board.svg`
-- Option B held for review: `/images/thumbnails/galanguru-coal-corruption-port-board.svg`
+- Option A implemented: `/images/thumbnails/galanguru-coal-corruption-paper-board-v2.svg`
+- Option B held for review: `/images/thumbnails/galanguru-coal-corruption-port-board-v2.svg`
 
 ## Next Article Prompt: Happy Womaniser Day
 
