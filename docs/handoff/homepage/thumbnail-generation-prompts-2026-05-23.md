@@ -172,8 +172,8 @@ Round 3: Homepage adjacency check. If two consecutive cards both rely on paper s
 
 ## Generated Options: Visual Diversity Revision
 
-- Caravan Fresh implemented: `/images/thumbnails/caravan-fresh-kitchen-counter-v2.svg`
+- Caravan Fresh implemented: `/images/thumbnails/caravan-fresh-kitchen-counter-v3.svg`
 - Sri Lankan Cricket implemented: `/images/thumbnails/sri-lanka-cricket-stadium-v2.svg`
-- Anatta/Bamiyan implemented: `/images/thumbnails/anatta-bamiyan-empty-niche-v2.svg`
+- Anatta/Bamiyan implemented: `/images/thumbnails/anatta-bamiyan-empty-niche-v3.svg`
 - Hormuz implemented: `/images/thumbnails/sri-lanka-hormuz-shipping-lane.svg`
 - Hormuz alternate held: `/images/thumbnails/sri-lanka-hormuz-price-shock.svg`
