@@ -1,0 +1,2436 @@
+{
+  "source": "public/mullivaikkal-40000-deaths/index.html",
+  "generated_for": "Tamil first, French second translation review",
+  "total_entries": 182,
+  "production_rule": "Do not inject Tamil/French into the live page until Elubaas/Mara review has cleared legal and ethnic-risk wording.",
+  "entries": [
+    {
+      "id": "MUL-I18N-001",
+      "tag": "a",
+      "section_hint": "",
+      "english": "Claim",
+      "sinhala_current": "Claim",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-002",
+      "tag": "a",
+      "section_hint": "",
+      "english": "Search",
+      "sinhala_current": "Search",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-003",
+      "tag": "a",
+      "section_hint": "",
+      "english": "SEO Map",
+      "sinhala_current": "SEO map",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-004",
+      "tag": "a",
+      "section_hint": "",
+      "english": "Source Routes",
+      "sinhala_current": "Source routes",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-005",
+      "tag": "a",
+      "section_hint": "",
+      "english": "Words",
+      "sinhala_current": "වචන",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-006",
+      "tag": "a",
+      "section_hint": "",
+      "english": "Numbers",
+      "sinhala_current": "ගණන්",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-007",
+      "tag": "a",
+      "section_hint": "",
+      "english": "Civic Test",
+      "sinhala_current": "Civic test",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-008",
+      "tag": "a",
+      "section_hint": "",
+      "english": "References",
+      "sinhala_current": "යොමු",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-009",
+      "tag": "p",
+      "section_hint": "header",
+      "english": "Evidence-led civic audit",
+      "sinhala_current": "සාක්ෂි මත ගොඩනගන civic audit එක",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-010",
+      "tag": "h1",
+      "section_hint": "header",
+      "english": "Mullivaikkal and 40,000 deaths?",
+      "sinhala_current": "මුල්ලිවෛක්කාල් සහ 40,000 මරණ?",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-011",
+      "tag": "p",
+      "section_hint": "header",
+      "english": "Sri Lanka Cannot Beat Propaganda Without Truth",
+      "sinhala_current": "සත්‍යය නැතිව ශ්‍රී ලංකාවට propaganda පරාජය කරන්න බැහැ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-012",
+      "tag": "p",
+      "section_hint": "header",
+      "english": "A source-gated dossier on why `40,000 deaths in Mullivaikkal alone` is not verified as stated, how the phrase hardens online, and why correction must not become denial.",
+      "sinhala_current": "මෙය source-gated dossier එකක්: `40,000 deaths in Mullivaikkal alone` කියන claim එක stated විදිහට තහවුරු නොවන්නේ ඇයි, ඒ වාක්‍යය onlineවල harden වෙලා “ඇත්ත” වගේ පේන්න පටන් ගන්නේ කොහොමද, සහ correction එක denial එකක් බවට නොහැරිය යුත්තේ ඇයි කියලා බලන එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-013",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "The Core Claim",
+      "sinhala_current": "මූලික claim එක",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-014",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "Claim tested",
+      "sinhala_current": "පරීක්ෂා කරන claim එක",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-015",
+      "tag": "strong",
+      "section_hint": "claim",
+      "english": "Current evidence does not verify this exact sentence.",
+      "sinhala_current": "මෙම වාක්‍යය stated විදිහට වත්මන් සාක්ෂිවලින් තහවුරු වෙන්නේ නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-016",
+      "tag": "p",
+      "section_hint": "claim",
+      "english": "The strongest source trail supports a cautious estimate of possible civilian deaths in the final phase of the war, up to `40,000`. That is not an exact count, not a Mullivaikkal-only count, and not permission to erase Tamil civilian suffering.",
+      "sinhala_current": "ශක්තිමත්ම source trail එක පෙන්වන්නේ, යුද්ධයේ අවසන් අදියරේ සිදුවී තිබිය හැකි සිවිල් මරණ ගැන, උපරිම `40,000` දක්වා යන ප්‍රවේශම් සහිත ඇස්තමේන්තුවක්. ඒක නිශ්චිත ගණනක් නෙවෙයි, මුල්ලිවෛක්කාල්-පමණක් ගණනක් නෙවෙයි, දමිළ සිවිල් වැසියන්ගේ දුක්විඳීම මකා දාන්න අවසරයක්ත් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "ethnic_context",
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-017",
+      "tag": "p",
+      "section_hint": "claim",
+      "english": "In context, the trapped civilian population in the final-phase Vanni war zone was overwhelmingly Tamil. That fact must be named. But the death-toll sentence still needs limits: source wording, geography, category, cause, perpetrator attribution, and legal intent are separate questions.",
+      "sinhala_current": "සන්දර්භය තුළ, යුද්ධයේ අවසන් Vanni war zone එකේ සිරවුණු සිවිල් ජනතාව බහුතර වශයෙන් දමිළ බව නම් කළ යුතු කරුණක්. ඒත් death-toll වාක්‍යයට තවම සීමා අවශ්‍යයි: source wording, geography, category, cause, perpetrator attribution, සහ legal intent වෙන වෙනම ප්‍රශ්න.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "ethnic_context",
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-018",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "Not verified as stated",
+      "sinhala_current": "stated විදිහට තහවුරු නැහැ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-019",
+      "tag": "b",
+      "section_hint": "claim",
+      "english": "40,000 in Mullivaikkal alone",
+      "sinhala_current": "40,000ක් මුල්ලිවෛක්කාල් තුළ පමණක්",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-020",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "The geography and certainty outrun the strongest mapped source route.",
+      "sinhala_current": "භූගෝලයත් certainty එකත් ශක්තිමත්ම mapped source route එකට වඩා ඉදිරියට යනවා.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-021",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "Needs qualifier",
+      "sinhala_current": "Qualifier එකක් අවශ්‍යයි",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-022",
+      "tag": "b",
+      "section_hint": "claim",
+      "english": "UN-linked estimate",
+      "sinhala_current": "UN-linked estimate",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-023",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "Use as a cautious final-phase/Vanni upper-estimate route, not an exact count.",
+      "sinhala_current": "මෙය exact count එකක් නොව, ප්‍රවේශම් සහිත final-phase/Vanni upper-estimate route එකක් ලෙස භාවිතා කරන්න.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-024",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "Context supported",
+      "sinhala_current": "Context එක support වෙනවා",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-025",
+      "tag": "b",
+      "section_hint": "claim",
+      "english": "Overwhelmingly Tamil civilians",
+      "sinhala_current": "බහුතරයෙන් දමිළ සිවිල් වැසියන්",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "ethnic_context"
+      ]
+    },
+    {
+      "id": "MUL-I18N-026",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "The final-phase Vanni civilian context should not be erased.",
+      "sinhala_current": "අවසන් අදියරේ Vanni civilian context එක මකා දාන්න බැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-027",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "Legal lane separate",
+      "sinhala_current": "Legal lane එක වෙනමයි",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-028",
+      "tag": "b",
+      "section_hint": "claim",
+      "english": "Intent and genocide",
+      "sinhala_current": "Intent සහ genocide",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-029",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "The number alone cannot prove legal intent or judicial finality.",
+      "sinhala_current": "ගණන තනිවම legal intent හෝ judicial finality ඔප්පු කරන්නේ නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-030",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "Reference basis:",
+      "sinhala_current": "යොමු පදනම:",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-031",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "the",
+      "sinhala_current": "මෙම",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-032",
+      "tag": "span",
+      "section_hint": "claim",
+      "english": "and the",
+      "sinhala_current": "සහ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-033",
+      "tag": "span",
+      "section_hint": "argument",
+      "english": "The Argument Sri Lanka Is Actually Having",
+      "sinhala_current": "ශ්‍රී ලංකාව ඇත්තටම කරන වාදය",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-034",
+      "tag": "p",
+      "section_hint": "argument",
+      "english": "Mullivaikkal should not be reduced to a number. It is a place of grief for Tamil families and a symbol of the final phase of Sri Lanka's war, when civilians trapped in the Vanni suffered catastrophic harm, overwhelmingly among Tamil communities. No correction of a public claim should be used to erase that suffering.",
+      "sinhala_current": "මුල්ලිවෛක්කාල් ගණනකට පමණක් අඩු කරන්න බැහැ. එය දමිළ පවුල්වල ශෝකය බැඳුණු තැනක්; වන්නියේ සිරවුණු සිවිල් වැසියන්, බහුතරයක් දමිළ ප්‍රජාවන්, විශාල හානියකට මුහුණ දුන් ශ්‍රී ලංකා යුද්ධයේ අවසන් අදියරේ සංකේතයක්. Public claim එකක් නිවැරදි කරන එක, ඒ දුක්විඳීම මකා දාන්න භාවිතා කරන්න බැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "ethnic_context",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-035",
+      "tag": "p",
+      "section_hint": "argument",
+      "english": "The problem this dossier examines is not whether grief is real. It is how public claims harden when numbers move through memory, translation, legal language, Wikipedia, NGO summaries, political recognition, state rebuttals, and social media.",
+      "sinhala_current": "මෙම dossier එක පරීක්ෂා කරන්නේ ශෝකය ඇත්තද නැද්ද කියන ප්‍රශ්නය නෙවෙයි. ගණන් මතකය, පරිවර්තනය, නීති භාෂාව, Wikipedia, NGO සාරාංශ, දේශපාලන පිළිගැනීම්, රාජ්‍ය ප්‍රතිචාර සහ social media හරහා යන විට public claims harden වෙන්නේ කොහොමද කියන එකයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-036",
+      "tag": "p",
+      "section_hint": "argument",
+      "english": "This article tests claim transfer: what number is being used, what geography it refers to, whether it means killed, missing, unaccounted for, disappeared, or legally adjudicated, and whether the source actually says what the public slogan says.",
+      "sinhala_current": "මෙම ලිපිය claim transfer එක පරීක්ෂා කරයි: භාවිතා කරන ගණන මොකක්ද, එය යොමු කරන්නේ කුමන භූගෝලයටද, එයින් කියවෙන්නේ මියගිය, අතුරුදහන්, ගණන් නොවූ, බලහත්කාරයෙන් අතුරුදහන් වූ, නැත්නම් නීතියෙන් තීන්දු කළ කාණ්ඩයක්ද, සහ source එක public slogan එක කියන දේ ඇත්තටම කියනවාද කියන එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-037",
+      "tag": "span",
+      "section_hint": "search",
+      "english": "When SEO, Repetition Starts Looking Like Proof",
+      "sinhala_current": "SEO repetition එක proof වගේ පේන්න පටන් ගන්නකොට",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-038",
+      "tag": "p",
+      "section_hint": "search",
+      "english": "The SEO war matters because most people do not meet the original source first. They meet a search result, an infobox, a memorial page, a political recognition statement, a reposted explainer, a social post, or a state rebuttal.",
+      "sinhala_current": "SEO සටන වැදගත් වන්නේ බොහෝ දෙනා මුල් source එක මුලින්ම නොදකින නිසා. ඔවුන් මුලින්ම දකින්නේ search result එකක්, infobox එකක්, memorial page එකක්, දේශපාලන පිළිගැනීමේ ප්‍රකාශයක්, නැවත පළ කළ explainer එකක්, social post එකක් හෝ රාජ්‍ය ප්‍රතිචාරයක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-039",
+      "tag": "p",
+      "section_hint": "search",
+      "english": "Search systems reward simple, repeatable phrases. They do not automatically preserve source categories. In that environment, a cautious final-phase estimate can become a place-specific slogan, and a place-specific slogan can become a public-memory fact.",
+      "sinhala_current": "Search systems සරලව නැවත නැවත කියවිය හැකි වාක්‍ය ඉහළට ගෙන එනවා. ඒවා source categories ස්වයංක්‍රීයව ආරක්ෂා කරන්නේ නැහැ. එවැනි පරිසරයක, ප්‍රවේශම් සහිත final-phase estimate එකක් place-specific slogan එකක් වෙන්න පුළුවන්; place-specific slogan එකක් public-memory fact එකක් වෙන්නත් පුළුවන්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-040",
+      "tag": "strong",
+      "section_hint": "search",
+      "english": "Some of the most powerful public pages do not invent claims from nothing. They compress source routes.",
+      "sinhala_current": "බලවත් public pages කිහිපයක් claims හිස් තැනින් හදන්නේ නැහැ. ඒවා මූලාශ්‍ර මාර්ග කෙටි කර public wording එකක් බවට හරවනවා. මෙම dossier එක ඒ ක්‍රියාව “source routes compress” කියලා හඳුන්වනවා.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-041",
+      "tag": "span",
+      "section_hint": "search",
+      "english": "A UN-linked estimate can become an NGO summary. An NGO summary can become a Wikipedia citation. A Wikipedia sentence can become a mirror-page fact. A mirror-page fact can become an AI answer or a social caption. By the time an average reader sees the sentence, the careful source wording has disappeared and the repeated public wording feels like the archive itself.",
+      "sinhala_current": "UN-linked estimate එකක් NGO summary එකක් වෙන්න පුළුවන්. NGO summary එකක් Wikipedia citation එකක් වෙන්න පුළුවන්. Wikipedia sentence එකක් mirror-page fact එකක් වෙන්න පුළුවන්. Mirror-page fact එකක් AI answer එකක් හෝ social caption එකක් වෙන්න පුළුවන්. සාමාන්‍ය කියවන්නෙක් ඒ වාක්‍යය දකින වෙලාවට, ප්‍රවේශම් සහිත source wording එක අතුරුදහන් වෙලා, නැවත නැවත පෙනෙන public wording එක archive එකම වගේ දැනෙන්න පටන් ගන්නවා.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-042",
+      "tag": "blockquote",
+      "section_hint": "search",
+      "english": "cautious upper estimate -> media/NGO simplification -> Wikipedia or mirror repetition -> memorial or political recognition language -> social post -> search-result common sense",
+      "sinhala_current": "ප්‍රවේශම් සහිත upper estimate -> media/NGO simplification -> Wikipedia හෝ mirror repetition -> memorial හෝ political recognition language -> social post -> search-result common sense",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-043",
+      "tag": "p",
+      "section_hint": "search",
+      "english": "That does not prove a hidden command structure. It proves a propagation problem. Wikipedia pages, mirrors, NGO pages, legal briefs, political-recognition texts, and social posts can repeat each other. Repetition can look like independent proof even when the route is derivative.",
+      "sinhala_current": "ඒක සැඟවුණු command structure එකක් prove කරන්නේ නැහැ. ඒක propagation problem එකක් පෙන්වනවා. Wikipedia pages, mirrors, NGO pages, legal briefs, political-recognition texts, සහ social posts එකිනෙක නැවත නැවත කියන්න පුළුවන්. Route එක derivative වුණත්, repetition එක independent proof වගේ පේන්න පුළුවන්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-044",
+      "tag": "p",
+      "section_hint": "search",
+      "english": "Wikipedia is especially important because it can turn a contested narrative into the first reference layer for journalists, students, search snippets, AI summaries, and mirror sites. If a Wikipedia sentence relies on diaspora-authored, Tamil-advocacy, NGO, memorial, or political-recognition sources, that fact should be shown as source genealogy, not used as ethnic disqualification.",
+      "sinhala_current": "Wikipedia විශේෂයෙන් වැදගත්. ඒකට contested narrative එකක් journalists, students, search snippets, AI summaries, සහ mirror sites සඳහා පළමු reference layer එකක් බවට හරවන්න පුළුවන්. Wikipedia sentence එකක් diaspora-authored, Tamil-advocacy, NGO, memorial, හෝ political-recognition sources මත රඳා තිබේ නම්, ඒක “source genealogy” විදිහට පෙන්විය යුතුයි; ethnic disqualification එකක් විදිහට භාවිතා නොකළ යුතුයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "ethnic_context",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-045",
+      "tag": "p",
+      "section_hint": "search",
+      "english": "This is why the dossier treats high-authority surfaces as evidence objects, not enemies. A page can be sincere, useful, and still unsafe for a precise claim. Amnesty 2024 can show location compression. OISL 2015 can support incident and accountability patterns without proving `40,000` as a death-count source. Guardian May 2009 reporting can provide contemporaneous witness/media context without becoming an audited total.",
+      "sinhala_current": "ඒ නිසා මෙම dossier එක high-authority surfaces සතුරන් ලෙස නොව evidence objects ලෙස සලකනවා. Page එකක් sincere සහ useful වෙන්න පුළුවන්; ඒත් precise claim එකකට unsafe වෙන්නත් පුළුවන්. Amnesty 2024 location compression පෙන්වන්න පුළුවන්. OISL 2015 incident සහ accountability patterns support කරන්න පුළුවන්, නමුත් `40,000` death-count source එකක් ලෙස ඔප්පු කරන්නේ නැහැ. Guardian May 2009 reporting එක contemporaneous witness/media context දෙන්න පුළුවන්, audited total එකක් නොවී.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-046",
+      "tag": "p",
+      "section_hint": "search",
+      "english": "In this package, the SEO work already completed includes a reviewed top-100 seed capture, three live crawl evidence batches, and a consolidated inspected-URL register. That gives a testable route map for what has been seen, what is still blocked or weak-linked, and where category collapse is actually happening in public surfaces.",
+      "sinhala_current": "මෙම package එකේ දැනට අවසන් කර ඇති SEO work එකට reviewed top-100 seed capture එකක්, live crawl evidence batches තුනක්, සහ consolidated inspected-URL register එකක් ඇතුළත් වෙනවා. ඒකෙන් දැනට දැක ඇති දේ, තවම blocked හෝ weak-linked දේ, සහ public surfaces වල category collapse ඇත්තටම සිදුවෙන තැන් පරීක්ෂා කළ හැකි route map එකක් ලැබෙනවා.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-047",
+      "tag": "p",
+      "section_hint": "search",
+      "english": "The same problem appears in political recognition. A parliamentary motion, mayoral proclamation, or prime-ministerial statement can give dignity to memory and political visibility to a community. But it is not a casualty method. It does not transform an estimate into a verified count, and it does not turn a recognition phrase into a court finding.",
+      "sinhala_current": "එම ප්‍රශ්නය political recognition වලත් පේනවා. Parliamentary motion එකක්, mayoral proclamation එකක්, හෝ prime-ministerial statement එකක් memory එකට ගෞරවයත් community එකකට political visibility එකත් දෙන්න පුළුවන්. නමුත් ඒක casualty method එකක් නෙවෙයි. Estimate එක verified count එකක් බවට හරවන්නේ නැහැ; recognition phrase එක court finding එකක් බවටත් හරවන්නේ නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-048",
+      "tag": "p",
+      "section_hint": "search",
+      "english": "So the SEO answer is not to shout louder. It is to build a better archive around the claim: original source pages, claim tables, Wikipedia citation audits, bilingual explainers, and correction pages that answer the phrase people actually search.",
+      "sinhala_current": "ඒ නිසා SEO answer එක තවත් හයියෙන් කෑගහන එක නෙවෙයි. Claim එක වටා හොඳ archive එකක් ගොඩනගන එකයි: original source pages, claim tables, Wikipedia citation audits, bilingual explainers, සහ මිනිසුන් ඇත්තටම search කරන වාක්‍යයට පිළිතුරු දෙන correction pages.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-049",
+      "tag": "span",
+      "section_hint": "search",
+      "english": "Launch note:",
+      "sinhala_current": "Launch note:",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-050",
+      "tag": "span",
+      "section_hint": "search",
+      "english": "the wider `1,000`-link layer remains a work-in-progress URL mapping ambition. This version publishes the inspected register and reviewed seed data already captured, while keeping full fetch, dedupe, and claim assessment as the next research task.",
+      "sinhala_current": "wider `1,000`-link layer එක තවම work-in-progress URL mapping ambition එකක්. මෙම version එක දැනට capture කළ inspected register සහ reviewed seed data publish කරයි; full fetch, dedupe, සහ claim assessment next research task එක ලෙස තබයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-051",
+      "tag": "span",
+      "section_hint": "seo-map",
+      "english": "Follow The Sentence: SEO Source-Trace Map",
+      "sinhala_current": "වාක්‍යය අනුගමනය කරන්න: SEO source-trace map",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-052",
+      "tag": "p",
+      "section_hint": "seo-map",
+      "english": "The map below is the missing evidence layer: it shows how a public sentence moves from source documents into Wikipedia, mirrors, NGO/advocacy pages, political recognition, counter-routes, and social shorthand. Click a node to see its claimed source route; select more than one node to compare pathways.",
+      "sinhala_current": "පහත map එක evidence layer එකයි: public sentence එකක් source documents වලින් Wikipedia, mirrors, NGO/advocacy pages, political recognition, counter-routes, සහ social shorthand වෙත යන්නේ කොහොමද කියලා පෙන්වයි. Node එකක් click කළ විට claimed source route එක පේනවා; nodes කිහිපයක් select කළ විට pathways compare කළ හැකියි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-053",
+      "tag": "span",
+      "section_hint": "seo-map",
+      "english": "Map basis:",
+      "sinhala_current": "Map basis:",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-054",
+      "tag": "span",
+      "section_hint": "seo-map",
+      "english": "and the",
+      "sinhala_current": "සහ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-055",
+      "tag": "span",
+      "section_hint": "source-chain",
+      "english": "Three Source-Chain Repairs That Matter",
+      "sinhala_current": "වැදගත් source-chain repairs තුනක්",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-056",
+      "tag": "p",
+      "section_hint": "source-chain",
+      "english": "Some of the most powerful public pages do not invent claims from nothing. They compress source routes. The correction is to show what each source can carry.",
+      "sinhala_current": "බලවත් public pages කිහිපයක් claims හිස් තැනින් හදන්නේ නැහැ. ඒවා මූලාශ්‍ර මාර්ග කෙටි කර public wording එකක් බවට හරවනවා. මෙහි correction එක නම් එක් එක් source එකට carry කළ හැකි දේ පෙන්වීමයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-057",
+      "tag": "span",
+      "section_hint": "source-chain",
+      "english": "Strong for incident patterns, hospitals, shelling allegations, humanitarian access, LTTE conduct, deprivation, and accountability. Not a `40,000` death-count source.",
+      "sinhala_current": "incident patterns, hospitals, shelling allegations, humanitarian access, LTTE conduct, deprivation, සහ accountability සඳහා ශක්තිමත් source එකක්. නමුත් `40,000` death-count source එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-058",
+      "tag": "span",
+      "section_hint": "source-chain",
+      "english": "A high-authority location-compression example. Its linked OHCHR 2024 report is about enforced disappearances and accountability, not a fresh Mullivaikkal casualty-total report.",
+      "sinhala_current": "High-authority “location-compression” උදාහරණයක්. එය link කරන OHCHR 2024 report එක enforced disappearances සහ accountability ගැනයි; නව Mullivaikkal casualty-total report එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-059",
+      "tag": "span",
+      "section_hint": "source-chain",
+      "english": "Contemporaneous media/witness context. Useful for final-stage reporting and verification limits. Not an audited casualty total.",
+      "sinhala_current": "ඒ කාලයට සමීප media/witness context එකක්. final-stage reporting සහ verification limits සඳහා useful. Audited casualty total එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-060",
+      "tag": "b",
+      "section_hint": "source-chain",
+      "english": "Political recognition",
+      "sinhala_current": "දේශපාලන පිළිගැනීම",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-061",
+      "tag": "span",
+      "section_hint": "source-chain",
+      "english": "Meaningful for memory and public dignity. Not a casualty method or court finding.",
+      "sinhala_current": "memory සහ public dignity සඳහා meaningful. casualty method එකක් හෝ court finding එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-062",
+      "tag": "span",
+      "section_hint": "source-chain",
+      "english": "Reference basis:",
+      "sinhala_current": "යොමු පදනම:",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-063",
+      "tag": "span",
+      "section_hint": "source-chain",
+      "english": "the",
+      "sinhala_current": "මෙම",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-064",
+      "tag": "span",
+      "section_hint": "source-chain",
+      "english": "and the",
+      "sinhala_current": "සහ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-065",
+      "tag": "span",
+      "section_hint": "words",
+      "english": "Words Before Numbers",
+      "sinhala_current": "ගණන්වලට කලින් වචන",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-066",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "The same sentence can carry three different meanings: memory meaning, legal meaning, and proof meaning. We must name that lane before asking the audience to accept the conclusion.",
+      "sinhala_current": "එකම වාක්‍යයට meanings තුනක් carry කරන්න පුළුවන්: memory meaning, legal meaning, සහ proof meaning. Audience එක conclusion එක පිළිගන්න කලින් ඒ lane එක නම් කළ යුතුයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-067",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "Sinhala terms like `ජන සංහාරය`, `සංහාරය`, and related forms are often used as collective-memory language and as legal shorthand at different times. English advocacy and media language can turn a contested route into a fixed moral sentence. Sinhala political language can hear that same sentence as a direct accusation against an entire side before source context is shared.",
+      "sinhala_current": "`ජන සංහාරය`, `සංහාරය`, සහ ඒවාට සම්බන්ධ සිංහල terms විවිධ අවස්ථාවල collective-memory language ලෙසත් legal shorthand ලෙසත් භාවිතා වෙනවා. English advocacy සහ media language contested route එකක් fixed moral sentence එකක් බවට හරවන්න පුළුවන්. Source context එක share වීමට කලින්ම, සිංහල political language එක ඒම වාක්‍යය සම්පූර්ණ පැත්තකට එල්ල කළ චෝදනාවක් ලෙස අහන්න පුළුවන්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "ethnic_context",
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-068",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "There is a related Sinhala-language problem: `massacre`, `ethnic cleansing`, and `genocide` do not always arrive in public discussion as clearly separated ideas. Sinhala Wikipedia has a technical route for `Ethnic cleansing` as `වාර්ගික විශුද්ධිකරණය` / `ජනවාර්ගික පාරිශුද්ධකරණය`, but this dossier does not treat that as proof of settled everyday use. In ordinary political speech, many readers are more likely to hear the shorter and emotionally heavier `සංහාරය` family of words.",
+      "sinhala_current": "මෙයට සම්බන්ධ සිංහල-language ප්‍රශ්නයක් තියෙනවා: `massacre`, `ethnic cleansing`, සහ `genocide` public discussion එකට පැමිණෙන්නේ හැමවිටම පැහැදිලිව වෙන් කළ අදහස් ලෙස නෙවෙයි. සිංහල Wikipedia එක `Ethnic cleansing` සඳහා `වාර්ගික විශුද්ධිකරණය` / `ජනවාර්ගික පාරිශුද්ධකරණය` කියන technical route එකක් දක්වයි. නමුත් මෙම dossier එක ඒක settled everyday use එකක් බවට proof ලෙස නොගනී. සාමාන්‍ය political speech තුළ, කියවන්නන් බොහෝ දෙනාට කෙටි සහ හැඟීම් බර `සංහාරය` family එක වඩා ඉක්මනින් ඇසෙන්න ඉඩ ඇත.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "ethnic_context",
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-069",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "That matters because the allegation can land differently in the Sinhala/Sri Lankan south. A Tamil or diaspora speaker may intend a claim about state conduct, command responsibility, final-phase civilian harm, or legal recognition. A Sinhala reader may hear the same word as an accusation against the Sinhala people as a whole, or against the entire southern civic community. The translation gap can turn a specific accountability claim into a civilisational accusation before the evidence is even discussed.",
+      "sinhala_current": "ඒක වැදගත්. එම allegation එක සිංහල/Sri Lankan south තුළ වෙනස් විදිහට land වෙන්න පුළුවන්. Tamil හෝ diaspora speaker කෙනෙකු state conduct, command responsibility, final-phase civilian harm, හෝ legal recognition ගැන claim එකක් අදහස් කරමින් කතා කළ හැකියි. සිංහල reader කෙනෙකුට ඒම වචනය සිංහල ජනතාවම, නැත්නම් දකුණු civic community එකම, චෝදනා කරන වචනයක් වගේ ඇසෙන්න පුළුවන්. Evidence එක ගැන කතා කරන්නත් කලින්, translation gap එක specific accountability claim එකක් civilisational accusation එකක් බවට හරවන්න පුළුවන්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "ethnic_context",
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-070",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "The responsible public wording must therefore say what is being alleged: mass killing, forced removal, war crimes, crimes against humanity, genocide intent, state responsibility, command responsibility, or political recognition. `සංහාරය` alone cannot be asked to carry all of that.",
+      "sinhala_current": "ඒ නිසා responsible public wording එක allegation එක මොකක්ද කියලා පැහැදිලිව නම් කළ යුතුයි: mass killing ද, forced removal ද, war crimes ද, crimes against humanity ද, genocide intent ද, state responsibility ද, command responsibility ද, නැත්නම් political recognition ද. `සංහාරය` වචනය තනිවම මේ සියල්ල carry කරන්න බැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-071",
+      "tag": "h3",
+      "section_hint": "words",
+      "english": "Historic reporting and truth degradation",
+      "sinhala_current": "Historic reporting සහ truth degradation",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-072",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "Guardian reporting from May 2009 is useful here because it shows what responsible contemporaneous reporting looked like under restricted access. The 11 May report carried doctor and UN-spokesperson routes, government denial, claims about shelling, and an explicit verification problem: independent journalists were not allowed into the fighting area. The 19 May report carried camp-interview routes, a reported `15,000` claim, allegations against both the Sri Lankan military and the LTTE, and the same basic limit: independent confirmation was not possible inside the closed battlefield.",
+      "sinhala_current": "May 2009 Guardian reporting මෙහි වැදගත් වන්නේ restricted access යටතේ responsible contemporaneous reporting එකක් කොහොමද තිබුණේ කියලා පෙන්වන නිසා. 11 May report එක doctor route, UN-spokesperson route, government denial, shelling claims, සහ explicit verification problem එකක් carry කළා: independent journalists fighting area එකට ඇතුළු වීමට අවසර නොතිබුණා. 19 May report එක camp-interview routes, reported `15,000` claim එකක්, Sri Lankan military සහ LTTE දෙපාර්ශ්වයටම එරෙහි allegations, සහ ඒම basic limit එක carry කළා: closed battlefield එක ඇතුළත independent confirmation කළ නොහැකි වුණා.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "ethnic_context",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-073",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "That is how truth degrades online. A careful article may preserve uncertainty, competing claims, witness distance, and access limits. Later search surfaces may keep the number, the outrage, or the headline while losing the caveat. The result is not always invented from nothing. It is often a real report stripped of the conditions that made it responsible.",
+      "sinhala_current": "Truth onlineවල degrade වෙන්නේ එහෙමයි. ප්‍රවේශම් සහිත article එකක් uncertainty, competing claims, witness distance, සහ access limits රැක ගන්න පුළුවන්. පසුව search surfaces number එක, outrage එක, හෝ headline එක තබාගෙන caveat එක නැති කරගන්න පුළුවන්. ප්‍රතිඵලය හැමවිටම හිස් තැනින් හදාගත් කතාවක් නොවෙයි. බොහෝ විට එය responsible කළ conditions ඉවත් කර ඇති real report එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-074",
+      "tag": "th",
+      "section_hint": "words",
+      "english": "Historic report",
+      "sinhala_current": "Historic report",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-075",
+      "tag": "th",
+      "section_hint": "words",
+      "english": "What it can carry",
+      "sinhala_current": "එයට carry කළ හැකි දේ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-076",
+      "tag": "th",
+      "section_hint": "words",
+      "english": "What it must not become",
+      "sinhala_current": "එය බවට හැරෙන්න නොහැකි දේ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-077",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Contemporaneous witness/media route for large-scale civilian-harm claims, UN concern, government denial, and verification limits.",
+      "sinhala_current": "large-scale civilian-harm claims, UN concern, government denial, සහ verification limits සඳහා ඒ කාලයට සමීප witness/media route එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-078",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Audited death toll, proof of `40,000`, or Mullivaikkal-only casualty count.",
+      "sinhala_current": "Audited death toll එකක්, `40,000` proof එකක්, හෝ Mullivaikkal-only casualty count එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-079",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Final-stage camp-interview route showing reported casualty claims, LTTE conduct allegations, hospital/shelling claims, and access restrictions.",
+      "sinhala_current": "reported casualty claims, LTTE conduct allegations, hospital/shelling claims, සහ access restrictions පෙන්වන final-stage camp-interview route එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-080",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Settled total, legal genocide finding, or independent proof that later SEO numbers are correct.",
+      "sinhala_current": "Settled total එකක්, legal genocide finding එකක්, හෝ පසුව පෙනෙන SEO numbers නිවැරදි බවට independent proof එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-081",
+      "tag": "span",
+      "section_hint": "words",
+      "english": "Reference basis:",
+      "sinhala_current": "යොමු පදනම:",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-082",
+      "tag": "span",
+      "section_hint": "words",
+      "english": "and the",
+      "sinhala_current": "සහ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-083",
+      "tag": "h3",
+      "section_hint": "words",
+      "english": "Who decides genocide?",
+      "sinhala_current": "Genocide කියන්නේ කවුද තීරණය කරන්නේ?",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-084",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "For this topic, the authority ladder is: memory/advocacy authority, investigative authority, and legal authority. Communities, memorial language, recognitions, and civic pressure can use genocide language as memory or advocacy. Evidence-gathering bodies can identify serious allegations and patterns. A criminal court or legally final tribunal can make a judicial finding for specific facts under strict legal standards.",
+      "sinhala_current": "මෙම topic එකේ authority ladder එක මෙහෙමයි: memory/advocacy authority, investigative authority, සහ legal authority. Communities, memorial language, recognitions, සහ civic pressure genocide language එක memory හෝ advocacy ලෙස භාවිතා කරන්න පුළුවන්. Evidence-gathering bodies serious allegations සහ patterns හඳුනාගන්න පුළුවන්. නමුත් specific facts ගැන strict legal standards යටතේ judicial finding එකක් කිරීමට හැක්කේ criminal court එකකට හෝ legally final tribunal එකකටයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-085",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "OHCHR matters because it publishes and applies the UN human-rights/treaty framework, including the Genocide Convention text. But OHCHR is not the court that criminally convicts people of genocide. The legal decision lane belongs to competent courts: the ICC for individual criminal responsibility where Rome Statute jurisdiction exists, the ICJ for disputes between States under the Genocide Convention, and domestic/ad hoc courts where they have lawful jurisdiction.",
+      "sinhala_current": "OHCHR වැදගත් වන්නේ එය Genocide Convention text ඇතුළු UN human-rights/treaty framework එක publish කර apply කරන නිසා. නමුත් OHCHR කියන්නේ genocide ගැන criminal conviction කරන court එක නෙවෙයි. Legal decision lane එක අදාළ competent courts වෙත යයි: Rome Statute jurisdiction ඇති තැන individual criminal responsibility සඳහා ICC; Genocide Convention යටතේ States අතර disputes සඳහා ICJ; සහ lawful jurisdiction ඇති domestic/ad hoc courts.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-086",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "A political recognition statement, memorial motion, or public ceremony may be meaningful. It is not the same as a criminal adjudication of genocide for a specific claim.",
+      "sinhala_current": "Political recognition statement එකක්, memorial motion එකක්, හෝ public ceremony එකක් meaningful වෙන්න පුළුවන්. නමුත් ඒක specific claim එකක් ගැන criminal adjudication of genocide එකකට සමාන නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-087",
+      "tag": "p",
+      "section_hint": "words",
+      "english": "For the current public sentence `40,000 died in Mullivaikkal alone`, this package records serious harm and accountability concerns in the strongest sources, but no universal final legal adjudication for that exact geography-number sentence.",
+      "sinhala_current": "දැනට public sentence එක වන `40,000 died in Mullivaikkal alone` ගැන, මෙම package එක ශක්තිමත්ම sources තුළ තිබෙන serious harm සහ accountability concerns සටහන් කරයි. නමුත් එම exact geography-number sentence එක සඳහා universal final legal adjudication එකක් මෙහි නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "legal_language",
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-088",
+      "tag": "th",
+      "section_hint": "words",
+      "english": "Term",
+      "sinhala_current": "Term එක",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-089",
+      "tag": "th",
+      "section_hint": "words",
+      "english": "Average-reader meaning",
+      "sinhala_current": "සාමාන්‍ය කියවන්නාට ඇසෙන අර්ථය",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-090",
+      "tag": "th",
+      "section_hint": "words",
+      "english": "Safe use",
+      "sinhala_current": "ආරක්ෂිත භාවිතය",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-091",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Grave legal term, memory language, or advocacy language.",
+      "sinhala_current": "බරපතළ legal term එකක්, memory language එකක්, හෝ advocacy language එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-092",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Use only with a visible lane label. Do not present as completed legal fact without legal determination.",
+      "sinhala_current": "Visible lane label එකක් සමග පමණක් භාවිතා කරන්න. Legal determination එකක් නැතිව completed legal fact එකක් ලෙස ඉදිරිපත් කරන්න එපා.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-093",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Broad mass-harm or mass-destruction phrase in Sinhala public speech.",
+      "sinhala_current": "Sinhala public speech තුළ broad mass-harm හෝ mass-destruction phrase එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "ethnic_context"
+      ]
+    },
+    {
+      "id": "MUL-I18N-094",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Safe as harm/memory language unless legal elements are shown.",
+      "sinhala_current": "Legal elements පෙන්වා නැත්නම් harm/memory language ලෙස පමණක් ආරක්ෂිතයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-095",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Conduct-level war-crimes language.",
+      "sinhala_current": "Conduct-level war-crimes language එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-096",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Use for sourced conduct allegations: attacks, hospitals, civilians under fire, deprivation, screening.",
+      "sinhala_current": "Sourced conduct allegations සඳහා භාවිතා කරන්න: attacks, hospitals, civilians under fire, deprivation, screening.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-097",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Public shorthand for harm scale or mass killing.",
+      "sinhala_current": "harm scale හෝ mass killing සඳහා public shorthand එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-098",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Use only as harm/memory wording unless a source supports the exact event/category.",
+      "sinhala_current": "Exact event/category එක source එකකින් support වන තුරු harm/memory wording ලෙස පමණක් භාවිතා කරන්න.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-099",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "A technical Sinhala route exists, but this dossier does not yet show settled everyday use separate from `සංහාරය`.",
+      "sinhala_current": "Technical Sinhala route එකක් තියෙනවා. නමුත් `සංහාරය` වලින් වෙන් වූ settled everyday use එකක් මෙම dossier එක තවම පෙන්වන්නේ නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "ethnic_context"
+      ]
+    },
+    {
+      "id": "MUL-I18N-100",
+      "tag": "td",
+      "section_hint": "words",
+      "english": "Label as forced-removal/cleansing language, not automatic genocide.",
+      "sinhala_current": "forced-removal/cleansing language ලෙස label කරන්න; automatic genocide ලෙස නොව.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-101",
+      "tag": "span",
+      "section_hint": "words",
+      "english": "Reference basis:",
+      "sinhala_current": "යොමු පදනම:",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-102",
+      "tag": "span",
+      "section_hint": "words",
+      "english": "and the",
+      "sinhala_current": "සහ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-103",
+      "tag": "h2",
+      "section_hint": "numbers",
+      "english": "The Number Families People Keep Mixing",
+      "sinhala_current": "මිනිසුන් එකට මිශ්‍ර කරන number families",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-104",
+      "tag": "p",
+      "section_hint": "numbers",
+      "english": "The argument gets confused when different number families are treated as one ladder of certainty. Killed, missing, unaccounted for, disappeared, presumed dead, politically recognised, and legally adjudicated are not interchangeable categories.",
+      "sinhala_current": "වෙනස් number families එක certainty ladder එකක් වගේ සලකන විට argument එක අවුල් වෙනවා. Killed, missing, unaccounted for, disappeared, presumed dead, politically recognised, සහ legally adjudicated කියන්නේ එකිනෙක හුවමාරු කළ හැකි categories නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-105",
+      "tag": "th",
+      "section_hint": "numbers",
+      "english": "Number family",
+      "sinhala_current": "Number family",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-106",
+      "tag": "th",
+      "section_hint": "numbers",
+      "english": "What it means",
+      "sinhala_current": "එයින් අදහස් වන්නේ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-107",
+      "tag": "th",
+      "section_hint": "numbers",
+      "english": "What it must not become",
+      "sinhala_current": "එය බවට හැරෙන්න නොහැකි දේ",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-108",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "A UN Country Team-recorded floor before counting degraded.",
+      "sinhala_current": "Counting degrade වීමට පෙර UN Country Team එක record කළ floor එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-109",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "A total casualty ceiling.",
+      "sinhala_current": "Total casualty ceiling එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-110",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "UN-linked final-phase upper estimate.",
+      "sinhala_current": "UN-linked final-phase upper estimate එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-111",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "Exact verified count or Mullivaikkal-only count.",
+      "sinhala_current": "Exact verified count එකක් හෝ Mullivaikkal-only count එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-112",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "Often unaccounted/population-gap route.",
+      "sinhala_current": "බොහෝ විට unaccounted/population-gap route එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-113",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "Direct death count without category proof.",
+      "sinhala_current": "Category proof නැති direct death count එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-114",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "Advocacy/demographic model route.",
+      "sinhala_current": "Advocacy/demographic model route එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-115",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "UN count or universally verified death toll.",
+      "sinhala_current": "UN count එකක් හෝ universally verified death toll එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-116",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "Official postwar household enumeration.",
+      "sinhala_current": "Official postwar household enumeration එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-117",
+      "tag": "td",
+      "section_hint": "numbers",
+      "english": "Battlefield casualty audit or neutral ceiling.",
+      "sinhala_current": "Battlefield casualty audit එකක් හෝ neutral ceiling එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-118",
+      "tag": "span",
+      "section_hint": "civic",
+      "english": "The Civic Test",
+      "sinhala_current": "Civic test එක",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-119",
+      "tag": "p",
+      "section_hint": "civic",
+      "english": "Sri Lanka cannot defeat propaganda by denying suffering. It can only defeat propaganda by building a truth standard strong enough to withstand both overclaim and counter-overclaim.",
+      "sinhala_current": "දුක්විඳීම ප්‍රතික්ෂේප කිරීමෙන් Sri Lanka ට propaganda පරාජය කරන්න බැහැ. Propaganda පරාජය කළ හැක්කේ overclaim සහ counter-overclaim දෙකම withstand කළ හැකි truth standard එකක් ගොඩනැගීමෙන් පමණයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-120",
+      "tag": "p",
+      "section_hint": "civic",
+      "english": "That means credible casualty accounting, archive preservation, witness protection, lawful record release, memorial freedom, category clarity, and correction without ethnic contempt.",
+      "sinhala_current": "ඒක කියන්නේ credible casualty accounting, archive preservation, witness protection, lawful record release, memorial freedom, category clarity, සහ ethnic contempt නැති correction.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-121",
+      "tag": "p",
+      "section_hint": "civic",
+      "english": "The correct civic stance is neither repetition nor denial. It is truth discipline: audit the number, acknowledge suffering, expose power routes, and refuse both propaganda and counter-propaganda.",
+      "sinhala_current": "නිවැරදි civic stance එක repetition එකක්වත් denial එකක්වත් නෙවෙයි. ඒක truth discipline එකක්: number එක audit කරන්න, suffering acknowledge කරන්න, power routes expose කරන්න, propaganda සහ counter-propaganda දෙකම ප්‍රතික්ෂේප කරන්න.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-122",
+      "tag": "p",
+      "section_hint": "civic",
+      "english": "This also asks something of Sri Lankan voters and civic power. A country cannot outsource truth to hashtags, foreign parliaments, diaspora organizations, state press releases, or angry rebuttals. Citizens have to demand and elect leaders with enough honesty to handle the record: the dead, the missing, the unlawful conduct allegations, the LTTE's crimes, the state's failures, and the uncomfortable gaps in the archive.",
+      "sinhala_current": "මෙය Sri Lankan voters සහ civic power වෙතත් ඉල්ලීමක් කරනවා. රටකට සත්‍යය hashtags, foreign parliaments, diaspora organizations, state press releases, හෝ angry rebuttals වෙත outsource කරන්න බැහැ. පුරවැසියන් ඉල්ලා elect කළ යුත්තේ record එක handle කරන්න තරම් honest leaders: මියගිය අය, missing අය, unlawful conduct allegations, LTTE crimes, state failures, සහ archive එකේ uncomfortable gaps.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "ethnic_context",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-123",
+      "tag": "p",
+      "section_hint": "civic",
+      "english": "Journalists have a parallel duty. The minimum standard is not moral performance; it is respect for data and truth. A journalist, commentator, or creator who repeats a high-voltage number without source, category, geography, and method is not helping reconciliation. They are helping the algorithm. That applies to pro-state denial, diaspora overclaim, NGO compression, social-media rage, and prestige-media shorthand.",
+      "sinhala_current": "මාධ්‍යවේදීන්ටත් parallel duty එකක් තියෙනවා. Minimum standard එක moral performance නෙවෙයි; data සහ සත්‍යයට ගෞරවයයි. Source, category, geography, සහ method නැතිව high-voltage number එකක් repeat කරන journalist, commentator, හෝ creator reconciliation එකට උදව් කරන්නේ නැහැ. ඔවුන් algorithm එකට උදව් කරනවා. ඒක pro-state denial, diaspora overclaim, NGO compression, social-media rage, සහ prestige-media shorthand සියල්ලටම අදාළයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-124",
+      "tag": "p",
+      "section_hint": "civic",
+      "english": "Funding and alignment also need discipline. Politicians, journalists, NGOs, diaspora groups, state institutions, creators, and platforms all operate inside incentives: donors, votes, access, audience, identity, reputation, grants, diplomatic pressure, and social reach. Those incentives matter and should be mapped. But visible funding or political alignment is not proof of message causation unless the record shows a money-to-message route.",
+      "sinhala_current": "Funding සහ alignment ගැනත් discipline අවශ්‍යයි. Politicians, journalists, NGOs, diaspora groups, state institutions, creators, සහ platforms සියල්ල incentives තුළ operate කරනවා: donors, votes, access, audience, identity, reputation, grants, diplomatic pressure, සහ social reach. ඒ incentives වැදගත්; map කළ යුතුයි. නමුත් record එක money-to-message route එකක් පෙන්වන තුරු visible funding හෝ political alignment කියන්නේ message causation proof එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-125",
+      "tag": "p",
+      "section_hint": "civic",
+      "english": "Truth must protect grief from propaganda and protect the public record from denial.",
+      "sinhala_current": "සත්‍යය ශෝකය propaganda වලින් ආරක්ෂා කළ යුතුයි; public record එක denial වලින්ත් ආරක්ෂා කළ යුතුයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-126",
+      "tag": "span",
+      "section_hint": "faq",
+      "english": "Search Questions This Dossier Answers",
+      "sinhala_current": "මෙම dossier එක පිළිතුරු දෙන search questions",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-127",
+      "tag": "th",
+      "section_hint": "faq",
+      "english": "Question",
+      "sinhala_current": "ප්‍රශ්නය",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-128",
+      "tag": "th",
+      "section_hint": "faq",
+      "english": "Short answer",
+      "sinhala_current": "කෙටි පිළිතුර",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-129",
+      "tag": "th",
+      "section_hint": "faq",
+      "english": "Evidence route",
+      "sinhala_current": "Evidence route",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-130",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "Did 40,000 die in Mullivaikkal alone?",
+      "sinhala_current": "මුල්ලිවෛක්කාල් තුළ පමණක් 40,000ක් මියගියාද?",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-131",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "Current evidence does not verify that exact sentence.",
+      "sinhala_current": "වත්මන් සාක්ෂි එම exact sentence එක තහවුරු කරන්නේ නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-132",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "Where does the 40,000 number come from?",
+      "sinhala_current": "40,000 ගණන එන්නේ කොහෙන්ද?",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "number_claim"
+      ]
+    },
+    {
+      "id": "MUL-I18N-133",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "The central route is a UN Panel 2011 cautious final-phase upper estimate.",
+      "sinhala_current": "Central route එක UN Panel 2011 හි cautious final-phase upper estimate එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-134",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "Does OISL 2015 prove the 40,000 death toll?",
+      "sinhala_current": "OISL 2015 `40,000` death toll එක prove කරනවාද?",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "number_claim"
+      ]
+    },
+    {
+      "id": "MUL-I18N-135",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "No. It is important for incident and accountability patterns, not as a death-count source.",
+      "sinhala_current": "නැහැ. එය incident සහ accountability patterns සඳහා වැදගත්; death-count source එකක් ලෙස නොවේ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-136",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "Who decides genocide?",
+      "sinhala_current": "Genocide කියලා තීරණය කරන්නේ කවුද?",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-137",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "Memory, political recognition, investigation, and legal adjudication are separate lanes.",
+      "sinhala_current": "Memory, political recognition, investigation, සහ legal adjudication වෙන වෙනම lanes.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-138",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "Why do deaths, missing, disappeared, and unaccounted categories matter?",
+      "sinhala_current": "Deaths, missing, disappeared, සහ unaccounted categories වැදගත් ඇයි?",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-139",
+      "tag": "td",
+      "section_hint": "faq",
+      "english": "They require different evidence and cannot be collapsed into one verified death toll.",
+      "sinhala_current": "ඒවාට වෙනස් evidence අවශ්‍යයි; එක verified death toll එකකට collapse කරන්න බැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-140",
+      "tag": "span",
+      "section_hint": "references",
+      "english": "Reference Table",
+      "sinhala_current": "යොමු වගුව",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-141",
+      "tag": "p",
+      "section_hint": "references",
+      "english": "The article names sources in the text for readability. This table preserves the underlying source IDs for audit and replication.",
+      "sinhala_current": "ලිපිය කියවීමට පහසු වෙන්න sources text එකේ නම් කරයි. Audit සහ replication සඳහා underlying source IDs මෙම table එක රැක ගනී.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-142",
+      "tag": "th",
+      "section_hint": "references",
+      "english": "What it is",
+      "sinhala_current": "මොකක්ද",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-143",
+      "tag": "th",
+      "section_hint": "references",
+      "english": "How this dossier uses it",
+      "sinhala_current": "මෙම dossier එක එය භාවිතා කරන ආකාරය",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-144",
+      "tag": "th",
+      "section_hint": "references",
+      "english": "Direct link",
+      "sinhala_current": "Direct link",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-145",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Core route for the cautious final-phase upper estimate; not exact or Mullivaikkal-only.",
+      "sinhala_current": "ප්‍රවේශම් සහිත final-phase upper estimate සඳහා core route එක; exact හෝ Mullivaikkal-only නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-146",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Incident/accountability source; not a total casualty audit.",
+      "sinhala_current": "Incident/accountability source එකක්; total casualty audit එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-147",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "High-authority location-compression example; not fresh casualty proof.",
+      "sinhala_current": "High-authority “location-compression” උදාහරණයක්; fresh casualty proof එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-148",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Disappearance/accountability context; not a Mullivaikkal death-toll source.",
+      "sinhala_current": "Disappearance/accountability context එකක්; Mullivaikkal death-toll source එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-149",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Contemporaneous media/witness context and verification-limit example; not audited casualty total.",
+      "sinhala_current": "ඒ කාලයට සමීප media/witness context සහ verification-limit උදාහරණයක්; audited casualty total එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-150",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Final-stage witness/media route and truth-degradation example; not audited casualty total.",
+      "sinhala_current": "Final-stage witness/media route සහ truth-degradation උදාහරණයක්; audited casualty total එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-151",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Legal anchor for genocide and war-crime categories.",
+      "sinhala_current": "Genocide සහ war-crime categories සඳහා legal anchor එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-152",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Sinhala public terminology route; not a court/legal finding.",
+      "sinhala_current": "Sinhala public terminology route එකක්; court/legal finding එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "ethnic_context",
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-153",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Official Sinhala usage route; politically interested source.",
+      "sinhala_current": "Official Sinhala usage route එකක්; politically interested source එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "ethnic_context",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-154",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Sinhala public route for `යුද අපරාධ`; capture still needs review.",
+      "sinhala_current": "`යුද අපරාධ` සඳහා Sinhala public route එකක්; capture එක තව review කළ යුතුයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "ethnic_context"
+      ]
+    },
+    {
+      "id": "MUL-I18N-155",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Candidate terminology source for IHL/war-crime language.",
+      "sinhala_current": "IHL/war-crime language සඳහා candidate terminology source එකක්.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-156",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Secondary distinction source; not Sri Lanka-specific finding.",
+      "sinhala_current": "Secondary distinction source එකක්; Sri Lanka-specific finding එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-157",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Treaty text and definition route; OHCHR is not the adjudicating court.",
+      "sinhala_current": "Treaty text සහ definition route එක; OHCHR adjudicating court එක නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-158",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Individual criminal responsibility where ICC jurisdiction exists.",
+      "sinhala_current": "ICC jurisdiction තිබෙන තැන individual criminal responsibility සඳහා.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-159",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "State-party disputes and state responsibility under the Genocide Convention.",
+      "sinhala_current": "Genocide Convention යටතේ State-party disputes සහ state responsibility සඳහා.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-160",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Shows Sinhala renderings for ethnic cleansing; terminology route only, not proof of settled everyday use.",
+      "sinhala_current": "Ethnic cleansing සඳහා Sinhala renderings පෙන්වයි; terminology route පමණයි, settled everyday use proof එකක් නෙවෙයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "ethnic_context"
+      ]
+    },
+    {
+      "id": "MUL-I18N-161",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Number/category/geography/time-window metadata for the `40,000` route.",
+      "sinhala_current": "`40,000` route එක සඳහා number/category/geography/time-window metadata.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "number_claim"
+      ]
+    },
+    {
+      "id": "MUL-I18N-162",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Publication-safe number register row for the source-safe estimate.",
+      "sinhala_current": "Source-safe estimate සඳහා publication-safe number register row එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-163",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Publication-safe number register row for the Mullivaikkal-only claim check.",
+      "sinhala_current": "Mullivaikkal-only claim check සඳහා publication-safe number register row එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-164",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "`40,000` source genealogy claim.",
+      "sinhala_current": "`40,000` “source genealogy” claim එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "number_claim",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-165",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "UN did not present `40,000` as exact count.",
+      "sinhala_current": "UN එක `40,000` exact count එකක් ලෙස ඉදිරිපත් කර නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "explain_or_quote_technical_phrase",
+      "review_note": "Keep coined technical phrases clear; explain rather than over-transliterate.",
+      "risk_flags": [
+        "number_claim"
+      ]
+    },
+    {
+      "id": "MUL-I18N-166",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Mullivaikkal-only wording check.",
+      "sinhala_current": "Mullivaikkal-only wording check එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-167",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Location-compression route.",
+      "sinhala_current": "“Location-compression” route එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-168",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "SEO/source-propagation route.",
+      "sinhala_current": "SEO/source-propagation route එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-169",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Amnesty 2024 weak-link/location-compression claim.",
+      "sinhala_current": "Amnesty 2024 weak-link/“location-compression” claim එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-170",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Guardian media/witness route claim.",
+      "sinhala_current": "Guardian media/witness route claim එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-171",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Claim-hardening/propagation route.",
+      "sinhala_current": "“Claim-hardening”/propagation route එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-172",
+      "tag": "td",
+      "section_hint": "references",
+      "english": "Category-collapse/SEO route.",
+      "sinhala_current": "Category-collapse/SEO route එක.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-173",
+      "tag": "b",
+      "section_hint": "",
+      "english": "Claim tested",
+      "sinhala_current": "පරීක්ෂා කරන claim එක",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-174",
+      "tag": "b",
+      "section_hint": "",
+      "english": "Finding",
+      "sinhala_current": "නිගමනය",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-175",
+      "tag": "span",
+      "section_hint": "",
+      "english": "Current evidence does not verify this exact sentence.",
+      "sinhala_current": "මෙම වාක්‍යය stated විදිහට වත්මන් සාක්ෂිවලින් තහවුරු වෙන්නේ නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "translate_for_average_reader",
+      "review_note": "Use plain online-reader Tamil/French, not academic prose.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-176",
+      "tag": "b",
+      "section_hint": "",
+      "english": "Do not erase",
+      "sinhala_current": "මකා දාන්න එපා",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-177",
+      "tag": "span",
+      "section_hint": "",
+      "english": "The affected final-phase Vanni civilian population was overwhelmingly Tamil in context.",
+      "sinhala_current": "අවසන් අදියරේ Vanni civilian population එක සන්දර්භය තුළ බහුතරයෙන් දමිළයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "ethnic_context"
+      ]
+    },
+    {
+      "id": "MUL-I18N-178",
+      "tag": "b",
+      "section_hint": "",
+      "english": "Do not overclaim",
+      "sinhala_current": "Overclaim කරන්න එපා",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-179",
+      "tag": "span",
+      "section_hint": "",
+      "english": "The number alone cannot prove legal intent, exact count, or Mullivaikkal-only geography.",
+      "sinhala_current": "ගණන තනිවම legal intent, exact count, හෝ Mullivaikkal-only geography prove කරන්නේ නැහැ.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "legal_term_requires_review",
+      "review_note": "Do not force a one-word Tamil/French equivalent if the legal lane needs explanation.",
+      "risk_flags": [
+        "legal_language",
+        "seo_language"
+      ]
+    },
+    {
+      "id": "MUL-I18N-180",
+      "tag": "b",
+      "section_hint": "",
+      "english": "Spoke URL",
+      "sinhala_current": "Spoke URL",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-181",
+      "tag": "b",
+      "section_hint": "",
+      "english": "Evidence package",
+      "sinhala_current": "Evidence package",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "short_ui_label",
+      "review_note": "Keep concise; avoid formal or academic register.",
+      "risk_flags": []
+    },
+    {
+      "id": "MUL-I18N-182",
+      "tag": "footer",
+      "section_hint": "footer",
+      "english": "AI-assisted organization. Sources remain the evidence. Publication remains source-gated until final legal, citation, and Sinhala-language QA are complete.",
+      "sinhala_current": "AI-assisted organization එකක්. Evidence එක sources වලින්මයි. Final legal, citation, සහ Sinhala-language QA අවසන් වන තුරු publication එක source-gated තත්ත්වයේ තබයි.",
+      "tamil_draft": "",
+      "french_draft": "",
+      "translation_action": "keep_key_english_terms_where_useful",
+      "review_note": "Preserve key SEO/source/legal abbreviations where they aid comprehension.",
+      "risk_flags": [
+        "ethnic_context",
+        "legal_language",
+        "seo_language"
+      ]
+    }
+  ]
+}

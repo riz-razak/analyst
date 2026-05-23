@@ -9,7 +9,7 @@
     <link>https://analyst.rizrazak.com</link>
     <description>Independent investigative journalism on Sri Lankan politics, cricket corruption, institutional accountability, and systemic analysis. Making complex topics digestible without losing depth.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 01 Mar 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 23 May 2026 18:30:00 +0000</lastBuildDate>
     <atom:link href="https://analyst.rizrazak.com/feed.xml" rel="self" type="application/rss+xml"/>
     <managingEditor>riz@dgtl.lk (Riz Razak)</managingEditor>
     <webMaster>riz@dgtl.lk (Riz Razak)</webMaster>
@@ -17,6 +17,19 @@
     <category>Investigative Journalism</category>
     <category>Sri Lanka</category>
     <category>Political Analysis</category>
+
+    <item>
+      <title>Mullivaikkal and 40,000 deaths?</title>
+      <link>https://analyst.rizrazak.com/mullivaikkal-40000-deaths/</link>
+      <guid isPermaLink="true">https://analyst.rizrazak.com/mullivaikkal-40000-deaths/</guid>
+      <pubDate>Sat, 23 May 2026 18:30:00 +0000</pubDate>
+      <dc:creator>Riz Razak</dc:creator>
+      <description>A source-gated Analyst dossier testing why the claim that 40,000 people died in Mullivaikkal alone is not verified as stated, how the phrase hardens online, and why correction must not become denial.</description>
+      <category>Mullivaikkal</category>
+      <category>Sri Lanka</category>
+      <category>Accountability</category>
+      <category>Media Literacy</category>
+    </item>
 
     <item>
       <title>The Death of Sri Lankan Cricket: Politics, Mafia &amp; The Road to Ruin</title>
