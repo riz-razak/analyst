@@ -156,3 +156,24 @@ A restrained geopolitical evidence board. Use shipping-lane map fragments, fuel-
 Negative constraints:
 
 No flags-as-decoration overload, no explosion imagery, no generic war-room dashboard, no fake live-map UI, no unreadable microtext.
+
+## Visual Diversity Revision - 2026-05-23
+
+Round 1: Preserve Analyst restraint, but stop using the same evidence-board geometry for every card.
+
+Round 2: Give each article a native visual metaphor:
+
+- Caravan Fresh: consumer counter, receipt trail, food-safety/product silhouette.
+- Sri Lankan Cricket: stadium, pitch, scoreboard, institutional-risk labels.
+- Anatta/Bamiyan: empty carved niche and absence geometry.
+- Hormuz: shipping lane, oil route, fuel-price shock.
+
+Round 3: Homepage adjacency check. If two consecutive cards both rely on paper slips plus pins, the second card should be redesigned around the topic's physical or conceptual space instead.
+
+## Generated Options: Visual Diversity Revision
+
+- Caravan Fresh implemented: `/images/thumbnails/caravan-fresh-kitchen-counter-v2.svg`
+- Sri Lankan Cricket implemented: `/images/thumbnails/sri-lanka-cricket-stadium-v2.svg`
+- Anatta/Bamiyan implemented: `/images/thumbnails/anatta-bamiyan-empty-niche-v2.svg`
+- Hormuz implemented: `/images/thumbnails/sri-lanka-hormuz-shipping-lane.svg`
+- Hormuz alternate held: `/images/thumbnails/sri-lanka-hormuz-price-shock.svg`

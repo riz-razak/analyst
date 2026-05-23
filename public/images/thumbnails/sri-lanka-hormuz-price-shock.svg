@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Sri Lanka and Hormuz price shock thumbnail</title>
+  <desc id="desc">A restrained geopolitical thumbnail focused on fuel prices, shipping exposure, and oil-route shock.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="18" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="#151814"/>
+  <rect x="0" y="0" width="1600" height="900" fill="#315f48" opacity="0.14"/>
+  <path d="M90 620 C326 484 548 530 738 414 C942 290 1116 206 1510 266" fill="none" stroke="#c9a96e" stroke-width="18" stroke-linecap="round"/>
+  <path d="M90 620 C326 484 548 530 738 414 C942 290 1116 206 1510 266" fill="none" stroke="#fff8e8" stroke-width="4" stroke-dasharray="24 22"/>
+  <g filter="url(#shadow)">
+    <rect x="106" y="112" width="620" height="274" rx="30" fill="#fffdf8"/>
+    <text x="154" y="180" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="850" letter-spacing="4" fill="#315f48">THE ANALYST DOSSIER</text>
+    <text x="154" y="256" font-family="Georgia, serif" font-size="64" font-weight="800" fill="#181824">Sri Lanka and</text>
+    <text x="154" y="326" font-family="Georgia, serif" font-size="64" font-weight="800" fill="#181824">Hormuz</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="996" y="468" width="382" height="246" rx="26" fill="#fffdf8"/>
+    <text x="1040" y="532" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="850" fill="#181824">Fuel pressure</text>
+    <path d="M1040 650 L1110 590 L1180 626 L1254 538 L1320 572" fill="none" stroke="#a9683f" stroke-width="10" stroke-linecap="round"/>
+    <circle cx="1254" cy="538" r="16" fill="#a9683f"/>
+  </g>
+  <g filter="url(#shadow)" font-family="Inter, Arial, sans-serif" font-weight="850">
+    <rect x="188" y="676" width="228" height="76" rx="38" fill="#fffdf8"/>
+    <circle cx="226" cy="714" r="14" fill="#315f48"/>
+    <text x="256" y="723" font-size="25" fill="#181824">exposure</text>
+    <rect x="764" y="150" width="222" height="76" rx="38" fill="#fffdf8"/>
+    <circle cx="802" cy="188" r="14" fill="#c9a96e"/>
+    <text x="832" y="197" font-size="25" fill="#181824">oil route</text>
+    <rect x="1156" y="114" width="258" height="76" rx="38" fill="#fffdf8"/>
+    <circle cx="1194" cy="152" r="14" fill="#a9683f"/>
+    <text x="1224" y="161" font-size="25" fill="#181824">price shock</text>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <path d="M416 714 C546 604 636 510 738 414" stroke="#315f48" stroke-width="7"/>
+    <path d="M872 226 C842 292 806 352 760 406" stroke="#c9a96e" stroke-width="7"/>
+    <path d="M1190 190 C1090 278 992 350 872 420" stroke="#a9683f" stroke-width="7"/>
+  </g>
+  <text x="154" y="438" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="850" fill="#e3cf9a">What you need to know</text>
+</svg>
