@@ -63,3 +63,4 @@ Use **Option A - Dark Sermon Portrait** for the first live article thumbnail if 
   - 1080x1920.
   - Same dark portrait treatment.
   - Sinhala title only, no labels, no cards, no secondary copy.
+  - No The Analyst branding for social sharing.
