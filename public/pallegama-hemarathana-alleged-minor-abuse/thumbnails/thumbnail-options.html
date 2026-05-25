@@ -281,12 +281,48 @@
         radial-gradient(circle at 74% 44%, rgba(212, 138, 44, .2), transparent 32%);
     }
 
-    .a .brand { left: 82px; top: 72px; }
-    .a .kicker { left: 82px; top: 132px; }
-    .a .title { left: 80px; top: 240px; max-width: 760px; font-size: 90px; line-height: .93; }
-    .a .subtitle { left: 86px; top: 548px; max-width: 700px; }
-    .a .safe { left: 86px; bottom: 76px; max-width: 760px; }
+    .a .brand { left: 76px; top: 66px; }
+    .a .kicker { left: 76px; top: 128px; }
+    .a .title {
+      left: 74px;
+      top: 218px;
+      max-width: 720px;
+      font-family: "Noto Sans Sinhala", "Sinhala Sangam MN", "Sinhala MN", "Iskoola Pota", "Malithi Web", Georgia, serif;
+      font-size: 82px;
+      line-height: 1.03;
+    }
+    .a .subtitle { left: 80px; top: 492px; max-width: 650px; font-size: 31px; }
+    .a .si-subtitle {
+      position: absolute;
+      z-index: 14;
+      left: 80px;
+      top: 608px;
+      max-width: 650px;
+      margin: 0;
+      color: #ffe1ae;
+      font-family: "Noto Sans Sinhala", "Sinhala Sangam MN", "Sinhala MN", "Iskoola Pota", "Malithi Web", Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1.22;
+      text-wrap: balance;
+      text-shadow: 0 12px 28px rgba(0, 0, 0, .42);
+    }
     .a .stamp { right: 84px; bottom: 78px; border-color: rgba(189,91,84,.52); color: #ffc8c2; }
+    .a .card {
+      width: 274px;
+      min-height: 112px;
+      padding: 20px 21px;
+      background: rgba(12, 16, 12, .78);
+      border-color: rgba(255, 247, 231, .22);
+      color: #fff7e7;
+      backdrop-filter: blur(4px);
+    }
+    .a .card b { color: #fff7e7; font-size: 24px; }
+    .a .card span { color: #dcc9a6; font-size: 19px; }
+    .a .c1 { right: 108px; top: 118px; transform: rotate(3deg); }
+    .a .c2 { right: 54px; top: 282px; transform: rotate(-3deg); }
+    .a .c3 { right: 164px; bottom: 226px; transform: rotate(-2deg); }
+    .a .c4 { right: 58px; bottom: 82px; transform: rotate(3deg); }
 
     .b {
       background: #151914;
@@ -444,10 +480,13 @@
             <div class="photo"></div>
             <div class="brand">The Analyst Dossier</div>
             <div class="kicker">Civic accountability</div>
-            <h3 class="title">Sacred Power Meets The Law</h3>
+            <h3 class="title">පල්ලෙගම 🍇 ජනතාව vs බලය</h3>
             <p class="subtitle">A child-protection allegation. A religious office. A public test of equal law.</p>
-            <div class="safe"><span>Alleged</span><span>Evidence-gated</span><span>Child protected</span></div>
-            <div class="stamp">Not adjudicated</div>
+            <p class="si-subtitle">ළමා ආරක්ෂණ චෝදනාවක්. ආගමික තනතුරක්. සමාන නීතිය පිළිබඳ පොදු පරීක්ෂාවක්.</p>
+            <div class="card c1"><b>March complaint</b><span>disappearance record</span></div>
+            <div class="card c2"><b>April 24 letter</b><span>NCPA action question</span></div>
+            <div class="card c3"><b>B reports</b><span>court process trail</span></div>
+            <div class="card c4"><b>Right of reply</b><span>publication gate</span></div>
           </div>
         </div>
       </article>

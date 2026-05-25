@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="si">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pallegama Sinhala Vertical Thumbnail</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      overflow: hidden;
+      background: #090d0a;
+    }
+    body {
+      position: relative;
+      color: #fff7e7;
+      font-family: "Noto Sans Sinhala", "Sinhala Sangam MN", "Sinhala MN", "Iskoola Pota", "Malithi Web", Inter, ui-sans-serif, system-ui, sans-serif;
+      isolation: isolate;
+    }
+    .photo {
+      position: absolute;
+      inset: 0;
+      z-index: -4;
+      background-image: url("../assets/pallegama-hemarathana-context.webp");
+      background-size: cover;
+      background-position: 52% 50%;
+      filter: saturate(.9) contrast(1.08) brightness(.62);
+      transform: scale(1.06);
+    }
+    .veil {
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background:
+        linear-gradient(180deg, rgba(5, 8, 6, .84) 0%, rgba(7, 10, 8, .42) 36%, rgba(8, 12, 9, .78) 78%, rgba(5, 8, 6, .96) 100%),
+        radial-gradient(circle at 50% 28%, rgba(212, 138, 44, .2), transparent 32%),
+        radial-gradient(circle at 18% 86%, rgba(212, 138, 44, .16), transparent 28%);
+    }
+    .edge {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(3, 6, 4, .78), transparent 22%, transparent 78%, rgba(3, 6, 4, .78)),
+        linear-gradient(0deg, rgba(3, 6, 4, .92), transparent 24%, transparent 76%, rgba(3, 6, 4, .72));
+    }
+    h1 {
+      position: absolute;
+      left: 70px;
+      right: 66px;
+      bottom: 238px;
+      margin: 0;
+      font-size: 112px;
+      line-height: 1.12;
+      font-weight: 950;
+      letter-spacing: 0;
+      text-wrap: balance;
+      text-shadow:
+        0 18px 44px rgba(0, 0, 0, .72),
+        0 2px 0 rgba(0, 0, 0, .38);
+    }
+  </style>
+</head>
+<body>
+  <div class="photo" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="edge" aria-hidden="true"></div>
+  <h1>පල්ලෙගම 🍇 ජනතාව vs බලය</h1>
+</body>
+</html>

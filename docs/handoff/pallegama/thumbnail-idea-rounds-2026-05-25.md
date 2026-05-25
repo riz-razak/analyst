@@ -50,3 +50,16 @@ Status: working visual options, not final editorial clearance
 ## Recommendation
 
 Use **Option A - Dark Sermon Portrait** for the first live article thumbnail if the page needs impact. Keep **Option B - Evidence Board Over Portrait** as the safer Analyst-style alternative for contexts where due-process restraint matters more than immediate social reach.
+
+## Implemented Iteration
+
+- **Horizontal primary thumbnail:** `pallegama-thumbnail-a-dark-sermon-portrait.png`
+  - Updated to the Sinhala title `පල්ලෙගම 🍇 ජනතාව vs බලය`.
+  - Keeps the dark sermon portrait style.
+  - Removes the three bottom status labels.
+  - Adds four source-trace cards: March complaint, April 24 letter, B reports, right of reply.
+
+- **Vertical social thumbnail:** `pallegama-social-vertical-sinhala-title.png`
+  - 1080x1920.
+  - Same dark portrait treatment.
+  - Sinhala title only, no labels, no cards, no secondary copy.

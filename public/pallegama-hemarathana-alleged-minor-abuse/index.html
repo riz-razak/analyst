@@ -447,6 +447,28 @@
       background: rgba(122, 176, 216, .08);
     }
     .translation-box p { font-size: 16px; }
+    .language-panel {
+      display: none;
+      max-width: 76ch;
+      margin: 0 0 34px;
+    }
+    html[data-lang="si"] .layout { display: none; }
+    html[data-lang="si"] .si-panel { display: block; }
+    .si-panel {
+      font-family: "Noto Sans Sinhala", "Sinhala Sangam MN", "Sinhala MN", "Iskoola Pota", "Malithi Web", Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+    .si-panel h2,
+    .si-panel h3,
+    html[data-lang="si"] h1,
+    html[data-lang="si"] .dek {
+      font-family: "Noto Sans Sinhala", "Sinhala Sangam MN", "Sinhala MN", "Iskoola Pota", "Malithi Web", Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+    .si-panel h2 { font-size: clamp(28px, 4vw, 45px); }
+    .si-panel p,
+    .si-panel li { font-size: 17px; line-height: 1.72; }
+    .si-panel .translation-box {
+      margin: 16px 0;
+    }
     .kalama {
       border: 1px solid rgba(212, 154, 58, .5);
       border-left: 6px solid var(--saffron);
@@ -533,8 +555,8 @@
     <div class="translation-status" data-translation-status aria-live="polite">
       <p><strong data-translation-label>Translation review pending.</strong> <span data-translation-note>The English text remains the controlling source until Sinhala, Tamil, and French legal/ethics review clears.</span></p>
     </div>
-    <h1>When Sacred Power Meets The Law</h1>
-    <p class="dek">The Pallegama Hemarathana case is not a verdict page. It is a civic-accountability essay about child protection, religious power, police process, media pressure, and the Buddhist duty to separate truth from status.</p>
+    <h1 data-page-title>When Sacred Power Meets The Law</h1>
+    <p class="dek" data-page-dek>The Pallegama Hemarathana case is not a verdict page. It is a civic-accountability essay about child protection, religious power, police process, media pressure, and the Buddhist duty to separate truth from status.</p>
     <div class="status-line" aria-label="Publication safeguards">
       <span>Evidence-gated</span>
       <span>Child protected</span>
@@ -794,6 +816,62 @@
         </div>
       </aside>
     </div>
+
+    <article class="language-panel si-panel" data-language-panel="si" lang="si">
+      <section>
+        <span class="kicker">සිංහල කියවීම</span>
+        <h2>පල්ලෙගම 🍇 ජනතාව vs බලය</h2>
+        <div class="translation-box">
+          <p><strong>පරිවර්තන තත්ත්වය:</strong> මෙය වැඩ කරන සිංහල පරිවර්තනයකි. චෝදනා, සැකකරු, ළමයාගේ ආරක්ෂාව, සහ බෞද්ධ/නීතිමය වචන භාවිතය පිළිබඳ පරීක්ෂාව දිගටම පවතී. දෙමළ සහ ප්‍රංශ පරිවර්තන එකට පසුව තල්ලු කරනු ලැබේ.</p>
+        </div>
+
+        <p class="lead">සිවුර විනයේ සංකේතයක් විය හැක. පූජනීය තනතුරක් මහජන විශ්වාසයක් විය හැක. නමුත් අධිකරණ වාර්තාවක් සත්‍යය සහ කටකතා අතර ඇති එකම පදනම විය හැක. වැඩිහිටියන්ට නීතිය සමාන බව ඔප්පු කිරීමට ළමයෙකුගේ පුද්ගලික වේදනාව ප්‍රසිද්ධ වේදිකාවක් විය යුතු නැත.</p>
+
+        <p>ජාත්‍යන්තර සහ දේශීය මාධ්‍ය වාර්තා අනුව, පල්ලේගම හේමරතන හිමියන් ළමයෙකු සම්බන්ධ ලිංගික අපයෝජන චෝදනා පිළිබඳව අත්අඩංගුවට ගෙන රක්ෂිත බන්ධනාගාරගත කර ඇතැයි වාර්තා වී ඇත. පසුව ඇප ලැබූ බවත්, චෝදනා ප්‍රතික්ෂේප කළ බවත් වාර්තා විය. මෙම සිංහල කියවීම කිසිදු අධිකරණ තීන්දුවක් නොවේ.</p>
+
+        <p>මෙහි ප්‍රශ්නය සරලය. බලවත් ආගමික තනතුරක්, ළමයෙකු සම්බන්ධ චෝදනාවක්, පොලිස් ක්‍රියාදාමය, ළමා ආරක්ෂක ආයතන, නීතිඥ බලය, මාධ්‍ය පීඩනය සහ සමාජ කෝපය එකම තැනකට පැමිණි විට ශ්‍රී ලංකාවේ නීතිය සමානව ක්‍රියා කරයිද?</p>
+
+        <p>චෝදනා චෝදනා ලෙසම තබා ගත යුතුය. සැකකරු වරදකරු බවට වචනයෙන්වත් තීන්දු නොකළ යුතුය. ළමයාගේ අනන්‍යතාවය හෝ පුද්ගලික තොරතුරු ප්‍රසිද්ධ නොකළ යුතුය. බුද්ධාගමට ද්වේෂයෙන් පහර නොදිය යුතුය. එහෙත් සිවුර, තනතුර, පූජනීයත්වය හෝ බලය නීතියට ඉහළින් තැබිය යුතු ද නොවේ.</p>
+
+        <div class="sermon">සංඝ රත්නය ආරක්ෂා කිරීම යනු ලෝකීය බලය ආරක්ෂා කිරීම නොවේ. සරණ ලෙස සංඝයා කියන්නේ තනතුරක්, ධනයක්, අනුගාමික බලයක් හෝ අධිකරණය වටා පෙනී සිටින පිරිසක් නොවේ. එය ධර්මය, විනය, ගුණය සහ මාර්ගය පිළිබඳ උසස් සංකල්පයකි.</div>
+      </section>
+
+      <section>
+        <span class="kicker">වාර්තා ඉල්ලීම</span>
+        <h2>කටකතා නොව වාර්තා</h2>
+        <p>ප්‍රධාන ඉල්ලීම වන්නේ වාර්තාය. මාර්තු පැමිණිල්ල, මුල් පොලිස් සටහන, අප්‍රේල් 24 ළමා ආරක්ෂක අධිකාරියේ ලිපිය, බී වාර්තා, අධිකරණ සටහන්, මැයි 22 ඇප නියෝගය, පොලිස් ප්‍රගති වාර්තා, අත්අඩංගුවට ගැනීමේ සටහන්, නීතිපති දෙපාර්තමේන්තුව සමඟ ඇති ලිපි හෝ උපදෙස්, රස පරීක්ෂණ තත්ත්ව වාර්තා, සහ අදාළ පාර්ශ්වයන්ගේ පිළිතුරු මහජන විශ්වාසයට අවශ්‍යය.</p>
+
+        <p>ඒ නිසා වාර්තා ඉල්ලීම බුද්ධාගමට පහරදීමක් නොවේ. එය බුද්ධාගම දේශපාලන ආවරණයක් බවට පත් නොකරන්න යන ඉල්ලීමකි. එය ළමයාගේ ආරක්ෂාව, සත්‍යය සහ නීතිය සමානව ක්‍රියා කිරීම ඉල්ලා සිටීමකි.</p>
+
+        <p>මාධ්‍ය හා සමාජ මාධ්‍ය මෙහි වැදගත්ය. සමාජ මාධ්‍ය නිහඬතාවය බිඳ දැමිය හැක. ඒ සමඟම එය කටකතා, අධික කෝපය, ළමයාගේ වේදනාව ප්‍රදර්ශනය කිරීම, හෝ ආගමික ද්වේෂය වර්ධනය කළ හැක. එබැවින් සමාජ මාධ්‍ය පළ කිරීම් සත්‍යය ඔප්පු කරන සාක්ෂි ලෙස නොව, සමාජයේ ප්‍රතිචාර සහ ප්‍රචාරණ රටා ලෙස පමණක් කියවිය යුතුය.</p>
+      </section>
+
+      <section>
+        <span class="kicker">සමාන ළමා ආරක්ෂාව</span>
+        <h2>සමාන්තර ළමයා</h2>
+        <p>මෙම නඩුව තවත් පුළුල් ප්‍රශ්නයක් විවෘත කරයි. ළමයෙකුට හිමි ආරක්ෂාව කිසිදු වැඩිහිටි ආයතනයකට අඩු කළ නොහැක. ඒ ආයතනය ආගමික වුවත්, පවුල් ආයතනයක් වුවත්, පෞද්ගලික නීතියක් වුවත්, දේශපාලන බලයක් වුවත් එම පදනම වෙනස් විය යුතු නැත.</p>
+
+        <div class="principle">වැඩිහිටි ආයතනයක් යම් සැලැස්මක් පූජනීය, නීත්‍යානුකූල, පවුලේ, ගෞරවනීය හෝ සමාජීය යැයි කියන නිසා ළමයෙකු අඩු ළමයෙකු නොවේ.</div>
+
+        <p>මුස්ලිම් විවාහ හා දික්කසාද පනත පිළිබඳ ප්‍රශ්නය මුස්ලිම් ජනතාවට එරෙහි චෝදනාවක් නොවේ. එය නීතිමය ආකෘතියක ළමා ආරක්ෂණ හිඩැස පිළිබඳ ප්‍රශ්නයකි. එමෙන්ම සාමණේර දරුවන් පිළිබඳ ප්‍රශ්නය බුද්ධාගමට එරෙහි චෝදනාවක් නොවේ. එය දරුවෙකුගේ තේරුම් ගැනීම, කැමැත්ත, අධ්‍යාපනය, ආරක්ෂිත පැමිණිලි මාර්ගය, සහ ඉවත් විය හැකි ගෞරවනීය මාර්ගය පිළිබඳ ප්‍රශ්නයකි.</p>
+
+        <p>දරිද්‍රතාවය මෙහි මූලික සම්බන්ධයකි. දරුවෙකු සාමණේර ජීවිතය "තෝරා" ගන්නේ ආහාරය, අධ්‍යාපනය, පවුලේ ගෞරවය, හෝ පවුලේ බර අඩු කිරීම සඳහා ඇති එකම පෙනෙන මාර්ගය නිසා නම්, එම තේරීම සම්පූර්ණයෙන් නිදහස් යැයි කිව නොහැක. එයින් සියලු සාමණේර ප්‍රවේශයන් අපයෝජනයක් බව නොකියයි. නමුත් වැඩිහිටි පද්ධතිය දරුවා ආරක්ෂිතද, අධ්‍යාපනය ලබන්නේද, ඇසෙන්නේද, සහ stigma නැතිව ඉවත් විය හැකිද යන්න ඔප්පු කළ යුතුය.</p>
+
+        <div class="principle">සිවුර නීතියට ඉහළින් නැත. පෞද්ගලික නීතිය ළමා ආරක්ෂාවට පහළින් යා නොහැක. සාමණේර දරුවෙකු සංකේතයක් වීමට පෙර ළමයෙකුය. චෝදනාවක් සාක්ෂියට වඩා ඉදිරියට යා නොහැක.</div>
+      </section>
+
+      <section>
+        <span class="kicker">කාලාම අවසානය</span>
+        <h2>නිහඬතාවය සහ ද්වේෂය අතර තෝරාගැනීමක් නොවේ</h2>
+        <p>අවසානයේ මේ ලිපියේ අරමුණ කෝපය නොවේ. නිහඬතාවය ද නොවේ. සත්‍යය, කරුණාව, විචාරය සහ වාර්තා ඉල්ලා සිටීමයි.</p>
+
+        <div class="kalama">
+          <p class="pali-line">Alañhi vo, kālāmā, kaṅkhituṃ, alaṃ vicikicchituṃ. Kaṅkhanīyeva pana vo ṭhāne vicikicchā uppannā.</p>
+          <p>කාලාමයෙනි, සැක කළ යුතු තැන සැක මතුවීම සුදුසුය. විචාර කළ යුතු තැන විචාර මතුවීම සුදුසුය.</p>
+          <p>ගෞරවය, කටකතා, පරම්පරාව, තනතුර, ගුරුවරයා හෝ සමාජ කෝපය නිසා පමණක් කිසිවක් පිළිගත යුතු නැත. හානියට යන දේ සහ යහපතට යන දේ විමසිය යුතුය.</p>
+        </div>
+      </section>
+    </article>
   </main>
 
   <footer>
@@ -806,28 +884,38 @@
       const status = document.querySelector('[data-translation-status]');
       const label = document.querySelector('[data-translation-label]');
       const note = document.querySelector('[data-translation-note]');
+      const pageTitle = document.querySelector('[data-page-title]');
+      const pageDek = document.querySelector('[data-page-dek]');
       const messages = {
         en: {
           label: 'English source text.',
-          note: 'Sinhala, Tamil, and French translations are being prepared under legal, Buddhist, and child-protection review.'
+          note: 'Sinhala, Tamil, and French translations are being prepared under legal, Buddhist, and child-protection review.',
+          title: 'When Sacred Power Meets The Law',
+          dek: 'The Pallegama Hemarathana case is not a verdict page. It is a civic-accountability essay about child protection, religious power, police process, media pressure, and the Buddhist duty to separate truth from status.'
         },
         si: {
-          label: 'සිංහල පරිවර්තනය පරීක්ෂාවේ ඇත.',
-          note: 'නීතිමය, බෞද්ධ සහ ළමා ආරක්ෂණ පරීක්ෂාව අවසන් වන තුරු English text එක controlling source ලෙස පවතී.'
+          label: 'සිංහල කියවීම සජීවීයි.',
+          note: 'මෙය වැඩ කරන සිංහල පරිවර්තනයකි. දෙමළ සහ ප්‍රංශ පරිවර්තන එකට පසුව යාවත්කාලීන කෙරේ.',
+          title: 'පල්ලෙගම 🍇 ජනතාව vs බලය',
+          dek: 'මෙය තීන්දුවක් නොවේ. මෙය ළමා ආරක්ෂාව, ආගමික බලය, පොලිස් ක්‍රියාදාමය, මාධ්‍ය පීඩනය සහ බෞද්ධ පොදු සදාචාරය පිළිබඳ civic-accountability කියවීමකි.'
         },
         ta: {
           label: 'தமிழ் மொழிபெயர்ப்பு பரிசீலனையில் உள்ளது.',
-          note: 'சட்ட, புத்தமத, குழந்தை பாதுகாப்பு பரிசீலனை முடியும் வரை English text தான் controlling source.'
+          note: 'சட்ட, புத்தமத, குழந்தை பாதுகாப்பு பரிசீலனை முடியும் வரை English text தான் controlling source. Tamil and French will be pushed together after review.',
+          title: 'When Sacred Power Meets The Law',
+          dek: 'The Pallegama Hemarathana case is not a verdict page. It is a civic-accountability essay about child protection, religious power, police process, media pressure, and the Buddhist duty to separate truth from status.'
         },
         fr: {
           label: 'Traduction française en révision.',
-          note: 'Le texte anglais reste la version de contrôle jusqu’à validation juridique, éthique et linguistique.'
+          note: 'Le texte anglais reste la version de contrôle jusqu’à validation juridique, éthique et linguistique. French and Tamil will be pushed together after review.',
+          title: 'When Sacred Power Meets The Law',
+          dek: 'The Pallegama Hemarathana case is not a verdict page. It is a civic-accountability essay about child protection, religious power, police process, media pressure, and the Buddhist duty to separate truth from status.'
         }
       };
       const setLang = (lang) => {
         if (!messages[lang]) lang = 'en';
         root.dataset.lang = lang;
-        root.lang = 'en';
+        root.lang = lang === 'si' ? 'si' : 'en';
         langSwitcher?.querySelectorAll('button[data-lang]').forEach((button) => {
           button.setAttribute('aria-pressed', button.dataset.lang === lang ? 'true' : 'false');
         });
@@ -837,6 +925,8 @@
           status.lang = lang;
           status.classList.toggle('is-visible', lang !== 'en');
         }
+        if (pageTitle) pageTitle.textContent = messages[lang].title;
+        if (pageDek) pageDek.textContent = messages[lang].dek;
         try { localStorage.setItem('pallegama-dossier-lang', lang); } catch {}
       };
       langSwitcher?.addEventListener('click', (event) => {
