@@ -22,6 +22,10 @@ const HOME_COPY = {
     loading: 'Loading more pieces',
     end: 'End of ranked wall',
     empty: 'No published pieces in this topic yet',
+    orderLabel: 'Order',
+    orderRanked: 'Ranked',
+    orderLatest: 'Latest',
+    latestDescription: 'Newest first by publication date',
     footerTagline: 'Evidence-led public analysis from Sri Lanka outward.',
     publishedPieces: 'published pieces',
     skip: 'Skip to articles',
@@ -53,6 +57,10 @@ const HOME_COPY = {
     loading: 'තවත් pieces load වෙමින්',
     end: 'Ranked wall අවසානය',
     empty: 'මෙම topic එකට published pieces තවම නැහැ',
+    orderLabel: 'Order',
+    orderRanked: 'Ranked',
+    orderLatest: 'Latest',
+    latestDescription: 'Newest first by publication date',
     footerTagline: 'ශ්‍රී ලංකාවෙන් පිටතට යන evidence-led public analysis.',
     publishedPieces: 'published pieces',
     skip: 'ලිපි වෙත යන්න',
@@ -175,13 +183,18 @@ const matchesTopic = (dossier, topic) => {
 const resolveTopic = (dossier) => TOPIC_TABS.find(topic => topic.id !== 'all' && matchesTopic(dossier, topic)) || topicById.ideas
 
 const rankDossier = (dossier, index) => {
-  const publishedTime = new Date(dossier.date || dossier.publishedAt || 0).getTime()
-  const ageDays = Number.isNaN(publishedTime) ? 120 : Math.max(0, (Date.now() - publishedTime) / 86400000)
+  const time = publishedTimestamp(dossier)
+  const ageDays = time ? Math.max(0, (Date.now() - time) / 86400000) : 120
   const freshness = Math.max(0, 40 - Math.min(ageDays, 120) * 0.32)
   const sourceDepth = Math.min(24, (Number(dossier.sourceCount || dossier.sources || dossier.sections) || 0) * 1.75)
   const evidenceBoost = /evidence|source|claim|audit|dossier/i.test([dossier.sourceLabel, dossier.excerpt, dossier.category].filter(Boolean).join(' ')) ? 9 : 0
   const featureBoost = /investigation|exclusive|dossier|oracle|accountability/i.test(dossierText(dossier)) ? 12 : 0
   return freshness + sourceDepth + evidenceBoost + featureBoost - (index * 0.01)
+}
+
+const publishedTimestamp = (dossier) => {
+  const parsed = new Date(dossier.date || dossier.publishedAt || 0).getTime()
+  return Number.isNaN(parsed) ? 0 : parsed
 }
 
 const normalizeRoute = (url) => {
@@ -329,6 +342,33 @@ function TopicTabs({ topics, activeTopic, counts, onChange, language }) {
   )
 }
 
+function OrderToggle({ sortMode, setSortMode, language }) {
+  const copy = HOME_COPY[language] || HOME_COPY.en
+  const modes = [
+    { id: 'ranked', label: copy.orderRanked },
+    { id: 'latest', label: copy.orderLatest },
+  ]
+
+  return (
+    <div className="wall-order" aria-label={copy.orderLabel}>
+      <span className="wall-order__label">{copy.orderLabel}</span>
+      <div className="wall-order__buttons">
+        {modes.map(mode => (
+          <button
+            key={mode.id}
+            type="button"
+            className={`wall-order__button ${sortMode === mode.id ? 'wall-order__button--active' : ''}`}
+            onClick={() => setSortMode(mode.id)}
+            aria-pressed={sortMode === mode.id}
+          >
+            {mode.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function RankedCard({ dossier, index, navigate, language }) {
   const topic = localizedTopic(resolveTopic(dossier), language)
   const copy = HOME_COPY[language] || HOME_COPY.en
@@ -372,10 +412,12 @@ function RankedCard({ dossier, index, navigate, language }) {
   )
 }
 
-function RankedFeed({ items, activeTopic, setActiveTopic, topicCounts, navigate, language }) {
+function RankedFeed({ items, activeTopic, setActiveTopic, topicCounts, navigate, language, sortMode, setSortMode }) {
   const { displayedItems, hasMore, sentinelRef } = useInfiniteScroll(items, 6)
   const active = localizedTopic(topicById[activeTopic] || topicById.all, language)
   const copy = HOME_COPY[language] || HOME_COPY.en
+  const contextLabel = sortMode === 'latest' && activeTopic === 'all' ? copy.orderLatest : active.label
+  const contextDescription = sortMode === 'latest' ? copy.latestDescription : active.description
 
   return (
     <main className="ranked-home" id="dossiers">
@@ -389,9 +431,12 @@ function RankedFeed({ items, activeTopic, setActiveTopic, topicCounts, navigate,
 
       <TopicTabs topics={TOPIC_TABS} activeTopic={activeTopic} counts={topicCounts} onChange={setActiveTopic} language={language} />
 
-      <div className="topic-context" aria-live="polite">
-        <span>{active.label}</span>
-        <p>{active.description}</p>
+      <div className="wall-toolbar">
+        <div className="topic-context" aria-live="polite">
+          <span>{contextLabel}</span>
+          <p>{contextDescription}</p>
+        </div>
+        <OrderToggle sortMode={sortMode} setSortMode={setSortMode} language={language} />
       </div>
 
       <section className="feed-wall" aria-label={`${active.label} articles`}>
@@ -430,6 +475,7 @@ export default function HomePage({ dossiers }) {
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeTopic, setActiveTopic] = useState('all')
+  const [sortMode, setSortMode] = useState('ranked')
   const [language, setLanguageState] = useState(() => {
     if (typeof window === 'undefined') return 'en'
     return window.localStorage.getItem('analyst.home.language') || 'en'
@@ -460,8 +506,13 @@ export default function HomePage({ dossiers }) {
 
   const filteredDossiers = useMemo(() => {
     const topic = topicById[activeTopic] || topicById.all
-    return rankedDossiers.filter(item => matchesTopic(item, topic))
-  }, [activeTopic, rankedDossiers])
+    const topicItems = rankedDossiers.filter(item => matchesTopic(item, topic))
+    if (sortMode !== 'latest') return topicItems
+    return [...topicItems].sort((a, b) => {
+      const dateDelta = publishedTimestamp(b) - publishedTimestamp(a)
+      return dateDelta || (b.rankScore || 0) - (a.rankScore || 0)
+    })
+  }, [activeTopic, rankedDossiers, sortMode])
 
   return (
     <div className="magazine-home" data-language={language}>
@@ -475,6 +526,8 @@ export default function HomePage({ dossiers }) {
         topicCounts={topicCounts}
         navigate={navigate}
         language={language}
+        sortMode={sortMode}
+        setSortMode={setSortMode}
       />
       <SiteFooter dossierCount={rankedDossiers.length} language={language} />
     </div>
