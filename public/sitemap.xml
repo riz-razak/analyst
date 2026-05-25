@@ -5,7 +5,7 @@
   <!-- Homepage -->
   <url>
     <loc>https://analyst.rizrazak.com/</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -13,7 +13,7 @@
   <!-- Pallegama Hemarathana Dossier -->
   <url>
     <loc>https://analyst.rizrazak.com/pallegama-hemarathana-alleged-minor-abuse/</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -75,7 +75,7 @@
   <!-- RSS Feed -->
   <url>
     <loc>https://analyst.rizrazak.com/feed.xml</loc>
-    <lastmod>2026-05-25</lastmod>
+    <lastmod>2026-05-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
