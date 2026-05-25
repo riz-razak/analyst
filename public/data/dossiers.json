@@ -1,7 +1,29 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-05-23",
+  "lastUpdated": "2026-05-25",
   "dossiers": [
+    {
+      "id": "pallegama-hemarathana-alleged-minor-abuse",
+      "date": "2026-05-25",
+      "title": "When Sacred Power Meets The Law",
+      "titleSi": "පූජනීය බලය නීතිය හමුවේ",
+      "description": "A civic-accountability dossier on the Pallegama Hemarathana case, allegation status, child protection, religious power, police process, media framing, MMDA child-marriage parallels, and Buddhist public ethics.",
+      "descriptionSi": "පල්ලේගම හේමරතන හිමියන්ගේ නඩුව, චෝදනා තත්ත්වය, ළමා ආරක්ෂාව, ආගමික බලය, පොලිස් ක්‍රියාදාමය, මාධ්‍ය රාමුව, MMDA ළමා විවාහ සමාන්තරය, සහ බෞද්ධ පොදු සදාචාරය පිළිබඳ civic-accountability dossier එකක්.",
+      "authors": ["Riz Razak"],
+      "tags": ["Sri Lanka", "Child Protection", "Buddhism", "Accountability", "Media Ethics", "MMDA", "Due Process"],
+      "tagsSi": ["ශ්‍රී ලංකාව", "ළමා ආරක්ෂාව", "බුද්ධාගම", "වගවීම", "මාධ්‍ය සදාචාරය", "MMDA", "නීතිමය ක්‍රියාදාමය"],
+      "category": "accountability",
+      "kickerSi": "වගවීම",
+      "thumbnailUrl": "/pallegama-hemarathana-alleged-minor-abuse/assets/pallegama-hemarathana-context.webp",
+      "heroImageUrl": "/pallegama-hemarathana-alleged-minor-abuse/assets/pallegama-hemarathana-context.webp",
+      "contentUrl": "/pallegama-hemarathana-alleged-minor-abuse/index.html",
+      "sections": 10,
+      "features": ["Evidence-gated civic essay", "Timeline scrutiny", "Buddhist public ethics", "MMDA parallel child-protection module", "Novice ordination safeguarding frame", "Social propagation notes", "Pali reference layer"],
+      "featuresSi": ["Evidence-gated civic essay", "Timeline scrutiny", "බෞද්ධ පොදු සදාචාරය", "MMDA child-protection module", "සාමණේර safeguarding frame", "Social propagation notes", "Pali reference layer"],
+      "seoTitleSi": "පල්ලේගම හේමරතන නඩුව: පූජනීය බලය, ළමා ආරක්ෂාව සහ නීතිය",
+      "seoDescriptionSi": "පල්ලේගම හේමරතන නඩුව ගැන allegation-status, child protection, police process, religious power, MMDA parallel, novice ordination, සහ Buddhist public ethics එක් කරන Analyst dossier එකක්.",
+      "status": "published"
+    },
     {
       "id": "mullivaikkal-40000-deaths",
       "date": "2026-05-23",

@@ -9,7 +9,7 @@
     <link>https://analyst.rizrazak.com</link>
     <description>Independent investigative journalism on Sri Lankan politics, cricket corruption, institutional accountability, and systemic analysis. Making complex topics digestible without losing depth.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 23 May 2026 18:30:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 25 May 2026 18:30:00 +0000</lastBuildDate>
     <atom:link href="https://analyst.rizrazak.com/feed.xml" rel="self" type="application/rss+xml"/>
     <managingEditor>riz@dgtl.lk (Riz Razak)</managingEditor>
     <webMaster>riz@dgtl.lk (Riz Razak)</webMaster>
@@ -17,6 +17,20 @@
     <category>Investigative Journalism</category>
     <category>Sri Lanka</category>
     <category>Political Analysis</category>
+
+    <item>
+      <title>When Sacred Power Meets The Law</title>
+      <link>https://analyst.rizrazak.com/pallegama-hemarathana-alleged-minor-abuse/</link>
+      <guid isPermaLink="true">https://analyst.rizrazak.com/pallegama-hemarathana-alleged-minor-abuse/</guid>
+      <pubDate>Mon, 25 May 2026 18:30:00 +0000</pubDate>
+      <dc:creator>Riz Razak</dc:creator>
+      <description>A civic-accountability dossier on the Pallegama Hemarathana case, allegation status, child protection, religious power, police process, media framing, MMDA child-marriage parallels, and Buddhist public ethics.</description>
+      <category>Sri Lanka</category>
+      <category>Child Protection</category>
+      <category>Accountability</category>
+      <category>Buddhism</category>
+      <category>Media Ethics</category>
+    </item>
 
     <item>
       <title>Mullivaikkal and 40,000 deaths?</title>

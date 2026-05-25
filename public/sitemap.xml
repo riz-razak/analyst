@@ -10,6 +10,14 @@
     <priority>1.0</priority>
   </url>
 
+  <!-- Pallegama Hemarathana Dossier -->
+  <url>
+    <loc>https://analyst.rizrazak.com/pallegama-hemarathana-alleged-minor-abuse/</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
   <!-- Mullivaikkal Dossier -->
   <url>
     <loc>https://analyst.rizrazak.com/mullivaikkal-40000-deaths/</loc>

@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pallegama Hemarathana Case: Allegation, Sacred Power, And The Law</title>
+  <meta name="description" content="A civic-accountability dossier on the Pallegama Hemarathana case, allegation status, child protection, religious power, police process, media framing, and Buddhist public ethics.">
+  <meta name="slug" content="pallegama-hemarathana-alleged-minor-abuse">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101311;
+      --panel: #171c19;
+      --panel-2: #1d2420;
+      --ink: #f4efe4;
+      --muted: #b8c0b7;
+      --line: #303a34;
+      --line-strong: #526158;
+      --saffron: #d49a3a;
+      --saffron-soft: rgba(212, 154, 58, .14);
+      --blue: #7ab0d8;
+      --blue-soft: rgba(122, 176, 216, .14);
+      --green: #8bc9a9;
+      --green-soft: rgba(139, 201, 169, .14);
+      --amber: #e3b56c;
+      --amber-soft: rgba(227, 181, 108, .14);
+      --red: #e08b8b;
+      --red-soft: rgba(224, 139, 139, .14);
+      --shadow: rgba(0, 0, 0, .32);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(212, 154, 58, .12), transparent 28rem),
+        linear-gradient(180deg, #121711 0%, var(--bg) 35%, #0d100f 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: var(--blue); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    img { max-width: 100%; display: block; }
+    p, li { font-size: 17px; }
+    p { margin: 0 0 15px; }
+    ul, ol { margin: 8px 0 0; padding-left: 22px; }
+    li + li { margin-top: 6px; }
+    header, main, footer {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+    header { padding-top: 28px; padding-bottom: 22px; }
+    .topline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      padding: 3px 9px;
+      background: rgba(255, 255, 255, .04);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 850;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    .pill.status { color: var(--amber); background: var(--amber-soft); border-color: rgba(227, 181, 108, .5); }
+    .pill.child { color: var(--green); background: var(--green-soft); border-color: rgba(139, 201, 169, .46); }
+    .pill.warn { color: var(--red); background: var(--red-soft); border-color: rgba(224, 139, 139, .46); }
+    h1 {
+      margin: 0;
+      max-width: 14ch;
+      font-size: clamp(40px, 7vw, 78px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+    .dek {
+      margin: 14px 0 0;
+      max-width: 72ch;
+      color: #d7d0c5;
+      font-size: 19px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 76ch) minmax(230px, 300px);
+      gap: 24px;
+      align-items: start;
+    }
+    article { min-width: 0; }
+    aside {
+      position: sticky;
+      top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    section {
+      margin: 0 0 32px;
+      scroll-margin-top: 20px;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(25px, 3vw, 37px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    h3 { margin: 0 0 8px; font-size: 18px; line-height: 1.2; }
+    .kicker {
+      display: block;
+      color: var(--saffron);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 5px;
+    }
+    .lead {
+      font-size: 21px;
+      line-height: 1.45;
+      color: #f6e9d0;
+    }
+    .sermon,
+    .principle,
+    .note,
+    .side,
+    .refbox,
+    .social-card,
+    .context-figure,
+    .demand,
+    .timeline div,
+    .translation-box {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(23, 28, 25, .92);
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+    .sermon {
+      border-left: 5px solid var(--saffron);
+      background: var(--saffron-soft);
+      padding: 15px 16px;
+      margin: 16px 0;
+      font-size: 19px;
+      font-weight: 840;
+      line-height: 1.42;
+    }
+    .principle {
+      border-left: 5px solid var(--green);
+      background: var(--green-soft);
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 18px;
+      font-weight: 840;
+      line-height: 1.42;
+    }
+    .note {
+      padding: 13px 14px;
+      margin: 14px 0;
+      color: #e8e2d7;
+    }
+    .note.blue { border-left: 5px solid var(--blue); background: var(--blue-soft); }
+    .note.warn { border-left: 5px solid var(--red); background: var(--red-soft); }
+    .side { padding: 12px; }
+    .side h3 { margin-bottom: 7px; font-size: 15px; }
+    .side p, .side li, .side a { font-size: 13px; }
+    .side ul { padding-left: 18px; }
+    nav.side a {
+      display: block;
+      border-top: 1px solid var(--line);
+      padding: 7px 0 0;
+      margin-top: 7px;
+      font-weight: 760;
+    }
+    .ref {
+      font-size: .68em;
+      vertical-align: super;
+      line-height: 0;
+      margin-left: 2px;
+      font-weight: 850;
+    }
+    .ref a,
+    .pali-inline a {
+      color: var(--blue);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(122, 176, 216, .42);
+    }
+    .pali-inline {
+      color: #dccfb8;
+      font-size: .92em;
+      overflow-wrap: anywhere;
+    }
+    .pali-inline em {
+      font-style: italic;
+      font-weight: 680;
+    }
+    .pali-inline a {
+      margin-left: 3px;
+      font-size: .76em;
+      font-weight: 850;
+      vertical-align: super;
+    }
+    .object-list {
+      display: grid;
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .object-list p {
+      margin: 0;
+      padding: 10px 12px;
+      border-left: 3px solid var(--line-strong);
+      background: rgba(255, 255, 255, .035);
+      border-radius: 0 8px 8px 0;
+    }
+    .context-figure {
+      overflow: hidden;
+      margin: 16px 0;
+      background: rgba(255, 255, 255, .035);
+    }
+    .context-figure img {
+      width: 100%;
+      max-height: 430px;
+      object-fit: cover;
+      object-position: center 32%;
+      border-bottom: 1px solid var(--line);
+    }
+    .context-figure figcaption {
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .timeline {
+      display: grid;
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .timeline div {
+      display: grid;
+      grid-template-columns: 116px minmax(0, 1fr);
+      gap: 10px;
+      padding: 11px 12px;
+    }
+    .date { color: var(--amber); font-weight: 900; overflow-wrap: anywhere; }
+    .sangha-layers,
+    .demand-grid,
+    .social-grid,
+    .parallel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .layer,
+    .demand,
+    .social-card,
+    .evidence-slab {
+      padding: 12px;
+      min-width: 0;
+    }
+    .evidence-stack {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .evidence-slab {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .035);
+    }
+    .evidence-slab h3 {
+      color: #f6e9d0;
+    }
+    .evidence-slab p {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 10px 0 4px;
+    }
+    .stat {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: rgba(0, 0, 0, .16);
+      min-width: 0;
+    }
+    .stat b {
+      display: block;
+      color: var(--saffron);
+      font-size: 18px;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .layer {
+      border-left: 3px solid var(--saffron);
+      background: rgba(255, 255, 255, .035);
+      border-radius: 0 8px 8px 0;
+    }
+    .layer strong,
+    .demand strong,
+    .social-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #f6e9d0;
+    }
+    .social-card img {
+      width: 100%;
+      max-height: 260px;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #090b0a;
+      margin-top: 8px;
+    }
+    .social-card small {
+      display: block;
+      color: var(--muted);
+      margin-top: 6px;
+      font-size: 13px;
+    }
+    .translation-box {
+      border-left: 5px solid var(--blue);
+      padding: 15px;
+      background: rgba(122, 176, 216, .08);
+    }
+    .translation-box p { font-size: 16px; }
+    .kalama {
+      border: 1px solid rgba(212, 154, 58, .5);
+      border-left: 6px solid var(--saffron);
+      background: linear-gradient(135deg, rgba(212, 154, 58, .18), rgba(255, 255, 255, .03));
+      border-radius: 12px;
+      padding: 18px;
+      margin-top: 16px;
+    }
+    .kalama .pali-line {
+      color: #ffe1a7;
+      font-size: 18px;
+      font-weight: 760;
+    }
+    .divider {
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      margin-top: 24px;
+    }
+    .refbox { padding: 11px 12px; margin: 8px 0; }
+    .refbox p { font-size: 14px; margin: 0; color: #ded7ca; }
+    .refbox:target {
+      outline: 3px solid rgba(212, 154, 58, .42);
+      outline-offset: 2px;
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .035);
+      padding: 11px 12px;
+      margin-top: 10px;
+    }
+    summary { cursor: pointer; font-weight: 850; color: #f6e9d0; }
+    footer {
+      padding-top: 0;
+      padding-bottom: 36px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 940px) {
+      .layout,
+      .sangha-layers,
+      .demand-grid,
+      .social-grid,
+      .parallel-grid,
+      .stat-strip {
+        grid-template-columns: 1fr;
+      }
+      aside { position: static; }
+      h1 { max-width: 100%; }
+    }
+    @media (max-width: 560px) {
+      header, main, footer {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      p, li { font-size: 15px; }
+      .lead, .sermon, .principle { font-size: 16px; }
+      .timeline div { grid-template-columns: 1fr; }
+      .topline { gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topline">
+      <a class="pill" href="/">Reading room</a>
+      <a class="pill" href="/pallegama-hemarathana-alleged-minor-abuse/">Research V2</a>
+      <span class="pill status">Evidence-gated</span>
+      <span class="pill child">Child protected</span>
+      <span class="pill warn">Allegations not adjudicated here</span>
+    </div>
+    <h1>When Sacred Power Meets The Law</h1>
+    <p class="dek">The Pallegama Hemarathana case is not a verdict page. It is a civic-accountability essay about child protection, religious power, police process, media pressure, and the Buddhist duty to separate truth from status.</p>
+  </header>
+
+  <main>
+    <div class="layout">
+      <article>
+        <section id="opening">
+          <p class="lead">A robe can be a sign of discipline. A sacred office can be a place of public trust. A court file can be the only thing standing between truth and rumor. A child should never have to become public evidence for adults to prove that the law must be equal.</p>
+
+          <p>Reports from reputable outlets say <a href="https://www.bbc.com/news/articles/cy42kp0x92jo">Pallegama Hemarathana Thero was arrested and remanded</a> in May 2026 in a case involving allegations of sexual abuse of a minor.<span class="ref"><a href="#ref-bbc">1</a></span> Further reporting said he was later released on bail, and AP reported that he denied wrongdoing.<span class="ref"><a href="#ref-ap">2</a></span> The allegations have not been adjudicated in the sources captured in this dossier.</p>
+
+          <figure class="context-figure">
+            <img src="assets/pallegama-hemarathana-context.webp" alt="Pallegama Hemarathana Thero in robes, used as a contextual identification image">
+            <figcaption>Pallegama Hemarathana Thero. Context image supplied for identification and public-office context only; it does not imply a finding on the allegations.</figcaption>
+          </figure>
+
+          <div class="sermon">A jewel is not protected by hiding it inside power. It is protected by truth.</div>
+
+          <p>This essay asks three direct questions. What do the complaint, child-protection intake, April 24 NCPA letter, B reports, court minutes, bail order, police progress reports, Attorney General correspondence, forensic-status records, and right-of-reply answers actually show?<span class="ref"><a href="#ref-records">3</a></span> Did police, child-protection authorities, state actors, lawyers, media, courts, and religious institutions act without fear or favor? And when people say scrutiny of a powerful monk is an attack on the Sangha, what do they mean by Sangha?</p>
+
+          <p>The Buddhist question is not decorative. In the refuge sense, the Sangha jewel is not a temple office, title, hierarchy, court entourage, wealth, political access, or robes. The Ratana Sutta points to the praised eight persons, <span class="pali-inline"><em>ye puggalā aṭṭha sataṃ pasatthā</em><a href="#ref-pali-kp6">Kp 6</a></span>, and the recollection formula names the four pairs and eight persons, <span class="pali-inline"><em>cattāri purisayugāni aṭṭha purisapuggalā</em><a href="#ref-pali-an452">AN 4.52</a></span>.<span class="ref"><a href="#ref-sangha">4</a></span></p>
+
+          <div class="object-list">
+            <p><strong>The robe</strong> tests whether reverence becomes immunity.</p>
+            <p><strong>The clock</strong> tests whether April was ordinary investigation time or institutional delay.</p>
+            <p><strong>The April 24 letter</strong> tests whether child protection had to chase police.</p>
+            <p><strong>The Sangha jewel</strong> tests whether Buddhism is being protected or politically counterfeited.</p>
+          </div>
+        </section>
+
+        <section id="reported">
+          <span class="kicker">Reported Status</span>
+          <h2>What Can Be Said Safely</h2>
+          <p>The public record has a limited but important spine. The case has been reported by international and local media as involving arrest, remand, bail, and allegations concerning a minor.<span class="ref"><a href="#ref-case-reporting">5</a></span> Direct court records are still required for final public wording.</p>
+
+          <p>Official and institutional sources separately show the accused monk's public religious office and state-visible role.<span class="ref"><a href="#ref-office">6</a></span> That office does not prove guilt. It does not prove interference. It does show that the case unfolded around a person with extraordinary public reverence and institutional weight.</p>
+
+          <p>The child-protection ethic is simple: the child is not evidence theatre. The public can demand records without consuming the private suffering of a minor.<span class="ref"><a href="#ref-child-ethics">7</a></span></p>
+        </section>
+
+        <section id="timeline">
+          <span class="kicker">The Clock</span>
+          <h2>The April Problem</h2>
+          <p>The April dates are the heart of the public dispute, and they are not yet a settled story. They are a record-demand map.</p>
+
+          <div class="timeline">
+            <div><span class="date">2026-03-06</span><span>Early police route appears to concern disappearance or custody, not a monk-specific complaint at inception. Original complaint and first B report are needed.</span></div>
+            <div><span class="date">2026-04-10</span><span>Transcript-source material says a child statement named or implicated the monk. Statement record and court filing are needed.</span></div>
+            <div><span class="date">2026-04-22</span><span>S020 reports a complaint/intake route to the NCPA by Bimal Ruhunage/Rohanage. NCPA intake record is needed.</span></div>
+            <div><span class="date">2026-04-24</span><span>Transcript-source material and journalist questions describe an NCPA letter pressing for court reporting and evidence steps. The letter and proof of receipt are decisive.</span></div>
+            <div><span class="date">2026-05-08</span><span>NCPA/court-order/warrant framing conflicts with police B-report framing. Court minute, warrant/order, B report, and arrest log decide the issue.</span></div>
+            <div><span class="date">2026-05-22</span><span>Bail is reported. Bail order and court minute remain controlling records.</span></div>
+          </div>
+
+          <p>Those clocks may support serious criticism. They may also be partly explained by records we have not yet seen. That is why this essay should not say "cover-up" as a finding. It should say: show the records.</p>
+        </section>
+
+        <section id="power">
+          <span class="kicker">Power</span>
+          <h2>How Sacred Office Becomes Public Force</h2>
+          <p>A sacred office is not only a belief. It can become a social permission structure. Power often appears as hesitation: the officer who waits, the journalist who softens, the witness who lowers their voice, the follower who confuses questions with betrayal. This is not a finding that those things happened here. It is why the record matters.</p>
+
+          <p>The government question is whether the state acted without fear or favor. The police and AG question is whether timing, court reporting, evidence steps, legal advice, and appearance matched the seriousness of the case. Journalist questions and transcript-source material raise concerns; police-conference material records police saying they acted after sufficient evidence and pursued statements, phone/bank evidence, crime-scene work, and AG advice.<span class="ref"><a href="#ref-police-conference">8</a></span> Both positions require primary records.</p>
+
+          <p>The religious-institution question is whether sacred status can coexist with transparent legal process. Supporting monks, religious institutions, or followers appearing around a case does not prove interference. But it does raise the public question: can reverence surround an accused person without intimidating truth?</p>
+        </section>
+
+        <section id="sangha">
+          <span class="kicker">The Jewel And The Office</span>
+          <h2>Who Is Sangha?</h2>
+          <p>If Buddhists take refuge seriously, then Sangha cannot be left vague. A senior monk is not the Ariya-sangha. A temple hierarchy is not the Sangha jewel. A title is not refuge. MN 142 keeps the distinction visible by speaking of giving to the Sangha, <span class="pali-inline"><em>saṅghe ... dehi</em><a href="#ref-pali-mn142">MN 142</a></span>, rather than collapsing the whole refuge into one individual.<span class="ref"><a href="#ref-sangha-distinction">9</a></span></p>
+
+          <div class="sangha-layers">
+            <div class="layer"><strong>Sangha as refuge</strong>Noble disciples; practice and realization, not worldly office.</div>
+            <div class="layer"><strong>Vinaya institution</strong>Ordained community governed by discipline; robe as duty, not immunity.</div>
+            <div class="layer"><strong>Sinhala Buddhist power</strong>Temples, offices, patronage, titles, court presence, donor/state access.</div>
+            <div class="layer"><strong>Fourfold public</strong>Monks, nuns, laymen, and laywomen who can demand truth and child protection.</div>
+          </div>
+
+          <p>Vinaya discipline is part of protecting the Sangha, not an embarrassment to it. The legal allegations still belong to court process. The disciplinary term <span class="pali-inline"><em>pārājika</em><a href="#ref-pali-vinaya">Vinaya</a></span> is used here only to mark the seriousness with which the tradition treats monastic sexual misconduct, not to decide this case.<span class="ref"><a href="#ref-vinaya">10</a></span></p>
+
+          <p>The Buddha's dispensation includes monks, nuns, laymen, and laywomen, <span class="pali-inline"><em>bhikkhū bhikkhuniyo upāsakā upāsikāyo</em><a href="#ref-pali-dn16">DN 16</a></span>.<span class="ref"><a href="#ref-fourfold">11</a></span> A lay Buddhist who asks for records, child protection, and due process is not attacking Buddhism. They may be defending its seriousness.</p>
+
+          <p>If the Dhamma warns against wrong course through desire, hatred, delusion, and fear, <span class="pali-inline"><em>chandā dosā bhayā mohā</em><a href="#ref-pali-an417">AN 4.17</a></span>, then fear of religious power is still a wrong course.<span class="ref"><a href="#ref-agati">12</a></span> So is hatred of Buddhism.</p>
+        </section>
+
+        <section id="social">
+          <span class="kicker">Social Commentary</span>
+          <h2>What The Online Argument Shows</h2>
+          <p>Social media is not a court file. It can break silence, harden claims, expose institutional hesitation, distort facts, protect power, or turn a child-protection case into spectacle. In this dossier, social posts and screenshots are treated as propagation evidence only: they show public framing, not factual truth.</p>
+
+          <div class="social-grid">
+            <div class="social-card">
+              <strong>Social video seed</strong>
+              <a href="https://www.facebook.com/watch/?v=1303760565193499">Facebook watch route</a>
+              <img src="assets/social/P6-FB001-S021-2026-05-25-post-context-crop.png" alt="Cropped Facebook working-reference capture for propagation review">
+              <small>S021. Working reference crop. Not evidence of allegation truth.</small>
+            </div>
+            <div class="social-card">
+              <strong>Social outrage / commentary</strong>
+              <a href="https://www.facebook.com/reel/2098748824388967">Facebook reel route</a>
+              <img src="assets/social/P6-FB002-S022-2026-05-25-post-context-crop.png" alt="Cropped Facebook reel working-reference capture for propagation review">
+              <small>S022. Working reference crop. Rhetoric and spread only.</small>
+            </div>
+            <div class="social-card">
+              <strong>Anti-clerical warning frame</strong>
+              <a href="https://www.facebook.com/61561363958146/posts/122209185740378798/">Facebook post route</a>
+              <img src="assets/social/P6-FB003-S029-2026-05-25-post-context-crop.png" alt="Cropped Facebook post working-reference capture for propagation review">
+              <small>S029. Use for rhetoric-risk review only.</small>
+            </div>
+            <div class="social-card">
+              <strong>Counter-framing / institutional-defense route</strong>
+              <a href="https://www.facebook.com/story.php?story_fbid=2072169690374712&id=100027451040840">Facebook post route</a>
+              <img src="assets/social/P6-FB004-S030-2026-05-25-post-context-crop.png" alt="Cropped Facebook post working-reference capture for counter-framing review">
+              <small>S030. High legal-risk social claim route; no quotation without review.</small>
+            </div>
+          </div>
+        </section>
+
+        <section id="equal">
+          <span class="kicker">Equal Protection</span>
+          <h2>The Parallel Child</h2>
+          <p>The Pallegama case is one doorway into a broader standard: no adult institution should be able to lower the protection owed to a child. That principle also touches personal-law debates around Muslim child marriage and Buddhist child novice ordination. These issues are not the same as the Pallegama allegations, and they do not prove anything about the accused. They belong here because they expose the same civic weakness: adults often negotiate around children when the adult institution is religious, familial, communal, or politically respected.<span class="ref"><a href="#ref-equal">13</a></span></p>
+
+          <div class="principle">A child is not less a child because an adult institution calls the arrangement sacred, lawful, familial, respectable, or communal.</div>
+
+          <div class="evidence-stack">
+            <div class="evidence-slab">
+              <h3>Muslim child marriage and the MMDA</h3>
+              <p>The Muslim Marriage and Divorce Act is not an accusation against Muslims. It is a legal architecture problem. Sri Lanka's Registrar General guidance lists 18 as the age requirement for General and Kandyan marriage registration, while MMDA section 23 expressly contemplates registration of a marriage contracted by a Muslim girl under 12 if the Quazi authorizes it after inquiry.<span class="ref"><a href="#ref-mmda-law">14</a></span></p>
+              <p>The current public reform record is also not vague. HRCSL's 2025 statement says MMDA reform is required for equality and the best interests of the child, records Cabinet-level reform history and delay, recommends an 18-year minimum under the MMDA, and recommends deleting the Penal Code 363(e) marital-exception phrase that weakens statutory-rape protection where the girl is the man's wife, over 12, and not judicially separated.<span class="ref"><a href="#ref-mmda-law">14</a></span></p>
+              <div class="stat-strip">
+                <div class="stat"><b>18</b><span>General/Kandyan registration age listed by RGD.</span></div>
+                <div class="stat"><b>under 12</b><span>MMDA section 23 Quazi-authorization route.</span></div>
+                <div class="stat"><b>2026</b><span>HRCSL says Justice Ministry sought observations on proposed reform.</span></div>
+              </div>
+            </div>
+
+            <div class="evidence-slab">
+              <h3>Data without communal scapegoating</h3>
+              <p>The data should discipline the argument, not inflame it. UNICEF said Sri Lanka's child-marriage prevalence is low compared with other South Asian countries, but estimated that in 2014 between 16,000 and 24,000 boys and girls under 18 were formally married or cohabiting. Girls Not Brides reports 1% of girls in Sri Lanka married or in union before 15 and 10% before 18, while listing drivers including gender inequality, dowry/kaikuli, family honour, poverty, conflict, disasters, and cohabitation recognized by communities as marriage-like.<span class="ref"><a href="#ref-mmda-data">15</a></span></p>
+              <p>That means the public line must be careful: this is not "Muslims are the problem." It is that personal law, community pressure, gendered poverty, and political delay can make a girl easier to negotiate around than to protect.</p>
+            </div>
+          </div>
+
+          <div class="parallel-grid">
+            <div class="evidence-slab">
+              <h3>Muslim society and political power</h3>
+              <p>The power question is not whether every Muslim family, scholar, or institution supports child marriage. Many Muslim women, reform groups, lawyers, and rights advocates have pushed reform for years. The power question is why acknowledged reform can remain stuck while girls live under the old structure. HRCSL describes prior reports, Cabinet decisions, draft-bill review, support from Muslim groups and institutions, and delays that have frustrated reformers and continued victimization under problematic provisions.<span class="ref"><a href="#ref-mmda-power">16</a></span></p>
+            </div>
+
+            <div class="evidence-slab">
+              <h3>Novice ordination and choice</h3>
+              <p>Buddhist novice ordination must be given the same child-protection weight. The Vinaya route distinguishes full ordination from novice going-forth: full Acceptance has a 20-year threshold, while the contested child-protection issue is novice pabbajja. The Mahavagga route records the rule that a boy under 15 should not be given going-forth, with a narrow "able to chase away crows" exception.<span class="ref"><a href="#ref-monkhood-law">17</a></span></p>
+              <p>A modern Buddhist society can honor that tradition by asking the modern capacity questions: does the child understand, assent, continue schooling, keep family contact, have a safe complaint route outside temple authority, and have a dignified path to leave?</p>
+            </div>
+          </div>
+
+          <div class="evidence-slab">
+            <h3>Poverty, temple machinery, and the false comfort of reverence</h3>
+            <p>The poverty link is central and must be named without shaming poor families. A child may "choose" novice life because it is the only visible route to food, schooling, family pride, or reduced family burden. That does not make every child ordination abusive, and it does not erase sincere religious aspiration. It means the choice is not free enough unless society proves the child is safe, educated, heard, and able to leave without stigma.<span class="ref"><a href="#ref-monkhood-welfare">18</a></span></p>
+            <p>The Sangha institution can become a machine when poor children supply temple continuity while elite families mostly keep their own children outside that cost. If renunciation is noble, it must be free enough to be renunciation. If the robe is discipline, the adult system around a child novice must be disciplined too.</p>
+          </div>
+
+          <div class="principle">No robe above the law. No personal law below the child-protection floor. No child novice treated as a symbol before he is treated as a child. No allegation beyond evidence.</div>
+        </section>
+
+        <section id="demands">
+          <span class="kicker">Public Demands</span>
+          <h2>Ask For Records, Not Rumor</h2>
+          <div class="demand-grid">
+            <div class="demand"><strong>Timeline and police process</strong><ul><li>Original March complaint and first police entry.</li><li>Any April 10 statement reference.</li><li>April 27, May 4, and May 8 B reports and court minutes.</li><li>Police progress reports and arrest log.</li></ul></div>
+            <div class="demand"><strong>Child protection route</strong><ul><li>April 22 NCPA intake or complaint record.</li><li>April 24 NCPA letter and proof of receipt.</li><li>NCPA court submissions and police response.</li><li>Child-protection and witness-protection safeguards.</li></ul></div>
+            <div class="demand"><strong>Court and legal status</strong><ul><li>May 8 court order, warrant, or B-report route.</li><li>May 22 bail order and court minute.</li><li>AG correspondence, appearance, advice, or non-appearance record.</li><li>Defense/right-of-reply answers.</li></ul></div>
+            <div class="demand"><strong>Evidence and language</strong><ul><li>Government Analyst production/status records.</li><li>Current MMDA amendment status.</li><li>Current Samanera safeguarding requirements.</li><li>Sinhala/Tamil Buddhist and legal-language review.</li></ul></div>
+          </div>
+        </section>
+
+        <section id="closing">
+          <span class="kicker">Kalama Ending</span>
+          <h2>Do Not Choose Between Silence And Hatred</h2>
+          <p>The Dhamma does not ask the public to choose between silence and hatred. It asks for speech that is true, beneficial, and timely, <span class="pali-inline"><em>bhūtaṃ tacchaṃ atthasaṃhitaṃ</em><a href="#ref-pali-mn58">MN 58</a></span>, and it warns that hatred is not ended by hatred, <span class="pali-inline"><em>Na hi verena verāni sammantīdha kudācanaṃ</em><a href="#ref-pali-dhp5">Dhp 5</a></span>.<span class="ref"><a href="#ref-right-speech">19</a></span></p>
+
+          <div class="kalama">
+            <p class="pali-line">Alañhi vo, kālāmā, kaṅkhituṃ, alaṃ vicikicchituṃ. Kaṅkhanīyeva pana vo ṭhāne vicikicchā uppannā.</p>
+            <p>කාලාමයෙනි, සැක කළ යුතු තැන සැක මතුවීම සුදුසුය. විචාර කළ යුතු තැන විචාර මතුවීම සුදුසුය.</p>
+            <p>Do not accept a public claim merely because it comes from reverence, rumor, tradition, outrage, office, teacher, or status. When the matter is doubtful, investigate what leads to harm and what leads to welfare.<span class="ref"><a href="#ref-pali-kalama">AN 3.65</a></span></p>
+          </div>
+        </section>
+
+        <section id="references" class="divider">
+          <span class="kicker">References</span>
+          <h2>Source Notes</h2>
+          <div class="note blue"><p>Buddhist references list Pali route and anchor phrase first. English and Sinhala wording here is working translation. Sinhala/Tamil/French public rendering still needs reviewer approval.</p></div>
+
+          <h3>Pali And Buddhist Notes</h3>
+          <div id="ref-pali-dhp5" class="refbox"><p><strong>Dhammapada 5.</strong> Pali route: <a href="https://suttacentral.net/dhp5/pli/ms">Dhp 5</a>. Anchor: <em>Na hi verena verāni sammantīdha kudācanaṃ</em>. Working sense: hatred is not ended by hatred.</p></div>
+          <div id="ref-pali-mn58" class="refbox"><p><strong>MN 58 Abhayarājakumārasutta.</strong> Pali route: <a href="https://suttacentral.net/mn58/pli/ms">MN 58</a>. Anchor: <em>bhūtaṃ tacchaṃ atthasaṃhitaṃ</em>. Working sense: speech should be true, grounded, beneficial, and timely.</p></div>
+          <div id="ref-pali-an417" class="refbox"><p><strong>AN 4.17 Agati Sutta.</strong> Pali route: <a href="https://suttacentral.net/an4.17/pli/ms">AN 4.17</a>. Anchor: <em>chandā dosā bhayā mohā</em>. Working sense: do not go wrong through desire, hatred, delusion, or fear.</p></div>
+          <div id="ref-pali-kp6" class="refbox"><p><strong>Ratana Sutta / Kp 6.</strong> Pali route: <a href="https://suttacentral.net/kp6/pli/ms">Kp 6</a>. Anchor: <em>ye puggalā aṭṭha sataṃ pasatthā</em>. Working sense: the Sangha jewel points to noble disciples, not worldly office.</p></div>
+          <div id="ref-pali-an452" class="refbox"><p><strong>AN 4.52 Sanghānussati formula.</strong> Pali route: <a href="https://suttacentral.net/an4.52/pli/ms">AN 4.52</a>. Anchor: <em>cattāri purisayugāni aṭṭha purisapuggalā</em>. Working sense: four pairs/eight persons.</p></div>
+          <div id="ref-pali-mn142" class="refbox"><p><strong>MN 142 Dakkhiṇāvibhaṅgasutta.</strong> Pali route: <a href="https://suttacentral.net/mn142/pli/ms">MN 142</a>. Anchor: <em>saṅghe ... dehi</em>. Working sense: distinguish an individual recipient from the Sangha as community.</p></div>
+          <div id="ref-pali-dn16" class="refbox"><p><strong>DN 16 Mahāparinibbānasutta.</strong> Pali route: <a href="https://suttacentral.net/dn16/pli/ms">DN 16</a>. Anchor: <em>bhikkhū bhikkhuniyo upāsakā upāsikāyo</em>. Working sense: the Buddhist public includes monks, nuns, laymen, and laywomen.</p></div>
+          <div id="ref-pali-vinaya" class="refbox"><p><strong>Vinaya Pārājika 1.</strong> Pali route: <a href="https://suttacentral.net/pli-tv-bu-vb-pj1/pli/ms">Vinaya Pārājika 1</a>. Anchor: <em>pārājika</em>. Use: seriousness only; no case finding implied.</p></div>
+          <div id="ref-pali-kalama" class="refbox"><p><strong>AN 3.65 Kesamuttisutta / Kalama Sutta.</strong> Pali route: <a href="https://suttacentral.net/an3.65/pli/ms">AN 3.65 Pali</a>. Anchor: <em>Alañhi vo, kālāmā, kaṅkhituṃ, alaṃ vicikicchituṃ</em>; <em>mā anussavena, mā paramparāya</em>. Working sense: doubt is proper where the matter is doubtful; do not go merely by hearsay, tradition, status, or teacher-authority.</p></div>
+
+          <h3>Case And Evidence Notes</h3>
+          <div id="ref-bbc" class="refbox"><p><strong>1.</strong> BBC public trigger: <a href="https://www.bbc.com/news/articles/cy42kp0x92jo">Buddhist monk arrested over alleged rape of teen in Sri Lanka</a>. Case reporting only; court records still needed.</p></div>
+          <div id="ref-ap" class="refbox"><p><strong>2.</strong> AP bail/status route: <a href="https://apnews.com/article/7b6d070f2f1a22466e04353bf96c572f">Senior Buddhist monk accused of child sexual abuse released on bail</a>. Used for bail/denial reporting, not as court order substitute.</p></div>
+          <div id="ref-records" class="refbox"><p><strong>3.</strong> Timeline controls: P17 timeline status audit and P18 corrected timeline check.</p></div>
+          <div id="ref-sangha" class="refbox"><p><strong>4.</strong> Sangha jewel route: <a href="#ref-pali-kp6">Kp 6</a> and <a href="#ref-pali-an452">AN 4.52</a>.</p></div>
+          <div id="ref-case-reporting" class="refbox"><p><strong>5.</strong> Case reporting cluster: BBC, AP, News 1st, Daily FT, Daily Mirror, and Al Jazeera/AFP as registered in source-register.csv.</p></div>
+          <div id="ref-office" class="refbox"><p><strong>6.</strong> Institutional context cluster: President's Office, News.lk, and Central Cultural Fund routes listed in the labelled reference register.</p></div>
+          <div id="ref-child-ethics" class="refbox"><p><strong>7.</strong> NCPA mandate and child-sensitive reporting routes are listed in source/register materials; child identity and intimate detail remain excluded from public narration.</p></div>
+          <div id="ref-police-conference" class="refbox"><p><strong>8.</strong> Police conference route: P15 police-conference claim matrix and P16 exchange parse. Transcript route remains unverified pending primary records.</p></div>
+          <div id="ref-sangha-distinction" class="refbox"><p><strong>9.</strong> Sangha distinction route: P24 Ariya-sangha memo and <a href="#ref-pali-mn142">MN 142</a>.</p></div>
+          <div id="ref-vinaya" class="refbox"><p><strong>10.</strong> Vinaya route: <a href="#ref-pali-vinaya">Pārājika 1 Pali-first note</a>. Used only to show disciplinary seriousness.</p></div>
+          <div id="ref-fourfold" class="refbox"><p><strong>11.</strong> Fourfold Buddhist public route: <a href="#ref-pali-dn16">DN 16</a>.</p></div>
+          <div id="ref-agati" class="refbox"><p><strong>12.</strong> Wrong-course reference: <a href="#ref-pali-an417">AN 4.17</a>. Public ethics, not legal proof.</p></div>
+          <div id="ref-equal" class="refbox"><p><strong>13.</strong> Equal-protection routes: P22 MMDA synthesis and P23 monkhood/choice synthesis.</p></div>
+          <div id="ref-mmda-law" class="refbox"><p><strong>14.</strong> MMDA legal architecture route: <a href="https://lawnet.gov.lk/wp-content/uploads/leg_enact_1981/1981Y6V134C.html">MMDA section 23 via LawNet</a>; <a href="https://www.rgd.gov.lk/web/index.php/en/services/civil-registration/marriage/marriage-registration">Registrar General marriage-registration guidance</a>; <a href="https://www.hrcsl.lk/wp-content/uploads/2025/08/HRCSL-Statement-on-Reforming-the-Muslim-Marriage-and-Divorce-Act-and-on-Related-Matters.pdf">HRCSL 2025 MMDA reform statement</a>; <a href="https://www.hrcsl.lk/hrcsl-submits-observations-on-reforming-the-muslim-marriage-and-divorce-act/?lang=si">HRCSL 2026 observations note</a>.</p></div>
+          <div id="ref-mmda-data" class="refbox"><p><strong>15.</strong> Child-marriage data route: <a href="https://www.unicef.org/srilanka/press-releases/25-million-child-marriages-prevented-last-decade-due-accelerated-progress-according">UNICEF Sri Lanka 2018 estimate</a> and <a href="https://www.girlsnotbrides.org/learning-resources/child-marriage-atlas/regions-and-countries/sri-lanka/">Girls Not Brides Sri Lanka profile</a>. Use as prevalence/context, not as proof about any Pallegama allegation.</p></div>
+          <div id="ref-mmda-power" class="refbox"><p><strong>16.</strong> MMDA power/reform-delay route: HRCSL's 2025 statement records reform committees, a 2021 Cabinet reform decision, draft-bill analysis, support from Muslim groups/institutions, and delays. The 2026 HRCSL page records Justice Ministry request for HRCSL observations on ongoing reform.</p></div>
+          <div id="ref-monkhood-law" class="refbox"><p><strong>17.</strong> Novice-ordination route: <a href="https://www.dhammatalks.org/vinaya/Mv/MvI.html">Mahavagga / Mv.I</a> on going-forth, under-15 rule, the crow-capacity exception, and Vinaya concern for novice conditions. Distinguish novice pabbajja from full upasampada.</p></div>
+          <div id="ref-monkhood-welfare" class="refbox"><p><strong>18.</strong> Child-novice welfare route: <a href="https://sljfmsl.sljol.info/articles/10.4038/sljfmsl.v15i1.7957">Sri Lanka Journal of Forensic Medicine, Science &amp; Law 2024 article</a>, P23 monkhood/choice synthesis, and Department of Buddhist Affairs registration route listed in the P23 source register. Use as safeguarding argument, not as a claim that all child ordination is abuse.</p></div>
+          <div id="ref-right-speech" class="refbox"><p><strong>19.</strong> Right-speech and non-hatred route: <a href="#ref-pali-mn58">MN 58</a> and <a href="#ref-pali-dhp5">Dhp 5</a>.</p></div>
+        </section>
+      </article>
+
+      <aside aria-label="Dossier context">
+        <nav class="side">
+          <h3>Sections</h3>
+          <a href="#opening">Opening</a>
+          <a href="#reported">Reported status</a>
+          <a href="#timeline">April problem</a>
+          <a href="#power">Power</a>
+          <a href="#sangha">Who is Sangha?</a>
+          <a href="#social">Social commentary</a>
+          <a href="#equal">Equal protection</a>
+          <a href="#demands">Public demands</a>
+          <a href="#closing">Kalama ending</a>
+          <a href="#references">References</a>
+        </nav>
+        <div class="side">
+          <h3>Deciding Records</h3>
+          <ul>
+            <li>April 24 NCPA letter.</li>
+            <li>May 8 court minute/B report.</li>
+            <li>May 22 bail order.</li>
+            <li>Police progress reports.</li>
+            <li>AG correspondence.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    Evidence-gated Analyst article. No child imagery. Context image does not imply guilt. No anti-Buddhist framing. No social screenshot is used as proof of allegation truth.
+  </footer>
+</body>
+</html>
