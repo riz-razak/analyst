@@ -1,166 +1,222 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import '../styles/magazine.css'
 
-const FILTERS = ['All', 'This Week', 'This Month']
-const LOCATIONS = ['Colombo, Sri Lanka', 'London, United Kingdom', 'Washington D.C., USA', 'Singapore', 'Dubai, UAE']
-
-const fallbackStripSets = [
-  [
-    { gradient: 'g2', kicker: 'Corruption', title: 'Sri Lankan Cricket Corruption', meta: 'Dossier' },
-    { gradient: 'g3', kicker: 'Geopolitics', title: 'Iran, Israel & American Power', meta: 'Analysis' },
-    { gradient: 'g4', kicker: 'Economy', title: 'Sri Lanka & the Hormuz Crisis', meta: 'Explainer' },
-  ],
-  [
-    { gradient: 'g9', kicker: 'Tool', kickerVariant: 'tool', title: 'Hormuz Oracle', meta: 'Scenario model' },
-    { gradient: 'g10', kicker: 'Archive', kickerVariant: 'intel', title: 'Editorial Standards', meta: 'Publishing workflow' },
-    { gradient: 'g11', kicker: 'Philosophy', title: 'Anatta, Bamiyan, and Non-Self', meta: 'Essay' },
-  ],
-  [
-    { gradient: 'g5', kicker: 'Accountability', title: 'Caravan Fresh Case Study', meta: 'Consumer advocacy' },
-    { gradient: 'g12', kicker: 'Media', title: 'Happy Womaniser Day!', meta: 'Press ethics' },
-    { gradient: 'g6', kicker: 'Visuals', kickerVariant: 'tool', title: 'Article image standard', meta: 'Thumbnail + hero required' },
-  ],
+const TOPIC_TABS = [
+  { id: 'all', label: 'Ranked', labelSi: 'Ranked', description: 'One editorial feed', descriptionSi: 'එක editorial feed එකක්', terms: [] },
+  { id: 'power', label: 'Power', labelSi: 'බලය', description: 'Politics, governance, accountability', descriptionSi: 'දේශපාලනය, governance සහ වගවීම', terms: ['politics', 'governance', 'accountability', 'corruption', 'procurement', 'election', 'npp', 'state'] },
+  { id: 'economy', label: 'Economy', labelSi: 'ආර්ථිකය', description: 'Finance, trade, energy, industry', descriptionSi: 'මුදල්, වෙළඳාම, energy සහ කර්මාන්තය', terms: ['economy', 'economic', 'finance', 'trade', 'industry', 'energy', 'oil', 'hormuz', 'business'] },
+  { id: 'world', label: 'World', labelSi: 'ලෝකය', description: 'Geopolitics and global shocks', descriptionSi: 'Geopolitics සහ global shocks', terms: ['geopolitics', 'global', 'world', 'war', 'iran', 'israel', 'american', 'us decline'] },
+  { id: 'rights', label: 'Rights', labelSi: 'අයිතිවාසිකම්', description: 'Law, violence, evidence, justice', descriptionSi: 'නීතිය, violence, evidence සහ යුක්තිය', terms: ['rights', 'law', 'justice', 'war crimes', 'women', 'sexual harassment', 'violence'] },
+  { id: 'ideas', label: 'Ideas', labelSi: 'අදහස්', description: 'Culture, history, philosophy, media', descriptionSi: 'සංස්කෘතිය, ඉතිහාසය, philosophy සහ media', terms: ['culture', 'history', 'philosophy', 'buddhism', 'media', 'press ethics', 'design', 'art'] },
 ]
 
-const accountabilityAlerts = [
-  {
-    type: 'internal',
-    label: 'Correction',
-    title: 'Homepage magazine redesign in progress; live-data labels withheld until sources are wired',
-    meta: 'Transparency note',
+const HOME_COPY = {
+  en: {
+    edition: 'Ranked public feed',
+    dossiers: 'Dossiers',
+    feedEyebrow: 'Ranked Feed',
+    feedTitle: 'One wall for investigations, explainers, opinion, history, industry and breaking context.',
+    feedIntro: 'Ranked by recency, public evidence depth, topic fit and editorial priority. Topic tabs reshape the same wall without splitting the homepage into competing modes.',
+    loading: 'Loading more pieces',
+    end: 'End of ranked wall',
+    empty: 'No published pieces in this topic yet',
+    footerTagline: 'Evidence-led public analysis from Sri Lanka outward.',
+    publishedPieces: 'published pieces',
+    skip: 'Skip to articles',
+    languageLabel: 'Switch homepage language',
+    tagsLabel: 'Tags',
+    menuAccount: 'Account',
+    menuChecking: 'Checking session',
+    menuNavigate: 'Navigate',
+    menuHome: 'Home',
+    menuDossiersSub: 'Published investigations and essays',
+    menuTopics: 'Topics',
+    menuTopicsSub: 'Ranked wall by subject',
+    menuAbout: 'About Riz',
+    menuAccountability: 'Accountability',
+    menuTracker: 'MP Accountability Tracker',
+    menuTrackerSub: 'Planned public section',
+    menuCorrections: 'Corrections & Retractions',
+    menuCorrectionsSub: 'Editorial transparency log',
+    menuSubmit: 'Submit Evidence',
+    menuSubmitSub: 'Evidence intake queue',
+    menuLegal: 'Legal',
   },
-]
-
-const tools = {
-  intelCards: [
-    {
-      label: 'Editor Pinned',
-      figure: 'Hormuz',
-      description: 'Crisis scenario modelling for Sri Lanka energy exposure',
-      change: 'Reference model, not live market data',
-    },
-  ],
-  featuredTools: [
-    {
-      name: 'Hormuz Oracle',
-      description: 'Probability-weighted crisis scenarios for SL energy supply',
-      href: '/oracle/',
-      badges: ['Reference', 'Analyst'],
-    },
-  ],
-  inlineTools: [
-    { name: 'Submit Evidence', href: '/admin-submissions.html', status: 'pinned', tag: 'Intake' },
-    { name: 'Editorial Standards', href: '#ethics', status: 'default', tag: 'Policy' },
-    { name: 'Corrections', href: '#corrections', status: 'default', tag: 'Trust' },
-  ],
+  si: {
+    edition: 'තේරූ පොදු feed එක',
+    dossiers: 'Dossiers',
+    feedEyebrow: 'Ranked Feed',
+    feedTitle: 'පර්යේෂණ, පැහැදිලි කිරීම්, මත, ඉතිහාසය, කර්මාන්තය සහ breaking context එකම wall එකක.',
+    feedIntro: 'අලුත් බව, public evidence depth, topic fit සහ editorial priority අනුව rank කරන feed එකක්. Topic tabs එකම wall එක subject අනුව නැවත සකස් කරයි.',
+    loading: 'තවත් pieces load වෙමින්',
+    end: 'Ranked wall අවසානය',
+    empty: 'මෙම topic එකට published pieces තවම නැහැ',
+    footerTagline: 'ශ්‍රී ලංකාවෙන් පිටතට යන evidence-led public analysis.',
+    publishedPieces: 'published pieces',
+    skip: 'ලිපි වෙත යන්න',
+    languageLabel: 'Homepage language මාරු කරන්න',
+    tagsLabel: 'Tags',
+    menuAccount: 'Account',
+    menuChecking: 'Session එක පරීක්ෂා වෙමින්',
+    menuNavigate: 'Navigate',
+    menuHome: 'Home',
+    menuDossiersSub: 'Published investigations සහ essays',
+    menuTopics: 'Topics',
+    menuTopicsSub: 'Subject අනුව ranked wall එක',
+    menuAbout: 'Riz ගැන',
+    menuAccountability: 'වගවීම',
+    menuTracker: 'MP Accountability Tracker',
+    menuTrackerSub: 'සැලසුම් කර ඇති public section එක',
+    menuCorrections: 'Corrections & Retractions',
+    menuCorrectionsSub: 'Editorial transparency log',
+    menuSubmit: 'Evidence Submit කරන්න',
+    menuSubmitSub: 'Evidence intake queue',
+    menuLegal: 'Legal',
+  },
 }
 
-const formatDate = (date) => {
+const topicById = TOPIC_TABS.reduce((acc, topic) => ({ ...acc, [topic.id]: topic }), {})
+
+const localizedValue = (item, field, language) => {
+  if (language === 'si') return item?.[`${field}Si`] || item?.[field]
+  return item?.[field]
+}
+
+const localizedArray = (item, field, language) => {
+  const value = localizedValue(item, field, language)
+  return Array.isArray(value) ? value : []
+}
+
+const localizedTopic = (topic, language) => ({
+  ...topic,
+  label: language === 'si' ? topic.labelSi || topic.label : topic.label,
+  description: language === 'si' ? topic.descriptionSi || topic.description : topic.description,
+})
+
+const formatDate = (date, language = 'en') => {
   if (!date) return 'Undated'
-  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(date))
+  const parsed = new Date(date)
+  if (Number.isNaN(parsed.getTime())) return 'Undated'
+  const locale = language === 'si' ? 'si-LK' : 'en-GB'
+  return new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', year: 'numeric' }).format(parsed)
 }
 
-const dateMeta = (date, readTime) => `${formatDate(date)} · ${readTime}`
+const dateMeta = (date, readTime, language) => `${formatDate(date, language)} · ${readTime}`
+
+const formatReadTime = (sections, readTime, language) => {
+  if (readTime) return readTime
+  const minutes = Math.max(8, Math.min(28, (sections || 6) * 2))
+  return language === 'si' ? `විනාඩි ${minutes}` : `${minutes} min`
+}
+
+const formatSourceLabel = (sourceCount, language) => {
+  if (!sourceCount) return language === 'si' ? 'Source register' : 'Source register'
+  return language === 'si' ? `කොටස් ${sourceCount}` : `${sourceCount} sections`
+}
 
 const titleCase = (value = '') => value.split(/[-_\s]+/).filter(Boolean).map(word => word[0]?.toUpperCase() + word.slice(1)).join(' ')
 
-const normalizeDossier = (dossier, index) => {
+const normalizeDossier = (dossier, index, language = 'en') => {
   const authors = Array.isArray(dossier.authors) ? dossier.authors : [dossier.author].filter(Boolean)
   const sourceCount = dossier.sourceCount || dossier.sources || dossier.sections || 0
+  const title = localizedValue(dossier, 'title', language)
+  const description = localizedValue(dossier, 'description', language)
+  const tags = localizedArray(dossier, 'tags', language)
+  const features = localizedArray(dossier, 'features', language)
+  const kicker = localizedValue(dossier, 'kicker', language) || titleCase(dossier.category || dossier.tags?.[0] || 'Dossier')
   return {
     ...dossier,
+    title,
+    description,
+    tags,
+    features,
     author: authors[0] || 'Riz Razak',
-    excerpt: dossier.excerpt || dossier.description || dossier.summary || '',
+    excerpt: localizedValue(dossier, 'excerpt', language) || description || localizedValue(dossier, 'summary', language) || '',
     gradient: dossier.gradient || `g${(index % 12) + 1}`,
-    kicker: dossier.kicker || titleCase(dossier.category || dossier.tags?.[0] || 'Dossier'),
-    readTime: dossier.readTime || `${Math.max(8, Math.min(28, (dossier.sections || 6) * 2))} min`,
-    sourceLabel: dossier.sourceLabel || (sourceCount ? `${sourceCount} sections` : 'Source register'),
+    kicker,
+    readTime: formatReadTime(dossier.sections, dossier.readTime, language),
+    sourceLabel: dossier.sourceLabel || formatSourceLabel(sourceCount, language),
     thumbnail: dossier.thumbnail || dossier.thumbnailUrl,
     heroImage: dossier.heroImage || dossier.heroImageUrl || dossier.thumbnail || dossier.thumbnailUrl,
     url: dossier.contentUrl || `/${dossier.id}`,
+    searchText: [
+      dossier.title,
+      dossier.description,
+      dossier.summary,
+      dossier.category,
+      dossier.kicker,
+      dossier.titleSi,
+      dossier.descriptionSi,
+      dossier.kickerSi,
+      ...(dossier.tags || []),
+      ...(dossier.tagsSi || []),
+    ].filter(Boolean).join(' '),
   }
 }
 
-const useStripRotation = (sets, interval = 15000) => {
-  const [currentSet, setCurrentSet] = useState(0)
-  const [flipping, setFlipping] = useState([false, false, false])
-  const [paused, setPaused] = useState(false)
-  const timerRef = useRef(null)
+const dossierText = (dossier) => [
+  dossier.searchText,
+  dossier.title,
+  dossier.subtitle,
+  dossier.excerpt,
+  dossier.category,
+  dossier.kicker,
+  ...(dossier.tags || []),
+].filter(Boolean).join(' ').toLowerCase()
 
-  useEffect(() => {
-    if (paused || sets.length < 2) return undefined
-
-    timerRef.current = window.setInterval(() => {
-      ;[0, 1, 2].forEach((index) => {
-        window.setTimeout(() => {
-          setFlipping(prev => prev.map((value, itemIndex) => itemIndex === index ? true : value))
-        }, index * 120)
-      })
-
-      window.setTimeout(() => {
-        setCurrentSet(prev => (prev + 1) % sets.length)
-        setFlipping([false, false, false])
-      }, 720)
-    }, interval)
-
-    return () => window.clearInterval(timerRef.current)
-  }, [interval, paused, sets.length])
-
-  return { currentSet, flipping, pause: () => setPaused(true), resume: () => setPaused(false), paused }
+const matchesTopic = (dossier, topic) => {
+  if (!topic || topic.id === 'all') return true
+  const haystack = dossierText(dossier)
+  return topic.terms.some(term => haystack.includes(term))
 }
 
-const getFiltered = (items, filter) => {
-  if (filter === 'All') return items
-  const now = Date.now()
-  const limit = filter === 'This Week' ? 7 : 31
-  return items.filter(item => {
-    const time = new Date(item.date).getTime()
-    if (Number.isNaN(time)) return false
-    return (now - time) / (1000 * 60 * 60 * 24) <= limit
-  })
+const resolveTopic = (dossier) => TOPIC_TABS.find(topic => topic.id !== 'all' && matchesTopic(dossier, topic)) || topicById.ideas
+
+const rankDossier = (dossier, index) => {
+  const publishedTime = new Date(dossier.date || dossier.publishedAt || 0).getTime()
+  const ageDays = Number.isNaN(publishedTime) ? 120 : Math.max(0, (Date.now() - publishedTime) / 86400000)
+  const freshness = Math.max(0, 40 - Math.min(ageDays, 120) * 0.32)
+  const sourceDepth = Math.min(24, (Number(dossier.sourceCount || dossier.sources || dossier.sections) || 0) * 1.75)
+  const evidenceBoost = /evidence|source|claim|audit|dossier/i.test([dossier.sourceLabel, dossier.excerpt, dossier.category].filter(Boolean).join(' ')) ? 9 : 0
+  const featureBoost = /investigation|exclusive|dossier|oracle|accountability/i.test(dossierText(dossier)) ? 12 : 0
+  return freshness + sourceDepth + evidenceBoost + featureBoost - (index * 0.01)
 }
 
-function Nameplate({ view, menuOpen, setMenuOpen }) {
-  const [location, setLocation] = useState(LOCATIONS[0])
-  const [open, setOpen] = useState(false)
+const normalizeRoute = (url) => {
+  if (!url) return '/'
+  return /^https?:/.test(url) ? url : url.replace(/\/index\.html$/, '')
+}
+
+function Nameplate({ menuOpen, setMenuOpen, language, setLanguage }) {
   const date = useMemo(() => new Intl.DateTimeFormat('en-GB', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short',
   }).format(new Date()), [])
+  const copy = HOME_COPY[language] || HOME_COPY.en
+  const nextLanguage = language === 'si' ? 'en' : 'si'
 
   return (
     <header className="nameplate">
       <div className="nameplate__left">
-        <button className="nameplate__loc" type="button" onClick={() => setOpen(prev => !prev)} aria-expanded={open}>
-          {location}
-        </button>
+        <div className="nameplate__edition">{copy.edition}</div>
         <div className="nameplate__date">{date}</div>
-        <div className={`loc-dropdown ${open ? 'open' : ''}`}>
-          {LOCATIONS.map(item => (
-            <button
-              key={item}
-              type="button"
-              className={`loc-opt ${item === location ? 'loc-opt--active' : ''}`}
-              onClick={() => { setLocation(item); setOpen(false) }}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
       </div>
 
-      <div className="nameplate__brand"><h1>The Analyst</h1><span className="np-dot">&middot;</span></div>
+      <a className="nameplate__brand" href="/" aria-label="The Analyst home"><h1>The Analyst</h1><span className="np-dot">&middot;</span></a>
 
       <div className="nameplate__right">
-        <div className="view-sw" role="group" aria-label="Homepage view">
-          <button className="view-sw__opt view-sw__opt--disabled" type="button" disabled title="Magazine view is internal for now">
-            <span className="view-sw__grid" aria-hidden="true" /> Magazine
-          </button>
-          <button className={`view-sw__opt ${view === 'fyp' ? 'view-sw__opt--active' : ''}`} type="button" aria-pressed="true">
-            <span className="view-sw__feed" aria-hidden="true" /> FYP
-          </button>
-        </div>
+        <button
+          className="nameplate__lang"
+          type="button"
+          onClick={() => setLanguage(nextLanguage)}
+          aria-label={copy.languageLabel}
+        >
+          <span className={language === 'en' ? 'active' : ''}>EN</span>
+          <span aria-hidden="true">/</span>
+          <span className={language === 'si' ? 'active' : ''}>සිංහල</span>
+        </button>
+        <a className="nameplate__action" href="#dossiers">{copy.dossiers}</a>
         <button className="ham" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Open menu" aria-expanded={menuOpen}>
           <span /><span /><span />
         </button>
@@ -169,8 +225,9 @@ function Nameplate({ view, menuOpen, setMenuOpen }) {
   )
 }
 
-function MenuPanel({ open, onClose, theme, toggleTheme }) {
+function MenuPanel({ open, onClose, language }) {
   const [authState, setAuthState] = useState({ loading: true, authenticated: false, admin: false, user: null })
+  const copy = HOME_COPY[language] || HOME_COPY.en
 
   useEffect(() => {
     if (!open) return undefined
@@ -210,9 +267,9 @@ function MenuPanel({ open, onClose, theme, toggleTheme }) {
       <nav className="menu-panel" aria-label="Site menu" onClick={event => event.stopPropagation()}>
         <button className="menu-close" type="button" onClick={onClose} aria-label="Close menu">&times;</button>
 
-        <div className="menu-label">Account</div>
+        <div className="menu-label">{copy.menuAccount}</div>
         {authState.loading ? (
-          <div className="menu-status">Checking session</div>
+          <div className="menu-status">{copy.menuChecking}</div>
         ) : authState.authenticated ? (
           <>
             <div className="menu-session"><span>Signed in</span><span className="menu-link__sub">{authState.user?.email || 'Analyst member'}</span></div>
@@ -224,25 +281,18 @@ function MenuPanel({ open, onClose, theme, toggleTheme }) {
           <a className="menu-link menu-link--acct" href="/auth/unified/start?next=%2Fadmin-preview.html">Sign in<span className="menu-link__sub">Admin dashboard and protected tools</span></a>
         )}
 
-        <div className="menu-label">Navigate</div>
-        <a className="menu-link" href="/">Home</a>
-        <a className="menu-link" href="#dossiers">Dossiers<span className="menu-link__sub">Published investigations and essays</span></a>
-        <a className="menu-link" href="#tools">Tools & Dashboards<span className="menu-link__sub">Models, monitors, and portals</span></a>
-        <a className="menu-link" href="https://rizrazak.com">About Riz</a>
+        <div className="menu-label">{copy.menuNavigate}</div>
+        <a className="menu-link" href="/">{copy.menuHome}</a>
+        <a className="menu-link" href="#dossiers">{copy.dossiers}<span className="menu-link__sub">{copy.menuDossiersSub}</span></a>
+        <a className="menu-link" href="#topics">{copy.menuTopics}<span className="menu-link__sub">{copy.menuTopicsSub}</span></a>
+        <a className="menu-link" href="https://rizrazak.com">{copy.menuAbout}</a>
 
-        <div className="menu-label">Accountability</div>
-        <a className="menu-link menu-link--acct" href="#accountability">MP Accountability Tracker<span className="menu-link__sub">Formerly Pavura.lk · planned section</span></a>
-        <a className="menu-link" href="#corrections">Corrections & Retractions<span className="menu-link__sub">Editorial transparency log</span></a>
-        <a className="menu-link" href="/admin-submissions.html">Submit Evidence<span className="menu-link__sub">Evidence intake queue</span></a>
+        <div className="menu-label">{copy.menuAccountability}</div>
+        <a className="menu-link menu-link--acct" href="#accountability">{copy.menuTracker}<span className="menu-link__sub">{copy.menuTrackerSub}</span></a>
+        <a className="menu-link" href="#corrections">{copy.menuCorrections}<span className="menu-link__sub">{copy.menuCorrectionsSub}</span></a>
+        <a className="menu-link" href="/admin-submissions.html">{copy.menuSubmit}<span className="menu-link__sub">{copy.menuSubmitSub}</span></a>
 
-        <div className="menu-label">Preferences</div>
-        <div className="menu-toggle-row"><span>සිංහල / English</span><span className="menu-note">Soon</span></div>
-        <div className="menu-toggle-row">
-          <span>Dark Mode</span>
-          <button type="button" className={`menu-toggle ${theme === 'dark' ? 'on' : ''}`} onClick={toggleTheme} aria-label="Toggle dark mode" />
-        </div>
-
-        <div className="menu-label">Legal</div>
+        <div className="menu-label">{copy.menuLegal}</div>
         <a className="menu-link" href="#privacy">Privacy Policy</a>
         <a className="menu-link" href="#terms">Terms of Use</a>
         <a className="menu-link" href="#ai-safety">AI Safety & Ethics</a>
@@ -251,215 +301,182 @@ function MenuPanel({ open, onClose, theme, toggleTheme }) {
   )
 }
 
-function AccountabilityTicker({ alerts, hidden }) {
-  const [gone, setGone] = useState(false)
-  useEffect(() => {
-    if (!alerts.length) return undefined
-    const timeout = window.setTimeout(() => setGone(true), alerts.length === 1 ? 60000 : alerts.length * 15000)
-    return () => window.clearTimeout(timeout)
-  }, [alerts.length])
-
-  if (!alerts.length) return null
-  const alert = alerts[0]
-  return (
-    <div className={`acct-ticker ${gone || hidden ? 'acct-ticker--gone' : ''}`}>
-      <div className={`acct-strip ${alert.type === 'internal' ? 'acct-strip--internal' : ''}`}>
-        <span className="acct-strip__dot" /><span className="acct-strip__type">{alert.label}</span><span className="acct-strip__sep">|</span>
-        <span className="acct-strip__title">{alert.title}</span><span className="acct-strip__meta">{alert.meta}</span>
-      </div>
-    </div>
-  )
-}
-
 function GradientImage({ item, className }) {
-  const [failed, setFailed] = useState(false)
-  if (item?.thumbnail && !failed) return <img className={className} src={item.thumbnail} alt="" loading="lazy" onError={() => setFailed(true)} />
-  return <div className={`${className} ${item?.gradient || 'g1'}`} />
+  if (item?.heroImage) return <img src={item.heroImage} alt={item.title || ''} className={className} loading="lazy" />
+  return <div className={`${className} ${item?.gradient || 'g1'}`} role="presentation" />
 }
 
-function Hero({ dossier, navigate }) {
-  const heroVisual = { ...dossier, thumbnail: dossier.heroImage || dossier.thumbnail }
+function TopicTabs({ topics, activeTopic, counts, onChange, language }) {
   return (
-    <section className="hero" aria-label="Featured investigation">
-      <GradientImage item={heroVisual} className="hero__img" />
-      <div className="hero__grad" />
-      <article className="hero__card" onClick={() => navigate(dossier.url)}>
-        <div className="kicker">Featured Investigation</div>
-        <h2 className="hero__card-title">{dossier.title}</h2>
-        <p className="hero__card-excerpt">{dossier.excerpt}</p>
-        <div className="hero__card-meta">
-          <div className="mk"><span className="mk__k">Author</span><span className="mk__v">{dossier.author}</span></div>
-          <div className="mk"><span className="mk__k">Published</span><span className="mk__v">{formatDate(dossier.date)}</span></div>
-          <div className="mk"><span className="mk__k">Read</span><span className="mk__v">{dossier.readTime}</span></div>
-          <div className="mk"><span className="mk__k">Sources</span><span className="mk__v mk__v--hi">{dossier.sourceLabel}</span></div>
-        </div>
-        <div className="tag-row">{(dossier.tags || []).slice(0, 3).map((tag, index) => <span key={tag} className={`tag ${index === 0 ? 'tg' : index === 1 ? 'tt' : 'tw'}`}>{tag}</span>)}</div>
-      </article>
-    </section>
-  )
-}
-
-function RotatingStrip({ sets }) {
-  const { currentSet, flipping, pause, resume, paused } = useStripRotation(sets)
-  const current = sets[currentSet] || sets[0]
-  return (
-    <section className="strip" onMouseEnter={pause} onMouseLeave={resume} aria-label="Featured strip">
-      {current.map((item, index) => (
-        <div className="strip__slot" key={`${currentSet}-${index}`}>
-          <article className={`strip__item ${flipping[index] ? 'strip__item--flip-out' : ''}`}>
-            <GradientImage item={item} className="strip__thumb" />
-            <div><div className={`strip__kicker ${item.kickerVariant ? `strip__kicker--${item.kickerVariant}` : ''}`}>{item.kicker}</div><h3 className="strip__title">{item.title}</h3><div className="strip__meta">{item.meta}</div></div>
-          </article>
-          {index < current.length - 1 && <div className="strip__rule" />}
-        </div>
-      ))}
-      <div className={`strip__progress ${paused ? 'paused' : ''}`} key={currentSet} />
-    </section>
-  )
-}
-
-function FilterBar({ label, active, onChange }) {
-  return (
-    <div className="filter-bar">
-      <div className="filter-bar__label">{label}</div>
-      <div className="filter-bar__tabs">{FILTERS.map(filter => <button key={filter} type="button" className={filter === active ? 'on' : ''} onClick={() => onChange(filter)}>{filter}</button>)}</div>
+    <div className="topic-tabs" id="topics" role="tablist" aria-label="Article topics">
+      {topics.map(rawTopic => {
+        const topic = localizedTopic(rawTopic, language)
+        return (
+        <button
+          key={topic.id}
+          type="button"
+          className={`topic-tab topic-tab--${topic.id} ${activeTopic === topic.id ? 'topic-tab--active' : ''}`}
+          onClick={() => onChange(topic.id)}
+          role="tab"
+          aria-selected={activeTopic === topic.id}
+        >
+          <span className="topic-tab__label">{topic.label}</span>
+          <span className="topic-tab__meta">{counts[topic.id] || 0}</span>
+        </button>
+        )
+      })}
     </div>
   )
 }
 
-function ArticleCard({ dossier, lead, navigate }) {
-  return (
-    <article className="art" onClick={() => navigate(dossier.url)}>
-      {lead && <GradientImage item={dossier} className="art__thumb" />}
-      <h3 className="art__title">{dossier.title}</h3>
-      {lead && <p className="art__excerpt">{dossier.excerpt}</p>}
-      <div className="art__meta">{dateMeta(dossier.date, dossier.readTime)}</div>
-    </article>
-  )
-}
+function RankedCard({ dossier, index, navigate, language }) {
+  const topic = localizedTopic(resolveTopic(dossier), language)
+  const copy = HOME_COPY[language] || HOME_COPY.en
+  const route = normalizeRoute(dossier.url || `/${dossier.id}`)
+  const isFeature = index === 0
 
-function CategoryColumns({ dossiers, navigate }) {
-  const columns = [
-    { title: 'Latest', badge: 'Chronological', variant: 'chr', items: dossiers.slice(0, 3) },
-    { title: 'Governance & Power', badge: 'For you', variant: 'algo', items: dossiers.filter(d => /corruption|governance|politic|media/i.test(`${d.category} ${d.tags?.join(' ')}`)).slice(0, 3) },
-    { title: 'Geopolitics & Ideas', badge: 'For you', variant: 'algo', items: dossiers.filter(d => /geopolitics|philosophy|energy|buddhism/i.test(`${d.category} ${d.tags?.join(' ')}`)).slice(0, 3) },
-  ]
+  const openDossier = useCallback((event) => {
+    event.preventDefault()
+    if (/^https?:/.test(route)) window.location.href = route
+    else navigate(route)
+  }, [navigate, route])
 
   return (
-    <div className="cols" id="dossiers">
-      {columns.map((column, columnIndex) => (
-        <div className="col" key={column.title}>
-          <div className="cat-head"><span className="cat-head__title">{column.title}</span><span className={`cat-head__badge cat-head__badge--${column.variant}`}>{column.badge}</span></div>
-          {(column.items.length ? column.items : dossiers.slice(columnIndex, columnIndex + 3)).map((dossier, index) => <ArticleCard key={`${column.title}-${dossier.id}`} dossier={dossier} lead={index === 0} navigate={navigate} />)}
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function Sidebar({ dossiers, navigate }) {
-  return (
-    <aside className="side" id="tools">
-      <div className="sec-label">Trending</div>
-      {dossiers.slice(0, 3).map(dossier => (
-        <article className="sb-item" key={dossier.id} onClick={() => navigate(dossier.url)}>
-          <GradientImage item={dossier} className="sb-thumb" />
-          <div><h3 className="sb-title">{dossier.title}</h3><div className="sb-meta">{dossier.readTime}</div></div>
-        </article>
-      ))}
-
-      <div className="tools-section">
-        <div className="tools-label">Tools & Intel</div>
-        {tools.intelCards.map(card => <div className="intel-card" key={card.figure}><div className="intel-card__label">{card.label}</div><div className="intel-card__figure">{card.figure}</div><div className="intel-card__desc">{card.description}</div><div className="intel-card__change">{card.change}</div></div>)}
-        {tools.featuredTools.map(tool => <a className="tool-feature" href={tool.href} key={tool.name}><div className="tool-feature__pinned">Editor Pinned</div><div className="tool-feature__name">{tool.name}</div><div className="tool-feature__desc">{tool.description}</div><div className="tool-feature__meta">{tool.badges.map(badge => <span className="tool-feature__badge" key={badge}>{badge}</span>)}</div></a>)}
-        {tools.inlineTools.map(tool => <a className="tool-inline" href={tool.href} key={tool.name}><span className={`tool-inline__dot tool-inline__dot--${tool.status}`} /><span className="tool-inline__name">{tool.name}</span><span className="tool-inline__tag">{tool.tag}</span></a>)}
+    <a
+      className={`ranked-card ranked-card--${topic.id} ${isFeature ? 'ranked-card--feature' : ''}`}
+      href={route}
+      onClick={openDossier}
+    >
+      <div className="ranked-card__media">
+        <GradientImage item={dossier} className="ranked-card__img" />
       </div>
-    </aside>
+      <div className="ranked-card__body">
+        <div className="ranked-card__rail">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <span>{topic.label}</span>
+        </div>
+        <div className="ranked-card__kicker">{dossier.kicker}</div>
+        <h3 className="ranked-card__title">{dossier.title}</h3>
+        {dossier.excerpt && <p className="ranked-card__excerpt">{dossier.excerpt}</p>}
+        <div className="ranked-card__meta">
+          <span>{dateMeta(dossier.date, dossier.readTime, language)}</span>
+          <span>{dossier.sourceLabel}</span>
+        </div>
+        {dossier.tags?.length > 0 && (
+          <div className="ranked-card__tags" aria-label={copy.tagsLabel}>
+            {dossier.tags.slice(0, 4).map((tag, tagIndex) => <span key={tag} className={`tag ${tagIndex % 2 === 0 ? 'tg' : 'tt'}`}>{tag}</span>)}
+          </div>
+        )}
+      </div>
+    </a>
   )
 }
 
-function Pagination() {
-  return <div className="pagination"><button type="button">&larr;</button><button className="pg" type="button">1</button><button type="button">2</button><button type="button">3</button><button type="button">&rarr;</button></div>
-}
-
-function FYPView({ dossiers, filter, onFilterChange, navigate }) {
-  const { displayedItems, hasMore, sentinelRef } = useInfiniteScroll(dossiers, 5)
+function RankedFeed({ items, activeTopic, setActiveTopic, topicCounts, navigate, language }) {
+  const { displayedItems, hasMore, sentinelRef } = useInfiniteScroll(items, 6)
+  const active = localizedTopic(topicById[activeTopic] || topicById.all, language)
+  const copy = HOME_COPY[language] || HOME_COPY.en
 
   return (
-    <main className="fyp-view" id="dossiers">
-      <FilterBar label="For You" active={filter} onChange={onFilterChange} />
-      {displayedItems.map(dossier => (
-        <article className="fyp-card" key={dossier.id} onClick={() => navigate(dossier.url)}>
-          <GradientImage item={dossier} className="fyp-card__img" />
-          <div className="fyp-card__body"><div className="fyp-card__kicker">{dossier.kicker}</div><h2 className="fyp-card__title">{dossier.title}</h2><p className="fyp-card__excerpt">{dossier.excerpt}</p><div className="fyp-card__meta"><span>{dossier.author}</span><span>{formatDate(dossier.date)}</span><span>{dossier.readTime}</span></div><div className="fyp-card__tags">{(dossier.tags || []).slice(0, 3).map((tag, index) => <span key={tag} className={`tag ${index === 0 ? 'tg' : index === 1 ? 'tt' : 'tw'}`}>{tag}</span>)}</div></div>
-        </article>
-      ))}
-      <div ref={sentinelRef} className="feed-sentinel" aria-live="polite">
-        {hasMore ? 'Loading more dossiers...' : 'End of current dossier feed'}
+    <main className="ranked-home" id="dossiers">
+      <section className="feed-brief" aria-labelledby="feed-title">
+        <div>
+          <p className="feed-brief__eyebrow">{copy.feedEyebrow}</p>
+          <h2 id="feed-title">{copy.feedTitle}</h2>
+        </div>
+        <p>{copy.feedIntro}</p>
+      </section>
+
+      <TopicTabs topics={TOPIC_TABS} activeTopic={activeTopic} counts={topicCounts} onChange={setActiveTopic} language={language} />
+
+      <div className="topic-context" aria-live="polite">
+        <span>{active.label}</span>
+        <p>{active.description}</p>
+      </div>
+
+      <section className="feed-wall" aria-label={`${active.label} articles`}>
+        {displayedItems.map((item, index) => (
+          <RankedCard key={item.id || item.title} dossier={item} index={index} navigate={navigate} language={language} />
+        ))}
+      </section>
+
+      <div ref={sentinelRef} className="feed-sentinel">
+        {hasMore ? copy.loading : displayedItems.length ? copy.end : copy.empty}
       </div>
     </main>
   )
 }
 
-function MagazineView({ dossiers, filter, onFilterChange, navigate }) {
-  const hero = dossiers[0]
-  const stripSets = useMemo(() => {
-    if (dossiers.length < 3) return fallbackStripSets
-    return [0, 1, 2].map(setIndex => dossiers.slice(setIndex * 3, setIndex * 3 + 3).map((dossier, index) => ({ ...dossier, title: dossier.title, meta: dateMeta(dossier.date, dossier.readTime), kicker: dossier.kicker, gradient: dossier.gradient || `g${setIndex * 3 + index + 1}` }))).filter(set => set.length === 3)
-  }, [dossiers])
-
-  return (
-    <main className="mag-view">
-      {hero && <Hero dossier={hero} navigate={navigate} />}
-      <RotatingStrip sets={stripSets.length ? stripSets : fallbackStripSets} />
-      <div className="wrap">
-        <div className="body-grid">
-          <section className="main">
-            <FilterBar label="Dossiers" active={filter} onChange={onFilterChange} />
-            <CategoryColumns dossiers={dossiers} navigate={navigate} />
-            <Pagination />
-          </section>
-          <Sidebar dossiers={dossiers} navigate={navigate} />
-        </div>
-      </div>
-    </main>
-  )
-}
-
-function MagazineFooter({ dossierCount }) {
+function SiteFooter({ dossierCount, language }) {
+  const copy = HOME_COPY[language] || HOME_COPY.en
   return (
     <footer className="mag-footer">
-      <div className="mag-footer__top"><div><div className="mag-footer__brand">The Analyst<span className="np-dot-sm">&middot;</span></div><div className="mag-footer__tagline">Dig deep. Stay free.</div></div><div className="mag-footer__links"><a href="#privacy">Privacy</a><a href="#terms">Terms</a><a href="#ai-safety">AI Safety</a><a href="#ethics">Ethics Protocol</a><a href="mailto:riz@dgtl.lk">Contact</a></div></div>
+      <div className="mag-footer__top">
+        <div><span className="mag-footer__brand">The Analyst<span className="np-dot-sm">&middot;</span></span><div className="mag-footer__tagline">{copy.footerTagline}</div></div>
+        <div className="mag-footer__links">
+          <a href="#dossiers">Dossiers</a><a href="#accountability">Accountability</a><a href="#privacy">Privacy</a><a href="#ai-safety">AI Safety</a>
+        </div>
+      </div>
       <div className="mag-footer__divider" />
-      <div className="mag-footer__bottom"><div>&copy; 2026 Riz Razak · analyst.rizrazak.com</div><div className="mag-footer__stats"><span><b>{dossierCount}</b> dossiers</span><span><b>3</b> exclusives</span><span><b>Tools</b> referenced</span></div></div>
+      <div className="mag-footer__bottom">
+        <span>&copy; {new Date().getFullYear()} Riz Razak. All rights reserved.</span>
+        <span className="mag-footer__stats"><b>{dossierCount}</b> {copy.publishedPieces}</span>
+      </div>
     </footer>
   )
 }
 
-export default function HomePage({ dossiers, theme, toggleTheme }) {
+export default function HomePage({ dossiers }) {
   const navigate = useNavigate()
-  const view = 'fyp'
-  const [filter, setFilter] = useState('All')
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeTopic, setActiveTopic] = useState('all')
+  const [language, setLanguageState] = useState(() => {
+    if (typeof window === 'undefined') return 'en'
+    return window.localStorage.getItem('analyst.home.language') || 'en'
+  })
+  const setLanguage = useCallback((nextLanguage) => {
+    setLanguageState(nextLanguage)
+    if (typeof window !== 'undefined') window.localStorage.setItem('analyst.home.language', nextLanguage)
+  }, [])
+  const copy = HOME_COPY[language] || HOME_COPY.en
 
-  const publishedDossiers = useMemo(() => dossiers.filter(dossier => dossier.status === 'published').map(normalizeDossier), [dossiers])
-  const filteredDossiers = useMemo(() => getFiltered(publishedDossiers, filter), [filter, publishedDossiers])
-  const displayDossiers = filteredDossiers.length ? filteredDossiers : publishedDossiers
+  const rankedDossiers = useMemo(() => {
+    return dossiers
+      .filter(item => item.status === 'published')
+      .map((item, index) => {
+        const normalized = normalizeDossier(item, index, language)
+        return { ...normalized, rankScore: rankDossier(normalized, index) }
+      })
+      .sort((a, b) => b.rankScore - a.rankScore)
+  }, [dossiers, language])
 
-  const routeTo = useCallback((url) => {
-    if (!url) return
-    if (/^https?:/.test(url)) window.location.href = url
-    else navigate(url.replace(/\/index\.html$/, ''))
-  }, [navigate])
+  const topicCounts = useMemo(() => {
+    const counts = { all: rankedDossiers.length }
+    TOPIC_TABS.filter(topic => topic.id !== 'all').forEach((topic) => {
+      counts[topic.id] = rankedDossiers.filter(item => matchesTopic(item, topic)).length
+    })
+    return counts
+  }, [rankedDossiers])
+
+  const filteredDossiers = useMemo(() => {
+    const topic = topicById[activeTopic] || topicById.all
+    return rankedDossiers.filter(item => matchesTopic(item, topic))
+  }, [activeTopic, rankedDossiers])
 
   return (
-    <div className="magazine-home">
-      <a className="skip-link" href="#dossiers">Skip to dossiers</a>
-      <Nameplate view={view} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <MenuPanel open={menuOpen} onClose={() => setMenuOpen(false)} theme={theme} toggleTheme={toggleTheme} />
-      <AccountabilityTicker alerts={accountabilityAlerts} hidden />
-      <FYPView dossiers={displayDossiers} filter={filter} onFilterChange={setFilter} navigate={routeTo} />
-      <MagazineFooter dossierCount={publishedDossiers.length} />
+    <div className="magazine-home" data-language={language}>
+      <a className="skip-link" href="#dossiers">{copy.skip}</a>
+      <Nameplate menuOpen={menuOpen} setMenuOpen={setMenuOpen} language={language} setLanguage={setLanguage} />
+      <MenuPanel open={menuOpen} onClose={() => setMenuOpen(false)} language={language} />
+      <RankedFeed
+        items={filteredDossiers}
+        activeTopic={activeTopic}
+        setActiveTopic={setActiveTopic}
+        topicCounts={topicCounts}
+        navigate={navigate}
+        language={language}
+      />
+      <SiteFooter dossierCount={rankedDossiers.length} language={language} />
     </div>
   )
 }
