@@ -51,43 +51,95 @@
       padding-left: 18px;
       padding-right: 18px;
     }
-    header { padding-top: 28px; padding-bottom: 22px; }
+    header { padding-top: 28px; padding-bottom: 24px; }
     .topline {
       display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
+      justify-content: space-between;
+      gap: 14px;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 22px;
+    }
+    .nav-cluster,
+    .lang-cluster {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .back-link,
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .back-link {
+      padding: 7px 13px 7px 11px;
+      color: #d8ecff;
+      background: rgba(122, 176, 216, .14);
+      border: 1px solid rgba(122, 176, 216, .55);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
+    }
+    .brand-link {
+      padding: 7px 0;
+      color: #f6e9d0;
+      opacity: .92;
+    }
+    .brand-link::before {
+      content: "";
+      display: inline-block;
+      width: 1px;
+      height: 18px;
+      margin: 0 8px 0 1px;
+      background: var(--line-strong);
+    }
+    .lang-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      white-space: nowrap;
     }
     .lang-switcher {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       border: 1px solid var(--line-strong);
       border-radius: 999px;
-      padding: 3px;
-      background: rgba(255, 255, 255, .04);
+      padding: 4px;
+      background: rgba(255, 255, 255, .055);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .18);
       max-width: 100%;
     }
     .lang-switcher button {
       appearance: none;
       border: 0;
       border-radius: 999px;
-      padding: 3px 8px;
+      min-height: 28px;
+      padding: 5px 10px;
       background: transparent;
       color: var(--muted);
       font: inherit;
       font-size: 12px;
-      font-weight: 850;
-      line-height: 1.35;
+      font-weight: 900;
+      line-height: 1.2;
       cursor: pointer;
       white-space: nowrap;
     }
     .lang-switcher button[aria-pressed="true"] {
       background: var(--saffron-soft);
       color: #ffe1a7;
+      box-shadow: inset 0 0 0 1px rgba(212, 154, 58, .34);
     }
-    .lang-switcher button:focus-visible {
+    .lang-switcher button:focus-visible,
+    .back-link:focus-visible,
+    .brand-link:focus-visible {
       outline: 2px solid rgba(212, 154, 58, .72);
       outline-offset: 2px;
     }
@@ -105,24 +157,28 @@
     .translation-status.is-visible { display: block; }
     .translation-status strong { color: #ffe1a7; }
     .translation-status p { margin: 0; font-size: 14px; }
-    .pill {
-      display: inline-flex;
+    .status-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
       align-items: center;
-      border: 1px solid var(--line-strong);
-      border-radius: 999px;
-      padding: 3px 9px;
-      background: rgba(255, 255, 255, .04);
+      margin: 14px 0 0;
       color: var(--muted);
       font-size: 12px;
-      font-weight: 850;
-      line-height: 1.35;
-      overflow-wrap: anywhere;
+      font-weight: 840;
     }
-    .pill.status { color: var(--amber); background: var(--amber-soft); border-color: rgba(227, 181, 108, .5); }
-    .pill.child { color: var(--green); background: var(--green-soft); border-color: rgba(139, 201, 169, .46); }
-    .pill.warn { color: var(--red); background: var(--red-soft); border-color: rgba(224, 139, 139, .46); }
-    .pill.back { color: var(--blue); border-color: rgba(122, 176, 216, .46); }
-    .pill.brand { color: #f6e9d0; }
+    .status-line span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-line span + span::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--line-strong);
+    }
     h1 {
       margin: 0;
       max-width: 14ch;
@@ -445,23 +501,29 @@
       p, li { font-size: 15px; }
       .lead, .sermon, .principle { font-size: 16px; }
       .timeline div { grid-template-columns: 1fr; }
-      .topline { gap: 6px; }
+      .topline { align-items: stretch; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+      .nav-cluster, .lang-cluster { justify-content: space-between; width: 100%; }
+      .brand-link { display: none; }
+      .lang-switcher { flex: 1; justify-content: space-between; }
+      .lang-switcher button { padding-left: 8px; padding-right: 8px; }
     }
   </style>
 </head>
 <body>
   <header>
     <div class="topline">
-      <a class="pill back" href="/">← All Dossiers</a>
-      <a class="pill brand" href="/">The Analyst dossier</a>
-      <span class="pill status">Evidence-gated</span>
-      <span class="pill child">Child protected</span>
-      <span class="pill warn">Allegations not adjudicated here</span>
-      <div class="lang-switcher" data-lang-switcher aria-label="Language selector">
-        <button type="button" data-lang="en" aria-pressed="true">EN</button>
-        <button type="button" data-lang="si" aria-pressed="false">සිංහල</button>
-        <button type="button" data-lang="ta" aria-pressed="false">தமிழ்</button>
-        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+      <div class="nav-cluster">
+        <a class="back-link" href="/">← All Dossiers</a>
+        <a class="brand-link" href="/">The Analyst dossier</a>
+      </div>
+      <div class="lang-cluster">
+        <span class="lang-label">Language</span>
+        <div class="lang-switcher" data-lang-switcher aria-label="Language selector">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang="si" aria-pressed="false">සිංහල</button>
+          <button type="button" data-lang="ta" aria-pressed="false">தமிழ்</button>
+          <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+        </div>
       </div>
     </div>
     <div class="translation-status" data-translation-status aria-live="polite">
@@ -469,6 +531,11 @@
     </div>
     <h1>When Sacred Power Meets The Law</h1>
     <p class="dek">The Pallegama Hemarathana case is not a verdict page. It is a civic-accountability essay about child protection, religious power, police process, media pressure, and the Buddhist duty to separate truth from status.</p>
+    <div class="status-line" aria-label="Publication safeguards">
+      <span>Evidence-gated</span>
+      <span>Child protected</span>
+      <span>Allegations not adjudicated here</span>
+    </div>
   </header>
 
   <main>
