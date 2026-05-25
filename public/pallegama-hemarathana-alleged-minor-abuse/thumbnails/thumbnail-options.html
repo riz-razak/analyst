@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pallegama Thumbnail Options</title>
+  <style>
+    :root {
+      --paper: #f6efe0;
+      --ink: #151915;
+      --cream: #fff7e7;
+      --muted: #b9b09c;
+      --line: rgba(255, 247, 231, .2);
+      --saffron: #d48a2c;
+      --green: #6caa82;
+      --blue: #72a8cb;
+      --red: #bd5b54;
+      --amber: #d4b16d;
+      --black: #090d0a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #1a1712;
+      color: var(--cream);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .page {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 28px 18px 64px;
+    }
+
+    .brief {
+      max-width: 880px;
+      margin: 0 0 22px;
+      color: #d8ccb6;
+      line-height: 1.5;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .brief p { margin: 0; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .option {
+      container-type: inline-size;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid rgba(255, 247, 231, .16);
+      border-radius: 18px;
+      background: rgba(255, 247, 231, .045);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, .28);
+    }
+
+    .option h2 {
+      margin: 0 0 10px;
+      color: #eadfc8;
+      font-size: 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .frame {
+      overflow: hidden;
+      border-radius: 14px;
+      background: #0d100d;
+      aspect-ratio: 16 / 9;
+    }
+
+    .thumb {
+      position: relative;
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      isolation: isolate;
+      transform-origin: top left;
+      transform: scale(.218);
+      background: #0c100c;
+    }
+
+    @container (min-width: 500px) {
+      .thumb { transform: scale(.31); }
+    }
+
+    @container (min-width: 720px) {
+      .thumb { transform: scale(.43); }
+    }
+
+    body.export-mode {
+      width: 1600px;
+      height: 900px;
+      overflow: hidden;
+      background: #0c100c;
+    }
+
+    body.export-mode .page,
+    body.export-mode .grid,
+    body.export-mode .option,
+    body.export-mode .frame,
+    body.export-mode .thumb {
+      width: 1600px;
+      height: 900px;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      display: block;
+      transform: none;
+      box-shadow: none;
+      background: transparent;
+    }
+
+    body.export-mode .brief,
+    body.export-mode .option h2,
+    body.export-mode .option:not(.export-target) {
+      display: none;
+    }
+
+    .photo {
+      position: absolute;
+      inset: 0;
+      background-image: var(--photo);
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: -3;
+    }
+
+    .brand {
+      position: absolute;
+      z-index: 12;
+      color: rgba(255, 247, 231, .76);
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .kicker {
+      position: absolute;
+      z-index: 12;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 138, 44, .46);
+      background: rgba(13, 16, 13, .62);
+      color: #ffd99b;
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+    .safe {
+      position: absolute;
+      z-index: 12;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .safe span,
+    .stamp {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 247, 231, .24);
+      background: rgba(9, 13, 10, .64);
+      color: #f1e5cd;
+      font-size: 21px;
+      font-weight: 850;
+      line-height: 1;
+      padding: 9px 13px;
+      white-space: nowrap;
+    }
+
+    .stamp {
+      position: absolute;
+      z-index: 12;
+    }
+
+    .title {
+      position: absolute;
+      z-index: 14;
+      margin: 0;
+      color: #fff8ec;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+      text-shadow: 0 18px 42px rgba(0, 0, 0, .42);
+    }
+
+    .subtitle {
+      position: absolute;
+      z-index: 14;
+      margin: 0;
+      color: #f2d8aa;
+      font-size: 34px;
+      font-weight: 850;
+      line-height: 1.18;
+      text-wrap: balance;
+    }
+
+    .card {
+      position: absolute;
+      z-index: 10;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 247, 231, .18);
+      background: rgba(255, 247, 231, .91);
+      color: #161913;
+      box-shadow: 0 22px 54px rgba(0, 0, 0, .28);
+    }
+
+    .card b {
+      display: block;
+      color: #111711;
+      font-size: 26px;
+      line-height: 1.05;
+    }
+
+    .card span {
+      display: block;
+      margin-top: 8px;
+      color: #5d5d4e;
+      font-size: 20px;
+      font-weight: 780;
+      line-height: 1.1;
+    }
+
+    .thread {
+      position: absolute;
+      z-index: 9;
+      inset: 0;
+      width: 1600px;
+      height: 900px;
+      pointer-events: none;
+    }
+
+    .thread path,
+    .thread line {
+      fill: none;
+      stroke-linecap: round;
+      stroke-width: 7;
+      filter: drop-shadow(0 3px 7px rgba(0,0,0,.28));
+    }
+
+    .thread circle {
+      stroke: rgba(255, 247, 231, .92);
+      stroke-width: 4;
+    }
+
+    .a .photo {
+      background-position: 52% 48%;
+      filter: saturate(.9) contrast(1.08) brightness(.62);
+    }
+
+    .a::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(4, 8, 5, .96) 0%, rgba(8, 12, 9, .8) 36%, rgba(8, 12, 9, .42) 68%, rgba(8, 12, 9, .86) 100%),
+        radial-gradient(circle at 74% 44%, rgba(212, 138, 44, .2), transparent 32%);
+    }
+
+    .a .brand { left: 82px; top: 72px; }
+    .a .kicker { left: 82px; top: 132px; }
+    .a .title { left: 80px; top: 240px; max-width: 760px; font-size: 90px; line-height: .93; }
+    .a .subtitle { left: 86px; top: 548px; max-width: 700px; }
+    .a .safe { left: 86px; bottom: 76px; max-width: 760px; }
+    .a .stamp { right: 84px; bottom: 78px; border-color: rgba(189,91,84,.52); color: #ffc8c2; }
+
+    .b {
+      background: #151914;
+    }
+
+    .b .photo {
+      background-position: 66% 48%;
+      filter: grayscale(.1) saturate(.8) contrast(1.05) brightness(.47);
+      opacity: .78;
+    }
+
+    .b::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(246, 239, 224, .95) 0%, rgba(246, 239, 224, .84) 46%, rgba(17, 23, 18, .46) 72%, rgba(17, 23, 18, .74) 100%),
+        linear-gradient(0deg, rgba(21,25,20,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(21,25,20,.08) 1px, transparent 1px);
+      background-size: auto, 52px 52px, 52px 52px;
+    }
+
+    .b .brand { left: 70px; top: 62px; color: rgba(21,25,20,.58); }
+    .b .kicker { left: 70px; top: 126px; color: #1d5b40; border-color: rgba(29, 91, 64, .22); background: rgba(255,255,255,.72); }
+    .b .title { left: 70px; top: 236px; max-width: 720px; color: #121812; font-size: 78px; line-height: .98; text-shadow: none; }
+    .b .subtitle { left: 74px; top: 502px; max-width: 660px; color: #754b1d; font-size: 29px; }
+    .b .safe { left: 74px; bottom: 64px; }
+    .b .safe span { background: rgba(255,255,255,.78); color: #263128; border-color: rgba(21,25,20,.18); }
+    .b .card { padding: 22px; width: 260px; min-height: 118px; }
+    .b .c1 { right: 250px; top: 118px; transform: rotate(3deg); }
+    .b .c2 { right: 78px; top: 328px; transform: rotate(-4deg); }
+    .b .c3 { right: 286px; bottom: 132px; transform: rotate(-2deg); }
+    .b .c4 { right: 42px; bottom: 72px; transform: rotate(4deg); }
+
+    .c .photo {
+      background-position: 78% 48%;
+      filter: saturate(.75) contrast(1.1) brightness(.5);
+      opacity: .92;
+    }
+
+    .c::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(8, 12, 9, .96), rgba(8,12,9,.84) 42%, rgba(8,12,9,.42) 100%),
+        radial-gradient(circle at 70% 44%, rgba(120, 75, 34, .26), transparent 35%);
+    }
+
+    .c .brand { left: 70px; top: 60px; }
+    .c .kicker { left: 70px; top: 122px; border-color: rgba(114,168,203,.44); color: #c8e9ff; }
+    .c .title { left: 72px; top: 222px; max-width: 560px; font-size: 74px; line-height: .96; }
+    .c .subtitle { left: 78px; bottom: 70px; max-width: 560px; color: #e7c178; font-size: 30px; }
+    .ledger {
+      position: absolute;
+      right: 66px;
+      top: 92px;
+      z-index: 11;
+      width: 720px;
+      padding: 28px 30px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,247,231,.18);
+      background: rgba(13, 16, 13, .72);
+      box-shadow: 0 28px 70px rgba(0,0,0,.36);
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 120px 1fr 154px;
+      gap: 18px;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,247,231,.16);
+      color: #f6efe0;
+      font-size: 24px;
+      font-weight: 850;
+    }
+    .row:last-child { border-bottom: 0; }
+    .row em {
+      color: #e9c078;
+      font-style: normal;
+      font-weight: 950;
+    }
+    .row small {
+      justify-self: start;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(114,168,203,.16);
+      color: #c8e9ff;
+      font-size: 17px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      white-space: nowrap;
+    }
+
+    .d .photo {
+      background-position: 52% 46%;
+      filter: grayscale(.1) saturate(.78) contrast(1.05) brightness(.46);
+      opacity: .84;
+    }
+
+    .d::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(circle at 49% 48%, rgba(212,138,44,.18), transparent 24%),
+        linear-gradient(90deg, rgba(8,12,9,.88), rgba(8,12,9,.58) 50%, rgba(8,12,9,.88));
+    }
+    .d .brand { left: 70px; top: 60px; }
+    .d .kicker { left: 70px; top: 122px; }
+    .d .title { left: 70px; bottom: 178px; max-width: 760px; font-size: 70px; line-height: .98; }
+    .d .subtitle { left: 76px; bottom: 80px; max-width: 760px; color: #f2d8aa; font-size: 29px; }
+    .node {
+      position: absolute;
+      z-index: 12;
+      display: grid;
+      place-items: center;
+      width: 196px;
+      min-height: 82px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,247,231,.22);
+      background: rgba(12,16,12,.78);
+      color: #fff7e7;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.05;
+      text-align: center;
+      box-shadow: 0 18px 44px rgba(0,0,0,.32);
+    }
+    .n1 { left: 130px; top: 234px; }
+    .n2 { left: 376px; top: 118px; }
+    .n3 { right: 330px; top: 114px; }
+    .n4 { right: 128px; top: 276px; }
+    .n5 { right: 174px; bottom: 230px; }
+    .n6 { left: 920px; bottom: 90px; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="brief">
+      <h1>Pallegama Thumbnail Options</h1>
+      <p>Four Analyst-style thumbnail directions using the monk image as contextual background. All designs preserve allegation status and avoid child imagery.</p>
+    </section>
+
+    <section class="grid">
+      <article class="option option-a">
+        <h2>A - Dark Sermon Portrait</h2>
+        <div class="frame">
+          <div class="thumb a" style="--photo: url('../assets/pallegama-hemarathana-context.webp')">
+            <div class="photo"></div>
+            <div class="brand">The Analyst Dossier</div>
+            <div class="kicker">Civic accountability</div>
+            <h3 class="title">Sacred Power Meets The Law</h3>
+            <p class="subtitle">A child-protection allegation. A religious office. A public test of equal law.</p>
+            <div class="safe"><span>Alleged</span><span>Evidence-gated</span><span>Child protected</span></div>
+            <div class="stamp">Not adjudicated</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="option option-b">
+        <h2>B - Evidence Board Over Portrait</h2>
+        <div class="frame">
+          <div class="thumb b" style="--photo: url('../assets/pallegama-hemarathana-context.webp')">
+            <div class="photo"></div>
+            <div class="brand">The Analyst Dossier</div>
+            <div class="kicker">Source-trace edition</div>
+            <h3 class="title">The Records Must Speak</h3>
+            <p class="subtitle">Complaint, NCPA letter, B reports, court minutes: the public question is institutional truth.</p>
+            <svg class="thread" viewBox="0 0 1600 900" aria-hidden="true">
+              <path d="M746 398 C884 266 1024 186 1220 176" stroke="#2d6a4f"/>
+              <path d="M760 454 C980 448 1138 406 1372 384" stroke="#c94732"/>
+              <path d="M716 514 C926 622 1060 682 1186 644" stroke="#c4a35a"/>
+              <path d="M736 558 C972 748 1208 788 1414 774" stroke="#2d6a4f" stroke-dasharray="18 14"/>
+              <circle cx="746" cy="398" r="17" fill="#2d6a4f"/>
+              <circle cx="760" cy="454" r="17" fill="#c94732"/>
+              <circle cx="716" cy="514" r="17" fill="#c4a35a"/>
+            </svg>
+            <div class="card c1"><b>March complaint</b><span>disappearance record</span></div>
+            <div class="card c2"><b>April 24 letter</b><span>NCPA action question</span></div>
+            <div class="card c3"><b>B reports</b><span>court process trail</span></div>
+            <div class="card c4"><b>Right of reply</b><span>publication gate</span></div>
+            <div class="safe"><span>Allegations only</span><span>No child imagery</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="option option-c">
+        <h2>C - Court Process Ledger</h2>
+        <div class="frame">
+          <div class="thumb c" style="--photo: url('../assets/pallegama-hemarathana-context.webp')">
+            <div class="photo"></div>
+            <div class="brand">The Analyst Dossier</div>
+            <div class="kicker">Timeline check</div>
+            <h3 class="title">Dates, Records, Power</h3>
+            <p class="subtitle">The public cannot audit justice without the paperwork.</p>
+            <div class="ledger">
+              <div class="row"><em>Mar 06</em><span>disappearance complaint</span><small>reported</small></div>
+              <div class="row"><em>Apr 22</em><span>complaint to NCPA</span><small>needs record</small></div>
+              <div class="row"><em>Apr 24</em><span>NCPA letter contents</span><small>key gap</small></div>
+              <div class="row"><em>May 08</em><span>arrest / remand route</span><small>conflicted</small></div>
+              <div class="row"><em>May 22</em><span>bail and conditions</span><small>reported</small></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="option option-d">
+        <h2>D - Civic Fracture Map</h2>
+        <div class="frame">
+          <div class="thumb d" style="--photo: url('../assets/pallegama-hemarathana-context.webp')">
+            <div class="photo"></div>
+            <div class="brand">The Analyst Dossier</div>
+            <div class="kicker">Power map</div>
+            <svg class="thread" viewBox="0 0 1600 900" aria-hidden="true">
+              <line x1="490" y1="164" x2="800" y2="432" stroke="#d48a2c"/>
+              <line x1="230" y1="282" x2="790" y2="446" stroke="#72a8cb"/>
+              <line x1="1258" y1="164" x2="840" y2="432" stroke="#bd5b54"/>
+              <line x1="1360" y1="326" x2="850" y2="456" stroke="#6caa82"/>
+              <line x1="1320" y1="690" x2="850" y2="510" stroke="#d4b16d"/>
+              <line x1="1020" y1="772" x2="818" y2="512" stroke="#72a8cb" stroke-dasharray="17 13"/>
+              <circle cx="800" cy="470" r="24" fill="#d48a2c"/>
+            </svg>
+            <div class="node n1">Police process</div>
+            <div class="node n2">Child protection</div>
+            <div class="node n3">Sangha office</div>
+            <div class="node n4">Government</div>
+            <div class="node n5">Media pressure</div>
+            <div class="node n6">Public outrage</div>
+            <h3 class="title">No Robes Above The Law</h3>
+            <p class="subtitle">No allegation beyond evidence. No institution beyond accountability.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const exportKey = params.get("export");
+    if (exportKey) {
+      document.body.classList.add("export-mode");
+      const target = document.querySelector(`.option-${exportKey}`);
+      if (target) target.classList.add("export-target");
+    }
+  </script>
+</body>
+</html>
