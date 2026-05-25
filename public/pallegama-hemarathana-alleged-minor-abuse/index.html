@@ -59,6 +59,52 @@
       align-items: center;
       margin-bottom: 16px;
     }
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      padding: 3px;
+      background: rgba(255, 255, 255, .04);
+      max-width: 100%;
+    }
+    .lang-switcher button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 850;
+      line-height: 1.35;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .lang-switcher button[aria-pressed="true"] {
+      background: var(--saffron-soft);
+      color: #ffe1a7;
+    }
+    .lang-switcher button:focus-visible {
+      outline: 2px solid rgba(212, 154, 58, .72);
+      outline-offset: 2px;
+    }
+    .translation-status {
+      display: none;
+      border: 1px solid rgba(227, 181, 108, .44);
+      border-left: 5px solid var(--amber);
+      border-radius: 10px;
+      padding: 11px 13px;
+      margin: 0 0 16px;
+      background: var(--amber-soft);
+      color: #f3dfbc;
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+    .translation-status.is-visible { display: block; }
+    .translation-status strong { color: #ffe1a7; }
+    .translation-status p { margin: 0; font-size: 14px; }
     .pill {
       display: inline-flex;
       align-items: center;
@@ -409,6 +455,15 @@
       <span class="pill status">Evidence-gated</span>
       <span class="pill child">Child protected</span>
       <span class="pill warn">Allegations not adjudicated here</span>
+      <div class="lang-switcher" data-lang-switcher aria-label="Language selector">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="si" aria-pressed="false">සිංහල</button>
+        <button type="button" data-lang="ta" aria-pressed="false">தமிழ்</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+      </div>
+    </div>
+    <div class="translation-status" data-translation-status aria-live="polite">
+      <p><strong data-translation-label>Translation review pending.</strong> <span data-translation-note>The English text remains the controlling source until Sinhala, Tamil, and French legal/ethics review clears.</span></p>
     </div>
     <h1>When Sacred Power Meets The Law</h1>
     <p class="dek">The Pallegama Hemarathana case is not a verdict page. It is a civic-accountability essay about child protection, religious power, police process, media pressure, and the Buddhist duty to separate truth from status.</p>
@@ -671,5 +726,55 @@
   <footer>
     Evidence-gated Analyst article. No child imagery. Context image does not imply guilt. No anti-Buddhist framing. No social screenshot is used as proof of allegation truth.
   </footer>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const langSwitcher = document.querySelector('[data-lang-switcher]');
+      const status = document.querySelector('[data-translation-status]');
+      const label = document.querySelector('[data-translation-label]');
+      const note = document.querySelector('[data-translation-note]');
+      const messages = {
+        en: {
+          label: 'English source text.',
+          note: 'Sinhala, Tamil, and French translations are being prepared under legal, Buddhist, and child-protection review.'
+        },
+        si: {
+          label: 'සිංහල පරිවර්තනය පරීක්ෂාවේ ඇත.',
+          note: 'නීතිමය, බෞද්ධ සහ ළමා ආරක්ෂණ පරීක්ෂාව අවසන් වන තුරු English text එක controlling source ලෙස පවතී.'
+        },
+        ta: {
+          label: 'தமிழ் மொழிபெயர்ப்பு பரிசீலனையில் உள்ளது.',
+          note: 'சட்ட, புத்தமத, குழந்தை பாதுகாப்பு பரிசீலனை முடியும் வரை English text தான் controlling source.'
+        },
+        fr: {
+          label: 'Traduction française en révision.',
+          note: 'Le texte anglais reste la version de contrôle jusqu’à validation juridique, éthique et linguistique.'
+        }
+      };
+      const setLang = (lang) => {
+        if (!messages[lang]) lang = 'en';
+        root.dataset.lang = lang;
+        root.lang = 'en';
+        langSwitcher?.querySelectorAll('button[data-lang]').forEach((button) => {
+          button.setAttribute('aria-pressed', button.dataset.lang === lang ? 'true' : 'false');
+        });
+        if (label && note && status) {
+          label.textContent = messages[lang].label;
+          note.textContent = messages[lang].note;
+          status.lang = lang;
+          status.classList.toggle('is-visible', lang !== 'en');
+        }
+        try { localStorage.setItem('pallegama-dossier-lang', lang); } catch {}
+      };
+      langSwitcher?.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-lang]');
+        if (!button) return;
+        setLang(button.dataset.lang);
+      });
+      let saved = 'en';
+      try { saved = localStorage.getItem('pallegama-dossier-lang') || 'en'; } catch {}
+      setLang(saved);
+    })();
+  </script>
 </body>
 </html>
