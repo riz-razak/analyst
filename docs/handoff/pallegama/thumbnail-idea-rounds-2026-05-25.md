@@ -76,3 +76,14 @@ Use **Option A - Dark Sermon Portrait** for the first live article thumbnail if 
   - Uses a tilted case-photo panel, torn paper title band, and evidence-thread routes.
   - Keeps the Sinhala title and four source-trace cards.
   - No The Analyst branding.
+
+## 2026-05-26 Visual Refinement
+
+- **Horizontal primary thumbnail**
+  - Removed the visible `The Analyst dossier` and `Civic accountability` labels from Option A output.
+  - Added a very low-opacity Ruwanwelisaya night layer as religious/institutional context, not a second subject.
+
+- **Vertical social Idea 2**
+  - Removed the three connector wires.
+  - Replaced the torn-paper header with a darker focused title block.
+  - Added a very low-opacity Ruwanwelisaya layer behind the title/cards.

@@ -281,6 +281,23 @@
         radial-gradient(circle at 74% 44%, rgba(212, 138, 44, .2), transparent 32%);
     }
 
+    .a::after {
+      content: "";
+      position: absolute;
+      right: 330px;
+      bottom: -130px;
+      width: 470px;
+      height: 560px;
+      z-index: -1;
+      background-image: url("../assets/ruwanwelisaya-night-context.jpg");
+      background-size: cover;
+      background-position: center bottom;
+      opacity: .105;
+      filter: grayscale(1) contrast(1.18) brightness(.9);
+      mix-blend-mode: screen;
+      mask-image: radial-gradient(circle at 50% 58%, #000 0 38%, rgba(0,0,0,.62) 52%, transparent 75%);
+    }
+
     .a .brand { left: 76px; top: 66px; }
     .a .kicker { left: 76px; top: 128px; }
     .a .title {
@@ -478,8 +495,6 @@
         <div class="frame">
           <div class="thumb a" style="--photo: url('../assets/pallegama-hemarathana-context.webp')">
             <div class="photo"></div>
-            <div class="brand">The Analyst Dossier</div>
-            <div class="kicker">Civic accountability</div>
             <h3 class="title">පල්ලෙගම 🍇 ජනතාව vs බලය</h3>
             <p class="subtitle">A child-protection allegation. A religious office. A public test of equal law.</p>
             <p class="si-subtitle">ළමා ආරක්ෂණ චෝදනාවක්. ආගමික තනතුරක්. සමාන නීතිය පිළිබඳ පොදු පරීක්ෂාවක්.</p>
