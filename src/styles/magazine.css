@@ -426,52 +426,52 @@
 
 .wall-order {
   align-items: center;
-  background: rgba(255, 254, 250, 0.72);
-  border: 1px solid rgba(31, 33, 29, 0.12);
-  border-radius: var(--radius-md);
   display: inline-flex;
   flex: 0 0 auto;
-  gap: 8px;
-  padding: 5px;
-}
-
-.wall-order__label {
-  color: var(--stone);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.8px;
-  padding: 0 5px 0 7px;
-  text-transform: uppercase;
 }
 
 .wall-order__buttons {
   display: inline-flex;
-  gap: 3px;
+  gap: 8px;
+}
+
+.wall-order__item {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+}
+
+.wall-order__divider {
+  color: rgba(31, 33, 29, 0.34);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .wall-order__button {
   background: transparent;
   border: 0;
-  border-radius: var(--radius-sm);
   color: var(--stone);
   cursor: pointer;
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.7px;
-  padding: 8px 10px;
+  padding: 0;
   text-transform: uppercase;
   transition: var(--t);
 }
 
 .wall-order__button:hover {
-  background: rgba(35, 67, 52, 0.07);
   color: var(--jungle);
 }
 
 .wall-order__button--active {
-  background: var(--ink);
-  color: var(--paper);
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--canopy);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
 .feed-wall {

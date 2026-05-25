@@ -160,12 +160,23 @@ export default {
         return handleVisitLedger(request, env);
       }
 
+      // ── Evidence-safe public search ──
+      else if (path === '/api/search') {
+        return handleSearch(request, env);
+      } else if (path === '/api/search/status') {
+        return handleSearchStatus(request, env);
+      } else if (path === '/api/search/capture') {
+        return handleSearchCapture(request, env, ctx);
+      } else if (path === '/api/search/reindex') {
+        return handleSearchReindex(request, env, ctx);
+      }
+
       // ── GitHub CMS endpoints ──
       else if (path === '/api/github/file') {
         if (request.method === 'GET') {
           return handleGitHubFileGet(request, env);
         } else if (request.method === 'PUT') {
-          return handleGitHubFilePut(request, env);
+          return handleGitHubFilePut(request, env, ctx);
         }
       }
 
@@ -1093,6 +1104,12 @@ function getRequiredAnalystRights(path, method) {
   if (path === '/api/dossier/visibility') {
     return writeMethod ? ['analyst.admin', 'analyst.cms.write'] : ['analyst.admin', 'analyst.cms.read', 'analyst.cms.write'];
   }
+  if (path === '/api/search/status') {
+    return ['analyst.admin', 'analyst.cms.read'];
+  }
+  if (path === '/api/search/capture' || path === '/api/search/reindex') {
+    return ['analyst.admin', 'analyst.cms.write'];
+  }
   if (path === '/api/analytics/visit-ledger' && !writeMethod) {
     return ['analyst.admin', 'analyst.cms.read'];
   }
@@ -1967,6 +1984,12 @@ async function handlePublish(request, env, ctx) {
   await env.DRAFT_STORE.put(publishedKey, JSON.stringify(published), {
     expirationTtl: 30 * 24 * 60 * 60, // 30 days
   });
+  ctx?.waitUntil?.(capturePublishedDossier(env, {
+    slug: dossierId,
+    html: draft.content,
+    commitSha: putData.commit?.sha,
+    trigger: 'cms-publish',
+  }));
 
   // Clear draft and release lock
   await env.DRAFT_STORE.delete(draftKey);
@@ -2257,6 +2280,11 @@ function renderSampleTemplate(tpl) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const VISIBILITY_KV_KEY = 'dossier:visibility';
+const SEARCH_INDEX_KV_KEY = 'search:index:v1';
+const SEARCH_DOC_PREFIX = 'search:doc:v1:';
+const SEARCH_MAX_QUERY_LENGTH = 160;
+const SEARCH_MAX_RESULTS = 12;
+const SEARCH_SOURCE_BASE = 'https://riz-razak.github.io/analyst';
 const LIVE_VISITOR_PREFIX = 'analytics:live';
 const LIVE_VISITOR_TTL_SECONDS = 120;
 const PAGE_VISIT_PREFIX = 'analytics:page-visits';
@@ -2326,6 +2354,427 @@ async function handleVisibilityCheck(request, env) {
 
   // Hidden or draft — not visible
   return corsResponse(JSON.stringify({ visible: false, status }), 200);
+}
+
+async function handleSearch(request, env) {
+  if (request.method === 'OPTIONS') return corsResponse('', 204);
+  if (request.method !== 'GET') return jsonResponse({ error: 'Method not allowed' }, 405);
+
+  const url = new URL(request.url);
+  const query = normalizeSearchQuery(url.searchParams.get('q') || '');
+  const mode = url.searchParams.get('mode') === 'answer' ? 'answer' : 'retrieve';
+  const topic = normalizeSearchQuery(url.searchParams.get('topic') || '');
+  const lang = normalizeSearchQuery(url.searchParams.get('lang') || '');
+  const limit = Math.max(1, Math.min(SEARCH_MAX_RESULTS, Number(url.searchParams.get('limit')) || 8));
+
+  if ((url.searchParams.get('q') || '').length > SEARCH_MAX_QUERY_LENGTH) {
+    return jsonResponse({ error: `Query must be ${SEARCH_MAX_QUERY_LENGTH} characters or fewer` }, 400);
+  }
+
+  const documents = await loadSearchDocuments(env);
+  const visibleDocuments = await filterVisibleSearchDocuments(env, documents);
+  const results = rankSearchDocuments(visibleDocuments, query, { topic, lang }).slice(0, limit);
+
+  const response = {
+    query,
+    mode,
+    generated: false,
+    policy: {
+      defaultMode: 'retrieve',
+      scope: 'approved public Analyst material only',
+      answerMode: 'citation-gated and not enabled for unsupported queries',
+    },
+    results,
+  };
+
+  if (mode === 'answer') {
+    response.answer = buildSearchAnswerStub(query, results);
+  }
+
+  return jsonResponse(response);
+}
+
+async function handleSearchStatus(request, env) {
+  if (request.method === 'OPTIONS') return corsResponse('', 204);
+  if (request.method !== 'GET') return jsonResponse({ error: 'Method not allowed' }, 405);
+
+  const url = new URL(request.url);
+  const slug = safeSlug(url.searchParams.get('slug') || '');
+  if (slug) {
+    const doc = await env.SESSION_STORE.get(`${SEARCH_DOC_PREFIX}${slug}`, 'json');
+    return jsonResponse({ slug, indexed: Boolean(doc), document: doc || null });
+  }
+  const index = await env.SESSION_STORE.get(SEARCH_INDEX_KV_KEY, 'json') || {};
+  return jsonResponse({
+    indexedCount: Array.isArray(index.slugs) ? index.slugs.length : 0,
+    slugs: index.slugs || [],
+    updatedAt: index.updatedAt || null,
+  });
+}
+
+async function handleSearchCapture(request, env, ctx) {
+  if (request.method === 'OPTIONS') return corsResponse('', 204);
+  if (request.method !== 'POST') return jsonResponse({ error: 'Method not allowed' }, 405);
+
+  const body = await request.json().catch(() => null);
+  const slug = safeSlug(body?.slug || '');
+  if (!slug) return jsonResponse({ error: 'slug required' }, 400);
+
+  const promise = capturePublishedDossier(env, {
+    slug,
+    html: typeof body?.html === 'string' ? body.html : null,
+    commitSha: body?.commitSha || null,
+    trigger: body?.trigger || 'manual-capture',
+  });
+  ctx?.waitUntil?.(promise);
+  const captured = await promise;
+  return jsonResponse({ success: true, captured });
+}
+
+async function handleSearchReindex(request, env, ctx) {
+  if (request.method === 'OPTIONS') return corsResponse('', 204);
+  if (request.method !== 'POST') return jsonResponse({ error: 'Method not allowed' }, 405);
+
+  const promise = reindexSearchDocuments(env);
+  ctx?.waitUntil?.(promise);
+  const result = await promise;
+  return jsonResponse({ success: true, ...result });
+}
+
+async function loadSearchDocuments(env) {
+  const index = await env.SESSION_STORE.get(SEARCH_INDEX_KV_KEY, 'json') || {};
+  const slugs = Array.isArray(index.slugs) ? index.slugs : [];
+  const docs = [];
+  for (const slug of slugs) {
+    const doc = await env.SESSION_STORE.get(`${SEARCH_DOC_PREFIX}${slug}`, 'json');
+    if (doc) docs.push(doc);
+  }
+  if (docs.length > 0) return docs;
+  return buildLiveSearchDocuments(env);
+}
+
+async function buildLiveSearchDocuments(env) {
+  const registry = await fetchRegistryFromOrigin();
+  const published = registry.dossiers.filter(item => item.status === 'published');
+  return Promise.all(published.map(item => buildSearchDocumentFromRegistry(item)));
+}
+
+async function reindexSearchDocuments(env) {
+  const registry = await fetchRegistryFromOrigin();
+  const published = registry.dossiers.filter(item => item.status === 'published');
+  const documents = [];
+  for (const item of published) {
+    try {
+      const doc = await buildSearchDocumentFromRegistry(item);
+      await putSearchDocument(env, doc);
+      documents.push(doc.slug);
+    } catch (error) {
+      console.error('[search] reindex failed for', item.id, error.message);
+    }
+  }
+  await env.SESSION_STORE.put(SEARCH_INDEX_KV_KEY, JSON.stringify({
+    slugs: documents,
+    updatedAt: new Date().toISOString(),
+  }));
+  return { indexedCount: documents.length, slugs: documents };
+}
+
+async function capturePublishedDossier(env, { slug, html, commitSha, trigger }) {
+  const safe = safeSlug(slug);
+  if (!safe) throw new Error('Invalid search capture slug');
+
+  const registry = await fetchRegistryFromOrigin();
+  const registryRecord = registry.dossiers.find(item => item.id === safe) || { id: safe, status: 'published' };
+  const sourceHtml = html || await fetchDossierHtml(registryRecord);
+  const document = buildSearchDocument(registryRecord, sourceHtml, { commitSha, trigger });
+  await putSearchDocument(env, document);
+  return { slug: document.slug, chunkCount: document.chunks.length, indexedAt: document.indexedAt, trigger };
+}
+
+async function putSearchDocument(env, document) {
+  await env.SESSION_STORE.put(`${SEARCH_DOC_PREFIX}${document.slug}`, JSON.stringify(document));
+  const index = await env.SESSION_STORE.get(SEARCH_INDEX_KV_KEY, 'json') || {};
+  const slugs = new Set(Array.isArray(index.slugs) ? index.slugs : []);
+  slugs.add(document.slug);
+  await env.SESSION_STORE.put(SEARCH_INDEX_KV_KEY, JSON.stringify({
+    slugs: [...slugs].sort(),
+    updatedAt: new Date().toISOString(),
+  }));
+}
+
+async function buildSearchDocumentFromRegistry(registryRecord) {
+  const html = await fetchDossierHtml(registryRecord);
+  return buildSearchDocument(registryRecord, html, { trigger: 'live-origin' });
+}
+
+async function fetchRegistryFromOrigin() {
+  const response = await fetch(`${SEARCH_SOURCE_BASE}/data/dossiers.json`, {
+    headers: { Accept: 'application/json' },
+  });
+  if (!response.ok) throw new Error(`Registry fetch failed: ${response.status}`);
+  const data = await response.json();
+  return { dossiers: Array.isArray(data.dossiers) ? data.dossiers : [] };
+}
+
+async function fetchDossierHtml(registryRecord) {
+  const url = resolveDossierOriginUrl(registryRecord);
+  const response = await fetch(url, { headers: { Accept: 'text/html' } });
+  if (!response.ok) throw new Error(`Dossier fetch failed for ${registryRecord.id}: ${response.status}`);
+  return response.text();
+}
+
+function resolveDossierOriginUrl(registryRecord) {
+  const rawUrl = registryRecord.contentUrl || `/${registryRecord.id}/index.html`;
+  const pathname = /^https?:\/\//.test(rawUrl) ? new URL(rawUrl).pathname : rawUrl;
+  const normalized = pathname.endsWith('/index.html') ? pathname : `${pathname.replace(/\/$/, '')}/index.html`;
+  return `${SEARCH_SOURCE_BASE}${normalized.startsWith('/') ? normalized : `/${normalized}`}`;
+}
+
+async function filterVisibleSearchDocuments(env, documents) {
+  const map = await env.SESSION_STORE.get(VISIBILITY_KV_KEY, 'json') || {};
+  return documents.filter(doc => {
+    if (doc.status && doc.status !== 'published') return false;
+    const visibility = map[doc.slug];
+    return !visibility || visibility === 'published';
+  });
+}
+
+function buildSearchDocument(registryRecord, html, options = {}) {
+  const slug = safeSlug(registryRecord.id || '');
+  const meta = extractHtmlMeta(html);
+  const title = registryRecord.title || meta.title || titleCase(slug);
+  const description = registryRecord.description || meta.description || '';
+  const body = extractSearchableHtmlText(html);
+  const chunks = buildSearchChunks(slug, title, description, body);
+  const allText = [
+    title,
+    registryRecord.titleSi,
+    description,
+    registryRecord.descriptionSi,
+    registryRecord.category,
+    ...(registryRecord.tags || []),
+    ...(registryRecord.tagsSi || []),
+    chunks.map(chunk => chunk.text).join(' '),
+  ].filter(Boolean).join(' ');
+  return {
+    slug,
+    title,
+    description,
+    url: registryRecord.contentUrl || `/${slug}`,
+    date: registryRecord.date || registryRecord.publishedAt || null,
+    status: registryRecord.status || 'published',
+    category: registryRecord.category || '',
+    tags: Array.isArray(registryRecord.tags) ? registryRecord.tags : [],
+    language: detectSearchLanguage(registryRecord, allText),
+    evidenceStatus: inferEvidenceStatus(registryRecord, allText),
+    commitSha: options.commitSha || null,
+    trigger: options.trigger || 'unknown',
+    htmlHash: stableTextHash(html),
+    indexedAt: new Date().toISOString(),
+    chunks,
+    searchText: normalizeSearchText(allText),
+  };
+}
+
+function extractHtmlMeta(html) {
+  return {
+    title: decodeHtmlEntities((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [])[1] || ''),
+    description: decodeHtmlEntities((html.match(/<meta\s+[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i) || [])[1] || ''),
+  };
+}
+
+function extractSearchableHtmlText(html) {
+  return decodeHtmlEntities(
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<noscript[\s\S]*?<\/noscript>/gi, ' ')
+      .replace(/<svg[\s\S]*?<\/svg>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
+}
+
+function buildSearchChunks(slug, title, description, body) {
+  const chunks = [];
+  if (description) {
+    chunks.push({
+      chunkId: `${slug}:summary`,
+      kind: 'summary',
+      heading: title,
+      anchor: '',
+      text: cleanSnippetText(description).slice(0, 1200),
+      weight: 3,
+    });
+  }
+  const sentences = cleanSnippetText(body).split(/(?<=[.!?])\s+/).filter(Boolean);
+  let current = '';
+  let count = 0;
+  for (const sentence of sentences) {
+    if ((current + ' ' + sentence).length > 900 && current) {
+      chunks.push({
+        chunkId: `${slug}:body:${count}`,
+        kind: 'body',
+        heading: title,
+        anchor: '',
+        text: current,
+        weight: 1,
+      });
+      count += 1;
+      current = sentence;
+    } else {
+      current = `${current} ${sentence}`.trim();
+    }
+    if (count >= 8) break;
+  }
+  if (current && count < 9) {
+    chunks.push({
+      chunkId: `${slug}:body:${count}`,
+      kind: 'body',
+      heading: title,
+      anchor: '',
+      text: current,
+      weight: 1,
+    });
+  }
+  return chunks.map(chunk => ({ ...chunk, hash: stableTextHash(chunk.text) }));
+}
+
+function rankSearchDocuments(documents, query, filters = {}) {
+  const terms = normalizeSearchText(query).split(/\s+/).filter(Boolean);
+  const topic = filters.topic && filters.topic !== 'all' ? filters.topic : '';
+  const lang = filters.lang && filters.lang !== 'all' ? filters.lang : '';
+  return documents
+    .filter(doc => !topic || normalizeSearchText([doc.category, ...(doc.tags || [])].join(' ')).includes(topic))
+    .filter(doc => !lang || doc.language === lang || doc.language === 'mixed')
+    .map(doc => scoreSearchDocument(doc, terms))
+    .filter(hit => !terms.length || hit.score > 0)
+    .sort((a, b) => b.score - a.score || new Date(b.date || 0) - new Date(a.date || 0));
+}
+
+function scoreSearchDocument(doc, terms) {
+  if (!terms.length) {
+    return searchHitFromDocument(doc, 1, doc.description || doc.chunks[0]?.text || '');
+  }
+  let score = 0;
+  const titleText = normalizeSearchText(doc.title);
+  const tagText = normalizeSearchText((doc.tags || []).join(' '));
+  const bodyText = doc.searchText || '';
+  for (const term of terms) {
+    if (titleText.includes(term)) score += 10;
+    if (tagText.includes(term)) score += 6;
+    if (bodyText.includes(term)) score += 2;
+  }
+  const bestChunk = findBestSearchChunk(doc, terms);
+  score += bestChunk.score;
+  return searchHitFromDocument(doc, score, bestChunk.text || doc.description || '');
+}
+
+function findBestSearchChunk(doc, terms) {
+  let best = { score: 0, text: '' };
+  for (const chunk of doc.chunks || []) {
+    const text = normalizeSearchText(chunk.text);
+    const score = terms.reduce((sum, term) => sum + (text.includes(term) ? chunk.weight || 1 : 0), 0);
+    if (score > best.score) best = { score, text: chunk.text };
+  }
+  return best;
+}
+
+function searchHitFromDocument(doc, score, snippetText) {
+  return {
+    slug: doc.slug,
+    title: doc.title,
+    url: normalizePublicDossierUrl(doc.url, doc.slug),
+    date: doc.date,
+    category: doc.category,
+    tags: doc.tags || [],
+    language: doc.language,
+    evidenceStatus: doc.evidenceStatus,
+    snippet: makeSearchSnippet(snippetText),
+    score,
+    indexedAt: doc.indexedAt || null,
+  };
+}
+
+function buildSearchAnswerStub(query, results) {
+  if (!query || results.length === 0) {
+    return {
+      status: 'refused',
+      message: 'No supported answer in the approved Analyst archive for this query.',
+      citations: [],
+    };
+  }
+  return {
+    status: 'retrieve_only',
+    message: 'Answer mode is citation-gated. Open the cited search results while synthesis is being evaluated.',
+    citations: results.slice(0, 3).map(result => ({ title: result.title, url: result.url })),
+  };
+}
+
+function normalizeSearchQuery(value) {
+  return String(value || '').trim().slice(0, SEARCH_MAX_QUERY_LENGTH);
+}
+
+function normalizeSearchText(value) {
+  return String(value || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+}
+
+function cleanSnippetText(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim();
+}
+
+function makeSearchSnippet(value) {
+  const text = cleanSnippetText(value);
+  return text.length > 260 ? `${text.slice(0, 257).trim()}...` : text;
+}
+
+function normalizePublicDossierUrl(url, slug) {
+  if (!url) return `/${slug}`;
+  if (/^https?:\/\//.test(url)) return new URL(url).pathname.replace(/\/index\.html$/, '');
+  return url.replace(/\/index\.html$/, '');
+}
+
+function safeSlug(value) {
+  const slug = String(value || '').trim().toLowerCase();
+  return /^[a-z0-9][a-z0-9-]*[a-z0-9]$/.test(slug) ? slug : '';
+}
+
+function detectSearchLanguage(registryRecord, text) {
+  const hasSinhala = /[\u0D80-\u0DFF]/.test(text);
+  const hasTamil = /[\u0B80-\u0BFF]/.test(text);
+  if (hasSinhala && hasTamil) return 'mixed';
+  if (hasSinhala || registryRecord.titleSi || registryRecord.descriptionSi) return 'mixed';
+  if (hasTamil) return 'mixed';
+  return 'en';
+}
+
+function inferEvidenceStatus(registryRecord, text) {
+  const haystack = normalizeSearchText([registryRecord.category, registryRecord.kicker, text].filter(Boolean).join(' '));
+  if (haystack.includes('allegation') || haystack.includes('alleged')) return 'allegation';
+  if (haystack.includes('source') || haystack.includes('evidence') || haystack.includes('claim')) return 'source-gated';
+  if (haystack.includes('opinion')) return 'opinion';
+  return 'published';
+}
+
+function decodeHtmlEntities(value) {
+  return String(value || '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+function stableTextHash(value) {
+  let hash = 2166136261;
+  const text = String(value || '');
+  for (let i = 0; i < text.length; i += 1) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(16);
 }
 
 /**
@@ -3765,7 +4214,7 @@ async function handleGitHubFileGet(request, env) {
  * Commit changes to a file in GitHub repository
  * Body: { path, content (base64), sha, message }
  */
-async function handleGitHubFilePut(request, env) {
+async function handleGitHubFilePut(request, env, ctx) {
   let body;
   try {
     body = await request.json();
@@ -3831,6 +4280,15 @@ async function handleGitHubFilePut(request, env) {
     }
 
     const result = await response.json();
+    if (/^public\/[^/]+\/index\.html$/.test(path)) {
+      const slug = path.split('/')[1];
+      ctx?.waitUntil?.(capturePublishedDossier(env, {
+        slug,
+        html: decodedContent,
+        commitSha: result.commit?.sha,
+        trigger: 'github-file-put',
+      }));
+    }
 
     return jsonResponse({
       success: true,

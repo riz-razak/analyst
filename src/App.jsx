@@ -4,6 +4,7 @@ import { useDossiers } from './hooks/useDossiers'
 import { useTheme } from './hooks/useTheme'
 import HomePage from './pages/HomePage'
 import DossierPage from './pages/DossierPage'
+import SearchPage from './pages/SearchPage'
 import './styles/global.css'
 
 // Redirects old /#/dossier/:id hash URLs (bookmarks) to clean /:id paths
@@ -97,6 +98,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage dossiers={dossiers} allTags={allTags} theme={theme} toggleTheme={toggleTheme} />} />
+          <Route path="/search" element={<SearchPage dossiers={dossiers} />} />
           <Route path="/:id" element={<DossierPage dossiers={dossiers} theme={theme} toggleTheme={toggleTheme} />} />
           {/* Legacy redirect: /dossier/:id → /:id */}
           <Route path="/dossier/:id" element={<LegacyDossierRedirect />} />

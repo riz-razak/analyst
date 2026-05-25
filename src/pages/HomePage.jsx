@@ -4,7 +4,7 @@ import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import '../styles/magazine.css'
 
 const TOPIC_TABS = [
-  { id: 'all', label: 'Ranked', labelSi: 'Ranked', description: 'One editorial feed', descriptionSi: 'එක editorial feed එකක්', terms: [] },
+  { id: 'all', label: 'All', labelSi: 'All', description: 'One editorial feed', descriptionSi: 'එක editorial feed එකක්', terms: [] },
   { id: 'power', label: 'Power', labelSi: 'බලය', description: 'Politics, governance, accountability', descriptionSi: 'දේශපාලනය, governance සහ වගවීම', terms: ['politics', 'governance', 'accountability', 'corruption', 'procurement', 'election', 'npp', 'state'] },
   { id: 'economy', label: 'Economy', labelSi: 'ආර්ථිකය', description: 'Finance, trade, energy, industry', descriptionSi: 'මුදල්, වෙළඳාම, energy සහ කර්මාන්තය', terms: ['economy', 'economic', 'finance', 'trade', 'industry', 'energy', 'oil', 'hormuz', 'business'] },
   { id: 'world', label: 'World', labelSi: 'ලෝකය', description: 'Geopolitics and global shocks', descriptionSi: 'Geopolitics සහ global shocks', terms: ['geopolitics', 'global', 'world', 'war', 'iran', 'israel', 'american', 'us decline'] },
@@ -16,13 +16,14 @@ const HOME_COPY = {
   en: {
     edition: 'Ranked public feed',
     dossiers: 'Dossiers',
+    search: 'Search',
     feedEyebrow: 'Ranked Feed',
     feedTitle: 'One wall for investigations, explainers, opinion, history, industry and breaking context.',
     feedIntro: 'Ranked by recency, public evidence depth, topic fit and editorial priority. Topic tabs reshape the same wall without splitting the homepage into competing modes.',
     loading: 'Loading more pieces',
     end: 'End of ranked wall',
     empty: 'No published pieces in this topic yet',
-    orderLabel: 'Order',
+    orderLabel: 'Feed sort',
     orderRanked: 'Ranked',
     orderLatest: 'Latest',
     latestDescription: 'Newest first by publication date',
@@ -51,13 +52,14 @@ const HOME_COPY = {
   si: {
     edition: 'තේරූ පොදු feed එක',
     dossiers: 'Dossiers',
+    search: 'Search',
     feedEyebrow: 'Ranked Feed',
     feedTitle: 'පර්යේෂණ, පැහැදිලි කිරීම්, මත, ඉතිහාසය, කර්මාන්තය සහ breaking context එකම wall එකක.',
     feedIntro: 'අලුත් බව, public evidence depth, topic fit සහ editorial priority අනුව rank කරන feed එකක්. Topic tabs එකම wall එක subject අනුව නැවත සකස් කරයි.',
     loading: 'තවත් pieces load වෙමින්',
     end: 'Ranked wall අවසානය',
     empty: 'මෙම topic එකට published pieces තවම නැහැ',
-    orderLabel: 'Order',
+    orderLabel: 'Feed sort',
     orderRanked: 'Ranked',
     orderLatest: 'Latest',
     latestDescription: 'Newest first by publication date',
@@ -229,6 +231,7 @@ function Nameplate({ menuOpen, setMenuOpen, language, setLanguage }) {
           <span aria-hidden="true">/</span>
           <span className={language === 'si' ? 'active' : ''}>සිංහල</span>
         </button>
+        <a className="nameplate__action" href="/search">{copy.search}</a>
         <a className="nameplate__action" href="#dossiers">{copy.dossiers}</a>
         <button className="ham" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Open menu" aria-expanded={menuOpen}>
           <span /><span /><span />
@@ -351,18 +354,19 @@ function OrderToggle({ sortMode, setSortMode, language }) {
 
   return (
     <div className="wall-order" aria-label={copy.orderLabel}>
-      <span className="wall-order__label">{copy.orderLabel}</span>
       <div className="wall-order__buttons">
-        {modes.map(mode => (
-          <button
-            key={mode.id}
-            type="button"
-            className={`wall-order__button ${sortMode === mode.id ? 'wall-order__button--active' : ''}`}
-            onClick={() => setSortMode(mode.id)}
-            aria-pressed={sortMode === mode.id}
-          >
-            {mode.label}
-          </button>
+        {modes.map((mode, index) => (
+          <span key={mode.id} className="wall-order__item">
+            {index > 0 && <span className="wall-order__divider" aria-hidden="true">|</span>}
+            <button
+              type="button"
+              className={`wall-order__button ${sortMode === mode.id ? 'wall-order__button--active' : ''}`}
+              onClick={() => setSortMode(mode.id)}
+              aria-pressed={sortMode === mode.id}
+            >
+              {mode.label}
+            </button>
+          </span>
         ))}
       </div>
     </div>
@@ -475,7 +479,7 @@ export default function HomePage({ dossiers }) {
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeTopic, setActiveTopic] = useState('all')
-  const [sortMode, setSortMode] = useState('ranked')
+  const [sortMode, setSortMode] = useState('latest')
   const [language, setLanguageState] = useState(() => {
     if (typeof window === 'undefined') return 'en'
     return window.localStorage.getItem('analyst.home.language') || 'en'
