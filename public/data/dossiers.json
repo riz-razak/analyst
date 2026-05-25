@@ -5,7 +5,8 @@
     {
       "id": "pallegama-hemarathana-alleged-minor-abuse",
       "date": "2026-05-25",
-      "title": "When Sacred Power Meets The Law",
+      "title": "පල්ලෙගම 🍇 ජනතාව vs බලය",
+      "titleEn": "When Sacred Power Meets The Law",
       "titleSi": "පල්ලෙගම 🍇 ජනතාව vs බලය",
       "description": "A civic-accountability dossier on the Pallegama Hemarathana case, allegation status, child protection, religious power, police process, media framing, MMDA child-marriage parallels, and Buddhist public ethics.",
       "descriptionSi": "පල්ලේගම හේමරතන හිමියන්ගේ නඩුව, චෝදනා තත්ත්වය, ළමා ආරක්ෂාව, ආගමික බලය, පොලිස් ක්‍රියාදාමය, මාධ්‍ය රාමුව, MMDA ළමා විවාහ සමාන්තරය, සහ බෞද්ධ පොදු සදාචාරය පිළිබඳ civic-accountability dossier එකක්.",
@@ -15,7 +16,7 @@
       "category": "accountability",
       "kickerSi": "වගවීම",
       "thumbnailUrl": "/pallegama-hemarathana-alleged-minor-abuse/thumbnails/pallegama-thumbnail-a-dark-sermon-portrait.png",
-      "heroImageUrl": "/pallegama-hemarathana-alleged-minor-abuse/assets/pallegama-hemarathana-context.webp",
+      "heroImageUrl": "/pallegama-hemarathana-alleged-minor-abuse/thumbnails/pallegama-thumbnail-a-dark-sermon-portrait.png",
       "contentUrl": "/pallegama-hemarathana-alleged-minor-abuse/index.html",
       "sections": 10,
       "features": ["Evidence-gated civic essay", "Timeline scrutiny", "Buddhist public ethics", "MMDA parallel child-protection module", "Novice ordination safeguarding frame", "Social propagation notes", "Pali reference layer"],
