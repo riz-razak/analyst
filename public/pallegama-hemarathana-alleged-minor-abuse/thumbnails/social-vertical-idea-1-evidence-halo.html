@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="si">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pallegama Vertical Social Idea 1</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      overflow: hidden;
+      background: #080b08;
+    }
+    body {
+      position: relative;
+      color: #fff7e7;
+      font-family: "Noto Sans Sinhala", "Sinhala Sangam MN", "Sinhala MN", "Iskoola Pota", "Malithi Web", Inter, ui-sans-serif, system-ui, sans-serif;
+      isolation: isolate;
+    }
+    .field {
+      position: absolute;
+      inset: 0;
+      z-index: -5;
+      background:
+        radial-gradient(circle at 50% 22%, rgba(202, 128, 36, .32), transparent 22%),
+        radial-gradient(circle at 14% 72%, rgba(85, 118, 82, .18), transparent 24%),
+        linear-gradient(180deg, #15120d 0%, #080b08 54%, #060806 100%);
+    }
+    .mandala {
+      position: absolute;
+      left: -78px;
+      top: -128px;
+      width: 1236px;
+      height: 1236px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 235, 187, .12);
+      background:
+        repeating-conic-gradient(from -10deg, rgba(255, 224, 150, .18) 0 2deg, transparent 2deg 11deg),
+        radial-gradient(circle, transparent 0 34%, rgba(255, 224, 150, .1) 34.2% 34.8%, transparent 35% 49%, rgba(255, 224, 150, .08) 49.2% 49.8%, transparent 50%);
+      opacity: .74;
+      filter: blur(.2px);
+    }
+    .portrait {
+      position: absolute;
+      left: 112px;
+      top: 120px;
+      width: 856px;
+      height: 856px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 36px 90px rgba(0, 0, 0, .46), inset 0 0 0 2px rgba(255, 235, 187, .18);
+    }
+    .portrait::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("../assets/pallegama-hemarathana-context.webp");
+      background-size: 1160px auto;
+      background-position: center 8px;
+      background-repeat: no-repeat;
+      filter: saturate(.94) contrast(1.04) brightness(.8);
+    }
+    .portrait::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 36%, transparent 0 34%, rgba(8, 11, 8, .16) 54%, rgba(8, 11, 8, .72) 100%),
+        linear-gradient(180deg, transparent 0 62%, rgba(8, 11, 8, .54) 100%);
+    }
+    .title-block {
+      position: absolute;
+      left: 64px;
+      right: 64px;
+      top: 852px;
+      padding: 46px 42px 52px;
+      border-radius: 34px;
+      background:
+        linear-gradient(135deg, rgba(255, 247, 231, .08), rgba(255, 247, 231, .02)),
+        rgba(7, 10, 7, .72);
+      border: 1px solid rgba(255, 247, 231, .18);
+      box-shadow: 0 28px 88px rgba(0, 0, 0, .5);
+      backdrop-filter: blur(6px);
+    }
+    h1 {
+      margin: 0;
+      font-size: 102px;
+      line-height: 1.12;
+      font-weight: 950;
+      letter-spacing: 0;
+      text-wrap: balance;
+      text-shadow: 0 18px 44px rgba(0, 0, 0, .72);
+    }
+    .thread {
+      position: absolute;
+      left: 92px;
+      right: 92px;
+      top: 1248px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(212, 138, 44, .8), transparent);
+    }
+    .thread::before,
+    .thread::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      background: #d48a2c;
+      box-shadow: 0 0 0 7px rgba(212, 138, 44, .14);
+    }
+    .thread::before { left: 0; }
+    .thread::after { right: 0; }
+    .cards {
+      position: absolute;
+      left: 64px;
+      right: 64px;
+      bottom: 82px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .card {
+      min-height: 220px;
+      padding: 26px 25px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 247, 231, .2);
+      background:
+        radial-gradient(circle at 14% 16%, rgba(212, 138, 44, .13), transparent 28%),
+        rgba(10, 14, 10, .82);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, .42);
+    }
+    .card b {
+      display: block;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 38px;
+      line-height: 1.02;
+      font-weight: 930;
+      color: #fff7e7;
+    }
+    .card span {
+      display: block;
+      margin-top: 10px;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 26px;
+      line-height: 1.12;
+      font-weight: 820;
+      color: #dcc9a6;
+    }
+  </style>
+</head>
+<body>
+  <div class="field" aria-hidden="true"></div>
+  <div class="mandala" aria-hidden="true"></div>
+  <div class="portrait" aria-hidden="true"></div>
+  <section class="title-block">
+    <h1>පල්ලෙගම 🍇 ජනතාව vs බලය</h1>
+  </section>
+  <div class="thread" aria-hidden="true"></div>
+  <section class="cards" aria-hidden="true">
+    <div class="card"><b>March complaint</b><span>disappearance record</span></div>
+    <div class="card"><b>April 24 letter</b><span>NCPA action question</span></div>
+    <div class="card"><b>B reports</b><span>court process trail</span></div>
+    <div class="card"><b>Right of reply</b><span>publication gate</span></div>
+  </section>
+</body>
+</html>

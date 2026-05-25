@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="si">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pallegama Vertical Social Idea 2</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      overflow: hidden;
+      background: #100f0c;
+    }
+    body {
+      position: relative;
+      color: #fff8ec;
+      font-family: "Noto Sans Sinhala", "Sinhala Sangam MN", "Sinhala MN", "Iskoola Pota", "Malithi Web", Inter, ui-sans-serif, system-ui, sans-serif;
+      isolation: isolate;
+    }
+    .base {
+      position: absolute;
+      inset: 0;
+      z-index: -6;
+      background:
+        linear-gradient(180deg, #211b12 0%, #0b0e0b 40%, #080a08 100%),
+        radial-gradient(circle at 20% 68%, rgba(68, 96, 69, .24), transparent 30%);
+    }
+    .photo-panel {
+      position: absolute;
+      left: 54px;
+      top: 64px;
+      width: 972px;
+      height: 650px;
+      overflow: hidden;
+      border-radius: 32px;
+      transform: rotate(-1.5deg);
+      border: 1px solid rgba(255, 247, 231, .18);
+      box-shadow: 0 34px 90px rgba(0, 0, 0, .42);
+      background: #17140f;
+    }
+    .photo-panel::before {
+      content: "";
+      position: absolute;
+      inset: -18px;
+      background-image: url("../assets/pallegama-hemarathana-context.webp");
+      background-size: 1160px auto;
+      background-position: center -14px;
+      background-repeat: no-repeat;
+      filter: saturate(.86) contrast(1.08) brightness(.78);
+      transform: rotate(1.5deg);
+    }
+    .photo-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(7, 10, 7, .72), transparent 30%, transparent 66%, rgba(7, 10, 7, .52)),
+        linear-gradient(180deg, transparent 0 58%, rgba(7, 10, 7, .7) 100%);
+    }
+    .tear {
+      position: absolute;
+      left: -40px;
+      top: 626px;
+      width: 1160px;
+      height: 396px;
+      z-index: 1;
+      background:
+        linear-gradient(174deg, transparent 0 14%, rgba(246, 238, 218, .96) 14.5% 82%, transparent 82.5%),
+        linear-gradient(180deg, rgba(223, 203, 164, .28), rgba(255, 255, 255, .02));
+      filter: drop-shadow(0 24px 48px rgba(0, 0, 0, .32));
+      opacity: .94;
+      transform: rotate(1deg);
+    }
+    h1 {
+      position: absolute;
+      z-index: 3;
+      left: 72px;
+      right: 70px;
+      top: 724px;
+      margin: 0;
+      color: #11140f;
+      font-size: 94px;
+      line-height: 1.1;
+      font-weight: 950;
+      letter-spacing: 0;
+      text-wrap: balance;
+      text-shadow: 0 2px 0 rgba(255, 255, 255, .22);
+    }
+    .wire-map {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .wire-map path {
+      fill: none;
+      stroke-linecap: round;
+      stroke-width: 7;
+      opacity: .78;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,.3));
+    }
+    .wire-map circle {
+      stroke: rgba(255, 247, 231, .9);
+      stroke-width: 5;
+    }
+    .cards {
+      position: absolute;
+      left: 72px;
+      right: 72px;
+      bottom: 92px;
+      z-index: 4;
+      display: grid;
+      gap: 22px;
+    }
+    .card {
+      position: relative;
+      min-height: 140px;
+      padding: 25px 30px 24px 34px;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 247, 231, .2);
+      background:
+        linear-gradient(90deg, rgba(13, 17, 13, .96), rgba(13, 17, 13, .78)),
+        radial-gradient(circle at 90% 20%, rgba(212, 138, 44, .14), transparent 24%);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .38);
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 20px;
+      bottom: 20px;
+      width: 6px;
+      border-radius: 0 8px 8px 0;
+      background: var(--accent, #d48a2c);
+    }
+    .card b {
+      display: block;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 42px;
+      line-height: 1.02;
+      font-weight: 930;
+      color: #fff7e7;
+    }
+    .card span {
+      display: block;
+      margin-top: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 28px;
+      line-height: 1.1;
+      font-weight: 820;
+      color: #dcc9a6;
+    }
+    .card:nth-child(1) { --accent: #6caa82; transform: rotate(-.8deg); }
+    .card:nth-child(2) { --accent: #d35c4d; transform: rotate(.7deg); }
+    .card:nth-child(3) { --accent: #d4b16d; transform: rotate(-.5deg); }
+    .card:nth-child(4) { --accent: #7ab0d8; transform: rotate(.8deg); }
+  </style>
+</head>
+<body>
+  <div class="base" aria-hidden="true"></div>
+  <div class="photo-panel" aria-hidden="true"></div>
+  <div class="tear" aria-hidden="true"></div>
+  <svg class="wire-map" viewBox="0 0 1080 1920" aria-hidden="true">
+    <path d="M246 930 C424 1000 536 1090 760 1198" stroke="#6caa82"/>
+    <path d="M282 1032 C466 1078 590 1200 806 1340" stroke="#d35c4d"/>
+    <path d="M370 1110 C546 1240 630 1380 780 1500" stroke="#d4b16d"/>
+    <circle cx="246" cy="930" r="17" fill="#6caa82"/>
+    <circle cx="282" cy="1032" r="17" fill="#d35c4d"/>
+    <circle cx="370" cy="1110" r="17" fill="#d4b16d"/>
+  </svg>
+  <h1>පල්ලෙගම 🍇 ජනතාව vs බලය</h1>
+  <section class="cards" aria-hidden="true">
+    <div class="card"><b>March complaint</b><span>disappearance record</span></div>
+    <div class="card"><b>April 24 letter</b><span>NCPA action question</span></div>
+    <div class="card"><b>B reports</b><span>court process trail</span></div>
+    <div class="card"><b>Right of reply</b><span>publication gate</span></div>
+  </section>
+</body>
+</html>

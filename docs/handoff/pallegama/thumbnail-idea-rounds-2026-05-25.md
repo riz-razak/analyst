@@ -64,3 +64,15 @@ Use **Option A - Dark Sermon Portrait** for the first live article thumbnail if 
   - Same dark portrait treatment.
   - Sinhala title only, no labels, no cards, no secondary copy.
   - No The Analyst branding for social sharing.
+
+## Ridma Vertical Social Alternatives
+
+- **Idea 1 - Evidence Halo:** `pallegama-social-vertical-idea-1-evidence-halo.png`
+  - Uses a circular portrait/halo background with mandala-like evidence rays.
+  - Keeps the Sinhala title and four source-trace cards.
+  - No The Analyst branding.
+
+- **Idea 2 - Case Rupture:** `pallegama-social-vertical-idea-2-case-rupture.png`
+  - Uses a tilted case-photo panel, torn paper title band, and evidence-thread routes.
+  - Keeps the Sinhala title and four source-trace cards.
+  - No The Analyst branding.
