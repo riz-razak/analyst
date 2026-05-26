@@ -38,6 +38,21 @@ Plus the required `<script type="application/json" id="narrative-timeline-data">
 <link rel="stylesheet" href="../_shared/category-system.css">
 ```
 
+### 1.5 Top-Level Traffic Counters
+
+Every published dossier should expose the platform traffic counters at the top-level dossier shell:
+
+- `Visits`: approximate recorded page visits for the canonical dossier path.
+- `Live`: approximate active readers seen in the last two minutes.
+
+The standard implementation is `src/components/DossierTrafficCounters.jsx`, mounted by `src/pages/DossierPage.jsx`. New React-routed dossiers get this automatically. Static dossier templates may still include their own local counters during migration, but the platform standard is the shared top bar so the counters sit beside the global back/date/title controls, not inside the article narrative.
+
+Privacy requirements:
+
+- Keep public counters aggregate-only.
+- Do not expose raw visitor IDs, IP addresses, raw user agents, or private ledger detail.
+- Use `/api/analytics/page-visits`, `/api/analytics/live-visitors`, and `/api/analytics/visit-ledger` only through the privacy-preserving Worker endpoints.
+
 ---
 
 ## 2. Narrative Timeline — Standard for Storytelling

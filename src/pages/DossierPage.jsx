@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
+import DossierTrafficCounters from '../components/DossierTrafficCounters'
 
 const styles = {
   page: {
@@ -9,12 +10,13 @@ const styles = {
   topBar: {
     display: 'flex',
     alignItems: 'center',
-    height: '48px',
-    padding: '0 1.25rem',
+    minHeight: '48px',
+    padding: '0.45rem 1.25rem',
     background: 'var(--bg-secondary)',
     borderBottom: '1px solid var(--border-color)',
     gap: '0.75rem',
-    overflow: 'hidden',
+    overflow: 'visible',
+    flexWrap: 'wrap',
     flexShrink: 0,
   },
   leftGroup: {
@@ -63,6 +65,12 @@ const styles = {
     fontFamily: 'var(--font-mono)',
     fontSize: '0.68rem',
     color: 'var(--accent-orange)',
+    flexShrink: 0,
+  },
+  rightGroup: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     flexShrink: 0,
   },
   tags: {
@@ -135,6 +143,7 @@ export default function DossierPage({ dossiers }) {
   const formattedDate = new Date(dossier.date).toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   })
+  const analyticsPath = `/${dossier.id}/`
 
   return (
     <div style={styles.page}>
@@ -157,6 +166,10 @@ export default function DossierPage({ dossiers }) {
         <div style={styles.meta}>
           <span style={styles.date}>{formattedDate}</span>
           <span style={styles.title}>{dossier.title}</span>
+        </div>
+
+        <div style={styles.rightGroup}>
+          <DossierTrafficCounters path={analyticsPath} />
         </div>
       </div>
 
