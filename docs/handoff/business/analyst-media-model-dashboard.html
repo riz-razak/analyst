@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>The Analyst — Media Model Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js"></script>
+<style>
+  :root{--green:#2d5a27;--sage:#4a7c59;--gold:#d4a373;--ink:#1f2d22;--muted:#6b7765;--bg:#f6f5ef;--card:#fff;--line:#e3e0d6;--red:#c0492f;--amber:#d97706}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
+  header{background:var(--green);color:#fff;padding:15px 22px}
+  header h1{margin:0;font-size:19px}header .sub{opacity:.85;font-size:12.5px;margin-top:3px}
+  .ban{background:#fbe7e3;color:var(--red);font-size:12.5px;padding:7px 22px;border-bottom:1px solid var(--line)}
+  nav.tabs{display:flex;gap:4px;background:#24471f;padding:0 16px}
+  nav.tabs button{background:transparent;color:#dfe7da;border:none;padding:12px 18px;font-size:13.5px;font-weight:700;cursor:pointer;border-bottom:3px solid transparent}
+  nav.tabs button.active{color:#fff;border-bottom-color:var(--gold)}
+  .page{display:none;padding:18px 22px;max-width:1340px;margin:0 auto}
+  .page.active{display:block}
+  .wrap{display:grid;grid-template-columns:340px 1fr;gap:18px}
+  @media(max-width:960px){.wrap{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  .card h2{margin:0 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--green)}
+  .grp{margin-top:12px;border-top:1px dashed var(--line);padding-top:9px}
+  .grp h3{margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .ctrl{margin-bottom:10px}
+  .ctrl label{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px}
+  .ctrl label b{color:var(--green)}
+  .ctrl input[type=range]{width:100%;accent-color:var(--sage)}
+  .seg{display:flex;gap:6px;margin-bottom:6px}
+  .seg button{flex:1;padding:8px 4px;border:1px solid var(--green);background:#fff;color:var(--green);border-radius:8px;font-weight:700;cursor:pointer;font-size:12px}
+  .seg button.active{background:var(--green);color:#fff}
+  .flag{font-size:10.5px;color:var(--amber)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+  @media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .kpi .v{font-size:22px;font-weight:800}.kpi .l{font-size:11px;color:var(--muted);margin-top:2px}
+  .kpi.good .v{color:var(--green)}.kpi.bad .v{color:var(--red)}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right}
+  th:first-child,td:first-child{text-align:left}
+  thead th{color:var(--muted);font-weight:600;text-transform:uppercase;font-size:10.5px}
+  .pos{color:var(--green);font-weight:700}.neg{color:var(--red);font-weight:700}
+  .foot{font-size:11px;color:var(--muted);line-height:1.5;margin-top:6px}
+  .note{background:#f0efe7;border-left:3px solid var(--sage);padding:8px 12px;font-size:12px;border-radius:0 8px 8px 0;margin-bottom:12px}
+  .pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
+  .pill.y{background:#dcefd6;color:var(--green)}.pill.n{background:#fbe7e3;color:var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <h1>The Analyst — Media Model Dashboard</h1>
+  <div class="sub">Ad-led · no membership · SL → South-Asian diaspora · prudent council model · 2026-06-19 · for Riz + Sunera</div>
+</header>
+<div class="ban"><b>Membership excluded by design.</b> SL won't pay for news at scale (The Examiner ≈ $600 cumulative / year, ~6 staff). Revenue = advertising in all forms, like Hiru/Derana.</div>
+<nav class="tabs">
+  <button data-p="levers" class="active">Revenue Levers</button>
+  <button data-p="scaling">Scaling Preview (0→50)</button>
+  <button data-p="monet">YouTube vs Facebook</button>
+</nav>
+
+<!-- ===== TAB 1: LEVERS ===== -->
+<div class="page active" id="levers">
+  <div class="wrap">
+    <div>
+      <div class="card">
+        <h2>Scenario</h2>
+        <div class="seg" id="lvPresets">
+          <button data-s="lean">Lean</button><button data-s="base" class="active">Base</button>
+          <button data-s="growth">Growth</button><button data-s="scale">Scale</button>
+        </div>
+        <div class="grp"><h3>Audience / month</h3>
+          <div class="ctrl"><label>Website pageviews <b id="sitePV_v"></b></label><input type="range" id="sitePV" min="0" max="1500000" step="10000"></div>
+          <div class="ctrl"><label>Diaspora share <b id="dia_v"></b></label><input type="range" id="dia" min="0" max="100" step="5"></div>
+          <div class="ctrl"><label>YouTube long-form views <b id="ytLF_v"></b></label><input type="range" id="ytLF" min="0" max="1500000" step="5000"></div>
+          <div class="ctrl"><label>YouTube Shorts views <b id="ytShorts_v"></b></label><input type="range" id="ytShorts" min="0" max="6000000" step="50000"></div>
+          <div class="ctrl"><label>Facebook views <span class="flag">(CM live in SL '25; in-stream pays more)</span> <b id="fb_v"></b></label><input type="range" id="fb" min="0" max="3000000" step="50000"></div>
+        </div>
+        <div class="grp"><h3>Rates (RPM $/1,000)</h3>
+          <div class="ctrl"><label>Display — SL <b id="dispSL_v"></b></label><input type="range" id="dispSL" min="0" max="2" step="0.05"></div>
+          <div class="ctrl"><label>Display — diaspora <b id="dispDia_v"></b></label><input type="range" id="dispDia" min="0" max="8" step="0.1"></div>
+          <div class="ctrl"><label>YouTube long-form <b id="ytRpm_v"></b></label><input type="range" id="ytRpm" min="0" max="12" step="0.5"></div>
+          <div class="ctrl"><label>Shorts <b id="shortsRpm_v"></b></label><input type="range" id="shortsRpm" min="0" max="0.5" step="0.01"></div>
+          <div class="ctrl"><label>Facebook <b id="fbRpm_v"></b></label><input type="range" id="fbRpm" min="0" max="2" step="0.05"></div>
+        </div>
+        <div class="grp"><h3>Sponsorship &amp; direct (the SL money)</h3>
+          <div class="ctrl"><label>Sponsored integrations / mo <b id="sponN_v"></b></label><input type="range" id="sponN" min="0" max="20" step="1"></div>
+          <div class="ctrl"><label>Avg deal value (USD) <b id="sponV_v"></b></label><input type="range" id="sponV" min="0" max="1000" step="25"></div>
+          <div class="ctrl"><label>Direct site sponsor (flat $/mo) <b id="siteSpon_v"></b></label><input type="range" id="siteSpon" min="0" max="1500" step="50"></div>
+          <div class="ctrl"><label>Grants ($/mo, bridge) <b id="grants_v"></b></label><input type="range" id="grants" min="0" max="2000" step="50"></div>
+        </div>
+        <div class="grp"><h3>Costs / month</h3>
+          <div class="ctrl"><label>Big pieces (n) <b id="bigN_v"></b></label><input type="range" id="bigN" min="0" max="60" step="1"></div>
+          <div class="ctrl"><label>$ / big piece <b id="bigR_v"></b></label><input type="range" id="bigR" min="0" max="100" step="5"></div>
+          <div class="ctrl"><label>Shorts/small (n) <b id="smallN_v"></b></label><input type="range" id="smallN" min="0" max="200" step="5"></div>
+          <div class="ctrl"><label>$ / short <b id="smallR_v"></b></label><input type="range" id="smallR" min="0" max="40" step="1"></div>
+          <div class="ctrl"><label>Tools + infra ($/mo) <b id="ops_v"></b></label><input type="range" id="ops" min="0" max="500" step="10"></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="kpis">
+        <div class="kpi good"><div class="v" id="kRev">$0</div><div class="l">Total revenue / mo</div></div>
+        <div class="kpi"><div class="v" id="kCost">$0</div><div class="l">Cost / mo</div></div>
+        <div class="kpi" id="kNetCard"><div class="v" id="kNet">$0</div><div class="l">Net for hires</div></div>
+        <div class="kpi"><div class="v" id="kHire">0</div><div class="l">Tier-1 hires (@$518)</div></div>
+      </div>
+      <div class="card"><h2>Revenue by stream</h2><div id="mixChart" style="height:300px"></div></div>
+      <div class="card">
+        <h2>Breakeven explorer — sweep a lever</h2>
+        <div class="ctrl"><label>Lever to sweep</label>
+          <select id="sweep" style="width:100%;padding:7px;border:1px solid var(--line);border-radius:8px">
+            <option value="sponN">Sponsored integrations / month</option>
+            <option value="sponV">Avg deal value</option>
+            <option value="ytLF">YouTube long-form views</option>
+            <option value="sitePV">Website pageviews</option>
+          </select>
+        </div>
+        <div id="sweepChart" style="height:300px"></div>
+        <div class="foot">The line is monthly net vs the chosen lever (all else held at current sliders). The marker is the breakeven point where net = $0.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 2: SCALING ===== -->
+<div class="page" id="scaling">
+  <div class="wrap">
+    <div>
+      <div class="card">
+        <h2>Cost model</h2>
+        <div class="note">Council finding: a <b>fully-salaried</b> structure never breaks even at SL ad rates. The viable plan is <b>Hybrid</b> (salaried core + per-piece tail) — breakeven ≈ 10 staff, margin 12–15%.</div>
+        <div class="seg" id="modelSeg">
+          <button data-m="A">Lean</button><button data-m="C" class="active">Hybrid ✓</button><button data-m="B">Full salaried</button>
+        </div>
+        <div class="grp"><h3>Ramp</h3>
+          <div class="ctrl"><label>Target staff by month 36 <b id="target_v"></b></label><input type="range" id="target" min="3" max="50" step="1" value="50"></div>
+        </div>
+        <div class="grp"><h3>Stress levers</h3>
+          <div class="ctrl"><label>Revenue multiplier <b id="revMult_v"></b></label><input type="range" id="revMult" min="0.5" max="1.4" step="0.05" value="1"></div>
+          <div class="ctrl"><label>Cost / FX multiplier <b id="costMult_v"></b></label><input type="range" id="costMult" min="0.8" max="1.4" step="0.05" value="1"></div>
+          <div class="ctrl"><label>Sponsor shock (lose share) <b id="sponShock_v"></b></label><input type="range" id="sponShock" min="0" max="40" step="5" value="0"></div>
+        </div>
+        <div class="foot">Revenue anchors are the council's verified scenarios (1/3/10 staff) extended to 25/50 (ai-proposed). Cost differs by model. Sponsor shock cuts ~0.6×revenue (sponsorship's share).</div>
+      </div>
+    </div>
+    <div>
+      <div class="kpis">
+        <div class="kpi"><div class="v" id="sBE">–</div><div class="l">Breakeven staff (this model)</div></div>
+        <div class="kpi"><div class="v" id="sBEm">–</div><div class="l">Breakeven month</div></div>
+        <div class="kpi good"><div class="v" id="sRev50">$0</div><div class="l">Revenue @ target</div></div>
+        <div class="kpi" id="sMcard"><div class="v" id="sMargin">0%</div><div class="l">Margin @ target</div></div>
+      </div>
+      <div class="card"><h2>36-month ramp — revenue / cost / profit</h2><div id="rampChart" style="height:320px"></div></div>
+      <div class="card"><h2>Profit vs staff (breakeven crossover)</h2><div id="staffChart" style="height:280px"></div></div>
+      <div class="card"><h2>Scale tiers</h2>
+        <table id="tierTbl"><thead><tr><th>Staff</th><th>Revenue</th><th>Cost</th><th>Profit</th><th>Margin</th></tr></thead><tbody></tbody></table>
+        <div class="foot">Hybrid headcount = salaried core + per-piece tail. Guardrails: ≤4 investigators : 1 verification lead; no single sponsor &gt;20%; ad+YT ≥35% of revenue; ≥3 months payroll buffer.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TAB 3: MONETISATION ===== -->
+<div class="page" id="monet">
+  <div class="card">
+    <h2>YouTube vs Facebook — what actually pays (SL page, diaspora audience)</h2>
+    <div class="note"><b>Verdict (corrected):</b> Facebook Content Monetization <b>IS live in Sri Lanka</b> (SL added ~Dec 2025) — in-stream ads, ads on Reels, and Stars are available (invite-gated; only the premium <i>Creator Fast Track</i> bonus stays US/CA-only). FB <b>in-stream long-video + diaspora viewers</b> is a real <b>secondary</b> revenue line; YouTube long-form remains the primary anchor (higher RPM, deeper monetization). Use Reels for reach, in-stream for FB revenue; own WhatsApp/newsletter/site.</div>
+    <div id="rpmChart" style="height:300px"></div>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <h2>Program &amp; eligibility</h2>
+      <table>
+        <thead><tr><th></th><th>YouTube (YPP)</th><th>Facebook (CMP)</th></tr></thead>
+        <tbody>
+          <tr><td>Threshold</td><td>1k subs + 4k watch-hrs (or 10M Shorts views/90d)</td><td>~10k page followers</td></tr>
+          <tr><td>SL page eligible?</td><td><span class="pill y">Yes (since 2018)</span></td><td><span class="pill y">Yes — CM added Dec 2025</span></td></tr>
+          <tr><td>What SL gets</td><td>ad-share (viewer location)</td><td>in-stream + Reels ads + Stars (CMP, invite-gated)</td></tr>
+          <tr><td>Premium bonus</td><td>n/a</td><td><span class="pill n">Fast Track US/CA only</span></td></tr>
+          <tr><td>Pays by</td><td>Viewer location (diaspora = high)</td><td>Viewer location; thin without bonus</td></tr>
+          <tr><td>Tips/fan</td><td>Memberships, Super Thanks</td><td>Stars (low threshold)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h2>One capture → 5 assets (zero extra reporting)</h2>
+      <table>
+        <thead><tr><th>Asset</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td>YT long-form 6–12 min (16:9)</td><td><b>Revenue</b> — edit first, canonical</td></tr>
+          <tr><td>2–3 YT Shorts 20–40s (9:16)</td><td>Sub funnel → long-form</td></tr>
+          <tr><td>Same verticals → FB Reels</td><td>Reach / audience graph</td></tr>
+          <tr><td>3-min+ FB in-stream cut</td><td>Minor revenue</td></tr>
+          <tr><td>Text + key clip → WhatsApp + newsletter</td><td><b>Owned</b> — the moat</td></tr>
+        </tbody>
+      </table>
+      <div class="foot">Always: burned-in captions on verticals (silent autoplay); platform-specific titles (YT searchable, FB emotional/sound-off).</div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Switch-on order</h2>
+    <div class="foot" style="font-size:12.5px">
+      1. <b>YouTube YPP first</b> (long-form to diaspora) — the real revenue; enable ads + memberships + Super Thanks.
+      &nbsp;2. <b>FB Content Monetization</b> (live in SL since Dec '25) — enable <b>in-stream</b> on 3-min+ video (the real FB earner, $1–5/1k) + Reels ads + Stars at ~10k followers / 600k watch-mins; diaspora viewers lift RPM 10–40×.
+      &nbsp;3. <b>Direct/sponsor on owned surfaces</b> (remittance, travel, telco, money-transfer sponsors) — pays far above ad-share once audience exists.
+      &nbsp;Build <b>WhatsApp channel + newsletter + own site</b> from day one so you're never one algorithm change from zero.
+    </div>
+  </div>
+</div>
+
+<div class="page-foot foot" style="max-width:1340px;margin:0 auto;padding:4px 22px 26px">
+  Defaults prudent &amp; editable. RPM/scaling figures are council estimates (ad-proposed beyond verified Lean/Base/Growth/Scale); verify with real invoices + Vinita/IRD before committing. Sources: AdSense/EthicalAds/viewability 2026; YouTube CPM &amp; YPP 2026; Meta CMP 2026; YouTube sponsorship rates 2026; SL APIT 2026.
+</div>
+
+<script>
+const G='#2d5a27',SAGE='#4a7c59',GOLD='#d4a373',RED='#c0492f',GREY='#bdbdbd';
+const PL={displayModeBar:false,responsive:true};
+const fmt=n=>'$'+Math.round(n).toLocaleString();
+const fmtN=n=>Math.round(n).toLocaleString();
+const $=id=>document.getElementById(id);const get=id=>parseFloat($(id).value);
+
+/* ---------- TABS ---------- */
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('nav.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));$(b.dataset.p).classList.add('active');
+  if(b.dataset.p==='scaling')renderScale();if(b.dataset.p==='monet')renderMonet();if(b.dataset.p==='levers')renderLevers();
+});
+
+/* ================= TAB 1: LEVERS ================= */
+const PRE={
+ lean:{sitePV:40000,dia:35,ytLF:15000,ytShorts:150000,fb:50000,sponN:1,sponV:150,siteSpon:0,grants:0,bigN:4,smallN:15},
+ base:{sitePV:120000,dia:45,ytLF:40000,ytShorts:400000,fb:150000,sponN:2,sponV:200,siteSpon:150,grants:0,bigN:8,smallN:30},
+ growth:{sitePV:300000,dia:50,ytLF:120000,ytShorts:1000000,fb:400000,sponN:4,sponV:300,siteSpon:300,grants:0,bigN:16,smallN:60},
+ scale:{sitePV:800000,dia:55,ytLF:400000,ytShorts:3000000,fb:1000000,sponN:8,sponV:400,siteSpon:600,grants:0,bigN:40,smallN:120}};
+const RATES={dispSL:0.29,dispDia:1.76,ytRpm:4,shortsRpm:0.10,fbRpm:0.40,bigR:30,smallR:8,ops:66};
+const LV=['sitePV','dia','ytLF','ytShorts','fb','dispSL','dispDia','ytRpm','shortsRpm','fbRpm','sponN','sponV','siteSpon','grants','bigN','bigR','smallN','smallR','ops'];
+function setObj(o){for(const k in o)$(k).value=o[k];}
+function lvCalc(p,r){
+  const dia=p.dia/100;
+  const s={Display:p.sitePV/1000*(r.dispSL*(1-dia)+r.dispDia*dia),'YouTube':p.ytLF/1000*r.ytRpm,Shorts:p.ytShorts/1000*r.shortsRpm,Facebook:p.fb/1000*r.fbRpm,Sponsorships:p.sponN*p.sponV,'Direct sponsor':p.siteSpon,Grants:p.grants};
+  const rev=Object.values(s).reduce((a,b)=>a+b,0);const cost=p.bigN*r.bigR+p.smallN*r.smallR+r.ops;return{s,rev,cost,net:rev-cost};
+}
+function curP(){return{sitePV:get('sitePV'),dia:get('dia'),ytLF:get('ytLF'),ytShorts:get('ytShorts'),fb:get('fb'),sponN:get('sponN'),sponV:get('sponV'),siteSpon:get('siteSpon'),grants:get('grants'),bigN:get('bigN'),smallN:get('smallN')};}
+function curR(){return{dispSL:get('dispSL'),dispDia:get('dispDia'),ytRpm:get('ytRpm'),shortsRpm:get('shortsRpm'),fbRpm:get('fbRpm'),bigR:get('bigR'),smallR:get('smallR'),ops:get('ops')};}
+function lvPreset(n){setObj(PRE[n]);setObj(RATES);document.querySelectorAll('#lvPresets button').forEach(b=>b.classList.toggle('active',b.dataset.s===n));renderLevers();}
+function renderLevers(){
+  const lab={sitePV:fmtN,dia:v=>v+'%',ytLF:fmtN,ytShorts:fmtN,fb:fmtN,dispSL:v=>'$'+v.toFixed(2),dispDia:v=>'$'+v.toFixed(2),ytRpm:v=>'$'+v.toFixed(1),shortsRpm:v=>'$'+v.toFixed(2),fbRpm:v=>'$'+v.toFixed(2),sponN:v=>v,sponV:fmt,siteSpon:fmt,grants:fmt,bigN:v=>v,bigR:fmt,smallN:v=>v,smallR:fmt,ops:fmt};
+  LV.forEach(id=>{if($(id+'_v'))$(id+'_v').textContent=lab[id](get(id));});
+  const p=curP(),r=curR(),o=lvCalc(p,r);
+  $('kRev').textContent=fmt(o.rev);$('kCost').textContent=fmt(o.cost);$('kNet').textContent=fmt(o.net);
+  $('kNetCard').className='kpi '+(o.net>=0?'good':'bad');$('kHire').textContent=(o.net/518).toFixed(1);
+  const labels=Object.keys(o.s),vals=Object.values(o.s).map(Math.round);
+  Plotly.react('mixChart',[{type:'bar',x:vals,y:labels,orientation:'h',marker:{color:[SAGE,G,'#9ab59a','#cdd9c8',GOLD,'#b9892f',GREY]},text:vals.map(fmt),textposition:'auto'}],
+    {margin:{l:110,r:20,t:10,b:30},xaxis:{title:'USD / mo'},font:{size:11}},PL);
+  // sweep
+  const lever=$('sweep').value;const maxes={sponN:20,sponV:1000,ytLF:1500000,sitePV:1500000};
+  const xs=[],ys=[];const steps=40;for(let i=0;i<=steps;i++){const x=maxes[lever]*i/steps;const pp={...p};pp[lever]=x;ys.push(lvCalc(pp,r).net);xs.push(x);}
+  // breakeven crossing
+  let bx=null;for(let i=1;i<xs.length;i++){if((ys[i-1]<0)!=(ys[i]<0)){const t=(0-ys[i-1])/(ys[i]-ys[i-1]);bx=xs[i-1]+t*(xs[i]-xs[i-1]);break;}}
+  const tr=[{x:xs,y:ys,type:'scatter',mode:'lines',line:{color:G,width:3},name:'Net'},{x:[xs[0],xs[xs.length-1]],y:[0,0],type:'scatter',mode:'lines',line:{color:RED,dash:'dot',width:1},name:'$0'}];
+  if(bx!=null)tr.push({x:[bx],y:[0],type:'scatter',mode:'markers+text',marker:{color:GOLD,size:12},text:['breakeven '+fmtN(bx)],textposition:'top center',name:'breakeven'});
+  Plotly.react('sweepChart',tr,{margin:{l:60,r:20,t:10,b:40},xaxis:{title:$('sweep').selectedOptions[0].text},yaxis:{title:'Net $/mo'},showlegend:false,font:{size:11}},PL);
+}
+LV.forEach(id=>$(id).addEventListener('input',()=>{document.querySelectorAll('#lvPresets button').forEach(b=>b.classList.remove('active'));renderLevers();}));
+$('sweep').addEventListener('change',renderLevers);
+document.querySelectorAll('#lvPresets button').forEach(b=>b.onclick=()=>lvPreset(b.dataset.s));
+
+/* ================= TAB 2: SCALING ================= */
+// anchors: [staff, value]
+const REV_ANCHOR=[[0,0],[1,272],[3,910],[7,2508],[10,6680],[25,17360],[50,36180]];
+const COST_ANCHOR={
+ A:[[0,0],[1,306],[3,546],[7,1026],[10,2226],[25,5555],[50,11578]],
+ B:[[0,0],[1,1689],[3,2838],[10,11816],[25,25516],[50,46193]],
+ C:[[0,0],[1,800],[3,1400],[10,6100],[25,14900],[50,31500]]};
+function interp(anch,x){if(x<=anch[0][0])return anch[0][1];for(let i=1;i<anch.length;i++){if(x<=anch[i][0]){const[x0,y0]=anch[i-1],[x1,y1]=anch[i];return y0+(y1-y0)*(x-x0)/(x1-x0);}}return anch[anch.length-1][1];}
+let MODEL='C';
+function scaleVals(staff){
+  const revMult=get('revMult'),costMult=get('costMult'),shock=get('sponShock')/100;
+  let rev=interp(REV_ANCHOR,staff)*revMult*(1-0.6*shock);
+  let cost=interp(COST_ANCHOR[MODEL],staff)*costMult;
+  return{rev,cost,profit:rev-cost,margin:rev>0?(rev-cost)/rev:0};
+}
+function smooth(t){return t*t*(3-2*t);}
+function renderScale(){
+  $('target_v').textContent=get('target');$('revMult_v').textContent=get('revMult').toFixed(2)+'×';
+  $('costMult_v').textContent=get('costMult').toFixed(2)+'×';$('sponShock_v').textContent=get('sponShock')+'%';
+  const target=get('target');
+  // 36-month ramp
+  const months=[],rev=[],cost=[],profit=[];let beMonth=null;
+  for(let m=1;m<=36;m++){const staff=Math.max(1,Math.round(1+(target-1)*smooth(m/36)));const v=scaleVals(staff);
+    months.push(m);rev.push(Math.round(v.rev));cost.push(Math.round(v.cost));profit.push(Math.round(v.profit));
+    if(beMonth===null&&v.profit>=0)beMonth=m;}
+  Plotly.react('rampChart',[
+    {x:months,y:rev,type:'scatter',mode:'lines',name:'Revenue',line:{color:G,width:3}},
+    {x:months,y:cost,type:'scatter',mode:'lines',name:'Cost',line:{color:RED,width:2}},
+    {x:months,y:profit,type:'scatter',mode:'lines',name:'Profit',line:{color:GOLD,width:3},fill:'tozeroy',fillcolor:'rgba(212,163,115,.15)'}
+  ],{margin:{l:60,r:20,t:10,b:40},xaxis:{title:'Month'},yaxis:{title:'USD / mo'},legend:{orientation:'h'},font:{size:11},
+     shapes:beMonth?[{type:'line',x0:beMonth,x1:beMonth,y0:0,yref:'paper',y1:1,line:{color:SAGE,dash:'dot',width:1}}]:[],
+     annotations:beMonth?[{x:beMonth,y:1,yref:'paper',text:'breakeven m'+beMonth,showarrow:false,font:{size:10,color:SAGE}}]:[]},PL);
+  // profit vs staff
+  const ss=[],pp=[];let beStaff=null;for(let s=0;s<=50;s++){const v=scaleVals(s);ss.push(s);pp.push(Math.round(v.profit));if(beStaff===null&&v.profit>=0&&s>0)beStaff=s;}
+  const tr=[{x:ss,y:pp,type:'scatter',mode:'lines',line:{color:G,width:3},name:'Profit'},{x:[0,50],y:[0,0],type:'scatter',mode:'lines',line:{color:RED,dash:'dot',width:1}}];
+  if(beStaff!=null)tr.push({x:[beStaff],y:[0],type:'scatter',mode:'markers+text',marker:{color:GOLD,size:12},text:['breakeven '+beStaff+' staff'],textposition:'top center'});
+  Plotly.react('staffChart',tr,{margin:{l:60,r:20,t:10,b:40},xaxis:{title:'Staff'},yaxis:{title:'Profit $/mo'},showlegend:false,font:{size:11}},PL);
+  // KPIs + tiers
+  $('sBE').textContent=beStaff!=null?beStaff:'never';
+  $('sBEm').textContent=beMonth!=null?('m'+beMonth):'>36';
+  const at=scaleVals(target);$('sRev50').textContent=fmt(at.rev);$('sMargin').textContent=Math.round(at.margin*100)+'%';
+  $('sMcard').className='kpi '+(at.margin>=0?'good':'bad');
+  const tb=document.querySelector('#tierTbl tbody');tb.innerHTML='';
+  [3,10,25,50].forEach(s=>{const v=scaleVals(s);tb.innerHTML+=`<tr><td>${s}</td><td>${fmt(v.rev)}</td><td>${fmt(v.cost)}</td><td class="${v.profit>=0?'pos':'neg'}">${fmt(v.profit)}</td><td class="${v.profit>=0?'pos':'neg'}">${Math.round(v.margin*100)}%</td></tr>`;});
+}
+['target','revMult','costMult','sponShock'].forEach(id=>$(id).addEventListener('input',renderScale));
+document.querySelectorAll('#modelSeg button').forEach(b=>b.onclick=()=>{MODEL=b.dataset.m;document.querySelectorAll('#modelSeg button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderScale();});
+
+/* ================= TAB 3: MONETISATION ================= */
+let monetDone=false;
+function renderMonet(){if(monetDone)return;monetDone=true;
+  const f=['YT long-form','YT Shorts','FB Reels','FB in-stream (diaspora)','Display SL','Display diaspora'];
+  const v=[6,0.10,0.05,2.5,0.29,1.76];
+  Plotly.react('rpmChart',[{type:'bar',x:f,y:v,marker:{color:[G,'#9ab59a',GREY,SAGE,'#cdd9c8',GOLD]},text:v.map(x=>'$'+x),textposition:'auto'}],
+    {margin:{l:50,r:20,t:10,b:60},yaxis:{title:'RPM $/1,000 (diaspora)'},font:{size:11}},PL);
+}
+
+/* init */
+lvPreset('base');
+window.addEventListener('resize',()=>{if($('scaling').classList.contains('active'))renderScale();});
+</script>
+</body>
+</html>

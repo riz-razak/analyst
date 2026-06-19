@@ -1,0 +1,68 @@
+/* ============================================================================
+ * yan-core.css — Yan family shared design tokens (canonical)
+ * The executable form of docs/design-system.md (Bawa Earth). Shared across the
+ * reader shell, the admin SPA, and the media-model dashboard, and aligned to the
+ * sister brands via each product's brand_theme_key (yan, yan-vada, analyst, golab).
+ *
+ * Usage: link this FIRST, then a thin surface layer (reader.css / admin.css) that
+ * only overrides density + type personality. Do not redefine palette downstream.
+ * Resolves the prior drift (four greens / three off-whites) to one source of truth.
+ * ========================================================================== */
+
+:root {
+  /* ---- Color: Bawa Earth (authoritative) ---- */
+  --bg:             #FAFAF8;   /* warm off-white (retires #f4f4fa, #fff-as-bg, #f6f5ef) */
+  --surface:        #FFFFFF;
+  --surface-hover:  #F0EDE8;
+  --border:         #E5E1DA;   /* warm sand (retires #E5E7EB, rgba(0,0,0,.1)) */
+  --border-strong:  #D8D2C7;
+  --text:           #1A1A2E;
+  --text-secondary: #4A4A5A;   /* retires cold #6B7280 */
+  --text-tertiary:  #6B6B7B;   /* retires cold #9CA3AF */
+
+  --accent:         #2D6A4F;   /* THE green (retires #1B4D2E-as-accent, #2d5a27, #4a7c59-as-accent) */
+  --accent-strong:  #1B4D2E;   /* accent hover/active only */
+  --accent-soft:    #4A7C59;   /* secondary green for charts/illustration */
+  --earth:          #C4A35A;   /* THE gold (retires #a88700, #d4a373) */
+
+  /* ---- Status ---- */
+  --red:    #C0492F;  --orange: #D97706;  --green: #34A853;  --blue: #3A7BD5;
+  --green-subtle:  #E6F4EA;  --orange-subtle: #FCEFD9;
+  --red-subtle:    #FBE7E3;  --earth-subtle:  #F4EEDD;
+
+  /* ---- Typography ---- */
+  --font-sans:  'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;   /* DISPLAY ONLY — dossier hero/masthead, never body */
+  --font-mono:  'SF Mono', 'Source Code Pro', Consolas, monospace;
+  --font-si:    'Noto Sans Sinhala', 'Noto Serif Sinhala', var(--font-sans);
+  --font-ta:    'Noto Sans Tamil', var(--font-sans);
+
+  /* ---- Space: 8pt grid ---- */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+
+  /* ---- Radius / shadow / motion ---- */
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(26,26,46,.05);
+  --shadow-md: 0 4px 12px rgba(26,26,46,.08);
+  --motion-fast: 0.12s ease;   /* functional transitions only; no decorative animation */
+
+  /* ---- Back-compat aliases (so existing reader/admin markup keeps working
+   *      during migration — point old names at the canonical tokens) ---- */
+  --color-primary:   var(--accent);
+  --color-accent:    var(--accent);
+  --color-gold:      var(--earth);
+  --color-bg:        var(--bg);
+  --color-surface:   var(--surface);
+  --color-text:      var(--text);
+  --color-border:    var(--border);
+}
+
+/* Family note: per-product expression lives in density + type personality only
+ * (Analyst reader = serif-display editorial; ops tools = sans dense). Palette is shared.
+ * No dark mode, no glassmorphism/backdrop-blur, no decorative animation, no gradient
+ * backgrounds — see docs/design-system.md No-Go list. */
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

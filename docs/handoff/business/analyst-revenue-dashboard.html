@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>The Analyst — Revenue Scenarios (ad-led)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --green:#2d5a27; --sage:#4a7c59; --gold:#d4a373; --ink:#1f2d22; --muted:#6b7765;
+    --bg:#f6f5ef; --card:#ffffff; --line:#e3e0d6; --red:#c0492f; --amber:#d97706;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:14px}
+  header{background:var(--green);color:#fff;padding:16px 22px}
+  header h1{margin:0;font-size:19px;letter-spacing:-0.01em}
+  header .sub{opacity:.85;font-size:12.5px;margin-top:3px}
+  .ban{background:#fbe7e3;color:var(--red);font-size:12.5px;padding:7px 22px;border-bottom:1px solid var(--line)}
+  .wrap{display:grid;grid-template-columns:360px 1fr;gap:18px;padding:18px 22px;max-width:1340px;margin:0 auto}
+  @media(max-width:960px){.wrap{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card h2{margin:0 0 12px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--green)}
+  .presets{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px}
+  .presets button{flex:1;min-width:64px;padding:9px 6px;border:1px solid var(--green);background:#fff;color:var(--green);border-radius:8px;font-weight:700;cursor:pointer;font-size:12.5px}
+  .presets button.active{background:var(--green);color:#fff}
+  .grp{margin-top:14px;border-top:1px dashed var(--line);padding-top:10px}
+  .grp h3{margin:0 0 8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .ctrl{margin-bottom:11px}
+  .ctrl label{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:3px}
+  .ctrl label b{color:var(--green)}
+  .ctrl input[type=range]{width:100%;accent-color:var(--sage)}
+  .flag{font-size:11px;color:var(--amber)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+  @media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px}
+  .kpi .v{font-size:24px;font-weight:800;letter-spacing:-0.02em}
+  .kpi .l{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .kpi.good .v{color:var(--green)} .kpi.bad .v{color:var(--red)}
+  .charts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.charts{grid-template-columns:1fr}}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right}
+  th:first-child,td:first-child{text-align:left}
+  thead th{color:var(--muted);font-weight:600;text-transform:uppercase;font-size:10.5px;letter-spacing:.04em}
+  .pos{color:var(--green);font-weight:700}.neg{color:var(--red);font-weight:700}
+  .foot{font-size:11px;color:var(--muted);padding:4px 22px 26px;max-width:1340px;margin:0 auto;line-height:1.5}
+  .pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
+  .pill.y{background:#dcefd6;color:var(--green)}.pill.n{background:#fbe7e3;color:var(--red)}
+</style>
+</head>
+<body>
+<header>
+  <h1>The Analyst — Revenue Scenarios <span style="opacity:.7;font-weight:500">(ad-led, no membership)</span></h1>
+  <div class="sub">For founder review (Riz + Sunera) · prudent SL/diaspora assumptions · edit any slider · 2026-06-19</div>
+</header>
+<div class="ban"><b>Membership excluded by design.</b> SL won't pay for news at scale (The Examiner ≈ $600 cumulative after a year with ~6 staff). Revenue = advertising in all its forms, like Hiru/Derana/Newsfirst.</div>
+
+<div class="wrap">
+  <!-- CONTROLS -->
+  <div class="card">
+    <h2>Scenario</h2>
+    <div class="presets" id="presets">
+      <button data-s="lean">Lean<br><small>mo 1–3</small></button>
+      <button data-s="base" class="active">Base<br><small>mo 6</small></button>
+      <button data-s="growth">Growth<br><small>mo 12</small></button>
+      <button data-s="scale">Scale<br><small>mo 24</small></button>
+    </div>
+
+    <div class="grp"><h3>Audience / month</h3>
+      <div class="ctrl"><label>Website pageviews <b id="sitePV_v"></b></label><input type="range" id="sitePV" min="0" max="1500000" step="10000"></div>
+      <div class="ctrl"><label>Diaspora share of web traffic <b id="dia_v"></b></label><input type="range" id="dia" min="0" max="100" step="5"></div>
+      <div class="ctrl"><label>YouTube long-form views <b id="ytLF_v"></b></label><input type="range" id="ytLF" min="0" max="1500000" step="5000"></div>
+      <div class="ctrl"><label>YouTube Shorts views <b id="ytShorts_v"></b></label><input type="range" id="ytShorts" min="0" max="6000000" step="50000"></div>
+      <div class="ctrl"><label>Facebook views <span class="flag">(SL monetization limited)</span> <b id="fb_v"></b></label><input type="range" id="fb" min="0" max="3000000" step="50000"></div>
+    </div>
+
+    <div class="grp"><h3>Rates (RPM = $ / 1,000)</h3>
+      <div class="ctrl"><label>Display RPM — Sri Lanka <b id="dispSL_v"></b></label><input type="range" id="dispSL" min="0" max="2" step="0.05"></div>
+      <div class="ctrl"><label>Display RPM — diaspora <b id="dispDia_v"></b></label><input type="range" id="dispDia" min="0" max="8" step="0.1"></div>
+      <div class="ctrl"><label>YouTube long-form RPM <b id="ytRpm_v"></b></label><input type="range" id="ytRpm" min="0" max="12" step="0.5"></div>
+      <div class="ctrl"><label>Shorts RPM <b id="shortsRpm_v"></b></label><input type="range" id="shortsRpm" min="0" max="0.5" step="0.01"></div>
+      <div class="ctrl"><label>Facebook RPM <b id="fbRpm_v"></b></label><input type="range" id="fbRpm" min="0" max="2" step="0.05"></div>
+    </div>
+
+    <div class="grp"><h3>Sponsorship &amp; direct (the SL money)</h3>
+      <div class="ctrl"><label>Sponsored integrations / month <b id="sponN_v"></b></label><input type="range" id="sponN" min="0" max="20" step="1"></div>
+      <div class="ctrl"><label>Avg deal value (USD) <b id="sponV_v"></b></label><input type="range" id="sponV" min="0" max="1000" step="25"></div>
+      <div class="ctrl"><label>Direct site sponsor (flat USD/mo) <b id="siteSpon_v"></b></label><input type="range" id="siteSpon" min="0" max="1500" step="50"></div>
+      <div class="ctrl"><label>Grants (USD/mo, bridge) <b id="grants_v"></b></label><input type="range" id="grants" min="0" max="2000" step="50"></div>
+    </div>
+
+    <div class="grp"><h3>Costs / month</h3>
+      <div class="ctrl"><label>Big pieces (n) <b id="bigN_v"></b></label><input type="range" id="bigN" min="0" max="60" step="1"></div>
+      <div class="ctrl"><label>Rate / big piece (USD) <b id="bigR_v"></b></label><input type="range" id="bigR" min="0" max="100" step="5"></div>
+      <div class="ctrl"><label>Shorts/small (n) <b id="smallN_v"></b></label><input type="range" id="smallN" min="0" max="200" step="5"></div>
+      <div class="ctrl"><label>Rate / short (USD) <b id="smallR_v"></b></label><input type="range" id="smallR" min="0" max="40" step="1"></div>
+      <div class="ctrl"><label>Tools + infra (USD/mo) <b id="ops_v"></b></label><input type="range" id="ops" min="0" max="500" step="10"></div>
+    </div>
+  </div>
+
+  <!-- OUTPUTS -->
+  <div>
+    <div class="kpis">
+      <div class="kpi good"><div class="v" id="kRev">$0</div><div class="l">Total revenue / mo</div></div>
+      <div class="kpi"><div class="v" id="kCost">$0</div><div class="l">Content + ops cost / mo</div></div>
+      <div class="kpi" id="kNetCard"><div class="v" id="kNet">$0</div><div class="l">Net for stipends / hires</div></div>
+      <div class="kpi"><div class="v" id="kHire">0</div><div class="l">Tier-1 hires fundable (@$518)</div></div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h2>First-hire & tier coverage <span id="hireBadge"></span></h2>
+      <table id="tierTbl">
+        <thead><tr><th>Milestone</th><th>USD/mo</th><th>Covered by net?</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="charts">
+      <div class="card"><h2>Revenue by stream</h2><canvas id="mix" height="220"></canvas></div>
+      <div class="card"><h2>Revenue vs cost</h2><canvas id="rc" height="220"></canvas></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>All scenarios (computed at current rates)</h2>
+      <table id="scenTbl">
+        <thead><tr><th>Scenario</th><th>Revenue</th><th>Cost</th><th>Net</th><th>Tier-1 hires</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="foot">
+  <b>Streams:</b> website display (one clean ad/page), YouTube ad-rev (diaspora-weighted — pays by viewer location), Shorts (acquisition, tiny RPM), Facebook (limited in SL), sponsorships/branded integrations (the high-value SL lever, $15–80 CPM equiv.), direct site sponsor, grants (bridge). <b>No membership, no paywall.</b><br/>
+  <b>Default rates (prudent, editable):</b> display SL $0.29 / diaspora $1.76 (after fill+ad-block); YT long-form $4 (English diaspora; $0.70 domestic India); Shorts $0.10; FB $0.30. Tiers: Tier-1 $518, Tier-2 $1,020, Tier-3 $1,689 (net-of-tax/forex, LKR 150k/300k/500k; Tier-1 ~tax-free). <b>Sources:</b> AdSense/EthicalAds/viewability 2026; YouTube CPM-by-country 2026; YouTube sponsorship rates 2026; SL APIT 2026. Figures illustrative — verify with real invoices + Vinita/IRD before committing.
+</div>
+
+<script>
+const PRESETS={
+  lean:{sitePV:40000,dia:35,ytLF:15000,ytShorts:150000,fb:50000,sponN:1,sponV:150,siteSpon:0,grants:0,bigN:4,smallN:15},
+  base:{sitePV:120000,dia:45,ytLF:40000,ytShorts:400000,fb:150000,sponN:2,sponV:200,siteSpon:150,grants:0,bigN:8,smallN:30},
+  growth:{sitePV:300000,dia:50,ytLF:120000,ytShorts:1000000,fb:400000,sponN:4,sponV:300,siteSpon:300,grants:0,bigN:16,smallN:60},
+  scale:{sitePV:800000,dia:55,ytLF:400000,ytShorts:3000000,fb:1000000,sponN:8,sponV:400,siteSpon:600,grants:0,bigN:40,smallN:120}
+};
+// rates + cost-rates persist across presets
+const RATES={dispSL:0.29,dispDia:1.76,ytRpm:4,shortsRpm:0.10,fbRpm:0.30,bigR:30,smallR:8,ops:66};
+const TIERS=[['Tier-1 (first hire / stipend)',518],['Tier-2',1020],['Tier-3',1689]];
+const ids=['sitePV','dia','ytLF','ytShorts','fb','dispSL','dispDia','ytRpm','shortsRpm','fbRpm','sponN','sponV','siteSpon','grants','bigN','bigR','smallN','smallR','ops'];
+const fmt=n=>'$'+Math.round(n).toLocaleString();
+const fmtN=n=>Math.round(n).toLocaleString();
+const get=id=>parseFloat(document.getElementById(id).value);
+
+function setInputs(o){for(const k in o)document.getElementById(k).value=o[k];}
+function applyPreset(name){setInputs(PRESETS[name]);setInputs(RATES);
+  document.querySelectorAll('#presets button').forEach(b=>b.classList.toggle('active',b.dataset.s===name));render();}
+
+function calc(p,r){
+  const dia=p.dia/100;
+  const display=p.sitePV/1000*(r.dispSL*(1-dia)+r.dispDia*dia);
+  const yt=p.ytLF/1000*r.ytRpm;
+  const shorts=p.ytShorts/1000*r.shortsRpm;
+  const fb=p.fb/1000*r.fbRpm;
+  const spon=p.sponN*p.sponV;
+  const site=p.siteSpon;
+  const grants=p.grants;
+  const streams={Display:display,'YouTube ad-rev':yt,Shorts:shorts,Facebook:fb,Sponsorships:spon,'Direct sponsor':site,Grants:grants};
+  const revenue=Object.values(streams).reduce((a,b)=>a+b,0);
+  const cost=p.bigN*r.bigR+p.smallN*r.smallR+r.ops;
+  return {streams,revenue,cost,net:revenue-cost};
+}
+function curP(){return {sitePV:get('sitePV'),dia:get('dia'),ytLF:get('ytLF'),ytShorts:get('ytShorts'),fb:get('fb'),sponN:get('sponN'),sponV:get('sponV'),siteSpon:get('siteSpon'),grants:get('grants'),bigN:get('bigN'),smallN:get('smallN')};}
+function curR(){return {dispSL:get('dispSL'),dispDia:get('dispDia'),ytRpm:get('ytRpm'),shortsRpm:get('shortsRpm'),fbRpm:get('fbRpm'),bigR:get('bigR'),smallR:get('smallR'),ops:get('ops')};}
+
+let mixChart,rcChart;
+function render(){
+  // labels
+  document.getElementById('sitePV_v').textContent=fmtN(get('sitePV'));
+  document.getElementById('dia_v').textContent=get('dia')+'%';
+  document.getElementById('ytLF_v').textContent=fmtN(get('ytLF'));
+  document.getElementById('ytShorts_v').textContent=fmtN(get('ytShorts'));
+  document.getElementById('fb_v').textContent=fmtN(get('fb'));
+  document.getElementById('dispSL_v').textContent='$'+get('dispSL').toFixed(2);
+  document.getElementById('dispDia_v').textContent='$'+get('dispDia').toFixed(2);
+  document.getElementById('ytRpm_v').textContent='$'+get('ytRpm').toFixed(1);
+  document.getElementById('shortsRpm_v').textContent='$'+get('shortsRpm').toFixed(2);
+  document.getElementById('fbRpm_v').textContent='$'+get('fbRpm').toFixed(2);
+  document.getElementById('sponN_v').textContent=get('sponN');
+  document.getElementById('sponV_v').textContent=fmt(get('sponV'));
+  document.getElementById('siteSpon_v').textContent=fmt(get('siteSpon'));
+  document.getElementById('grants_v').textContent=fmt(get('grants'));
+  document.getElementById('bigN_v').textContent=get('bigN');
+  document.getElementById('bigR_v').textContent=fmt(get('bigR'));
+  document.getElementById('smallN_v').textContent=get('smallN');
+  document.getElementById('smallR_v').textContent=fmt(get('smallR'));
+  document.getElementById('ops_v').textContent=fmt(get('ops'));
+
+  const p=curP(),r=curR(),o=calc(p,r);
+  document.getElementById('kRev').textContent=fmt(o.revenue);
+  document.getElementById('kCost').textContent=fmt(o.cost);
+  document.getElementById('kNet').textContent=fmt(o.net);
+  document.getElementById('kNetCard').className='kpi '+(o.net>=0?'good':'bad');
+  document.getElementById('kHire').textContent=(o.net/518).toFixed(1);
+
+  // tier table (vs net available)
+  const tb=document.querySelector('#tierTbl tbody');tb.innerHTML='';
+  TIERS.forEach(([n,v])=>{const ok=o.net>=v;tb.innerHTML+=`<tr><td>${n}</td><td>${fmt(v)}</td><td><span class="pill ${ok?'y':'n'}">${ok?'YES':'no'}</span></td></tr>`;});
+  const first=o.net>=518;
+  document.getElementById('hireBadge').innerHTML=`<span class="pill ${first?'y':'n'}">${first?'first hire funded':'first hire not yet'}</span>`;
+
+  // mix doughnut
+  const labels=Object.keys(o.streams),data=Object.values(o.streams).map(x=>Math.round(x));
+  const colors=['#4a7c59','#2d5a27','#9ab59a','#cdd9c8','#d4a373','#b9892f','#bdbdbd'];
+  if(mixChart)mixChart.destroy();
+  mixChart=new Chart(document.getElementById('mix'),{type:'doughnut',
+    data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:1,borderColor:'#fff'}]},
+    options:{plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11}}}}}});
+
+  // rev vs cost bar with tier markers
+  if(rcChart)rcChart.destroy();
+  rcChart=new Chart(document.getElementById('rc'),{type:'bar',
+    data:{labels:['Revenue','Cost','Net'],datasets:[{data:[Math.round(o.revenue),Math.round(o.cost),Math.round(o.net)],backgroundColor:['#2d5a27','#c0492f','#4a7c59']}]},
+    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.raw)}}},
+      scales:{y:{beginAtZero:true,ticks:{callback:v=>'$'+v}}}}});
+
+  // scenario table
+  const st=document.querySelector('#scenTbl tbody');st.innerHTML='';
+  for(const name of ['lean','base','growth','scale']){
+    const oo=calc(PRESETS[name],r);
+    st.innerHTML+=`<tr><td style="text-transform:capitalize">${name}</td><td>${fmt(oo.revenue)}</td><td>${fmt(oo.cost)}</td><td class="${oo.net>=0?'pos':'neg'}">${fmt(oo.net)}</td><td>${(oo.net/518).toFixed(1)}</td></tr>`;
+  }
+}
+ids.forEach(id=>document.getElementById(id).addEventListener('input',()=>{document.querySelectorAll('#presets button').forEach(b=>b.classList.remove('active'));render();}));
+document.querySelectorAll('#presets button').forEach(b=>b.addEventListener('click',()=>applyPreset(b.dataset.s)));
+applyPreset('base');
+</script>
+</body>
+</html>

@@ -502,7 +502,12 @@ async function handleUnifiedStart(request, env) {
     authorizeUrl.searchParams.set('code_challenge', attempt.codeChallenge);
     authorizeUrl.searchParams.set('code_challenge_method', 'S256');
     authorizeUrl.searchParams.set('acr_values', 'urn:yan:aal:2');
-    authorizeUrl.searchParams.set('reauth', 'if_needed');
+    // Force a fresh step-up only when the callback retried a reauth_required failure.
+    // NOTE: depends on auth.yan.lk honouring reauth=required / max_age=0. If unsupported it is
+    // ignored upstream and the one-shot retry cookie caps us at a single attempt (graceful degrade).
+    const forceReauth = url.searchParams.get('reauth') === 'required';
+    authorizeUrl.searchParams.set('reauth', forceReauth ? 'required' : 'if_needed');
+    if (forceReauth) authorizeUrl.searchParams.set('max_age', '0');
     authorizeUrl.searchParams.set('next', next);
 
     const headers = new Headers({ Location: authorizeUrl.toString(), 'Cache-Control': 'no-store' });
@@ -519,15 +524,19 @@ async function handleUnifiedCallback(request, env) {
   let fallbackNext = UNIFIED_DEFAULT_NEXT;
   const fail = (error) => {
     responseHeaders.append('Set-Cookie', clearCookie(UNIFIED_ATTEMPT_COOKIE, url));
-    if (['missing_auth_attempt', 'invalid_auth_attempt', 'invalid_state'].includes(error) && parseCookie(request.headers.get('Cookie') || '', UNIFIED_RETRY_COOKIE) !== '1') {
+    // A2A: reauth_required is now recoverable — retry once through a forced fresh step-up.
+    const RETRYABLE = ['missing_auth_attempt', 'invalid_auth_attempt', 'invalid_state', 'reauth_required'];
+    const alreadyRetried = parseCookie(request.headers.get('Cookie') || '', UNIFIED_RETRY_COOKIE) === '1';
+    if (RETRYABLE.includes(error) && !alreadyRetried) {
       responseHeaders.append('Set-Cookie', `${UNIFIED_RETRY_COOKIE}=1; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=120`);
-      responseHeaders.set('Location', `/auth/unified/start?next=${encodeURIComponent(fallbackNext)}`);
+      const forceReauth = error === 'reauth_required' ? '&reauth=required' : '';
+      responseHeaders.set('Location', `/auth/unified/start?next=${encodeURIComponent(fallbackNext)}${forceReauth}`);
       return new Response(null, { status: 302, headers: responseHeaders });
     }
     responseHeaders.append('Set-Cookie', clearCookie(UNIFIED_RETRY_COOKIE, url));
     if (!legacyAuthEnabled(env)) {
-      responseHeaders.set('Content-Type', 'text/plain; charset=utf-8');
-      return new Response(`Unified auth failed: ${safePublicAuthError(error)}\nRetry: /auth/unified/start?next=${encodeURIComponent(fallbackNext)}\n`, { status: 400, headers: responseHeaders });
+      // A2C: safe, branded, noindex/no-store failure page (replaces raw text/plain 400).
+      return unifiedAuthFailureResponse(responseHeaders, error, fallbackNext);
     }
     responseHeaders.set('Location', `/login.html?legacy=1&error=${encodeURIComponent(error)}&next=${encodeURIComponent(fallbackNext)}`);
     return new Response(null, { status: 302, headers: responseHeaders });
@@ -559,6 +568,30 @@ async function handleUnifiedCallback(request, env) {
   } catch (error) {
     return fail(error instanceof Error ? error.message : 'unified_auth_failed');
   }
+}
+
+function unifiedAuthFailureResponse(headers, error, next) {
+  headers.set('Content-Type', 'text/html; charset=utf-8');
+  headers.set('Cache-Control', 'no-store');
+  headers.set('X-Robots-Tag', 'noindex, nofollow');
+  const code = safePublicAuthError(error);
+  const href = `/auth/unified/start?next=${encodeURIComponent(safeNext(next, UNIFIED_DEFAULT_NEXT))}`;
+  const body = `<!doctype html><html lang="en"><head><meta charset="utf-8">`
+    + `<meta name="robots" content="noindex,nofollow">`
+    + `<meta name="viewport" content="width=device-width,initial-scale=1">`
+    + `<title>Sign-in needed — The Analyst</title>`
+    + `<style>body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;`
+    + `background:#faf9f6;color:#1a1a2e;display:flex;min-height:100vh;align-items:center;justify-content:center}`
+    + `main{max-width:420px;padding:32px;text-align:center}h1{font-size:18px;margin:0 0 8px;color:#2d5a27}`
+    + `p{font-size:14px;color:#4a4a5a;line-height:1.5}a.btn{display:inline-block;margin-top:16px;background:#2d5a27;`
+    + `color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;font-weight:600}`
+    + `code{background:#efede6;padding:1px 6px;border-radius:4px;font-size:12px}</style></head>`
+    + `<body><main><h1>The Analyst</h1>`
+    + `<p>We couldn't complete sign-in. Your session may need a fresh verification.</p>`
+    + `<p><a class="btn" href="${href}">Sign in again</a></p>`
+    + `<p style="margin-top:18px;font-size:12px;color:#6b7765">Reference: <code>${code}</code></p>`
+    + `</main></body></html>`;
+  return new Response(body, { status: 400, headers });
 }
 
 function appendClearedAuthCookies(headers, url) {
@@ -1154,6 +1187,7 @@ function getRequiredAnalystPageRights(path) {
   if (PRIVATE_ANALYST_PAGES.has(path)) return ['analyst.admin'];
   if (path === '/admin-preview.html') return ['analyst.admin'];
   if (path === '/admin-submissions.html') return ['analyst.admin', 'analyst.submissions.read', 'analyst.submissions.review'];
+  if (path === '/admin-business-model.html') return ['analyst.admin', 'analyst.analytics.view'];
   if (path.startsWith('/admin/')) return ['analyst.admin'];
   return [];
 }

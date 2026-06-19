@@ -1,0 +1,11 @@
+-- DEPRECATED / DO NOT APPLY.
+-- This file was an early draft with the wrong location and wrong schema shape.
+-- The People-model store is central, in the Yan auth repo, not in the Analyst repo, and rights
+-- are jsonb OBJECTS (e.g. {"analyst.admin.access": true}), not arrays.
+--
+-- The correct, schema-accurate Sunera Analyst-admin grant now lives at:
+--   yan/apps/auth/supabase/migrations/017_seed_analyst_admin_sunera.sql
+-- following the golab (007) and Yan-Vada (015) seed patterns.
+--
+-- Left as a tombstone so this draft is never run. Safe no-op.
+select 1 where false;
