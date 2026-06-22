@@ -4,8 +4,8 @@
  * Uses Cloudflare KV + GitHub as persistent storage
  */
 
-const FALLBACK_SUPABASE_URL = 'https://ogunznqyfmxkmmwizpfy.supabase.co';
-const FALLBACK_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ndW56bnF5Zm14a21td2l6cGZ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNjE0ODAsImV4cCI6MjA4ODYzNzQ4MH0.ElpiHO9FtaxBZlGTWDN6Us2VyWL-uyR2plnjYZ_KwAM';
+// A3.1 (2026-06-22): committed Supabase fallbacks removed. URL from SUPABASE_URL var,
+// anon/publishable key from the SUPABASE_ANON_KEY Worker secret. No key literal in source.
 const ANALYST_ADMIN_RIGHTS = ['analyst.admin', 'analyst.admin.access'];
 const ANALYST_RIGHT_ALIASES = {
   'analyst.admin': ANALYST_ADMIN_RIGHTS,
@@ -936,7 +936,7 @@ function addBundleFallbackRights(rights, bundleKey) {
 async function fetchPeopleAnalystAccess(payload, env) {
   const email = getPayloadEmail(payload);
   const serviceKey = env.SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_ROLE_KEY;
-  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
+  const supabaseUrl = env.SUPABASE_URL;
   const summary = {
     peopleStatus: 'ok',
     rights: [],
@@ -1023,7 +1023,7 @@ function getPayloadEmail(payload) {
 }
 
 async function fetchSupabaseRestResult(env, path) {
-  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
+  const supabaseUrl = env.SUPABASE_URL;
   const serviceKey = env.SUPABASE_SERVICE_KEY || env.SUPABASE_SERVICE_ROLE_KEY;
   const table = path.split('?')[0];
   if (!supabaseUrl || !serviceKey) return { ok: false, status: 'not_configured', table, rows: [] };
@@ -1362,8 +1362,8 @@ async function refreshSupabaseSessionFromCookie(request, env) {
   const refreshTokens = parseCookies(cookieHeader, 'sb-refresh');
   if (refreshTokens.length === 0) return { ok: false, error: 'missing_token', refreshTokenCount: 0 };
 
-  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
-  const apiKey = env.SUPABASE_ANON_KEY || FALLBACK_SUPABASE_ANON_KEY;
+  const supabaseUrl = env.SUPABASE_URL;
+  const apiKey = env.SUPABASE_ANON_KEY;
   if (!supabaseUrl || !apiKey) return { ok: false, error: 'auth_backend_not_configured', refreshTokenCount: refreshTokens.length };
 
   for (const refreshToken of [...refreshTokens].reverse()) {
@@ -1543,8 +1543,8 @@ function decodeVerifiedSupabasePayload(payloadB64) {
 }
 
 async function validateSupabaseAccessToken(token, env) {
-  const supabaseUrl = env.SUPABASE_URL || FALLBACK_SUPABASE_URL;
-  const apiKey = env.SUPABASE_ANON_KEY || FALLBACK_SUPABASE_ANON_KEY;
+  const supabaseUrl = env.SUPABASE_URL;
+  const apiKey = env.SUPABASE_ANON_KEY;
   if (!supabaseUrl || !apiKey) return null;
 
   try {
