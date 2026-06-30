@@ -1,11 +1,11 @@
 {
   "id": "OFH-2026-06-30",
-  "generated_at": "2026-06-30T05:17:04.404Z",
+  "generated_at": "2026-06-30T15:40:31.687Z",
   "forecast_date": "2026-06-30",
   "mode": "reference",
   "status": "unverified_reference_forecast",
   "horizon_days": 30,
-  "source_coverage": 0.63,
+  "source_coverage": 0.5,
   "top_scenario": "epc",
   "scenarios": [
     {
@@ -64,6 +64,6 @@
   "caveats": [
     "This is a deterministic reference forecast generated from the current manual research snapshot and source availability checks.",
     "It is not a verified learning update and should not be scored until resolution criteria are reviewed.",
-    "Reuters Middle East, IAEA Iran focus, CENTCOM press releases were not reachable during the latest source check."
+    "Reuters Middle East, IAEA Iran focus, CENTCOM press releases, EIA Open Data were not reachable during the latest source check."
   ]
 }
