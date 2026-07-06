@@ -1,7 +1,76 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-05T14:52:15.047Z",
+  "generated_at": "2026-07-06T05:36:15.528Z",
   "forecasts": [
+    {
+      "id": "OFH-2026-07-06",
+      "generated_at": "2026-07-06T05:36:15.528Z",
+      "forecast_date": "2026-07-06",
+      "mode": "reference",
+      "status": "unverified_reference_forecast",
+      "horizon_days": 30,
+      "source_coverage": 0.63,
+      "top_scenario": "epc",
+      "scenarios": [
+        {
+          "id": "plc",
+          "name": "Protracted Limited Conflict",
+          "probability": 0.31,
+          "trend": "down",
+          "rationale": "Diplomatic off-ramp reporting trims limited-war baseline but does not eliminate attrition risk."
+        },
+        {
+          "id": "epc",
+          "name": "Economic Pressure Ceasefire",
+          "probability": 0.34,
+          "trend": "up",
+          "rationale": "Economic pressure and Hormuz bargaining leverage make an interim ceasefire/off-ramp the clearest current pathway."
+        },
+        {
+          "id": "irc",
+          "name": "Iranian Regime Collapse",
+          "probability": 0.12,
+          "trend": "flat",
+          "rationale": "Internal stress remains structurally relevant but current accessible signals do not justify a sharp move."
+        },
+        {
+          "id": "rc",
+          "name": "Regional Conflagration",
+          "probability": 0.09,
+          "trend": "down",
+          "rationale": "Regional widening risk falls unless maritime security deployments draw direct attacks."
+        },
+        {
+          "id": "nte",
+          "name": "Nuclear Threshold",
+          "probability": 0.09,
+          "trend": "flat",
+          "rationale": "Nuclear issue remains a tail risk because enrichment and stockpile disputes are deferred, not resolved."
+        },
+        {
+          "id": "udc",
+          "name": "US Domestic Crisis",
+          "probability": 0.05,
+          "trend": "flat",
+          "rationale": "US domestic shock remains secondary unless oil price or constitutional stress accelerates."
+        }
+      ],
+      "sri_lanka_exposure": {
+        "status": "watch",
+        "key_risks": [
+          "fuel-import affordability",
+          "war-risk freight premiums",
+          "FX/import-cover stress",
+          "port schedule disruption"
+        ],
+        "near_term_assessment": "Mostly macro-fuel exposure unless Colombo feeder schedules or insurance premia deteriorate."
+      },
+      "caveats": [
+        "This is a deterministic reference forecast generated from the current manual research snapshot and source availability checks.",
+        "It is not a verified learning update and should not be scored until resolution criteria are reviewed.",
+        "Reuters Middle East, IAEA Iran focus, CENTCOM press releases were not reachable during the latest source check."
+      ]
+    },
     {
       "id": "OFH-2026-07-05",
       "generated_at": "2026-07-05T14:52:15.047Z",
