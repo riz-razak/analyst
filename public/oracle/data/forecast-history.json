@@ -1,10 +1,10 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-13T04:45:34.150Z",
+  "generated_at": "2026-07-13T15:53:49.044Z",
   "forecasts": [
     {
       "id": "OFH-2026-07-13",
-      "generated_at": "2026-07-13T04:45:34.150Z",
+      "generated_at": "2026-07-13T15:53:49.044Z",
       "forecast_date": "2026-07-13",
       "mode": "reference",
       "status": "unverified_reference_forecast",
