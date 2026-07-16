@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "generated_at": "2026-07-15T15:01:15.490Z",
+  "generated_at": "2026-07-16T04:25:17.756Z",
   "ledger": [
     {
       "id": "OFH-Q-2026-05-07-001",
@@ -1882,8 +1882,9 @@
       "probability": 0.56,
       "horizon_end": "2026-07-15",
       "resolution_criteria": "Resolved yes if no confirmed breakdown of the framework and no sustained Hormuz closure occurs by horizon end; otherwise no.",
-      "status": "open",
-      "scoring": null
+      "status": "review_due",
+      "scoring": null,
+      "review_due_at": "2026-07-16T04:25:17.756Z"
     },
     {
       "id": "OFH-Q-2026-06-15-002",
@@ -1893,8 +1894,9 @@
       "probability": 0.24,
       "horizon_end": "2026-07-15",
       "resolution_criteria": "Resolved yes if tanker/commercial traffic through Hormuz is materially disrupted for at least 48 hours by military, mining, blockade, or insurance-denial conditions.",
-      "status": "open",
-      "scoring": null
+      "status": "review_due",
+      "scoring": null,
+      "review_due_at": "2026-07-16T04:25:17.756Z"
     },
     {
       "id": "OFH-Q-2026-06-15-003",
@@ -1904,8 +1906,9 @@
       "probability": 0.3,
       "horizon_end": "2026-07-15",
       "resolution_criteria": "Resolved using a recognized Brent benchmark source. Intraday spikes alone do not count unless the close remains above USD 110 for five consecutive trading days.",
-      "status": "open",
-      "scoring": null
+      "status": "review_due",
+      "scoring": null,
+      "review_due_at": "2026-07-16T04:25:17.756Z"
     },
     {
       "id": "OFH-Q-2026-06-15-004",
@@ -1915,8 +1918,9 @@
       "probability": 0.28,
       "horizon_end": "2026-07-15",
       "resolution_criteria": "Resolved yes if official/publicly verifiable SLPA, CPC, CBSL, shipping-line, or credible market data show schedule disruption, procurement delay, freight/insurance shock, or fuel-stock stress linked to the crisis.",
-      "status": "open",
-      "scoring": null
+      "status": "review_due",
+      "scoring": null,
+      "review_due_at": "2026-07-16T04:25:17.756Z"
     },
     {
       "id": "OFH-Q-2026-06-16-001",
@@ -3237,13 +3241,57 @@
       "resolution_criteria": "Resolved yes if official/publicly verifiable SLPA, CPC, CBSL, shipping-line, or credible market data show schedule disruption, procurement delay, freight/insurance shock, or fuel-stock stress linked to the crisis.",
       "status": "open",
       "scoring": null
+    },
+    {
+      "id": "OFH-Q-2026-07-16-001",
+      "forecast_id": "OFH-2026-07-16",
+      "created_at": "2026-07-16T04:25:17.756Z",
+      "question": "Will an interim US-Iran/Hormuz de-escalation framework remain intact for 30 days?",
+      "probability": 0.56,
+      "horizon_end": "2026-08-15",
+      "resolution_criteria": "Resolved yes if no confirmed breakdown of the framework and no sustained Hormuz closure occurs by horizon end; otherwise no.",
+      "status": "open",
+      "scoring": null
+    },
+    {
+      "id": "OFH-Q-2026-07-16-002",
+      "forecast_id": "OFH-2026-07-16",
+      "created_at": "2026-07-16T04:25:17.756Z",
+      "question": "Will there be a significant Hormuz shipping disruption within 30 days?",
+      "probability": 0.24,
+      "horizon_end": "2026-08-15",
+      "resolution_criteria": "Resolved yes if tanker/commercial traffic through Hormuz is materially disrupted for at least 48 hours by military, mining, blockade, or insurance-denial conditions.",
+      "status": "open",
+      "scoring": null
+    },
+    {
+      "id": "OFH-Q-2026-07-16-003",
+      "forecast_id": "OFH-2026-07-16",
+      "created_at": "2026-07-16T04:25:17.756Z",
+      "question": "Will Brent crude trade above USD 110 for five consecutive trading days within 30 days?",
+      "probability": 0.3,
+      "horizon_end": "2026-08-15",
+      "resolution_criteria": "Resolved using a recognized Brent benchmark source. Intraday spikes alone do not count unless the close remains above USD 110 for five consecutive trading days.",
+      "status": "open",
+      "scoring": null
+    },
+    {
+      "id": "OFH-Q-2026-07-16-004",
+      "forecast_id": "OFH-2026-07-16",
+      "created_at": "2026-07-16T04:25:17.756Z",
+      "question": "Will Sri Lanka face measurable port or fuel-import stress attributable to Hormuz/Middle East disruption within 30 days?",
+      "probability": 0.28,
+      "horizon_end": "2026-08-15",
+      "resolution_criteria": "Resolved yes if official/publicly verifiable SLPA, CPC, CBSL, shipping-line, or credible market data show schedule disruption, procurement delay, freight/insurance shock, or fuel-stock stress linked to the crisis.",
+      "status": "open",
+      "scoring": null
     }
   ],
   "status": "human_review_due",
   "note": "Append only after each forecast has an ID, timestamp, probability, horizon, resolution criteria, cited sources, and verdict review.",
   "stats": {
     "open": 124,
-    "review_due": 156,
+    "review_due": 160,
     "resolved": 0,
     "scored": 0,
     "mean_brier": null,
