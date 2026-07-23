@@ -144,30 +144,23 @@
        no blur radius, no neon). Not an AI-glow: spread-only box-shadow. */
     .hero-meta .cta-chip { display: inline-block; background: var(--forest); color: #FAFAF8;
       border: 1px solid var(--forest); border-radius: 999px; padding: 9px 16px; text-decoration: none;
-      box-shadow: 0 0 0 3px rgba(45,106,79,0.12); transition: box-shadow .15s ease, background .15s ease; }
+      box-shadow: 0 1px 2px rgba(26,26,46,0.12); transition: box-shadow .15s ease, background .15s ease, transform .15s ease; }
     .hero-meta .cta-chip:hover {
-      background: var(--forest-dark); border-color: var(--forest-dark); box-shadow: 0 0 0 5px rgba(45,106,79,0.20); }
+      background: var(--forest-dark); border-color: var(--forest-dark);
+      box-shadow: 0 2px 6px rgba(26,26,46,0.16); transform: translateY(-1px); }
     .hero-meta .cta-chip:focus-visible {
       background: var(--forest-dark); border-color: var(--forest-dark);
       outline: 2px solid var(--forest-dark); outline-offset: 3px; box-shadow: none; }
-    @media (prefers-reduced-motion: reduce) { .hero-meta .cta-chip { transition: none; } }
-    /* Rotating trilingual CTA: one pill, EN→SI→TA cycled every 4s.
-       The label window has a fixed line height; the track translates in
-       whole-line steps. All three phrases stay in the accessible tree via a
-       single aria-label on the link, so screen readers never see the cycle. */
-    /* Rotating multilingual CTA: ONE pill. All phrases occupy the SAME grid cell
-       (so the pill is as wide as the widest phrase and never reflows); only the
-       active one is visible, crossfaded. No height/transform math to collapse. */
-    .hero-meta .cta-rotate .cta-track { display: grid; align-items: center; }
-    .hero-meta .cta-rotate .cta-phrase {
-      grid-area: 1 / 1; white-space: nowrap; text-align: center;
-      opacity: 0; transition: opacity .45s ease; pointer-events: none;
-    }
-    .hero-meta .cta-rotate .cta-phrase.is-active { opacity: 1; }
-    @media (prefers-reduced-motion: reduce) {
-      .hero-meta .cta-rotate .cta-phrase { transition: none; }
-      .hero-meta .cta-rotate .cta-phrase:not(.is-active) { display: none; }
-    }
+    @media (prefers-reduced-motion: reduce) { .hero-meta .cta-chip { transition: none; } .hero-meta .cta-chip:hover { transform: none; } }
+    /* CTA labels are driven by the shared language layer ([data-lang] in
+       dossier-base.css) — no rotation, no JS. Exactly one of the three
+       data-lang spans is visible per language state; the other two are
+       display:none. .hero-meta span (above) would otherwise paint every
+       span descendant — including these — with the cream chip background,
+       border and muted colour, nesting a pale pill inside the forest pill
+       and killing contrast; this scoped rule (0,3,0) wins over that (0,1,1)
+       without !important and restores plain inline text on the forest fill. */
+    .hero-meta .cta-chip .cta-label { background: none; border: 0; border-radius: 0; padding: 0; color: inherit; display: inline; }
 
     /* Section tab strip — the single secondary nav; sticky under topbar+timeline,
        centred when it fits, horizontally scrollable when it does not. */
@@ -204,6 +197,21 @@
     figure.vis iframe { display: block; width: 100%; height: 900px; border: 0; background: var(--paper); }
     figure.vis figcaption { padding: 12px 16px; border-top: 1px solid var(--line); font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
     figure.vis figcaption .claim-ids { font-family: var(--font-mono); color: var(--forest); }
+    /* Sinhala & Tamil need much more leading than Latin — their stacked
+       vowel-marks collide at Latin line-heights and read as struck-through,
+       especially in the small (0.82rem) caption/fallback type. Give every
+       translated text block generous leading. */
+    figure.vis figcaption[data-lang="si"], figure.vis figcaption[data-lang="ta"],
+    figure.vis .vis-fallback[data-lang="si"], figure.vis .vis-fallback[data-lang="ta"] {
+      line-height: 2.0;
+    }
+    .prose p[data-lang="si"], .prose p[data-lang="ta"],
+    .prose .lead[data-lang="si"], .prose .lead[data-lang="ta"],
+    .aside-note[data-lang="si"], .aside-note[data-lang="ta"] {
+      line-height: 2.0;
+    }
+    h2[data-lang="si"], h2[data-lang="ta"] { line-height: 1.4; }
+    .hero .dek[data-lang="si"], .hero .dek[data-lang="ta"] { line-height: 1.85; }
 
     /* The single full-width pull-quote (14 Dec Kaluwewa quote) */
     .pull-quote { border: 0; border-top: 4px solid var(--gold); border-bottom: 1px solid var(--line); margin: 34px auto; padding: 26px 0 22px; max-width: var(--measure); }
@@ -280,13 +288,7 @@
 <span class="count-chip" data-cms-id="al-page-04-en" data-lang="en" lang-en="">19 days to the exam</span>
 <span class="count-chip" data-cms-id="al-page-04-si" data-lang="si" lang-si="">විභාගයට දින 19</span>
 <span class="count-chip" data-cms-id="al-page-04-ta" data-lang="ta" lang-ta="">தேர்வுக்கு இன்னும் 19 நாட்கள் உள்ளன.</span>
-<a class="cta-chip cta-rotate" href="https://c.org/znqhxLrHMW" rel="noopener" target="_blank" aria-label="Sign the petition / පෙත්සමට අත්සන් කරන්න">
-        <span class="cta-track" aria-hidden="true">
-          <span class="cta-phrase is-active" lang="en" data-cms-id="al-page-05-en" lang-en="">Sign the petition →</span>
-          <span class="cta-phrase" lang="si" data-cms-id="al-page-05-si" lang-si="">පෙත්සමට අත්සන් කරන්න →</span>
-          <span class="cta-phrase" lang="ta" data-cms-id="al-page-05-ta" lang-ta="">மனுவில் கையொப்பமிடுங்கள் →</span>
-        </span>
-      </a>
+<a class="cta-chip" href="https://c.org/znqhxLrHMW" rel="noopener" target="_blank" aria-label="Sign the petition / පෙත්සමට අත්සන් කරන්න / மனுவில் கையொப்பமிடுங்கள்"><span class="cta-label" data-lang="en" data-cms-id="al-page-05-en" lang-en="">Sign the petition →</span><span class="cta-label" data-lang="si" data-cms-id="al-page-05-si" lang-si="">පෙත්සමට අත්සන් කරන්න →</span><span class="cta-label" data-lang="ta" data-cms-id="al-page-05-ta" lang-ta="">மனுவில் கையொப்பமிடுங்கள் →</span></a>
 </div>
 </div>
 </section>
@@ -440,7 +442,7 @@
 <section data-nav-era="#43434F" data-nav-label="The PM" data-nav-year="Silence" id="pm">
 <div class="section-wrap prose">
 <h2 data-cms-id="al-pm-01-en" data-lang="en" lang-en="">Where the Prime Minister is</h2>
-<h2 data-cms-id="al-pm-01-si" data-lang="si" lang-si="">අගමැතිතුමා ඉන්න තැන</h2>
+<h2 data-cms-id="al-pm-01-si" data-lang="si" lang-si="">අගමැතිනි කොහෙද?</h2>
 <h2 data-cms-id="al-pm-01-ta" data-lang="ta" lang-ta="">பிரதமர் எங்கே இருக்கிறார்</h2>
 <p data-cms-id="al-pm-02-en" data-lang="en" lang-en="">Harini Amarasuriya is an academic sociologist, a former FUTA campaigner, and — since November 2024 — Prime Minister and Minister of Education, Higher Education and Vocational Education. She is also the sharpest available critic of the position her ministry now occupies.</p>
 <p data-cms-id="al-pm-02-si" data-lang="si" lang-si="">හරිනි අමරසූරිය යනු ශාස්ත්‍රීය සමාජ විද්‍යාඥවරියක්, හිටපු FUTA ක්‍රියාකාරිනියක් සහ 2024 නොවැම්බර් මාසයේ සිට අගමැතිනි සහ අධ්‍යාපන, උසස් අධ්‍යාපන සහ වෘත්තීය අධ්‍යාපන අමාත්‍යවරියකි. ඇයගේ අමාත්‍යාංශය දැන් දරන තනතුර පිළිබඳ තියුණුම විවේචිකාව ද ඇයයි.</p>
@@ -513,7 +515,7 @@
 <section data-nav-era="#E88D2A" data-nav-label="Runway" data-nav-year="132 days" id="runway">
 <div class="section-wrap prose">
 <h2 data-cms-id="al-runway-01-en" data-lang="en" lang-en="">The repeat candidates' runway</h2>
-<h2 data-cms-id="al-runway-01-si" data-lang="si" lang-si="">පුනරාවර්තන අපේක්ෂකයින්ගේ ධාවන පථය</h2>
+<h2 data-cms-id="al-runway-01-si" data-lang="si" lang-si="">නැවත පෙනී සිටින සිසුන්ට ඉතිරි කාලය</h2>
 <h2 data-cms-id="al-runway-01-ta" data-lang="ta" lang-ta="">மீண்டும் போட்டியிடும் வேட்பாளர்களின் ஓடுபாதை</h2>
 <p data-cms-id="al-runway-02-en" data-lang="en" lang-en="">The Ministry's own statement concedes the tightest number in the file: repeat candidates have had four months and ten days since the previous results<span class="status-chip documented">Documented</span> — the interval between the 31 March results release and the 10 August start, against 178 and 198 days in the two preceding cycles. The seventy-day marking sprint that let the government deliver its manifesto commitment is the same speed that shortened this group's runway. Both sides accept the number; they dispute only its sufficiency. Repeat and private candidates are also the group invisible in the GSHS data above — no longer in school, counted by nobody.</p>
 <p data-cms-id="al-runway-02-si" data-lang="si" lang-si="">අමාත්‍යාංශයේම ප්‍රකාශය ගොනුවේ ඇති දැඩිම සංඛ්‍යාව පිළිගනී: පුනරාවර්තන අපේක්ෂකයින්ට පෙර ප්‍රතිඵල වලින් මාස හතරයි දින දහයක් ගත වී ඇත <span class="status-chip documented">Documented</span> - මාර්තු 31 ප්‍රතිඵල නිකුත් කිරීම සහ අගෝස්තු 10 ආරම්භය අතර පරතරය, පෙර චක්‍ර දෙකෙහි දින 178 සහ 198 ට සාපේක්ෂව. රජයට තම ප්‍රතිපත්ති ප්‍රකාශනයේ කැපවීම ඉටු කිරීමට ඉඩ දුන් දින හැත්තෑවක සලකුණු කිරීමේ වේගය මෙම කණ්ඩායමේ ධාවන පථය කෙටි කළ එකම වේගයයි. දෙපාර්ශ්වයම අංකය පිළිගනී; ඔවුන් එහි ප්‍රමාණවත් බව පමණක් විවාද කරති. පුනරාවර්තන සහ පෞද්ගලික අපේක්ෂකයින් ද ඉහත GSHS දත්තවල නොපෙනෙන කණ්ඩායමයි - තවදුරටත් පාසලේ නැත, කිසිවෙකු විසින් ගණන් නොගනී.</p>
@@ -700,26 +702,6 @@
       f.addEventListener('load', function () { fit(f); });
       if (f.contentDocument && f.contentDocument.readyState === 'complete') { fit(f); }
     });
-  })();
-  </script>
-  <script>
-  /* Multilingual CTA rotation — one pill, crossfade the active phrase every 4s.
-     Pauses on tab-hide; reduced-motion shows only the first phrase (CSS). */
-  (function () {
-    var phrases = [].slice.call(document.querySelectorAll('.cta-rotate .cta-phrase'));
-    if (phrases.length < 2) return;
-    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var i = 0, timer = null;
-    function tick() {
-      phrases[i].classList.remove('is-active');
-      i = (i + 1) % phrases.length;
-      phrases[i].classList.add('is-active');
-    }
-    function start() { if (!timer) timer = setInterval(tick, 4000); }
-    function stop() { if (timer) { clearInterval(timer); timer = null; } }
-    document.addEventListener('visibilitychange',
-      function () { document.hidden ? stop() : start(); });
-    start();
   })();
   </script>
 </body>
