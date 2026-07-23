@@ -509,4 +509,4 @@ analyst-site/
 
 ---
 
-*This document serves as the foundation for the Magazine + Command Centre homepage redesign. All architectural decisions for the redesign should reference this document to ensure compatibility with the existing platform.*
+*This document is a March 2026 platform snapshot for the Magazine + Command Centre homepage redesign. For current auth, CMS, Worker, member, and publication-boundary decisions, use `Yan-Analyst.md`, current files in `docs/handoff/`, and the Yan auth/People documents named in the status warning at the top of this file. Do not implement browser PAT, parallel admin/member stores, or Pages-middleware-only auth from this snapshot.*

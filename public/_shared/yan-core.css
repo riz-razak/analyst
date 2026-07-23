@@ -17,18 +17,19 @@
   --border:         #E5E1DA;   /* warm sand (retires #E5E7EB, rgba(0,0,0,.1)) */
   --border-strong:  #D8D2C7;
   --text:           #1A1A2E;
-  --text-secondary: #4A4A5A;   /* retires cold #6B7280 */
-  --text-tertiary:  #6B6B7B;   /* retires cold #9CA3AF */
+  --text-secondary: #5C5C6B;   /* canon muted */
+  --text-tertiary:  #43434F;   /* canon slate */
 
   --accent:         #2D6A4F;   /* THE green (retires #1B4D2E-as-accent, #2d5a27, #4a7c59-as-accent) */
-  --accent-strong:  #1B4D2E;   /* accent hover/active only */
+  --accent-strong:  #214F3B;   /* accent hover/active only */
   --accent-soft:    #4A7C59;   /* secondary green for charts/illustration */
   --earth:          #C4A35A;   /* THE gold (retires #a88700, #d4a373) */
 
   /* ---- Status ---- */
-  --red:    #C0492F;  --orange: #D97706;  --green: #34A853;  --blue: #3A7BD5;
-  --green-subtle:  #E6F4EA;  --orange-subtle: #FCEFD9;
-  --red-subtle:    #FBE7E3;  --earth-subtle:  #F4EEDD;
+  --red:    #D4644A;  --orange: #E88D2A;  --green: #2D6A4F;  --blue: #0C447C;
+  --green-subtle:  #EAF3DE;  --orange-subtle: #FAEEDA;
+  --red-subtle:    #F7E7E5;  --earth-subtle:  #F4EEDD;
+  --danger: #8A2D2D; --warn: #7A5A16; --info: #0C447C; --info-subtle: #E6F1FB;
 
   /* ---- Typography ---- */
   --font-sans:  'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -42,9 +43,9 @@
   --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
 
   /* ---- Radius / shadow / motion ---- */
-  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 12px;
-  --shadow-sm: 0 1px 2px rgba(26,26,46,.05);
-  --shadow-md: 0 4px 12px rgba(26,26,46,.08);
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+  --shadow-sm: 0 1px 2px rgba(26,26,46,.06), 0 1px 3px rgba(26,26,46,.04);
+  --shadow-md: var(--shadow-sm);
   --motion-fast: 0.12s ease;   /* functional transitions only; no decorative animation */
 
   /* ---- Back-compat aliases (so existing reader/admin markup keeps working

@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mullivaikkal Sinhala Horizontal Thumbnail</title>
+  <style>
+    :root {
+      --paper: #fbfaf6;
+      --ink: #171729;
+      --muted: #595d6c;
+      --green: #2d6a4f;
+      --coral: #d4644a;
+      --gold: #c4a35a;
+      --line: #ded7ca;
+      --pin: #c94732;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #e7e0d4;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 28px 20px 64px;
+    }
+
+    .brief {
+      margin: 0 auto 24px;
+      max-width: 860px;
+      color: #333447;
+      line-height: 1.5;
+    }
+
+    .brief h1 {
+      margin: 0 0 6px;
+      font-size: clamp(26px, 3vw, 42px);
+    }
+
+    .frame {
+      overflow: auto;
+      border: 1px solid rgba(23, 23, 41, .18);
+      border-radius: 18px;
+      background: #f5f1e9;
+      padding: 16px;
+      box-shadow: 0 16px 40px rgba(22, 20, 16, .16);
+    }
+
+    .label {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-weight: 780;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .thumb {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      isolation: isolate;
+      transform-origin: top left;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 52% 16%, rgba(255,255,255,.72), transparent 28%),
+        radial-gradient(circle at 8% 88%, rgba(45,106,79,.12), transparent 24%),
+        linear-gradient(135deg, #f1e4d2 0%, #dac8aa 100%);
+      box-shadow: 0 24px 80px rgba(24, 21, 18, .24);
+    }
+
+    .frame .thumb {
+      transform: scale(.62);
+      margin-bottom: -410px;
+    }
+
+    body.export-mode {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: #f7f2e8;
+    }
+
+    body.export-mode .page {
+      width: 1920px;
+      height: 1080px;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    body.export-mode .brief,
+    body.export-mode .label {
+      display: none;
+    }
+
+    body.export-mode .frame {
+      width: 1920px;
+      height: 1080px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      overflow: hidden;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    body.export-mode .frame .thumb {
+      transform: none;
+      margin: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .thumb::before,
+    .thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .thumb::before {
+      opacity: .16;
+      background:
+        radial-gradient(circle at 12% 16%, rgba(212, 100, 74, .38), transparent 11%),
+        radial-gradient(circle at 90% 74%, rgba(45, 106, 79, .18), transparent 17%),
+        linear-gradient(90deg, rgba(23, 23, 41, .06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(23, 23, 41, .05) 1px, transparent 1px);
+      background-size: auto, auto, 54px 54px, 54px 54px;
+      mix-blend-mode: multiply;
+    }
+
+    .thumb::after {
+      opacity: .34;
+      background-image:
+        linear-gradient(0deg, rgba(255,255,255,.42), rgba(255,255,255,.02)),
+        radial-gradient(circle at 48% 6%, rgba(255,255,255,.66), transparent 28%);
+      mix-blend-mode: screen;
+    }
+
+    .kicker,
+    .title-card h2,
+    .title-card p,
+    .source-strip {
+      font-family: "Noto Sans Sinhala", "Sinhala Sangam MN", "Sinhala MN", "Iskoola Pota", "Malithi Web", Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .kicker {
+      position: absolute;
+      left: 78px;
+      top: 64px;
+      z-index: 21;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(45,106,79,.18);
+      color: var(--green);
+      font-size: 30px;
+      font-weight: 840;
+      box-shadow: 0 8px 28px rgba(19,25,22,.12);
+    }
+
+    .brand {
+      position: absolute;
+      right: 82px;
+      top: 72px;
+      z-index: 21;
+      color: rgba(23,23,41,.62);
+      font-size: 28px;
+      font-weight: 820;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .paper {
+      position: absolute;
+      z-index: 8;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid rgba(34,33,32,.13);
+      box-shadow: 0 24px 56px rgba(21,18,14,.19);
+    }
+
+    .paper::before {
+      content: attr(data-pin);
+      position: absolute;
+      left: 16px;
+      top: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--paper-pin, var(--pin));
+      box-shadow: 0 3px 8px rgba(0,0,0,.22);
+      z-index: 3;
+      color: rgba(255,255,255,.92);
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 28px;
+      text-align: center;
+    }
+
+    .paper .mini {
+      position: absolute;
+      inset: 0;
+      width: 1200px;
+      height: 1700px;
+      border: 0;
+      transform-origin: top left;
+      transform: scale(.34);
+      pointer-events: none;
+      background: #fff;
+    }
+
+    .p1 { left: 58px; top: 155px; width: 455px; height: 325px; transform: rotate(-7deg); --paper-pin: var(--coral); }
+    .p2 { left: 1328px; top: 142px; width: 540px; height: 340px; transform: rotate(5deg); --paper-pin: var(--coral); }
+    .p3 { left: 1220px; top: 466px; width: 500px; height: 300px; transform: rotate(-4deg); --paper-pin: var(--coral); }
+    .p4 { left: 70px; top: 690px; width: 520px; height: 305px; transform: rotate(5deg); --paper-pin: var(--green); }
+    .p5 { right: 58px; bottom: 74px; width: 540px; height: 320px; transform: rotate(-6deg); --paper-pin: var(--green); }
+    .p6 { left: 682px; bottom: 42px; width: 520px; height: 260px; transform: rotate(3deg); --paper-pin: var(--gold); }
+
+    .thread-map {
+      position: absolute;
+      z-index: 17;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      pointer-events: none;
+    }
+
+    .thread-map line {
+      stroke-width: 5;
+      stroke-linecap: round;
+      filter: drop-shadow(0 2px 4px rgba(27,23,18,.14));
+    }
+
+    .thread-coral { stroke: rgba(212,100,74,.82); }
+    .thread-green { stroke: rgba(45,106,79,.76); }
+    .thread-gold { stroke: rgba(196,163,90,.78); }
+    .thread-soft {
+      stroke-width: 3.5;
+      stroke-dasharray: 11 12;
+      opacity: .82;
+    }
+
+    .thread-map circle {
+      stroke: rgba(255,255,255,.94);
+      stroke-width: 4;
+      filter: drop-shadow(0 4px 8px rgba(27,23,18,.28));
+    }
+
+    .pin-coral { fill: var(--coral); }
+    .pin-green { fill: var(--green); }
+    .pin-gold { fill: var(--gold); }
+
+    .pin-label {
+      position: absolute;
+      z-index: 18;
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      color: rgba(23,23,41,.68);
+      border: 1px solid rgba(23,23,41,.08);
+      font-size: 15px;
+      font-weight: 830;
+      box-shadow: 0 6px 16px rgba(22,20,16,.11);
+    }
+
+    .title-card {
+      position: absolute;
+      z-index: 18;
+      left: 460px;
+      right: 460px;
+      top: 280px;
+      padding: 38px 52px 44px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid rgba(23,23,41,.12);
+      box-shadow: 0 30px 86px rgba(18,22,26,.28);
+    }
+
+    .title-card h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 82px;
+      line-height: 1.05;
+      font-weight: 930;
+      letter-spacing: 0;
+    }
+
+    .title-card em {
+      display: inline-block;
+      color: var(--coral);
+      font-style: normal;
+    }
+
+    .title-card p {
+      margin: 18px 0 0;
+      color: var(--green);
+      font-size: 40px;
+      line-height: 1.18;
+      font-weight: 780;
+      text-decoration: underline;
+      text-decoration-thickness: 3px;
+      text-underline-offset: 8px;
+    }
+
+    .evidence-tag {
+      position: absolute;
+      z-index: 18;
+      left: 600px;
+      top: 148px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid rgba(45,106,79,.22);
+      color: var(--green);
+      font-size: 22px;
+      font-weight: 860;
+      box-shadow: 0 14px 34px rgba(21,18,14,.16);
+    }
+
+    .evidence-tag::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 6px rgba(45,106,79,.1);
+    }
+
+    .source-strip {
+      position: absolute;
+      z-index: 22;
+      left: 760px;
+      bottom: 64px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 18px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(196,163,90,.42);
+      color: var(--muted);
+      font-size: 23px;
+      font-weight: 760;
+      box-shadow: 0 10px 30px rgba(20,19,17,.12);
+    }
+
+    .source-strip b { color: var(--ink); }
+    .source-strip span { color: var(--coral); }
+
+    .stamp {
+      position: absolute;
+      right: 90px;
+      bottom: 54px;
+      z-index: 22;
+      border: 3px solid currentColor;
+      border-radius: 14px;
+      padding: 9px 15px;
+      color: var(--coral);
+      font-size: 26px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      transform: rotate(-6deg);
+      background: rgba(255,255,255,.56);
+    }
+
+    @media (max-width: 900px) {
+      .page { padding: 20px 12px 40px; }
+      .frame { padding: 10px; }
+      .frame .thumb {
+        transform: scale(calc((100vw - 44px) / 1920));
+        margin-bottom: calc((100vw - 44px) / 1920 * -1080 + (100vw - 44px));
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="brief">
+      <h1>Sinhala Horizontal Thumbnail</h1>
+      <p>A 1920x1080 Sinhala title version using the accepted pinned-evidence board language.</p>
+    </section>
+
+    <div class="frame" id="option-si-horizontal">
+      <p class="label">Sinhala / Horizontal Pinned Evidence Board</p>
+      <article class="thumb" data-export="horizontal-thumbnail-si-pinned-evidence-board.png">
+        <div class="kicker">සාක්ෂි පරීක්ෂාව</div>
+        <div class="brand">The Analyst</div>
+        <div class="paper p1" data-pin="1"><iframe class="mini" src="../index.html#claim"></iframe></div>
+        <div class="paper p2" data-pin="2"><iframe class="mini" src="../index.html#seo-map"></iframe></div>
+        <div class="paper p3" data-pin="3"><iframe class="mini" src="../index.html#source-chain"></iframe></div>
+        <div class="paper p4" data-pin="4"><iframe class="mini" src="../index.html#numbers"></iframe></div>
+        <div class="paper p5" data-pin="5"><iframe class="mini" src="../index.html#words"></iframe></div>
+        <div class="paper p6" data-pin="6"><iframe class="mini" src="../index.html#references"></iframe></div>
+
+        <svg class="thread-map" viewBox="0 0 1920 1080" aria-hidden="true">
+          <line class="thread-coral" x1="74" y1="181" x2="500" y2="458"></line>
+          <line class="thread-coral" x1="500" y1="458" x2="1350" y2="168"></line>
+          <line class="thread-coral" x1="1350" y1="168" x2="1250" y2="486"></line>
+          <line class="thread-coral thread-soft" x1="1250" y1="486" x2="1542" y2="620"></line>
+          <line class="thread-green" x1="82" y1="717" x2="532" y2="660"></line>
+          <line class="thread-green" x1="532" y1="660" x2="1270" y2="738"></line>
+          <line class="thread-green" x1="1270" y1="738" x2="1375" y2="782"></line>
+          <line class="thread-green thread-soft" x1="1375" y1="782" x2="772" y2="906"></line>
+          <line class="thread-gold" x1="74" y1="181" x2="770" y2="396"></line>
+          <line class="thread-gold thread-soft" x1="770" y1="396" x2="1020" y2="604"></line>
+          <line class="thread-gold" x1="1020" y1="604" x2="772" y2="906"></line>
+          <line class="thread-gold thread-soft" x1="1350" y1="168" x2="1020" y2="604"></line>
+          <circle class="pin-coral" cx="500" cy="458" r="13"></circle>
+          <circle class="pin-coral" cx="1542" cy="620" r="13"></circle>
+          <circle class="pin-green" cx="532" cy="660" r="13"></circle>
+          <circle class="pin-green" cx="1270" cy="738" r="13"></circle>
+          <circle class="pin-gold" cx="770" cy="396" r="13"></circle>
+          <circle class="pin-gold" cx="1020" cy="604" r="13"></circle>
+        </svg>
+
+        <span class="pin-label" style="left:95px;top:205px">claim</span>
+        <span class="pin-label" style="right:430px;top:195px">map</span>
+        <span class="pin-label" style="left:794px;bottom:136px">refs</span>
+        <div class="evidence-tag">public evidence surfaces 6ක්</div>
+
+        <div class="title-card">
+          <h2>මුල්ලිවෛක්කාල්වල <em>40,000ක්</em><br>මැරුණාද?</h2>
+          <p>සත්‍ය නැතිව propaganda පරදවන්න බැහැ.</p>
+        </div>
+
+        <div class="source-strip"><b>Claim පරීක්ෂාව</b><span>stated විදිහට තහවුරු නැහැ</span></div>
+        <div class="stamp">Source check</div>
+      </article>
+    </div>
+  </main>
+
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      if (!params.get('export')) return;
+      document.body.classList.add('export-mode');
+    })();
+  </script>
+</body>
+</html>

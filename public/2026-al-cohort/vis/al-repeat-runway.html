@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>The repeat candidate’s runway — days from results to the next paper</title>
+<!--
+  POL-2026-10 · vis 4 of 4 · id: al-repeat-runway
+  Claims: B4 A6 A7 (02-notes/claim-register.md). B6 (politician's variant counts)
+  excluded as PROVISIONAL. The A7 marking-sprint mechanism is carried in the
+  page figcaption; only the agreed intervals are drawn.
+-->
+<style>
+:root{
+  --paper:#FAFAF8; --ink:#1A1A2E; --forest:#2D6A4F; --gold:#C4A35A;
+  --line:#E5E1DA; --muted:#5C5C6B;
+  --mono:ui-monospace,'SF Mono',Consolas,'Liberation Mono',monospace;
+  --sans:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --lab:250px; --val:150px; --gap:18px; --barh:30px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--paper)}
+body{background:var(--paper);color:var(--ink);font:400 15px/1.5 var(--sans);padding:24px}
+.wrap{max-width:1064px;margin:0 auto}
+.kicker{font:700 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--forest)}
+h1{font:700 24px/1.2 var(--sans);letter-spacing:-.01em;margin:10px 0 8px}
+.say{font-size:15px;color:var(--muted);max-width:76ch}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;font:600 12px/1 var(--mono);color:var(--muted)}
+.sw{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-2px}
+.sw.g{background:var(--gold)} .sw.f{background:var(--forest)}
+
+.chart{margin-top:14px;border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:var(--lab) 1fr var(--val);
+     grid-template-areas:"lab track val";align-items:center;
+     column-gap:var(--gap);padding:14px 0;border-bottom:1px solid var(--line);min-height:60px}
+.lab{grid-area:lab;font:600 14px/1.3 var(--sans)}
+.lab small{display:block;font:400 11px/1.5 var(--mono);color:var(--muted)}
+.track{grid-area:track;display:grid;grid-template-areas:"stack";align-items:center;min-height:var(--barh)}
+.grid{grid-area:stack;display:grid;grid-template-columns:repeat(4,1fr);height:var(--barh)}
+.grid i{border-right:1px solid var(--line)}
+.bar{grid-area:stack;justify-self:start;height:var(--barh);min-width:4px;
+     width:calc(var(--f) * 100%);background:var(--gold);border-radius:0 3px 3px 0}
+.bar.now{background:var(--forest)}
+.val{grid-area:val;text-align:right}
+.val b{display:block;font:700 15px/1.3 var(--mono)}
+.val em{display:block;font:600 10px/1.6 var(--mono);font-style:normal;
+        letter-spacing:.07em;text-transform:uppercase;color:var(--forest)}
+
+.axis{display:grid;grid-template-columns:var(--lab) 1fr var(--val);
+      grid-template-areas:"lab track val";column-gap:var(--gap);padding-top:8px}
+.axis .unit{grid-area:lab;font:600 11px/1 var(--mono);color:var(--muted)}
+.axis .ticks{grid-area:track;display:grid;grid-template-columns:repeat(4,1fr);
+      font:600 11px/1 var(--mono);color:var(--muted)}
+.axis .ticks span{text-align:right}
+.axis .ticks span:first-child{text-align:left}
+
+.verdict{margin-top:24px;border-left:3px solid var(--forest);padding:2px 0 2px 14px;
+         font:600 17px/1.45 var(--sans);max-width:70ch}
+.foot{margin-top:22px;padding-top:12px;border-top:1px solid var(--line);
+      font:400 11px/1.7 var(--mono);color:var(--muted)}
+#play{margin-top:20px;min-height:44px;padding:0 22px;border:1px solid var(--forest);
+      border-radius:6px;background:var(--forest);color:var(--paper);
+      font:700 14px/1 var(--sans);cursor:pointer}
+#play:hover{background:var(--ink);border-color:var(--ink)}
+#play:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+#play[disabled]{opacity:.6;cursor:default}
+
+[data-seq]{opacity:1}
+.bar{transition:width 4s cubic-bezier(.22,1,.36,1)}
+.run [data-seq]{opacity:.18;transition:opacity 1.2s ease}
+.run [data-seq].in{opacity:1}
+.run [data-seq] .bar{width:0}
+.run [data-seq].in .bar{width:calc(var(--f) * 100%)}
+.no-anim *{transition:none !important}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+@media (max-width:720px){
+  .row{grid-template-columns:1fr auto;grid-template-areas:"lab val" "track track";row-gap:10px}
+  .val{align-self:start}
+  .axis{grid-template-columns:1fr;grid-template-areas:"track"}
+  .axis .unit{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">POL-2026-10 · The runway</p>
+  <h1>The repeat candidate’s runway</h1>
+  <p class="say">Days between the release of one year’s results and the first paper of the next sitting — the interval both sides accept, and the only figure in this dispute nobody contests.</p>
+
+  <p class="legend"><span><span class="sw g"></span>Earlier cohorts</span><span><span class="sw f"></span>The 2026 cohort</span></p>
+
+  <div class="chart">
+    <div class="row" data-seq>
+      <span class="lab">To the 2024 sitting<small>results → first paper</small></span>
+      <span class="track"><span class="grid"><i></i><i></i><i></i><i></i></span><span class="bar" style="--f:.89"></span></span>
+      <span class="val"><b>178 days</b><em>B4 agreed</em></span>
+    </div>
+    <div class="row" data-seq>
+      <span class="lab">To the 2025 sitting<small>results → first paper</small></span>
+      <span class="track"><span class="grid"><i></i><i></i><i></i><i></i></span><span class="bar" style="--f:.99"></span></span>
+      <span class="val"><b>198 days</b><em>B4 agreed</em></span>
+    </div>
+    <div class="row" data-seq>
+      <span class="lab">To the 2026 sitting<small>31 Mar 2026 → 10 Aug 2026</small></span>
+      <span class="track"><span class="grid"><i></i><i></i><i></i><i></i></span><span class="bar now" style="--f:.66"></span></span>
+      <span class="val"><b>132 days</b><em>B4 A6 agreed</em></span>
+    </div>
+    <div class="axis">
+      <span class="unit">days →</span>
+      <span class="ticks"><span>0</span><span>100</span><span></span><span>200</span></span>
+    </div>
+  </div>
+
+  <p class="verdict">The interval is not in dispute. Only its sufficiency is.</p>
+
+  <button id="play" type="button">Play</button>
+
+  <p class="foot">132 days is the calendar arithmetic of B4’s “4 months 10 days” · the 2025 results came back in 70 days, the fastest turnaround in the series (A7) — that speed is what kept this runway at 132 · claims B4 A6 A7 · 02-notes/claim-register.md</p>
+</div>
+<script>
+(function () {
+  var STEP = 2800, DRAW = 4000;  /* ms per bar: stagger, draw duration (2x slowed) */
+  var d = document, root = d.documentElement, ID = 'al-repeat-runway';
+  function measure() {
+    /* Measure the CONTENT box, not documentElement.scrollHeight — the latter is
+       floored by the iframe viewport, so reporting it makes the parent grow the
+       frame, which grows scrollHeight, forever. */
+    var w = d.querySelector('.wrap');
+    if (!w) { return 0; }
+    var cs = window.getComputedStyle(d.body);
+    return Math.ceil(w.getBoundingClientRect().height
+      + parseFloat(cs.paddingTop || 0) + parseFloat(cs.paddingBottom || 0));
+  }
+  var lastPosted = 0;
+  function post() {
+    var h = measure();
+    if (!h || Math.abs(h - lastPosted) < 4) { return; }   /* hysteresis: no ratchet */
+    lastPosted = h;
+    try { parent.postMessage({ visHeight: h, id: ID }, '*'); } catch (e) {}
+  }
+  post();
+  window.addEventListener('load', post);
+  var rt, lastW = window.innerWidth;
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === lastW) { return; }   /* height-only echo: ignore */
+    lastW = window.innerWidth; lastPosted = 0;
+    clearTimeout(rt); rt = setTimeout(post, 120);
+  });
+
+  var btn = d.getElementById('play');
+  if (!btn) return;
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { btn.hidden = true; return; }
+  var rows = [].slice.call(d.querySelectorAll('[data-seq]'));
+  if (!rows.length) { btn.hidden = true; return; }
+  var timers = [];
+  function play() {
+    timers.forEach(clearTimeout); timers = [];
+    root.classList.add('no-anim');
+    rows.forEach(function (r) { r.classList.remove('in'); });
+    root.classList.add('run');
+    void d.body.offsetWidth;
+    root.classList.remove('no-anim');
+    btn.textContent = 'Playing'; btn.disabled = true;
+    rows.forEach(function (r, i) {
+      timers.push(setTimeout(function () { r.classList.add('in'); }, 150 + i * STEP));
+    });
+    timers.push(setTimeout(function () {
+      btn.textContent = 'Replay'; btn.disabled = false;
+    }, 150 + rows.length * STEP + DRAW));
+  }
+  btn.addEventListener('click', play);
+
+  /* Autoplay ONCE when the chart first scrolls into view. Never repeats.
+     Respects reduced motion (btn is hidden and play() is never bound there). */
+  var autoplayed = false;
+  function armAutoplay() {
+    if (autoplayed || !('IntersectionObserver' in window)) { return; }
+    var target = d.querySelector('.wrap') || d.body;
+    var io = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting && !autoplayed) {
+          autoplayed = true; io.disconnect(); play();
+        }
+      }
+    }, { threshold: 0.4 });
+    io.observe(target);
+  }
+  armAutoplay();
+})();
+</script>
+</body>
+</html>

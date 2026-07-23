@@ -162,7 +162,7 @@ All colors derive from the central `--forest: #2d5a27` (Miyazaki green). The pal
 
 ## 4. Evidence System Standards
 
-See [EVIDENCE_PROTOCOL.md](EVIDENCE_PROTOCOL.md) for full details. Key requirements:
+See [evidence-protocol.md](evidence-protocol.md) for full details. Key requirements:
 
 ### 4.1 Every Dossier Must Have
 - Source Index table with anchor IDs (`id="src-S1"`)
@@ -178,13 +178,20 @@ Use the evidence tag system (`.ec-tag.[type]`) — distinct from platform catego
 
 ---
 
-## 5. Bilingual Standard
+## 5. Trilingual Standard
 
-All user-facing text must be bilingual (EN + Sinhala):
+All user-facing text must be trilingual (EN + Sinhala + Tamil). Each translatable
+node is an English element followed by **sibling** SI and TA elements:
+
 ```html
-<h2 lang-en data-cms-id="unique-id-en">English Title</h2>
-<h2 lang-si class="si" style="display:none" data-cms-id="unique-id-si">සිංහල මාතෘකාව</h2>
+<h2 lang-en data-lang="en" data-cms-id="unique-id-en">English Title</h2>
+<h2 lang-si data-lang="si" class="si" style="display:none" data-cms-id="unique-id-si"></h2>
+<h2 lang-ta data-lang="ta" class="ta" style="display:none" data-cms-id="unique-id-ta"></h2>
 ```
+
+The SI/TA siblings are authored **empty** and filled by the translation pipeline.
+Instrumenting them is a build-time responsibility, not a translation-time one —
+see [§9 Translation Gate](#9-translation-gate-required).
 
 ---
 
@@ -310,7 +317,70 @@ Before committing any dossier page:
 
 ---
 
-## 9. Quick Checklist for New Dossier Pages
+## 9. Translation Gate (REQUIRED)
+
+Translation is a **publication stage, not an optional extra**. Every Analyst
+dossier ships EN + SI + TA.
+
+**Where it sits in the build sequence:**
+
+```
+build page (§1–§8) → English copy FROZEN → [ §9 TRANSLATION GATE ] → publish
+```
+
+Nothing translates until the English is frozen; nothing publishes until the gate
+is green. If the English changes after a run, the gate must be re-run with
+`--force`.
+
+### 9.1 Instrumentation (build-time, mandatory)
+
+Every translatable node needs **balanced** `lang-en` / `lang-si` / `lang-ta`
+markers with matching `-en` / `-si` / `-ta` `data-cms-id`s (see §5). The scripts
+key off the bare `lang-*` markers, so:
+
+> **A dossier with zero markers silently translates nothing** — the pipeline
+> exits 0, produces no output, and nothing warns you. Count your markers before
+> you spend on an API call. Unbalanced markers are just as bad: an `lang-en`
+> node without SI/TA siblings is skipped.
+
+Embedded visualisations under `vis/*.html` are separate documents with their own
+labels, captions and axis text. They carry no `lang-*` markers and are **not**
+covered by the pipeline. They need their own instrumentation pass.
+
+### 9.2 The run — one command
+
+```bash
+scripts/translate-all.sh public/<dossier>/index.html [--lang si|ta|both] [--force]
+```
+
+It activates `.venv-translation`, refuses to run without
+`GOOGLE_TRANSLATE_API_KEY` / `GOOGLE_CLOUD_PROJECT`, never echoes the key, and
+runs preflight → SI → TA → review pages → pipeline tests → QA gate.
+
+### 9.3 The gate must exit 0
+
+`scripts/translation-qa.py` is the machine gate. Exit `1` = not publishable. It
+asserts seven checks: `sibling_coverage`, `target_script`, `cross_contamination`,
+`residual_markup`, `keep_terms`, `numbers`, `stranded_english`.
+
+**Both** languages must exit 0. `--skip-qa` output is never publishable.
+
+### 9.4 Human-review carve-out
+
+Machine output is a draft. **Headlines, deks, standfirsts, kickers and
+pull-quotes require human Sinhala and Tamil lines** — NMT destroys wordplay,
+rhythm and register silently, and no automated check catches it. A full human
+read-through of both editions is required before the `#langToggle` is enabled.
+
+### 9.5 Detail lives in the runbook
+
+Do not duplicate procedure here. Credentials, failure modes, glossary governance
+and triage: [translation-runbook.md](translation-runbook.md). The standing
+mandate and do-not-regress list: [translation-protocol.md](translation-protocol.md).
+
+---
+
+## 10. Quick Checklist for New Dossier Pages
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -324,9 +394,13 @@ Before committing any dossier page:
 │  6. Add evidence cards with verdict badges               │
 │  7. Add evidence thumbnail to EVERY card (see §8)       │
 │  8. Add inline [SX] reference markers                    │
-│  9. Add bilingual text (lang-en / lang-si)              │
+│  9. Instrument lang-en / lang-si / lang-ta siblings      │
 │  10. Add data-cms-id to all editable elements            │
 │  11. Test: desktop, mobile (375px), smooth scroll        │
 │  12. Run thumbnail validation checklist (§8.5)           │
+│  13. FREEZE English copy                                 │
+│  14. Run the Translation Gate (§9) — QA must exit 0      │
+│  15. Human SI/TA headline + dek; read-through; sign-off  │
+│  16. Enable #langToggle, then publish                    │
 └─────────────────────────────────────────────────────────┘
 ```

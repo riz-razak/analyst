@@ -54,6 +54,8 @@ export default {
         return handleAuthMe(request, env);
       } else if (path === '/auth/session') {
         return handleAuthSession(request, env);
+      } else if (path === '/auth/logout-global') {
+        return handleAuthLogoutGlobal(request, env);
       } else if (path === '/auth/logout') {
         return handleAuthLogout(request);
       } else if (path === '/auth/login') {
@@ -354,11 +356,28 @@ async function handleAuthMe(request, env) {
   const user = payload.user_metadata || {};
   const admin = isAal2(aal) && hasYanAdminAccess({ rights, requiredRight });
   const rightsError = admin ? null : getAnalystAccessError(access);
+  const reauthExpiresAt = sessionReauthExpiresAt(payload, env);
+  const product = payload.product || payload.product_key || 'analyst';
+  const membershipStatus = payload.membership_status || (access?.membershipCount > 0 ? 'active' : 'unknown');
 
   return authJson({
     authenticated: true,
     admin,
     aal,
+    product,
+    membership: {
+      product: 'analyst',
+      status: membershipStatus,
+      source: session.tokenSource === 'unified_cookie' ? 'yan_people_unified' : 'yan_people_lookup',
+    },
+    right: {
+      requested: requiredRight || UNIFIED_REQUIRED_RIGHT,
+      allowed: admin,
+    },
+    reauth: {
+      fresh: reauthExpiresAt ? Date.parse(reauthExpiresAt) > Date.now() : false,
+      expires_at: reauthExpiresAt,
+    },
     required_right: requiredRight,
     rights,
     ...(rightsError ? { rights_error: rightsError } : {}),
@@ -442,6 +461,19 @@ async function handleAuthLogout(request) {
   return new Response(null, { status: 302, headers });
 }
 
+async function handleAuthLogoutGlobal(request, env) {
+  const url = new URL(request.url);
+  const headers = new Headers({ 'Cache-Control': 'no-store' });
+  appendClearedAuthCookies(headers, url);
+  headers.append('Set-Cookie', clearCookie(UNIFIED_ATTEMPT_COOKIE, url));
+  headers.append('Set-Cookie', clearCookie(UNIFIED_SESSION_COOKIE, url));
+  headers.append('Set-Cookie', clearCookie(UNIFIED_RETRY_COOKIE, url));
+
+  const returnTo = `${url.origin}/auth/signed-out`;
+  headers.set('Location', unifiedAuthEnabled(env) ? centralAuthLogoutUrl(env, returnTo) : returnTo);
+  return new Response(null, { status: 302, headers });
+}
+
 function handleAuthLogin(request, env) {
   const url = new URL(request.url);
   if (!unifiedAuthEnabled(env)) return Response.redirect(`${url.origin}/login.html?next=${encodeURIComponent(safeNext(url.searchParams.get('next'), UNIFIED_DEFAULT_NEXT))}`, 302);
@@ -451,6 +483,20 @@ function handleAuthLogin(request, env) {
 function centralAuthLoginUrl(env) {
   const issuer = String(env.AUTH_UNIFIED_ISSUER || 'https://auth.yan.lk').replace(/\/+$/, '');
   return `${issuer}/login`;
+}
+
+function centralAuthLogoutUrl(env, returnTo) {
+  const issuer = String(env.AUTH_UNIFIED_ISSUER || 'https://auth.yan.lk').replace(/\/+$/, '');
+  const base = String(env.AUTH_UNIFIED_LOGOUT_URL || `${issuer}/logout`);
+  const redirectParam = String(env.AUTH_UNIFIED_LOGOUT_REDIRECT_PARAM || 'post_logout_redirect_uri');
+
+  try {
+    const logoutUrl = new URL(base);
+    logoutUrl.searchParams.set(redirectParam, returnTo);
+    return logoutUrl.toString();
+  } catch {
+    return returnTo;
+  }
 }
 
 function handleSignedOut(request, env) {
@@ -809,6 +855,9 @@ function unifiedClaimsToPayload(claims) {
     email: String(claims.email || '').toLowerCase(),
     aal: claims.aal,
     exp: claims.exp,
+    product: claims.product || 'analyst',
+    membership_status: claims.membership_status || 'active',
+    reauth_expires_at: claims.reauth_expires_at || null,
     rights: Array.isArray(claims.rights) ? claims.rights : [],
     user_metadata: { name: claims.name || claims.email },
   };
@@ -820,6 +869,9 @@ function unifiedCookieToPayload(cookiePayload) {
     email: String(cookiePayload.email || '').toLowerCase(),
     aal: cookiePayload.aal,
     exp: Math.floor(cookiePayload.expiresAt / 1000),
+    product: cookiePayload.product || 'analyst',
+    membership_status: cookiePayload.membershipStatus || cookiePayload.membership_status || 'active',
+    reauth_expires_at: cookiePayload.reauthExpiresAt || cookiePayload.reauth_expires_at || null,
     rights: Array.isArray(cookiePayload.rights) ? cookiePayload.rights : [],
     user_metadata: { name: cookiePayload.name || cookiePayload.email },
   };
@@ -1442,6 +1494,17 @@ function normalizeAal(aal) {
 function freshReauth(value) {
   const expiresAt = value ? Date.parse(String(value)) : NaN;
   return Number.isFinite(expiresAt) && expiresAt > Date.now();
+}
+
+function sessionReauthExpiresAt(payload, env) {
+  const explicit = payload?.reauth_expires_at || payload?.reauthExpiresAt;
+  const explicitMillis = explicit ? Date.parse(String(explicit)) : NaN;
+  if (Number.isFinite(explicitMillis)) return new Date(explicitMillis).toISOString();
+
+  const legacyMillis = legacyMfaFreshnessExpiresAt(payload, env);
+  if (Number.isFinite(legacyMillis)) return new Date(legacyMillis).toISOString();
+
+  return null;
 }
 
 function freshLegacyMfa(payload, env) {

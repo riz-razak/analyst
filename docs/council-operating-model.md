@@ -17,9 +17,9 @@ default and **on-demand bodies** convened by need, shape, or explicit call. It a
 the macro `YAN.md` layer, each project's instruction file, and each individual prompt / task / agent-task.
 
 > **Roster note:** Yan has a **25+ agent council**. Agent identities are canonical and must **never be
-> invented**. The full roster lives in `COUNCIL_MANIFEST.md` (Yan repo). This doc defines the
-> *mechanism*; the named **Owner-12** and group memberships below carry 6 confirmed agents from the
-> handoff and mark the rest **"assign from COUNCIL_MANIFEST.md."**
+> invented**. The full roster lives in `COUNCIL_MANIFEST.md` (Yan repo, Ring 0 for agent identity).
+> This doc defines the *mechanism*; the named **Owner-12** mapping below is the current project
+> replica and remains proposed-for-ratification, never a replacement for Ring 0.
 
 ## 1. The Owner-12 (standing project-owner team)
 
@@ -121,9 +121,8 @@ roster and group memberships are defined in COUNCIL_MANIFEST.md. Full operating 
 docs/council-operating-model.md (per-service copy) / the canonical Yan council doc.
 ```
 
-## 7. Open items (to finalise from COUNCIL_MANIFEST.md)
+## 7. Open items
 
-1. Confirm Owner-12 portfolios 7–12 and assign agent identities.
-2. Confirm owners 1–6 mappings.
-3. Confirm standing group memberships (Philosophy Council, Steering, @design, @tech, …).
-4. Confirm the exact "raise council" trigger wording from the priya raise-council protocol.
+1. Ratify or revise the Owner-12 construct with Priya + Mara + founder.
+2. Confirm standing group memberships (Philosophy Council, Steering, @design, @tech, …) against `COUNCIL_MANIFEST.md` / `COUNCIL_STRUCTURE_REGISTRY.md`.
+3. Confirm the exact "raise council" trigger wording from the priya raise-council protocol.

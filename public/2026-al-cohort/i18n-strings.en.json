@@ -1,0 +1,686 @@
+{
+  "source": "public/2026-al-cohort/index.html",
+  "total_entries": 97,
+  "instructions": "Fill in the 'si' field for each entry. Keep proper nouns in English. Preserve [S1] reference markers.",
+  "entries": [
+    {
+      "key": "auto-0",
+      "tag": "p",
+      "en": "Education &middot; Policy &amp; Law",
+      "si": "",
+      "html_snippet": "Education &middot; Policy &amp; Law"
+    },
+    {
+      "key": "auto-1",
+      "tag": "h1",
+      "en": "The Cohort That Paid the&nbsp;Bill",
+      "si": "",
+      "html_snippet": "The Cohort That Paid <span class=\"bill\">the&nbsp;Bill</span>"
+    },
+    {
+      "key": "auto-2",
+      "tag": "p",
+      "en": "Sri Lanka broke its examination calendar in 2020. In 2026 it decided to finish repairing it at once &mdash; and handed the cost to one group of seventeen-year-olds.",
+      "si": "",
+      "html_snippet": "<span class=\"dek-l\">Sri Lanka broke its examination calendar in 2020.</span> <span class=\"dek-l\">In 2026 it decided to finish repairing it at once &mdash; and handed the cost to one group of seventeen"
+    },
+    {
+      "key": "auto-3",
+      "tag": "span",
+      "en": "19 days to the exam",
+      "si": "",
+      "html_snippet": "19 days to the exam"
+    },
+    {
+      "key": "auto-4",
+      "tag": "a",
+      "en": "Sign the petition &rarr;",
+      "si": "",
+      "html_snippet": "Sign the petition &rarr;"
+    },
+    {
+      "key": "auto-5",
+      "tag": "p",
+      "en": "On 10 August, Sri Lankan teenagers are scheduled to begin sitting the G.C.E. Advanced Level examination — unless a court intervenes first. For most of them it is the only realistic gate to a state university place, and the funnel behind that gate is narrow: of the 166,967 candidates who qualified from the 2022 sitting, 84,176 applied and 42,147 were admittedDocumented — about half of those who asked, a quarter of those who earned the right to. They will sit it after a school year interrupted by a cyclone and a fuel crisis, and after a government circular instructed their schools in March that the full syllabus must be covered regardless.",
+      "si": "",
+      "html_snippet": "On 10 August, Sri Lankan teenagers are scheduled to begin sitting the G.C.E. Advanced Level examination — unless a court intervenes first. For most of them it is the only realistic gate to a state uni"
+    },
+    {
+      "key": "auto-6",
+      "tag": "p",
+      "en": "The complaint against the date fits in a sentence: this cohort got less time than the ones before it. The government's answer is equally short: no, they didn't, and here is the number. What follows is an attempt to work out which is true, and to say plainly what the answer costs.",
+      "si": "",
+      "html_snippet": "The complaint against the date fits in a sentence: this cohort got less time than the ones before it. The government's answer is equally short: no, they didn't, and here is the number. What follows is"
+    },
+    {
+      "key": "auto-7",
+      "tag": "h2",
+      "en": "The calendar that never got fixed",
+      "si": "",
+      "html_snippet": "The calendar that never got fixed"
+    },
+    {
+      "key": "auto-8",
+      "tag": "p",
+      "en": "Sri Lanka's A/L examination has a historical slot: August. It has not reliably occupied that slot since 2019.",
+      "si": "",
+      "html_snippet": "Sri Lanka's A/L examination has a historical slot: August. It has not reliably occupied that slot since 2019."
+    },
+    {
+      "key": "auto-9",
+      "tag": "p",
+      "en": "COVID pushed the 2020 sitting to October. The 2021 examination was not held until February 2022 — roughly six months adrift, the deepest point of the drift. The 2022 examination slipped to January 2023 after a run of postponements during the economic collapse. The 2023 examination was held in January 2024. Then the calendar began, slowly, to be pulled back: the 2024 examination ran from late November — about three months adrift — and the 2025 examination was scheduled for November again before Cyclone Ditwah struck, forcing its final papers into January 2026.",
+      "si": "",
+      "html_snippet": "COVID pushed the 2020 sitting to October. The 2021 examination was not held until February 2022 — roughly six months adrift, the deepest point of the drift. The 2022 examination slipped to January 202"
+    },
+    {
+      "key": "auto-10",
+      "tag": "p",
+      "en": "So the repair was already under way, and roughly half of it had been absorbed across the 2024 and 2025 cohorts. What the 2026 date does is close the remaining gap — around three months — in a single step, on top of a cyclone-broken school year. It also produces the shortest gap between consecutive sittings in the modern series: the previous cohort finished writing on 20 January 2026; this one is scheduled to begin on 10 August, roughly seven months later.",
+      "si": "",
+      "html_snippet": "So the repair was already under way, and roughly half of it had been absorbed across the 2024 and 2025 cohorts. What the 2026 date does is close the remaining gap — around three months — in a single s"
+    },
+    {
+      "key": "auto-11",
+      "tag": "div",
+      "en": "Static summary: the A/L drifted from its August slot in 2020 to a six-month peak delay in 2022, was partially pulled back across 2024–25, and is snapped fully back to August in 2026 — the remaining correction absorbed by one cohort.",
+      "si": "",
+      "html_snippet": "Static summary: the A/L drifted from its August slot in 2020 to a six-month peak delay in 2022, was partially pulled back across 2024–25, and is snapped fully back to August in 2026 — the remaining co"
+    },
+    {
+      "key": "auto-12",
+      "tag": "figcaption",
+      "en": "The drift, and the snap. Months later than the August slot, by sitting. Claims A1 A4 A5 . The 2019 sitting was held in August and the 2020 sitting about 2½ months late; both are omitted from the chart because their dates are snippet-sourced and provisional. The 2026 dates were announced on 14 September 2025, about eleven months' notice A2 — this chart argues about who absorbs the correction, not about surprise. Press Play to replay the sequence; honours reduced motion.",
+      "si": "",
+      "html_snippet": "The drift, and the snap. Months later than the August slot, by sitting. Claims <span class=\"claim-ids\">A1 A4 A5</span> . The 2019 sitting was held in August and the 2020 sitting about 2½ months late; "
+    },
+    {
+      "key": "auto-13",
+      "tag": "p",
+      "en": "That is the actual decision under dispute. Not an arbitrary lurch, but the final and steepest instalment of a six-year correction — timed so that one cohort, already hit by a natural disaster, absorbs it whole.",
+      "si": "",
+      "html_snippet": "That is the actual decision under dispute. Not an arbitrary lurch, but the final and steepest instalment of a six-year correction — timed so that one cohort, already hit by a natural disaster, absorbs"
+    },
+    {
+      "key": "auto-14",
+      "tag": "p",
+      "en": "It is worth being precise about who benefits, because the government's argument is real. The students behind them benefit. So does every future cohort, and so does a country whose graduates have been entering the labour market years late. Somebody has to absorb the correction; there is no painless year to do it in; and each year of delay conscripts the next set of children — who have no counsel in this dispute and no coverage of it.",
+      "si": "",
+      "html_snippet": "It is worth being precise about who benefits, because the government's argument is real. The students behind them benefit. So does every future cohort, and so does a country whose graduates have been "
+    },
+    {
+      "key": "auto-15",
+      "tag": "p",
+      "en": "There is a second point in the state's favour that its critics have not engaged with. The NPP's own manifesto promises \"an annual school calendar to ensure national examination evaluation activities are completed within one month and results are provided within two months.\" The 2025 results came back in about seventy daysDocumented — the fastest turnaround since 2020, against four to six and a half months in every previous cycle. On its own terms, the calendar restoration is the government delivering a written commitment, not breaking one.",
+      "si": "",
+      "html_snippet": "There is a second point in the state's favour that its critics have not engaged with. The NPP's own manifesto promises \"an annual school calendar to ensure national examination evaluation activities a"
+    },
+    {
+      "key": "auto-16",
+      "tag": "p",
+      "en": "The question is whether it was done transparently, and whether anything was offered in return.",
+      "si": "",
+      "html_snippet": "The question is whether it was done transparently, and whether anything was offered in return."
+    },
+    {
+      "key": "auto-17",
+      "tag": "h2",
+      "en": "One number, answering a different question",
+      "si": "",
+      "html_snippet": "One number, answering a different question"
+    },
+    {
+      "key": "auto-18",
+      "tag": "p",
+      "en": "The Ministry of Education, Higher Education and Vocational Education has rested its public case on a single arithmetic claim. In a media notice of 21 June, and again through the Commissioner General of Examinations on 24 June, it stated that the National Institute of Education's teacher guides require 300 school days to complete the A/L syllabus, and that the 2026 candidates will have had 343 school daysDocumented — derivation unpublished from the official commencement of academic activities to 7 August 2026. Repeat candidates, it added, have had four months and ten days since the previous results.",
+      "si": "",
+      "html_snippet": "The Ministry of Education, Higher Education and Vocational Education has rested its public case on a single arithmetic claim. In a media notice of 21 June, and again through the Commissioner General o"
+    },
+    {
+      "key": "auto-19",
+      "tag": "p",
+      "en": "The Ministry has published the window it is counting: 10 October 2024 to 7 August 2026, in a breakdown released in June. That is more than its critics have credited it with. It is also the most revealing thing in the entire dispute — because the window runs from the start of Grade 12.",
+      "si": "",
+      "html_snippet": "The Ministry has published the window it is counting: 10 October 2024 to 7 August 2026, in a breakdown released in June. That is more than its critics have credited it with. It is also the most reveal"
+    },
+    {
+      "key": "auto-20",
+      "tag": "p",
+      "en": "The 343 days are a two-year total. The complaint is about the final run-in. A student who has been taught the syllabus across two years and then loses the closing months of revision has not been short-changed on teaching days; they have been short-changed on the period in which teaching becomes recall. The Ministry's figure does not measure that. And on the available description, the benchmark it is measured against does not either: the NIE's 300 days appears to be a guideline for teachers completing a syllabus, not a standard for students preparing to sit — though the guideline document itself has not been published, so even that much is taken on the Ministry's word. The government has produced a real number. It answers a question nobody asked.",
+      "si": "",
+      "html_snippet": "The 343 days are a <strong>two-year total</strong>. The complaint is about the final run-in. A student who has been taught the syllabus across two years and then loses the closing months of revision h"
+    },
+    {
+      "key": "auto-21",
+      "tag": "div",
+      "en": "Static summary: the Ministry's 343 school days is a two-year teaching total measured against a teachers' syllabus-completion guideline of 300 days; the students' figures measure elapsed preparation time. The two rulers measure different things, and neither side has published its working.",
+      "si": "",
+      "html_snippet": "Static summary: the Ministry's 343 school days is a two-year teaching total measured against a teachers' syllabus-completion guideline of 300 days; the students' figures measure elapsed preparation ti"
+    },
+    {
+      "key": "auto-22",
+      "tag": "figcaption",
+      "en": "Two rulers, one calendar. Claims B1 B2 B3 B5 . The Ministry's 343 school days is a count of days delivered, measured against an NIE guideline of 300 days that appears to be a syllabus-completion benchmark written for teachers rather than a student-revision standard B3 . Its derivation has never been published: the start point, the Grade 12 versus Grade 13 basis, and the treatment of the Ditwah closures and the March–April Wednesday fuel order are all unknown B2 — hence the open left edge on the upper bar. The students' 21 months is a statement made on 11 June 2026; the underlying counts are unverified B5 . Both figures are drawn as attributed claims, not as fact. Press Play to replay; honours reduced motion.",
+      "si": "",
+      "html_snippet": "Two rulers, one calendar. Claims <span class=\"claim-ids\">B1 B2 B3 B5</span> . The Ministry's 343 school days is a count of days delivered, measured against an NIE guideline of 300 days that appears to"
+    },
+    {
+      "key": "auto-23",
+      "tag": "p",
+      "en": "What has not been published is the derivation — how 343 was arrived at within that window, and how the fifteen days the Ministry itself concedes were lost to Cyclone Ditwah are netted out, along with the Wednesdays closed nationwide from 17 March under a fuel-conservation order, and the weeks in which school buildings served as flood shelters. The fifteen-day figure is a national aggregate; it tells you nothing about a school in Badulla or Nuwara Eliya. Nor does a day-count distinguish a day on which a school was open from a day on which it had a teacher for the subject — the Sunday Times documented A/L science streams running without a physics teacher as recently as 2023.",
+      "si": "",
+      "html_snippet": "What has not been published is the derivation — how 343 was arrived at within that window, and how the fifteen days the Ministry itself concedes were lost to Cyclone Ditwah are netted out, along with "
+    },
+    {
+      "key": "auto-24",
+      "tag": "p",
+      "en": "A single Right to Information request for the derivation, the NIE guideline document, and the record of the decision to retain the August date after Ditwah would settle the central factual dispute of this controversy in weeks. As of 22 July, none had been reported.",
+      "si": "",
+      "html_snippet": "A single Right to Information request for the derivation, the NIE guideline document, and the record of the decision to retain the August date after Ditwah would settle the central factual dispute of "
+    },
+    {
+      "key": "auto-25",
+      "tag": "p",
+      "en": "The critics' arithmetic is looser still. Students told Sinhala-language media in June that they had twenty-one monthsUnaudited where earlier batches had twenty-seven to thirty-one. The former MP Udaya Gammanpila put repeat candidates at 133 daysUnaudited against 178 to 198 previously. The MP Dilith Jayaweera said six months had been cutUnaudited from a normal twenty-six. A widely circulated chart offers a fourth set of figures again. None has been audited, and they are not consistent with one another. One widely shared claim is simply wrong: the assertion that a Wednesday holiday operated \"throughout the year.\" The measure ran from 17 March to 8 April 2026 — some three school Wednesdays — and was a national fuel-conservation order, not an education policy.",
+      "si": "",
+      "html_snippet": "The critics' arithmetic is looser still. Students told Sinhala-language media in June that they had twenty-one months<span class=\"status-chip unaudited\">Unaudited</span> where earlier batches had twen"
+    },
+    {
+      "key": "auto-26",
+      "tag": "p",
+      "en": "But the two sides do not stand in the same place. The students are teenagers making their case from press conferences and petitions; the Ministry is the record-holder. It employs the statisticians, owns the school calendar, and wrote the number it now cites. When the party with the records and the party without them have both failed to show their work, only one of those failures is a choice.",
+      "si": "",
+      "html_snippet": "But the two sides do not stand in the same place. The students are teenagers making their case from press conferences and petitions; the Ministry is the record-holder. It employs the statisticians, ow"
+    },
+    {
+      "key": "auto-27",
+      "tag": "h2",
+      "en": "What was not offered",
+      "si": "",
+      "html_snippet": "What was not offered"
+    },
+    {
+      "key": "auto-28",
+      "tag": "p",
+      "en": "Here the comparison with other countries stops being academic.",
+      "si": "",
+      "html_snippet": "Here the comparison with other countries stops being academic."
+    },
+    {
+      "key": "auto-29",
+      "tag": "p",
+      "en": "Every comparable system that put its examinations back together after COVID paired the repair with published, cohort-specific relief. India's CBSE cut the syllabus for classes 9 to 12 by thirty per cent for 2020-21, then ran a two-term board examination, then restored the single exam — content relief first, full restoration last, in graded steps. Bangladesh published a formally reduced syllabus for its 2021 and 2022 HSC examinations while its calendar ran months late. The United Kingdom made 2022 an explicit transition year: advance information on examination topics, increased question choice in some subjects, formula sheets, and grading deliberately set at a midpoint between 2019 and 2021.Documented",
+      "si": "",
+      "html_snippet": "Every comparable system that put its examinations back together after COVID paired the repair with published, cohort-specific relief. India's CBSE cut the syllabus for classes 9 to 12 by thirty per ce"
+    },
+    {
+      "key": "auto-30",
+      "tag": "div",
+      "en": "Static summary: India, Bangladesh and the UK all paired post-COVID calendar restoration with published, cohort-specific relief. Sri Lanka's 10 March 2026 circular went the opposite direction: full syllabus, mandatory, nothing published in return.",
+      "si": "",
+      "html_snippet": "Static summary: India, Bangladesh and the UK all paired post-COVID calendar restoration with published, cohort-specific relief. Sri Lanka's 10 March 2026 circular went the opposite direction: full syl"
+    },
+    {
+      "key": "auto-31",
+      "tag": "figcaption",
+      "en": "What came first — the relief, or the calendar. Claims C1 C2 C3 C4 A1 . The Sri Lankan \"relief — none found\" cell records a bounded search finding C4 : no syllabus reduction, added question choice or grading adjustment was found to have been announced for the 2026 cohort. It is not a proven negative. This panel makes no claim about the 2020–2022 Sri Lankan sittings, where the mitigation record remains unverified C5 C6 . Press Play to replay; honours reduced motion.",
+      "si": "",
+      "html_snippet": "What came first — the relief, or the calendar. Claims <span class=\"claim-ids\">C1 C2 C3 C4 A1</span> . The Sri Lankan \"relief — none found\" cell records a bounded search finding <span class=\"claim-ids\""
+    },
+    {
+      "key": "auto-32",
+      "tag": "p",
+      "en": "Sri Lanka's own crisis cohorts — 2020 through 2022 — sat full-syllabus examinations through the worst of the pandemic and the default. No confirmed syllabus reduction or added question choice was found for any of those sittings either. The 2026 cohort is therefore the second time the state has asked a disrupted cohort to absorb a correction with nothing published in return; the difference this time is that the correction was chosen, not forced. The Ministry circular of 10 March 2026 made completion of the full 2026 syllabus mandatory and instructed schools that had fallen behind to find extra time.",
+      "si": "",
+      "html_snippet": "Sri Lanka's own crisis cohorts — 2020 through 2022 — sat full-syllabus examinations through the worst of the pandemic and the default. No confirmed syllabus reduction or added question choice was foun"
+    },
+    {
+      "key": "auto-33",
+      "tag": "p",
+      "en": "The government has an empirical answer to this, and it deserves to be heard. Sri Lanka's disrupted cohorts did not visibly underperform. University qualification rates from 2020 to 2025 sit in a narrow band between roughly 62.6 and 64.7 per centDocumented — the cyclone-hit 2025 cohort qualified at 62.64 per cent, barely below 2024's 64.73. The qualification rate is a norm-influenced measure and a weak proxy for what anyone actually learned, so its stability is not proof that disruption is harmless. But it is the strongest evidence in the file that the sky does not fall, and it has gone almost entirely unmentioned by the government's critics.",
+      "si": "",
+      "html_snippet": "The government has an empirical answer to this, and it deserves to be heard. Sri Lanka's disrupted cohorts did not visibly underperform. University qualification rates from 2020 to 2025 sit in a narro"
+    },
+    {
+      "key": "auto-34",
+      "tag": "h2",
+      "en": "The contradiction the Ministry has not been asked about",
+      "si": "",
+      "html_snippet": "The contradiction the Ministry has not been asked about"
+    },
+    {
+      "key": "auto-35",
+      "tag": "p",
+      "en": "On 14 December 2025, with schools still closed and children still in safety centres, the Secretary to the Ministry of Education explained why the third-term examinations had been cancelled and students promoted to the next grade:",
+      "si": "",
+      "html_snippet": "On 14 December 2025, with schools still closed and children still in safety centres, the Secretary to the Ministry of Education explained why the third-term examinations had been cancelled and student"
+    },
+    {
+      "key": "auto-36",
+      "tag": "p",
+      "en": "\"In consideration of children's mental well-being and the time needed for normalcy to be restored after facing such a disaster, the Education Ministry has decided to not hold the third term examinations this year.\"",
+      "si": "",
+      "html_snippet": "\"In consideration of children's mental well-being and the time needed for normalcy to be restored after facing such a disaster, the Education Ministry has decided to not hold the third term examinatio"
+    },
+    {
+      "key": "auto-37",
+      "tag": "cite",
+      "en": "Secretary, Ministry of Education — 14 December 2025",
+      "si": "",
+      "html_snippet": "Secretary, Ministry of Education — 14 December 2025"
+    },
+    {
+      "key": "auto-38",
+      "tag": "p",
+      "en": "The precise scope of that cancellation is reported differently across outlets — some coverage describes it as applying from Grade 6 upward — and the circular itself has not been obtained. But the principle the Secretary stated is not in dispute: in December, disruption to children's mental well-being was grounds for cancelling examinations. Seven months later, the same Ministry declined to move the A/L for a cohort making an overlapping argument about the same disaster.",
+      "si": "",
+      "html_snippet": "The precise scope of that cancellation is reported differently across outlets — some coverage describes it as applying from Grade 6 upward — and the circular itself has not been obtained. But the prin"
+    },
+    {
+      "key": "auto-39",
+      "tag": "p",
+      "en": "There may be a good answer. Cancelling a school-level test costs nothing downstream; moving a national examination cascades through marking, z-scores, university allocation and the following cohort. But the question has not been put, and the Ministry has not volunteered the distinction.",
+      "si": "",
+      "html_snippet": "There may be a good answer. Cancelling a school-level test costs nothing downstream; moving a national examination cascades through marking, z-scores, university allocation and the following cohort. B"
+    },
+    {
+      "key": "auto-40",
+      "tag": "p",
+      "en": "The mental-health backdrop is not decorative. Sri Lanka's Global School-based Student Health Survey, conducted in 2024 by the Family Health Bureau with the Ministry of Education and WHO, found that 18 per cent of students aged 13 to 17 reported depressive symptoms, rising to 26.3 per cent among 16- and 17-year-oldsDocumented — self-reported; govt schools only — the A/L band. Loneliness had risen from 9 per cent in 2016 to 22.4 per cent. Only a quarter of students felt able to talk to anyone about their worries; fewer than eight in a hundred could confide in an adult at school. The survey is self-reported and covers government schools only — which means the group with the shortest runway this year, repeat and private candidates no longer in school, is invisible in the best data the country has. And as of mid-December, according to a psychosocial responder working in the affected districts, no assessment of Ditwah's psychological impact on children had been carried out.",
+      "si": "",
+      "html_snippet": "The mental-health backdrop is not decorative. Sri Lanka's Global School-based Student Health Survey, conducted in 2024 by the Family Health Bureau with the Ministry of Education and WHO, found that 18"
+    },
+    {
+      "key": "auto-41",
+      "tag": "p",
+      "en": "None of that establishes that a compressed timetable harms anyone's health, and it should not be made to. There is no Sri Lankan dataset linking examination timing or examination failure to self-harm, and constructing that chain would be both unsupported and reckless. What the data does establish is narrower and sufficient: this is a cohort under measurable strain, and the state has not looked.",
+      "si": "",
+      "html_snippet": "None of that establishes that a compressed timetable harms anyone's health, and it should not be made to. There is no Sri Lankan dataset linking examination timing or examination failure to self-harm,"
+    },
+    {
+      "key": "auto-42",
+      "tag": "div",
+      "en": "If you or someone you know is struggling, the National Mental Health Helpline in Sri Lanka is 1926. This note is repeated at the end of the page.",
+      "si": "",
+      "html_snippet": "If you or someone you know is struggling, the National Mental Health Helpline in Sri Lanka is <strong>1926</strong>. This note is repeated at the end of the page."
+    },
+    {
+      "key": "auto-43",
+      "tag": "h2",
+      "en": "Where the Prime Minister is",
+      "si": "",
+      "html_snippet": "Where the Prime Minister is"
+    },
+    {
+      "key": "auto-44",
+      "tag": "p",
+      "en": "Harini Amarasuriya is an academic sociologist, a former FUTA campaigner, and — since November 2024 — Prime Minister and Minister of Education, Higher Education and Vocational Education. She is also the sharpest available critic of the position her ministry now occupies.",
+      "si": "",
+      "html_snippet": "Harini Amarasuriya is an academic sociologist, a former FUTA campaigner, and — since November 2024 — Prime Minister and Minister of Education, Higher Education and Vocational Education. She is also th"
+    },
+    {
+      "key": "auto-45",
+      "tag": "p",
+      "en": "In December 2015 she wrote, under her own name, that the government of the day was \"attempting to show this increase as more (a clear attempt to mislead the public).\" In the same essay she described the growth of private tuition \"almost to the point of making schools irrelevant,\" and warned that a purely instrumental view of education produces a country that \"doesn't require schools — simply tuition classes that prepare students to pass examinations.\"Verified",
+      "si": "",
+      "html_snippet": "In December 2015 she wrote, under her own name, that the government of the day was \"attempting to show this increase as more (a clear attempt to mislead the public).\" In the same essay she described t"
+    },
+    {
+      "key": "auto-46",
+      "tag": "p",
+      "en": "The obvious charge is hypocrisy over the six per cent of GDP pledge, and it is the wrong charge: the manifesto promises to raise spending \"gradually… up to 6%\" with no deadline, allocation has moved from 1.6 to about 2.0 per cent of GDP, and she has argued since 2015 that money without reform is useless. The sharper contradiction is elsewhere. The manifesto promised to eliminate teacher pay disparity \"promptly\"; twenty months in, teacher unions report the anomaly unresolved.",
+      "si": "",
+      "html_snippet": "The obvious charge is hypocrisy over the six per cent of GDP pledge, and it is the wrong charge: the manifesto promises to raise spending \"gradually… up to 6%\" with no deadline, allocation has moved f"
+    },
+    {
+      "key": "auto-47",
+      "tag": "p",
+      "en": "And then there is an absence. A search of English-language Sri Lankan press, parliamentary records and ministry releases from her appointment in November 2024 to 22 July 2026 found no public statement by Harini Amarasuriya on the 2026 A/L date or the cohort sitting it. Sinhala- and Tamil-language broadcast media were not systematically searched, and a statement may exist there. On the record available, the Ministry issued the notice, the Commissioner General held the press briefing, and the Solicitor General went to court. The machinery for her engagement exists and has been used before: in October 2024, when that year's cohort petitioned for a postponement, the Prime Minister's Office formally forwarded the students' letters to the Department of Examinations, and her office confirmed her attention had been drawn to them. A Sunday Times political column noted the pattern last October: \"Through all the upheavals in the education sector, the minister in charge of the subject has been keeping a low profile.\"",
+      "si": "",
+      "html_snippet": "And then there is an absence. <strong>A search of English-language Sri Lankan press, parliamentary records and ministry releases from her appointment in November 2024 to 22 July 2026 found no public s"
+    },
+    {
+      "key": "auto-48",
+      "tag": "h2",
+      "en": "The court, the petition, and what is actually being decided",
+      "si": "",
+      "html_snippet": "The court, the petition, and what is actually being decided"
+    },
+    {
+      "key": "auto-49",
+      "tag": "p",
+      "en": "Nine students filed a writ petition in the Court of Appeal seeking to quash the published timetable and postpone the examination by two months. The bench of Court of Appeal President Justice Rohantha Abeysooriya and Justice Priyantha Fernando heard submissions on 16 July and fixed 23 July for its order.",
+      "si": "",
+      "html_snippet": "Nine students filed a writ petition in the Court of Appeal seeking to quash the published timetable and postpone the examination by two months. The bench of Court of Appeal President Justice Rohantha "
+    },
+    {
+      "key": "auto-50",
+      "tag": "p",
+      "en": "That order is on leave to proceed. It decides whether the case may be heard at all. It is not a ruling on postponement, and it will very probably be reported as one, whichever way it goes.",
+      "si": "",
+      "html_snippet": "That order is on <strong>leave to proceed</strong>. It decides whether the case may be heard at all. It is not a ruling on postponement, and it will very probably be reported as one, whichever way it "
+    },
+    {
+      "key": "auto-51",
+      "tag": "h3",
+      "en": "What \"leave to proceed\" means",
+      "si": "",
+      "html_snippet": "What \"leave to proceed\" means"
+    },
+    {
+      "key": "auto-52",
+      "tag": "p",
+      "en": "A writ petition is heard in two stages. At the first, the court decides only whether the petition clears the threshold to be argued at all — leave to proceed. Granting leave is not a finding on the merits; refusing it ends the case without the central factual question ever being examined.",
+      "si": "",
+      "html_snippet": "A writ petition is heard in two stages. At the first, the court decides only whether the petition clears the threshold to be argued at all — leave to proceed. Granting leave is not a finding on the me"
+    },
+    {
+      "key": "auto-53",
+      "tag": "p",
+      "en": "Writ is a discretionary remedy: the court may refuse it on conduct grounds (such as incomplete disclosure) without ruling on whether the underlying complaint is true.",
+      "si": "",
+      "html_snippet": "Writ is a discretionary remedy: the court may refuse it on conduct grounds (such as incomplete disclosure) without ruling on whether the underlying complaint is true."
+    },
+    {
+      "key": "auto-54",
+      "tag": "p",
+      "en": "Writ is a discretionary remedy, and the Solicitor General ran a clean-hands argument: that the petitioners had not come to court with full disclosure, and that nine applicants cannot speak for a cohort of hundreds of thousands. Whatever the court makes of it, that argument goes to the exercise of discretion rather than to the merits — which means the central factual question here may never be judicially examined at all.",
+      "si": "",
+      "html_snippet": "Writ is a discretionary remedy, and the Solicitor General ran a clean-hands argument: that the petitioners had not come to court with full disclosure, and that nine applicants cannot speak for a cohor"
+    },
+    {
+      "key": "auto-55",
+      "tag": "p",
+      "en": "Outside the courtroom, the constituency is larger than nine. A trilingual petition to the Department of Examinations — arguing the first-timers' lost months, the repeaters' four-month runway, and the Ditwah devastation — passed ten thousand verified signatures in July, with thousands added in single days as the exam approaches.",
+      "si": "",
+      "html_snippet": "Outside the courtroom, the constituency is larger than nine. A trilingual petition to the Department of Examinations — arguing the first-timers' lost months, the repeaters' four-month runway, and the "
+    },
+    {
+      "key": "auto-56",
+      "tag": "p",
+      "en": "The pattern across recent cycles cuts both ways. Sri Lankan A/L examinations have been postponed by the executive in response to physical disruption — in 2020, in 2022, and as recently as eight months ago — not, on any reported instance located in this review, by courts in response to preparation-time grievances. The state has demonstrated that it will move an examination when it judges the disruption sufficient. This time it has judged otherwise.",
+      "si": "",
+      "html_snippet": "The pattern across recent cycles cuts both ways. Sri Lankan A/L examinations have been postponed by the executive in response to physical disruption — in 2020, in 2022, and as recently as eight months"
+    },
+    {
+      "key": "auto-57",
+      "tag": "h2",
+      "en": "The allegation, and why it matters that it is empty",
+      "si": "",
+      "html_snippet": "The allegation, and why it matters that it is empty"
+    },
+    {
+      "key": "auto-58",
+      "tag": "p",
+      "en": "A Sinhala-language social media post circulating in mid-July suggested that the compression of the A/L preparation period may be connected to arrangements involving a private university, and called for complaints to be made to the Bribery Commission.Alleged — no evidence found",
+      "si": "",
+      "html_snippet": "A Sinhala-language social media post circulating in mid-July suggested that the compression of the A/L preparation period may be connected to arrangements involving a private university, and called fo"
+    },
+    {
+      "key": "auto-59",
+      "tag": "p",
+      "en": "No credible news outlet has reported this claim, in English, Sinhala or Tamil. No complaint to CIABOC or to the Commissioner General of Examinations has been recorded. No evidence of any such arrangement was found in the public record. The most frequently cited private medical faculty project, at NSBM, involves a state-owned institution and was approved by Cabinet in March 2024, under the previous administration.",
+      "si": "",
+      "html_snippet": "No credible news outlet has reported this claim, in English, Sinhala or Tamil. No complaint to CIABOC or to the Commissioner General of Examinations has been recorded. No evidence of any such arrangem"
+    },
+    {
+      "key": "auto-60",
+      "tag": "p",
+      "en": "The allegation is not merely unproven. Its central factual anchor is misdescribed, and no one has articulated a mechanism by which shortening a school cohort's study period would benefit a fee-charging degree provider.",
+      "si": "",
+      "html_snippet": "The allegation is not merely unproven. Its central factual anchor is misdescribed, and no one has articulated a mechanism by which shortening a school cohort's study period would benefit a fee-chargin"
+    },
+    {
+      "key": "auto-61",
+      "tag": "p",
+      "en": "It is included here because of what it does. There is a genuine accountability story in this controversy — a number that answers the wrong question, a derivation nobody has published, a contradiction nobody has put, and no published relief where every comparable system offered some. An evidence-free corruption claim attached to that story does not strengthen it. It gives the state an easy target and lets the real questions go unasked.",
+      "si": "",
+      "html_snippet": "It is included here because of what it does. There is a genuine accountability story in this controversy — a number that answers the wrong question, a derivation nobody has published, a contradiction "
+    },
+    {
+      "key": "auto-62",
+      "tag": "h2",
+      "en": "The repeat candidates' runway",
+      "si": "",
+      "html_snippet": "The repeat candidates' runway"
+    },
+    {
+      "key": "auto-63",
+      "tag": "p",
+      "en": "The Ministry's own statement concedes the tightest number in the file: repeat candidates have had four months and ten days since the previous resultsDocumented — the interval between the 31 March results release and the 10 August start, against 178 and 198 days in the two preceding cycles. The seventy-day marking sprint that let the government deliver its manifesto commitment is the same speed that shortened this group's runway. Both sides accept the number; they dispute only its sufficiency. Repeat and private candidates are also the group invisible in the GSHS data above — no longer in school, counted by nobody.",
+      "si": "",
+      "html_snippet": "The Ministry's own statement concedes the tightest number in the file: repeat candidates have had four months and ten days since the previous results<span class=\"status-chip documented\">Documented</sp"
+    },
+    {
+      "key": "auto-64",
+      "tag": "div",
+      "en": "Static summary: the interval between results release and the next sitting fell from 198 days, to 178, to 132 for the 2026 repeat candidates. No dataset, no advocacy group, and no coverage attaches to this group.",
+      "si": "",
+      "html_snippet": "Static summary: the interval between results release and the next sitting fell from 198 days, to 178, to 132 for the 2026 repeat candidates. No dataset, no advocacy group, and no coverage attaches to "
+    },
+    {
+      "key": "auto-65",
+      "tag": "figcaption",
+      "en": "The repeat candidate's runway. Days from results release to the first paper, across the last three cycles. Claims B4 A6 A7 . Both sides accept these intervals and dispute only sufficiency; this chart takes no position on sufficiency. 132 days is the calendar arithmetic of the Ministry's own \"four months ten days\" B4 . The 70-day marking turnaround that delivered the 2025 results on 31 March — the fastest in the series A7 — is what kept the runway at 132 rather than shorter. Politicians' variant counts are excluded as provisional B6 . Press Play to replay; honours reduced motion.",
+      "si": "",
+      "html_snippet": "The repeat candidate's runway. Days from results release to the first paper, across the last three cycles. Claims <span class=\"claim-ids\">B4 A6 A7</span> . Both sides accept these intervals and disput"
+    },
+    {
+      "key": "auto-66",
+      "tag": "h2",
+      "en": "What could still be done",
+      "si": "",
+      "html_snippet": "What could still be done"
+    },
+    {
+      "key": "auto-67",
+      "tag": "p",
+      "en": "Nineteen days out — unless the court intervenes — most options are closed. Papers are set. Centres are booked. Redesigning the examination is not available.",
+      "si": "",
+      "html_snippet": "Nineteen days out — unless the court intervenes — most options are closed. Papers are set. Centres are booked. Redesigning the examination is not available."
+    },
+    {
+      "key": "auto-68",
+      "tag": "p",
+      "en": "Three things still are.",
+      "si": "",
+      "html_snippet": "Three things still are."
+    },
+    {
+      "key": "auto-69",
+      "tag": "h3",
+      "en": "Publish the derivation.",
+      "si": "",
+      "html_snippet": "Publish the derivation."
+    },
+    {
+      "key": "auto-70",
+      "tag": "p",
+      "en": "How 343 was calculated within the declared window, how the Ditwah closures and Wednesday holidays were treated, and what the NIE's 300-day guideline actually covers. This costs nothing, takes days, and either vindicates the Ministry completely or explains the grievance completely.",
+      "si": "",
+      "html_snippet": "How 343 was calculated within the declared window, how the Ditwah closures and Wednesday holidays were treated, and what the NIE's 300-day guideline actually covers. This costs nothing, takes days, an"
+    },
+    {
+      "key": "auto-71",
+      "tag": "h3",
+      "en": "Announce standards protection before the examination.",
+      "si": "",
+      "html_snippet": "Announce standards protection before the examination."
+    },
+    {
+      "key": "auto-72",
+      "tag": "p",
+      "en": "Sri Lanka's z-score is already norm-referenced, which makes this technically simpler here than the criterion-referenced adjustment the UK made in 2022. A published commitment that this cohort's grade distribution will be protected against the 2024–25 baseline would cost nothing operationally, and would answer the legitimate part of the grievance without moving a single date.",
+      "si": "",
+      "html_snippet": "Sri Lanka's z-score is already norm-referenced, which makes this technically simpler here than the criterion-referenced adjustment the UK made in 2022. A published commitment that this cohort's grade "
+    },
+    {
+      "key": "auto-73",
+      "tag": "h3",
+      "en": "Say something.",
+      "si": "",
+      "html_snippet": "Say something."
+    },
+    {
+      "key": "auto-74",
+      "tag": "p",
+      "en": "The Prime Minister holds this portfolio. Silence towards this cohort is a political choice, and a reversible one.",
+      "si": "",
+      "html_snippet": "The Prime Minister holds this portfolio. Silence towards this cohort is a political choice, and a reversible one."
+    },
+    {
+      "key": "auto-75",
+      "tag": "p",
+      "en": "Beyond August, the structural fix is unglamorous and obvious: a statutory, published, multi-year examination calendar with a fixed minimum notice period, a defined force-majeure procedure, and a duty to publish the arithmetic behind any adequacy claim. No Sri Lankan think tank has published on examination-calendar governance; the policy space is empty. A companion paper attached to this dossier sets out a framework: Who Owns the Calendar? A governance framework for Sri Lanka's national examinations. Sri Lanka has now spent six years demonstrating that leaving the calendar to administrative discretion means that when the bill finally comes due, it is handed to whichever cohort happens to be seventeen.",
+      "si": "",
+      "html_snippet": "Beyond August, the structural fix is unglamorous and obvious: a statutory, published, multi-year examination calendar with a fixed minimum notice period, a defined force-majeure procedure, and a duty "
+    },
+    {
+      "key": "auto-76",
+      "tag": "h3",
+      "en": "The reader's own lever",
+      "si": "",
+      "html_snippet": "The reader's own lever"
+    },
+    {
+      "key": "auto-77",
+      "tag": "p",
+      "en": "10,000+ verified signatures",
+      "si": "",
+      "html_snippet": "10,000+ verified signatures"
+    },
+    {
+      "key": "auto-78",
+      "tag": "p",
+      "en": "A trilingual petition to the Department of Examinations — arguing the first-timers' lost months, the repeaters' four-month runway, and the Ditwah devastation — is open and growing daily as the exam approaches.",
+      "si": "",
+      "html_snippet": "A trilingual petition to the Department of Examinations — arguing the first-timers' lost months, the repeaters' four-month runway, and the Ditwah devastation — is open and growing daily as the exam ap"
+    },
+    {
+      "key": "auto-79",
+      "tag": "a",
+      "en": "Read and sign the petition",
+      "si": "",
+      "html_snippet": "Read and sign the petition"
+    },
+    {
+      "key": "auto-80",
+      "tag": "p",
+      "en": "Disclosure: The Analyst publicly supports this petition. That support is an editorial position, stated here once; the reporting above stands independently of it and reports competing figures as claims, not fact.",
+      "si": "",
+      "html_snippet": "Disclosure: The Analyst publicly supports this petition. That support is an editorial position, stated here once; the reporting above stands independently of it and reports competing figures as claims"
+    },
+    {
+      "key": "auto-81",
+      "tag": "h2",
+      "en": "Claims, statuses, and what remains open",
+      "si": "",
+      "html_snippet": "Claims, statuses, and what remains open"
+    },
+    {
+      "key": "auto-82",
+      "tag": "span",
+      "en": "Calendar drift and correction",
+      "si": "",
+      "html_snippet": "Calendar drift and correction"
+    },
+    {
+      "key": "auto-83",
+      "tag": "p",
+      "en": "Sitting dates 2019–2026, the partial pull-back across 2024–25, the seven-month inter-sitting gap, and the 70-day marking turnaround.",
+      "si": "",
+      "html_snippet": "Sitting dates 2019–2026, the partial pull-back across 2024–25, the seven-month inter-sitting gap, and the 70-day marking turnaround."
+    },
+    {
+      "key": "auto-84",
+      "tag": "span",
+      "en": "The Ministry's arithmetic",
+      "si": "",
+      "html_snippet": "The Ministry's arithmetic"
+    },
+    {
+      "key": "auto-85",
+      "tag": "p",
+      "en": "343 school days within a published window (10 Oct 2024 – 7 Aug 2026) against the NIE's 300-day teacher guideline. The derivation and the guideline document remain unpublished; an RTI request is the open route.",
+      "si": "",
+      "html_snippet": "343 school days within a published window (10 Oct 2024 – 7 Aug 2026) against the NIE's 300-day teacher guideline. The derivation and the guideline document remain unpublished; an RTI request is the op"
+    },
+    {
+      "key": "auto-86",
+      "tag": "span",
+      "en": "Petitioner figures",
+      "si": "",
+      "html_snippet": "Petitioner figures"
+    },
+    {
+      "key": "auto-87",
+      "tag": "p",
+      "en": "21 months vs 27–31; 133 days; six months cut. Mutually inconsistent and unaudited; reported as claims. The 198→178→132 results-to-sitting interval is the exception both sides accept.",
+      "si": "",
+      "html_snippet": "21 months vs 27–31; 133 days; six months cut. Mutually inconsistent and unaudited; reported as claims. The 198→178→132 results-to-sitting interval is the exception both sides accept."
+    },
+    {
+      "key": "auto-88",
+      "tag": "span",
+      "en": "Comparators and mitigation",
+      "si": "",
+      "html_snippet": "Comparators and mitigation"
+    },
+    {
+      "key": "auto-89",
+      "tag": "p",
+      "en": "India CBSE, Bangladesh NCTB and UK 2022 relief measures; the 10 March 2026 full-syllabus circular; the bounded negative that no Sri Lankan relief was found.",
+      "si": "",
+      "html_snippet": "India CBSE, Bangladesh NCTB and UK 2022 relief measures; the 10 March 2026 full-syllabus circular; the bounded negative that no Sri Lankan relief was found."
+    },
+    {
+      "key": "auto-90",
+      "tag": "span",
+      "en": "The private-university claim",
+      "si": "",
+      "html_snippet": "The private-university claim"
+    },
+    {
+      "key": "auto-91",
+      "tag": "p",
+      "en": "Unreported by any credible outlet in three languages; no CIABOC complaint recorded; central factual anchor misdescribed. Included to document its emptiness, not to amplify it.",
+      "si": "",
+      "html_snippet": "Unreported by any credible outlet in three languages; no CIABOC complaint recorded; central factual anchor misdescribed. Included to document its emptiness, not to amplify it."
+    },
+    {
+      "key": "auto-92",
+      "tag": "h3",
+      "en": "Open items at staging",
+      "si": "",
+      "html_snippet": "Open items at staging"
+    },
+    {
+      "key": "auto-93",
+      "tag": "p",
+      "en": "The 23 July Court of Appeal order; the Ministry's right of reply (Gate 2); the RTI response on the 343-day derivation. The full linked source index attaches when these close, before publication.",
+      "si": "",
+      "html_snippet": "The 23 July Court of Appeal order; the Ministry's right of reply (Gate 2); the RTI response on the 343-day derivation. The full linked source index attaches when these close, before publication."
+    },
+    {
+      "key": "auto-94",
+      "tag": "p",
+      "en": "Preparation-time figures on both sides remain unaudited and are reported as competing claims, not established fact. This page will be updated when the Court of Appeal order lands, and when the Right to Information response on the 343-day derivation arrives.",
+      "si": "",
+      "html_snippet": "<em>Preparation-time figures on both sides remain unaudited and are reported as competing claims, not established fact. This page will be updated when the Court of Appeal order lands, and when the Rig"
+    },
+    {
+      "key": "auto-95",
+      "tag": "p",
+      "en": "If you or someone you know is struggling, the National Mental Health Helpline in Sri Lanka is 1926.",
+      "si": "",
+      "html_snippet": "If you or someone you know is struggling, the National Mental Health Helpline in Sri Lanka is 1926."
+    },
+    {
+      "key": "auto-96",
+      "tag": "p",
+      "en": "Companion policy paper: Who Owns the Calendar? · Methodology: The Analyst — analyst.rizrazak.com",
+      "si": "",
+      "html_snippet": "Companion policy paper: <a href=\"policy-paper.html\">Who Owns the Calendar?</a> · Methodology: The Analyst — analyst.rizrazak.com"
+    }
+  ]
+}

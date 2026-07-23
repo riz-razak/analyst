@@ -1,7 +1,7 @@
 # The Analyst Agentic AI Search Research
 
 Date: 2026-05-25
-Scope: 4-round Yan Angel Council research for an agentic AI search function
+Scope: 4-round Yan Agent Council (Suite) research for an agentic AI search function
 Status: planning source for the search/CMS build
 
 Implementation update, 2026-05-26:
@@ -16,7 +16,7 @@ Implementation update, 2026-05-26:
 
 ## Council Setup
 
-The review used Yan Angel Council lenses only:
+The review used Yan Agent Council (Suite) lenses only:
 
 - @bala: systems architecture and operational fit
 - @nuwan: implementation and database/API contracts

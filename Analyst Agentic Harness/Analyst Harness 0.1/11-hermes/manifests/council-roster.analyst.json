@@ -1,0 +1,15 @@
+{
+  "roster_id": "analyst-hermes-council",
+  "project": "analyst",
+  "created_at": "2026-06-28",
+  "seats": [
+    { "handle": "@priya", "role": "publication_gate_owner" },
+    { "handle": "@vidura", "role": "source_memory_synthesis" },
+    { "handle": "@aether", "role": "architecture_runner_alignment" },
+    { "handle": "@nuwan", "role": "evidence_qa" },
+    { "handle": "@ridma", "role": "reader_visual_qa" },
+    { "handle": "@bala", "role": "public_claim_risk" },
+    { "handle": "@mara", "role": "adversarial_review" }
+  ],
+  "rule": "Preserve Analyst publication gates and do not publish, translate, or release without explicit founder approval."
+}

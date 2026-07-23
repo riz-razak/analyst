@@ -17,6 +17,7 @@ The homepage is a React/Vite single page app. Published dossiers are mostly stan
 - Static dossier pages live in `public/` and are copied into `dist/` by Vite.
 - Build command: `npm run build`.
 - Deployment target: GitHub Pages at `analyst.rizrazak.com`.
+- Codex setup lives in `CODEX_ENVIRONMENT.md` and `scripts/codex/`; use `/Users/rizrazak/Code/the-analyst` as the Codex project base.
 
 ## Homepage Handoff
 
@@ -39,11 +40,25 @@ Do not store active research packages in this app repo. Use `/Users/rizrazak/Cod
 
 Use this repo for publication code, static dossier pages, shared publication assets, handoff docs, and deployment artifacts.
 
+## Analyst Research Artifact Protocol
+
+Active research belongs in `/Users/rizrazak/Code/research`. Analyst consumes research through the three-layer artifact system.
+
+| Layer | Location | Rule |
+|---|---|---|
+| Markdown audit trail | research repo | canonical provenance, claims, caveats |
+| CSV/JSON data bridge | research repo or approved export | canonical numbers |
+| HTML dossier | Analyst repo | derivative public interface |
+
+Do not publish orphan numbers. Every public number must trace to a source ID, claim ID, or model field. Public dossiers require publication approval and should preserve visible evidence status where uncertainty remains.
+
 ## Translation Policy
 
-Never write Sinhala text from LLM knowledge.
+Never write Sinhala or Tamil public text from LLM knowledge alone.
 
-Use Google-backed machine translation as the baseline workflow, preserving common internet and platform terms in English when that is the natural Sinhala usage. If Google translation access is unavailable, stop and ask before substituting any method.
+Use Google-backed machine translation as the baseline workflow, preserving common internet, platform, SEO, source-route, and legal terms in English when that is the natural Sinhala/Tamil online usage or when translation would blur precision. If Google translation access is unavailable, stop and ask before substituting any method.
+
+For Tamil dossier drafts, keep the same mixed-language discipline established for Sinhala: preserve terms such as `claim`, `source trail`, `source route`, `source-gated dossier`, `stated`, `verify`, `evidence`, `online`, `harden`, `correction`, `denial`, `SEO`, `final phase`, `exact count`, `Mullivaikkal-only`, `category`, `geography`, `legal intent`, `accountability`, `war crimes`, `genocide`, `ethnic cleansing`, and `massacre` when those terms carry the publication's source, legal, or search logic. Use Tamil for connective explanation and average-reader clarity.
 
 Do not use any LLM provider as a default translation fallback. For non-translation research, synthesis, coding, or test tasks, use a provider-neutral cascade selected by current merit: benchmark performance, task fit, latency, cost, context limits, reliability, safety, and available tooling.
 
@@ -101,6 +116,23 @@ Important shared systems include:
 - Platform-specific implementation details belong inside the relevant project repo. For current member management, use `/Users/rizrazak/Code/Yan-Vada` as the implementation reference.
 - Known partner/admin preapprovals should be handled by project-local Yan-Vada Supabase migrations, not by browser allowlists or Analyst-only state.
 - Before expanding CMS/admin capability, harden the Analyst Worker: server-side shared auth/rights, no browser PAT fallback, explicit route allowlist, same-origin CORS, CSRF on state-changing admin routes, and audit logging.
+
+## Council Operating Model
+
+Analyst runs councils per the canonical Yan model — see `docs/council-operating-model.md`.
+
+- **Default:** the standing **Owner-12** project team steers any prompt/task (chair: Priya). Only the
+  relevant portfolios respond.
+- **On demand / explicit call:** the **Full Council (25+)** (priya raise-council protocol) or a named
+  group — **Philosophy Council**, **Steering Review/Council**, `@design`, `@tech`, `@security`,
+  `@editorial`, `@business`, `@language`, `@legal-risk`.
+- **Invocation order:** explicit agent → named group → raise/Full Council → default Owner-12.
+- **Never invent agents.** Use only canonical agents from `COUNCIL_MANIFEST.md`; if a generic agent/tool
+  surface is used, pass the Yan role identity through the agent parameters.
+- Confirmed Analyst owners so far: Priya (governance), Bala (security/auth), Nuwan (evidence/analytics/
+  dashboards), Ridma (UI/UX), Senevi (ops/deploy), Elubaas (language). Remaining Owner-12 portfolios
+  (editorial, business/finance, legal/risk, research/sourcing, community, data/infra) to be assigned
+  from `COUNCIL_MANIFEST.md`.
 
 ## Working Rules
 

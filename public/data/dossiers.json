@@ -1,7 +1,136 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-05-25",
+  "lastUpdated": "2026-07-22",
   "dossiers": [
+    {
+      "id": "2026-al-cohort",
+      "date": "2026-07-22",
+      "title": "The Cohort That Paid the Bill",
+      "description": "Sri Lanka broke its examination calendar in 2020. In 2026 it decided to finish repairing it at once, and handed the cost to one group of seventeen-year-olds. An Analyst dossier on the 2026 A/L.",
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Sri Lanka",
+        "Education",
+        "A/L",
+        "Examinations",
+        "Policy",
+        "Accountability",
+        "Harini Amarasuriya"
+      ],
+      "category": "accountability",
+      "contentUrl": "/2026-al-cohort/index.html",
+      "thumbnailUrl": "",
+      "heroImageUrl": "",
+      "sections": 11,
+      "features": [
+        "Six years of examination-calendar drift, and the single-step 2026 correction",
+        "The Ministry's 343-vs-300 school-day defence, and the derivation it has never published",
+        "What India, Bangladesh and the UK paired with calendar restoration — and Sri Lanka did not",
+        "The December 2025 third-term cancellation, and the contradiction nobody has put",
+        "Four interactive visualisations; companion exam-calendar governance policy paper"
+      ],
+      "status": "published",
+      "sourceState": "Six-ring council research complete; ten-round adversarial dissection and five-round fact check applied. Court of Appeal order of 23 July 2026 NOT yet incorporated — update pledged on page.",
+      "gateState": "published-with-open-gates: right-of-reply (Gate 2) outstanding; hero/thumbnail assets not commissioned",
+      "languageState": "EN live. SI/TA machine-translated and QA-green (7/7 both languages) but NOT exposed — language toggle disabled pending human headline/dek lines and editorial review.",
+      "sourceRegister": "/Users/rizrazak/Code/research/Political/2026/10. 2026 A-Level /01-sources/source-register.md",
+      "claimRegister": "/Users/rizrazak/Code/research/Political/2026/10. 2026 A-Level /02-notes/claim-register.md",
+      "blockedClaimsSummary": "Petitioner attendance figures, the private-university allegation (published only as an absence-of-evidence finding), any causal timetable-to-self-harm claim, and the seed chart's preparation-month figures are all excluded per the claim register.",
+      "lastSourceRefresh": "2026-07-22"
+    },
+    {
+      "id": "super-el-nino-sri-lanka-2026",
+      "date": "2026-06-16",
+      "title": "If El Nino Strengthens: Sri Lanka's Food Water And Readiness Test",
+      "titleSi": "El Nino ශක්තිමත් වුණොත්: ශ්‍රී ලංකාවේ ආහාර, ජලය සහ සූදානම",
+      "description": "A source-routed scenario-watch dossier on Sri Lanka's 2026 El Nino exposure across food, water, energy, households, health, language, and no-regret adaptation, refreshed for publication on 16 June 2026.",
+      "descriptionSi": "2026 El Nino scenario watch එක ශ්‍රී ලංකාවේ food, water, energy, households, health, language, සහ no-regret adaptation හරහා source-routed ලෙස බලන Analyst dossier එකක්. 2026 June 16 publication-day source refresh complete.",
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Sri Lanka",
+        "El Nino",
+        "Climate",
+        "Food Security",
+        "Water",
+        "Energy",
+        "Adaptation"
+      ],
+      "tagsSi": [
+        "ශ්‍රී ලංකාව",
+        "El Nino",
+        "Climate",
+        "Food security",
+        "ජලය",
+        "Energy",
+        "Adaptation"
+      ],
+      "category": "environment",
+      "kickerSi": "පරිසරය",
+      "thumbnailUrl": "/super-el-nino-sri-lanka-2026/hero-paddy-field-pankulam.jpg",
+      "heroImageUrl": "/super-el-nino-sri-lanka-2026/hero-paddy-field-pankulam.jpg",
+      "contentUrl": "/super-el-nino-sri-lanka-2026/index.html",
+      "sections": 8,
+      "features": [
+        "Source-routed scenario watch",
+        "ENSO-to-Sri Lanka scenario ladder",
+        "Food-water-energy dependency chain",
+        "Household and health watch matrix",
+        "Sinhala/Tamil comprehension gate",
+        "No-regret adaptation scorecard",
+        "Hero image provenance",
+        "Evidence cards"
+      ],
+      "featuresSi": [
+        "Source-routed scenario watch",
+        "ENSO to Sri Lanka scenario ladder",
+        "Food-water-energy dependency chain",
+        "Household and health watch matrix",
+        "සිංහල/දෙමළ comprehension gate",
+        "No-regret adaptation scorecard",
+        "Hero image provenance",
+        "Evidence cards"
+      ],
+      "seoTitleSi": "El Nino ශක්තිමත් වුණොත් ශ්‍රී ලංකාවට මොකද?",
+      "seoDescriptionSi": "Sri Lanka 2026 El Nino scenario watch එක food, water, energy, households, health සහ adaptation හරහා source-routed ලෙස බලන publish-ready The Analyst dossier එකක්.",
+      "sourceState": "PUB-R4 source and Sinhala/Tamil language refresh complete; PUB-R5 final QA complete; publish-ready",
+      "status": "published",
+      "titleTa": "El Nino வலுப்பட்டால்: இலங்கையின் உணவு, நீர் மற்றும் தயார்நிலை சோதனை",
+      "descriptionTa": "2026 El Nino scenario watch இலங்கையின் food, water, energy, households, health, language, மற்றும் no-regret adaptation வழியாக source-routed ஆக பார்க்கும் Analyst dossier. 2026 June 16 publication-day source refresh complete.",
+      "tagsTa": [
+        "இலங்கை",
+        "El Nino",
+        "Climate",
+        "Food security",
+        "நீர்",
+        "Energy",
+        "Adaptation"
+      ],
+      "kickerTa": "சூழல்",
+      "featuresTa": [
+        "Source-routed scenario watch",
+        "ENSO to Sri Lanka scenario ladder",
+        "Food-water-energy dependency chain",
+        "Household and health watch matrix",
+        "Sinhala/Tamil comprehension gate",
+        "No-regret adaptation scorecard",
+        "Hero image provenance",
+        "Evidence cards"
+      ],
+      "seoTitleTa": "El Nino வலுப்பட்டால் இலங்கைக்கு என்ன?",
+      "seoDescriptionTa": "Sri Lanka 2026 El Nino scenario watch food, water, energy, households, health மற்றும் adaptation வழியாக source-routed ஆக பார்க்கும் publish-ready The Analyst dossier.",
+      "gateState": "publish-ready",
+      "gateArtifact": "/Users/rizrazak/Code/research/Political/2026/09. Super El Niño - Sri Lanka 2026/04-output/analyst-v2-release-decision.md",
+      "sourceRegister": "/Users/rizrazak/Code/research/Political/2026/09. Super El Niño - Sri Lanka 2026/01-sources/source-register.csv",
+      "claimRegister": "/Users/rizrazak/Code/research/Political/2026/09. Super El Niño - Sri Lanka 2026/02-notes/claim-register.csv",
+      "languageState": "EN/SI/TA live; APG-013 language review artifact present",
+      "lastSourceRefresh": "2026-06-16",
+      "blockedClaimsSummary": "Release decision blocks stronger crop-loss, reservoir-stress, outage, dengue-causation, and stripped social-promo claims.",
+      "languageArtifact": "/Users/rizrazak/Code/research/Political/2026/09. Super El Niño - Sri Lanka 2026/04-output/apg-013-language-review-2026-06-16.md"
+    },
     {
       "id": "pallegama-hemarathana-alleged-minor-abuse",
       "date": "2026-05-25",
@@ -10,20 +139,62 @@
       "titleSi": "පල්ලෙගම 🍇 ජනතාව vs බලය",
       "description": "A civic-accountability dossier on the Pallegama Hemarathana case, allegation status, child protection, religious power, police process, media framing, MMDA child-marriage parallels, and Buddhist public ethics.",
       "descriptionSi": "පල්ලේගම හේමරතන හිමියන්ගේ නඩුව, චෝදනා තත්ත්වය, ළමා ආරක්ෂාව, ආගමික බලය, පොලිස් ක්‍රියාදාමය, මාධ්‍ය රාමුව, MMDA ළමා විවාහ සමාන්තරය, සහ බෞද්ධ පොදු සදාචාරය පිළිබඳ civic-accountability dossier එකක්.",
-      "authors": ["Riz Razak"],
-      "tags": ["Sri Lanka", "Child Protection", "Buddhism", "Accountability", "Media Ethics", "MMDA", "Due Process"],
-      "tagsSi": ["ශ්‍රී ලංකාව", "ළමා ආරක්ෂාව", "බුද්ධාගම", "වගවීම", "මාධ්‍ය සදාචාරය", "MMDA", "නීතිමය ක්‍රියාදාමය"],
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Sri Lanka",
+        "Child Protection",
+        "Buddhism",
+        "Accountability",
+        "Media Ethics",
+        "MMDA",
+        "Due Process"
+      ],
+      "tagsSi": [
+        "ශ්‍රී ලංකාව",
+        "ළමා ආරක්ෂාව",
+        "බුද්ධාගම",
+        "වගවීම",
+        "මාධ්‍ය සදාචාරය",
+        "MMDA",
+        "නීතිමය ක්‍රියාදාමය"
+      ],
       "category": "accountability",
       "kickerSi": "වගවීම",
       "thumbnailUrl": "/pallegama-hemarathana-alleged-minor-abuse/thumbnails/pallegama-thumbnail-a-dark-sermon-portrait.png",
       "heroImageUrl": "/pallegama-hemarathana-alleged-minor-abuse/thumbnails/pallegama-thumbnail-a-dark-sermon-portrait.png",
       "contentUrl": "/pallegama-hemarathana-alleged-minor-abuse/index.html",
       "sections": 10,
-      "features": ["Evidence-gated civic essay", "Timeline scrutiny", "Buddhist public ethics", "MMDA parallel child-protection module", "Novice ordination safeguarding frame", "Social propagation notes", "Pali reference layer"],
-      "featuresSi": ["Evidence-gated civic essay", "Timeline scrutiny", "බෞද්ධ පොදු සදාචාරය", "MMDA child-protection module", "සාමණේර safeguarding frame", "Social propagation notes", "Pali reference layer"],
+      "features": [
+        "Evidence-gated civic essay",
+        "Timeline scrutiny",
+        "Buddhist public ethics",
+        "MMDA parallel child-protection module",
+        "Novice ordination safeguarding frame",
+        "Social propagation notes",
+        "Pali reference layer"
+      ],
+      "featuresSi": [
+        "Evidence-gated civic essay",
+        "Timeline scrutiny",
+        "බෞද්ධ පොදු සදාචාරය",
+        "MMDA child-protection module",
+        "සාමණේර safeguarding frame",
+        "Social propagation notes",
+        "Pali reference layer"
+      ],
       "seoTitleSi": "පල්ලෙගම 🍇 ජනතාව vs බලය",
       "seoDescriptionSi": "පල්ලේගම හේමරතන නඩුව ගැන allegation-status, child protection, police process, religious power, MMDA parallel, novice ordination, සහ Buddhist public ethics එක් කරන Analyst dossier එකක්.",
-      "status": "published"
+      "status": "published",
+      "sourceState": "Research gate remains closed for unresolved court/NCPA/police/video/social/right-of-reply/language checks; public page treated only as a safe civic surface pending review.",
+      "gateState": "safe-surface",
+      "gateArtifact": "/Users/rizrazak/Code/research/Political/2026/08. Pallegama Child Abuse Case/04-gates/mara-priya-publication-risk-gate.md",
+      "sourceRegister": "/Users/rizrazak/Code/research/Political/2026/08. Pallegama Child Abuse Case/01-sources/source-register.csv",
+      "claimRegister": "/Users/rizrazak/Code/research/Political/2026/08. Pallegama Child Abuse Case/01-sources/claim-register.csv",
+      "languageState": "Sinhala-heavy public surface; language gate not fully closed for research promotion",
+      "lastSourceRefresh": "2026-05-25",
+      "blockedClaimsSummary": "Do not promote unresolved allegation specifics, victim-identifying material, video/social claims, or court-status assertions beyond the risk gate."
     },
     {
       "id": "mullivaikkal-40000-deaths",
@@ -32,20 +203,58 @@
       "titleSi": "මුල්ලිවෛක්කාල්වල 40,000ක් මැරුණාද?",
       "description": "A source-gated Analyst dossier testing why the claim that 40,000 people died in Mullivaikkal alone is not verified as stated, how the phrase hardens online, and why correction must not become denial.",
       "descriptionSi": "`40,000 people died in Mullivaikkal alone` කියන claim එක stated විදිහට තහවුරු නොවන්නේ ඇයි, ඒ වාක්‍යය onlineවල harden වෙන්නේ කොහොමද, සහ correction එක ප්‍රතික්ෂේප කිරීමක් නොවිය යුත්තේ ඇයි කියලා source-gated Analyst dossier එකක්.",
-      "authors": ["Riz Razak"],
-      "tags": ["Mullivaikkal", "Sri Lanka", "Accountability", "SEO", "War Crimes", "Media Literacy"],
-      "tagsSi": ["මුල්ලිවෛක්කාල්", "ශ්‍රී ලංකාව", "වගවීම", "SEO", "යුද අපරාධ", "Media literacy"],
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Mullivaikkal",
+        "Sri Lanka",
+        "Accountability",
+        "SEO",
+        "War Crimes",
+        "Media Literacy"
+      ],
+      "tagsSi": [
+        "මුල්ලිවෛක්කාල්",
+        "ශ්‍රී ලංකාව",
+        "වගවීම",
+        "SEO",
+        "යුද අපරාධ",
+        "Media literacy"
+      ],
       "category": "politics",
       "kickerSi": "දේශපාලනය",
       "thumbnailUrl": "/mullivaikkal-40000-deaths/thumbnails/horizontal-thumbnail-si-pinned-evidence-board.png",
       "heroImageUrl": "/mullivaikkal-40000-deaths/thumbnails/horizontal-thumbnail-si-pinned-evidence-board.png",
       "contentUrl": "/mullivaikkal-40000-deaths/index.html",
       "sections": 11,
-      "features": ["Source-chain audit", "SEO power map", "Casualty-number matrix", "Sinhala translation layer", "Reference table", "Private analytics ledger"],
-      "featuresSi": ["Source-chain audit", "SEO power map", "Casualty-number matrix", "සිංහල layer", "Reference table", "Private analytics ledger"],
+      "features": [
+        "Source-chain audit",
+        "SEO power map",
+        "Casualty-number matrix",
+        "Sinhala translation layer",
+        "Reference table",
+        "Private analytics ledger"
+      ],
+      "featuresSi": [
+        "Source-chain audit",
+        "SEO power map",
+        "Casualty-number matrix",
+        "සිංහල layer",
+        "Reference table",
+        "Private analytics ledger"
+      ],
       "seoTitleSi": "මුල්ලිවෛක්කාල්වල 40,000ක් මැරුණාද?",
       "seoDescriptionSi": "මුල්ලිවෛක්කාල්වල 40,000ක් මැරුණාද? මෙම Analyst dossier එක `40,000 deaths in Mullivaikkal alone` claim එක, source trail එක, SEO hardening, casualty-number categories, සහ truth without denial ගැන පරීක්ෂා කරයි.",
-      "status": "published"
+      "status": "published",
+      "sourceState": "Published source-gated dossier; register pointers require backfill into P1/P2 schema",
+      "gateState": "legacy-needs-manifest",
+      "gateArtifact": null,
+      "sourceRegister": null,
+      "claimRegister": null,
+      "languageState": "EN/SI live; Tamil test artifacts exist but promotion gate must be mapped",
+      "lastSourceRefresh": null,
+      "blockedClaimsSummary": "Keep correction-without-denial framing; backfill exact source and claim registers before substantive edits."
     },
     {
       "id": "galanguru-coal-corruption",
@@ -54,17 +263,46 @@
       "titleSi": "The Galanguru Files — ගල් අඟුරු, දූෂණය සහ cascading crises",
       "description": "Interactive intelligence dossier on Sri Lanka's coal procurement scandal, NPP government accountability, and the Iran war's cascading impact on a fragile recovery.",
       "descriptionSi": "ශ්‍රී ලංකාවේ coal procurement scandal, NPP government accountability, සහ Iran war එක fragile recovery එකකට ඇති කරන cascading impact ගැන interactive intelligence dossier එකක්.",
-      "authors": ["Riz Razak"],
-      "tags": ["Coal", "Corruption", "Sri Lanka", "NPP", "Procurement", "Energy"],
-      "tagsSi": ["ගල් අඟුරු", "දූෂණය", "ශ්‍රී ලංකාව", "NPP", "Procurement", "Energy"],
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Coal",
+        "Corruption",
+        "Sri Lanka",
+        "NPP",
+        "Procurement",
+        "Energy"
+      ],
+      "tagsSi": [
+        "ගල් අඟුරු",
+        "දූෂණය",
+        "ශ්‍රී ලංකාව",
+        "NPP",
+        "Procurement",
+        "Energy"
+      ],
       "category": "corruption",
       "kickerSi": "දූෂණය",
       "thumbnailUrl": "/images/thumbnails/galanguru-coal-corruption-paper-board-v2.svg",
       "heroImageUrl": "/images/thumbnails/galanguru-coal-corruption-paper-board-v2.svg",
       "contentUrl": "/galanguru-coal-corruption/index.html",
       "sections": 12,
-      "features": ["Interactive intelligence dossier", "Procurement scandal analysis", "Crisis impact mapping", "Trilingual layer"],
-      "status": "published"
+      "features": [
+        "Interactive intelligence dossier",
+        "Procurement scandal analysis",
+        "Crisis impact mapping",
+        "Trilingual layer"
+      ],
+      "status": "published",
+      "sourceState": "legacy publication; source state not yet mapped to the P1/P2 gate schema",
+      "gateState": "legacy-needs-manifest",
+      "gateArtifact": null,
+      "sourceRegister": null,
+      "claimRegister": null,
+      "languageState": "not mapped to gate schema",
+      "lastSourceRefresh": null,
+      "blockedClaimsSummary": "Backfill source register, claim register, gate artifact, language state, and blocked-claim summary before material edits or promotion."
     },
     {
       "id": "happy-womaniser-day",
@@ -73,25 +311,68 @@
       "titleSi": "Happy Womaniser Day! — රාජ්‍ය පුවත්පතක් alleged sexual predator කෙනෙකු platform කළාද?",
       "description": "An investigative dossier examining how the Sunday Observer's 'Observer MUSE' International Women's Day 2026 feature — authored by journalist Anuradha Perera — platformed Vangeesa Sumanasekara, a man facing multiple public sexual harassment allegations, as a champion of women's empowerment.",
       "descriptionSi": "Sunday Observer හි `Observer MUSE` International Women's Day 2026 feature එක, journalist Anuradha Perera විසින් ලියා, public sexual harassment allegations කිහිපයකට මුහුණ දී සිටින Vangeesa Sumanasekara කෙනෙකු women's empowerment champion කෙනෙකු ලෙස platform කළේ කොහොමද කියන investigative dossier එකක්.",
-      "authors": ["Riz Razak"],
-      "tags": ["Sexual Harassment", "Media Accountability", "Women's Rights", "Press Ethics", "Sri Lanka", "International Women's Day"],
-      "tagsSi": ["Sexual harassment", "Media accountability", "කාන්තා අයිතිවාසිකම්", "Press ethics", "ශ්‍රී ලංකාව", "International Women's Day"],
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Sexual Harassment",
+        "Media Accountability",
+        "Women's Rights",
+        "Press Ethics",
+        "Sri Lanka",
+        "International Women's Day"
+      ],
+      "tagsSi": [
+        "Sexual harassment",
+        "Media accountability",
+        "කාන්තා අයිතිවාසිකම්",
+        "Press ethics",
+        "ශ්‍රී ලංකාව",
+        "International Women's Day"
+      ],
       "category": "social-commentary",
       "kickerSi": "සමාජ විවරණය",
       "thumbnailUrl": "/images/thumbnails/happy-womaniser-day-paper-board-v2.svg",
       "heroImageUrl": "/images/thumbnails/happy-womaniser-day-paper-board-v2.svg",
       "contentUrl": "/happy-womaniser-day/index.html",
       "sections": 9,
-      "features": ["Victim testimony compilation", "Media editorial failure analysis", "Institutional pattern mapping", "Facebook evidence preservation", "Sinhala translation", "Legal disclaimer", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner"],
-      "status": "published"
+      "features": [
+        "Victim testimony compilation",
+        "Media editorial failure analysis",
+        "Institutional pattern mapping",
+        "Facebook evidence preservation",
+        "Sinhala translation",
+        "Legal disclaimer",
+        "Dossier sidenav",
+        "Comments v3 (Supabase)",
+        "Privacy banner"
+      ],
+      "status": "published",
+      "sourceState": "legacy publication; source state not yet mapped to the P1/P2 gate schema",
+      "gateState": "legacy-needs-manifest",
+      "gateArtifact": null,
+      "sourceRegister": null,
+      "claimRegister": null,
+      "languageState": "not mapped to gate schema",
+      "lastSourceRefresh": null,
+      "blockedClaimsSummary": "Backfill source register, claim register, gate artifact, language state, and blocked-claim summary before material edits or promotion."
     },
     {
       "id": "iran-us-israel-war",
       "date": "2026-03-06",
       "title": "The War That Changed Everything: Iran, Israel & the Unravelling of American Power",
       "description": "A multi-disciplinary analysis of the February 2026 Iran-US-Israel conflict through geopolitics, game theory, theology, psychology, and history — with dedicated focus on Sri Lanka's strategic position, the tech oligarchy feedback loop, and the 10-15 year window that could change everything.",
-      "authors": ["Riz Razak"],
-      "tags": ["Geopolitics", "War", "Sri Lanka", "Game Theory", "AI", "US Decline"],
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Geopolitics",
+        "War",
+        "Sri Lanka",
+        "Game Theory",
+        "AI",
+        "US Decline"
+      ],
       "category": "geopolitics",
       "thumbnailUrl": "/images/thumbnails/iran-us-israel-war.jpg",
       "heroImageUrl": "/images/thumbnails/iran-us-israel-war.jpg",
@@ -113,7 +394,15 @@
         "Privacy banner",
         "Narrative timeline"
       ],
-      "status": "hidden"
+      "status": "hidden",
+      "sourceState": "Hidden; gate manifest not mapped in P1/P2 schema",
+      "gateState": "hidden-hold",
+      "gateArtifact": null,
+      "sourceRegister": null,
+      "claimRegister": null,
+      "languageState": "not mapped to gate schema",
+      "lastSourceRefresh": null,
+      "blockedClaimsSummary": "Hidden entry must not appear in public lists until gate artifact is mapped and status is changed."
     },
     {
       "id": "caravan-fresh",
@@ -122,32 +411,95 @@
       "titleSi": "Caravan Fresh Chicken Cheese Bomb: consumer advocacy case study එකක්",
       "description": "An investigative analysis of corporate social media marketing practices in Sri Lanka, examining the viral 'Chicken Cheese Bomb' incident — including documented patterns of consumer complaint suppression, brand ambassador deployment, and systematic evidence deletion across 69 retail outlets.",
       "descriptionSi": "ශ්‍රී ලංකාවේ corporate social media marketing practices ගැන investigative analysis එකක්: viral `Chicken Cheese Bomb` incident එක, consumer complaint suppression patterns, brand ambassador deployment, සහ retail outlets 69ක evidence deletion ගැන.",
-      "authors": ["Riz Razak"],
-      "tags": ["Consumer Rights", "Food Safety", "Corporate Accountability", "Social Media", "Sri Lanka"],
-      "tagsSi": ["Consumer rights", "Food safety", "Corporate accountability", "Social media", "ශ්‍රී ලංකාව"],
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Consumer Rights",
+        "Food Safety",
+        "Corporate Accountability",
+        "Social Media",
+        "Sri Lanka"
+      ],
+      "tagsSi": [
+        "Consumer rights",
+        "Food safety",
+        "Corporate accountability",
+        "Social media",
+        "ශ්‍රී ලංකාව"
+      ],
       "category": "corruption",
       "kickerSi": "දූෂණය",
       "thumbnailUrl": "/images/thumbnails/caravan-fresh-kitchen-counter-v3.svg",
       "heroImageUrl": "/images/thumbnails/caravan-fresh-kitchen-counter-v3.svg",
       "contentUrl": "/caravan-fresh/index.html",
       "sections": 10,
-      "features": ["69-outlet geocoded map", "Behavioral pattern analysis", "Timeline reconstruction", "Evidence preservation", "Sinhala translation", "Dark mode", "Legal disclaimer", "Pledge portal", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
-      "status": "published"
+      "features": [
+        "69-outlet geocoded map",
+        "Behavioral pattern analysis",
+        "Timeline reconstruction",
+        "Evidence preservation",
+        "Sinhala translation",
+        "Dark mode",
+        "Legal disclaimer",
+        "Pledge portal",
+        "Dossier sidenav",
+        "Comments v3 (Supabase)",
+        "Privacy banner",
+        "Narrative timeline"
+      ],
+      "status": "published",
+      "sourceState": "legacy publication; source state not yet mapped to the P1/P2 gate schema",
+      "gateState": "legacy-needs-manifest",
+      "gateArtifact": null,
+      "sourceRegister": null,
+      "claimRegister": null,
+      "languageState": "not mapped to gate schema",
+      "lastSourceRefresh": null,
+      "blockedClaimsSummary": "Backfill source register, claim register, gate artifact, language state, and blocked-claim summary before material edits or promotion."
     },
     {
       "id": "easter-sunday-attacks-suresh-sallay",
       "date": "2026-02-26",
-      "title": "The Sallay Arrest & the Easter Sunday Conspiracy — Political Research Dossier",
-      "description": "A deep investigation into the arrest of intelligence operative Suresh Sallay, the Easter Sunday bombings conspiracy, and the political machinations connecting Sri Lanka's intelligence apparatus to the worst terrorist attack in the nation's history.",
-      "authors": ["Riz Razak"],
-      "tags": ["Terrorism", "Sri Lanka", "Politics", "Intelligence", "Religion", "Conspiracy"],
+      "title": "The Saleh Arrest & the Easter Sunday Conspiracy — Political Research Dossier",
+      "description": "A deep investigation into the arrest of intelligence operative Suresh Saleh, the Easter Sunday bombings conspiracy, and the political machinations connecting Sri Lanka's intelligence apparatus to the worst terrorist attack in the nation's history.",
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Terrorism",
+        "Sri Lanka",
+        "Politics",
+        "Intelligence",
+        "Religion",
+        "Conspiracy"
+      ],
       "category": "geopolitics",
       "thumbnailUrl": "/images/og-card.png",
       "heroImageUrl": "/images/og-card.png",
       "contentUrl": "/easter-sunday-attacks-suresh-sallay/index.html",
       "sections": 14,
-      "features": ["Exhaustive conspiracy board", "Zahran Hashim deep dive", "Game theory analysis", "Timeline analysis", "Misinformation/disinformation audit", "Scenario modelling", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
-      "status": "hidden"
+      "features": [
+        "Exhaustive conspiracy board",
+        "Zahran Hashim deep dive",
+        "Game theory analysis",
+        "Timeline analysis",
+        "Misinformation/disinformation audit",
+        "Scenario modelling",
+        "Dossier sidenav",
+        "Comments v3 (Supabase)",
+        "Privacy banner",
+        "Narrative timeline"
+      ],
+      "status": "hidden",
+      "sourceState": "Hidden; working research consolidated in case folder; claim-check, legal/adversarial, ethics, language, source refresh, and right-of-reply gates remain open.",
+      "gateState": "hidden-hold",
+      "gateArtifact": "/Users/rizrazak/Code/research/Political/2026/Sri Lanka/Easter Sunday Attacks - Suresh Sallay Arrest/sessions/priya-team-lead-continuation-report-sallay-2026-06-27.md",
+      "sourceRegister": null,
+      "claimRegister": "/Users/rizrazak/Code/research/Political/2026/Sri Lanka/Easter Sunday Attacks - Suresh Sallay Arrest/research/easter-sallay-statusquo-synthesis-and-narrative-2026-06-26.md",
+      "languageState": "Sinhala ASR transcript is RAW/UNVERIFIED; no quotes without language gate",
+      "lastSourceRefresh": "2026-06-27",
+      "blockedClaimsSummary": "Do not publish unadjudicated conspiracy claims, Sinhala ASR quotes, or live-court updates until claim-check and legal/adversarial gates clear."
     },
     {
       "id": "sri-lanka-cricket-corruption",
@@ -156,17 +508,52 @@
       "titleSi": "ශ්‍රී ලංකා ක්‍රිකට්ගේ මරණය: දේශපාලනය, mafia සහ විනාශයට යන මාර්ගය",
       "description": "How political patronage, a \"cricket mafia\", toxic fan culture, and systemic institutional rot destroyed a once-proud cricketing nation — and why the new government appears powerless to fix it.",
       "descriptionSi": "Political patronage, `cricket mafia`, toxic fan culture සහ institutional rot එක, එක කාලෙක ආඩම්බර වූ cricket nation එකක් විනාශ කළේ කොහොමද — සහ නව රජය ඒක හදාගන්න අසමත් වගේ පේන්නේ ඇයි.",
-      "authors": ["Riz Razak"],
-      "tags": ["Cricket", "Corruption", "Sports", "Politics", "Sri Lanka"],
-      "tagsSi": ["ක්‍රිකට්", "දූෂණය", "ක්‍රීඩා", "දේශපාලනය", "ශ්‍රී ලංකාව"],
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Cricket",
+        "Corruption",
+        "Sports",
+        "Politics",
+        "Sri Lanka"
+      ],
+      "tagsSi": [
+        "ක්‍රිකට්",
+        "දූෂණය",
+        "ක්‍රීඩා",
+        "දේශපාලනය",
+        "ශ්‍රී ලංකාව"
+      ],
       "category": "corruption",
       "kickerSi": "දූෂණය",
       "thumbnailUrl": "/images/thumbnails/sri-lanka-cricket-stadium-v2.svg",
       "heroImageUrl": "/images/thumbnails/sri-lanka-cricket-stadium-v2.svg",
       "contentUrl": "/sri-lanka-cricket-corruption/index.html",
       "sections": 15,
-      "features": ["Game theory analysis", "Conspiracy board", "Stakeholder mapping", "Interactive power network", "KalathmaGate conduct files", "Sinhala translation", "Spam-filtered comments", "GDPR compliant", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
-      "status": "published"
+      "features": [
+        "Game theory analysis",
+        "Conspiracy board",
+        "Stakeholder mapping",
+        "Interactive power network",
+        "KalathmaGate conduct files",
+        "Sinhala translation",
+        "Spam-filtered comments",
+        "GDPR compliant",
+        "Dossier sidenav",
+        "Comments v3 (Supabase)",
+        "Privacy banner",
+        "Narrative timeline"
+      ],
+      "status": "published",
+      "sourceState": "legacy publication; source state not yet mapped to the P1/P2 gate schema",
+      "gateState": "legacy-needs-manifest",
+      "gateArtifact": null,
+      "sourceRegister": null,
+      "claimRegister": null,
+      "languageState": "not mapped to gate schema",
+      "lastSourceRefresh": null,
+      "blockedClaimsSummary": "Backfill source register, claim register, gate artifact, language state, and blocked-claim summary before material edits or promotion."
     },
     {
       "id": "anatta-bamiyan",
@@ -175,17 +562,48 @@
       "titleSi": "The Form Was Empty — Anatta, Bamiyan සහ non-self ධර්මය",
       "description": "A philosophical exploration connecting the Buddhist doctrine of Anatta (non-self) with the destruction of the Bamiyan Buddhas — examining how the statues' absence paradoxically embodies the teaching they once represented.",
       "descriptionSi": "Anatta හෙවත් non-self බෞද්ධ ධර්මය Bamiyan Buddhas විනාශය සමඟ සම්බන්ධ කරන philosophical exploration එකක් — පිළිම නොමැතිවීම ඒවා නියෝජනය කළ teaching එක paradoxically පෙන්වන්නේ කොහොමද කියලා බලයි.",
-      "authors": ["Riz Razak"],
-      "tags": ["Philosophy", "Buddhism", "Anatta", "Bamiyan", "Religion", "Sri Lanka"],
-      "tagsSi": ["Philosophy", "බුද්ධාගම", "Anatta", "Bamiyan", "ආගම", "ශ්‍රී ලංකාව"],
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Philosophy",
+        "Buddhism",
+        "Anatta",
+        "Bamiyan",
+        "Religion",
+        "Sri Lanka"
+      ],
+      "tagsSi": [
+        "Philosophy",
+        "බුද්ධාගම",
+        "Anatta",
+        "Bamiyan",
+        "ආගම",
+        "ශ්‍රී ලංකාව"
+      ],
       "category": "philosophy",
       "kickerSi": "දර්ශනය",
       "thumbnailUrl": "/images/thumbnails/anatta-bamiyan-empty-niche-v3.svg",
       "heroImageUrl": "/images/thumbnails/anatta-bamiyan-empty-niche-v3.svg",
       "contentUrl": "/anatta-bamiyan/index.html",
       "sections": 8,
-      "features": ["Quantum physics parallels", "Buddhist philosophy deep dive", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
-      "status": "published"
+      "features": [
+        "Quantum physics parallels",
+        "Buddhist philosophy deep dive",
+        "Dossier sidenav",
+        "Comments v3 (Supabase)",
+        "Privacy banner",
+        "Narrative timeline"
+      ],
+      "status": "published",
+      "sourceState": "legacy publication; source state not yet mapped to the P1/P2 gate schema",
+      "gateState": "legacy-needs-manifest",
+      "gateArtifact": null,
+      "sourceRegister": null,
+      "claimRegister": null,
+      "languageState": "not mapped to gate schema",
+      "lastSourceRefresh": null,
+      "blockedClaimsSummary": "Backfill source register, claim register, gate artifact, language state, and blocked-claim summary before material edits or promotion."
     },
     {
       "id": "sri-lanka-hormuz-crisis",
@@ -194,17 +612,50 @@
       "titleSi": "ශ්‍රී ලංකාව සහ Hormuz crisis — දැනගත යුතු දේ",
       "description": "A comprehensive analysis of how the Strait of Hormuz crisis impacts Sri Lanka's energy security, economic stability, and geopolitical positioning — with trilingual coverage in English, Sinhala, and Tamil.",
       "descriptionSi": "Strait of Hormuz crisis එක ශ්‍රී ලංකාවේ energy security, economic stability සහ geopolitical positioning වලට බලපාන්නේ කොහොමද කියන comprehensive analysis එකක් — English, Sinhala, Tamil තුන් භාෂාවෙන්.",
-      "authors": ["Riz Razak"],
-      "tags": ["Geopolitics", "Energy", "Sri Lanka", "Oil", "Hormuz", "Economics"],
-      "tagsSi": ["Geopolitics", "Energy", "ශ්‍රී ලංකාව", "Oil", "Hormuz", "ආර්ථිකය"],
+      "authors": [
+        "Riz Razak"
+      ],
+      "tags": [
+        "Geopolitics",
+        "Energy",
+        "Sri Lanka",
+        "Oil",
+        "Hormuz",
+        "Economics"
+      ],
+      "tagsSi": [
+        "Geopolitics",
+        "Energy",
+        "ශ්‍රී ලංකාව",
+        "Oil",
+        "Hormuz",
+        "ආර්ථිකය"
+      ],
       "category": "geopolitics",
       "kickerSi": "Geopolitics",
       "thumbnailUrl": "/images/thumbnails/sri-lanka-hormuz-shipping-lane.svg",
       "heroImageUrl": "/images/thumbnails/sri-lanka-hormuz-shipping-lane.svg",
       "contentUrl": "/sri-lanka-hormuz-crisis/index.html",
       "sections": 19,
-      "features": ["Trilingual (EN/SI/TA)", "Energy security modelling", "Fuel reserve analysis", "Economic impact projections", "Dossier sidenav", "Comments v3 (Supabase)", "Privacy banner", "Narrative timeline"],
-      "status": "published"
+      "features": [
+        "Trilingual (EN/SI/TA)",
+        "Energy security modelling",
+        "Fuel reserve analysis",
+        "Economic impact projections",
+        "Dossier sidenav",
+        "Comments v3 (Supabase)",
+        "Privacy banner",
+        "Narrative timeline"
+      ],
+      "status": "published",
+      "sourceState": "legacy publication; source state not yet mapped to the P1/P2 gate schema",
+      "gateState": "legacy-needs-manifest",
+      "gateArtifact": null,
+      "sourceRegister": null,
+      "claimRegister": null,
+      "languageState": "not mapped to gate schema",
+      "lastSourceRefresh": null,
+      "blockedClaimsSummary": "Backfill source register, claim register, gate artifact, language state, and blocked-claim summary before material edits or promotion."
     }
   ],
   "internal": [
@@ -215,5 +666,16 @@
       "contentUrl": "/architecture-census/index.html",
       "status": "internal"
     }
-  ]
+  ],
+  "gateSchemaVersion": "2026-06-27.p1p2",
+  "gateSchema": {
+    "sourceState": "Human-readable source posture for public display or operator review.",
+    "gateState": "hold | safe-surface | publish-ready | legacy-needs-manifest | hidden-hold",
+    "gateArtifact": "Path to the research release decision or publication gate artifact when available.",
+    "sourceRegister": "Path to the canonical source register when available.",
+    "claimRegister": "Path to the canonical claim register when available.",
+    "languageState": "Language review posture for public copy.",
+    "lastSourceRefresh": "YYYY-MM-DD of latest source refresh when known.",
+    "blockedClaimsSummary": "Public-safe summary of claims intentionally not promoted."
+  }
 }

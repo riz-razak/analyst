@@ -1,0 +1,3 @@
+decision_id,project,owner,decision,evidence,status,date
+DEC-ANALYST-001,analyst,Priya,Canonical v0.1 harness root established,Clean rebuild 2026-06-28,accepted,2026-06-28
+DEC-ANALYST-002,analyst,Priya,Hermes extension accepted as publication-safe packet layer only,06-handoffs/HANDOFF_HERMES_EXTENSION_2026_06_28.md,accepted,2026-06-28

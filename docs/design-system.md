@@ -1,3 +1,10 @@
+# Analyst Design System Notes
+
+> **STATUS: PRE-CANON REFERENCE.** Yan design canon now lives in
+> `/Users/rizrazak/Code/yan/design-system/CANON.md` and
+> `/Users/rizrazak/Code/yan/design-system/canon-tokens.json`. Treat this file as historical notes plus
+> Analyst-specific override context. Do not use it as an independent token authority.
+
 # WarenYan + rizrazak.com — Design Rules
 
 These rules apply across all Riz Razak projects: `yan` (WarenYan Ops), `analyst` (rizrazak.com), and any future repos under this umbrella.

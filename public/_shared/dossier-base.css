@@ -13,7 +13,7 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
 }
 
 /* ============================================================================
@@ -21,24 +21,25 @@ html {
    ============================================================================ */
 :root {
     /* Color Palette */
-    --color-bg: #f4f4fa;
-    --color-text: #1a1a2e;
-    --color-text-secondary: #6b6b7a;
-    --color-card: #e0e0ec;
-    --color-gold: #a88700;
-    --color-green: #2d7a3e;
-    --color-red: #cc2020;
-    --color-amber: #d97706;
-    --color-border: rgba(0, 0, 0, 0.1);
-    --color-badge: rgba(0, 100, 0, 0.12);
-    --color-badge-text: #2d7a3e;
-    --color-badge-border: rgba(0, 100, 0, 0.3);
+    --color-bg: var(--bg, #FAFAF8);
+    --color-text: var(--text, #1A1A2E);
+    --color-text-secondary: var(--text-secondary, #5C5C6B);
+    --color-card: var(--surface, #FFFFFF);
+    --color-gold: var(--earth, #C4A35A);
+    --color-green: var(--accent, #2D6A4F);
+    --color-red: var(--danger, #8A2D2D);
+    --color-amber: var(--warn, #7A5A16);
+    --color-border: var(--border, #E5E1DA);
+    --color-badge: var(--green-subtle, #EAF3DE);
+    --color-badge-text: var(--accent, #2D6A4F);
+    --color-badge-border: var(--border-strong, #D8D2C7);
 
     /* Typography */
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
     --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+    --font-tamil: 'Noto Sans Tamil', sans-serif;
 
     /* Spacing & Layout */
     --spacing-xs: 0.5rem;
@@ -49,38 +50,20 @@ html {
     --spacing-2xl: 4rem;
 
     /* Border Radius */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
+    --radius-sm: var(--radius-sm, 8px);
+    --radius-md: var(--radius-md, 12px);
+    --radius-lg: var(--radius-lg, 16px);
 
     /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-sm: var(--shadow-sm, 0 1px 2px rgba(26,26,46,.06), 0 1px 3px rgba(26,26,46,.04));
+    --shadow-md: var(--shadow-md, var(--shadow-sm));
+    --shadow-lg: var(--shadow-md);
 
     /* Z-index Stack */
     --z-header: 100;
     --z-nav: 90;
     --z-modal: 1000;
     --z-tooltip: 999;
-}
-
-/* ============================================================================
-   CSS CUSTOM PROPERTIES - DARK MODE
-   ============================================================================ */
-[data-theme="dark"] {
-    --color-bg: #0f0f1a;
-    --color-text: #e0e0e0;
-    --color-text-secondary: #a0a0a8;
-    --color-card: #1a1a2e;
-    --color-gold: #d4af37;
-    --color-green: #4ade80;
-    --color-red: #ff6b6b;
-    --color-amber: #fbbf24;
-    --color-border: rgba(255, 255, 255, 0.1);
-    --color-badge: rgba(76, 175, 80, 0.15);
-    --color-badge-text: #4ade80;
-    --color-badge-border: rgba(76, 175, 80, 0.4);
 }
 
 /* ============================================================================
@@ -91,7 +74,7 @@ body {
     background-color: var(--color-bg);
     color: var(--color-text);
     line-height: 1.6;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color var(--motion-fast, 0.12s ease), color var(--motion-fast, 0.12s ease);
     font-size: 16px;
 }
 
@@ -103,7 +86,7 @@ h1 {
     font-size: 48px;
     font-weight: 900;
     line-height: 1.1;
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     margin: var(--spacing-lg) 0 var(--spacing-md) 0;
     color: var(--color-text);
 }
@@ -113,7 +96,7 @@ h2 {
     font-size: 42px;
     font-weight: 700;
     line-height: 1.2;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     margin: var(--spacing-xl) 0 var(--spacing-md) 0;
     color: var(--color-text);
 }
@@ -255,7 +238,7 @@ ol ol {
 }
 
 /* ============================================================================
-   TYPOGRAPHY - SINHALA TEXT
+   TYPOGRAPHY - LOCAL LANGUAGE TEXT
    ============================================================================ */
 [lang="si"],
 [data-lang="si"] {
@@ -264,11 +247,19 @@ ol ol {
     line-height: 1.8;
 }
 
+[lang="ta"],
+[data-lang="ta"] {
+    font-family: var(--font-tamil);
+    letter-spacing: 0;
+    line-height: 1.8;
+}
+
 /* ============================================================================
-   LANGUAGE TOGGLE - BILINGUAL DISPLAY
+   LANGUAGE TOGGLE - MULTILINGUAL DISPLAY
    ============================================================================ */
-/* Default: English visible, Sinhala hidden */
-[data-lang="si"] {
+/* Default: English visible, local-language layers hidden */
+[data-lang="si"],
+[data-lang="ta"] {
     display: none;
 }
 
@@ -281,21 +272,42 @@ body.show-sinhala [data-lang="si"] {
     display: inline;
 }
 
-body.show-sinhala [data-lang="en"] {
+body.show-sinhala [data-lang="en"],
+body.show-sinhala [data-lang="ta"] {
+    display: none;
+}
+
+/* When language is switched to Tamil */
+body.show-tamil [data-lang="ta"] {
+    display: inline;
+}
+
+body.show-tamil [data-lang="en"],
+body.show-tamil [data-lang="si"] {
     display: none;
 }
 
 /* Block-level language elements */
 div[data-lang="si"],
+div[data-lang="ta"],
 section[data-lang="si"],
+section[data-lang="ta"],
 article[data-lang="si"],
+article[data-lang="ta"],
 p[data-lang="si"],
+p[data-lang="ta"],
 h1[data-lang="si"],
+h1[data-lang="ta"],
 h2[data-lang="si"],
+h2[data-lang="ta"],
 h3[data-lang="si"],
+h3[data-lang="ta"],
 h4[data-lang="si"],
+h4[data-lang="ta"],
 h5[data-lang="si"],
-h6[data-lang="si"] {
+h5[data-lang="ta"],
+h6[data-lang="si"],
+h6[data-lang="ta"] {
     display: none;
 }
 
@@ -313,15 +325,61 @@ body.show-sinhala h6[data-lang="si"] {
 }
 
 body.show-sinhala div[data-lang="en"],
+body.show-sinhala div[data-lang="ta"],
 body.show-sinhala section[data-lang="en"],
+body.show-sinhala section[data-lang="ta"],
 body.show-sinhala article[data-lang="en"],
+body.show-sinhala article[data-lang="ta"],
 body.show-sinhala p[data-lang="en"],
+body.show-sinhala p[data-lang="ta"],
 body.show-sinhala h1[data-lang="en"],
+body.show-sinhala h1[data-lang="ta"],
 body.show-sinhala h2[data-lang="en"],
+body.show-sinhala h2[data-lang="ta"],
 body.show-sinhala h3[data-lang="en"],
+body.show-sinhala h3[data-lang="ta"],
 body.show-sinhala h4[data-lang="en"],
+body.show-sinhala h4[data-lang="ta"],
 body.show-sinhala h5[data-lang="en"],
-body.show-sinhala h6[data-lang="en"] {
+body.show-sinhala h5[data-lang="ta"],
+body.show-sinhala h6[data-lang="en"],
+body.show-sinhala h6[data-lang="ta"] {
+    display: none;
+}
+
+body.show-tamil div[data-lang="ta"],
+body.show-tamil section[data-lang="ta"],
+body.show-tamil article[data-lang="ta"],
+body.show-tamil p[data-lang="ta"],
+body.show-tamil h1[data-lang="ta"],
+body.show-tamil h2[data-lang="ta"],
+body.show-tamil h3[data-lang="ta"],
+body.show-tamil h4[data-lang="ta"],
+body.show-tamil h5[data-lang="ta"],
+body.show-tamil h6[data-lang="ta"] {
+    display: block;
+}
+
+body.show-tamil div[data-lang="en"],
+body.show-tamil div[data-lang="si"],
+body.show-tamil section[data-lang="en"],
+body.show-tamil section[data-lang="si"],
+body.show-tamil article[data-lang="en"],
+body.show-tamil article[data-lang="si"],
+body.show-tamil p[data-lang="en"],
+body.show-tamil p[data-lang="si"],
+body.show-tamil h1[data-lang="en"],
+body.show-tamil h1[data-lang="si"],
+body.show-tamil h2[data-lang="en"],
+body.show-tamil h2[data-lang="si"],
+body.show-tamil h3[data-lang="en"],
+body.show-tamil h3[data-lang="si"],
+body.show-tamil h4[data-lang="en"],
+body.show-tamil h4[data-lang="si"],
+body.show-tamil h5[data-lang="en"],
+body.show-tamil h5[data-lang="si"],
+body.show-tamil h6[data-lang="en"],
+body.show-tamil h6[data-lang="si"] {
     display: none;
 }
 
@@ -336,14 +394,9 @@ header {
     position: sticky;
     top: 0;
     z-index: var(--z-header);
-    background: rgba(244, 244, 250, 0.97);
+    background: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
-    backdrop-filter: blur(10px);
-    transition: background 0.3s ease;
-}
-
-[data-theme="dark"] header {
-    background: rgba(15, 15, 26, 0.97);
+    transition: background var(--motion-fast, 0.12s ease);
 }
 
 /* ── Single info row ── */
@@ -745,10 +798,6 @@ footer a:hover {
     background-color: var(--color-text);
     transform: translateY(-2px);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-}
-
-[data-theme="dark"] .floating-pledge {
-    background-color: var(--color-gold);
 }
 
 @media (max-width: 768px) {

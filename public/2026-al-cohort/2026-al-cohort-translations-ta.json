@@ -1,0 +1,593 @@
+{
+  "file": "public/2026-al-cohort/index.html",
+  "target_lang": "ta",
+  "model": "NMT",
+  "total_en_elements": 97,
+  "already_translated": 0,
+  "newly_translated": 97,
+  "errors": [],
+  "translations": [
+    {
+      "cms_id": "al-page-01-en",
+      "target_cms_id": "al-page-01-ta",
+      "en_preview": "Education · Policy & Law",
+      "ta_preview": "கல்வி · கொள்கை மற்றும் சட்டம்"
+    },
+    {
+      "cms_id": "al-page-02-en",
+      "target_cms_id": "al-page-02-ta",
+      "en_preview": "The Cohort That Paid the Bill",
+      "ta_preview": "கட்டணத்தைச் செலுத்திய குழு"
+    },
+    {
+      "cms_id": "al-page-03-en",
+      "target_cms_id": "al-page-03-ta",
+      "en_preview": "Sri Lanka broke its examination calendar in 2020. In 2026 it decided to finish r",
+      "ta_preview": "இலங்கை 2020-ல் தனது தேர்வு அட்டவணையைச் சீர்குலைத்தது. 2026-ல் அதை ஒரேயடியாகச் சர"
+    },
+    {
+      "cms_id": "al-page-04-en",
+      "target_cms_id": "al-page-04-ta",
+      "en_preview": "19 days to the exam",
+      "ta_preview": "தேர்வுக்கு இன்னும் 19 நாட்கள் உள்ளன."
+    },
+    {
+      "cms_id": "al-page-05-en",
+      "target_cms_id": "al-page-05-ta",
+      "en_preview": "Sign the petition →",
+      "ta_preview": "மனுவில் கையொப்பமிடுங்கள் →"
+    },
+    {
+      "cms_id": "al-stakes-01-en",
+      "target_cms_id": "al-stakes-01-ta",
+      "en_preview": "On 10 August, Sri Lankan teenagers are scheduled to begin sitting the G.C.E. Adv",
+      "ta_preview": "ஆகஸ்ட் 10 அன்று, இலங்கை இளம் பருவத்தினர் GCE உயர் மட்டத் தேர்வை எழுதத் தொடங்க உள"
+    },
+    {
+      "cms_id": "al-stakes-02-en",
+      "target_cms_id": "al-stakes-02-ta",
+      "en_preview": "The complaint against the date fits in a sentence: this cohort got less time tha",
+      "ta_preview": "அந்தத் தேதிக்கு எதிரான புகார் ஒரே வாக்கியத்தில் அடங்கிவிடுகிறது: இந்தக் குழுவினர"
+    },
+    {
+      "cms_id": "al-calendar-01-en",
+      "target_cms_id": "al-calendar-01-ta",
+      "en_preview": "The calendar that never got fixed",
+      "ta_preview": "சரிசெய்யப்படாத நாட்காட்டி"
+    },
+    {
+      "cms_id": "al-calendar-02-en",
+      "target_cms_id": "al-calendar-02-ta",
+      "en_preview": "Sri Lanka's A/L examination has a historical slot: August. It has not reliably o",
+      "ta_preview": "இலங்கையின் A/L தேர்வுக்கு வரலாற்று ரீதியாக ஆகஸ்ட் மாதம் ஒரு கால அட்டவணை உள்ளது. "
+    },
+    {
+      "cms_id": "al-calendar-03-en",
+      "target_cms_id": "al-calendar-03-ta",
+      "en_preview": "COVID pushed the 2020 sitting to October. The 2021 examination was not held unti",
+      "ta_preview": "கோவிட் பெருந்தொற்று 2020 ஆம் ஆண்டுத் தேர்வை அக்டோபர் மாதத்திற்குத் தள்ளிவிட்டது."
+    },
+    {
+      "cms_id": "al-calendar-04-en",
+      "target_cms_id": "al-calendar-04-ta",
+      "en_preview": "So the repair was already under way, and roughly half of it had been absorbed ac",
+      "ta_preview": "ஆகவே, சீரமைப்புப் பணிகள் ஏற்கனவே தொடங்கிவிட்டன, மேலும் அதில் ஏறக்குறைய பாதி 2024"
+    },
+    {
+      "cms_id": "al-calendar-05-en",
+      "target_cms_id": "al-calendar-05-ta",
+      "en_preview": "Static summary: the A/L drifted from its August slot in 2020 to a six-month peak",
+      "ta_preview": "நிலையான சுருக்கம்: A/L (A/L) 2020-ல் அதன் ஆகஸ்ட் இடத்திலிருந்து விலகி, 2022-ல் ஆ"
+    },
+    {
+      "cms_id": "al-calendar-06-en",
+      "target_cms_id": "al-calendar-06-ta",
+      "en_preview": "The drift, and the snap. Months later than the August slot, by sitting. Claims A",
+      "ta_preview": "நகர்வும், திடீர் மாற்றமும். ஆகஸ்ட் மாதத் தேதியை விடப் பல மாதங்கள் தாமதமாக, அமர்வ"
+    },
+    {
+      "cms_id": "al-calendar-07-en",
+      "target_cms_id": "al-calendar-07-ta",
+      "en_preview": "That is the actual decision under dispute. Not an arbitrary lurch, but the final",
+      "ta_preview": "அதுதான் உண்மையில் சர்ச்சைக்குரிய முடிவு. அது ஒரு தன்னிச்சையான திடீர் மாற்றம் அல்"
+    },
+    {
+      "cms_id": "al-calendar-08-en",
+      "target_cms_id": "al-calendar-08-ta",
+      "en_preview": "It is worth being precise about who benefits, because the government's argument ",
+      "ta_preview": "யார் பயனடைகிறார்கள் என்பதில் துல்லியமாக இருப்பது அவசியம், ஏனெனில் அரசாங்கத்தின் "
+    },
+    {
+      "cms_id": "al-calendar-09-en",
+      "target_cms_id": "al-calendar-09-ta",
+      "en_preview": "There is a second point in the state's favour that its critics have not engaged ",
+      "ta_preview": "மாநிலத்திற்குச் சாதகமான இரண்டாவது அம்சம் ஒன்றை அதன் விமர்சகர்கள் கவனத்தில் கொள்ள"
+    },
+    {
+      "cms_id": "al-calendar-10-en",
+      "target_cms_id": "al-calendar-10-ta",
+      "en_preview": "The question is whether it was done transparently, and whether anything was offe",
+      "ta_preview": "அது வெளிப்படைத்தன்மையுடன் செய்யப்பட்டதா என்பதும், அதற்குப் பதிலாக ஏதேனும் வழங்கப"
+    },
+    {
+      "cms_id": "al-arithmetic-01-en",
+      "target_cms_id": "al-arithmetic-01-ta",
+      "en_preview": "One number, answering a different question",
+      "ta_preview": "ஒரு எண், வேறு ஒரு கேள்விக்குப் பதிலளிக்கிறது."
+    },
+    {
+      "cms_id": "al-arithmetic-02-en",
+      "target_cms_id": "al-arithmetic-02-ta",
+      "en_preview": "The Ministry of Education, Higher Education and Vocational Education has rested ",
+      "ta_preview": "கல்வி, உயர் கல்வி மற்றும் தொழிற்கல்வி அமைச்சகம் தனது பொது வாதத்தை ஒரே ஒரு கணிதக்"
+    },
+    {
+      "cms_id": "al-arithmetic-03-en",
+      "target_cms_id": "al-arithmetic-03-ta",
+      "en_preview": "The Ministry has published the window it is counting: 10 October 2024 to 7 Augus",
+      "ta_preview": "அமைச்சகம், ஜூன் மாதம் வெளியிட்ட ஒரு விவரப் பிரிவில், அது கணக்கிடும் கால அளவை வெள"
+    },
+    {
+      "cms_id": "al-arithmetic-04-en",
+      "target_cms_id": "al-arithmetic-04-ta",
+      "en_preview": "The 343 days are a two-year total . The complaint is about the final run-in. A s",
+      "ta_preview": "அந்த 343 நாட்கள் என்பது இரண்டு ஆண்டுகளுக்கான மொத்தக் காலம் . புகார் என்பது இறுதி"
+    },
+    {
+      "cms_id": "al-arithmetic-05-en",
+      "target_cms_id": "al-arithmetic-05-ta",
+      "en_preview": "Static summary: the Ministry's 343 school days is a two-year teaching total meas",
+      "ta_preview": "புள்ளிவிவரச் சுருக்கம்: அமைச்சகத்தின் 343 பள்ளி நாட்கள் என்பது, ஆசிரியர்கள் பாடத"
+    },
+    {
+      "cms_id": "al-arithmetic-06-en",
+      "target_cms_id": "al-arithmetic-06-ta",
+      "en_preview": "Two rulers, one calendar. Claims B1 B2 B3 B5 . The Ministry's 343 school days is",
+      "ta_preview": "இரண்டு அளவுகோல்கள், ஒரு நாட்காட்டி. கூற்றுகள் B1 B2 B3 B5 . அமைச்சகத்தின் 343 பள"
+    },
+    {
+      "cms_id": "al-arithmetic-07-en",
+      "target_cms_id": "al-arithmetic-07-ta",
+      "en_preview": "What has not been published is the derivation — how 343 was arrived at within th",
+      "ta_preview": "வெளியிடப்படாத விஷயம் என்னவென்றால், அந்த காலக்கட்டத்திற்குள் 343 என்ற எண் எவ்வாறு"
+    },
+    {
+      "cms_id": "al-arithmetic-08-en",
+      "target_cms_id": "al-arithmetic-08-ta",
+      "en_preview": "A single Right to Information request for the derivation, the NIE guideline docu",
+      "ta_preview": "வருவித்தல் முறை, NIE வழிகாட்டுதல் ஆவணம், மற்றும் திட்வாவுக்குப் பிறகு ஆகஸ்ட் தேத"
+    },
+    {
+      "cms_id": "al-arithmetic-09-en",
+      "target_cms_id": "al-arithmetic-09-ta",
+      "en_preview": "The critics' arithmetic is looser still. Students told Sinhala-language media in",
+      "ta_preview": "விமர்சகர்களின் கணக்கீடு இன்னும் தளர்வானது. முந்தைய தொகுப்புகளுக்கு இருபத்தேழு மு"
+    },
+    {
+      "cms_id": "al-arithmetic-10-en",
+      "target_cms_id": "al-arithmetic-10-ta",
+      "en_preview": "But the two sides do not stand in the same place. The students are teenagers mak",
+      "ta_preview": "ஆனால் இரு தரப்பினரும் ஒரே நிலையில் இல்லை. மாணவர்கள் பத்திரிகையாளர் சந்திப்புகள் "
+    },
+    {
+      "cms_id": "al-mitigation-01-en",
+      "target_cms_id": "al-mitigation-01-ta",
+      "en_preview": "What was not offered",
+      "ta_preview": "வழங்கப்படாதவை"
+    },
+    {
+      "cms_id": "al-mitigation-02-en",
+      "target_cms_id": "al-mitigation-02-ta",
+      "en_preview": "Here the comparison with other countries stops being academic.",
+      "ta_preview": "இத்துடன் மற்ற நாடுகளுடனான ஒப்பீடு வெறும் கல்விசார்ந்ததாக நின்றுவிடுகிறது."
+    },
+    {
+      "cms_id": "al-mitigation-03-en",
+      "target_cms_id": "al-mitigation-03-ta",
+      "en_preview": "Every comparable system that put its examinations back together after COVID pair",
+      "ta_preview": "கோவிட் பெருந்தொற்றுக்குப் பிறகு தங்கள் தேர்வுகளை மீண்டும் ஒருங்கிணைத்த ஒவ்வொரு ஒ"
+    },
+    {
+      "cms_id": "al-mitigation-04-en",
+      "target_cms_id": "al-mitigation-04-ta",
+      "en_preview": "Static summary: India, Bangladesh and the UK all paired post-COVID calendar rest",
+      "ta_preview": "நிலையான சுருக்கம்: இந்தியா, வங்கதேசம் மற்றும் ஐக்கிய இராச்சியம் ஆகிய நாடுகள் அனை"
+    },
+    {
+      "cms_id": "al-mitigation-05-en",
+      "target_cms_id": "al-mitigation-05-ta",
+      "en_preview": "What came first — the relief, or the calendar. Claims C1 C2 C3 C4 A1 . The Sri L",
+      "ta_preview": "முதலில் வந்தது எது — நிவாரணமா, அல்லது கால அட்டவணையா. உரிமைகோரல்கள் C1 C2 C3 C4 A"
+    },
+    {
+      "cms_id": "al-mitigation-06-en",
+      "target_cms_id": "al-mitigation-06-ta",
+      "en_preview": "Sri Lanka's own crisis cohorts — 2020 through 2022 — sat full-syllabus examinati",
+      "ta_preview": "இலங்கையின் சொந்த நெருக்கடிக் கால மாணவர் குழுக்கள் — 2020 முதல் 2022 வரை — பெருந்"
+    },
+    {
+      "cms_id": "al-mitigation-07-en",
+      "target_cms_id": "al-mitigation-07-ta",
+      "en_preview": "The government has an empirical answer to this, and it deserves to be heard. Sri",
+      "ta_preview": "இதற்கு அரசாங்கத்திடம் ஒரு அனுபவப்பூர்வமான பதில் உள்ளது, அது செவிமடுக்கப்படத் தகு"
+    },
+    {
+      "cms_id": "al-contradiction-01-en",
+      "target_cms_id": "al-contradiction-01-ta",
+      "en_preview": "The contradiction the Ministry has not been asked about",
+      "ta_preview": "அமைச்சகத்திடம் கேட்கப்படாத முரண்பாடு"
+    },
+    {
+      "cms_id": "al-contradiction-02-en",
+      "target_cms_id": "al-contradiction-02-ta",
+      "en_preview": "On 14 December 2025, with schools still closed and children still in safety cent",
+      "ta_preview": "2025 டிசம்பர் 14 அன்று, பள்ளிகள் மூடப்பட்டு, குழந்தைகள் பாதுகாப்பு மையங்களில் இர"
+    },
+    {
+      "cms_id": "al-contradiction-03-en",
+      "target_cms_id": "al-contradiction-03-ta",
+      "en_preview": "\"In consideration of children's mental well-being and the time needed for normal",
+      "ta_preview": "குழந்தைகளின் மனநலனையும், இதுபோன்ற பேரிடரைச் சந்தித்த பிறகு இயல்பு நிலை திரும்புவ"
+    },
+    {
+      "cms_id": "al-contradiction-04-en",
+      "target_cms_id": "al-contradiction-04-ta",
+      "en_preview": "Secretary, Ministry of Education — 14 December 2025",
+      "ta_preview": "கல்வி அமைச்சு செயலாளர் — 14 டிசம்பர் 2025"
+    },
+    {
+      "cms_id": "al-contradiction-05-en",
+      "target_cms_id": "al-contradiction-05-ta",
+      "en_preview": "The precise scope of that cancellation is reported differently across outlets — ",
+      "ta_preview": "அந்த ரத்து நடவடிக்கையின் துல்லியமான நோக்கம் குறித்து பல்வேறு ஊடகங்களில் வெவ்வேறு"
+    },
+    {
+      "cms_id": "al-contradiction-06-en",
+      "target_cms_id": "al-contradiction-06-ta",
+      "en_preview": "There may be a good answer. Cancelling a school-level test costs nothing downstr",
+      "ta_preview": "இதற்கு ஒரு நல்ல பதில் இருக்கலாம். ஒரு பள்ளி அளவிலான தேர்வை ரத்து செய்வதால், அதன்"
+    },
+    {
+      "cms_id": "al-contradiction-07-en",
+      "target_cms_id": "al-contradiction-07-ta",
+      "en_preview": "The mental-health backdrop is not decorative. Sri Lanka's Global School-based St",
+      "ta_preview": "மனநலப் பின்னணி ஒரு அலங்காரமானதாக இல்லை. 2024-ஆம் ஆண்டில், கல்வி அமைச்சு மற்றும் "
+    },
+    {
+      "cms_id": "al-contradiction-08-en",
+      "target_cms_id": "al-contradiction-08-ta",
+      "en_preview": "None of that establishes that a compressed timetable harms anyone's health, and ",
+      "ta_preview": "சுருக்கப்பட்ட கால அட்டவணை யாருடைய உடல்நலத்திற்கும் தீங்கு விளைவிக்கிறது என்பதை இ"
+    },
+    {
+      "cms_id": "al-contradiction-09-en",
+      "target_cms_id": "al-contradiction-09-ta",
+      "en_preview": "If you or someone you know is struggling, the National Mental Health Helpline in",
+      "ta_preview": "நீங்களோ அல்லது உங்களுக்குத் தெரிந்தவர்களோ சிரமப்பட்டால், இலங்கையின் தேசிய மனநல உ"
+    },
+    {
+      "cms_id": "al-pm-01-en",
+      "target_cms_id": "al-pm-01-ta",
+      "en_preview": "Where the Prime Minister is",
+      "ta_preview": "பிரதமர் எங்கே இருக்கிறார்"
+    },
+    {
+      "cms_id": "al-pm-02-en",
+      "target_cms_id": "al-pm-02-ta",
+      "en_preview": "Harini Amarasuriya is an academic sociologist, a former FUTA campaigner, and — s",
+      "ta_preview": "ஹரினி அமரசூரிய ஒரு கல்விசார் சமூகவியலாளர், முன்னாள் FUTA பிரச்சாரகர், மற்றும் — "
+    },
+    {
+      "cms_id": "al-pm-03-en",
+      "target_cms_id": "al-pm-03-ta",
+      "en_preview": "In December 2015 she wrote, under her own name, that the government of the day w",
+      "ta_preview": "டிசம்பர் 2015-ல், அன்றைய அரசாங்கம் \"இந்த அதிகரிப்பை மேலும் அதிகரிப்பதாகக் காட்ட "
+    },
+    {
+      "cms_id": "al-pm-04-en",
+      "target_cms_id": "al-pm-04-ta",
+      "en_preview": "The obvious charge is hypocrisy over the six per cent of GDP pledge, and it is t",
+      "ta_preview": "GDP ஆறு சதவிகிதம் என்ற வாக்குறுதியில் பாசாங்குத்தனம் இருப்பதாக வெளிப்படையான குற்"
+    },
+    {
+      "cms_id": "al-pm-05-en",
+      "target_cms_id": "al-pm-05-ta",
+      "en_preview": "And then there is an absence. A search of English-language Sri Lankan press, par",
+      "ta_preview": "மேலும், ஒரு குறைபாடும் உள்ளது. நவம்பர் 2024-ல் அவர் நியமிக்கப்பட்டதிலிருந்து 22 "
+    },
+    {
+      "cms_id": "al-court-01-en",
+      "target_cms_id": "al-court-01-ta",
+      "en_preview": "The court, the petition, and what is actually being decided",
+      "ta_preview": "நீதிமன்றம், மனு, மற்றும் உண்மையில் என்ன முடிவு செய்யப்படுகிறது"
+    },
+    {
+      "cms_id": "al-court-02-en",
+      "target_cms_id": "al-court-02-ta",
+      "en_preview": "Nine students filed a writ petition in the Court of Appeal seeking to quash the ",
+      "ta_preview": "வெளியிடப்பட்ட தேர்வு அட்டவணையை ரத்து செய்யக் கோரியும், தேர்வை இரண்டு மாதங்களுக்க"
+    },
+    {
+      "cms_id": "al-court-03-en",
+      "target_cms_id": "al-court-03-ta",
+      "en_preview": "That order is on leave to proceed . It decides whether the case may be heard at ",
+      "ta_preview": "அந்த உத்தரவு leave to proceed கோரப்பட்டுள்ளது. இந்த வழக்கை விசாரிக்க முடியுமா இல"
+    },
+    {
+      "cms_id": "al-court-04-en",
+      "target_cms_id": "al-court-04-ta",
+      "en_preview": "What \"leave to proceed\" means",
+      "ta_preview": "\" leave to proceed \" என்பதன் பொருள் என்ன?"
+    },
+    {
+      "cms_id": "al-court-05-en",
+      "target_cms_id": "al-court-05-ta",
+      "en_preview": "A writ petition is heard in two stages. At the first, the court decides only whe",
+      "ta_preview": "ஒரு ரிட் மனு இரண்டு கட்டங்களாக விசாரிக்கப்படுகிறது. முதல் கட்டத்தில், மனுவானது வ"
+    },
+    {
+      "cms_id": "al-court-06-en",
+      "target_cms_id": "al-court-06-ta",
+      "en_preview": "Writ is a discretionary remedy: the court may refuse it on conduct grounds (such",
+      "ta_preview": "ஆணை என்பது ஒரு விருப்புரிமை நிவாரணமாகும்: அடிப்படைப் புகார் உண்மையா என்பது குறித"
+    },
+    {
+      "cms_id": "al-court-07-en",
+      "target_cms_id": "al-court-07-ta",
+      "en_preview": "Writ is a discretionary remedy, and the Solicitor General ran a clean-hands argu",
+      "ta_preview": "நீதிப்பேராணை என்பது ஒரு விருப்புரிமை நிவாரணமாகும். மேலும், சொலிசிட்டர் ஜெனரல், ம"
+    },
+    {
+      "cms_id": "al-court-08-en",
+      "target_cms_id": "al-court-08-ta",
+      "en_preview": "Outside the courtroom, the constituency is larger than nine. A trilingual petiti",
+      "ta_preview": "நீதிமன்றத்திற்கு வெளியே, வாக்காளர் தொகுதி ஒன்பதை விடப் பெரியது. முதல் முறை தேர்வ"
+    },
+    {
+      "cms_id": "al-court-09-en",
+      "target_cms_id": "al-court-09-ta",
+      "en_preview": "The pattern across recent cycles cuts both ways. Sri Lankan A/L examinations hav",
+      "ta_preview": "சமீபத்திய சுழற்சிகளில் காணப்படும் போக்கு இருபக்கமும் சாதகமாக உள்ளது. இலங்கை A/L "
+    },
+    {
+      "cms_id": "al-allegation-01-en",
+      "target_cms_id": "al-allegation-01-ta",
+      "en_preview": "The allegation, and why it matters that it is empty",
+      "ta_preview": "அந்தக் குற்றச்சாட்டும், அது ஆதாரமற்றது என்பது ஏன் முக்கியம் என்பதும்."
+    },
+    {
+      "cms_id": "al-allegation-02-en",
+      "target_cms_id": "al-allegation-02-ta",
+      "en_preview": "A Sinhala-language social media post circulating in mid-July suggested that the ",
+      "ta_preview": "ஜூலை மாத மத்தியில் பரவி வந்த சிங்கள மொழி சமூக ஊடகப் பதிவு ஒன்று A/L தேர்வுத் தயா"
+    },
+    {
+      "cms_id": "al-allegation-03-en",
+      "target_cms_id": "al-allegation-03-ta",
+      "en_preview": "No credible news outlet has reported this claim, in English, Sinhala or Tamil. N",
+      "ta_preview": "நம்பகமான எந்தவொரு செய்தி நிறுவனமும் இந்தக் கூற்றை ஆங்கிலம், சிங்களம் அல்லது தமிழ"
+    },
+    {
+      "cms_id": "al-allegation-04-en",
+      "target_cms_id": "al-allegation-04-ta",
+      "en_preview": "The allegation is not merely unproven. Its central factual anchor is misdescribe",
+      "ta_preview": "இந்தக் குற்றச்சாட்டு நிரூபிக்கப்படாதது மட்டுமல்ல. அதன் மையமான உண்மை ஆதாரம் தவறாக"
+    },
+    {
+      "cms_id": "al-allegation-05-en",
+      "target_cms_id": "al-allegation-05-ta",
+      "en_preview": "It is included here because of what it does. There is a genuine accountability s",
+      "ta_preview": "அது செய்யும் காரியத்தின் காரணமாகவே இங்கு சேர்க்கப்பட்டுள்ளது. இந்த சர்ச்சையில் ஒ"
+    },
+    {
+      "cms_id": "al-runway-01-en",
+      "target_cms_id": "al-runway-01-ta",
+      "en_preview": "The repeat candidates' runway",
+      "ta_preview": "மீண்டும் போட்டியிடும் வேட்பாளர்களின் ஓடுபாதை"
+    },
+    {
+      "cms_id": "al-runway-02-en",
+      "target_cms_id": "al-runway-02-ta",
+      "en_preview": "The Ministry's own statement concedes the tightest number in the file: repeat ca",
+      "ta_preview": "அமைச்சகத்தின் சொந்த அறிக்கையே இந்த ஆவணத்தில் உள்ள மிகவும் இறுக்கமான எண்ணிக்கையை "
+    },
+    {
+      "cms_id": "al-runway-03-en",
+      "target_cms_id": "al-runway-03-ta",
+      "en_preview": "Static summary: the interval between results release and the next sitting fell f",
+      "ta_preview": "புள்ளிவிவரச் சுருக்கம்: 2026-ஆம் ஆண்டு மீண்டும் போட்டியிடும் வேட்பாளர்களுக்கு, ம"
+    },
+    {
+      "cms_id": "al-runway-04-en",
+      "target_cms_id": "al-runway-04-ta",
+      "en_preview": "The repeat candidate's runway. Days from results release to the first paper, acr",
+      "ta_preview": "மீண்டும் போட்டியிடும் வேட்பாளரின் தேர்தல் கால அளவு. கடந்த மூன்று சுழற்சிகளில், ம"
+    },
+    {
+      "cms_id": "al-what-now-01-en",
+      "target_cms_id": "al-what-now-01-ta",
+      "en_preview": "What could still be done",
+      "ta_preview": "இன்னும் என்ன செய்ய முடியும்"
+    },
+    {
+      "cms_id": "al-what-now-02-en",
+      "target_cms_id": "al-what-now-02-ta",
+      "en_preview": "Nineteen days out — unless the court intervenes — most options are closed. Paper",
+      "ta_preview": "நீதிமன்றம் தலையிடாத பட்சத்தில், இன்னும் பத்தொன்பது நாட்களே உள்ள நிலையில், பெரும்"
+    },
+    {
+      "cms_id": "al-what-now-03-en",
+      "target_cms_id": "al-what-now-03-ta",
+      "en_preview": "Three things still are.",
+      "ta_preview": "மூன்று விஷயங்கள் இன்னமும் இருக்கின்றன."
+    },
+    {
+      "cms_id": "al-what-now-04-en",
+      "target_cms_id": "al-what-now-04-ta",
+      "en_preview": "Publish the derivation.",
+      "ta_preview": "வருவித்தலை வெளியிடவும்."
+    },
+    {
+      "cms_id": "al-what-now-05-en",
+      "target_cms_id": "al-what-now-05-ta",
+      "en_preview": "How 343 was calculated within the declared window, how the Ditwah closures and W",
+      "ta_preview": "அறிவிக்கப்பட்ட காலக்கெடுவிற்குள் 343 எவ்வாறு கணக்கிடப்பட்டது, திட்வா மூடல்கள் மற"
+    },
+    {
+      "cms_id": "al-what-now-06-en",
+      "target_cms_id": "al-what-now-06-ta",
+      "en_preview": "Announce standards protection before the examination.",
+      "ta_preview": "தேர்வுக்கு முன் தரநிலைகள் பாதுகாப்பை அறிவிக்கவும்."
+    },
+    {
+      "cms_id": "al-what-now-07-en",
+      "target_cms_id": "al-what-now-07-ta",
+      "en_preview": "Sri Lanka's z-score is already norm-referenced, which makes this technically sim",
+      "ta_preview": "இலங்கையின் z-score ஏற்கனவே தரநிலை-சார்ந்ததாக இருப்பதால், 2022-ல் ஐக்கிய இராச்சிய"
+    },
+    {
+      "cms_id": "al-what-now-08-en",
+      "target_cms_id": "al-what-now-08-ta",
+      "en_preview": "Say something.",
+      "ta_preview": "ஏதாவது சொல்."
+    },
+    {
+      "cms_id": "al-what-now-09-en",
+      "target_cms_id": "al-what-now-09-ta",
+      "en_preview": "The Prime Minister holds this portfolio. Silence towards this cohort is a politi",
+      "ta_preview": "பிரதமர் இந்தப் பொறுப்பை வகிக்கிறார். இந்தக் குழுவினர் மீதான மௌனம் ஒரு அரசியல் தெ"
+    },
+    {
+      "cms_id": "al-what-now-10-en",
+      "target_cms_id": "al-what-now-10-ta",
+      "en_preview": "Beyond August, the structural fix is unglamorous and obvious: a statutory, publi",
+      "ta_preview": "ஆகஸ்ட் மாதத்திற்குப் பிறகு, கட்டமைப்பு ரீதியான தீர்வு கவர்ச்சியற்றதாகவும் வெளிப்"
+    },
+    {
+      "cms_id": "al-what-now-11-en",
+      "target_cms_id": "al-what-now-11-ta",
+      "en_preview": "The reader's own lever",
+      "ta_preview": "வாசகரின் சொந்த நெம்புகோல்"
+    },
+    {
+      "cms_id": "al-what-now-12-en",
+      "target_cms_id": "al-what-now-12-ta",
+      "en_preview": "10,000+ verified signatures",
+      "ta_preview": "10,000க்கும் மேற்பட்ட சரிபார்க்கப்பட்ட கையொப்பங்கள்"
+    },
+    {
+      "cms_id": "al-what-now-13-en",
+      "target_cms_id": "al-what-now-13-ta",
+      "en_preview": "A trilingual petition to the Department of Examinations — arguing the first-time",
+      "ta_preview": "முதல் முறை தேர்வர்களின் இழந்த மாதங்கள், மறுதேர்வு எழுதுபவர்களுக்கான நான்கு மாத க"
+    },
+    {
+      "cms_id": "al-what-now-14-en",
+      "target_cms_id": "al-what-now-14-ta",
+      "en_preview": "Read and sign the petition",
+      "ta_preview": "மனுவைப் படித்து கையொப்பமிடுங்கள்"
+    },
+    {
+      "cms_id": "al-what-now-15-en",
+      "target_cms_id": "al-what-now-15-ta",
+      "en_preview": "Disclosure: The Analyst publicly supports this petition. That support is an edit",
+      "ta_preview": "வெளிப்படுத்தல்: இந்த மனுவை 'தி அனலிஸ்ட்' பகிரங்கமாக ஆதரிக்கிறது. அந்த ஆதரவு ஒரு "
+    },
+    {
+      "cms_id": "al-evidence-01-en",
+      "target_cms_id": "al-evidence-01-ta",
+      "en_preview": "Claims, statuses, and what remains open",
+      "ta_preview": "கோரிக்கைகள், நிலவரங்கள் மற்றும் இன்னும் நிலுவையில் உள்ளவை"
+    },
+    {
+      "cms_id": "al-evidence-02-en",
+      "target_cms_id": "al-evidence-02-ta",
+      "en_preview": "Calendar drift and correction",
+      "ta_preview": "நாட்காட்டி நகர்வு மற்றும் திருத்தம்"
+    },
+    {
+      "cms_id": "al-evidence-03-en",
+      "target_cms_id": "al-evidence-03-ta",
+      "en_preview": "Sitting dates 2019–2026, the partial pull-back across 2024–25, the seven-month i",
+      "ta_preview": "2019–2026 அமர்வுத் தேதிகள், 2024–25 காலகட்டத்தில் ஏற்படும் பகுதிப் பின்வாங்கல், "
+    },
+    {
+      "cms_id": "al-evidence-04-en",
+      "target_cms_id": "al-evidence-04-ta",
+      "en_preview": "The Ministry's arithmetic",
+      "ta_preview": "அமைச்சகத்தின் கணக்கீடு"
+    },
+    {
+      "cms_id": "al-evidence-05-en",
+      "target_cms_id": "al-evidence-05-ta",
+      "en_preview": "343 school days within a published window (10 Oct 2024 – 7 Aug 2026) against the",
+      "ta_preview": "NIE's 300-நாள் ஆசிரியர் வழிகாட்டுதலுக்கு எதிராக, வெளியிடப்பட்ட காலக்கெடுவிற்குள்"
+    },
+    {
+      "cms_id": "al-evidence-06-en",
+      "target_cms_id": "al-evidence-06-ta",
+      "en_preview": "Petitioner figures",
+      "ta_preview": "மனுதாரர் புள்ளிவிவரங்கள்"
+    },
+    {
+      "cms_id": "al-evidence-07-en",
+      "target_cms_id": "al-evidence-07-ta",
+      "en_preview": "21 months vs 27–31; 133 days; six months cut. Mutually inconsistent and unaudite",
+      "ta_preview": "21 மாதங்கள் vs 27–31; 133 நாட்கள்; ஆறு மாதங்கள் குறைப்பு. ஒன்றுக்கொன்று முரண்பாட"
+    },
+    {
+      "cms_id": "al-evidence-08-en",
+      "target_cms_id": "al-evidence-08-ta",
+      "en_preview": "Comparators and mitigation",
+      "ta_preview": "ஒப்பீட்டாளர்கள் மற்றும் தணிப்பு"
+    },
+    {
+      "cms_id": "al-evidence-09-en",
+      "target_cms_id": "al-evidence-09-ta",
+      "en_preview": "India CBSE, Bangladesh NCTB and UK 2022 relief measures; the 10 March 2026 full-",
+      "ta_preview": "இந்திய CBSE , வங்கதேச NCTB மற்றும் ஐக்கிய ராச்சியத்தின் 2022 நிவாரண நடவடிக்கைகள்"
+    },
+    {
+      "cms_id": "al-evidence-10-en",
+      "target_cms_id": "al-evidence-10-ta",
+      "en_preview": "The private-university claim",
+      "ta_preview": "தனியார் பல்கலைக்கழகத்தின் கூற்று"
+    },
+    {
+      "cms_id": "al-evidence-11-en",
+      "target_cms_id": "al-evidence-11-ta",
+      "en_preview": "Unreported by any credible outlet in three languages; no CIABOC complaint record",
+      "ta_preview": "மூன்று மொழிகளில் எந்தவொரு நம்பகமான ஊடகத்தாலும் இது வெளியிடப்படவில்லை; CIABOC எந்"
+    },
+    {
+      "cms_id": "al-evidence-12-en",
+      "target_cms_id": "al-evidence-12-ta",
+      "en_preview": "Open items at staging",
+      "ta_preview": "ஸ்டேஜிங்கில் உள்ள திறந்த உருப்படிகள்"
+    },
+    {
+      "cms_id": "al-evidence-13-en",
+      "target_cms_id": "al-evidence-13-ta",
+      "en_preview": "The 23 July Court of Appeal order; the Ministry's right of reply (Gate 2); the R",
+      "ta_preview": "ஜூலை 23 மேல்முறையீட்டு நீதிமன்ற உத்தரவு; அமைச்சகத்தின் பதில் அளிக்கும் உரிமை (கே"
+    },
+    {
+      "cms_id": "al-footer-01-en",
+      "target_cms_id": "al-footer-01-ta",
+      "en_preview": "Preparation-time figures on both sides remain unaudited and are reported as comp",
+      "ta_preview": "இரு தரப்பிலும் உள்ள தயாரிப்பு நேரப் புள்ளிவிவரங்கள் தணிக்கை செய்யப்படாமல் உள்ளன,"
+    },
+    {
+      "cms_id": "al-footer-02-en",
+      "target_cms_id": "al-footer-02-ta",
+      "en_preview": "If you or someone you know is struggling, the National Mental Health Helpline in",
+      "ta_preview": "நீங்களோ அல்லது உங்களுக்குத் தெரிந்தவர்களோ சிரமப்பட்டால், இலங்கையின் தேசிய மனநல உ"
+    },
+    {
+      "cms_id": "al-footer-03-en",
+      "target_cms_id": "al-footer-03-ta",
+      "en_preview": "Companion policy paper: Who Owns the Calendar? · Methodology: The Analyst — anal",
+      "ta_preview": "துணை கொள்கை அறிக்கை: நாட்காட்டியின் உரிமையாளர் யார்? · வழிமுறை: பகுப்பாய்வாளர் —"
+    }
+  ]
+}

@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mullivaikkal Thumbnail Options</title>
+  <style>
+    :root {
+      --paper: #fbfaf6;
+      --ink: #171729;
+      --muted: #595d6c;
+      --green: #2d6a4f;
+      --coral: #d4644a;
+      --gold: #c4a35a;
+      --blue: #3a7bd5;
+      --line: #ded7ca;
+      --pin: #c94732;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #e7e0d4;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+
+    .brief {
+      margin: 0 auto 28px;
+      max-width: 860px;
+      color: #333447;
+      line-height: 1.5;
+    }
+
+    .brief h1 {
+      margin: 0 0 6px;
+      font-size: clamp(26px, 3vw, 42px);
+      letter-spacing: 0;
+    }
+
+    .brief p { margin: 0; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+
+    .frame {
+      overflow: auto;
+      border: 1px solid rgba(23, 23, 41, .18);
+      border-radius: 18px;
+      background: #f5f1e9;
+      padding: 16px;
+      box-shadow: 0 16px 40px rgba(22, 20, 16, .16);
+    }
+
+    .label {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-weight: 780;
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .thumb {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      isolation: isolate;
+      transform-origin: top left;
+      border-radius: 34px;
+      background: var(--paper);
+      box-shadow: 0 24px 80px rgba(24, 21, 18, .24);
+    }
+
+    .frame .thumb {
+      transform: scale(.29);
+      margin-bottom: -1364px;
+    }
+
+    body.export-mode {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #f7f2e8;
+    }
+
+    body.export-mode .page {
+      width: 1080px;
+      height: 1920px;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    body.export-mode .brief,
+    body.export-mode .label,
+    body.export-mode .frame:not(.active-export) {
+      display: none;
+    }
+
+    body.export-mode .grid {
+      display: block;
+      width: 1080px;
+      height: 1920px;
+    }
+
+    body.export-mode .frame {
+      width: 1080px;
+      height: 1920px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      overflow: hidden;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    body.export-mode .frame .thumb {
+      transform: none;
+      margin: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .board::before,
+    .board::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .board::before {
+      opacity: .18;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(212, 100, 74, .34), transparent 12%),
+        radial-gradient(circle at 90% 62%, rgba(45, 106, 79, .18), transparent 17%),
+        linear-gradient(90deg, rgba(23, 23, 41, .06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(23, 23, 41, .05) 1px, transparent 1px);
+      background-size: auto, auto, 54px 54px, 54px 54px;
+      mix-blend-mode: multiply;
+    }
+
+    .board::after {
+      opacity: .34;
+      background-image:
+        linear-gradient(0deg, rgba(255,255,255,.45), rgba(255,255,255,.02)),
+        radial-gradient(circle at 52% 8%, rgba(255,255,255,.65), transparent 30%);
+      mix-blend-mode: screen;
+    }
+
+    .kicker {
+      position: absolute;
+      left: 72px;
+      top: 78px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid rgba(45, 106, 79, .18);
+      color: var(--green);
+      font-size: 26px;
+      font-weight: 820;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      box-shadow: 0 8px 28px rgba(19, 25, 22, .12);
+    }
+
+    .brand {
+      position: absolute;
+      right: 68px;
+      top: 82px;
+      z-index: 20;
+      color: rgba(23, 23, 41, .62);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .title-card,
+    .evidence-tag {
+      position: absolute;
+      z-index: 18;
+    }
+
+    .title-card {
+      left: 88px;
+      right: 88px;
+      top: 650px;
+      padding: 42px 48px 48px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .91);
+      border: 1px solid rgba(23, 23, 41, .12);
+      box-shadow: 0 28px 80px rgba(18, 22, 26, .26);
+    }
+
+    .title-card h2 {
+      margin: 0;
+      font-size: 86px;
+      line-height: .96;
+      letter-spacing: 0;
+      color: var(--ink);
+    }
+
+    .title-card em {
+      display: inline-block;
+      margin: 8px 0;
+      color: var(--coral);
+      font-style: normal;
+    }
+
+    .title-card p {
+      margin: 24px 0 0;
+      color: var(--green);
+      font-size: 34px;
+      line-height: 1.18;
+      font-weight: 760;
+      text-decoration: underline;
+      text-decoration-thickness: 3px;
+      text-underline-offset: 8px;
+    }
+
+    .source-strip {
+      position: absolute;
+      z-index: 16;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .86);
+      border: 1px solid rgba(196, 163, 90, .42);
+      color: var(--muted);
+      font-size: 20px;
+      font-weight: 760;
+      box-shadow: 0 10px 30px rgba(20, 19, 17, .12);
+    }
+
+    .source-strip b { color: var(--ink); }
+    .source-strip span { color: var(--coral); }
+
+    .paper {
+      position: absolute;
+      z-index: 8;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid rgba(34, 33, 32, .13);
+      box-shadow: 0 26px 60px rgba(21, 18, 14, .18);
+    }
+
+    .paper::before {
+      content: attr(data-pin);
+      position: absolute;
+      left: 16px;
+      top: 14px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--paper-pin, var(--pin));
+      box-shadow: 0 3px 8px rgba(0,0,0,.2);
+      z-index: 3;
+      color: rgba(255,255,255,.9);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 26px;
+      text-align: center;
+    }
+
+    .paper .mini {
+      position: absolute;
+      inset: 0;
+      width: 1200px;
+      height: 1700px;
+      border: 0;
+      transform-origin: top left;
+      pointer-events: none;
+      background: #fff;
+    }
+
+    .paper .clip-title {
+      position: relative;
+      z-index: 2;
+      margin: 54px 24px 0;
+      color: rgba(23, 23, 41, .82);
+      font-size: 30px;
+      line-height: 1.08;
+      font-weight: 850;
+    }
+
+    .paper .clip-lines {
+      position: relative;
+      z-index: 2;
+      margin: 24px;
+      display: grid;
+      gap: 11px;
+    }
+
+    .clip-lines i {
+      display: block;
+      height: 10px;
+      border-radius: 99px;
+      background: rgba(23, 23, 41, .16);
+    }
+
+    .clip-lines i:nth-child(2) { width: 72%; background: rgba(45, 106, 79, .22); }
+    .clip-lines i:nth-child(3) { width: 90%; }
+    .clip-lines i:nth-child(4) { width: 58%; background: rgba(212, 100, 74, .22); }
+
+    .thread-map {
+      position: absolute;
+      z-index: 17;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      pointer-events: none;
+    }
+
+    .thread-map line {
+      stroke-width: 5;
+      stroke-linecap: round;
+      filter: drop-shadow(0 2px 4px rgba(27, 23, 18, .14));
+    }
+
+    .thread-map .thread-coral { stroke: rgba(212, 100, 74, .82); }
+    .thread-map .thread-green { stroke: rgba(45, 106, 79, .76); }
+    .thread-map .thread-gold { stroke: rgba(196, 163, 90, .78); }
+    .thread-map .thread-blue { stroke: rgba(58, 123, 213, .7); }
+    .thread-map .thread-soft {
+      stroke-width: 3.5;
+      stroke-dasharray: 11 12;
+      opacity: .82;
+    }
+
+    .thread-map circle {
+      fill: var(--pin);
+      stroke: rgba(255,255,255,.94);
+      stroke-width: 4;
+      filter: drop-shadow(0 4px 8px rgba(27, 23, 18, .28));
+    }
+
+    .thread-map .pin-coral { fill: var(--coral); }
+    .thread-map .pin-green { fill: var(--green); }
+    .thread-map .pin-gold { fill: var(--gold); }
+
+    .dot {
+      position: absolute;
+      z-index: 19;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--pin);
+      box-shadow: 0 3px 10px rgba(0,0,0,.22);
+    }
+
+    .pin-label {
+      position: absolute;
+      z-index: 18;
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      color: rgba(23, 23, 41, .68);
+      border: 1px solid rgba(23, 23, 41, .08);
+      font-size: 15px;
+      font-weight: 830;
+      box-shadow: 0 6px 16px rgba(22, 20, 16, .11);
+    }
+
+    .callout {
+      position: absolute;
+      z-index: 18;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid rgba(23, 23, 41, .1);
+      color: var(--ink);
+      font-size: 26px;
+      line-height: 1.15;
+      font-weight: 820;
+      box-shadow: 0 16px 44px rgba(21, 18, 14, .16);
+    }
+
+    .callout small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 18px;
+      font-weight: 680;
+    }
+
+    .stamp {
+      position: absolute;
+      z-index: 22;
+      border: 3px solid currentColor;
+      border-radius: 14px;
+      padding: 9px 14px;
+      color: var(--coral);
+      font-size: 25px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      transform: rotate(-7deg);
+      background: rgba(255, 255, 255, .56);
+    }
+
+    .evidence-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid rgba(45, 106, 79, .22);
+      color: var(--green);
+      font-size: 20px;
+      font-weight: 860;
+      box-shadow: 0 14px 34px rgba(21, 18, 14, .16);
+    }
+
+    .evidence-tag::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 6px rgba(45, 106, 79, .1);
+    }
+
+    .take-a {
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,.65), transparent 28%),
+        linear-gradient(135deg, #f1e4d2 0%, #dac8aa 100%);
+    }
+
+    .take-a .paper .mini { transform: scale(.36); }
+    .take-a .title-card {
+      left: 82px;
+      right: 82px;
+      top: 640px;
+      background: rgba(255,255,255,.9);
+    }
+
+    .take-a .title-card h2 { font-size: 86px; }
+
+    .sinhala-title .kicker,
+    .sinhala-title .title-card h2,
+    .sinhala-title .title-card p,
+    .sinhala-title .source-strip {
+      font-family: "Noto Sans Sinhala", "Sinhala Sangam MN", "Sinhala MN", "Iskoola Pota", "Malithi Web", Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .sinhala-title .title-card {
+      top: 630px;
+      padding: 46px 48px 50px;
+    }
+
+    .sinhala-title .title-card h2 {
+      font-size: 76px;
+      line-height: 1.08;
+      font-weight: 920;
+    }
+
+    .sinhala-title .title-card p {
+      font-size: 36px;
+      line-height: 1.24;
+      text-underline-offset: 9px;
+    }
+
+    .sinhala-title .source-strip {
+      font-size: 21px;
+    }
+
+    .take-a1 .p1 { left: 42px; top: 182px; width: 390px; height: 340px; transform: rotate(-8deg); }
+    .take-a1 .p2 { right: 36px; top: 176px; width: 420px; height: 360px; transform: rotate(7deg); }
+    .take-a1 .p3 { left: 562px; top: 480px; width: 420px; height: 330px; transform: rotate(-4deg); }
+    .take-a1 .p4 { left: 36px; bottom: 270px; width: 410px; height: 390px; transform: rotate(6deg); }
+    .take-a1 .p5 { right: 62px; bottom: 260px; width: 398px; height: 400px; transform: rotate(-6deg); }
+    .take-a1 .p6 { left: 332px; bottom: 96px; width: 420px; height: 290px; transform: rotate(3deg); }
+    .take-a1 .p1,
+    .take-a1 .p2,
+    .take-a1 .p3 { --paper-pin: var(--coral); }
+    .take-a1 .p4,
+    .take-a1 .p5 { --paper-pin: var(--green); }
+    .take-a1 .p6 { --paper-pin: var(--gold); }
+
+    .take-a2 {
+      background:
+        radial-gradient(circle at 72% 16%, rgba(255,255,255,.64), transparent 24%),
+        radial-gradient(circle at 18% 74%, rgba(45,106,79,.14), transparent 28%),
+        linear-gradient(145deg, #eadcc8 0%, #d9c6a7 100%);
+    }
+
+    .take-a2 .title-card {
+      top: 610px;
+      left: 108px;
+      right: 108px;
+      padding-top: 48px;
+      transform: rotate(-1deg);
+    }
+
+    .take-a2 .title-card h2 { font-size: 82px; }
+    .take-a2 .p1 { left: 32px; top: 196px; width: 470px; height: 335px; transform: rotate(5deg); }
+    .take-a2 .p2 { right: 42px; top: 138px; width: 420px; height: 395px; transform: rotate(-7deg); }
+    .take-a2 .p3 { left: 48px; top: 1010px; width: 360px; height: 370px; transform: rotate(-6deg); }
+    .take-a2 .p4 { right: 34px; top: 972px; width: 460px; height: 360px; transform: rotate(5deg); }
+    .take-a2 .p5 { left: 92px; bottom: 86px; width: 430px; height: 340px; transform: rotate(8deg); }
+    .take-a2 .p6 { right: 82px; bottom: 84px; width: 395px; height: 360px; transform: rotate(-5deg); }
+
+    .take-a3 {
+      background:
+        radial-gradient(circle at 35% 12%, rgba(255,255,255,.58), transparent 24%),
+        linear-gradient(125deg, #f3e7d7 0%, #d8c19e 58%, #cfb58f 100%);
+    }
+
+    .take-a3 .kicker {
+      background: rgba(255,255,255,.9);
+    }
+
+    .take-a3 .title-card {
+      left: 70px;
+      right: 70px;
+      top: 665px;
+      box-shadow: 0 30px 92px rgba(18, 22, 26, .32);
+    }
+
+    .take-a3 .title-card h2 { font-size: 84px; }
+    .take-a3 .p1 { left: 48px; top: 170px; width: 405px; height: 360px; transform: rotate(-7deg); }
+    .take-a3 .p2 { left: 508px; top: 148px; width: 510px; height: 380px; transform: rotate(4deg); }
+    .take-a3 .p3 { left: -16px; top: 512px; width: 335px; height: 356px; transform: rotate(10deg); }
+    .take-a3 .p4 { right: -18px; top: 930px; width: 400px; height: 400px; transform: rotate(-9deg); }
+    .take-a3 .p5 { left: 40px; bottom: 152px; width: 450px; height: 415px; transform: rotate(-3deg); }
+    .take-a3 .p6 { right: 54px; bottom: 112px; width: 455px; height: 395px; transform: rotate(7deg); }
+
+    .take-2 {
+      background:
+        radial-gradient(circle at 18% 20%, rgba(58, 123, 213, .13), transparent 26%),
+        radial-gradient(circle at 85% 72%, rgba(212, 100, 74, .12), transparent 24%),
+        #f7f3eb;
+    }
+
+    .take-2 .title-card {
+      top: 590px;
+      left: 70px;
+      right: 70px;
+      background: rgba(250, 250, 248, .95);
+    }
+
+    .take-2 .title-card h2 { font-size: 80px; }
+    .take-2 .title-card p { color: var(--ink); text-decoration-color: rgba(58, 123, 213, .35); }
+    .take-2 .p1 { left: 40px; top: 200px; width: 990px; height: 430px; transform: rotate(-2deg); }
+    .take-2 .p2 { left: 75px; bottom: 165px; width: 930px; height: 600px; transform: rotate(2deg); }
+    .take-2 .paper .mini { transform: scale(.42); }
+
+    .node {
+      position: absolute;
+      z-index: 17;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 8px rgba(45, 106, 79, .1);
+    }
+
+    .take-3 {
+      background:
+        linear-gradient(180deg, rgba(23, 23, 41, .93), rgba(18, 18, 30, .97)),
+        #171729;
+      color: #fff;
+    }
+
+    .take-3.board::before {
+      opacity: .11;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(255,255,255,.1) 1px, transparent 1px);
+      background-size: 54px 54px;
+    }
+
+    .take-3 .brand,
+    .take-3 .kicker { color: #fff; background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.16); }
+    .take-3 .title-card {
+      background: rgba(250, 250, 248, .94);
+      top: 620px;
+      box-shadow: 0 32px 110px rgba(0,0,0,.46);
+    }
+    .take-3 .p1 { left: 50px; top: 210px; width: 480px; height: 470px; transform: rotate(-7deg); opacity: .8; }
+    .take-3 .p2 { right: 48px; top: 235px; width: 480px; height: 500px; transform: rotate(6deg); opacity: .82; }
+    .take-3 .p3 { left: 70px; bottom: 170px; width: 930px; height: 560px; transform: rotate(-1deg); opacity: .9; }
+    .take-3 .paper .mini { transform: scale(.42); }
+    .take-3 .string { background: rgba(196, 163, 90, .8); }
+
+    .take-4 {
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, .72), transparent 26%),
+        linear-gradient(145deg, #fbfaf6, #ece5dc 55%, #f7f2e8);
+    }
+
+    .take-4 .title-card {
+      top: 590px;
+      left: 78px;
+      right: 78px;
+      background: rgba(255,255,255,.96);
+    }
+
+    .take-4 .title-card h2 { font-size: 78px; }
+    .take-4 .p1 { left: 48px; top: 220px; width: 470px; height: 410px; transform: rotate(4deg); }
+    .take-4 .p2 { right: 50px; top: 230px; width: 470px; height: 420px; transform: rotate(-4deg); }
+    .take-4 .p3 { left: 70px; bottom: 168px; width: 940px; height: 600px; transform: rotate(0deg); }
+    .take-4 .paper .mini { transform: scale(.43); }
+
+    @media (max-width: 720px) {
+      .page { padding: 20px 12px 40px; }
+      .frame { padding: 10px; }
+      .frame .thumb {
+        transform: scale(calc((100vw - 44px) / 1080));
+        margin-bottom: calc((100vw - 44px) / 1080 * -1920 + (100vw - 44px));
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="brief">
+      <h1>Pinned Evidence Board Refinements</h1>
+      <p>Three 1080x1920 mobile variants developing direction A: more dossier clippings, deliberate coral/green/gold thread routes, and every thread locked to visible pins. Desktop/YT can later widen the same visual system into 16:9.</p>
+    </section>
+
+    <section class="grid">
+      <div class="frame" id="option-a1">
+        <p class="label">A1 / Evidence Board, Balanced</p>
+        <article class="thumb board take-a take-a1" data-export="mobile-thumbnail-a1-pinned-evidence-board.png">
+          <div class="kicker">Evidence dossier</div>
+          <div class="brand">The Analyst</div>
+          <div class="paper p1" data-pin="1"><iframe class="mini" src="../index.html#claim"></iframe></div>
+          <div class="paper p2" data-pin="2"><iframe class="mini" src="../index.html#seo-map"></iframe></div>
+          <div class="paper p3" data-pin="3"><iframe class="mini" src="../index.html#source-chain"></iframe></div>
+          <div class="paper p4" data-pin="4"><iframe class="mini" src="../index.html#numbers"></iframe></div>
+          <div class="paper p5" data-pin="5"><iframe class="mini" src="../index.html#words"></iframe></div>
+          <div class="paper p6" data-pin="6"><iframe class="mini" src="../index.html#references"></iframe></div>
+          <svg class="thread-map" viewBox="0 0 1080 1920" aria-hidden="true">
+            <line class="thread-coral" x1="71" y1="209" x2="176" y2="650"></line>
+            <line class="thread-coral" x1="176" y1="650" x2="653" y2="203"></line>
+            <line class="thread-coral" x1="653" y1="203" x2="591" y2="507"></line>
+            <line class="thread-coral thread-soft" x1="591" y1="507" x2="906" y2="742"></line>
+            <line class="thread-green" x1="65" y1="1287" x2="218" y2="1042"></line>
+            <line class="thread-green" x1="218" y1="1042" x2="649" y2="1287"></line>
+            <line class="thread-green" x1="649" y1="1287" x2="361" y2="1561"></line>
+            <line class="thread-green thread-soft" x1="361" y1="1561" x2="820" y2="1040"></line>
+            <line class="thread-gold" x1="71" y1="209" x2="438" y2="778"></line>
+            <line class="thread-gold" x1="438" y1="778" x2="649" y2="1287"></line>
+            <line class="thread-gold thread-soft" x1="653" y1="203" x2="640" y2="878"></line>
+            <line class="thread-gold" x1="640" y1="878" x2="65" y2="1287"></line>
+            <line class="thread-gold thread-soft" x1="591" y1="507" x2="361" y2="1561"></line>
+            <circle class="pin-coral" cx="176" cy="650" r="13"></circle>
+            <circle class="pin-coral" cx="906" cy="742" r="13"></circle>
+            <circle class="pin-green" cx="218" cy="1042" r="13"></circle>
+            <circle class="pin-green" cx="820" cy="1040" r="13"></circle>
+            <circle class="pin-gold" cx="438" cy="778" r="13"></circle>
+            <circle class="pin-gold" cx="640" cy="878" r="13"></circle>
+          </svg>
+          <span class="pin-label" style="left:82px;top:232px">claim</span>
+          <span class="pin-label" style="left:656px;top:226px">map</span>
+          <span class="pin-label" style="left:374px;top:1588px">refs</span>
+          <div class="title-card">
+            <h2>Mullivaikkal<br><em>40,000</em><br>deaths?</h2>
+            <p>Sri Lanka cannot beat propaganda without truth.</p>
+          </div>
+          <div class="evidence-tag" style="left:84px;top:556px">six public evidence surfaces</div>
+          <div class="source-strip" style="left:96px;bottom:82px"><b>Claim tested</b><span>not verified as stated</span></div>
+          <div class="stamp" style="right:118px;bottom:88px">Source check</div>
+        </article>
+      </div>
+
+      <div class="frame" id="option-a1-si">
+        <p class="label">A1 SI / Sinhala Title</p>
+        <article class="thumb board take-a take-a1 sinhala-title" data-export="mobile-thumbnail-a1-si-pinned-evidence-board.png">
+          <div class="kicker">සාක්ෂි පරීක්ෂාව</div>
+          <div class="brand">The Analyst</div>
+          <div class="paper p1" data-pin="1"><iframe class="mini" src="../index.html#claim"></iframe></div>
+          <div class="paper p2" data-pin="2"><iframe class="mini" src="../index.html#seo-map"></iframe></div>
+          <div class="paper p3" data-pin="3"><iframe class="mini" src="../index.html#source-chain"></iframe></div>
+          <div class="paper p4" data-pin="4"><iframe class="mini" src="../index.html#numbers"></iframe></div>
+          <div class="paper p5" data-pin="5"><iframe class="mini" src="../index.html#words"></iframe></div>
+          <div class="paper p6" data-pin="6"><iframe class="mini" src="../index.html#references"></iframe></div>
+          <svg class="thread-map" viewBox="0 0 1080 1920" aria-hidden="true">
+            <line class="thread-coral" x1="71" y1="209" x2="176" y2="650"></line>
+            <line class="thread-coral" x1="176" y1="650" x2="653" y2="203"></line>
+            <line class="thread-coral" x1="653" y1="203" x2="591" y2="507"></line>
+            <line class="thread-coral thread-soft" x1="591" y1="507" x2="906" y2="742"></line>
+            <line class="thread-green" x1="65" y1="1287" x2="218" y2="1042"></line>
+            <line class="thread-green" x1="218" y1="1042" x2="649" y2="1287"></line>
+            <line class="thread-green" x1="649" y1="1287" x2="361" y2="1561"></line>
+            <line class="thread-green thread-soft" x1="361" y1="1561" x2="820" y2="1040"></line>
+            <line class="thread-gold" x1="71" y1="209" x2="438" y2="778"></line>
+            <line class="thread-gold" x1="438" y1="778" x2="649" y2="1287"></line>
+            <line class="thread-gold thread-soft" x1="653" y1="203" x2="640" y2="878"></line>
+            <line class="thread-gold" x1="640" y1="878" x2="65" y2="1287"></line>
+            <line class="thread-gold thread-soft" x1="591" y1="507" x2="361" y2="1561"></line>
+            <circle class="pin-coral" cx="176" cy="650" r="13"></circle>
+            <circle class="pin-coral" cx="906" cy="742" r="13"></circle>
+            <circle class="pin-green" cx="218" cy="1042" r="13"></circle>
+            <circle class="pin-green" cx="820" cy="1040" r="13"></circle>
+            <circle class="pin-gold" cx="438" cy="778" r="13"></circle>
+            <circle class="pin-gold" cx="640" cy="878" r="13"></circle>
+          </svg>
+          <span class="pin-label" style="left:82px;top:232px">claim</span>
+          <span class="pin-label" style="left:656px;top:226px">map</span>
+          <span class="pin-label" style="left:374px;top:1588px">refs</span>
+          <div class="title-card">
+            <h2>මුල්ලිවෛක්කාල්වල <em>40,000ක්</em> මැරුණාද?</h2>
+            <p>සත්‍ය නැතිව propaganda පරදවන්න බැහැ.</p>
+          </div>
+          <div class="evidence-tag" style="left:84px;top:556px">public evidence surfaces 6ක්</div>
+          <div class="source-strip" style="left:96px;bottom:82px"><b>Claim පරීක්ෂාව</b><span>stated විදිහට තහවුරු නැහැ</span></div>
+          <div class="stamp" style="right:118px;bottom:88px">Source check</div>
+        </article>
+      </div>
+
+      <div class="frame" id="option-a2">
+        <p class="label">A2 / Thread Network, Higher Drama</p>
+        <article class="thumb board take-a take-a2" data-export="mobile-thumbnail-a2-threaded-evidence-board.png">
+          <div class="kicker">Follow the sentence</div>
+          <div class="brand">The Analyst</div>
+          <div class="paper p1" data-pin="1"><iframe class="mini" src="../index.html#claim"></iframe></div>
+          <div class="paper p2" data-pin="2"><iframe class="mini" src="../visualisation/seo-power-network-demo.html?v=thumb-a2"></iframe></div>
+          <div class="paper p3" data-pin="3"><iframe class="mini" src="../index.html#search"></iframe></div>
+          <div class="paper p4" data-pin="4"><iframe class="mini" src="../index.html#source-chain"></iframe></div>
+          <div class="paper p5" data-pin="5"><iframe class="mini" src="../index.html#civic"></iframe></div>
+          <div class="paper p6" data-pin="6"><iframe class="mini" src="../index.html#references"></iframe></div>
+          <svg class="thread-map" viewBox="0 0 1080 1920" aria-hidden="true">
+            <line class="thread-coral" x1="61" y1="223" x2="545" y2="628"></line>
+            <line class="thread-coral" x1="545" y1="628" x2="687" y2="165"></line>
+            <line class="thread-coral thread-soft" x1="687" y1="165" x2="956" y2="999"></line>
+            <line class="thread-coral" x1="956" y1="999" x2="890" y2="1184"></line>
+            <line class="thread-green" x1="77" y1="1037" x2="181" y2="1272"></line>
+            <line class="thread-green thread-soft" x1="181" y1="1272" x2="142" y2="1861"></line>
+            <line class="thread-green" x1="142" y1="1861" x2="632" y2="1831"></line>
+            <line class="thread-green" x1="632" y1="1831" x2="738" y2="1208"></line>
+            <line class="thread-gold thread-soft" x1="545" y1="628" x2="738" y2="1208"></line>
+            <circle cx="61" cy="223" r="13"></circle><circle cx="545" cy="628" r="13"></circle><circle cx="687" cy="165" r="13"></circle><circle cx="956" cy="999" r="13"></circle><circle cx="890" cy="1184" r="13"></circle>
+            <circle cx="77" cy="1037" r="13"></circle><circle cx="181" cy="1272" r="13"></circle><circle cx="142" cy="1861" r="13"></circle><circle cx="632" cy="1831" r="13"></circle><circle cx="738" cy="1208" r="13"></circle>
+          </svg>
+          <span class="pin-label" style="left:78px;top:247px">claim</span>
+          <span class="pin-label" style="left:698px;top:188px">SEO map</span>
+          <span class="pin-label" style="left:646px;top:1848px">reference table</span>
+          <div class="title-card">
+            <h2>Mullivaikkal<br><em>40,000</em><br>deaths?</h2>
+            <p>Trace the source before repeating the number.</p>
+          </div>
+          <div class="callout" style="left:72px;bottom:475px">Search phrase <small>not the same as proof</small></div>
+          <div class="stamp" style="right:104px;bottom:486px">Audit trail</div>
+        </article>
+      </div>
+
+      <div class="frame" id="option-a3">
+        <p class="label">A3 / Controlled Chaos, More Clippings</p>
+        <article class="thumb board take-a take-a3" data-export="mobile-thumbnail-a3-source-pins-board.png">
+          <div class="kicker">Source check</div>
+          <div class="brand">The Analyst</div>
+          <div class="paper p1" data-pin="1"><iframe class="mini" src="../index.html#claim"></iframe></div>
+          <div class="paper p2" data-pin="2"><iframe class="mini" src="../index.html#seo-map"></iframe></div>
+          <div class="paper p3" data-pin="3"><iframe class="mini" src="../index.html#source-chain"></iframe></div>
+          <div class="paper p4" data-pin="4"><iframe class="mini" src="../index.html#words"></iframe></div>
+          <div class="paper p5" data-pin="5"><iframe class="mini" src="../index.html#numbers"></iframe></div>
+          <div class="paper p6" data-pin="6"><iframe class="mini" src="../index.html#references"></iframe></div>
+          <svg class="thread-map" viewBox="0 0 1080 1920" aria-hidden="true">
+            <line class="thread-coral" x1="77" y1="197" x2="157" y2="704"></line>
+            <line class="thread-coral" x1="157" y1="704" x2="537" y2="175"></line>
+            <line class="thread-coral" x1="537" y1="175" x2="1033" y2="957"></line>
+            <line class="thread-coral thread-soft" x1="1033" y1="957" x2="890" y2="735"></line>
+            <line class="thread-green" x1="13" y1="539" x2="186" y2="1220"></line>
+            <line class="thread-green" x1="186" y1="1220" x2="69" y2="1795"></line>
+            <line class="thread-green thread-soft" x1="69" y1="1795" x2="654" y2="1835"></line>
+            <line class="thread-green" x1="654" y1="1835" x2="526" y2="1220"></line>
+            <line class="thread-blue thread-soft" x1="890" y1="735" x2="526" y2="1220"></line>
+            <circle cx="77" cy="197" r="13"></circle><circle cx="157" cy="704" r="13"></circle><circle cx="537" cy="175" r="13"></circle><circle cx="1033" cy="957" r="13"></circle><circle cx="890" cy="735" r="13"></circle>
+            <circle cx="13" cy="539" r="13"></circle><circle cx="186" cy="1220" r="13"></circle><circle cx="69" cy="1795" r="13"></circle><circle cx="654" cy="1835" r="13"></circle><circle cx="526" cy="1220" r="13"></circle>
+          </svg>
+          <span class="pin-label" style="left:92px;top:220px">UN route</span>
+          <span class="pin-label" style="right:54px;top:980px">words</span>
+          <span class="pin-label" style="left:72px;bottom:235px">numbers</span>
+          <div class="title-card">
+            <h2>Mullivaikkal<br><em>40,000</em><br>deaths?</h2>
+            <p>A number can travel faster than its source.</p>
+          </div>
+          <div class="source-strip" style="left:76px;bottom:82px;background:rgba(255,255,255,.9)"><b>Safe reading</b><span>not exact, not place-only</span></div>
+          <div class="stamp" style="right:110px;bottom:120px">Source check</div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      let option = params.get('export');
+      if (!option) return;
+      if (option === 'a') option = 'a1';
+      if (option === 'si') option = 'a1-si';
+      const frame = document.getElementById(`option-${option}`);
+      if (!frame) return;
+      document.body.classList.add('export-mode');
+      frame.classList.add('active-export');
+    })();
+  </script>
+</body>
+</html>

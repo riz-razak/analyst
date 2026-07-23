@@ -1,0 +1,2 @@
+evidence_id,timestamp,kind,pointer,note,owner
+EV-C106AEBD,2026-06-28T02:06:06+05:30,command,python3 08-cli/yan-harness.py doctor --project all,doctor command smoke test,@priya

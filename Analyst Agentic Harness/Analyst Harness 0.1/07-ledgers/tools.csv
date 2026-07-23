@@ -1,0 +1,2 @@
+tool_id,project,tool_name,runner,allowed,scope,notes
+TOOL-ANALYST-HERMES-001,analyst,Hermes publication packet extension,hermes,false,prepared-not-installed,"No live gateway or publication release; packet layer only"

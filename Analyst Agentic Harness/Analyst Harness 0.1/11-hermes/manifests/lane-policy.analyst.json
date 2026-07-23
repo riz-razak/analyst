@@ -1,0 +1,25 @@
+{
+  "policy_id": "analyst-hermes-lanes",
+  "created_at": "2026-06-28",
+  "lanes": [
+    {
+      "lane_id": "publication-packet",
+      "purpose": "prepare source refresh, article QA, and approval packets",
+      "cloud_backed": false,
+      "writes_allowed": true,
+      "allowed_roots": ["."],
+      "requires": ["markdown_provenance", "csv_json_ledgers", "approval_gate"]
+    },
+    {
+      "lane_id": "runner-prompt-export",
+      "purpose": "export Codex/Claude runner prompts only",
+      "cloud_backed": true,
+      "writes_allowed": false,
+      "allowed_roots": [],
+      "requires": ["AP-124593B7", "transcript_return"]
+    }
+  ],
+  "default_lane": "publication-packet",
+  "publication_release_allowed": false,
+  "direct_runner_invocation_allowed": false
+}

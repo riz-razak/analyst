@@ -1,5 +1,5 @@
 ---
-title: "Deep Review — The Analyst (and Yan boundary), Angel Council"
+title: "Deep Review — The Analyst (and Yan boundary), Yan Agent Council (Suite)"
 date: "2026-06-19"
 owner: "claude — Yan agent council role identities (Priya, Nuwan, Ridma, Senevi, Bala) — 6 of 25+; full roster in COUNCIL_MANIFEST.md (unmounted)"
 status: "review-complete (Analyst) · Yan-macro PENDING mount"

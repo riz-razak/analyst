@@ -14,3 +14,6 @@ vm-changes.patch
 *.swp
 *.swo
 *~
+
+# LibreOffice/OpenOffice lock files
+.~lock.*#

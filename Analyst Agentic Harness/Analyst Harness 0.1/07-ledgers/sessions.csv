@@ -1,0 +1,4 @@
+session_id,created_at,project,mode,runner,status,raise_packet,close_handoff,notes
+session-2a22e0a5,2026-06-28T02:44:14+05:30,analyst,publication-day-smoke,,raised,/Users/rizrazak/Code/the-analyst/Analyst Agentic Harness/Analyst Harness 0.1/06-handoffs/RAISE_PACKET_2026_06_28_1044cb.md,,"v0.1 real dialect smoke: packet generation only, no publication action"
+SESSION-9C7DDCF5,2026-06-28T02:52:32+05:30,analyst,final-v0.1-smoke,,raised,/Users/rizrazak/Code/the-analyst/Analyst Agentic Harness/Analyst Harness 0.1/06-handoffs/RAISE_PACKET_2026_06_28_789f81.md,,final v0.1 real dialect smoke: packet only
+SESSION-9ED5ECAC,2026-06-28T03:01:13+05:30,analyst,publication-day-source-refresh,,raised,/Users/rizrazak/Code/the-analyst/Analyst Agentic Harness/Analyst Harness 0.1/06-handoffs/RAISE_PACKET_2026_06_28_12c1c1.md,,Return to recovered Super El Nino Sri Lanka 2026 publication session from files; start with local handoff and three-layer rule; no runner invocation.

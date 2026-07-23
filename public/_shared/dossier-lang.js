@@ -1,9 +1,9 @@
 /**
  * dossier-lang.js
- * Language toggle module for bilingual dossier pages (EN/Sinhala)
+ * Language toggle module for dossier pages (EN/Sinhala, optional Tamil)
  *
  * Features:
- * - Toggle between English (data-lang="en") and Sinhala (data-lang="si")
+ * - Toggle between configured language options using data-lang attributes
  * - Persists language preference to localStorage
  * - Updates button text and document language attribute
  */
@@ -13,6 +13,16 @@
 
   const STORAGE_KEY = 'dossier-lang';
   const DEFAULT_LANG = 'en';
+  const SUPPORTED_LANGS = ['en', 'si', 'ta'];
+  const LANG_LABELS = {
+    en: 'EN',
+    si: 'සිං',
+    ta: 'தமிழ்'
+  };
+  const LANG_CLASSES = {
+    si: 'show-sinhala',
+    ta: 'show-tamil'
+  };
 
   /**
    * Initialize language module on DOM ready
@@ -25,56 +35,79 @@
       return;
     }
 
-    // Read saved language preference or use default
+    const options = getLanguageOptions(langToggle);
     const savedLang = localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG;
+    const initialLang = options.includes(savedLang) ? savedLang : DEFAULT_LANG;
 
     // Apply saved language on page load
-    applyLanguage(savedLang);
+    applyLanguage(initialLang, options);
 
     // Attach click handler
-    langToggle.addEventListener('click', toggleLanguage);
+    langToggle.addEventListener('click', function() {
+      toggleLanguage(options);
+    });
+  }
+
+  /**
+   * Read configured page language options. Defaults to EN/Sinhala for legacy pages.
+   * @param {HTMLElement} langToggle
+   * @returns {string[]}
+   */
+  function getLanguageOptions(langToggle) {
+    const configured = (langToggle.getAttribute('data-lang-options') || 'en,si')
+      .split(',')
+      .map(function(lang) { return lang.trim(); })
+      .filter(function(lang) { return SUPPORTED_LANGS.includes(lang); });
+
+    if (!configured.includes(DEFAULT_LANG)) {
+      configured.unshift(DEFAULT_LANG);
+    }
+
+    return Array.from(new Set(configured));
   }
 
   /**
    * Apply language to page
-   * @param {string} lang - 'en' or 'si'
+   * @param {string} lang - configured language key
+   * @param {string[]} options - available page languages
    */
-  function applyLanguage(lang) {
+  function applyLanguage(lang, options) {
     const body = document.body;
     const langToggle = document.getElementById('langToggle');
+    const nextLang = options.includes(lang) ? lang : DEFAULT_LANG;
 
-    if (lang === 'si') {
-      // Show Sinhala, hide English
-      body.classList.add('show-sinhala');
-      document.documentElement.lang = 'si';
+    Object.keys(LANG_CLASSES).forEach(function(key) {
+      body.classList.remove(LANG_CLASSES[key]);
+    });
 
-      // Update button: "EN | සිং" → "EN | <span class="lang-active">සිං</span>"
-      if (langToggle) {
-        langToggle.innerHTML = 'EN | <span class="lang-active">සිං</span>';
-      }
-    } else {
-      // Show English (default), hide Sinhala
-      body.classList.remove('show-sinhala');
-      document.documentElement.lang = 'en';
+    if (LANG_CLASSES[nextLang]) {
+      body.classList.add(LANG_CLASSES[nextLang]);
+    }
 
-      // Update button: "<span class="lang-active">EN</span> | සිං"
-      if (langToggle) {
-        langToggle.innerHTML = '<span class="lang-active">EN</span> | සිං';
-      }
+    document.documentElement.lang = nextLang;
+
+    if (langToggle) {
+      langToggle.innerHTML = options.map(function(option) {
+        const label = LANG_LABELS[option] || option.toUpperCase();
+        return option === nextLang ? '<span class="lang-active">' + label + '</span>' : label;
+      }).join(' | ');
+      langToggle.setAttribute('aria-label', 'Switch language. Current language: ' + nextLang);
     }
 
     // Persist to localStorage
-    localStorage.setItem(STORAGE_KEY, lang);
+    localStorage.setItem(STORAGE_KEY, nextLang);
   }
 
   /**
-   * Toggle between English and Sinhala
+   * Cycle through configured languages
+   * @param {string[]} options - available page languages
    */
-  function toggleLanguage() {
+  function toggleLanguage(options) {
     const currentLang = localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG;
-    const newLang = currentLang === 'en' ? 'si' : 'en';
+    const currentIndex = options.includes(currentLang) ? options.indexOf(currentLang) : 0;
+    const newLang = options[(currentIndex + 1) % options.length];
 
-    applyLanguage(newLang);
+    applyLanguage(newLang, options);
 
     // Track analytics event
     if (window.gtag && typeof gtag === 'function') {

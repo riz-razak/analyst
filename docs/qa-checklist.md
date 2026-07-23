@@ -47,6 +47,23 @@ Every change must be verified before reporting completion.
 - [ ] Check email renders correctly (preview endpoint)
 - [ ] Verify sender address and subject line
 
+### Translation (pre-publish, blocking)
+
+No dossier publishes without these. The machine gate is necessary, not
+sufficient — items 2–5 are human judgement the gate cannot make.
+See [translation-protocol.md](translation-protocol.md) and
+[translation-runbook.md](translation-runbook.md).
+
+- [ ] **QA gate green for BOTH languages** — `python3 scripts/translation-qa.py public/<dossier>/index.html --lang both` exits `0`. Exit `1` = do not publish.
+- [ ] **Marker balance sanity check** — every `lang-en` node has non-empty `lang-si` and `lang-ta` siblings with matching `-si` / `-ta` CMS ids. Zero markers = nothing was translated and nothing warned you.
+- [ ] **Headline, dek, standfirst, kicker and pull-quotes are human-written** in Sinhala and Tamil — not machine output. Confirm by reading them, not by trusting the gate.
+- [ ] **Evidence chips intact** — `Verified` / `Documented` / `Alleged` / `Unaudited` survive verbatim in both editions; verdict badges, `[SX]` markers and `#src-` / `#ev-` anchors still resolve.
+- [ ] **Numbers spot-checked against the English** — walk the load-bearing figures (funnel counts, day counts, z-score cut-offs, helpline numbers, years) in SI and TA against the EN source element. A dropped digit is a correction, not a typo.
+- [ ] **Human read-through of the full SI and TA editions** completed and signed off.
+- [ ] **Language toggle enabled ONLY after sign-off** — `#langToggle` keeps `disabled` + `title` until then; on enabling, set `data-lang-options="en,si,ta"`.
+- [ ] **`vis/*.html` checked** — embedded visualisations are outside the pipeline. Either instrumented and translated, or explicitly accepted as English-only for this release.
+- [ ] **No secrets** — `GOOGLE_TRANSLATE_API_KEY` never appears in a file, a log, a commit or a screenshot.
+
 ## Mitigation Strategies
 
 ### Reducing False "Done" Reports
