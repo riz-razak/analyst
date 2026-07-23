@@ -151,6 +151,26 @@
       background: var(--forest-dark); border-color: var(--forest-dark);
       outline: 2px solid var(--forest-dark); outline-offset: 3px; box-shadow: none; }
     @media (prefers-reduced-motion: reduce) { .hero-meta .cta-chip { transition: none; } }
+    /* Rotating trilingual CTA: one pill, EN→SI→TA cycled every 4s.
+       The label window has a fixed line height; the track translates in
+       whole-line steps. All three phrases stay in the accessible tree via a
+       single aria-label on the link, so screen readers never see the cycle. */
+    .hero-meta .cta-rotate { overflow: hidden; }
+    .hero-meta .cta-rotate .cta-track {
+      display: flex; flex-direction: column; line-height: 1.15;
+      transition: transform .5s cubic-bezier(.22,.61,.36,1);
+      transform: translateY(calc(var(--cta-i, 0) * -1.15em));
+    }
+    .hero-meta .cta-rotate .cta-phrase {
+      display: block; height: 1.15em; white-space: nowrap;
+      font-family: var(--font-mono);
+    }
+    /* SI/TA glyphs need slightly more vertical room than mono Latin */
+    .hero-meta .cta-rotate .cta-phrase[lang="si"],
+    .hero-meta .cta-rotate .cta-phrase[lang="ta"] { font-family: inherit; }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-meta .cta-rotate .cta-track { transition: none; }
+    }
 
     /* Section tab strip — the single secondary nav; sticky under topbar+timeline,
        centred when it fits, horizontally scrollable when it does not. */
@@ -243,7 +263,7 @@
 <div class="top-actions">
 <a href="/">Home</a>
 <!-- Si/Ta editions pending Google-MT workflow (see STAGING.md). Enable when translations land. -->
-<button data-lang-options="en" disabled="" id="langToggle" title="Sinhala and Tamil editions in preparation" type="button"><span class="lang-active">EN</span> | සිං | தமிழ்</button>
+<button data-lang-options="en,si,ta" id="langToggle" title="Switch language / භාෂාව මාරු කරන්න / மொழியை மாற்று" type="button"><span class="lang-active">EN</span> | සිං | தமிழ்</button>
 </div>
 </div>
 </header>
@@ -263,9 +283,13 @@
 <span class="count-chip" data-cms-id="al-page-04-en" data-lang="en" lang-en="">19 days to the exam</span>
 <span class="count-chip" data-cms-id="al-page-04-si" data-lang="si" lang-si="">විභාගයට දින 19</span>
 <span class="count-chip" data-cms-id="al-page-04-ta" data-lang="ta" lang-ta="">தேர்வுக்கு இன்னும் 19 நாட்கள் உள்ளன.</span>
-<a class="cta-chip" data-cms-id="al-page-05-en" data-lang="en" href="https://c.org/znqhxLrHMW" lang-en="" rel="noopener" target="_blank">Sign the petition →</a>
-<a class="cta-chip" data-cms-id="al-page-05-si" data-lang="si" href="https://c.org/znqhxLrHMW" lang-si="" rel="noopener" target="_blank">පෙත්සමට අත්සන් කරන්න →</a>
-<a class="cta-chip" data-cms-id="al-page-05-ta" data-lang="ta" href="https://c.org/znqhxLrHMW" lang-ta="" rel="noopener" target="_blank">மனுவில் கையொப்பமிடுங்கள் →</a>
+<a class="cta-chip cta-rotate" href="https://c.org/znqhxLrHMW" rel="noopener" target="_blank" aria-label="Sign the petition">
+        <span class="cta-track" aria-hidden="true">
+          <span class="cta-phrase" lang="en" data-cms-id="al-page-05-en" lang-en="">Sign the petition →</span>
+          <span class="cta-phrase" lang="si" data-cms-id="al-page-05-si" lang-si="">පෙත්සමට අත්සන් කරන්න →</span>
+          <span class="cta-phrase" lang="ta" data-cms-id="al-page-05-ta" lang-ta="">மனுவில் கையொப்பமிடுங்கள் →</span>
+        </span>
+      </a>
 </div>
 </div>
 </section>
@@ -679,6 +703,22 @@
       f.addEventListener('load', function () { fit(f); });
       if (f.contentDocument && f.contentDocument.readyState === 'complete') { fit(f); }
     });
+  })();
+  </script>
+  <script>
+  /* Trilingual CTA rotation — one pill, 3 phrases, 4s cadence. Pauses when the
+     tab is hidden; disabled under prefers-reduced-motion (label stays on EN). */
+  (function () {
+    var track = document.querySelector('.cta-rotate .cta-track');
+    if (!track) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var n = track.querySelectorAll('.cta-phrase').length, i = 0, timer = null;
+    function tick() { i = (i + 1) % n; track.style.setProperty('--cta-i', i); }
+    function start() { if (!timer) timer = setInterval(tick, 4000); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    document.addEventListener('visibilitychange',
+      function () { document.hidden ? stop() : start(); });
+    start();
   })();
   </script>
 </body>
