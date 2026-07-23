@@ -150,7 +150,7 @@
       box-shadow: 0 2px 6px rgba(26,26,46,0.16); transform: translateY(-1px); }
     .hero-meta .cta-chip:focus-visible {
       background: var(--forest-dark); border-color: var(--forest-dark);
-      outline: 2px solid var(--forest-dark); outline-offset: 3px; box-shadow: none; }
+      outline: 2px solid var(--forest); outline-offset: 2px; box-shadow: none; }
     @media (prefers-reduced-motion: reduce) { .hero-meta .cta-chip { transition: none; } .hero-meta .cta-chip:hover { transform: none; } }
     /* CTA labels are driven by the shared language layer ([data-lang] in
        dossier-base.css) — no rotation, no JS. Exactly one of the three
@@ -160,7 +160,11 @@
        border and muted colour, nesting a pale pill inside the forest pill
        and killing contrast; this scoped rule (0,3,0) wins over that (0,1,1)
        without !important and restores plain inline text on the forest fill. */
-    .hero-meta .cta-chip .cta-label { background: none; border: 0; border-radius: 0; padding: 0; color: inherit; display: inline; }
+    .hero-meta .cta-chip .cta-label { background: none; border: 0; border-radius: 0; padding: 0; color: inherit; line-height: 1; }
+    /* The shared Indic typography rule ([data-lang="si"], [data-lang="ta"] { line-height: 1.8 })
+       targets these same spans directly (not just an ancestor) and would make the pill taller
+       than its siblings whenever the Sinhala/Tamil label is the one shown; this scoped (0,3,0)
+       rule pins line-height back to 1 without touching the shared rule or other data-lang users. */
 
     /* Section tab strip — the single secondary nav; sticky under topbar+timeline,
        centred when it fits, horizontally scrollable when it does not. */
@@ -285,9 +289,9 @@
 <p class="dek" data-cms-id="al-page-03-ta" data-lang="ta" lang-ta=""><span class="dek-l">இலங்கை 2020-ல் தனது தேர்வு அட்டவணையைச் சீர்குலைத்தது.</span> <span class="dek-l">2026-ல் அதை ஒரேயடியாகச் சரிசெய்து முடிக்க முடிவுசெய்து, அதற்கான செலவைப் பதினேழு வயதுடைய ஓர் மாணவர் குழுவிடம் ஒப்படைத்தது.</span></p>
 <div class="hero-meta">
 <span>Colombo · 22 July 2026</span>
-<span class="count-chip" data-cms-id="al-page-04-en" data-lang="en" lang-en="">19 days to the exam</span>
-<span class="count-chip" data-cms-id="al-page-04-si" data-lang="si" lang-si="">විභාගයට දින 19</span>
-<span class="count-chip" data-cms-id="al-page-04-ta" data-lang="ta" lang-ta="">தேர்வுக்கு இன்னும் 19 நாட்கள் உள்ளன.</span>
+<span class="count-chip" data-cms-id="al-page-04-en" data-lang="en" lang-en="" data-count-tpl="{n} days to the exam">19 days to the exam</span>
+<span class="count-chip" data-cms-id="al-page-04-si" data-lang="si" lang-si="" data-count-tpl="විභාගයට දින {n}">විභාගයට දින 19</span>
+<span class="count-chip" data-cms-id="al-page-04-ta" data-lang="ta" lang-ta="" data-count-tpl="தேர்வுக்கு இன்னும் {n} நாட්கள்">தேர்வுக்கு இன்னும் 19 நாட்கள் உள்ளன.</span>
 <a class="cta-chip" href="https://c.org/znqhxLrHMW" rel="noopener" target="_blank" aria-label="Sign the petition / පෙත්සමට අත්සන් කරන්න / மனுவில் கையொப்பமிடுங்கள்"><span class="cta-label" data-lang="en" data-cms-id="al-page-05-en" lang-en="">Sign the petition →</span><span class="cta-label" data-lang="si" data-cms-id="al-page-05-si" lang-si="">පෙත්සමට අත්සන් කරන්න →</span><span class="cta-label" data-lang="ta" data-cms-id="al-page-05-ta" lang-ta="">மனுவில் கையொப்பமிடுங்கள் →</span></a>
 </div>
 </div>
@@ -702,6 +706,32 @@
       f.addEventListener('load', function () { fit(f); });
       if (f.contentDocument && f.contentDocument.readyState === 'complete') { fit(f); }
     });
+  })();
+  </script>
+  <script>
+  /* Live exam countdown (@senevi). Recomputes days to the A/L (10 Aug 2026,
+     Sri Lanka time) on load and hourly, so it rolls over at local midnight.
+     Fills each language chip from its own template; on exam day and after,
+     the chip is removed. No-JS fallback = the static text in the markup. */
+  (function () {
+    var EXAM = new Date('2026-08-10T00:00:00+05:30');
+    var chips = [].slice.call(document.querySelectorAll('.count-chip[data-count-tpl]'));
+    if (!chips.length) return;
+    function update() {
+      var days = Math.ceil((EXAM - new Date()) / 86400000);
+      chips.forEach(function (c) {
+        if (days > 0) {
+          var t = c.getAttribute('data-count-tpl').replace('{n}', days);
+          if (c.getAttribute('data-lang') === 'en' && days === 1) t = t.replace('days', 'day');
+          c.textContent = t;
+          c.style.display = '';           // let the language layer control visibility
+        } else {
+          c.style.display = 'none';        // removed on exam day and after
+        }
+      });
+    }
+    update();
+    setInterval(update, 3600000);
   })();
   </script>
 </body>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yan News R1 Review - Internal</title>
+  <style>
+    :root {
+      --ink: #20231f;
+      --muted: #6d6d64;
+      --paper: #f6f1e7;
+      --panel: #fffaf0;
+      --line: #d9cfbd;
+      --green: #294f3c;
+      --clay: #a7603f;
+      --gold: #b8923a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    header {
+      border-bottom: 3px solid var(--green);
+      padding: 28px clamp(20px, 5vw, 72px);
+      background: #faf7ee;
+    }
+    .kicker {
+      color: var(--clay);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 8px 0 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(40px, 7vw, 88px);
+      line-height: .95;
+      letter-spacing: 0;
+      color: var(--green);
+    }
+    main {
+      width: min(1180px, calc(100vw - 40px));
+      margin: 34px auto 80px;
+      display: grid;
+      gap: 22px;
+    }
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--green);
+      font-size: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      background: #fffdf7;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    ul { margin: 0; padding-left: 20px; }
+    li + li { margin-top: 8px; }
+    code {
+      background: #efe7d8;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: .95em;
+    }
+    a { color: var(--green); font-weight: 800; }
+    .decision {
+      border-left: 5px solid var(--gold);
+      padding-left: 14px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="kicker">Internal noindex review</div>
+    <h1>Yan News R1</h1>
+    <p>Rename reset stocktake for the locked future public/product name. No runtime migration is authorized here.</p>
+  </header>
+  <main>
+    <section>
+      <h2>Locked</h2>
+      <div class="grid">
+        <div class="card"><span class="label">Future name</span><strong>Yan News</strong></div>
+        <div class="card"><span class="label">Current runtime</span><strong>The Analyst at analyst.rizrazak.com</strong></div>
+        <div class="card"><span class="label">Priority</span><strong>Yan News rename stocktake</strong></div>
+        <div class="card"><span class="label">2dee</span><strong>Evidence/archive only</strong></div>
+      </div>
+    </section>
+    <section>
+      <h2>Must Stay Unchanged By Default</h2>
+      <ul>
+        <li><code>analyst.rizrazak.com</code> domain and Worker route</li>
+        <li><code>riz-razak/analyst</code> repo and CMS target</li>
+        <li><code>AUTH_UNIFIED_CLIENT_ID=analyst</code></li>
+        <li><code>analyst.*</code> rights and <code>analyst.admin.access</code></li>
+        <li><code>__Host-analyst_session</code></li>
+        <li>dossier slugs, IDs, canonicals, and feed GUIDs</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Founder Ballot</h2>
+      <div class="decision">
+        <p><strong>Recommended R1 default:</strong> approve display-only planning, preserve all Analyst runtime identifiers, treat 2dee as archive evidence, and defer every auth/domain/CMS/infrastructure migration.</p>
+      </div>
+    </section>
+    <section>
+      <h2>Package Files</h2>
+      <ul>
+        <li><a href="current-source-and-worktree-authority.md">current-source-and-worktree-authority.md</a></li>
+        <li><a href="yan-news-identifier-and-surface-register.csv">yan-news-identifier-and-surface-register.csv</a></li>
+        <li><a href="yan-news-dependency-graph.json">yan-news-dependency-graph.json</a></li>
+        <li><a href="analyst-to-yan-news-lineage-register.csv">analyst-to-yan-news-lineage-register.csv</a></li>
+        <li><a href="yan-news-workstream-and-gate-register.csv">yan-news-workstream-and-gate-register.csv</a></li>
+        <li><a href="yan-news-founder-decision-brief.md">yan-news-founder-decision-brief.md</a></li>
+        <li><a href="yan-news-session-handoff.md">yan-news-session-handoff.md</a></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Hard Stops</h2>
+      <ul>
+        <li>No global replacement.</li>
+        <li>No 2dee merge or reset.</li>
+        <li>No deployment.</li>
+        <li>No auth, domain, CMS, data, service-ID, slug, or feed migration.</li>
+        <li>No Sinhala or Tamil public copy from LLM memory.</li>
+        <li>No golab authority imported into Yan News.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

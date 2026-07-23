@@ -1,0 +1,182 @@
+{
+  "schema": "yan-news.rename-reset.dependency-graph/1.0",
+  "package": "YAN-NEWS-RENAME-RESET-STOCKTAKE-01",
+  "created_at": "2026-07-23T00:00:00+05:30",
+  "name_direction": {
+    "future_public_product_name": "Yan News",
+    "state": "locked_by_founder",
+    "scope": "name and direction",
+    "not_authorized_by_this_graph": [
+      "repo rename",
+      "domain or DNS change",
+      "auth product/client/right/cookie migration",
+      "Worker/service identity migration",
+      "CMS or data migration",
+      "dossier slug or ID migration",
+      "deployment",
+      "public promotion",
+      "feed movement",
+      "legal or publisher conclusion",
+      "cleanup or deletion"
+    ]
+  },
+  "nodes": {
+    "display_brand": {
+      "current": "The Analyst",
+      "target": "Yan News",
+      "authority": "founder locked future name",
+      "first_allowed_package": "display-only candidate after R1",
+      "default_treatment": "rename-after-gate"
+    },
+    "publisher_legal_identity": {
+      "current": "Riz Razak / The Analyst references across pages and docs",
+      "target": "undecided",
+      "authority": "founder plus legal review",
+      "default_treatment": "defer"
+    },
+    "domains_canonicals_redirects": {
+      "current_domain": "analyst.rizrazak.com",
+      "current_cname": "public/CNAME",
+      "worker_route": "analyst.rizrazak.com/*",
+      "target": "undecided Yan News domain and compatibility window",
+      "default_treatment": "defer"
+    },
+    "repo_package_build": {
+      "current_repo": "riz-razak/analyst",
+      "current_package": "rizrazak-spa",
+      "build": "npm run build",
+      "validation": "bash scripts/codex/validate.sh",
+      "target": "undecided",
+      "default_treatment": "defer"
+    },
+    "worker_routes": {
+      "current_worker": "analyst-collaborative-cms",
+      "entrypoint": "functions/collaborative-session.js",
+      "deploy_rule": "base Worker only with npx wrangler deploy --env=\"\"",
+      "target": "undecided",
+      "default_treatment": "defer"
+    },
+    "auth_product_client_rights_cookies": {
+      "issuer": "https://auth.yan.lk",
+      "client_id": "analyst",
+      "session_cookie": "__Host-analyst_session",
+      "required_admin_right": "analyst.admin.access",
+      "rights_namespace": "analyst.*",
+      "assurance": "AAL2",
+      "target": "possible Yan News product identity only after central-auth gate",
+      "default_treatment": "defer"
+    },
+    "cms_admin_api_data": {
+      "cms_publish_repo": "riz-razak/analyst",
+      "registry": "public/data/dossiers.json",
+      "worker_api": "functions/collaborative-session.js",
+      "draft_store": "DRAFT_STORE binding",
+      "session_store": "SESSION_STORE binding",
+      "target": "undecided",
+      "default_treatment": "defer"
+    },
+    "translation_gcp": {
+      "project": "yan-news-503217",
+      "role": "Cloud Translation infrastructure lineage",
+      "retired_project": "warenyan",
+      "default_treatment": "retain; do not treat as public rename proof"
+    },
+    "analytics_email": {
+      "current_site_url": "https://analyst.rizrazak.com",
+      "email_identity": "submissions@analyst.rizrazak.com references",
+      "analytics_scripts": [
+        "scripts/maintenance/inject-analytics.py",
+        "functions/collaborative-session.js"
+      ],
+      "target": "undecided",
+      "default_treatment": "defer"
+    },
+    "seo_social_rss_pwa": {
+      "root_metadata": "index.html",
+      "maintenance_script": "scripts/maintenance/inject-jsonld.py",
+      "feed": "feed.xml references where present",
+      "target": "Yan News SEO package after canonical/redirect decisions",
+      "default_treatment": "defer"
+    },
+    "corpus_content_ids": {
+      "registry": "public/data/dossiers.json",
+      "published_slugs": "public/<slug>/index.html",
+      "source_authority": "/Users/rizrazak/Code/research",
+      "target": "retained immutable IDs unless corpus migration gate says otherwise",
+      "default_treatment": "retain-lineage"
+    },
+    "generated_outputs": {
+      "dist": "generated build output",
+      "translation_review_html": "generated review surfaces",
+      "archives": "historical mockups and stale docs",
+      "default_treatment": "regenerate or archive; never global rename in place"
+    },
+    "golab_correction": {
+      "task_id": "019e3d6c-5c56-7c80-b793-9f4615ecebab",
+      "actual_product": "golab",
+      "allowed_use": "shared auth.yan.lk and company-policy dependency evidence only",
+      "excluded_authority": [
+        "Yan News product authority",
+        "Yan News rename authority",
+        "Yan News UI authority",
+        "Yan News data authority",
+        "Yan News runtime authority",
+        "Yan News migration authority"
+      ]
+    }
+  },
+  "edges": [
+    {
+      "from": "display_brand",
+      "to": "seo_social_rss_pwa",
+      "risk": "public label changes can affect metadata and disclosure",
+      "gate": "display and SEO wording approval"
+    },
+    {
+      "from": "domains_canonicals_redirects",
+      "to": "auth_product_client_rights_cookies",
+      "risk": "callback URL, cookie host, CORS and CSRF contracts can break sign-in",
+      "gate": "central-auth domain migration package"
+    },
+    {
+      "from": "repo_package_build",
+      "to": "cms_admin_api_data",
+      "risk": "CMS publishes through GitHub Contents to the current repo",
+      "gate": "CMS/repo migration package"
+    },
+    {
+      "from": "worker_routes",
+      "to": "cms_admin_api_data",
+      "risk": "Worker owns admin, drafts, sessions and visibility gates",
+      "gate": "Worker release package"
+    },
+    {
+      "from": "corpus_content_ids",
+      "to": "seo_social_rss_pwa",
+      "risk": "slug, canonical, feed GUID and citation drift",
+      "gate": "corpus migration and reverse map"
+    },
+    {
+      "from": "translation_gcp",
+      "to": "display_brand",
+      "risk": "GCP label can be mistaken for completed public rename",
+      "gate": "explicit note in R1 brief"
+    }
+  ],
+  "rollback_contract": {
+    "display_only": [
+      "keep allowlist of changed files",
+      "preserve old and new label map",
+      "no DB/KV change",
+      "no auth/domain change",
+      "git revert candidate commit if needed"
+    ],
+    "later_migration": [
+      "reverse redirect map",
+      "prior Pages commit/artifact",
+      "prior Worker version and binding inventory without secret values",
+      "old/new smoke pack",
+      "one-plane-at-a-time rollback"
+    ]
+  }
+}

@@ -46,14 +46,14 @@ fi
 # Nothing to commit? bail cleanly.
 if git diff --cached --quiet; then
   echo "→ nothing staged; skipping commit. Pulling latest and exiting."
-  git pull --rebase origin main
+  git pull --rebase --autostash origin main
   exit 0
 fi
 
 git commit -m "$MSG"
 
 echo "→ rebasing on origin/main (shared repo)…"
-git pull --rebase origin main
+git pull --rebase --autostash origin main
 
 echo "→ pushing…"
 git push
