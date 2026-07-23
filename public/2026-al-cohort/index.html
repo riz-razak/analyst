@@ -155,25 +155,18 @@
        The label window has a fixed line height; the track translates in
        whole-line steps. All three phrases stay in the accessible tree via a
        single aria-label on the link, so screen readers never see the cycle. */
-    /* Rotating multilingual CTA: ONE pill, a single-line window that cycles the
-       phrases. The window height is locked to 1 line (--cta-lh) so the anchor
-       never grows to stack them; the track slides up in whole-line steps. */
-    .hero-meta .cta-rotate { --cta-lh: 1.4em; position: relative; }
-    .hero-meta .cta-rotate .cta-track {
-      display: block; height: var(--cta-lh); overflow: hidden;
-    }
-    .hero-meta .cta-rotate .cta-inner {
-      display: block;
-      transition: transform .5s cubic-bezier(.22,.61,.36,1);
-      transform: translateY(calc(var(--cta-i, 0) * -1 * var(--cta-lh)));
-    }
+    /* Rotating multilingual CTA: ONE pill. All phrases occupy the SAME grid cell
+       (so the pill is as wide as the widest phrase and never reflows); only the
+       active one is visible, crossfaded. No height/transform math to collapse. */
+    .hero-meta .cta-rotate .cta-track { display: grid; align-items: center; }
     .hero-meta .cta-rotate .cta-phrase {
-      display: flex; align-items: center; height: var(--cta-lh);
-      white-space: nowrap; line-height: 1;
+      grid-area: 1 / 1; white-space: nowrap; text-align: center;
+      opacity: 0; transition: opacity .45s ease; pointer-events: none;
     }
+    .hero-meta .cta-rotate .cta-phrase.is-active { opacity: 1; }
     @media (prefers-reduced-motion: reduce) {
-      .hero-meta .cta-rotate .cta-inner { transition: none; transform: none; }
-      .hero-meta .cta-rotate .cta-phrase:not(:first-child) { display: none; }
+      .hero-meta .cta-rotate .cta-phrase { transition: none; }
+      .hero-meta .cta-rotate .cta-phrase:not(.is-active) { display: none; }
     }
 
     /* Section tab strip — the single secondary nav; sticky under topbar+timeline,
@@ -288,11 +281,11 @@
 <span class="count-chip" data-cms-id="al-page-04-si" data-lang="si" lang-si="">විභාගයට දින 19</span>
 <span class="count-chip" data-cms-id="al-page-04-ta" data-lang="ta" lang-ta="">தேர்வுக்கு இன்னும் 19 நாட்கள் உள்ளன.</span>
 <a class="cta-chip cta-rotate" href="https://c.org/znqhxLrHMW" rel="noopener" target="_blank" aria-label="Sign the petition / පෙත්සමට අත්සන් කරන්න">
-        <span class="cta-track" aria-hidden="true"><span class="cta-inner">
-          <span class="cta-phrase" lang="en" data-cms-id="al-page-05-en" lang-en="">Sign the petition →</span>
+        <span class="cta-track" aria-hidden="true">
+          <span class="cta-phrase is-active" lang="en" data-cms-id="al-page-05-en" lang-en="">Sign the petition →</span>
           <span class="cta-phrase" lang="si" data-cms-id="al-page-05-si" lang-si="">පෙත්සමට අත්සන් කරන්න →</span>
           <span class="cta-phrase" lang="ta" data-cms-id="al-page-05-ta" lang-ta="">மனுவில் கையொப்பமிடுங்கள் →</span>
-        </span></span>
+        </span>
       </a>
 </div>
 </div>
@@ -710,14 +703,18 @@
   })();
   </script>
   <script>
-  /* Trilingual CTA rotation — one pill, 3 phrases, 4s cadence. Pauses when the
-     tab is hidden; disabled under prefers-reduced-motion (label stays on EN). */
+  /* Multilingual CTA rotation — one pill, crossfade the active phrase every 4s.
+     Pauses on tab-hide; reduced-motion shows only the first phrase (CSS). */
   (function () {
-    var track = document.querySelector('.cta-rotate .cta-inner');
-    if (!track) return;
+    var phrases = [].slice.call(document.querySelectorAll('.cta-rotate .cta-phrase'));
+    if (phrases.length < 2) return;
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var n = track.querySelectorAll('.cta-phrase').length, i = 0, timer = null;
-    function tick() { i = (i + 1) % n; track.style.setProperty('--cta-i', i); }
+    var i = 0, timer = null;
+    function tick() {
+      phrases[i].classList.remove('is-active');
+      i = (i + 1) % phrases.length;
+      phrases[i].classList.add('is-active');
+    }
     function start() { if (!timer) timer = setInterval(tick, 4000); }
     function stop() { if (timer) { clearInterval(timer); timer = null; } }
     document.addEventListener('visibilitychange',
