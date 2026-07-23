@@ -94,9 +94,9 @@ DEFAULT_LOCATION = "us-central1"
 DEFAULT_PROJECT = "yan-news-503217"
 
 # Supported target languages
-SUPPORTED_TARGET_LANGS = ("si", "ta")
-LANG_NAMES = {"si": "Sinhala", "ta": "Tamil"}
-LANG_SCRIPT_LABEL = {"si": "සිංහල", "ta": "தமிழ்"}
+SUPPORTED_TARGET_LANGS = ("si", "ta", "fr")
+LANG_NAMES = {"si": "Sinhala", "ta": "Tamil", "fr": "French"}
+LANG_SCRIPT_LABEL = {"si": "සිංහල", "ta": "தமிழ்", "fr": "Français"}
 
 # Terms that should NEVER be translated (keep as English/Singlish)
 SINGLISH_KEEP = {

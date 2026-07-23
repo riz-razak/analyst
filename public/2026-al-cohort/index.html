@@ -155,21 +155,25 @@
        The label window has a fixed line height; the track translates in
        whole-line steps. All three phrases stay in the accessible tree via a
        single aria-label on the link, so screen readers never see the cycle. */
-    .hero-meta .cta-rotate { overflow: hidden; }
+    /* Rotating multilingual CTA: ONE pill, a single-line window that cycles the
+       phrases. The window height is locked to 1 line (--cta-lh) so the anchor
+       never grows to stack them; the track slides up in whole-line steps. */
+    .hero-meta .cta-rotate { --cta-lh: 1.4em; position: relative; }
     .hero-meta .cta-rotate .cta-track {
-      display: flex; flex-direction: column; line-height: 1.15;
+      display: block; height: var(--cta-lh); overflow: hidden;
+    }
+    .hero-meta .cta-rotate .cta-inner {
+      display: block;
       transition: transform .5s cubic-bezier(.22,.61,.36,1);
-      transform: translateY(calc(var(--cta-i, 0) * -1.15em));
+      transform: translateY(calc(var(--cta-i, 0) * -1 * var(--cta-lh)));
     }
     .hero-meta .cta-rotate .cta-phrase {
-      display: block; height: 1.15em; white-space: nowrap;
-      font-family: var(--font-mono);
+      display: flex; align-items: center; height: var(--cta-lh);
+      white-space: nowrap; line-height: 1;
     }
-    /* SI/TA glyphs need slightly more vertical room than mono Latin */
-    .hero-meta .cta-rotate .cta-phrase[lang="si"],
-    .hero-meta .cta-rotate .cta-phrase[lang="ta"] { font-family: inherit; }
     @media (prefers-reduced-motion: reduce) {
-      .hero-meta .cta-rotate .cta-track { transition: none; }
+      .hero-meta .cta-rotate .cta-inner { transition: none; transform: none; }
+      .hero-meta .cta-rotate .cta-phrase:not(:first-child) { display: none; }
     }
 
     /* Section tab strip — the single secondary nav; sticky under topbar+timeline,
@@ -273,7 +277,7 @@
 <p class="hero-kicker" data-cms-id="al-page-01-si" data-lang="si" lang-si="">අධ්‍යාපනය · ප්‍රතිපත්ති සහ නීතිය</p>
 <p class="hero-kicker" data-cms-id="al-page-01-ta" data-lang="ta" lang-ta="">கல்வி · கொள்கை மற்றும் சட்டம்</p>
 <h1 data-cms-id="al-page-02-en" data-lang="en" lang-en="">The Cohort That Paid <span class="bill">the Bill</span></h1>
-<h1 data-cms-id="al-page-02-si" data-lang="si" lang-si=""><span class="bill">බිල්පත</span> ගෙවූ කණ්ඩායම</h1>
+<h1 data-cms-id="al-page-02-si" data-lang="si" lang-si="">අන්තිමට A/L බිල ගෙවන්නෙ ළමයින්ද?</h1>
 <h1 data-cms-id="al-page-02-ta" data-lang="ta" lang-ta=""><span class="bill">கட்டணத்தைச்</span> செலுத்திய குழு</h1>
 <p class="dek" data-cms-id="al-page-03-en" data-lang="en" lang-en=""><span class="dek-l">Sri Lanka broke its examination calendar in 2020.</span> <span class="dek-l">In 2026 it decided to finish repairing it at once — and handed the cost to one group of seventeen-year-olds.</span></p>
 <p class="dek" data-cms-id="al-page-03-si" data-lang="si" lang-si=""><span class="dek-l">2020 දී ශ්‍රී ලංකාව විභාග දින දර්ශනය බිඳ දැමුවා.</span> <span class="dek-l">2026 දී එය එකවර අලුත්වැඩියා කිරීම අවසන් කිරීමට තීරණය කළා - ඒ වගේම වියදම අවුරුදු දාහතක් වයසැති එක් කණ්ඩායමකට භාර දුන්නා.</span></p>
@@ -283,12 +287,12 @@
 <span class="count-chip" data-cms-id="al-page-04-en" data-lang="en" lang-en="">19 days to the exam</span>
 <span class="count-chip" data-cms-id="al-page-04-si" data-lang="si" lang-si="">විභාගයට දින 19</span>
 <span class="count-chip" data-cms-id="al-page-04-ta" data-lang="ta" lang-ta="">தேர்வுக்கு இன்னும் 19 நாட்கள் உள்ளன.</span>
-<a class="cta-chip cta-rotate" href="https://c.org/znqhxLrHMW" rel="noopener" target="_blank" aria-label="Sign the petition">
-        <span class="cta-track" aria-hidden="true">
+<a class="cta-chip cta-rotate" href="https://c.org/znqhxLrHMW" rel="noopener" target="_blank" aria-label="Sign the petition / පෙත්සමට අත්සන් කරන්න">
+        <span class="cta-track" aria-hidden="true"><span class="cta-inner">
           <span class="cta-phrase" lang="en" data-cms-id="al-page-05-en" lang-en="">Sign the petition →</span>
           <span class="cta-phrase" lang="si" data-cms-id="al-page-05-si" lang-si="">පෙත්සමට අත්සන් කරන්න →</span>
           <span class="cta-phrase" lang="ta" data-cms-id="al-page-05-ta" lang-ta="">மனுவில் கையொப்பமிடுங்கள் →</span>
-        </span>
+        </span></span>
       </a>
 </div>
 </div>
@@ -709,7 +713,7 @@
   /* Trilingual CTA rotation — one pill, 3 phrases, 4s cadence. Pauses when the
      tab is hidden; disabled under prefers-reduced-motion (label stays on EN). */
   (function () {
-    var track = document.querySelector('.cta-rotate .cta-track');
+    var track = document.querySelector('.cta-rotate .cta-inner');
     if (!track) return;
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     var n = track.querySelectorAll('.cta-phrase').length, i = 0, timer = null;

@@ -259,7 +259,8 @@ ol ol {
    ============================================================================ */
 /* Default: English visible, local-language layers hidden */
 [data-lang="si"],
-[data-lang="ta"] {
+[data-lang="ta"],
+[data-lang="fr"] {
     display: none;
 }
 
@@ -273,7 +274,8 @@ body.show-sinhala [data-lang="si"] {
 }
 
 body.show-sinhala [data-lang="en"],
-body.show-sinhala [data-lang="ta"] {
+body.show-sinhala [data-lang="ta"],
+body.show-sinhala [data-lang="fr"] {
     display: none;
 }
 
@@ -281,9 +283,19 @@ body.show-sinhala [data-lang="ta"] {
 body.show-tamil [data-lang="ta"] {
     display: inline;
 }
+body.show-french [data-lang="fr"] {
+  display: revert;
+}
+body.show-french [data-lang="en"],
+body.show-french [data-lang="si"],
+body.show-french [data-lang="ta"] {
+  display: none;
+}
+
 
 body.show-tamil [data-lang="en"],
-body.show-tamil [data-lang="si"] {
+body.show-tamil [data-lang="si"],
+body.show-tamil [data-lang="fr"] {
     display: none;
 }
 

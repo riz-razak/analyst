@@ -13,15 +13,17 @@
 
   const STORAGE_KEY = 'dossier-lang';
   const DEFAULT_LANG = 'en';
-  const SUPPORTED_LANGS = ['en', 'si', 'ta'];
+  const SUPPORTED_LANGS = ['en', 'si', 'ta', 'fr'];
   const LANG_LABELS = {
     en: 'EN',
     si: 'සිං',
-    ta: 'தமிழ்'
+    ta: 'தமிழ்',
+    fr: 'FR'
   };
   const LANG_CLASSES = {
     si: 'show-sinhala',
-    ta: 'show-tamil'
+    ta: 'show-tamil',
+    fr: 'show-french'
   };
 
   /**
