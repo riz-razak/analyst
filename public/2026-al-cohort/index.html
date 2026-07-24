@@ -161,6 +161,15 @@
        and killing contrast; this scoped rule (0,3,0) wins over that (0,1,1)
        without !important and restores plain inline text on the forest fill. */
     .hero-meta .cta-chip .cta-label { background: none; border: 0; border-radius: 0; padding: 0; color: inherit; line-height: 1; }
+    /* Epigraph — the December quote, set apart below the header. */
+    .epigraph { background: var(--paper); padding: 8px 24px 40px; }
+    .epigraph-wrap { max-width: var(--measure); margin: 0 auto; }
+    .epi-quote { margin: 0; border-left: 3px solid var(--gold); padding: 4px 0 4px 22px; }
+    .epi-quote p { font-family: var(--font-serif); font-size: clamp(1.15rem, 1.9vw, 1.5rem);
+      line-height: 1.5; color: var(--ink); margin: 0 0 12px; }
+    .epi-quote p[data-lang="si"], .epi-quote p[data-lang="ta"] { line-height: 1.85; font-family: inherit; }
+    .epi-cite { display: block; font: 700 0.76rem/1.4 var(--font-mono); text-transform: uppercase;
+      letter-spacing: 0.05em; color: var(--muted); font-style: normal; }
     /* The shared Indic typography rule ([data-lang="si"], [data-lang="ta"] { line-height: 1.8 })
        targets these same spans directly (not just an ancestor) and would make the pill taller
        than its siblings whenever the Sinhala/Tamil label is the one shown; this scoped (0,3,0)
@@ -296,10 +305,22 @@
 </div>
 </div>
 </section>
+<section class="epigraph" aria-label="Epigraph">
+    <div class="epigraph-wrap">
+      <blockquote class="epi-quote">
+        <p data-lang="en" data-cms-id="al-epi-01-en" lang-en="">&ldquo;In consideration of children&rsquo;s mental well-being and the time needed for normalcy to be restored after facing such a disaster, the Education Ministry has decided to not hold the third term examinations this year.&rdquo;</p>
+        <p data-lang="si" data-cms-id="al-epi-01-si" lang-si="">&ldquo;දරුවන්ගේ මානසික යහපැවැත්ම සහ එවැනි ව්‍යසනයකට මුහුණ දීමෙන් පසු සාමාන්‍ය තත්ත්වයට පත්වීමට ගතවන කාලය සැලකිල්ලට ගනිමින්, මෙම වසරේ තෙවන වාර විභාග නොපැවැත්වීමට අධ්‍යාපන අමාත්‍යාංශය තීරණය කර ඇත.&rdquo;</p>
+        <p data-lang="ta" data-cms-id="al-epi-01-ta" lang-ta="">&ldquo;குழந்தைகளின் மனநலனையும், இதுபோன்ற பேரிடரைச் சந்தித்த பிறகு இயல்பு நிலை திரும்புவதற்குத் தேவைப்படும் காலத்தையும் கருத்தில் கொண்டு, இந்த ஆண்டு மூன்றாம் பருவத் தேர்வுகளை நடத்த வேண்டாம் என கல்வி அமைச்சு முடிவு செய்துள்ளது.&rdquo;</p>
+        <cite class="epi-cite" data-lang="en" data-cms-id="al-epi-02-en" lang-en="">Secretary, Ministry of Education &mdash; 14 December 2025</cite>
+        <cite class="epi-cite" data-lang="si" data-cms-id="al-epi-02-si" lang-si="">ලේකම්, අධ්‍යාපන අමාත්‍යාංශය &mdash; 2025 දෙසැම්බර් 14</cite>
+        <cite class="epi-cite" data-lang="ta" data-cms-id="al-epi-02-ta" lang-ta="">கல்வி அமைச்சு செயலாளர் &mdash; 14 டிசம்பர் 2025</cite>
+      </blockquote>
+    </div>
+  </section>
 <main>
 <section data-nav-era="#2D6A4F" data-nav-label="Stakes" data-nav-year="Aug 2026" id="stakes">
 <div class="section-wrap prose">
-<p data-cms-id="al-stakes-01-en" data-lang="en" lang-en="">On 10 August, Sri Lankan teenagers are scheduled to begin sitting the G.C.E. Advanced Level examination — unless a court intervenes first. For most of them it is the only realistic gate to a state university place, and the funnel behind that gate is narrow: of the 166,967 candidates who qualified from the 2022 sitting, 84,176 applied and 42,147 were admitted<span class="status-chip documented">Documented</span> — about half of those who asked, a quarter of those who earned the right to. They will sit it after a school year interrupted by a cyclone and a fuel crisis, and after a government circular instructed their schools in March that the full syllabus must be covered regardless.</p>
+<p data-cms-id="al-stakes-01-en" data-lang="en" lang-en="">On 10 August, Sri Lankan teenagers will begin sitting the G.C.E. Advanced Level examination. A last-minute petition to postpone it by two months was dismissed by the Court of Appeal on 23 July, without a hearing. For most of them it is the only realistic gate to a state university place, and the funnel behind that gate is narrow: of the 166,967 candidates who qualified from the 2022 sitting, 84,176 applied and 42,147 were admitted<span class="status-chip documented">Documented</span> — about half of those who asked, a quarter of those who earned the right to. They will sit it after a school year interrupted by a cyclone and a fuel crisis, and after a government circular instructed their schools in March that the full syllabus must be covered regardless.</p>
 <p data-cms-id="al-stakes-01-si" data-lang="si" lang-si="">අගෝස්තු 10 දින, ශ්‍රී ලාංකික යෞවනයන් GCE උසස් පෙළ විභාගයට පෙනී සිටීම ආරම්භ කිරීමට නියමිතය - අධිකරණයක් පළමුව මැදිහත් නොවන්නේ නම්. ඔවුන්ගෙන් බොහෝ දෙනෙකුට එය රාජ්‍ය විශ්ව විද්‍යාල ස්ථානයකට ඇති එකම යථාර්ථවාදී දොරටුව වන අතර, එම දොරටුව පිටුපස ඇති පුනීලය පටුය: 2022 විභාගයෙන් සුදුසුකම් ලැබූ අපේක්ෂකයින් 166,967 දෙනාගෙන් 84,176 අයදුම් කළ අතර 42,147 ඇතුළත් කර ගන්නා ලදී. <span class="status-chip documented">Documented</span> - ඉල්ලා සිටි අයගෙන් අඩක් පමණ, අයිතිය උපයා ගත් අයගෙන් හතරෙන් එකක්. සුළි කුණාටුවක් සහ ඉන්ධන අර්බුදයක් හේතුවෙන් පාසල් වර්ෂයක් බාධා කිරීමෙන් පසුව සහ මාර්තු මාසයේදී රජයේ චක්‍රලේඛයක් මගින් ඔවුන්ගේ පාසල්වලට සම්පූර්ණ විෂය නිර්දේශය ආවරණය කළ යුතු බවට උපදෙස් දීමෙන් පසුව ඔවුන් එයට පෙනී සිටිනු ඇත.</p>
 <p data-cms-id="al-stakes-01-ta" data-lang="ta" lang-ta="">ஆகஸ்ட் 10 அன்று, இலங்கை இளம் பருவத்தினர் GCE உயர் மட்டத் தேர்வை எழுதத் தொடங்க உள்ளனர் — நீதிமன்றம் முதலில் தலையிடாத பட்சத்தில் இது நிகழும். அவர்களில் பெரும்பாலானோருக்கு, அரச பல்கலைக்கழகத்தில் இடம் பெறுவதற்கான ஒரே யதார்த்தமான வழி இதுதான்; அந்த வழிக்கு அப்பால் உள்ள பாதை மிகவும் குறுகியது: 2022 ஆம் ஆண்டு தேர்வில் தகுதி பெற்ற 166,967 தேர்வர்களில், 84,176 பேர் விண்ணப்பித்திருந்தனர், அவர்களில் 42,147 பேர் <span class="status-chip documented">Documented</span> சேர்க்கப்பட்டனர் — இது விண்ணப்பித்தவர்களில் ஏறக்குறைய பாதிப் பேரும், தகுதி பெற்றவர்களில் கால் பங்கினரும் ஆவர். ஒரு புயல் மற்றும் எரிபொருள் நெருக்கடியால் தடைபட்ட கல்வியாண்டிற்குப் பிறகும், முழுப் பாடத்திட்டத்தையும் கட்டாயம் கற்பிக்க வேண்டும் என்று மார்ச் மாதம் அவர்களது பள்ளிகளுக்கு அரசாங்கம் சுற்றறிக்கை அனுப்பிய பின்னரும் அவர்கள் இந்தத் தேர்வை எழுத உள்ளனர்.</p>
 <p data-cms-id="al-stakes-02-en" data-lang="en" lang-en="">The complaint against the date fits in a sentence: this cohort got less time than the ones before it. The government's answer is equally short: no, they didn't, and here is the number. What follows is an attempt to work out which is true, and to say plainly what the answer costs.</p>
@@ -469,10 +490,10 @@
 <h2 data-cms-id="al-court-01-ta" data-lang="ta" lang-ta="">நீதிமன்றம், மனு, மற்றும் உண்மையில் என்ன முடிவு செய்யப்படுகிறது</h2>
 <!-- ISS-03 (BLOCKING): 23 July leave-to-proceed order lands the day after staging.
              This section and the lede MUST be revised against the order before publish. -->
-<p data-cms-id="al-court-02-en" data-lang="en" lang-en="">Nine students filed a writ petition in the Court of Appeal seeking to quash the published timetable and postpone the examination by two months. The bench of Court of Appeal President Justice Rohantha Abeysooriya and Justice Priyantha Fernando heard submissions on 16 July and fixed 23 July for its order.</p>
+<p data-cms-id="al-court-02-en" data-lang="en" lang-en="">Nine students filed a writ petition in the Court of Appeal seeking to quash the published timetable and postpone the examination by two months. On 23 July, after what Ada Derana reported as lengthy consideration of the submissions, the bench of Court of Appeal President Justice Rohantha Abeysooriya and Justice Priyantha Fernando dismissed the petition <em>without taking it up for hearing</em> — refusing it leave to proceed.</p>
 <p data-cms-id="al-court-02-si" data-lang="si" lang-si="">ප්‍රකාශිත කාලසටහන අවලංගු කර විභාගය මාස දෙකකින් කල් දමන ලෙස ඉල්ලා සිසුන් නව දෙනෙකු අභියාචනාධිකරණයට රිට් පෙත්සමක් ගොනු කළහ. අභියාචනාධිකරණ සභාපති විනිසුරු රොහන්ත අබේසූරිය සහ විනිසුරු ප්‍රියන්ත ප්‍රනාන්දු යන මහත්වරුන්ගෙන් සමන්විත විනිසුරු මඩුල්ල ජූලි 16 දින ඉදිරිපත් කිරීම් විභාග කර එහි නියෝගය ජූලි 23 නියම කළහ.</p>
 <p data-cms-id="al-court-02-ta" data-lang="ta" lang-ta="">வெளியிடப்பட்ட தேர்வு அட்டவணையை ரத்து செய்யக் கோரியும், தேர்வை இரண்டு மாதங்களுக்கு ஒத்திவைக்கக் கோரியும் ஒன்பது மாணவர்கள் மேல்முறையீட்டு நீதிமன்றத்தில் ஒரு ரிட் மனுவைத் தாக்கல் செய்தனர். மேல்முறையீட்டு நீதிமன்றத் தலைவர் நீதிபதி ரோகந்த அபேசூரிய மற்றும் நீதிபதி பிரியந்த பெர்னாண்டோ ஆகியோர் அடங்கிய அமர்வு, ஜூலை 16 அன்று வாதங்களைக் கேட்டறிந்து, தனது தீர்ப்பை வழங்குவதற்காக ஜூலை 23 ஆம் தேதியை நிர்ணயித்தது.</p>
-<p data-cms-id="al-court-03-en" data-lang="en" lang-en="">That order is on <strong>leave to proceed</strong>. It decides whether the case may be heard at all. It is not a ruling on postponement, and it will very probably be reported as one, whichever way it goes.</p>
+<p data-cms-id="al-court-03-en" data-lang="en" lang-en="">Refusing leave is not a finding that the timetable is lawful, or that the cohort&rsquo;s grievance is unfounded. It is a decision that the petition did not clear the threshold to be argued at all. The central factual dispute &mdash; the unaudited 343-day figure, and the working the Ministry has never shown &mdash; was therefore never examined, and now will not be by this court.</strong>. It decides whether the case may be heard at all. It is not a ruling on postponement, and it will very probably be reported as one, whichever way it goes.</p>
 <p data-cms-id="al-court-03-si" data-lang="si" lang-si="">එම නියෝගය <strong>leave to proceed</strong> දී ඇත. නඩුව කිසිසේත් විභාග කළ හැකිද යන්න එය තීරණය කරයි. එය කල් දැමීම පිළිබඳ තීන්දුවක් නොවන අතර, එය කුමන ආකාරයෙන් ගියත් එකක් ලෙස වාර්තා කිරීමට බොහෝ විට ඉඩ තිබේ.</p>
 <p data-cms-id="al-court-03-ta" data-lang="ta" lang-ta="">அந்த உத்தரவு <strong>leave to proceed</strong> கோரப்பட்டுள்ளது. இந்த வழக்கை விசாரிக்க முடியுமா இல்லையா என்பதை அது தீர்மானிக்கிறது. இது வழக்கை ஒத்திவைப்பது தொடர்பான தீர்ப்பு அல்ல, மேலும் இதன் முடிவு எப்படி இருந்தாலும், இது பெரும்பாலும் ஒத்திவைப்பு குறித்தே பதிவு செய்யப்படும்.</p>
 <div class="procedural-box">
@@ -652,7 +673,7 @@
 </main>
 <footer>
 <div class="foot-wrap">
-<p data-cms-id="al-footer-01-en" data-lang="en" lang-en=""><em>Preparation-time figures on both sides remain unaudited and are reported as competing claims, not established fact. This page will be updated when the Court of Appeal order lands, and when the Right to Information response on the 343-day derivation arrives.</em></p>
+<p data-cms-id="al-footer-01-en" data-lang="en" lang-en=""><em>Preparation-time figures on both sides remain unaudited and are reported as competing claims, not established fact. The Court of Appeal dismissed the postponement petition on 23 July 2026; this page reflects that ruling. It will be updated further if the Ministry publishes the 343-day derivation. </em></p>
 <p data-cms-id="al-footer-01-si" data-lang="si" lang-si=""><em>දෙපාර්ශ්වයේම සූදානම් වීමේ කාල සංඛ්‍යාලේඛන විගණනය කර නොමැති අතර ඒවා තරඟකාරී හිමිකම් ලෙස වාර්තා කර ඇති අතර ස්ථාපිත කරුණක් නොවේ. අභියාචනාධිකරණ නියෝගය ලැබුණු විට සහ දින 343 ව්‍යුත්පන්නය පිළිබඳ තොරතුරු දැනගැනීමේ අයිතිවාසිකම් ප්‍රතිචාරය ලැබුණු විට මෙම පිටුව යාවත්කාලීන කෙරේ.</em></p>
 <p data-cms-id="al-footer-01-ta" data-lang="ta" lang-ta=""><em>இரு தரப்பிலும் உள்ள தயாரிப்பு நேரப் புள்ளிவிவரங்கள் தணிக்கை செய்யப்படாமல் உள்ளன, மேலும் அவை நிறுவப்பட்ட உண்மையாக அல்லாமல், போட்டியிடும் கோரிக்கைகளாகவே தெரிவிக்கப்படுகின்றன. மேல்முறையீட்டு நீதிமன்றத்தின் உத்தரவு வரும்போதும், 343-நாள் வழிமுறை குறித்த தகவல் அறியும் உரிமை பதில் வரும்போதும் இந்தப் பக்கம் புதுப்பிக்கப்படும்.</em></p>
 <p class="helpline" data-cms-id="al-footer-02-en" data-lang="en" lang-en="">If you or someone you know is struggling, the National Mental Health Helpline in Sri Lanka is 1926.</p>

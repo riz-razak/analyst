@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>2026 A/L — Kala Paththare (EN master) · POL-2026-10</title>
+<style>
+  /* ============ YAN CANON — Bawa Earth: flat, warm, no gradients, no glow, no cold grays ============ */
+  :root{
+    --paper:#F6F1E7;        /* warm paper */
+    --panel:#FDFAF3;        /* raised panel */
+    --sand:#EAE0C9;         /* chart track */
+    --ink:#26201B;          /* warm near-black */
+    --ink2:#5A4E43;         /* warm brown secondary — 7:1 on paper */
+    --terracotta:#A6431F;   /* accent: bars & large type */
+    --terracotta-deep:#8C3717;
+    --ochre:#8A5A19;
+    --olive:#556132;
+    --line:#D8CBB4;
+    --chip:#F0E4CE;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#E9E0CF;font-family:Inter,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+       color:var(--ink);-webkit-font-smoothing:antialiased;padding:40px 0;}
+  .export-label{width:1080px;margin:0 auto 10px;font-size:20px;font-weight:700;color:var(--ink2);
+       letter-spacing:.08em;text-transform:uppercase;}
+  .board{width:1080px;margin:0 auto 60px;background:var(--paper);overflow:hidden;
+       display:flex;flex-direction:column;border:1px solid var(--line);}
+  .story{height:1920px;}
+  .square{height:1080px;}
+  .pad{padding:0 48px;}
+  .gap{height:10px;flex:none;}
+  .spacer{flex:1;min-height:0;}
+
+  /* ---- masthead ---- */
+  .mast{border-bottom:5px solid var(--ink);padding:26px 48px 20px;}
+  .kicker{display:flex;justify-content:space-between;align-items:baseline;
+       font-size:15px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);margin-bottom:14px;}
+  .kicker .dossier{color:var(--terracotta-deep);}
+  h1{font-size:48px;line-height:1.08;font-weight:800;letter-spacing:-0.015em;}
+  h1 .accent{color:var(--terracotta);}
+  .standfirst{margin-top:10px;font-size:18px;line-height:1.4;color:var(--ink2);font-weight:500;max-width:960px;}
+  .standfirst b{color:var(--ink);}
+
+  /* ---- section headers ---- */
+  .sec{font-size:17px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;
+       color:var(--ink);border-top:3px solid var(--ink);padding-top:6px;margin-bottom:8px;
+       display:flex;justify-content:space-between;align-items:baseline;gap:14px;}
+  .sec .note{font-size:13px;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--ink2);text-align:right;}
+
+  /* ---- chips ---- */
+  .chip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+       padding:3px 8px;border:2px solid var(--ink);color:var(--ink);background:var(--chip);vertical-align:middle;}
+  .chip.red{border-color:var(--terracotta-deep);color:var(--terracotta-deep);background:#F6E3D6;}
+  .chip.green{border-color:var(--olive);color:var(--olive);background:#E9EBD8;}
+
+  /* ---- drift chart ---- */
+  .drow{display:flex;align-items:center;gap:12px;margin-bottom:7px;}
+  .dyear{width:230px;font-size:16px;font-weight:700;text-align:right;line-height:1.1;white-space:nowrap;}
+  .dyear small{font-size:13px;font-weight:600;color:var(--ink2);}
+  .dtrack{position:relative;flex:1;height:20px;background:var(--sand);border-left:3px solid var(--ink);}
+  .dbar{position:absolute;left:0;top:0;height:20px;background:var(--terracotta);}
+  .dbar.base{background:var(--olive);}
+  .dlab{position:absolute;top:1px;left:100%;margin-left:8px;font-size:13px;font-weight:800;color:var(--ink);white-space:nowrap;}
+  .dlab.in{left:auto;right:8px;margin:0;color:#FDFAF3;}
+  .micro{font-size:14px;line-height:1.45;color:var(--ink2);margin-top:9px;}
+  .micro b{color:var(--ink);}
+
+  /* ---- two rulers ---- */
+  .rulers{display:flex;gap:18px;}
+  .rcard{flex:1;background:var(--panel);border:2px solid var(--line);padding:14px 18px;}
+  .rcard h3{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+  .bignum{font-size:48px;font-weight:800;line-height:1;letter-spacing:-0.02em;}
+  .bignum small{font-size:18px;font-weight:700;color:var(--ink2);letter-spacing:0;}
+  .rcard .body{font-size:14.5px;line-height:1.45;color:var(--ink2);margin-top:8px;}
+  .rcard .body b{color:var(--ink);}
+  .punch{margin-top:10px;font-size:17px;line-height:1.3;font-weight:800;background:var(--ink);color:var(--paper);
+       padding:8px 14px;}
+  .punch .accent{color:#E8B98A;}
+
+  /* ---- runway bars ---- */
+  .runhead{font-size:13px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);
+       margin:10px 0 6px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .runhead .r{font-weight:600;letter-spacing:.02em;text-transform:none;text-align:right;}
+  .rrow{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .rlab{width:300px;font-size:15px;font-weight:700;text-align:right;white-space:nowrap;}
+  .rlab small{font-size:12.5px;font-weight:600;color:var(--ink2);}
+  .rtrack{flex:1;height:24px;background:var(--sand);}
+  .rbar{height:24px;background:var(--ochre);display:flex;align-items:center;}
+  .rbar.hot{background:var(--terracotta);}
+  .rnum{font-size:15px;font-weight:800;color:#FDFAF3;padding-left:10px;white-space:nowrap;}
+
+  /* ---- comparator table ---- */
+  table{width:100%;border-collapse:collapse;}
+  .cmp th{font-size:13px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;text-align:left;
+       color:var(--ink2);border-bottom:2px solid var(--ink);padding:4px 8px 6px;}
+  .cmp td{font-size:15px;line-height:1.35;padding:8px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .cmp td.c{font-weight:800;white-space:nowrap;}
+  .cmp tr.sl td{background:#F6E3D6;border-bottom:2px solid var(--terracotta-deep);}
+  .cmp tr.sl td.c{color:var(--terracotta-deep);}
+
+  /* ---- december panel ---- */
+  .dec{display:flex;gap:18px;}
+  .dcard{flex:1;background:var(--panel);border:2px solid var(--line);padding:12px 16px;}
+  .dcard .date{font-size:13px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--terracotta-deep);margin-bottom:6px;}
+  .dcard .fact{font-size:15px;line-height:1.35;font-weight:700;}
+  .quote{font-size:15px;line-height:1.42;font-style:italic;margin-top:5px;}
+  .attrib{font-size:12.5px;line-height:1.4;color:var(--ink2);margin-top:6px;}
+
+  /* ---- health strip ---- */
+  .health{display:flex;align-items:center;gap:24px;background:var(--panel);border:2px solid var(--line);padding:12px 20px;}
+  .health .hnum{font-size:56px;font-weight:800;line-height:1;color:var(--terracotta);flex:none;}
+  .health .body{font-size:15px;line-height:1.4;}
+  .health .cav{font-size:12.5px;line-height:1.4;color:var(--ink2);margin-top:5px;}
+
+  /* ---- asks ---- */
+  .asks{display:flex;gap:16px;}
+  .ask{flex:1;border-top:5px solid var(--olive);background:var(--panel);border:1px solid var(--line);padding:10px 14px 12px;}
+  .ask .n{font-size:24px;font-weight:800;color:var(--olive);line-height:1;}
+  .ask h4{font-size:16px;font-weight:800;line-height:1.2;margin-top:5px;}
+  .ask p{font-size:13.5px;line-height:1.4;color:var(--ink2);margin-top:4px;}
+
+  /* ---- petition ---- */
+  .pet{display:flex;align-items:center;gap:24px;background:var(--ink);color:var(--paper);padding:16px 48px;flex:none;}
+  .qr{width:92px;height:92px;flex:none;background:var(--paper);
+       display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--ink2);
+       letter-spacing:.05em;text-align:center;line-height:1.3;}
+  .pet .big{font-size:22px;font-weight:800;line-height:1.25;}
+  .pet .url{font-size:20px;font-weight:800;color:#E8B98A;letter-spacing:.02em;margin-top:3px;}
+  .pet .small{font-size:12.5px;color:#CBBFAE;margin-top:4px;}
+
+  /* ---- footer ---- */
+  .foot{padding:12px 48px 18px;font-size:14px;font-weight:600;color:var(--ink2);
+       display:flex;justify-content:space-between;letter-spacing:.03em;flex:none;}
+
+  /* ============ SQUARE VARIANT ============ */
+  .square h1{font-size:42px;}
+  .square .mast{padding:22px 48px 18px;}
+  .sq-nums{display:flex;gap:16px;}
+  .sq-num{flex:1;background:var(--panel);border:2px solid var(--line);padding:14px 16px;}
+  .sq-num .bignum{font-size:46px;}
+  .sq-num .cap{font-size:13.5px;line-height:1.4;color:var(--ink2);margin-top:6px;}
+  .sq-num .cap b{color:var(--ink);}
+  .square .drow{margin-bottom:5px;}
+  .square .dtrack,.square .dbar{height:17px;}
+  .square .dlab{top:0;font-size:12px;}
+  .square .dyear{font-size:14px;width:70px;}
+  .square .pet{padding:14px 48px;}
+  .square .qr{width:84px;height:84px;}
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     BOARD 1 — STORY / SHARE 1080 × 1920. Export at 100% zoom.
+================================================================= -->
+<div class="export-label">Export A — 1080 × 1920 (story / share)</div>
+<div class="board story">
+
+  <!-- MASTHEAD -->
+  <div class="mast">
+    <div class="kicker">
+      <span>The 2026 G.C.E. Advanced Level &middot; exam 10 Aug – 5 Sep 2026</span>
+      <span class="dossier">Evidence-graded dossier</span>
+    </div>
+    <h1>FIVE YEARS OF DRIFT. FIXED IN ONE STEP.<br><span class="accent">ONE COHORT PAYS.</span></h1>
+    <p class="standfirst">The exam calendar ran <b>~5 months late for four straight cohorts</b>.
+    It returns to August in one jump — the whole correction absorbed by the 2026 cohort, with
+    <b>no mitigation found to have been announced</b>.</p>
+  </div>
+
+  <div class="gap"></div>
+
+  <!-- DRIFT AND SNAP -->
+  <div class="pad">
+    <div class="sec"><span>The drift — and the snap</span>
+      <span class="note">A/L sitting, months after the August baseline &nbsp;<span class="chip">Computed from sitting dates</span></span></div>
+    <div class="drow"><div class="dyear">2019 &nbsp;<small>Aug 2019</small></div>
+      <div class="dtrack"><div class="dbar base" style="width:6%"><span class="dlab">on time</span></div></div></div>
+    <div class="drow"><div class="dyear">2020 &nbsp;<small>Oct–Nov 2020</small></div>
+      <div class="dtrack"><div class="dbar" style="width:31%"><span class="dlab">+2 months</span></div></div></div>
+    <div class="drow"><div class="dyear">2021 &nbsp;<small>sat Feb–Mar 2022</small></div>
+      <div class="dtrack"><div class="dbar" style="width:88%"><span class="dlab in">+6 months</span></div></div></div>
+    <div class="drow"><div class="dyear">2022 &nbsp;<small>sat Jan–Feb 2023</small></div>
+      <div class="dtrack"><div class="dbar" style="width:74%"><span class="dlab in">+5 months</span></div></div></div>
+    <div class="drow"><div class="dyear">2023 &nbsp;<small>sat Jan 2024</small></div>
+      <div class="dtrack"><div class="dbar" style="width:71%"><span class="dlab in">+5 months</span></div></div></div>
+    <div class="drow"><div class="dyear">2024 &nbsp;<small>Nov–Dec 2024</small></div>
+      <div class="dtrack"><div class="dbar" style="width:46%"><span class="dlab in">+3 months</span></div></div></div>
+    <div class="drow"><div class="dyear">2025 &nbsp;<small>completed Jan 2026</small></div>
+      <div class="dtrack"><div class="dbar" style="width:74%"><span class="dlab in">+5 months*</span></div></div></div>
+    <div class="drow"><div class="dyear">2026 &nbsp;<small>Aug–Sep 2026</small></div>
+      <div class="dtrack"><div class="dbar base" style="width:6%"><span class="dlab">SNAP BACK</span></div></div></div>
+    <p class="micro">*2025 sitting suspended by Cyclone Ditwah, completed 12–20 Jan 2026. &nbsp;
+    Fair-carry: qualification rates 2020–25 held a <b>62.6–64.7% band</b> — disrupted cohorts did not
+    visibly underperform on this measure (norm-influenced; a weak proxy for learning).</p>
+  </div>
+
+  <div class="gap"></div>
+
+  <!-- TWO RULERS + RUNWAY -->
+  <div class="pad">
+    <div class="sec"><span>Two rulers, one dispute</span></div>
+    <div class="rulers">
+      <div class="rcard">
+        <h3>The Ministry’s ruler &nbsp;<span class="chip red">Unaudited</span> <span class="chip">Two-year total</span></h3>
+        <div class="bignum">343 <small>school days vs NIE’s 300</small></div>
+        <p class="body">Counted over <b>10 Oct 2024 – 7 Aug 2026</b> — from the start of Grade 12.
+        <b>How 343 was reached has never been published</b>: no working for cyclone days,
+        Wednesday closures, or district variance.</p>
+      </div>
+      <div class="rcard">
+        <h3>The students’ question</h3>
+        <div class="bignum" style="font-size:27px;line-height:1.2;">“How much time to revise?”</div>
+        <p class="body">The complaint is about the final run-in. A two-year total measures nothing
+        about that — and NIE’s 300 is a <b>teachers’ syllabus-completion guideline</b>, not a
+        student-revision standard.</p>
+      </div>
+    </div>
+    <p class="punch">The government’s only public defence <span class="accent">answers a different
+    question from the one being asked.</span></p>
+
+    <div class="runhead"><span>The repeaters’ runway — days from results to exam</span>
+      <span class="r"><span class="chip green">Verified — both sides agree these intervals</span></span></div>
+    <div class="rrow"><div class="rlab">2024 cycle</div>
+      <div class="rtrack"><div class="rbar" style="width:90%"><span class="rnum">178 days</span></div></div></div>
+    <div class="rrow"><div class="rlab">2025 cycle</div>
+      <div class="rtrack"><div class="rbar" style="width:100%"><span class="rnum">198 days</span></div></div></div>
+    <div class="rrow"><div class="rlab">2026 cycle &nbsp;<small>results 31 Mar → exam 10 Aug</small></div>
+      <div class="rtrack"><div class="rbar hot" style="width:67%"><span class="rnum">132 days</span></div></div></div>
+    <p class="micro">The parties dispute whether 132 days is sufficient — not the number itself.</p>
+  </div>
+
+  <div class="gap"></div>
+
+  <!-- COMPARATORS -->
+  <div class="pad">
+    <div class="sec"><span>What others did after the disruption years</span></div>
+    <table class="cmp">
+      <tr><th style="width:170px;">Country</th><th>Relief offered to the affected cohort</th></tr>
+      <tr><td class="c">India (CBSE)</td><td>Syllabus cut 30%; calendar restored in <b>graded steps</b></td></tr>
+      <tr><td class="c">Bangladesh</td><td>Formally reduced NCTB “short syllabus” for 2021 &amp; 2022 HSC</td></tr>
+      <tr><td class="c">UK</td><td>2022 transition year — advance topic info, more question choice, formula sheets, midpoint grading</td></tr>
+      <tr class="sl"><td class="c">Sri Lanka 2026</td><td><b>Full syllabus made mandatory</b> (circular, 10 Mar 2026). No reduction, no added choice, no announced grading adjustment found.</td></tr>
+    </table>
+    <p class="micro"><b>Every comparator relieved content first and normalised the calendar last.</b> Sri Lanka did the reverse.</p>
+  </div>
+
+  <div class="gap"></div>
+
+  <!-- DECEMBER -->
+  <div class="pad">
+    <div class="sec"><span>Two decisions, seven months apart</span></div>
+    <div class="dec">
+      <div class="dcard">
+        <div class="date">14 Dec 2025</div>
+        <p class="fact">Third-term exams cancelled nationwide; all students promoted —</p>
+        <p class="quote">“in consideration of children’s mental well-being and the time needed for
+        normalcy to be restored after facing such a disaster.”</p>
+        <p class="attrib">— Ministry Secretary Nalaka Kaluwewa. The 2026 cohort entered Grade 13
+        with no end-of-Grade-12 assessment.</p>
+      </div>
+      <div class="dcard">
+        <div class="date">Jul 2026</div>
+        <p class="fact">The A/L stays on 10 Aug 2026.</p>
+        <p class="attrib" style="font-size:15px;margin-top:5px;line-height:1.42;">The same Ministry has
+        declined to move the exam for the same cohort. The December reasoning has not been publicly
+        addressed in the A/L decision.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gap"></div>
+
+  <!-- HEALTH -->
+  <div class="pad">
+    <div class="health">
+      <div class="hnum">26.3%</div>
+      <div>
+        <p class="body">of students aged <b>16–17 reported depressive symptoms</b> — GSHS 2024
+        (Family Health Bureau / MoE / WHO).</p>
+        <p class="cav">Government schools only; self-reported; excludes private candidates and
+        out-of-school repeaters. No causal link to examination timing is asserted or exists in any dataset.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gap"></div>
+
+  <!-- ASKS -->
+  <div class="pad">
+    <div class="sec"><span>Three things still possible before 10 August</span>
+      <span class="note">all zero-cost &middot; all immediate</span></div>
+    <div class="asks">
+      <div class="ask"><div class="n">1</div><h4>Publish the 343-day derivation</h4>
+        <p>Start basis, cyclone and closure treatment. One RTI-answerable document.</p></div>
+      <div class="ask"><div class="n">2</div><h4>Announce standards protection</h4>
+        <p>Pre-commit the z-score baseline to 2024–25. Simpler than the UK’s 2022 fix.</p></div>
+      <div class="ask"><div class="n">3</div><h4>The Prime Minister speaks</h4>
+        <p>She holds the education portfolio. The cohort has not heard from her.</p></div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- COURT VERDICT (added 23 Jul 2026) -->
+  <div class="dcard" style="border-color:var(--terracotta-deep);margin:0 0 8px;">
+    <div class="date">Court of Appeal &middot; 23 July 2026</div>
+    <div class="fact">The postponement petition was <strong>dismissed without a hearing</strong> — leave to proceed refused. The 343-day figure was never examined, and now will not be by this court.</div>
+  </div>
+
+  <!-- PETITION -->
+  <div class="pet">
+    <div class="qr">QR<br>PLACEHOLDER</div>
+    <div>
+      <p class="big">10,000+ signatures and counting. Add yours.</p>
+      <p class="url">c.org/znqhxLrHMW</p>
+      <p class="small">Signature count as at export date — verify live counter before posting. [production note — delete on export]</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="foot">
+    <span>analyst.rizrazak.com &middot; sources &amp; evidence status inside</span>
+    <span>POL-2026-10</span>
+  </div>
+</div>
+
+<!-- ================================================================
+     BOARD 2 — SQUARE 1080 × 1080 (the screenshot-crop survivor, rebuilt)
+================================================================= -->
+<div class="export-label">Export B — 1080 × 1080 (square / feed)</div>
+<div class="board square">
+
+  <div class="mast">
+    <div class="kicker">
+      <span>The 2026 G.C.E. A/L &middot; 10 Aug – 5 Sep 2026</span>
+      <span class="dossier">Evidence-graded</span>
+    </div>
+    <h1>FIVE YEARS OF DRIFT. FIXED IN ONE STEP. <span class="accent">ONE COHORT PAYS.</span></h1>
+  </div>
+
+  <div class="gap"></div>
+
+  <div class="pad">
+    <div class="sec"><span>A/L sitting vs the August baseline</span>
+      <span class="note"><span class="chip">Computed from sitting dates</span></span></div>
+    <div class="drow"><div class="dyear">2019</div>
+      <div class="dtrack"><div class="dbar base" style="width:6%"><span class="dlab">on time</span></div></div></div>
+    <div class="drow"><div class="dyear">2020</div>
+      <div class="dtrack"><div class="dbar" style="width:31%"><span class="dlab">+2 mo</span></div></div></div>
+    <div class="drow"><div class="dyear">2021</div>
+      <div class="dtrack"><div class="dbar" style="width:88%"><span class="dlab in">+6 mo</span></div></div></div>
+    <div class="drow"><div class="dyear">2022</div>
+      <div class="dtrack"><div class="dbar" style="width:74%"><span class="dlab in">+5 mo</span></div></div></div>
+    <div class="drow"><div class="dyear">2023</div>
+      <div class="dtrack"><div class="dbar" style="width:71%"><span class="dlab in">+5 mo</span></div></div></div>
+    <div class="drow"><div class="dyear">2024</div>
+      <div class="dtrack"><div class="dbar" style="width:46%"><span class="dlab in">+3 mo</span></div></div></div>
+    <div class="drow"><div class="dyear">2025</div>
+      <div class="dtrack"><div class="dbar" style="width:74%"><span class="dlab in">+5 mo*</span></div></div></div>
+    <div class="drow"><div class="dyear">2026</div>
+      <div class="dtrack"><div class="dbar base" style="width:6%"><span class="dlab">SNAP</span></div></div></div>
+    <p class="micro" style="margin-top:6px;">*Suspended by Cyclone Ditwah; completed Jan 2026. The whole
+    correction lands on the 2026 cohort — <b>no mitigation found to have been announced</b>.</p>
+  </div>
+
+  <div class="gap"></div>
+
+  <div class="pad">
+    <div class="sq-nums">
+      <div class="sq-num"><div class="bignum">343</div>
+        <p class="cap"><b>school days</b> — the Ministry’s defence. <span class="chip red">Unaudited</span>
+        A two-year total; the derivation has never been published.</p></div>
+      <div class="sq-num"><div class="bignum">132</div>
+        <p class="cap"><b>days for repeaters</b>, results to exam — vs 178 and 198 in the two prior cycles. Both sides agree the interval.</p></div>
+      <div class="sq-num"><div class="bignum" style="color:var(--terracotta);">26.3%</div>
+        <p class="cap"><b>of 16–17s reported depressive symptoms</b> — GSHS 2024. Govt schools, self-report.</p></div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="pet">
+    <div class="qr">QR<br>PLACEHOLDER</div>
+    <div>
+      <p class="big">Publish the working &middot; protect the grades &middot; speak to the cohort.</p>
+      <p class="url">c.org/znqhxLrHMW &nbsp;&middot;&nbsp; 10,000+ signatures</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>analyst.rizrazak.com &middot; sources &amp; evidence status inside</span>
+    <span>POL-2026-10</span>
+  </div>
+</div>
+
+<script>
+/* Production QA aid — flags overflow beyond the fixed export frame. Strip before export if desired
+   (it renders nothing when boards fit). */
+document.querySelectorAll('.board').forEach(function(b){
+  var over = b.scrollHeight - b.clientHeight;
+  if(over > 2){
+    var w = document.createElement('div');
+    w.style.cssText='width:1080px;margin:-56px auto 60px;background:#8C3717;color:#F6F1E7;'+
+      'font:700 16px Inter,sans-serif;padding:10px 16px;';
+    w.textContent='QA WARNING: content overflows this board by '+over+'px — tighten copy or sizes before export.';
+    b.insertAdjacentElement('afterend', w);
+  }
+});
+</script>
+</body>
+</html>
