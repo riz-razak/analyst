@@ -9,7 +9,7 @@
     <link>https://analyst.rizrazak.com</link>
     <description>Independent investigative journalism on Sri Lankan politics, cricket corruption, institutional accountability, and systemic analysis. Making complex topics digestible without losing depth.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 25 May 2026 19:36:33 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Nov 2026 09:35:00 +0000</lastBuildDate>
     <atom:link href="https://analyst.rizrazak.com/feed.xml" rel="self" type="application/rss+xml"/>
     <managingEditor>riz@dgtl.lk (Riz Razak)</managingEditor>
     <webMaster>riz@dgtl.lk (Riz Razak)</webMaster>
@@ -17,6 +17,18 @@
     <category>Investigative Journalism</category>
     <category>Sri Lanka</category>
     <category>Political Analysis</category>
+
+    <item>
+      <title>2026 Mid-terms: America’s new balance of power</title>
+      <link>https://analyst.rizrazak.com/2026-us-midterms/</link>
+      <guid isPermaLink="true">https://analyst.rizrazak.com/2026-us-midterms/</guid>
+      <pubDate>Thu, 05 Nov 2026 09:35:00 +0000</pubDate>
+      <dc:creator>The Analyst</dc:creator>
+      <description>A sourced analysis of the 2026 US midterms, the new balance in Congress, the 2028 contest and four geopolitical paths.</description>
+      <category>United States</category>
+      <category>Political Analysis</category>
+      <category>Geopolitics</category>
+    </item>
 
     <item>
       <title>පල්ලෙගම 🍇 ජනතාව vs බලය</title>

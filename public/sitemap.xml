@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
 
+  <url><loc>https://analyst.rizrazak.com/2026-us-midterms/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+
   <!-- Homepage -->
   <url>
     <loc>https://analyst.rizrazak.com/</loc>

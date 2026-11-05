@@ -1,0 +1,46 @@
+/* Generated from Yan canon-tokens.json; canon@1.0.1. */
+:root {
+  --color-bg: #FAFAF8;
+  --color-surface: #FFFFFF;
+  --color-surfaceHover: #F0EDE8;
+  --color-page: #ECEAE3;
+  --color-border: #E5E1DA;
+  --color-border2: #D8D4CA;
+  --color-ink: #1A1A2E;
+  --color-muted: #5C5C6B;
+  --color-slate: #43434F;
+  --color-green: #2D6A4F;
+  --color-greenDark: #214F3B;
+  --color-gold: #C4A35A;
+  --color-goldInk: #7A5A16;
+  --color-red: #D4644A;
+  --color-orange: #E88D2A;
+  --status-info: #0C447C;
+  --status-infoBg: #E6F1FB;
+  --status-ok: #2D6A4F;
+  --status-okBg: #EAF3DE;
+  --status-warn: #7A5A16;
+  --status-warnBg: #FAEEDA;
+  --status-danger: #8A2D2D;
+  --status-dangerBg: #F7E7E5;
+  --status-mutedBg: #EFEDE7;
+  --type-font: Inter, system-ui, sans-serif;
+  --type-mono: 'SF Mono', Consolas, 'Liberation Mono', monospace;
+  --type-hero: 28px;
+  --type-h1: 20px;
+  --type-h2: 15px;
+  --type-body: 13px;
+  --type-small: 12px;
+  --type-micro: 11px;
+  --space-s1: 4px;
+  --space-s2: 8px;
+  --space-s3: 12px;
+  --space-s4: 16px;
+  --space-s5: 24px;
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+  --radius-pill: 999px;
+  --shadow: 0 1px 2px rgba(26,26,46,.06), 0 1px 3px rgba(26,26,46,.04);
+  --touch-target: 44px;
+}
