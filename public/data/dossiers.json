@@ -1,7 +1,38 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-07-22",
+  "lastUpdated": "2026-11-05",
   "dossiers": [
+    {
+      "id": "2026-us-midterms",
+      "date": "2026-11-05",
+      "title": "2026 Mid-terms: America’s new balance of power",
+      "description": "What the 2026 US midterms change for Congress, 2028 and the world: results, constitutional powers, money, maps and four geopolitical paths.",
+      "authors": [
+        "The Analyst"
+      ],
+      "tags": [
+        "US Midterms",
+        "United States",
+        "Politics",
+        "Geopolitics",
+        "2028",
+        "Elections"
+      ],
+      "category": "geopolitics",
+      "contentUrl": "/2026-us-midterms/index.html",
+      "thumbnailUrl": "/2026-us-midterms/assets/us-capitol-nps.jpg",
+      "heroImageUrl": "/2026-us-midterms/assets/us-capitol-nps.jpg",
+      "sections": 12,
+      "features": [
+        "Dated election results and constitutional thresholds",
+        "Money, maps, party succession and backlash",
+        "Iran, Israel, Ukraine, Europe, China and South Asia",
+        "Four conditional paths to watch"
+      ],
+      "status": "published",
+      "sourceState": "Local research completed 5 November 2026; dated 4 November result snapshot; two fact-check rounds.",
+      "imageCredit": "Jonathon Arms / National Park Service, via US Fish and Wildlife Service; public domain"
+    },
     {
       "id": "2026-al-cohort",
       "date": "2026-07-22",
